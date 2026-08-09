@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s30-99ec41ae7e17",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "id": "S30-T1-A-E1",
+      "code": "# skeptic/S30-T1-A-E1: packet-only K2; rejected inverted contracts / theater claims\na=b='a'\nprint(1.0 if a == b else 0.0)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S30/S30-T1-A-E1 («Entity resolution probabilístico»): S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo. Apoyo léxico K2: normalización, exact, fecha, disagree. Hint: float comparación. Starter: forma esperada en comentarios del starter, TODO contractual. Sigo dudando de atajos teatrales; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S30-T1-A"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "id": "S30-T1-A-E2",
+      "code": "# skeptic/S30-T1-A-E2: packet-only K2; rejected inverted contracts / theater claims\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S30-T1-A-E2 («Entity resolution probabilístico»): revisé que no quede TODO ni pass de relleno. Enunciado: «S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entra». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: sets. Léxico del paquete: fraude, igualdad, responde, revisión. Prefiero lo aburrido, determinista y auditable; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S30-T1-A"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "id": "S30-T1-A-E3",
+      "code": "# skeptic/S30-T1-A-E3: packet-only K2; rejected inverted contracts / theater claims\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S30-T1-A-E3. La sección «Entity resolution probabilístico» pide: S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter comple. Me anclé en prioriza, Explica, tolerancia y en «datetime.date». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso verifiqué el contrato I/O sintético del paquete activo; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S30-T1-A"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "id": "S30-T1-B-E1",
+      "code": "# skeptic/S30-T1-B-E1: packet-only K2; rejected inverted contracts / theater claims\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S30-T1-B-E1 («Entity resolution probabilístico»): revisé que no quede TODO ni pass de relleno. Enunciado: «S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el T». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: guard. Léxico del paquete: guarda, Entity, ordinal, comparador. Desconfío de claims de fraude o parentesco fuera de scope; riesgo: si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S30-T1-B"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "id": "S30-T1-B-E2",
+      "code": "# skeptic/S30-T1-B-E2: packet-only K2; rejected inverted contracts / theater claims\nfreq=10\nprint(1 / freq)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos teatrales al cerrar S30-T1-B-E2. La sección «Entity resolution probabilístico» pide: S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/. Me anclé en token, resolution, Explica y en «división». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso releí con desconfianza el starter del quiz_card; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S30-T1-B"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "id": "S30-T1-B-E3",
+      "code": "# skeptic/S30-T1-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint('informative_missing')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S30-T1-B-E3 no improvisé APIs: confronté predicados invertidos y marcas DEFECTO y armé el cuerpo desde el quiz_card. Resumen de instrucción: S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: guarda, palabras, tolerancia, devuelve, ordinal. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "concepts_used": [
+        "S30-T1-B"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "id": "S30-T2-A-E1",
+      "code": "# skeptic/S30-T2-A-E1: packet-only K2; rejected inverted contracts / theater claims\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S30-T2-A-E1 («Entity resolution probabilístico»): contrasté theory headings con el enunciado del ejercicio. Enunciado: «S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter compl». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: f-string. Léxico del paquete: Fellegi, distancia, ordinal, score. Sigo dudando de atajos teatrales; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S30-T2-A"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "id": "S30-T2-A-E2",
+      "code": "# skeptic/S30-T2-A-E2: packet-only K2; rejected inverted contracts / theater claims\nfound,gold_n=1,2\nprint(found / gold_n)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos teatrales al cerrar S30-T2-A-E2. La sección «Entity resolution probabilístico» pide: S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo. Me anclé en humana, distancia, Fellegi y en «división». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso crucé instruction contra hints e iDo del slim_packet; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S30-T2-A"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "id": "S30-T2-A-E3",
+      "code": "# skeptic/S30-T2-A-E3: packet-only K2; rejected inverted contracts / theater claims\nn=4\nprint(n*(n-1)//2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S30-T2-A-E3 no improvisé APIs: revisé que no quede TODO ni pass de relleno y armé el cuerpo desde el quiz_card. Resumen de instrucción: S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo;. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: misma, comparador, ordinal, overlap, infiere. Me resisto a copiar sin anclar en el paquete.",
+      "concepts_used": [
+        "S30-T2-A"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "id": "S30-T2-B-E1",
+      "code": "# skeptic/S30-T2-B-E1: packet-only K2; rejected inverted contracts / theater claims\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S30-T2-B-E1. La sección «Entity resolution probabilístico» pide: S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el. Me anclé en Entity, resolution, typos y en «sum n(n-1)/2». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso revisé que no quede TODO ni pass de relleno; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S30-T2-B"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "id": "S30-T2-B-E2",
+      "code": "# skeptic/S30-T2-B-E2: packet-only K2; rejected inverted contracts / theater claims\nta,tb='person','org'\nprint(ta != tb)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S30-T2-B-E2 no improvisé APIs: crucé instruction contra hints e iDo del slim_packet y armé el cuerpo desde el quiz_card. Resumen de instrucción: S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter com. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: parentesco, Levenshtein, pesos, resolution, comparador. Prefiero lo aburrido, determinista y auditable.",
+      "concepts_used": [
+        "S30-T2-B"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "id": "S30-T2-B-E3",
+      "code": "# skeptic/S30-T2-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint('filter_before_score')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S30/S30-T2-B-E3 («Entity resolution probabilístico»): S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo. Apoyo léxico K2: comparador, devuelve, probabilístico, Levenshtein. Hint: string. Starter: forma esperada en comentarios del starter, TODO contractual. Me resisto a copiar sin anclar en el paquete; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S30-T2-B"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "id": "S30-T3-A-E1",
+      "code": "# skeptic/S30-T3-A-E1: packet-only K2; rejected inverted contracts / theater claims\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Desconfío de claims de fraude o parentesco fuera de scope al cerrar S30-T3-A-E1. La sección «Entity resolution probabilístico» pide: S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo;. Me anclé en Jaccard, Entity, Explica y en «suma w*s / suma w». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso releí con desconfianza el starter del quiz_card; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S30-T3-A"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "id": "S30-T3-A-E2",
+      "code": "# skeptic/S30-T3-A-E2: packet-only K2; rejected inverted contracts / theater claims\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S30-T3-A-E2 no improvisé APIs: releí con desconfianza el starter del quiz_card y armé el cuerpo desde el quiz_card. Resumen de instrucción: S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implement. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: matching, fraude, distancia, colusión, responde. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "concepts_used": [
+        "S30-T3-A"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "id": "S30-T3-A-E3",
+      "code": "# skeptic/S30-T3-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint({'name': 0.9, 'email': 1.0})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S30/S30-T3-A-E3 («Entity resolution probabilístico»): S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; imple. Apoyo léxico K2: parentesco, misma, campo, fecha. Hint: dict. Starter: forma esperada en comentarios del starter, TODO contractual. Me resisto a copiar sin anclar en el paquete; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S30-T3-A"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "id": "S30-T3-B-E1",
+      "code": "# skeptic/S30-T3-B-E1: packet-only K2; rejected inverted contracts / theater claims\np={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nprint(find(1)==find(3))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S30-T3-B-E1 no improvisé APIs: confronté predicados invertidos y marcas DEFECTO y armé el cuerpo desde el quiz_card. Resumen de instrucción: S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la e. Flags: TODO contractual. Conceptos activos: colusión, parentesco, token, humana, normalización. Prefiero lo aburrido, determinista y auditable.",
+      "concepts_used": [
+        "S30-T3-B"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "id": "S30-T3-B-E2",
+      "code": "# skeptic/S30-T3-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(['match', 'non_match', 'uncertain'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S30/S30-T3-B-E2 («Entity resolution probabilístico»): S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el start. Apoyo léxico K2: comparador, parentesco, infiere, ordinal. Hint: lista. Starter: forma esperada en comentarios del starter, TODO contractual. Exijo evidencia lexical en theory/iDo del paquete activo; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S30-T3-B"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "id": "S30-T3-B-E3",
+      "code": "# skeptic/S30-T3-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint('ER_only_same_entity')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S30-T3-B-E3 («Entity resolution probabilístico»): revisé que no quede TODO ni pass de relleno. Enunciado: «S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; impl». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: string. Léxico del paquete: devuelve, comparador, fecha, igualdad. Prefiero lo aburrido, determinista y auditable; riesgo: si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S30-T3-B"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "id": "S30-T4-A-E1",
+      "code": "# skeptic/S30-T4-A-E1: packet-only K2; rejected inverted contracts / theater claims\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S30-T4-A-E1 no improvisé APIs: contrasté theory headings con el enunciado del ejercicio y armé el cuerpo desde el quiz_card. Resumen de instrucción: S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: resolution, fecha, infiere, probabilístico, simplificado. Prefiero lo aburrido, determinista y auditable.",
+      "concepts_used": [
+        "S30-T4-A"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "id": "S30-T4-A-E2",
+      "code": "# skeptic/S30-T4-A-E2: packet-only K2; rejected inverted contracts / theater claims\nmatches,n=1,5\nprint(matches / n)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S30/S30-T4-A-E2 («Entity resolution probabilístico»): S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implement. Apoyo léxico K2: nivel, Jaccard, entidad, igualdad. Hint: división. Starter: forma esperada en comentarios del starter, TODO contractual. Me resisto a copiar sin anclar en el paquete; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S30-T4-A"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "id": "S30-T4-A-E3",
+      "code": "# skeptic/S30-T4-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint('entity_split')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S30-T4-A-E3 («Entity resolution probabilístico»): seguí el knowledge boundary: solo landing + packet K2. Enunciado: «S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; imple». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: string. Léxico del paquete: parentesco, tolerancia, pesos, Entity. Me resisto a copiar sin anclar en el paquete; riesgo: si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S30-T4-A"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "id": "S30-T4-B-E1",
+      "code": "# skeptic/S30-T4-B-E1: packet-only K2; rejected inverted contracts / theater claims\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S30/S30-T4-B-E1 («Entity resolution probabilístico»): S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo;. Apoyo léxico K2: token, fecha, humana, probabilístico. Hint: tp/(tp+fp). Starter: forma esperada en comentarios del starter, TODO contractual. Me resisto a copiar sin anclar en el paquete; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S30-T4-B"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "id": "S30-T4-B-E2",
+      "code": "# skeptic/S30-T4-B-E2: packet-only K2; rejected inverted contracts / theater claims\ntp,fn=2,2\nprint(tp/(tp+fn))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S30-T4-B-E2 («Entity resolution probabilístico»): derivé el cuerpo desde forma esperada sin inventar APIs. Enunciado: «S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: tp/(tp+fn). Léxico del paquete: humana, comparador, exact, igualdad. No asumo que el primer predicado booleano sea correcto; riesgo: si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S30-T4-B"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "id": "S30-T4-B-E3",
+      "code": "# skeptic/S30-T4-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(['missing_phone'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido, determinista y auditable al cerrar S30-T4-B-E3. La sección «Entity resolution probabilístico» pide: S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es. Me anclé en pesos, prioriza, overlap y en «lista». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso revisé que no quede TODO ni pass de relleno; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S30-T4-B"
+      ],
+      "confidence": 0.87
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S30#0 en «Entity resolution probabilístico»: «El motor ER de CP-N3-A debe decidir:». Escojo índice 1 → «Si dos registros son la misma entidad». Descarto «Fraude automático / Parentescos» (no cuadra con theory/iDo del paquete K2). Señales: exact, humana, overlap, prioriza. Prefiero lo aburrido, determinista y auditable.",
+      "confidence": 0.73
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S30#1 en «Entity resolution probabilístico»: «Candidate recall de blocking mide:». Escojo índice 3 → «Fracción de verdaderos matches que sobreviven al blocking». Descarto «Solo CPU / Precisión del scorer final únicamente» (no cuadra con theory/iDo del paquete K2). Señales: distancia, Fellegi, resolution, campo. Prefiero lo aburrido, determinista y auditable.",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S30#2 en «Entity resolution probabilístico»: «Scores entre t_low y t_high van a:». Escojo índice 0 → «clerical review». Descarto «auto_match / non_match» (no cuadra con theory/iDo del paquete K2). Señales: campo, entidad, agree, responde. Prefiero lo aburrido, determinista y auditable.",
+      "confidence": 0.89
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S30#3 en «Entity resolution probabilístico»: «Split por entidad evita:». Escojo índice 2 → «Leakage de identidad entre train y test». Descarto «Usar sqlite / Blocking» (no cuadra con theory/iDo del paquete K2). Señales: pesos, prioriza, overlap, revisión. Me resisto a copiar sin anclar en el paquete.",
+      "confidence": 0.78
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:14:40.952884+00:00",
+  "session_started_at": "2026-07-23T15:13:38.442068+00:00",
+  "session_ended_at": "2026-07-23T15:14:40.950804+00:00",
+  "receipt_response_sha256": "2c18fc930689b280a0707ecba9b79fd11f08185a572da5cd79f8d9499c711877",
+  "receipt_exercises_sha256": "d99c518635dfebc47bee9d47371f0b8d9d037859af4059da271b5e34c8981665",
+  "receipt_selfcheck_sha256": "55ecd206083d140aaf855c825bb32ab37e79b8c8645a90a3fc4e4bf32cb779e6"
+}

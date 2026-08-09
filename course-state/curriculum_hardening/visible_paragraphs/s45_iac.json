@@ -1,0 +1,612 @@
+{
+  "index": 45,
+  "id": "iac",
+  "title": "Cloud, almacenamiento, colas e infraestructura",
+  "file": "s45-iac.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Ruta de S45: Cloud, almacenamiento, colas e infraestructura",
+      "len": 59
+    },
+    {
+      "i": 1,
+      "text": "Diccionario de la sección (léelo antes de T1). Object store: blobs/artefactos versionados. Relacional: invariantes y consultas (estado de job). Cache: copia descartable, nunca fuente de verdad. At-least-once: el mensaje puede reentregarse; el efecto debe ser idempotente. DLQ: cola de fallas terminales con razón e intentos. RPO/RTO: pérdida/tiempo de recuperación aceptados. IaC: estado deseado declarado; plan antes de apply. Egress allowlist: destinos de red permitidos.",
+      "len": 473
+    },
+    {
+      "i": 2,
+      "text": "S45 cierra la base de plataforma del job asíncrono para CP-N4-B: persistencia correcta, mensajería resiliente, compute/IAM y presupuesto. El id de plataforma iac se conserva por legacy; el contenido V3 no es solo Terraform, sino el contrato completo del job distribuido mínimo.",
+      "len": 277
+    },
+    {
+      "i": 3,
+      "text": "Contrato de la sección. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida: estado durable, resultado en object store y fallas terminales en DLQ. Error: mensaje duplicado sin dedup, cuota rota, egress no autorizado o restore no probado → contención fail-closed.",
+      "len": 307
+    },
+    {
+      "i": 4,
+      "text": "Caso CASO-IQU-045 (organización ficticia de reportes en Iquitos (Red Amazónica Lab)): reportes sintéticos sin PII. Orden: T1 persistencia → T2 mensajería → T3 plataforma → T4 IaC/costos. Stack didáctico: stdlib (dicts, sets) que modela S3/SQS/IAM sin credenciales.",
+      "len": 264
+    },
+    {
+      "i": 5,
+      "text": "object store, relacional y cache",
+      "len": 32
+    },
+    {
+      "i": 6,
+      "text": "Elige object store para blobs (PDF/parquets sintéticos), relacional para invariantes (job_id → status) y cache solo para lecturas descartables. Si el cache es autoritativo, un TTL o un flush borra la verdad del negocio.",
+      "len": 219
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo didáctico: un ADR de persistencia es un dict con blob_store, transactions, cache_authoritative y cache_ttl_s. El predicado de salud exige object+relational y cache_authoritative=False con TTL > 0. En producción mapearías S3/Postgres/Redis; aquí el contrato se ve sin red.",
+      "len": 281
+    },
+    {
+      "i": 8,
+      "text": "Contrato operativo. Entrada: patrón de acceso del job y política de cache. Salida: ADR con fuente de verdad y cache descartable. Error: cache como system of record o transactions en object store → REDESIGN_PERSISTENCE. Por qué importa: si no fijas «patrón de acceso del job y política de cache» → «ADR con fuente de verdad y cache descartable», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «cache como system of record o transactions en object store → `REDESIGN» para confirmar fail-closed.",
+      "len": 534
+    },
+    {
+      "i": 9,
+      "text": "Aplicación a CASO-IQU-045-1A (Iquitos sintético): blob_store=object, transactions=relational, cache_ttl_s=300, cache_authoritative=False. Sirve para artefactos de reportes; nunca guarda PII real.",
+      "len": 195
+    },
+    {
+      "i": 10,
+      "text": "consistencia, lifecycle y backups",
+      "len": 33
+    },
+    {
+      "i": 11,
+      "text": "La consistencia se declara por operación (p. ej. read-after-write del status del job). Lifecycle expira copias calientes; backup solo cuenta cuando un restore medido cumple RPO (edad del backup) y RTO (minutos de restore).",
+      "len": 222
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: backup_age_h <= rpo_h y restore_minutes <= rto_minutes con consistencia explícita. Un backup diario sin drill de restore es promesa, no control.",
+      "len": 155
+    },
+    {
+      "i": 13,
+      "text": "Contrato operativo. Entrada: política de consistencia + RPO/RTO sintéticos. Salida: restore probado dentro de presupuesto de tiempo. Error: backup viejo o restore lento → DECLARE_DATA_LOSS_RISK. Por qué importa: si no fijas «política de consistencia + RPO/RTO sintéticos» → «restore probado dentro de presupuesto de tiempo», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «backup viejo o restore lento → DECLARE_DATA_LOSS_RISK» para confirmar fail-closed.",
+      "len": 497
+    },
+    {
+      "i": 14,
+      "text": "Aplicación a CASO-IQU-045-1B: backup_age_h=4 ≤ rpo_h=6 y restore 25 ≤ rto 30 con consistency=read-after-write sobre job-status sintético en Iquitos.",
+      "len": 148
+    },
+    {
+      "i": 15,
+      "text": "queue/event y delivery semantics",
+      "len": 32
+    },
+    {
+      "i": 16,
+      "text": "Una cola desacopla productor y consumidor. Con at-least-once, el broker puede reentregar: el ack va después del efecto durable y el handler es idempotente (clave estable).",
+      "len": 171
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: process(msg) escribe efecto si la clave es nueva; solo entonces ack. Reentrega de la misma clave no duplica filas. Exactly-once real es compuesto (idempotencia + dedup + sink).",
+      "len": 187
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: mensaje con idempotency_key y política de delivery. Salida: efecto una sola vez pese a reentrega. Error: ack antes del efecto o sin clave → NACK_AND_RETRY. Por qué importa: si no fijas «mensaje con idempotency_key y política de delivery» → «efecto una sola vez pese a reentrega», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «ack antes del efecto o sin clave → NACK_AND_RETRY» para confirmar fail-closed.",
+      "len": 477
+    },
+    {
+      "i": 19,
+      "text": "Aplicación a CASO-IQU-045-2A: delivery=at-least-once, effect_durable, acked_after_effect, idempotency_key presente y backoff activo en el worker sintético de reportes.",
+      "len": 167
+    },
+    {
+      "i": 20,
+      "text": "dedup, ordering y dead-letter",
+      "len": 29
+    },
+    {
+      "i": 21,
+      "text": "Dedup usa clave estable (message_id / business key). Ordering solo se promete por partición cuando importa. DLQ conserva payload seguro, razón e intentos para replay controlado tras max retries.",
+      "len": 194
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: processed_ids es un set; ids repetidos no crecen el set. Tras 3 fallos, el mensaje va a DLQ con terminal=True. Desorden entre particiones es aceptable; dentro de partición, FIFO.",
+      "len": 189
+    },
+    {
+      "i": 23,
+      "text": "Contrato operativo. Entrada: stream con duplicados y un terminal. Salida: set de ids únicos + terminal en DLQ. Error: crecer efectos con dups o silenciar terminal → DEDUP_OR_DLQ. Por qué importa: si no fijas «stream con duplicados y un terminal» → «set de ids únicos + terminal en DLQ», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «crecer efectos con dups o silenciar terminal → DEDUP_OR_DLQ» para confirmar fail-closed.",
+      "len": 465
+    },
+    {
+      "i": 24,
+      "text": "Aplicación a CASO-IQU-045-2B: message_ids=[m1,m1,m2] → processed {m1,m2}, ordered_partition y terminal_in_dlq tras reintentos en el lab de Iquitos.",
+      "len": 147
+    },
+    {
+      "i": 25,
+      "text": "compute, autoscaling y networking",
+      "len": 33
+    },
+    {
+      "i": 26,
+      "text": "Autoscaling debe anclarse a una señal de backlog/SLO (p. ej. mensajes por worker), no a CPU ciega. Networking privada segmenta data plane; la capacidad máxima respeta cuotas, warm-up y backpressure.",
+      "len": 198
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: workers <= quota y backlog/workers <= target_per_worker. Si se excede, no se aceptan más jobs (backpressure=True). Private network es booleano de política en el lab.",
+      "len": 176
+    },
+    {
+      "i": 28,
+      "text": "Contrato operativo. Entrada: backlog, workers, cuota y target. Salida: carga dentro de SLO y cuota. Error: sobrepasar cuota o SLO → APPLY_BACKPRESSURE. Por qué importa: si no fijas «backlog, workers, cuota y target» → «carga dentro de SLO y cuota», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «sobrepasar cuota o SLO → APPLY_BACKPRESSURE» para confirmar fail-closed.",
+      "len": 411
+    },
+    {
+      "i": 29,
+      "text": "Aplicación a CASO-IQU-045-3A: backlog=80, workers=4, target=25, quota=6, private_network y backpressure activos en el worker sintético.",
+      "len": 135
+    },
+    {
+      "i": 30,
+      "text": "IAM, private paths y egress",
+      "len": 27
+    },
+    {
+      "i": 31,
+      "text": "IAM least-privilege: solo acciones/recursos del job (PutObject, ReceiveMessage). Private paths evitan admin en 0.0.0.0. Egress se allowlistea y se registra para bloquear exfiltración hacia hosts no aprobados.",
+      "len": 208
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: requested_action in allowed_actions y egress_host in egress_allow. Una policy negativa (acción denegada) debe probarse en staging sintético antes de promover.",
+      "len": 169
+    },
+    {
+      "i": 33,
+      "text": "Contrato operativo. Entrada: acción pedida, path y host de egress. Salida: allow o deny explícito. Error: acción o host fuera de scope → DENY_IAM_OR_EGRESS. Por qué importa: si no fijas «acción pedida, path y host de egress» → «allow o deny explícito», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «acción o host fuera de scope → DENY_IAM_OR_EGRESS» para confirmar fail-closed.",
+      "len": 421
+    },
+    {
+      "i": 34,
+      "text": "Aplicación a CASO-IQU-045-3B: allowed {object:get, queue:ack}, private_path, egress a host allowlisted del lab; nunca secretos en logs.",
+      "len": 135
+    },
+    {
+      "i": 35,
+      "text": "configuración declarativa y environments",
+      "len": 40
+    },
+    {
+      "i": 36,
+      "text": "IaC declara el estado deseado (colas, buckets, red) y parametriza dev/staging/prod sin copiar secretos al plan. Un plan revisado precede apply; drift destructivo inesperado se rechaza.",
+      "len": 184
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: declared_resources == planned_resources, destructive_changes == 0, secret_values_in_plan == False y environment ∈ {dev,staging,prod}.",
+      "len": 144
+    },
+    {
+      "i": 38,
+      "text": "Contrato operativo. Entrada: manifiesto + plan. Salida: plan aceptable sin sorpresas. Error: drift destructivo o secretos en plan → REJECT_IAC_PLAN. Por qué importa: si no fijas «manifiesto + plan» → «plan aceptable sin sorpresas», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «drift destructivo o secretos en plan → REJECT_IAC_PLAN» para confirmar fail-closed.",
+      "len": 405
+    },
+    {
+      "i": 39,
+      "text": "Aplicación a CASO-IQU-045-4A: declared={queue,bucket} == planned, env=staging, sin secretos ni destroys en el plan del lab de Iquitos.",
+      "len": 134
+    },
+    {
+      "i": 40,
+      "text": "costos, quotas, recovery y portability",
+      "len": 38
+    },
+    {
+      "i": 41,
+      "text": "Presupuesto y cuotas son controles operativos (forecast ≤ budget, used ≤ limit). Recovery se ensaya; portability se demuestra con exportación a formatos abiertos/imágenes, no con promesas de vendor.",
+      "len": 198
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: comparar forecast_pen vs budget_pen (soles sintéticos del lab) y quota_used vs quota_limit; exigir restore_tested y portable_export.",
+      "len": 143
+    },
+    {
+      "i": 43,
+      "text": "Contrato operativo. Entrada: forecast, cuota y banderas de recovery. Salida: alarma o OK. Error: overrun de costo/cuota o recovery no probado → FREEZE_SCALE_OUT. Por qué importa: si no fijas «forecast, cuota y banderas de recovery» → «alarma o OK», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «overrun de costo/cuota o recovery no probado → FREEZE_SCALE_OUT» para confirmar fail-closed.",
+      "len": 431
+    },
+    {
+      "i": 44,
+      "text": "Aplicación a CASO-IQU-045-4B: forecast 820 ≤ budget 1000 PEN sintéticos, cuota 72/100, restore y export portables documentados.",
+      "len": 127
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 59,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ruta de S45: Cloud, almacenamiento, colas e infraestructura",
+      "text": "Ruta de S45: Cloud, almacenamiento, colas e infraestructura"
+    },
+    {
+      "i": 1,
+      "len": 473,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario de la sección (léelo antes de T1). Object store: blobs/artefactos versionados. Relacional: invariantes y consultas (estado de job). Cache: copia descartable, nunca fuen",
+      "text": "Diccionario de la sección (léelo antes de T1). Object store: blobs/artefactos versionados. Relacional: invariantes y consultas (estado de job). Cache: copia descartable, nunca fuente de verdad. At-least-once: el mensaje puede reentregarse; el efecto debe ser idempotente. DLQ: cola de fallas terminales con razón e intentos. RPO/RTO: pérdida/tiempo de recuperación aceptados. IaC: estado deseado declarado; plan antes de apply. Egress allowlist: destinos de red permitidos."
+    },
+    {
+      "i": 2,
+      "len": 277,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "S45 cierra la base de plataforma del job asíncrono para CP-N4-B: persistencia correcta, mensajería resiliente, compute/IAM y presupuesto. El id de plataforma iac se conserva por le",
+      "text": "S45 cierra la base de plataforma del job asíncrono para CP-N4-B: persistencia correcta, mensajería resiliente, compute/IAM y presupuesto. El id de plataforma iac se conserva por legacy; el contenido V3 no es solo Terraform, sino el contrato completo del job distribuido mínimo."
+    },
+    {
+      "i": 3,
+      "len": 307,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de la sección. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida: estado durable, resultado en object store y fallas termina",
+      "text": "Contrato de la sección. Entrada: job idempotente, artefacto, política de entrega, presupuesto y permisos mínimos. Salida: estado durable, resultado en object store y fallas terminales en DLQ. Error: mensaje duplicado sin dedup, cuota rota, egress no autorizado o restore no probado → contención fail-closed."
+    },
+    {
+      "i": 4,
+      "len": 264,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso CASO-IQU-045 (organización ficticia de reportes en Iquitos (Red Amazónica Lab)): reportes sintéticos sin PII. Orden: T1 persistencia → T2 mensajería → T3 plataforma → T4 IaC/c",
+      "text": "Caso CASO-IQU-045 (organización ficticia de reportes en Iquitos (Red Amazónica Lab)): reportes sintéticos sin PII. Orden: T1 persistencia → T2 mensajería → T3 plataforma → T4 IaC/costos. Stack didáctico: stdlib (dicts, sets) que modela S3/SQS/IAM sin credenciales."
+    },
+    {
+      "i": 5,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "object store, relacional y cache",
+      "text": "object store, relacional y cache"
+    },
+    {
+      "i": 6,
+      "len": 219,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Elige object store para blobs (PDF/parquets sintéticos), relacional para invariantes (job_id → status) y cache solo para lecturas descartables. Si el cache es autoritativo, un TTL ",
+      "text": "Elige object store para blobs (PDF/parquets sintéticos), relacional para invariantes (job_id → status) y cache solo para lecturas descartables. Si el cache es autoritativo, un TTL o un flush borra la verdad del negocio."
+    },
+    {
+      "i": 7,
+      "len": 281,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo didáctico: un ADR de persistencia es un dict con blob_store, transactions, cache_authoritative y cache_ttl_s. El predicado de salud exige object+relational y cache_author",
+      "text": "Mecanismo didáctico: un ADR de persistencia es un dict con blob_store, transactions, cache_authoritative y cache_ttl_s. El predicado de salud exige object+relational y cache_authoritative=False con TTL > 0. En producción mapearías S3/Postgres/Redis; aquí el contrato se ve sin red."
+    },
+    {
+      "i": 8,
+      "len": 534,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: patrón de acceso del job y política de cache. Salida: ADR con fuente de verdad y cache descartable. Error: cache como system of record o transactions e",
+      "text": "Contrato operativo. Entrada: patrón de acceso del job y política de cache. Salida: ADR con fuente de verdad y cache descartable. Error: cache como system of record o transactions en object store → REDESIGN_PERSISTENCE. Por qué importa: si no fijas «patrón de acceso del job y política de cache» → «ADR con fuente de verdad y cache descartable», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «cache como system of record o transactions en object store → `REDESIGN» para confirmar fail-closed."
+    },
+    {
+      "i": 9,
+      "len": 195,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-IQU-045-1A (Iquitos sintético): blob_store=object, transactions=relational, cache_ttl_s=300, cache_authoritative=False. Sirve para artefactos de reportes; nunca g",
+      "text": "Aplicación a CASO-IQU-045-1A (Iquitos sintético): blob_store=object, transactions=relational, cache_ttl_s=300, cache_authoritative=False. Sirve para artefactos de reportes; nunca guarda PII real."
+    },
+    {
+      "i": 10,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "consistencia, lifecycle y backups",
+      "text": "consistencia, lifecycle y backups"
+    },
+    {
+      "i": 11,
+      "len": 222,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La consistencia se declara por operación (p. ej. read-after-write del status del job). Lifecycle expira copias calientes; backup solo cuenta cuando un restore medido cumple RPO (ed",
+      "text": "La consistencia se declara por operación (p. ej. read-after-write del status del job). Lifecycle expira copias calientes; backup solo cuenta cuando un restore medido cumple RPO (edad del backup) y RTO (minutos de restore)."
+    },
+    {
+      "i": 12,
+      "len": 155,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: backup_age_h <= rpo_h y restore_minutes <= rto_minutes con consistencia explícita. Un backup diario sin drill de restore es promesa, no control.",
+      "text": "Mecanismo: backup_age_h <= rpo_h y restore_minutes <= rto_minutes con consistencia explícita. Un backup diario sin drill de restore es promesa, no control."
+    },
+    {
+      "i": 13,
+      "len": 497,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: política de consistencia + RPO/RTO sintéticos. Salida: restore probado dentro de presupuesto de tiempo. Error: backup viejo o restore lento → DECLARE_D",
+      "text": "Contrato operativo. Entrada: política de consistencia + RPO/RTO sintéticos. Salida: restore probado dentro de presupuesto de tiempo. Error: backup viejo o restore lento → DECLARE_DATA_LOSS_RISK. Por qué importa: si no fijas «política de consistencia + RPO/RTO sintéticos» → «restore probado dentro de presupuesto de tiempo», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «backup viejo o restore lento → DECLARE_DATA_LOSS_RISK» para confirmar fail-closed."
+    },
+    {
+      "i": 14,
+      "len": 148,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-IQU-045-1B: backup_age_h=4 ≤ rpo_h=6 y restore 25 ≤ rto 30 con consistency=read-after-write sobre job-status sintético en Iquitos.",
+      "text": "Aplicación a CASO-IQU-045-1B: backup_age_h=4 ≤ rpo_h=6 y restore 25 ≤ rto 30 con consistency=read-after-write sobre job-status sintético en Iquitos."
+    },
+    {
+      "i": 15,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "queue/event y delivery semantics",
+      "text": "queue/event y delivery semantics"
+    },
+    {
+      "i": 16,
+      "len": 171,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una cola desacopla productor y consumidor. Con at-least-once, el broker puede reentregar: el ack va después del efecto durable y el handler es idempotente (clave estable).",
+      "text": "Una cola desacopla productor y consumidor. Con at-least-once, el broker puede reentregar: el ack va después del efecto durable y el handler es idempotente (clave estable)."
+    },
+    {
+      "i": 17,
+      "len": 187,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: process(msg) escribe efecto si la clave es nueva; solo entonces ack. Reentrega de la misma clave no duplica filas. Exactly-once real es compuesto (idempotencia + dedup +",
+      "text": "Mecanismo: process(msg) escribe efecto si la clave es nueva; solo entonces ack. Reentrega de la misma clave no duplica filas. Exactly-once real es compuesto (idempotencia + dedup + sink)."
+    },
+    {
+      "i": 18,
+      "len": 477,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: mensaje con idempotency_key y política de delivery. Salida: efecto una sola vez pese a reentrega. Error: ack antes del efecto o sin clave → NACK_AND_RE",
+      "text": "Contrato operativo. Entrada: mensaje con idempotency_key y política de delivery. Salida: efecto una sola vez pese a reentrega. Error: ack antes del efecto o sin clave → NACK_AND_RETRY. Por qué importa: si no fijas «mensaje con idempotency_key y política de delivery» → «efecto una sola vez pese a reentrega», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «ack antes del efecto o sin clave → NACK_AND_RETRY» para confirmar fail-closed."
+    },
+    {
+      "i": 19,
+      "len": 167,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-IQU-045-2A: delivery=at-least-once, effect_durable, acked_after_effect, idempotency_key presente y backoff activo en el worker sintético de reportes.",
+      "text": "Aplicación a CASO-IQU-045-2A: delivery=at-least-once, effect_durable, acked_after_effect, idempotency_key presente y backoff activo en el worker sintético de reportes."
+    },
+    {
+      "i": 20,
+      "len": 29,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "dedup, ordering y dead-letter",
+      "text": "dedup, ordering y dead-letter"
+    },
+    {
+      "i": 21,
+      "len": 194,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Dedup usa clave estable (message_id / business key). Ordering solo se promete por partición cuando importa. DLQ conserva payload seguro, razón e intentos para replay controlado tra",
+      "text": "Dedup usa clave estable (message_id / business key). Ordering solo se promete por partición cuando importa. DLQ conserva payload seguro, razón e intentos para replay controlado tras max retries."
+    },
+    {
+      "i": 22,
+      "len": 189,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: processed_ids es un set; ids repetidos no crecen el set. Tras 3 fallos, el mensaje va a DLQ con terminal=True. Desorden entre particiones es aceptable; dentro de partici",
+      "text": "Mecanismo: processed_ids es un set; ids repetidos no crecen el set. Tras 3 fallos, el mensaje va a DLQ con terminal=True. Desorden entre particiones es aceptable; dentro de partición, FIFO."
+    },
+    {
+      "i": 23,
+      "len": 465,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: stream con duplicados y un terminal. Salida: set de ids únicos + terminal en DLQ. Error: crecer efectos con dups o silenciar terminal → DEDUP_OR_DLQ. P",
+      "text": "Contrato operativo. Entrada: stream con duplicados y un terminal. Salida: set de ids únicos + terminal en DLQ. Error: crecer efectos con dups o silenciar terminal → DEDUP_OR_DLQ. Por qué importa: si no fijas «stream con duplicados y un terminal» → «set de ids únicos + terminal en DLQ», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «crecer efectos con dups o silenciar terminal → DEDUP_OR_DLQ» para confirmar fail-closed."
+    },
+    {
+      "i": 24,
+      "len": 147,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-IQU-045-2B: message_ids=[m1,m1,m2] → processed {m1,m2}, ordered_partition y terminal_in_dlq tras reintentos en el lab de Iquitos.",
+      "text": "Aplicación a CASO-IQU-045-2B: message_ids=[m1,m1,m2] → processed {m1,m2}, ordered_partition y terminal_in_dlq tras reintentos en el lab de Iquitos."
+    },
+    {
+      "i": 25,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "compute, autoscaling y networking",
+      "text": "compute, autoscaling y networking"
+    },
+    {
+      "i": 26,
+      "len": 198,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Autoscaling debe anclarse a una señal de backlog/SLO (p. ej. mensajes por worker), no a CPU ciega. Networking privada segmenta data plane; la capacidad máxima respeta cuotas, warm-",
+      "text": "Autoscaling debe anclarse a una señal de backlog/SLO (p. ej. mensajes por worker), no a CPU ciega. Networking privada segmenta data plane; la capacidad máxima respeta cuotas, warm-up y backpressure."
+    },
+    {
+      "i": 27,
+      "len": 176,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: workers <= quota y backlog/workers <= target_per_worker. Si se excede, no se aceptan más jobs (backpressure=True). Private network es booleano de política en el lab.",
+      "text": "Mecanismo: workers <= quota y backlog/workers <= target_per_worker. Si se excede, no se aceptan más jobs (backpressure=True). Private network es booleano de política en el lab."
+    },
+    {
+      "i": 28,
+      "len": 411,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: backlog, workers, cuota y target. Salida: carga dentro de SLO y cuota. Error: sobrepasar cuota o SLO → APPLY_BACKPRESSURE. Por qué importa: si no fijas",
+      "text": "Contrato operativo. Entrada: backlog, workers, cuota y target. Salida: carga dentro de SLO y cuota. Error: sobrepasar cuota o SLO → APPLY_BACKPRESSURE. Por qué importa: si no fijas «backlog, workers, cuota y target» → «carga dentro de SLO y cuota», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «sobrepasar cuota o SLO → APPLY_BACKPRESSURE» para confirmar fail-closed."
+    },
+    {
+      "i": 29,
+      "len": 135,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-IQU-045-3A: backlog=80, workers=4, target=25, quota=6, private_network y backpressure activos en el worker sintético.",
+      "text": "Aplicación a CASO-IQU-045-3A: backlog=80, workers=4, target=25, quota=6, private_network y backpressure activos en el worker sintético."
+    },
+    {
+      "i": 30,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "IAM, private paths y egress",
+      "text": "IAM, private paths y egress"
+    },
+    {
+      "i": 31,
+      "len": 208,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "IAM least-privilege: solo acciones/recursos del job (PutObject, ReceiveMessage). Private paths evitan admin en 0.0.0.0. Egress se allowlistea y se registra para bloquear exfiltraci",
+      "text": "IAM least-privilege: solo acciones/recursos del job (PutObject, ReceiveMessage). Private paths evitan admin en 0.0.0.0. Egress se allowlistea y se registra para bloquear exfiltración hacia hosts no aprobados."
+    },
+    {
+      "i": 32,
+      "len": 169,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: requested_action in allowed_actions y egress_host in egress_allow. Una policy negativa (acción denegada) debe probarse en staging sintético antes de promover.",
+      "text": "Mecanismo: requested_action in allowed_actions y egress_host in egress_allow. Una policy negativa (acción denegada) debe probarse en staging sintético antes de promover."
+    },
+    {
+      "i": 33,
+      "len": 421,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: acción pedida, path y host de egress. Salida: allow o deny explícito. Error: acción o host fuera de scope → DENY_IAM_OR_EGRESS. Por qué importa: si no ",
+      "text": "Contrato operativo. Entrada: acción pedida, path y host de egress. Salida: allow o deny explícito. Error: acción o host fuera de scope → DENY_IAM_OR_EGRESS. Por qué importa: si no fijas «acción pedida, path y host de egress» → «allow o deny explícito», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «acción o host fuera de scope → DENY_IAM_OR_EGRESS» para confirmar fail-closed."
+    },
+    {
+      "i": 34,
+      "len": 135,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-IQU-045-3B: allowed {object:get, queue:ack}, private_path, egress a host allowlisted del lab; nunca secretos en logs.",
+      "text": "Aplicación a CASO-IQU-045-3B: allowed {object:get, queue:ack}, private_path, egress a host allowlisted del lab; nunca secretos en logs."
+    },
+    {
+      "i": 35,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "configuración declarativa y environments",
+      "text": "configuración declarativa y environments"
+    },
+    {
+      "i": 36,
+      "len": 184,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "IaC declara el estado deseado (colas, buckets, red) y parametriza dev/staging/prod sin copiar secretos al plan. Un plan revisado precede apply; drift destructivo inesperado se rech",
+      "text": "IaC declara el estado deseado (colas, buckets, red) y parametriza dev/staging/prod sin copiar secretos al plan. Un plan revisado precede apply; drift destructivo inesperado se rechaza."
+    },
+    {
+      "i": 37,
+      "len": 144,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: declared_resources == planned_resources, destructive_changes == 0, secret_values_in_plan == False y environment ∈ {dev,staging,prod}.",
+      "text": "Mecanismo: declared_resources == planned_resources, destructive_changes == 0, secret_values_in_plan == False y environment ∈ {dev,staging,prod}."
+    },
+    {
+      "i": 38,
+      "len": 405,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: manifiesto + plan. Salida: plan aceptable sin sorpresas. Error: drift destructivo o secretos en plan → REJECT_IAC_PLAN. Por qué importa: si no fijas «m",
+      "text": "Contrato operativo. Entrada: manifiesto + plan. Salida: plan aceptable sin sorpresas. Error: drift destructivo o secretos en plan → REJECT_IAC_PLAN. Por qué importa: si no fijas «manifiesto + plan» → «plan aceptable sin sorpresas», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «drift destructivo o secretos en plan → REJECT_IAC_PLAN» para confirmar fail-closed."
+    },
+    {
+      "i": 39,
+      "len": 134,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-IQU-045-4A: declared={queue,bucket} == planned, env=staging, sin secretos ni destroys en el plan del lab de Iquitos.",
+      "text": "Aplicación a CASO-IQU-045-4A: declared={queue,bucket} == planned, env=staging, sin secretos ni destroys en el plan del lab de Iquitos."
+    },
+    {
+      "i": 40,
+      "len": 38,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "costos, quotas, recovery y portability",
+      "text": "costos, quotas, recovery y portability"
+    },
+    {
+      "i": 41,
+      "len": 198,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Presupuesto y cuotas son controles operativos (forecast ≤ budget, used ≤ limit). Recovery se ensaya; portability se demuestra con exportación a formatos abiertos/imágenes, no con p",
+      "text": "Presupuesto y cuotas son controles operativos (forecast ≤ budget, used ≤ limit). Recovery se ensaya; portability se demuestra con exportación a formatos abiertos/imágenes, no con promesas de vendor."
+    },
+    {
+      "i": 42,
+      "len": 143,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: comparar forecast_pen vs budget_pen (soles sintéticos del lab) y quota_used vs quota_limit; exigir restore_tested y portable_export.",
+      "text": "Mecanismo: comparar forecast_pen vs budget_pen (soles sintéticos del lab) y quota_used vs quota_limit; exigir restore_tested y portable_export."
+    },
+    {
+      "i": 43,
+      "len": 431,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: forecast, cuota y banderas de recovery. Salida: alarma o OK. Error: overrun de costo/cuota o recovery no probado → FREEZE_SCALE_OUT. Por qué importa: s",
+      "text": "Contrato operativo. Entrada: forecast, cuota y banderas de recovery. Salida: alarma o OK. Error: overrun de costo/cuota o recovery no probado → FREEZE_SCALE_OUT. Por qué importa: si no fijas «forecast, cuota y banderas de recovery» → «alarma o OK», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «overrun de costo/cuota o recovery no probado → FREEZE_SCALE_OUT» para confirmar fail-closed."
+    },
+    {
+      "i": 44,
+      "len": 127,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-IQU-045-4B: forecast 820 ≤ budget 1000 PEN sintéticos, cuota 72/100, restore y export portables documentados.",
+      "text": "Aplicación a CASO-IQU-045-4B: forecast 820 ≤ budget 1000 PEN sintéticos, cuota 72/100, restore y export portables documentados."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 15964
+}

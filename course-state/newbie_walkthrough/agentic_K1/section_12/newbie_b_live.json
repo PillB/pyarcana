@@ -1,0 +1,300 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s12-f25b4368de",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "id": "S12-T1-A-E1",
+      "code": "class MockResponse:\n    def __init__(self, status, body):\n        self.status_code = status\n        self._body = body\n    def json(self):\n        return self._body\n\ndef handle(resp):\n    if resp.status_code == 200:\n        return ('ok', resp.json())\n    if 400 <= resp.status_code < 500:\n        return ('client_error', resp.status_code)\n    return ('server_error', resp.status_code)\nprint(handle(MockResponse(200, {'id':'C1'})))\nprint(handle(MockResponse(400, {})))\nprint(handle(MockResponse(503, {})))\n",
+      "justification_from_packet": "Clasifico 200/4xx/5xx. 400 es error de cliente, no retry ciego.",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "id": "S12-T1-A-E2",
+      "code": "def should_retry(status):\n    return status >= 500 or status == 429\nprint(should_retry(503), should_retry(400), should_retry(200))\n",
+      "justification_from_packet": "Retry solo 5xx/429. 400 no se reintenta en loop infinito.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "id": "S12-T1-A-E3",
+      "code": "print('token en env/secret store; nunca hardcode en repo ni en URL pública')\n",
+      "justification_from_packet": "Política de secretos de API del paquete. En el packet, Calidad de coordenada, Haversine, caching y política aclara: Valida lat ∈ [-90,90] y lon ∈ [-180,180] antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el porqué es… Eso explica el output print('token en env/secret store; nunca hardcode en repo ni… sin inventar fuera del material.",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "id": "S12-T1-B-E1",
+      "code": "CASO = {'id': 'C001', 'city': 'Lima'}\nprint(CASO)\nprint('fixture sintético; no PII real')\n",
+      "justification_from_packet": "Fixture sintético C00x como entrada de demos API/geo.",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "id": "S12-T1-B-E2",
+      "code": "headers = {'Authorization': 'Bearer ***REDACTED***', 'Accept': 'application/json'}\nprint({k: v for k, v in headers.items()})\nprint('en logs, token siempre redacted')\n",
+      "justification_from_packet": "Headers con token redacted en evidencia/logs.",
+      "confidence": 0.57,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "id": "S12-T1-B-E3",
+      "code": "print('timeout obligatorio en cliente HTTP; default infinito es riesgo de job colgado')\n",
+      "justification_from_packet": "Timeout de cliente como parte del contrato responsable.",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "id": "S12-T2-A-E1",
+      "code": "cache = {}\n\ndef get_city(city, fetch):\n    if city in cache:\n        return cache[city], True\n    val = fetch(city)\n    cache[city] = val\n    return val, False\nprint(get_city('Lima', lambda c: {'lat': -12.04}))\nprint(get_city('Lima', lambda c: {'lat': 0}))  # cache hit\n",
+      "justification_from_packet": "Cache simple por ciudad: segundo call hit=True. Reduce egress.",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "id": "S12-T2-A-E2",
+      "code": "import time\ndef backoff(attempt):\n    return min(2 ** attempt, 8)\nprint([backoff(i) for i in range(4)])\n",
+      "justification_from_packet": "Backoff exponencial capado para retries de 5xx.",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "id": "S12-T2-A-E3",
+      "code": "from datetime import datetime, timezone\ndef min_provenance(url, status, cache_hit):\n    return {\n        'source_url': url,\n        'fetched_at': '2026-07-20T00:00:00Z',\n        'status_code': status,\n        'cache_hit': cache_hit,\n    }\nprint(min_provenance('https://example.invalid/geo', 200, False))\n",
+      "justification_from_packet": "Provenance mínima: url, fetched_at fijo de demo, status, cache_hit.",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "id": "S12-T2-B-E1",
+      "code": "def classify_status(code):\n    if code == 200: return 'ok'\n    if 400 <= code < 500: return 'client_error'\n    if code >= 500: return 'server_error'\n    return 'other'\nprint(classify_status(404), classify_status(500))\n",
+      "justification_from_packet": "Taxonomía de status para políticas de retry/fallback.",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "id": "S12-T2-B-E2",
+      "code": "def fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return (local_body, 'offline')\n    if status == 200:\n        return ({'online': True}, 'live')\n    return (None, 'client_error')\nprint(fetch_with_fallback(503, {'cached': 1}))\nprint(fetch_with_fallback(200, {}))\n",
+      "justification_from_packet": "5xx → body local offline; 200 → online. Fallback del paquete.",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "id": "S12-T2-B-E3",
+      "code": "print('offline mode: servir cache/local y marcar provenance cache_hit/offline')\n",
+      "justification_from_packet": "Modo offline explícito con traza, no fingir live.",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "id": "S12-T3-A-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)')\ncon.execute(\"INSERT INTO evidence VALUES ('E1','C001','geo')\")\nprint(con.execute('SELECT * FROM evidence').fetchall())\ncon.close()\n",
+      "justification_from_packet": "SQLite :memory: crea evidence e inserta E1/C001/geo. Demo SQL local.",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "id": "S12-T3-A-E2",
+      "code": "import sqlite3\ncon=sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)')\ncon.execute('INSERT INTO evidence VALUES (?,?,?)', ('E1','C001','geo'))\nrows=con.execute('SELECT id FROM evidence WHERE entity_id=?', ('C001',)).fetchall()\nprint(rows)\ncon.close()\n",
+      "justification_from_packet": "Placeholders ? — nunca f-string con input. Evita inyección.",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "id": "S12-T3-A-E3",
+      "code": "print('SQL injection: f\"...{user}\" es inseguro; usar ? placeholders')\n",
+      "justification_from_packet": "Regla dura del paquete sobre SQL y input de usuario.",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "id": "S12-T3-B-E1",
+      "code": "import sqlite3\ncon=sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE t(id TEXT PRIMARY KEY)')\ntry:\n    con.execute('BEGIN')\n    con.execute('INSERT INTO t VALUES (?)', ('C001',))\n    con.execute('INSERT INTO t VALUES (?)', ('C001',))  # PK fail\n    con.commit()\nexcept Exception:\n    con.rollback()\nprint('count', con.execute('SELECT count(*) FROM t').fetchone()[0])\ncon.close()\n",
+      "justification_from_packet": "Transacción: fallo en batch → rollback; count 0 si todo el batch falla junto.",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "id": "S12-T3-B-E2",
+      "code": "import sqlite3\ncon=sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE t(id TEXT PRIMARY KEY)')\ntry:\n    with con:\n        con.execute('INSERT INTO t VALUES (?)', ('C001',))\n        con.execute('INSERT INTO t VALUES (?)', ('C001',))\nexcept sqlite3.IntegrityError:\n    pass\nprint(con.execute('SELECT count(*) FROM t').fetchone()[0])\ncon.close()\n",
+      "justification_from_packet": "with con como transacción: IntegrityError revierte el insert ok previo del with.",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "id": "S12-T3-B-E3",
+      "code": "print('commit solo si todo el batch de evidence es válido; si no, rollback')\n",
+      "justification_from_packet": "Política transaccional del store de evidencia.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "id": "S12-T4-A-E1",
+      "code": "import re\ndef normalize_address(s: str) -> str:\n    s = re.sub(r'\\s+', ' ', s.strip())\n    return s.title()\nprint(normalize_address('  av.  larco  123  '))\n",
+      "justification_from_packet": "Normalización de dirección antes de geocode mock. title + collapse spaces.",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "id": "S12-T4-A-E2",
+      "code": "class MockGeocoder:\n    TABLE = {'Lima': (-12.0464, -77.0428), 'Arequipa': (-16.4090, -71.5375)}\n    def geocode(self, city: str):\n        coords = self.TABLE.get(city.title())\n        if not coords:\n            return None\n        lat, lon = coords\n        return {'city': city.title(), 'lat': lat, 'lon': lon, 'provider': 'mock'}\nprint(MockGeocoder().geocode('lima'))\n",
+      "justification_from_packet": "Geocoder mock con tabla sintética. Sin red real ni PII.",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "id": "S12-T4-A-E3",
+      "code": "def allowed_for_public_geocoder(payload):\n    forbidden = {'document_id', 'api_token', 'password', 'full_address_line2'}\n    if any(k in payload for k in forbidden):\n        return False\n    # solo requests conceptuales de ciudad / address corta\n    return set(payload).issubset({'city', 'country', 'query'})\nprint(allowed_for_public_geocoder({'city': 'Lima'}))\nprint(allowed_for_public_geocoder({'document_id': 'DNI'}))\n",
+      "justification_from_packet": "Egress checklist: no document_id bancario a geocoder público. Solo city/query.",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "id": "S12-T4-B-E1",
+      "code": "def valid_coord(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\nprint(valid_coord(-12.04, -77.04), valid_coord(91, 0))\n",
+      "justification_from_packet": "Validar lat/lon antes de mapa/Haversine. 91 inválido.",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "id": "S12-T4-B-E2",
+      "code": "import math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nprint(round(haversine_km(lima, callao), 2))\nprint('signal_only relationship_signal not kinship')\n",
+      "justification_from_packet": "Haversine del theory: km aproximados. Es geoseñal, no parentesco.",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "id": "S12-T4-B-E3",
+      "code": "print('1.2 km entre entidades sintéticas = geoseñal de relación, no fraude ni familia')\nprint('ER score se mantiene separado del relationship_signal_score')\n",
+      "justification_from_packet": "Interpretación responsable de distancia del paquete.",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "400 Bad Request es error de cliente: no retry ciego con backoff infinito.",
+      "confidence": 0.62,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Token de API vive en env/secret store, no hardcodeado ni en logs de provenance.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SQL con f-string e input es inyección; usar placeholders ?.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "document_id bancario a geocoder público viola política de egress CP-N1-C.",
+      "confidence": 0.79,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "1.2 km es geoseñal de relación, no veredicto de parentesco/fraude.",
+      "confidence": 0.66,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:18.123469+00:00",
+  "session_started_at": "2026-07-23T14:19:51.705947+00:00",
+  "session_ended_at": "2026-07-23T14:20:40.485947+00:00",
+  "receipt_response_sha256": "f5027caa7e40df3c2898f006f892e6a4e0fcedfff94bef8e861b46424a7b5f67",
+  "receipt_exercises_sha256": "36e9434df6594c26b4c4a42835cbe8c6a461225d598385a258dc3b0dcdf741a0",
+  "receipt_selfcheck_sha256": "ead2bbdc911c6859e5f161240ac5194ab2535b9d5439826fd91e5f09ff2ac778"
+}

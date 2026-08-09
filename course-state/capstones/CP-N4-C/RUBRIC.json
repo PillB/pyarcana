@@ -1,0 +1,75 @@
+{
+  "capstone_id": "CP-N4-C",
+  "package_version": "3.0.0",
+  "principal_gate": "S51",
+  "sub_gates": ["S49", "S50", "S51"],
+  "dependencies": ["CP-N4-A", "CP-N4-B"],
+  "scale": "0-3",
+  "criteria": {
+    "correctness": {
+      "weight": 0.35,
+      "levels": {
+        "0": "Copilot does not run end-to-end in deterministic no-key mode.",
+        "1": "Runs but policies/citations/HITL have at least one hole.",
+        "2": "Policies, citations and HITL hold on the happy path; some edges miss.",
+        "3": "Policies, citations, HITL, durable resume and rollback all hold on happy + adversarial paths."
+      },
+      "focus": "copilot.run(task) returns a CopilotRunRecord with cited final_answer; require_human tools pause; deny tools never execute."
+    },
+    "robustness": {
+      "weight": 0.20,
+      "levels": {
+        "0": "Crashes on prompt injection, loop, budget breach or unknown tool.",
+        "1": "Some adversarial inputs handled; at least one P0 still fails.",
+        "2": "All four adversarial classes return a defined stop_reason without crashing.",
+        "3": "Adversarial inputs produce defined stop_reasons AND recorded incidents AND a redacted trace."
+      },
+      "focus": "prompt-injection defence, loop detection, budget abort, unknown-tool deny."
+    },
+    "maintainability": {
+      "weight": 0.25,
+      "levels": {
+        "0": "Monolith; no separation between generator/verifier or policy/handler.",
+        "1": "Some modules; boundaries leak (e.g. web content reaches a system prompt).",
+        "2": "Clean module boundaries; typed handoffs; persistent state isolated.",
+        "3": "Clean boundaries + versioned manifest + reproducible runs + documented public API."
+      },
+      "focus": "module separation, typed Generator/Verifier handoffs, versioned manifest, reproducible state.json."
+    },
+    "responsible_use": {
+      "weight": 0.20,
+      "levels": {
+        "0": "No HITL, no redaction, no budget; sensitive side effects fire automatically.",
+        "1": "HITL exists but redaction or budget is missing.",
+        "2": "HITL, redaction and budget present; system card describes limits.",
+        "3": "HITL, redaction, budget, system card, security/privacy/accessibility/responsible-use docs, and an incident log."
+      },
+      "focus": "human control on sensitive effects; trace redaction; system card; incident response."
+    }
+  },
+  "gate_rule": "Weighted conceptual average >= 2.4/3 with no critical criterion < 2; zero P0 security/privacy/fraud-inference failures; all ten adversarial tests pass.",
+  "critical_failures": [
+    "Bucles no acotados",
+    "RAG sin citas ni control de acceso",
+    "Contenido web tratado como instrucción",
+    "Sin HITL en efectos sensibles",
+    "Sin redacción de trazas",
+    "Sin rollback"
+  ],
+  "prohibitions": [
+    "No real PII",
+    "No real API keys in the deterministic path",
+    "No network calls in the deterministic path",
+    "No automatic fraud or kinship inference",
+    "No inflated workplace-title claims (senior/master/experto/job-ready)",
+    "No separate fourteenth capstone; the multi-agent project is folded into CP-N4-C per ADR-N4-C"
+  ],
+  "evidence": {
+    "demo": "course-state/capstones/CP-N4-C/demo.py",
+    "harness": "course-state/capstones/CP-N4-C/harness/",
+    "adversarial_tests": "tests/adversarial/test_n4c_harness.py",
+    "system_card": "course-state/capstones/CP-N4-C/SYSTEM_CARD.md",
+    "subgates": "course-state/capstones/CP-N4-C/SUBGATES.md",
+    "final_interface": "course-state/capstones/CP-N4-C/FINAL_INTERFACE.md"
+  }
+}

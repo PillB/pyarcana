@@ -1,0 +1,262 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-explorer-s15-140812-25",
+  "production_note": "agentic_I1 dual-LLM explorer: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nprint(df.index.tolist())\n",
+      "justification_from_packet": "Ejercicio S15-T1-A-E1: seguí instruction del paquete («E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "code": "import pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(s[\"C002\"])\n",
+      "justification_from_packet": "Ejercicio S15-T1-A-E2: seguí instruction del paquete («E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "code": "import pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nprint(out.to_dict())\n",
+      "justification_from_packet": "Ejercicio S15-T1-A-E3: seguí instruction del paquete («E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"a,b\\n1,2\\n3,NA\\n\"\ndf = pd.read_csv(StringIO(csv), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))\n",
+      "justification_from_packet": "Ejercicio S15-T1-B-E1: seguí instruction del paquete («E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"fecha,v\\n2024-01-01,1\\n\"\ndf = pd.read_csv(StringIO(csv), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n",
+      "justification_from_packet": "Ejercicio S15-T1-B-E2: seguí instruction del paquete («E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"cliente_id,monto,extra\\nC001,1.0,x\\n\"\ndf = pd.read_csv(StringIO(csv), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n",
+      "justification_from_packet": "Ejercicio S15-T1-B-E3: seguí instruction del paquete («E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df[\"score\"] >= 0.5, \"cliente_id\"].tolist())\n",
+      "justification_from_packet": "Ejercicio S15-T2-A-E1: seguí instruction del paquete («E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nprint(df.assign(doble=df[\"score\"] * 2)[\"doble\"].tolist())\n",
+      "justification_from_packet": "Ejercicio S15-T2-A-E2: seguí instruction del paquete («E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(df.iloc[1, 0])\n",
+      "justification_from_packet": "Ejercicio S15-T2-A-E3: seguí instruction del paquete («E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf[\"flag\"] = \"\"\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].tolist())\n",
+      "justification_from_packet": "Ejercicio S15-T2-B-E1: seguí instruction del paquete («E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsub = df.loc[df[\"score\"] > 0.5].copy()\nsub[\"ok\"] = True\nprint(sub[\"ok\"].tolist())\n",
+      "justification_from_packet": "Ejercicio S15-T2-B-E2: seguí instruction del paquete («E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\ncp = df.copy()\ncp.loc[0, \"score\"] = 99.0\nprint(df[\"score\"].tolist())\n",
+      "justification_from_packet": "Ejercicio S15-T2-B-E3: seguí instruction del paquete («E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\nprint(df[\"region\"].dtype.name)\n",
+      "justification_from_packet": "Ejercicio S15-T3-A-E1: seguí instruction del paquete («E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "code": "import pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nvals = []\nfor x in s:\n    if pd.isna(x):\n        vals.append(float(\"nan\"))\n    else:\n        vals.append(float(x))\n# print like numpy/list with nan token\nprint(str(vals).replace(\"nan\", \"nan\"))\n",
+      "justification_from_packet": "Ejercicio S15-T3-A-E2: seguí instruction del paquete («E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "code": "import pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n",
+      "justification_from_packet": "Ejercicio S15-T3-A-E3: seguí instruction del paquete («E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = df[\"monto\"].isna().sum()\nnum = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nprint(int(num.isna().sum() - before))\n",
+      "justification_from_packet": "Ejercicio S15-T3-B-E1: seguí instruction del paquete («E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print(\"missing\")\n",
+      "justification_from_packet": "Ejercicio S15-T3-B-E2: seguí instruction del paquete («E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))\n",
+      "justification_from_packet": "Ejercicio S15-T3-B-E3: seguí instruction del paquete («E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\ndf2 = pd.read_csv(buf)\nprint(df2.columns.tolist())\n",
+      "justification_from_packet": "Ejercicio S15-T4-A-E1: seguí instruction del paquete («E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "code": "import pandas as pd\nfrom io import BytesIO\ndf = pd.DataFrame({\"a\": [1]})\nbio = BytesIO()\ndf.to_excel(bio, index=False, engine=\"openpyxl\")\nprint(len(bio.getvalue()) > 0)\n",
+      "justification_from_packet": "Ejercicio S15-T4-A-E2: seguí instruction del paquete («E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in sorted(df.columns)}\nprint(contract)\n",
+      "justification_from_packet": "Ejercicio S15-T4-A-E3: seguí instruction del paquete («E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nmem = int(df.memory_usage(deep=True).sum())\nprint(mem > 0)\n",
+      "justification_from_packet": "Ejercicio S15-T4-B-E1: seguí instruction del paquete («E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n",
+      "justification_from_packet": "Ejercicio S15-T4-B-E2: seguí instruction del paquete («E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "code": "import pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\nblob = df.to_csv(index=False).encode()\nprint(hashlib.sha1(blob).hexdigest()[:8])\n",
+      "justification_from_packet": "Ejercicio S15-T4-B-E3: seguí instruction del paquete («E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CA…») y el starter/fixture; implementé con `import pandas as pd, hashlib` para producir la salida contractual, usando solo patrones de theory/iDo del section activo.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.84
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "En theory/iDo del paquete S15 se define loc: para «¿Qué método de selección usa etiquetas de index/columnas?» la opción «loc» (índice 2) es la que alinea con el contrato pedagógico del packet activo.",
+      "confidence": 0.86
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "En theory/iDo del paquete S15 se define iloc: para «SettingWithCopyWarning se relaciona con:» la opción «Asignación sobre slices que pueden ser view/copy (chained assignment)» (índice 0) es la que alinea con el contrato pedagógico del packet activo.",
+      "confidence": 0.86
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "En theory/iDo del paquete S15 se define to_numeric: para «errors='coerce' en to_numeric:» la opción «Convierte inválidos a NaN» (índice 1) es la que alinea con el contrato pedagógico del packet activo.",
+      "confidence": 0.86
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "En theory/iDo del paquete S15 se define coerce: para «Un manifest de export debería incluir al menos:» la opción «Filas, columnas y provenance/hash del artefacto» (índice 3) es la que alinea con el contrato pedagógico del packet activo.",
+      "confidence": 0.86
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:08:37+00:00",
+  "session_started_at": "2026-07-23T14:08:12+00:00",
+  "session_ended_at": "2026-07-23T14:08:37+00:00"
+}

@@ -1,0 +1,1097 @@
+{
+  "section_index": 3,
+  "section_id": "data-structures",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 5,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 3,
+            "expected": 3
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S03-T1-A-E1",
+          "code": "edad = 25\nregion = \"Cusco\"\n\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")",
+          "note": "",
+          "concepts_used": [
+            "comparaciones",
+            "encadenamiento"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T1-A-E2",
+          "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)",
+          "note": "",
+          "concepts_used": [
+            "in",
+            "set allowlist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T1-A-E3",
+          "code": "valor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"usa is None para ausencia; == para valores de negocio\")",
+          "note": "",
+          "concepts_used": [
+            "is None",
+            "is vs =="
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T1-B-E1",
+          "code": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))",
+          "note": "",
+          "concepts_used": [
+            "truthiness",
+            "bool"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T1-B-E2",
+          "code": "print(\"'' or 'default' →\", \"\" or \"default\")\nprint(\"'Lima' or 'default' →\", \"Lima\" or \"default\")\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)",
+          "note": "",
+          "concepts_used": [
+            "and/or short-circuit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T1-B-E3",
+          "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))",
+          "note": "",
+          "concepts_used": [
+            "is None vs truthiness",
+            "monto 0"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-A-E1",
+          "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))",
+          "note": "",
+          "concepts_used": [
+            "if/elif/else"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-A-E2",
+          "code": "def bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))",
+          "note": "",
+          "concepts_used": [
+            "elif exclusión"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-A-E3",
+          "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))",
+          "note": "",
+          "concepts_used": [
+            "orden umbrales"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-B-E1",
+          "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))",
+          "note": "",
+          "concepts_used": [
+            "guards",
+            "validate_edad"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-B-E2",
+          "code": "def validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m <= 10000:\n        return \"accept\"\n    return \"review\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)",
+          "note": "",
+          "concepts_used": [
+            "guards lineales"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-B-E3",
+          "code": "def etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:  # nunca se alcanza: el if x!=0 ya cubre el else implícito\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"Nota: elif x==0 es rama muerta estructural si el outer ya separa x!=0\")\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))",
+          "note": "",
+          "concepts_used": [
+            "rama muerta"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-A-E1",
+          "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))",
+          "note": "",
+          "concepts_used": [
+            "allowlist region"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-A-E2",
+          "code": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))",
+          "note": "",
+          "concepts_used": [
+            "rango monto",
+            "outlier"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-A-E3",
+          "code": "ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"review\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))",
+          "note": "",
+          "concepts_used": [
+            "allowlist + len"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-B-E1",
+          "code": "TABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))",
+          "note": "",
+          "concepts_used": [
+            "decision table dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-B-E2",
+          "code": "def status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))",
+          "note": "",
+          "concepts_used": [
+            "match/case",
+            "OR patterns"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-B-E3",
+          "code": "def map_code(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\":\n            return \"review\"\n        case \"OUT_OF_RANGE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef map_edad(edad):\n    if edad is None:\n        return \"review\"\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(map_code(\"OK\"), map_code(\"MISSING\"))\nprint(map_edad(None), map_edad(30), map_edad(10))\nprint(\"Justificación:\", \"match brilla en literales/códigos; rangos numéricos son más claros con if\")",
+          "note": "",
+          "concepts_used": [
+            "match vs if"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-A-E1",
+          "code": "def validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": -1, \"expected\": \"reject\"},\n    {\"value\": None, \"expected\": \"review\"},\n    {\"value\": \"x\", \"expected\": \"reject\"},\n]\nfor ex in examples:\n    got = validate_edad(ex[\"value\"])\n    print(ex[\"value\"], got, got == ex[\"expected\"])",
+          "note": "",
+          "concepts_used": [
+            "examples por rama"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-A-E2",
+          "code": "def validate_apellidos(ap, am):\n    ap_s = (ap or \"\").strip()\n    am_s = (am or \"\").strip()\n    if not ap_s and not am_s:\n        return \"reject\"\n    if not ap_s or not am_s:\n        return \"review\"\n    return \"accept\"\n\ninvariant_text = \"apellido_paterno y apellido_materno no vacíos (strip) para accept; uno vacío → review; ambos → reject\"\nexamples = [\n    {\"ap\": \"Quispe\", \"am\": \"Ñahui\", \"expected\": \"accept\"},\n    {\"ap\": \"Quispe\", \"am\": \"\", \"expected\": \"review\"},\n    {\"ap\": \"\", \"am\": \"\", \"expected\": \"reject\"},\n]\nprint(invariant_text)\nfor ex in examples:\n    got = validate_apellidos(ex[\"ap\"], ex[\"am\"])\n    print(ex, \"→\", got, got == ex[\"expected\"])",
+          "note": "",
+          "concepts_used": [
+            "invariante multi-campo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-A-E3",
+          "code": "def validate_edad_strict(e):\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict 15 →\", validate_edad_strict(15))\nprint(\"strict None →\", validate_edad_strict(None))\n\ndef validate_edad_fixed(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    if e < 18:\n        return \"review\"\n    if 18 <= e <= 65:\n        return \"accept\"\n    return \"review\"\n\nprint(\"fixed 15 →\", validate_edad_fixed(15))\nprint(\"fixed None →\", validate_edad_fixed(None))\nprint(\"fixed 30 →\", validate_edad_fixed(30))\nprint(\"Invariante:\", \"menores → review; None → review; <0 o >120 → reject; 18-65 → accept\")",
+          "note": "",
+          "concepts_used": [
+            "política review menores"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-B-E1",
+          "code": "accionables = [\n    \"Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\",\n    \"Campo 'edad' inválido: corrige el valor o marca review.\",\n    \"Campo 'edad'=-3 fuera de rango; usa 0–120.\",\n]\nfor a in accionables:\n    print(a)",
+          "note": "",
+          "concepts_used": [
+            "mensajes accionables"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-B-E2",
+          "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [(90, \"accept\"), (55, \"review\"), (10, \"reject\"), (80, \"accept\"), (50, \"review\")]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)",
+          "note": "",
+          "concepts_used": [
+            "tests por rama"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-B-E3",
+          "code": "def rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e >= 18 and e <= 65:  # fix: >= 18 inclusivo\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    assert got == expected",
+          "note": "",
+          "concepts_used": [
+            "off-by-one >= 18"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S03-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nTrue\nTrue\nFalse\nTrue\n",
+          "expected_head": "True\nTrue\nTrue\nFalse\nTrue",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "DNI → True\ndni → False\nRUC → False\n",
+          "expected_head": "DNI → True\ndni → False\nRUC → False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "valor is None → True\nTrue == 1 → True\nTrue is 1 → False\nNota: usa is None para ausencia; == para valores de negocio\n",
+          "expected_head": "valor is None → True\nTrue == 1 → True\nTrue is 1 → False\nNota: usa is solo para None; == para valores de negocio",
+          "stderr_head": "/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/live_grade_qb5g105b/snippet.py:"
+        },
+        {
+          "exercise_id": "S03-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None → False\nFalse → False\n0 → False\n0.0 → False\n'' → False\n[] → False\n{} → False\nset() → False\nrange(0, 0) → False\n'x' ",
+          "expected_head": "None → False\nFalse → False\n0 → False\n0.0 → False\n'' → False\n[] → False\n{} → False\nset() → False\nrange(0, 0) → False\n'x' ",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "'' or 'default' → default\n'Lima' or 'default' → Lima\n0 and 99 → 0\n5 and 99 → 99\nNone or 0 → 0\n",
+          "expected_head": "'' or 'default' → default\n'Lima' or 'default' → Lima\n0 and 99 → 0\n5 and 99 → 99\nNone or 0 → 0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None → review\n0 → accept\n-1 → reject\n100 → accept\n",
+          "expected_head": "None → review\n0 → accept\n-1 → reject\n100 → accept",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "80 → accept\n50 → review\n49 → reject\n100 → accept\n",
+          "expected_head": "80 → accept\n50 → review\n49 → reject\n100 → accept",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "95 bad= review good= accept\n60 bad= review good= review\n30 bad= reject good= reject\n",
+          "expected_head": "95 bad= review good= accept\n60 bad= review good= review\n30 bad= reject good= reject",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "150 → alto\n75 → medio\n10 → bajo\n0 → nulo\n-3 → nulo\n",
+          "expected_head": "150 → alto\n75 → medio\n10 → bajo\n0 → nulo\n-3 → nulo",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None → {'status': 'review', 'code': 'MISSING'}\n25 → {'status': 'reject', 'code': 'BAD_TYPE'}\n15 → {'status': 'review', '",
+          "expected_head": "None → {'status': 'review', 'code': 'MISSING'}\n25 → {'status': 'reject', 'code': 'BAD_TYPE'}\n15 → {'status': 'review', '",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None review review ok= True\nx reject reject ok= True\n-1 reject reject ok= True\n0 accept accept ok= True\n500 accept accep",
+          "expected_head": "None review review ok= True\nx reject reject ok= True\n-1 reject reject ok= True\n0 accept accept ok= True\n500 accept accep",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bug 0 → cero\nNota: elif x==0 es rama muerta estructural si el outer ya separa x!=0\nok 0 → cero\nok 3 → positivo\nok -2 → n",
+          "expected_head": "bug 0 → cero\nbug 3 → positivo\nnota: elif x==0 SÍ se alcanza aquí porque el if es x!=0; ejemplo clásico de muerto: if x>=",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima → accept\nTacna → review\nNone → review\n",
+          "expected_head": "Lima → accept\nTacna → review\nNone → review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None → review\n-1 → reject\n0 → accept\n1200 → accept\n60000 → review\n",
+          "expected_head": "None → review\n-1 → reject\n0 → accept\n1200 → accept\n60000 → review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "DNI 12345678 → {'status': 'accept', 'code': 'OK'}\nDNI 123 → {'status': 'reject', 'code': 'OUT_OF_RANGE'}\nRUC 20123456789",
+          "expected_head": "DNI 12345678 → {'status': 'accept', 'code': 'OK'}\nDNI 123 → {'status': 'reject', 'code': 'OUT_OF_RANGE'}\nRUC 20123456789",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "OK → accept\nMISSING → review\nOUT_OF_RANGE → reject\nFOO → review\n",
+          "expected_head": "OK → accept\nMISSING → review\nOUT_OF_RANGE → reject\nFOO → review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 1,
+          "stdout_head": "",
+          "expected_head": "OK → accept\nMISSING → review\nOUT_OF_RANGE → reject\nFOO → review\nNEEDS_REVIEW → review",
+          "stderr_head": "  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/live_grade_tybmrf25/sni"
+        },
+        {
+          "exercise_id": "S03-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 1,
+          "stdout_head": "",
+          "expected_head": "accept review\nreview accept reject\nJustificación: match para códigos finitos; if para rangos numéricos",
+          "stderr_head": "  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/live_grade_oot5e1_c/sni"
+        },
+        {
+          "exercise_id": "S03-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "30 accept True\n-1 reject True\nNone review True\nx reject True\n",
+          "expected_head": "30 accept True\n-1 reject True\nNone review True\nx reject True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "apellido_paterno y apellido_materno no vacíos (strip) para accept; uno vacío → review; ambos → reject\n{'ap': 'Quispe', '",
+          "expected_head": "ambos apellidos presentes y no vacíos → accept; uno ausente/vacío → review; ambos vacíos → reject\nQuispe Ñahui → accept ",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "strict 15 → reject\nstrict None → reject\nfixed 15 → review\nfixed None → review\nfixed 30 → accept\nInvariante: menores → re",
+          "expected_head": "strict 15 → reject\nstrict None → reject\nfixed 15 → review\nfixed None → review\nfixed 30 → accept\nInvariante: menores y au",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\nCampo 'edad' inválido: corrige el valor o marca re",
+          "expected_head": "Campo 'edad' ausente: envía un entero 0–120 o marca desconocido.\nCampo 'edad' inválido: se recibió un valor no entero; c",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "PASS 90 accept\nPASS 55 review\nPASS 10 reject\nPASS 80 accept\nPASS 50 review\n",
+          "expected_head": "PASS 90 accept\nPASS 55 review\nPASS 10 reject\nPASS 80 accept\nPASS 50 review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "18 accept ok= True\n17 review ok= True\nNone review ok= True\n30 accept ok= True\n",
+          "expected_head": "PASS 18 accept\nPASS 17 review\nPASS None review\nPASS 30 accept",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 3,
+            "expected": 3
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S03-T1-A-E1",
+          "code": "edad = 25\nregion = \"Cusco\"\n\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")",
+          "note": "",
+          "concepts_used": [
+            "comparisons",
+            "chained comparison"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T1-A-E2",
+          "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)",
+          "note": "",
+          "concepts_used": [
+            "set",
+            "in",
+            "case sensitivity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T1-A-E3",
+          "code": "valor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"is None para ausencia; == para valores de negocio; no uses is con enteros\")",
+          "note": "",
+          "concepts_used": [
+            "is None",
+            "is vs =="
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T1-B-E1",
+          "code": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))",
+          "note": "",
+          "concepts_used": [
+            "truthiness",
+            "bool()"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T1-B-E2",
+          "code": "print(\"'' or 'default' →\", \"\" or \"default\")\nprint(\"'Lima' or 'default' →\", \"Lima\" or \"default\")\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)",
+          "note": "",
+          "concepts_used": [
+            "and/or short-circuit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T1-B-E3",
+          "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))",
+          "note": "",
+          "concepts_used": [
+            "is None vs truthiness",
+            "0 accept"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-A-E1",
+          "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))",
+          "note": "",
+          "concepts_used": [
+            "if/elif/else"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-A-E2",
+          "code": "def bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))",
+          "note": "",
+          "concepts_used": [
+            "elif mutual exclusion"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-A-E3",
+          "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))",
+          "note": "",
+          "concepts_used": [
+            "ordered thresholds"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-B-E1",
+          "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))",
+          "note": "",
+          "concepts_used": [
+            "guard clauses"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-B-E2",
+          "code": "def validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m <= 10000:\n        return \"accept\"\n    return \"review\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)",
+          "note": "",
+          "concepts_used": [
+            "guards vs pyramid"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T2-B-E3",
+          "code": "def etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"bug 3 →\", etiqueta_bug(3))\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))\nprint(\"Nota: preferir if x>0 / elif x<0 / else cero para tres ramas vivas claras\")",
+          "note": "",
+          "concepts_used": [
+            "dead branch",
+            "reorder"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-A-E1",
+          "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))",
+          "note": "",
+          "concepts_used": [
+            "allowlist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-A-E2",
+          "code": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))",
+          "note": "",
+          "concepts_used": [
+            "tri-state monto"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-A-E3",
+          "code": "ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"review\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))",
+          "note": "",
+          "concepts_used": [
+            "MISSING NOT_IN_ALLOWLIST OUT_OF_RANGE OK"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-B-E1",
+          "code": "TABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))",
+          "note": "",
+          "concepts_used": [
+            "decision table"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-B-E2",
+          "code": "def status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))",
+          "note": "",
+          "concepts_used": [
+            "match/case",
+            "OR patterns"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T3-B-E3",
+          "code": "def map_code(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\":\n            return \"review\"\n        case \"OUT_OF_RANGE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef map_edad(edad):\n    if edad is None:\n        return \"review\"\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(map_code(\"OK\"), map_code(\"MISSING\"))\nprint(map_edad(None), map_edad(30), map_edad(10))\nprint(\"Justificación:\", \"match para códigos literales finitos; if para rangos numéricos de edad\")",
+          "note": "",
+          "concepts_used": [
+            "match vs if"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-A-E1",
+          "code": "def validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": -1, \"expected\": \"reject\"},\n    {\"value\": None, \"expected\": \"review\"},\n    {\"value\": \"x\", \"expected\": \"reject\"},\n]\nfor ex in examples:\n    got = validate_edad(ex[\"value\"])\n    print(ex[\"value\"], got, got == ex[\"expected\"])",
+          "note": "",
+          "concepts_used": [
+            "examples per status"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-A-E2",
+          "code": "def validate_apellidos(ap, am):\n    ap_empty = ap is None or str(ap).strip() == \"\"\n    am_empty = am is None or str(am).strip() == \"\"\n    if ap_empty and am_empty:\n        return \"reject\"\n    if ap_empty or am_empty:\n        return \"review\"\n    return \"accept\"\n\ninvariant_text = (\n    \"apellido_paterno y apellido_materno no vacíos (strip) para accept; \"\n    \"uno falta → review; ambos vacíos → reject\"\n)\nexamples = [\n    {\"ap\": \"Quispe\", \"am\": \"Ñahui\", \"expected\": \"accept\"},\n    {\"ap\": \"Quispe\", \"am\": None, \"expected\": \"review\"},\n    {\"ap\": \"\", \"am\": \"  \", \"expected\": \"reject\"},\n]\nprint(invariant_text)\nfor ex in examples:\n    got = validate_apellidos(ex[\"ap\"], ex[\"am\"])\n    print(ex, \"→\", got, got == ex[\"expected\"])",
+          "note": "",
+          "concepts_used": [
+            "multi-field invariant"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-A-E3",
+          "code": "def validate_edad_strict(e):\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict 15 →\", validate_edad_strict(15))\nprint(\"strict None →\", validate_edad_strict(None))\n\ndef validate_edad_fixed(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    if e < 18:\n        return \"review\"\n    if e <= 65:\n        return \"accept\"\n    return \"review\"\n\nprint(\"fixed 15 →\", validate_edad_fixed(15))\nprint(\"fixed None →\", validate_edad_fixed(None))\nprint(\"fixed 30 →\", validate_edad_fixed(30))\nprint(\"Invariante:\", \"None review; <0 o >120 reject; <18 review; 18-65 accept\")",
+          "note": "",
+          "concepts_used": [
+            "broken invariant fix"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-B-E1",
+          "code": "accionables = [\n    \"Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\",\n    \"Campo 'edad' inválido: se espera int en rango 0–120.\",\n    \"Campo 'edad'=-3 fuera de rango; usa 0–120.\",\n]\nfor a in accionables:\n    print(a)",
+          "note": "",
+          "concepts_used": [
+            "actionable messages"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-B-E2",
+          "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [(90, \"accept\"), (55, \"review\"), (10, \"reject\"), (80, \"accept\"), (50, \"review\")]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)",
+          "note": "",
+          "concepts_used": [
+            "one test per branch"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S03-T4-B-E3",
+          "code": "def rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e >= 18 and e <= 65:\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    assert got == expected",
+          "note": "",
+          "concepts_used": [
+            "off-by-one",
+            ">= 18"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S03-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nTrue\nTrue\nFalse\nTrue\n",
+          "expected_head": "True\nTrue\nTrue\nFalse\nTrue",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "DNI → True\ndni → False\nRUC → False\n",
+          "expected_head": "DNI → True\ndni → False\nRUC → False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "valor is None → True\nTrue == 1 → True\nTrue is 1 → False\nNota: is None para ausencia; == para valores de negocio; no uses",
+          "expected_head": "valor is None → True\nTrue == 1 → True\nTrue is 1 → False\nNota: usa is solo para None; == para valores de negocio",
+          "stderr_head": "/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/live_grade_vp3ri942/snippet.py:"
+        },
+        {
+          "exercise_id": "S03-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None → False\nFalse → False\n0 → False\n0.0 → False\n'' → False\n[] → False\n{} → False\nset() → False\nrange(0, 0) → False\n'x' ",
+          "expected_head": "None → False\nFalse → False\n0 → False\n0.0 → False\n'' → False\n[] → False\n{} → False\nset() → False\nrange(0, 0) → False\n'x' ",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "'' or 'default' → default\n'Lima' or 'default' → Lima\n0 and 99 → 0\n5 and 99 → 99\nNone or 0 → 0\n",
+          "expected_head": "'' or 'default' → default\n'Lima' or 'default' → Lima\n0 and 99 → 0\n5 and 99 → 99\nNone or 0 → 0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None → review\n0 → accept\n-1 → reject\n100 → accept\n",
+          "expected_head": "None → review\n0 → accept\n-1 → reject\n100 → accept",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "80 → accept\n50 → review\n49 → reject\n100 → accept\n",
+          "expected_head": "80 → accept\n50 → review\n49 → reject\n100 → accept",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "95 bad= review good= accept\n60 bad= review good= review\n30 bad= reject good= reject\n",
+          "expected_head": "95 bad= review good= accept\n60 bad= review good= review\n30 bad= reject good= reject",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "150 → alto\n75 → medio\n10 → bajo\n0 → nulo\n-3 → nulo\n",
+          "expected_head": "150 → alto\n75 → medio\n10 → bajo\n0 → nulo\n-3 → nulo",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None → {'status': 'review', 'code': 'MISSING'}\n25 → {'status': 'reject', 'code': 'BAD_TYPE'}\n15 → {'status': 'review', '",
+          "expected_head": "None → {'status': 'review', 'code': 'MISSING'}\n25 → {'status': 'reject', 'code': 'BAD_TYPE'}\n15 → {'status': 'review', '",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None review review ok= True\nx reject reject ok= True\n-1 reject reject ok= True\n0 accept accept ok= True\n500 accept accep",
+          "expected_head": "None review review ok= True\nx reject reject ok= True\n-1 reject reject ok= True\n0 accept accept ok= True\n500 accept accep",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bug 0 → cero\nbug 3 → positivo\nok 0 → cero\nok 3 → positivo\nok -2 → negativo\nNota: preferir if x>0 / elif x<0 / else cero ",
+          "expected_head": "bug 0 → cero\nbug 3 → positivo\nnota: elif x==0 SÍ se alcanza aquí porque el if es x!=0; ejemplo clásico de muerto: if x>=",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima → accept\nTacna → review\nNone → review\n",
+          "expected_head": "Lima → accept\nTacna → review\nNone → review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None → review\n-1 → reject\n0 → accept\n1200 → accept\n60000 → review\n",
+          "expected_head": "None → review\n-1 → reject\n0 → accept\n1200 → accept\n60000 → review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "DNI 12345678 → {'status': 'accept', 'code': 'OK'}\nDNI 123 → {'status': 'reject', 'code': 'OUT_OF_RANGE'}\nRUC 20123456789",
+          "expected_head": "DNI 12345678 → {'status': 'accept', 'code': 'OK'}\nDNI 123 → {'status': 'reject', 'code': 'OUT_OF_RANGE'}\nRUC 20123456789",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "OK → accept\nMISSING → review\nOUT_OF_RANGE → reject\nFOO → review\n",
+          "expected_head": "OK → accept\nMISSING → review\nOUT_OF_RANGE → reject\nFOO → review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 1,
+          "stdout_head": "",
+          "expected_head": "OK → accept\nMISSING → review\nOUT_OF_RANGE → reject\nFOO → review\nNEEDS_REVIEW → review",
+          "stderr_head": "  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/live_grade_re2jop2v/sni"
+        },
+        {
+          "exercise_id": "S03-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 1,
+          "stdout_head": "",
+          "expected_head": "accept review\nreview accept reject\nJustificación: match para códigos finitos; if para rangos numéricos",
+          "stderr_head": "  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/live_grade_854m7gcp/sni"
+        },
+        {
+          "exercise_id": "S03-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "30 accept True\n-1 reject True\nNone review True\nx reject True\n",
+          "expected_head": "30 accept True\n-1 reject True\nNone review True\nx reject True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "apellido_paterno y apellido_materno no vacíos (strip) para accept; uno falta → review; ambos vacíos → reject\n{'ap': 'Qui",
+          "expected_head": "ambos apellidos presentes y no vacíos → accept; uno ausente/vacío → review; ambos vacíos → reject\nQuispe Ñahui → accept ",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "strict 15 → reject\nstrict None → reject\nfixed 15 → review\nfixed None → review\nfixed 30 → accept\nInvariante: None review;",
+          "expected_head": "strict 15 → reject\nstrict None → reject\nfixed 15 → review\nfixed None → review\nfixed 30 → accept\nInvariante: menores y au",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\nCampo 'edad' inválido: se espera int en rango 0–12",
+          "expected_head": "Campo 'edad' ausente: envía un entero 0–120 o marca desconocido.\nCampo 'edad' inválido: se recibió un valor no entero; c",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "PASS 90 accept\nPASS 55 review\nPASS 10 reject\nPASS 80 accept\nPASS 50 review\n",
+          "expected_head": "PASS 90 accept\nPASS 55 review\nPASS 10 reject\nPASS 80 accept\nPASS 50 review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S03-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "18 accept ok= True\n17 review ok= True\nNone review ok= True\n30 accept ok= True\n",
+          "expected_head": "PASS 18 accept\nPASS 17 review\nPASS None review\nPASS 30 accept",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

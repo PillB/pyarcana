@@ -1,0 +1,1094 @@
+{
+  "section_index": 11,
+  "section_id": "testing",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 6,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 6,
+        "total": 6,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 5,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S11-T1-A-E1",
+          "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    phones: list[str] = field(default_factory=list)\n\nprint(ClientRecord('C001', 'Ana', ['999']))",
+          "note": "",
+          "concepts_used": [
+            "dataclass",
+            "default_factory"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T1-A-E2",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: float\n    currency: str\n\nprint(Transaction('T1', 'C001', 10.0, 'PEN'))",
+          "note": "",
+          "concepts_used": [
+            "Transaction"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T1-A-E3",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> 'ClientRecord':\n        return cls(d['client_id'], d['full_name'])\n\nraw = {\"client_id\": \"C007\", \"full_name\": \"Luis Ramos\"}\nc = ClientRecord.from_dict(raw)\nprint(type(c).__name__, c.client_id)",
+          "note": "",
+          "concepts_used": [
+            "from_dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T1-B-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: float\n\n    def __post_init__(self):\n        if self.amount <= 0:\n            raise ValueError('amount debe ser > 0')\n\nprint(Transaction('T1', 5))\ntry:\n    Transaction('T2', 0)\nexcept ValueError as e:\n    print('rejected', e)",
+          "note": "",
+          "concepts_used": [
+            "__post_init__"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T1-B-E2",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> 'ClientRecord':\n        cid = (d.get('client_id') or '').strip()\n        doc = (d.get('document_id') or '').strip()\n        if not cid or not doc:\n            raise ValueError('client_id/document_id vacíos')\n        return cls(cid, doc)\n\nprint(ClientRecord.from_dict({'client_id': 'C1', 'document_id': 'D1'}))\ntry:\n    ClientRecord.from_dict({'client_id': '', 'document_id': 'D'})\nexcept ValueError as e:\n    print('fail', e)",
+          "note": "",
+          "concepts_used": [
+            "factory validate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T1-B-E3",
+          "code": "print('INV: ClientRecord.client_id y document_id no vacíos')\nprint('INV: Transaction.amount > 0')\nprint('INV: RelationshipEvidence.signal_score en [0,1]')\nprint('INV: ResolvedEntity.entity_id estable y no vacío')",
+          "note": "",
+          "concepts_used": [
+            "invariantes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-A-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n\nprint(Person('Ana', 'Perez').full_name)",
+          "note": "",
+          "concepts_used": [
+            "@property"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-A-E2",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n    def age_days_since(self, day: int) -> int:\n        return day - self.day_created\n\nprint(Transaction('T1', 10).age_days_since(15))",
+          "note": "",
+          "concepts_used": [
+            "método instancia"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-A-E3",
+          "code": "class Signal:\n    def __init__(self):\n        self._score = 0.0\n\n    @property\n    def score(self):\n        return self._score\n\n    @score.setter\n    def score(self, v):\n        if not 0 <= v <= 1:\n            raise ValueError('score fuera de [0,1]')\n        self._score = v\n\ns = Signal()\ns.score = 0.5\nprint('ok', s.score)\ntry:\n    s.score = 2\nexcept ValueError as e:\n    print('rejected', e)",
+          "note": "",
+          "concepts_used": [
+            "setter validado"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-B-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __eq__(self, other):\n        if not isinstance(other, ClientRecord):\n            return NotImplemented\n        return self.document_id == other.document_id\n\na = ClientRecord('C1', 'DNI-1')\nb = ClientRecord('C2', 'DNI-1')\nprint(a == b)",
+          "note": "",
+          "concepts_used": [
+            "eq business key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-B-E2",
+          "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    left_id: str\n    right_id: str\n    score: float\n\ns = {Evidence('A', 'B', 0.5), Evidence('A', 'B', 0.5), Evidence('A', 'C', 0.1)}\nprint(len(s))",
+          "note": "",
+          "concepts_used": [
+            "frozen set"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-B-E3",
+          "code": "print('BUG: mutar campos de key tras insertar en dict rompe lookup')\nprint('SAFE: frozen dataclass como key; no mutar tras insert')",
+          "note": "",
+          "concepts_used": [
+            "mutable key bug"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-A-E1",
+          "code": "class Client:\n    def __init__(self, client_id, person_info):\n        self.client_id = client_id\n        self.person_info = person_info  # composición, no herencia\n\nc = Client('C001', {'full_name': 'Ana'})\nprint(c.client_id, c.person_info)",
+          "note": "",
+          "concepts_used": [
+            "composición"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-A-E2",
+          "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n\n    def add_evidence(self, ev):\n        self.evidences.append(ev)\n\ncf = CaseFile('K1')\ncf.add_evidence({'s': 0.1})\ncf.add_evidence({'s': 0.2})\nprint('n=', len(cf.evidences))",
+          "note": "",
+          "concepts_used": [
+            "CaseFile"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-A-E3",
+          "code": "print('JUST: Client y Person evolucionan roles distintos; herencia acopla de más')\nprint('JUST: composición permite reutilizar PersonInfo sin jerarquía frágil')",
+          "note": "",
+          "concepts_used": [
+            "justifica composición"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-B-E1",
+          "code": "from typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        return 0.42\n\nprint(FakeScorer().score(('A', 'B')))",
+          "note": "",
+          "concepts_used": [
+            "Protocol"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-B-E2",
+          "code": "def apply(norm, text):\n    return norm(text)\n\nprint(apply(lambda s: s.strip(), '  Hi '))\nprint(apply(lambda s: s.casefold(), 'Hi'))",
+          "note": "",
+          "concepts_used": [
+            "duck typing"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-B-E3",
+          "code": "print('WHEN_NOT: una sola implementación y sin tests de puerto')\nprint('WHEN_NOT: YAGNI — no hay fake ni segundo adapter planeado')",
+          "note": "",
+          "concepts_used": [
+            "YAGNI Protocol"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-A-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = ''\n\n    def to_dict(self):\n        return {'client_id': self.client_id, 'email': self.email}\n\nprint(ClientRecord('C1', 'a@e.pe', 'secret').to_dict())",
+          "note": "",
+          "concepts_used": [
+            "to_dict sin secretos"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-A-E2",
+          "code": "class Repo:\n    def __init__(self):\n        self._d = {}\n    def save(self, row):\n        self._d[row['id']] = row\n    def get(self, id):\n        return self._d.get(id)\n\nr = Repo()\nr.save({'id': 'C1', 'name': 'Ana'})\nprint(r.get('C1'))",
+          "note": "",
+          "concepts_used": [
+            "repo memoria"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-A-E3",
+          "code": "print('LAYER: cli (I/O argparse)')\nprint('LAYER: service (orquesta)')\nprint('LAYER: domain/repo (puro)')",
+          "note": "",
+          "concepts_used": [
+            "capas"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-B-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError('document_id vacío')\n\ntry:\n    ClientRecord('C1', '')\n    raise AssertionError('should fail')\nexcept ValueError:\n    print('pass')",
+          "note": "",
+          "concepts_used": [
+            "test invariante"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-B-E2",
+          "code": "class FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def save(self, row):\n        self.d[row['id']] = row\n    def get(self, id):\n        return self.d.get(id)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, id, name):\n        self.repo.save({'id': id, 'name': name})\n        return self.repo.get(id)\n\ns = Service(FakeRepo())\nassert s.register('C1', 'Ana')['name'] == 'Ana'\nprint('pass')\nassert s.repo.get('C1') is not None\nprint('pass')\nassert s.repo.get('missing') is None\nprint('pass')",
+          "note": "",
+          "concepts_used": [
+            "fake repo tests"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-B-E3",
+          "code": "print('ANTES: BadClient.decide_fraud(score) emite veredicto')\nprint('DESPUÉS: RelationshipEvidence.signal_score es dato; sin decide_fraud')",
+          "note": "",
+          "concepts_used": [
+            "sin is_fraud"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S11-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ClientRecord(client_id='C001', full_name='Ana', phones=['999'])\n",
+          "expected_head": "ClientRecord(client_id='C001', full_name='Ana Perez', phones=['999111222'])",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Transaction(tx_id='T1', client_id='C001', amount=10.0, currency='PEN')\n",
+          "expected_head": "Transaction(tx_id='T1', client_id='C001', amount=150.5, currency='PEN')",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ClientRecord C007\n",
+          "expected_head": "ClientRecord C007",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Transaction(tx_id='T1', amount=5)\nrejected amount debe ser > 0\n",
+          "expected_head": "Transaction(tx_id='T1', amount=10)\nreject amount debe ser > 0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ClientRecord(client_id='C1', document_id='D1')\nfail client_id/document_id vacíos\n",
+          "expected_head": "ClientRecord(client_id='C1', document_id='D1')\ndocument_id vacío",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "INV: ClientRecord.client_id y document_id no vacíos\nINV: Transaction.amount > 0\nINV: RelationshipEvidence.signal_score e",
+          "expected_head": "INV: ClientRecord.document_id no vacío\nINV: Transaction.amount > 0 y currency no vacía\nINV: RelationshipEvidence.signal_",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana Perez\n",
+          "expected_head": "Ana Perez",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "5\n",
+          "expected_head": "15",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "ok 0.5\nrejected score fuera de [0,1]\n",
+          "expected_head": "ok 0.4\nreject score fuera de rango",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "BUG: mutar campos de key tras insertar en dict rompe lookup\nSAFE: frozen dataclass como key; no mutar tras insert\n",
+          "expected_head": "BUG lookup_after_mutate None\nSAFE row",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001 {'full_name': 'Ana'}\n",
+          "expected_head": "C001 Ana\ndesign=composition",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n= 2\n",
+          "expected_head": "n= 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "JUST: Client y Person evolucionan roles distintos; herencia acopla de más\nJUST: composición permite reutilizar PersonInf",
+          "expected_head": "JUST: un cliente tiene datos de persona, pero también roles, cuentas y evidencias que no son subtipo de Person\nJUST: la ",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "0.42\n",
+          "expected_head": "0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "Hi\nhi\n",
+          "expected_head": "Ana\nana",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "WHEN_NOT: una sola implementación y sin tests de puerto\nWHEN_NOT: YAGNI — no hay fake ni segundo adapter planeado\n",
+          "expected_head": "WHEN_NOT: solo hay una implementación y no hay tests con fake\nWHEN_NOT: el puerto aún no es estable y crear Protocol con",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'client_id': 'C1', 'email': 'a@e.pe'}\n",
+          "expected_head": "{'client_id': 'C1', 'email': 'a@ejemplo.pe'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'id': 'C1', 'name': 'Ana'}\n",
+          "expected_head": "{'client_id': 'C001', 'email': 'a@ejemplo.pe'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "LAYER: cli (I/O argparse)\nLAYER: service (orquesta)\nLAYER: domain/repo (puro)\n",
+          "expected_head": "LAYER: cli — argparse, stdin/stdout, exit codes\nLAYER: service — casos de uso, sin print\nLAYER: domain/repo — entidades,",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pass\n",
+          "expected_head": "pass",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pass\npass\npass\n",
+          "expected_head": "pass\npass\npass",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "ANTES: BadClient.decide_fraud(score) emite veredicto\nDESPUÉS: RelationshipEvidence.signal_score es dato; sin decide_frau",
+          "expected_head": "ANTES: Client.decide_fraud(score)->bool veredicto en el dominio\nDESPUES: RelationshipEvidence.signal_score: float + revi",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 13,
+      "code_tried": 24,
+      "code_ratio": 0.542,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 6,
+        "total": 6,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 5,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S11-T1-A-E1",
+          "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    phones: list[str] = field(default_factory=list)\n\nprint(ClientRecord('C001', 'Ana Perez', ['999']))",
+          "note": "",
+          "concepts_used": [
+            "dataclass",
+            "default_factory"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T1-A-E2",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: float\n    currency: str\n\nprint(Transaction('T1', 'C001', 10.0, 'PEN'))",
+          "note": "",
+          "concepts_used": [
+            "Transaction"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T1-A-E3",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> 'ClientRecord':\n        return cls(d['client_id'], d['full_name'])\n\nraw = {\"client_id\": \"C007\", \"full_name\": \"Luis Ramos\"}\nc = ClientRecord.from_dict(raw)\nprint(type(c).__name__, c.client_id)",
+          "note": "",
+          "concepts_used": [
+            "from_dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T1-B-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: float\n\n    def __post_init__(self):\n        if self.amount <= 0:\n            raise ValueError('amount debe ser > 0')\n\nprint(Transaction('T1', 10))\ntry:\n    Transaction('T2', 0)\nexcept ValueError as e:\n    print('rejected', e)",
+          "note": "",
+          "concepts_used": [
+            "__post_init__"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T1-B-E2",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> 'ClientRecord':\n        cid = str(d.get('client_id', '')).strip()\n        doc = str(d.get('document_id', '')).strip()\n        if not cid or not doc:\n            raise ValueError('client_id/document_id vacíos')\n        return cls(cid, doc)\n\nprint(ClientRecord.from_dict({'client_id': 'C1', 'document_id': 'DNI-1'}))\ntry:\n    ClientRecord.from_dict({'client_id': '', 'document_id': 'x'})\nexcept ValueError as e:\n    print(e)",
+          "note": "",
+          "concepts_used": [
+            "factory validation"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T1-B-E3",
+          "code": "print('INV: ClientRecord document_id no vacío')\nprint('INV: Transaction amount > 0')\nprint('INV: RelationshipEvidence signal_score en [0,1]')\nprint('INV: ResolvedEntity entity_id no vacío')",
+          "note": "",
+          "concepts_used": [
+            "invariants list"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-A-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self) -> str:\n        return f'{self.first_name} {self.last_name}'\n\nprint(Person('Ana', 'Perez').full_name)",
+          "note": "",
+          "concepts_used": [
+            "@property"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-A-E2",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n\n    def age_days_since(self, day: int) -> int:\n        return day - self.day_created\n\nprint(Transaction('T1', 10).age_days_since(15))",
+          "note": "",
+          "concepts_used": [
+            "instance method"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-A-E3",
+          "code": "class Signal:\n    def __init__(self):\n        self._score = 0.0\n\n    @property\n    def score(self):\n        return self._score\n\n    @score.setter\n    def score(self, v):\n        if not 0.0 <= v <= 1.0:\n            raise ValueError('score fuera de rango')\n        self._score = v\n\ns = Signal()\ns.score = 0.5\nprint('ok', s.score)\ntry:\n    s.score = 2\nexcept ValueError as e:\n    print('rejected', e)",
+          "note": "",
+          "concepts_used": [
+            "validated setter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-B-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __eq__(self, other):\n        if not isinstance(other, ClientRecord):\n            return NotImplemented\n        return self.document_id == other.document_id\n\na = ClientRecord('C1', 'DNI-1')\nb = ClientRecord('C2', 'DNI-1')\nprint(a == b)\nprint(ClientRecord('C3', 'DNI-9') == a)",
+          "note": "",
+          "concepts_used": [
+            "eq business key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-B-E2",
+          "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    left_id: str\n    right_id: str\n    score: float\n\ns = {Evidence('A', 'B', 0.5), Evidence('A', 'B', 0.5), Evidence('A', 'C', 0.1)}\nprint(len(s))",
+          "note": "",
+          "concepts_used": [
+            "frozen set"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T2-B-E3",
+          "code": "print('BUG: entidad mutable como key de dict — mutar campo de eq rompe lookup')\nprint('SAFE: frozen=True / key por document_id inmutable')",
+          "note": "",
+          "concepts_used": [
+            "mutable key bug"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-A-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    first_name: str\n    last_name: str\n\n@dataclass\nclass Client:\n    client_id: str\n    person: PersonInfo\n\nprint(Client('C1', PersonInfo('Ana', 'Perez')))",
+          "note": "",
+          "concepts_used": [
+            "composition"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-A-E2",
+          "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n\n    def add_evidence(self, ev):\n        self.evidences.append(ev)\n\ncf = CaseFile('CASE1')\ncf.add_evidence({'s': 0.1})\ncf.add_evidence({'s': 0.2})\nprint('n=', len(cf.evidences))",
+          "note": "",
+          "concepts_used": [
+            "aggregate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-A-E3",
+          "code": "print('JUST: Client y Person no son siempre is-a; roles evolucionan distinto')\nprint('JUST: composición evita jerarquías frágiles')",
+          "note": "",
+          "concepts_used": [
+            "why not inherit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-B-E1",
+          "code": "from typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        return 0.42\n\nprint(FakeScorer().score(('A', 'B')))",
+          "note": "",
+          "concepts_used": [
+            "Protocol fake"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-B-E2",
+          "code": "def apply(norm, text):\n    return norm(text)\n\ndef strip_norm(t):\n    return t.strip()\n\ndef casefold_norm(t):\n    return t.casefold()\n\nprint(apply(strip_norm, '  X '))\nprint(apply(casefold_norm, 'AbC'))",
+          "note": "",
+          "concepts_used": [
+            "duck typing"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T3-B-E3",
+          "code": "print('WHEN_NOT: una sola implementación sin tests de puerto (YAGNI)')\nprint('WHEN_NOT: Protocol por si acaso sin segundo adapter real')",
+          "note": "",
+          "concepts_used": [
+            "YAGNI"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-A-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = ''\n\n    def to_dict(self):\n        return {'client_id': self.client_id, 'email': self.email}\n\nprint(ClientRecord('C1', 'a@ejemplo.pe', 'secret').to_dict())",
+          "note": "",
+          "concepts_used": [
+            "to_dict no secrets"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-A-E2",
+          "code": "class Repo:\n    def __init__(self):\n        self._d = {}\n    def save(self, row):\n        self._d[row['id']] = row\n    def get(self, id):\n        return self._d.get(id)\n\nr = Repo()\nr.save({'id': 'C1', 'name': 'Ana'})\nprint(r.get('C1'))",
+          "note": "",
+          "concepts_used": [
+            "in-memory repo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-A-E3",
+          "code": "print('LAYER: cli (argparse/I/O)')\nprint('LAYER: service (orquesta)')\nprint('LAYER: domain/repo (entidades + persistencia)')",
+          "note": "",
+          "concepts_used": [
+            "layers"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-B-E1",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError('document_id vacío')\n\ntry:\n    ClientRecord('C1', '')\n    raise AssertionError('should fail')\nexcept ValueError:\n    print('pass')",
+          "note": "",
+          "concepts_used": [
+            "invariant test"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-B-E2",
+          "code": "class FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def save(self, row):\n        self.d[row['id']] = row\n    def get(self, id):\n        return self.d.get(id)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, id, name):\n        self.repo.save({'id': id, 'name': name})\n        return self.repo.get(id)\n\nsvc = Service(FakeRepo())\nassert svc.register('C1', 'Ana')['name'] == 'Ana'\nprint('pass')\nassert svc.repo.get('C1') is not None\nprint('pass')\nassert svc.repo.get('missing') is None\nprint('pass')",
+          "note": "",
+          "concepts_used": [
+            "fake repo tests"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S11-T4-B-E3",
+          "code": "print('ANTES: BadClient.decide_fraud(score) emite veredicto')\nprint('DESPUÉS: RelationshipEvidence.signal_score es dato; sin is_fraud/is_related_family')",
+          "note": "",
+          "concepts_used": [
+            "remove fraud API"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S11-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ClientRecord(client_id='C001', full_name='Ana Perez', phones=['999'])\n",
+          "expected_head": "ClientRecord(client_id='C001', full_name='Ana Perez', phones=['999111222'])",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Transaction(tx_id='T1', client_id='C001', amount=10.0, currency='PEN')\n",
+          "expected_head": "Transaction(tx_id='T1', client_id='C001', amount=150.5, currency='PEN')",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ClientRecord C007\n",
+          "expected_head": "ClientRecord C007",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Transaction(tx_id='T1', amount=10)\nrejected amount debe ser > 0\n",
+          "expected_head": "Transaction(tx_id='T1', amount=10)\nreject amount debe ser > 0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ClientRecord(client_id='C1', document_id='DNI-1')\nclient_id/document_id vacíos\n",
+          "expected_head": "ClientRecord(client_id='C1', document_id='D1')\ndocument_id vacío",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "INV: ClientRecord document_id no vacío\nINV: Transaction amount > 0\nINV: RelationshipEvidence signal_score en [0,1]\nINV: ",
+          "expected_head": "INV: ClientRecord.document_id no vacío\nINV: Transaction.amount > 0 y currency no vacía\nINV: RelationshipEvidence.signal_",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana Perez\n",
+          "expected_head": "Ana Perez",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "5\n",
+          "expected_head": "15",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok 0.5\nrejected score fuera de rango\n",
+          "expected_head": "ok 0.4\nreject score fuera de rango",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "BUG: entidad mutable como key de dict — mutar campo de eq rompe lookup\nSAFE: frozen=True / key por document_id inmutable",
+          "expected_head": "BUG lookup_after_mutate None\nSAFE row",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "Client(client_id='C1', person=PersonInfo(first_name='Ana', last_name='Perez'))\n",
+          "expected_head": "C001 Ana\ndesign=composition",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n= 2\n",
+          "expected_head": "n= 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "JUST: Client y Person no son siempre is-a; roles evolucionan distinto\nJUST: composición evita jerarquías frágiles\n",
+          "expected_head": "JUST: un cliente tiene datos de persona, pero también roles, cuentas y evidencias que no son subtipo de Person\nJUST: la ",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "0.42\n",
+          "expected_head": "0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "X\nabc\n",
+          "expected_head": "Ana\nana",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "WHEN_NOT: una sola implementación sin tests de puerto (YAGNI)\nWHEN_NOT: Protocol por si acaso sin segundo adapter real\n",
+          "expected_head": "WHEN_NOT: solo hay una implementación y no hay tests con fake\nWHEN_NOT: el puerto aún no es estable y crear Protocol con",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'client_id': 'C1', 'email': 'a@ejemplo.pe'}\n",
+          "expected_head": "{'client_id': 'C1', 'email': 'a@ejemplo.pe'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'id': 'C1', 'name': 'Ana'}\n",
+          "expected_head": "{'client_id': 'C001', 'email': 'a@ejemplo.pe'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "LAYER: cli (argparse/I/O)\nLAYER: service (orquesta)\nLAYER: domain/repo (entidades + persistencia)\n",
+          "expected_head": "LAYER: cli — argparse, stdin/stdout, exit codes\nLAYER: service — casos de uso, sin print\nLAYER: domain/repo — entidades,",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pass\n",
+          "expected_head": "pass",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pass\npass\npass\n",
+          "expected_head": "pass\npass\npass",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S11-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "ANTES: BadClient.decide_fraud(score) emite veredicto\nDESPUÉS: RelationshipEvidence.signal_score es dato; sin is_fraud/is",
+          "expected_head": "ANTES: Client.decide_fraud(score)->bool veredicto en el dominio\nDESPUES: RelationshipEvidence.signal_score: float + revi",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 14,
+      "code_tried": 24,
+      "code_ratio": 0.583,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

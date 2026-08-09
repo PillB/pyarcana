@@ -1,0 +1,132 @@
+[
+  {
+    "section": 14,
+    "title": "NumPy y c\u00f3mputo vectorizado",
+    "explorer_s": 23.8,
+    "skeptic_s": 28.7,
+    "n_ex": 24,
+    "n_sc": 4,
+    "sha_a": "014001d9da11",
+    "sha_b": "8c5098735ab7"
+  },
+  {
+    "section": 15,
+    "title": "Pandas: ingesta, selecci\u00f3n y tipos",
+    "explorer_s": 25.9,
+    "skeptic_s": 30.3,
+    "n_ex": 24,
+    "n_sc": 4,
+    "sha_a": "a980b52f0fac",
+    "sha_b": "997d19bd672e"
+  },
+  {
+    "section": 16,
+    "title": "Calidad, limpieza y contratos de datos",
+    "explorer_s": 23.5,
+    "skeptic_s": 21.2,
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha_a": "1cc5e777a48e",
+    "sha_b": "44228a8996da"
+  },
+  {
+    "section": 17,
+    "title": "Joins, reshape, groupby y cierre anal\u00edtico",
+    "explorer_s": 26.3,
+    "skeptic_s": 31.4,
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha_a": "6c89e65cc0d8",
+    "sha_b": "ea2e950d1130"
+  },
+  {
+    "section": 18,
+    "title": "EDA, estad\u00edstica descriptiva e incertidumbre",
+    "explorer_s": 31.4,
+    "skeptic_s": 29.8,
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha_a": "3072af99343e",
+    "sha_b": "592200f72ea5"
+  },
+  {
+    "section": 19,
+    "title": "Visualizaci\u00f3n y comunicaci\u00f3n accesible",
+    "explorer_s": 31.2,
+    "skeptic_s": 27.2,
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha_a": "6acee69fa920",
+    "sha_b": "8c441d00e142"
+  },
+  {
+    "section": 20,
+    "title": "Automatizaci\u00f3n robusta de Excel",
+    "explorer_s": 25.8,
+    "skeptic_s": 26.3,
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha_a": "36a43f9a7429",
+    "sha_b": "34f5291e12cf"
+  },
+  {
+    "section": 21,
+    "title": "Documentos, plantillas y reportes trazables",
+    "explorer_s": 28.4,
+    "skeptic_s": 28.7,
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha_a": "e1242acc1a7f",
+    "sha_b": "a742c754571a"
+  },
+  {
+    "section": 22,
+    "title": "Email, identidad y aprobaci\u00f3n humana",
+    "explorer_s": 28.8,
+    "skeptic_s": 30.5,
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha_a": "7ec4bd15f198",
+    "sha_b": "26f6a66ebd07"
+  },
+  {
+    "section": 23,
+    "title": "Browser RPA con Playwright",
+    "explorer_s": 18.0,
+    "skeptic_s": 22.2,
+    "n_ex": 24,
+    "n_sc": 4,
+    "sha_a": "64825916cc19",
+    "sha_b": "123699548679"
+  },
+  {
+    "section": 24,
+    "title": "OCR y Document AI",
+    "explorer_s": 24.5,
+    "skeptic_s": 28.0,
+    "n_ex": 24,
+    "n_sc": 4,
+    "sha_a": "b778c5dc1888",
+    "sha_b": "d1fc8706ba04"
+  },
+  {
+    "section": 25,
+    "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+    "explorer_s": 29.6,
+    "skeptic_s": 29.0,
+    "n_ex": 24,
+    "n_sc": 4,
+    "sha_a": "236facba1541",
+    "sha_b": "c6dcef80dafe"
+  },
+  {
+    "section": 26,
+    "title": "Orquestaci\u00f3n y VP RPA + AI Analyst",
+    "explorer_s": 26.7,
+    "skeptic_s": 21.9,
+    "n_ex": 24,
+    "n_sc": 4,
+    "sha_a": "1f59abba08f4",
+    "sha_b": "ca9c32f3fcc8"
+  }
+]

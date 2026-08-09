@@ -1,0 +1,435 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 32,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s32-c078bc5b9e88",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "code": "# Skeptic review S32-T1-A-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre numéricas/categóricas/texto usando el fixture CASO-LIM-032-1A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "num",
+        "ricas",
+        "categ",
+        "ricas"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "code": "# Skeptic review S32-T1-A-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre numéricas/categóricas/texto usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "num",
+        "ricas",
+        "categ"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "code": "# Skeptic review S32-T1-A-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {'case_id', 'catalog_ok', 'row', 'schema'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CATALOG'\n    return \"CONTINUE\" if record[\"catalog_ok\"] is True else 'REJECT_UNKNOWN_FEATURE'\n\nvalid = {'case_id': 'CASO-LIM-032-1A', 'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}\ninvalid = {'case_id': 'CASO-LIM-032-1A', 'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': False}\nincomplete = {**valid}\nincomplete.pop('schema', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre schema usando el fixture CASO-LIM-032-1A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "num",
+        "ricas"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "code": "# Skeptic review S32-T1-B-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre missing indicators, escalamiento y encoding usando el fixture CASO-LIM-032-1B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "missing",
+        "indicators",
+        "escalamiento",
+        "encoding"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "code": "# Skeptic review S32-T1-B-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre missing indicators, escalamiento y encoding usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "missing",
+        "indicators",
+        "escalamiento"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "code": "# Skeptic review S32-T1-B-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MEDIAN\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre median usando el fixture CASO-LIM-032-1B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "missing",
+        "indicators"
+      ],
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "code": "# Skeptic review S32-T2-A-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre shared contact/address, distance y graph features usando el fixture CASO-LIM-032-2A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "shared",
+        "contact",
+        "address",
+        "distance"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "code": "# Skeptic review S32-T2-A-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre shared contact/address, distance y graph features usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "shared",
+        "contact",
+        "address"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "code": "# Skeptic review S32-T2-A-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GRAPH_FEAT\"\n    return \"CONTINUE\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre degree usando el fixture CASO-LIM-032-2A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "shared",
+        "contact"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "code": "# Skeptic review S32-T2-B-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre ventanas y frecuencia usando el fixture CASO-LIM-032-2B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "ventanas",
+        "frecuencia",
+        "sobre",
+        "CASO"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "code": "# Skeptic review S32-T2-B-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre ventanas y frecuencia usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "ventanas",
+        "frecuencia",
+        "fixture"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "code": "# Skeptic review S32-T2-B-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WINDOW\"\n    return \"CONTINUE\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre w usando el fixture CASO-LIM-032-2B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "ventanas",
+        "frecuencia"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "code": "# Skeptic review S32-T3-A-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre ColumnTransformer y custom transformers usando el fixture CASO-LIM-032-3A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "ColumnTransformer",
+        "custom",
+        "transformers",
+        "sobre"
+      ],
+      "confidence": 0.67
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "code": "# Skeptic review S32-T3-A-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre ColumnTransformer y custom transformers usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "ColumnTransformer",
+        "custom",
+        "transformers"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "code": "# Skeptic review S32-T3-A-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIT_STATE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre fitted usando el fixture CASO-LIM-032-3A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "ColumnTransformer",
+        "custom"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "code": "# Skeptic review S32-T3-B-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is True or not record[\"version\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre fit/transform y persistencia usando el fixture CASO-LIM-032-3B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "fit",
+        "transform",
+        "persistencia",
+        "sobre"
+      ],
+      "confidence": 0.67
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "code": "# Skeptic review S32-T3-B-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"versioned\"] is True or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre fit/transform y persistencia usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "fit",
+        "transform",
+        "persistencia"
+      ],
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "code": "# Skeptic review S32-T3-B-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STATE_JSON\"\n    return \"CONTINUE\" if record[\"versioned\"] is True or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre version usando el fixture CASO-LIM-032-3B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "fit",
+        "transform"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "code": "# Skeptic review S32-T4-A-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = record[\"overlap\"] <= 0\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre split por entidad/grupo/tiempo usando el fixture CASO-LIM-032-4A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "split",
+        "por",
+        "entidad",
+        "grupo"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "code": "# Skeptic review S32-T4-A-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"overlap\"] <= 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre split por entidad/grupo/tiempo usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "split",
+        "por",
+        "entidad"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "code": "# Skeptic review S32-T4-A-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SPLIT_KEYS\"\n    return \"CONTINUE\" if record[\"overlap\"] <= 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre overlap usando el fixture CASO-LIM-032-4A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "split",
+        "por"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "code": "# Skeptic review S32-T4-B-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = bool(record[\"leaky\"]) or record[\"skew\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre leakage, train–serve skew y versionado usando el fixture CASO-LIM-032-4B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "leakage",
+        "train",
+        "serve",
+        "skew"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "code": "# Skeptic review S32-T4-B-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"leaky\"]) or record[\"skew\"] is False else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre leakage, train–serve skew y versionado usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "leakage",
+        "train",
+        "serve"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "code": "# Skeptic review S32-T4-B-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FEATURE_SET_ID\"\n    return \"CONTINUE\" if bool(record[\"leaky\"]) or record[\"skew\"] is False else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre feature_set usando el fixture CASO-LIM-032-4B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S32. Doble chequeo de isolation del fixture.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "leakage",
+        "train"
+      ],
+      "confidence": 0.83
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S32 ítem 0: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Una ventana half-open [t−w, t) excluye:»); me quedo con «El instante t y el futuro» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.91,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic S32 ítem 1: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Transform antes de fit debe:»); me quedo con «Fallar de forma explícita» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.71,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic S32 ítem 2: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Overlap de entidades entre train y test:»); me quedo con «Es leakage de identidad» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.83,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic S32 ítem 3: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Un nombre de feature con 'label' o 'decision':»); me quedo con «Es red flag de leakage» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.63,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:55.728037+00:00",
+  "session_started_at": "2026-07-23T13:05:23.030199+00:00",
+  "session_ended_at": "2026-07-23T13:05:46.377225+00:00",
+  "receipt_response_sha256": "ea87e4f1102c16ef5b493487604c15d545f737f522cf9965723cb3b26b7d0ee6"
+}

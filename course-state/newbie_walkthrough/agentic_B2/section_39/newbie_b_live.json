@@ -1,0 +1,513 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 39,
+  "packet_sha": "1896f5babb765090",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_39/packet.json",
+  "recorded_at": "2026-07-22T01:57:45.647239+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_skeptic_llm_packet_only",
+  "persona_seed": "942e9cb1a185",
+  "exercises": [
+    {
+      "exercise_id": "S39-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T1-A-E1\nprint(['intake','er','relation_graph','features','model_score','queue'])\nprint('pipeline', True)\nprint('auto_fraud', False)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S39-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "intake",
+        "relation_graph",
+        "features",
+        "model_score",
+        "queue"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T1-A-E1 si el paquete lo enseña. Instrucción: «Lista stages en orden.». Demo ancla S39-T1-B-DEMO: «print(' > '.join(['intake','er','graph','features','model','queue'])) print('label_space', 'needs_review') print('auto_fraud', False)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T1-A-E1 print(['intake','er','relation_graph','features','model_score','queue']) print('pipeline', True) p». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'intake']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T1-A-E2\nprint('needs_review')\nprint('label_space', 'needs_review')\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S39-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "needs_review",
+        "label_space"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T1-A-E2 si el paquete lo enseña. Instrucción: «label_space needs_review.». Demo ancla S39-T1-B-DEMO: «print(' > '.join(['intake','er','graph','features','model','queue'])) print('label_space', 'needs_review') print('auto_fraud', False)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T1-A-E2 print('needs_review') print('label_space', 'needs_review') print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'needs_review']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T1-A-E3\nprint(False)\nprint('parentesco', False)\nprint('auto_fraud', False)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S39-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "parentesco",
+        "auto_fraud"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T1-A-E3 si el paquete lo enseña. Instrucción: «ER no parentesco.». Demo ancla S39-T1-B-DEMO: «print(' > '.join(['intake','er','graph','features','model','queue'])) print('label_space', 'needs_review') print('auto_fraud', False)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T1-A-E3 print(False) print('parentesco', False) print('auto_fraud', False)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'parentesco']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T1-B-E1\nprint('2.0.0')\nprint('bump', 'major')\nprint('compat', 'semver')\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S39-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "bump",
+        "major",
+        "compat",
+        "semver"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T1-B-E1 si el paquete lo enseña. Instrucción: «semver major bump on break.». Demo ancla S39-T1-B-DEMO: «print(' > '.join(['intake','er','graph','features','model','queue'])) print('label_space', 'needs_review') print('auto_fraud', False)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T1-B-E1 print('2.0.0') print('bump', 'major') print('compat', 'semver')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'bump']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T1-B-E2\nprint(True)\nprint('owner_required', True)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S39-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "owner_required"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T1-B-E2 si el paquete lo enseña. Instrucción: «owner required.». Demo ancla S39-T1-B-DEMO: «print(' > '.join(['intake','er','graph','features','model','queue'])) print('label_space', 'needs_review') print('auto_fraud', False)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T1-B-E2 print(True) print('owner_required', True) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'owner_required']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T1-B-E3\nprint(4)\nprint('registry_n', 4)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S39-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "registry_n"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T1-B-E3 si el paquete lo enseña. Instrucción: «registry size.». Demo ancla S39-T1-B-DEMO: «print(' > '.join(['intake','er','graph','features','model','queue'])) print('label_space', 'needs_review') print('auto_fraud', False)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T1-B-E3 print(4) print('registry_n', 4) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'registry_n']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T2-A-E1\npacket={'score':0.8,'graph_path':['E1','E2'],'evidence':['x']}\nprint('graph_path' in packet)\nprint('required', True)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S39-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "score",
+        "graph_path",
+        "evidence",
+        "required"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T2-A-E1 si el paquete lo enseña. Instrucción: «packet must include graph_path.». Demo ancla S39-T2-A-DEMO: «print(2) print('semver', True) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T2-A-E1 packet={'score':0.8,'graph_path':['E1','E2'],'evidence':['x']} print('graph_path' in packet) print». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'score']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T2-A-E2\nprint(False)\nprint('score_alone', False)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S39-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "score_alone"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T2-A-E2 si el paquete lo enseña. Instrucción: «score alone insufficient.». Demo ancla S39-T2-A-DEMO: «print(2) print('semver', True) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T2-A-E2 print(False) print('score_alone', False) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'score_alone']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T2-A-E3\nprint(4)\nprint('layers', 4)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S39-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "layers"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T2-A-E3 si el paquete lo enseña. Instrucción: «4 capas explicación.». Demo ancla S39-T2-A-DEMO: «print(2) print('semver', True) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T2-A-E3 print(4) print('layers', 4) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'layers']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T2-B-E1\nprint('skip')\nprint('override', True)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S39-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "skip",
+        "override"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T2-B-E1 si el paquete lo enseña. Instrucción: «override final skip.». Demo ancla S39-T2-A-DEMO: «print(2) print('semver', True) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T2-B-E1 print('skip') print('override', True) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'skip']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T2-B-E2\nprint(True)\nprint('appeal_reopens', True)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S39-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "appeal_reopens"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T2-B-E2 si el paquete lo enseña. Instrucción: «appeal reopens.». Demo ancla S39-T2-A-DEMO: «print(2) print('semver', True) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T2-B-E2 print(True) print('appeal_reopens', True) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'appeal_reopens']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T2-B-E3\nprint(True)\nprint('feedback_logged', True)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S39-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "feedback_logged"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T2-B-E3 si el paquete lo enseña. Instrucción: «feedback logged.». Demo ancla S39-T2-A-DEMO: «print(2) print('semver', True) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T2-B-E3 print(True) print('feedback_logged', True) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'feedback_logged']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T3-A-E1\nprint(False)\nprint('secrets_in_repo', False)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S39-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "secrets_in_repo"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T3-A-E1 si el paquete lo enseña. Instrucción: «secrets_in_repo false required.». Demo ancla S39-T3-A-DEMO: «print({'final':'skip','override':True}) print('n_overrides', 1) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T3-A-E1 print(False) print('secrets_in_repo', False) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'secrets_in_repo']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T3-A-E2\nprint(True)\nprint('rbac', True)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S39-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "rbac"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T3-A-E2 si el paquete lo enseña. Instrucción: «rbac on packet.». Demo ancla S39-T3-A-DEMO: «print({'final':'skip','override':True}) print('n_overrides', 1) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T3-A-E2 print(True) print('rbac', True) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'rbac']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T3-A-E3\nprint(True)\nprint('slice_metrics', True)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S39-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "slice_metrics"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T3-A-E3 si el paquete lo enseña. Instrucción: «fairness slices present.». Demo ancla S39-T3-A-DEMO: «print({'final':'skip','override':True}) print('n_overrides', 1) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T3-A-E3 print(True) print('slice_metrics', True) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'slice_metrics']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T3-B-E1\nprint('human_only')\nprint('mode', 'human_only')\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S39-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "human_only",
+        "mode"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T3-B-E1 si el paquete lo enseña. Instrucción: «incident → human_only.». Demo ancla S39-T3-A-DEMO: «print({'final':'skip','override':True}) print('n_overrides', 1) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T3-B-E1 print('human_only') print('mode', 'human_only') print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'human_only']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T3-B-E2\nprint('abstain_more')\nprint('mode', 'abstain_more')\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S39-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "abstain_more",
+        "mode"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T3-B-E2 si el paquete lo enseña. Instrucción: «drift → abstain_more.». Demo ancla S39-T3-A-DEMO: «print({'final':'skip','override':True}) print('n_overrides', 1) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T3-B-E2 print('abstain_more') print('mode', 'abstain_more') print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'abstain_more']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T3-B-E3\nprint('model_previous')\nprint('rollback', 'model_previous')\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S39-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "model_previous",
+        "rollback"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T3-B-E3 si el paquete lo enseña. Instrucción: «rollback target.». Demo ancla S39-T3-A-DEMO: «print({'final':'skip','override':True}) print('n_overrides', 1) print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T3-B-E3 print('model_previous') print('rollback', 'model_previous') print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'model_previous']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T4-A-E1\nprint(True)\nprint('no_auto_fraud', True)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S39-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "no_auto_fraud"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T4-A-E1 si el paquete lo enseña. Instrucción: «acceptance includes no_auto_fraud.». Demo ancla S39-T4-A-DEMO: «print('human_only') print('rollback', 'prev_model') print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T4-A-E1 print(True) print('no_auto_fraud', True) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'no_auto_fraud']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T4-A-E2\nprint('S27-S39')\nprint('regression', 'S27-S39')\nprint('cf3_pass_lane', 'separate')\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S39-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "S27",
+        "regression",
+        "cf3_pass_lane",
+        "separate"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T4-A-E2 si el paquete lo enseña. Instrucción: «regression scope S27-S39.». Demo ancla S39-T4-A-DEMO: «print('human_only') print('rollback', 'prev_model') print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T4-A-E2 print('S27-S39') print('regression', 'S27-S39') print('cf3_pass_lane', 'separate')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'S27']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T4-A-E3\nprint(3)\nprint('demo_paths', 3)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S39-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "demo_paths"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T4-A-E3 si el paquete lo enseña. Instrucción: «demo paths 3.». Demo ancla S39-T4-A-DEMO: «print('human_only') print('rollback', 'prev_model') print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T4-A-E3 print(3) print('demo_paths', 3) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'demo_paths']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T4-B-E1\nprint(sorted(['model','data','system']))\nprint('cards', 3)\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S39-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "sorted",
+        "model",
+        "data",
+        "system",
+        "cards"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T4-B-E1 si el paquete lo enseña. Instrucción: «three cards.». Demo ancla S39-T4-A-DEMO: «print('human_only') print('rollback', 'prev_model') print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T4-B-E1 print(sorted(['model','data','system'])) print('cards', 3) print('ok', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'sorted']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T4-B-E2\nprint('override_rate')\nprint('value_metrics', ['precision_at_k','override_rate','median_review_s'])\nprint('ok', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S39-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "override_rate",
+        "value_metrics",
+        "precision_at_k",
+        "median_review_s"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T4-B-E2 si el paquete lo enseña. Instrucción: «value metric override_rate.». Demo ancla S39-T4-A-DEMO: «print('human_only') print('rollback', 'prev_model') print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T4-B-E2 print('override_rate') print('value_metrics', ['precision_at_k','override_rate','median_review_s']». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'override_rate']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    },
+    {
+      "exercise_id": "S39-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S39-T4-B-E3\nprint(True)\nprint('postmortem', True)\nprint('blameless', True)\n# B2 dual-run (Skeptic): re-validated vs packet S39 S39-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S39-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S39",
+        "postmortem",
+        "blameless"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S39-T4-B-E3 si el paquete lo enseña. Instrucción: «postmortem blameless flag.». Demo ancla S39-T4-A-DEMO: «print('human_only') print('rollback', 'prev_model') print('ok', True)». Hints del weDo: Revisa la demo.; Alinea prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S39-T4-B-E3 print(True) print('postmortem', True) print('blameless', True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S39', 'postmortem']. Heading: Cierre CP-N3-C + regresión N3 + CF-3 | intake → ER → relación → features → model."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "needs_review / prioridad de cola",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: triage N3: label_space de prioridad / needs_review; score no es veredicto legal ni fraud_certainty. Preferente needs_review / prioridad de cola."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Se documentan; PASS lo califica otra lane",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: cierre/lane: CF-3 y regresión S27–S39 se documentan en esta lane de autoría; PASS lo califica otra lane — no marcan PASS solos ni se borran."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Evidencia y path además del score",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: evidence packet: hechos, path de grafo, features top, incertidumbre; el revisor ve evidencia, no solo un número. Incluye evidencia y path además del score."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "human_only / rollback",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: incidentes: severidad, rollback de model/thr, human-only mode. Ante incidente grave: human_only / rollback — no ignorar ni etiquetar fraude masivo."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

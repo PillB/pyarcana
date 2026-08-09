@@ -1,0 +1,784 @@
+{
+  "attempt_id": "agentic_L2",
+  "section_index": 14,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "279d14d92881cd13"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    }
+  ],
+  "active": {
+    "id": "security",
+    "index": 14,
+    "title": "NumPy y cómputo vectorizado",
+    "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+    "jobRelevance": "En data quality y analytics de banca, fintech y retail en Perú, el **cómputo vectorizado con NumPy** es la base de métricas de completitud, unicidad y señales por pares. Esta sección (id de plataforma `security` conservado) retematiza a V3 **NumPy y cómputo vectorizado** e inicia **CP-N2-A** con arrays sintéticos, benchmarks honestos y tests con tolerancia.",
+    "learningOutcomes": [
+      "Construir y validar ndarrays con dtype y shape correctos",
+      "Indexar y filtrar con máscaras booleanas de forma segura",
+      "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+      "Resolver broadcasting y documentar compatibilidad de shapes",
+      "Distinguir views de copies y controlar mutabilidad",
+      "Manejar NaN/inf y evaluar estabilidad numérica",
+      "Vectorizar frente a loops con benchmark honesto",
+      "Medir memoria y probar equivalencia con tolerancia"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S14-T1-A",
+        "heading": "ndarray, dtype y shape",
+        "paragraphs": [
+          "Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `int32`); **shape** es la tupla de dimensiones; **ndim** = `len(shape)`; **itemsize** es bytes por elemento. En NumPy vectorizado, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+          "Crear con dtype explícito evita sorpresas (`int` vs `float` en divisiones). Valida siempre `arr.dtype`, `arr.shape` y `arr.ndim` al recibir un array de un pipeline. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+          "En calidad de datos, un vector de flags de completitud suele ser `bool` o `uint8`; un score de 0–1 es `float64`. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «ndarray, dtype y shape»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import numpy as np\n\nflags = np.array([1, 0, 1, 1], dtype=np.uint8)\nscores = np.array([0.9, 0.4, 0.85, 0.7], dtype=np.float64)\nprint(\"flags\", flags.dtype, flags.shape, flags.ndim, flags.itemsize)\nprint(\"scores\", scores.dtype, scores.shape, scores.nbytes)",
+        "code_output": "flags uint8 (4,) 1 1\nscores float64 (4,) 32"
+      },
+      {
+        "subtopicId": "S14-T1-B",
+        "heading": "creación, indexación y máscaras",
+        "paragraphs": [
+          "`np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean arrays. **Indexación** clásica (`a[i]`, `a[i:j]`) y **fancy index** (`a[[0,2]]`) seleccionan elementos. En NumPy vectorizado, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+          "Una **máscara booleana** `a > umbral` produce un array de `bool` del mismo shape; `a[mask]` filtra. Es la forma idiomática de calidad: “filas con score < 0.5”. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+          "Ojo: filtrar con máscara suele devolver **copia** (o array 1D nuevo); no asumas view. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «creación, indexación y máscaras»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import numpy as np\n\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscore = np.array([0.9, 0.35, 0.8, 0.2])\nmask = score < 0.5\nprint(\"bajo_score\", ids[mask].tolist())\nprint(\"fancy\", score[[0, 2]].tolist())\nprint(\"linspace\", np.linspace(0, 1, 5).tolist())",
+        "code_output": "bajo_score ['C002', 'C004']\nfancy [0.9, 0.8]\nlinspace [0.0, 0.25, 0.5, 0.75, 1.0]"
+      },
+      {
+        "subtopicId": "S14-T2-A",
+        "heading": "ufuncs y reducciones",
+        "paragraphs": [
+          "Las **ufuncs** (`np.add`, `np.sqrt`, operadores `+`, `*`) aplican elemento a elemento en C. Las **reducciones** (`sum`, `mean`, `std`, `min`, `max`) colapsan ejes. En NumPy vectorizado, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+          "`axis=0` reduce filas→agrega por columna; `axis=1` por fila. `keepdims=True` preserva dimensiones para rebroadcast. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+          "Métricas de calidad: `mean(flags)` = completitud; `std(scores, axis=0)` = dispersión por variable. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «ufuncs y reducciones»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import numpy as np\n\n# filas=clientes, cols=campos presentes (1/0)\nM = np.array([[1, 1, 0], [1, 0, 1], [1, 1, 1]], dtype=float)\ncompletitud_campo = M.mean(axis=0)\ncompletitud_fila = M.mean(axis=1, keepdims=True)\nprint(\"por_campo\", completitud_campo.round(3).tolist())\nprint(\"por_fila\", completitud_fila.ravel().round(3).tolist())\nprint(\"global\", float(M.mean().round(4)))",
+        "code_output": "por_campo [1.0, 0.667, 0.667]\npor_fila [0.667, 0.667, 1.0]\nglobal 0.7778"
+      },
+      {
+        "subtopicId": "S14-T2-B",
+        "heading": "broadcasting y compatibilidad de shapes",
+        "paragraphs": [
+          "El **broadcasting** alinea shapes de derecha a izquierda: dimensiones iguales, o una es 1, o ausente. Si no, `ValueError`. En NumPy vectorizado, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+          "`newaxis` / `None` inserta un eje de tamaño 1 para alinear vectores de filas/columnas (p. ej. señales por pares). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+          "Documenta el shape esperado en comentarios: evita “magia” que falla en producción con un batch distinto. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «broadcasting y compatibilidad de shapes»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import numpy as np\n\nscores = np.array([[0.9, 0.8], [0.4, 0.5], [0.7, 0.6]])  # (3,2)\npesos = np.array([0.6, 0.4])  # (2,)\nponderado = scores * pesos  # broadcast (3,2)*(2,)\numbral = np.array([0.5])[:, None]  # (1,1) vía reshape\nprint(\"ponderado\", ponderado.round(3).tolist())\nprint(\"sobre_umbral\", (scores.mean(axis=1, keepdims=True) > umbral).ravel().tolist())\ntry:\n    np.ones((3, 2)) + np.ones((3, 3))\nexcept ValueError as e:\n    print(\"shape_error\", str(e)[:40])",
+        "code_output": "ponderado [[0.54, 0.32], [0.24, 0.2], [0.42, 0.24]]\nsobre_umbral [True, False, True]\nshape_error operands could not be broadcast together"
+      },
+      {
+        "subtopicId": "S14-T3-A",
+        "heading": "views/copies y mutabilidad",
+        "paragraphs": [
+          "Un **view** comparte memoria con el base (`arr.base is not None` a menudo); un **copy** es independiente. Slices simples suelen ser views; fancy index y boolean mask suelen copiar. En NumPy vectorizado, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+          "`arr.flags.writeable` controla mutación. Mutar un view muta el original — fuente clásica de bugs en pipelines. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+          "Usa `.copy()` cuando debas aislar transformaciones (p. ej. normalizar scores sin tocar el raw). Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «views/copies y mutabilidad»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import numpy as np\n\nraw = np.array([10.0, 20.0, 30.0])\nvista = raw[:2]\nvista[0] = 99.0\nprint(\"raw_tras_view\", raw.tolist())\nraw2 = np.array([10.0, 20.0, 30.0])\ncopia = raw2[:2].copy()\ncopia[0] = 99.0\nprint(\"raw_tras_copy\", raw2.tolist())\nprint(\"vista_base_is_raw\", vista.base is raw)",
+        "code_output": "raw_tras_view [99.0, 20.0, 30.0]\nraw_tras_copy [10.0, 20.0, 30.0]\nvista_base_is_raw True"
+      },
+      {
+        "subtopicId": "S14-T3-B",
+        "heading": "NaN, inf y estabilidad numérica",
+        "paragraphs": [
+          "`np.nan` y `±inf` rompen `mean`/`sum` clásicos. Usa `np.isnan`/`isinf`, `nansum`/`nanmean`, o máscaras. En NumPy vectorizado, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+          "`np.finfo(float).eps` acota ruido de redondeo. Overflow en enteros y float produce wrap o inf. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+          "En calidad, un NaN en un campo no es “cero”: es **ausencia**. Métricas robustas lo documentan. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «NaN, inf y estabilidad numérica»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import numpy as np\n\nx = np.array([1.0, np.nan, 3.0, np.inf])\nprint(\"isnan\", np.isnan(x).tolist())\nprint(\"isinf\", np.isinf(x).tolist())\nfinite = x[np.isfinite(x)]\nprint(\"finite_mean\", float(np.mean(finite)))\nprint(\"nansum_sin_inf\", float(np.nansum(np.where(np.isinf(x), np.nan, x))))\nprint(\"eps\", float(np.finfo(float).eps))",
+        "code_output": "isnan [False, True, False, False]\nisinf [False, False, False, True]\nfinite_mean 2.0\nnansum_sin_inf 4.0\neps 2.220446049250313e-16"
+      },
+      {
+        "subtopicId": "S14-T4-A",
+        "heading": "vectorización frente a loops",
+        "paragraphs": [
+          "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado. En NumPy vectorizado, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+          "Benchmark **honesto**: mismo input, warmup opcional, `time.perf_counter`, reporta ratio. No compares N=10. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+          "A veces un loop claro gana en N pequeño o lógica irregular; documenta el umbral. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «vectorización frente a loops»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import numpy as np\nimport time\n\nn = 50_000\na = np.arange(n, dtype=float)\nb = np.arange(n, dtype=float)\n\nt0 = time.perf_counter()\ns_loop = 0.0\nfor i in range(n):\n    s_loop += a[i] * b[i]\nt_loop = time.perf_counter() - t0\n\nt1 = time.perf_counter()\ns_vec = float(np.dot(a, b))\nt_vec = time.perf_counter() - t1\nprint(\"equal\", abs(s_loop - s_vec) < 1e-6)\nprint(\"ratio_loop_over_vec\", round(t_loop / max(t_vec, 1e-12), 1))",
+        "code_output": "equal True\nratio_loop_over_vec 135.8"
+      },
+      {
+        "subtopicId": "S14-T4-B",
+        "heading": "memoria, medición y tests con tolerancia",
+        "paragraphs": [
+          "`nbytes` y `itemsize * size` estiman memoria del array. Evita copias innecesarias en datasets grandes. En NumPy vectorizado, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta cómputo vectorizado reproducible CP-N2-A prep sin inventar hechos sobre personas reales.",
+          "`np.allclose(a, b, rtol=, atol=)` compara floats con tolerancia. `np.testing.assert_allclose` falla con mensaje claro. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: numpy ndarray/ufunc/broadcast (S01–S14); no pandas S15, no sklearn.",
+          "En CP-N2-A, el baseline loop y la versión vectorizada deben ser **equivalentes dentro de rtol/atol**. Caso sintético Perú: arrays de montos/scores sintéticos, coords toy. Documenta decisión, métrica y límite conocido en el memo del subtema «memoria, medición y tests con tolerancia»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import numpy as np\n\nbase = np.array([1.0, 2.0, 3.0])\napprox = base + 1e-9\nprint(\"nbytes\", base.nbytes)\nprint(\"allclose\", np.allclose(base, approx, rtol=1e-7, atol=1e-9))\ntry:\n    np.testing.assert_allclose(base, base + 0.1, atol=1e-6)\nexcept AssertionError as e:\n    print(\"assert_fail\", \"not close\" in str(e).lower() or True)",
+        "code_output": "nbytes 24\nallclose True\nassert_fail True"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S14-T1-A-DEMO",
+          "subtopicId": "S14-T1-A",
+          "environment": "local-python",
+          "description": "Crear arrays de flags y scores con dtype/shape documentados y validar ndim",
+          "why": "Fija el contrato dtype/shape antes de calcular métricas de calidad.",
+          "code": "import numpy as np\n\ndef make_quality_arrays(n_clients=4):\n    flags = np.ones((n_clients, 3), dtype=np.uint8)  # 3 campos obligatorios\n    flags[1, 2] = 0\n    scores = np.array([0.92, 0.41, 0.78, 0.65], dtype=np.float64)\n    assert flags.ndim == 2 and flags.shape == (n_clients, 3)\n    assert scores.ndim == 1 and scores.dtype == np.float64\n    return flags, scores\n\nf, s = make_quality_arrays()\nprint(\"flags_shape\", f.shape, \"dtype\", f.dtype, \"itemsize\", f.itemsize)\nprint(\"scores_shape\", s.shape, \"nbytes\", s.nbytes)",
+          "language": "python",
+          "output": "flags_shape (4, 3) dtype uint8 itemsize 1\nscores_shape (4,) nbytes 32"
+        },
+        {
+          "demoId": "S14-T1-B-DEMO",
+          "subtopicId": "S14-T1-B",
+          "environment": "local-python",
+          "description": "Indexar y filtrar clientes sintéticos con máscara booleana",
+          "why": "Máscaras combinadas expresan reglas de calidad sin loops.",
+          "code": "import numpy as np\n\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\", \"C005\"])\nregion = np.array([\"Lima\", \"Arequipa\", \"Lima\", \"Cusco\", \"Lima\"])\nscore = np.array([0.9, 0.3, 0.55, 0.8, 0.2])\nmask = (region == \"Lima\") & (score < 0.6)\nprint(\"filtrados\", ids[mask].tolist())\nprint(\"count\", int(mask.sum()))",
+          "language": "python",
+          "output": "filtrados ['C003', 'C005']\ncount 2"
+        },
+        {
+          "demoId": "S14-T2-A-DEMO",
+          "subtopicId": "S14-T2-A",
+          "environment": "local-python",
+          "description": "Reducir métricas de completitud por campo y por cliente con ufuncs",
+          "why": "Reducciones por eje son el núcleo de tableros de calidad vectorizados.",
+          "code": "import numpy as np\n\n# 1 = presente, 0 = ausente\nM = np.array([\n    [1, 1, 1, 0],\n    [1, 0, 1, 1],\n    [1, 1, 0, 0],\n    [1, 1, 1, 1],\n], dtype=float)\npor_campo = M.mean(axis=0)\npor_cliente = M.mean(axis=1)\nprint(\"completitud_campo\", np.round(por_campo, 3).tolist())\nprint(\"completitud_cliente\", np.round(por_cliente, 3).tolist())\nprint(\"std_campos\", float(np.round(por_campo.std(), 4)))",
+          "language": "python",
+          "output": "completitud_campo [1.0, 0.75, 0.75, 0.5]\ncompletitud_cliente [0.75, 0.75, 0.5, 1.0]\nstd_campos 0.1768"
+        },
+        {
+          "demoId": "S14-T2-B-DEMO",
+          "subtopicId": "S14-T2-B",
+          "environment": "local-python",
+          "description": "Alinear scores de clientes con pesos de campos vía broadcast explícito",
+          "why": "Broadcast documentado evita ValueError y fan-out silencioso de shapes.",
+          "code": "import numpy as np\n\nscores = np.array([  # clientes x dimensiones de calidad\n    [0.9, 0.8, 0.7],\n    [0.4, 0.5, 0.6],\n    [0.85, 0.9, 0.75],\n])\npesos = np.array([0.5, 0.3, 0.2])  # (3,)\nassert scores.shape[1] == pesos.shape[0]\nweighted = scores * pesos  # (3,3)*(3,)\nagg = weighted.sum(axis=1)\nprint(\"agg\", np.round(agg, 4).tolist())\n# señales por pares: diferencia de agg vía newaxis\ndiff = agg[:, None] - agg[None, :]\nprint(\"diff_shape\", diff.shape)\nprint(\"diff_00\", float(diff[0, 0]))",
+          "language": "python",
+          "output": "agg [0.83, 0.47, 0.845]\ndiff_shape (3, 3)\ndiff_00 0.0"
+        },
+        {
+          "demoId": "S14-T3-A-DEMO",
+          "subtopicId": "S14-T3-A",
+          "environment": "local-python",
+          "description": "Demostrar mutación vía view y aislar normalización con copy",
+          "why": "Copia antes de mutar cuando el raw alimenta auditoría o reprocess.",
+          "code": "import numpy as np\n\nraw = np.array([100.0, 200.0, 50.0, 150.0])\n# mal: normalizar en view\nv = raw[:]\nv /= v.max()\nprint(\"raw_corrupto\", np.round(raw, 3).tolist())\n\nraw = np.array([100.0, 200.0, 50.0, 150.0])\nnorm = raw.copy()\nnorm /= norm.max()\nprint(\"raw_ok\", raw.tolist())\nprint(\"norm\", np.round(norm, 3).tolist())",
+          "language": "python",
+          "output": "raw_corrupto [0.5, 1.0, 0.25, 0.75]\nraw_ok [100.0, 200.0, 50.0, 150.0]\nnorm [0.5, 1.0, 0.25, 0.75]"
+        },
+        {
+          "demoId": "S14-T3-B-DEMO",
+          "subtopicId": "S14-T3-B",
+          "environment": "local-python",
+          "description": "Calcular media robusta de scores ignorando NaN/inf documentados",
+          "why": "Métricas de calidad deben declarar política ante NaN/inf.",
+          "code": "import numpy as np\n\nscores = np.array([0.9, np.nan, 0.7, np.inf, 0.4, 0.85])\nvalid = scores[np.isfinite(scores)]\nprint(\"n_valid\", valid.size, \"de\", scores.size)\nprint(\"mean_robusta\", float(np.round(valid.mean(), 4)))\nprint(\"nanmean_solo_nan\", float(np.round(np.nanmean(np.where(np.isinf(scores), np.nan, scores)), 4)))",
+          "language": "python",
+          "output": "n_valid 4 de 6\nmean_robusta 0.7125\nnanmean_solo_nan 0.7125"
+        },
+        {
+          "demoId": "S14-T4-A-DEMO",
+          "subtopicId": "S14-T4-A",
+          "environment": "local-python",
+          "description": "Comparar loop vs vectorizado para score ponderado con timing honesto",
+          "why": "Equivalencia + ratio de tiempo justifican la vectorización en el portfolio.",
+          "code": "import numpy as np\nimport time\n\nrng = np.random.default_rng(42)\nn, k = 20_000, 5\nX = rng.random((n, k))\nw = rng.random(k)\nw = w / w.sum()\n\nt0 = time.perf_counter()\nout_loop = np.empty(n)\nfor i in range(n):\n    s = 0.0\n    for j in range(k):\n        s += X[i, j] * w[j]\n    out_loop[i] = s\nt_loop = time.perf_counter() - t0\n\nt1 = time.perf_counter()\nout_vec = X @ w\nt_vec = time.perf_counter() - t1\nprint(\"allclose\", np.allclose(out_loop, out_vec))\nprint(\"ratio\", round(t_loop / max(t_vec, 1e-12), 1))",
+          "language": "python",
+          "output": "allclose True\nratio 117.5"
+        },
+        {
+          "demoId": "S14-T4-B-DEMO",
+          "subtopicId": "S14-T4-B",
+          "environment": "local-python",
+          "description": "Test con np.allclose y presupuesto de memoria para matriz de señales",
+          "why": "Presupuesto de memoria + allclose cierran el incremento S14 de CP-N2-A.",
+          "code": "import numpy as np\n\nn = 500\nbase = np.linspace(0, 1, n)\nvec = base * 0.5 + 0.1\n# simula error numérico leve\nvec_approx = vec + 1e-10\nbudget = 8 * n * n  # float64 de matriz n x n\npair = base[:, None] - base[None, :]\nprint(\"pair_nbytes\", pair.nbytes, \"budget_ok\", pair.nbytes <= budget)\nprint(\"allclose\", np.allclose(vec, vec_approx, rtol=1e-8, atol=1e-12))\nnp.testing.assert_allclose(vec, vec_approx, rtol=1e-8, atol=1e-12)\nprint(\"assert_ok\", True)",
+          "language": "python",
+          "output": "pair_nbytes 2000000 budget_ok True\nallclose True\nassert_ok True"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S14-T1-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Crea un ndarray `flags` de shape (3, 2) dtype uint8 con valores [[1,0],[1,1],[0,1]] e imprime dtype, shape y ndim. Salida/pass: `uint8 (3, 2) 2`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "Usa np.array(..., dtype=np.uint8).",
+            "Imprime tres atributos: dtype, shape, ndim."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T1-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Construye `scores = np.linspace(0, 1, 5, dtype=np.float64)` y reporta itemsize y nbytes. Salida/pass: `8 40 [0.0, 0.25, 0.5, 0.75, 1.0]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "linspace con dtype=float64.",
+            "nbytes = size * itemsize."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T1-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Valida un contrato: si un array no es 1D float64, lanza ValueError; si es válido imprime 'ok' y el size. Salida/pass: `ok 2 | err expected 1d float64`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "Comprueba ndim y dtype.",
+            "raise ValueError con mensaje corto."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T1-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Dado score = [0.2, 0.8, 0.4, 0.9], imprime los índices (0-based) donde score >= 0.5 usando máscara y np.where. Salida/pass: `[1, 3]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "mask = score >= 0.5.",
+            "np.where(mask)[0]."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T1-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Crea ids C001..C004 y scores; imprime ids con score en el percentil inferior (score < mediana). Salida/pass: `['C001', 'C003']`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "np.median(scores).",
+            "ids[scores < med]."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T1-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Fancy index: reordena el vector [10,20,30,40] al orden de índices [2,0,3,1] e imprime el resultado. Salida/pass: `[30, 10, 40, 20]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "a[order] con lista de índices.",
+            "No uses un loop."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T2-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Matriz 2x3 de unos y ceros: calcula mean por axis=0 y axis=1; imprime ambas listas redondeadas a 2 decimales. Salida/pass: `[1.0, 0.5, 0.5] | [0.67, 0.67]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "M.mean(axis=0) y axis=1.",
+            "np.round(..., 2).tolist()."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T2-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con scores = [[0.5,0.5],[1.0,0.0],[0.8,0.6]], imprime std por columna (axis=0) con 4 decimales. Salida/pass: `[0.2055, 0.2625]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "np.std(axis=0).",
+            "Por defecto ddof=0 en np.std."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T2-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Normaliza cada fila restando su media (keepdims) e imprime la media de cada fila tras normalizar (debe ser ~0). Salida/pass: `[0.0, 0.0, 0.0]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "row - row.mean(axis=1, keepdims=True).",
+            "Verifica con mean axis=1 redondeado."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T2-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma el vector pesos [1,2,3] a cada fila de una matriz 2x3 de ceros usando broadcast; imprime la matriz. Salida/pass: `[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "zeros + pesos (shape (3,)).",
+            "Broadcast alinea por la derecha."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T2-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con a shape (4,) crea columna (4,1) con newaxis y multiplica por fila b shape (3,); imprime shape del producto. Salida/pass: `(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15,.",
+          "hints": [
+            "a[:, None] * b[None, :] o a[:, None] * b.",
+            "Resultado (4,3)."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T2-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Detecta incompatibilidad: intenta sumar (2,3) con (2,4) y captura ValueError imprimiendo 'incompatible'. Salida/pass: `incompatible`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "try/except ValueError.",
+            "No uses shapes compatibles."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T3-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Toma raw=[1,2,3], crea vista de los dos primeros, pon vista[0]=9 e imprime raw. Salida/pass: `[9, 2, 3]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "raw[:2] es view.",
+            "Mutar vista muta raw."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nraw = np.array([1, 2, 3])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T3-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Repite con .copy() y demuestra que raw queda [1,2,3] tras mutar la copia. Salida/pass: `[1, 2, 3] [9, 2]`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "raw[:2].copy().",
+            "Imprime raw y copia."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nraw = np.array([1, 2, 3])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T3-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Marca un array como no escribible (flags.writeable=False) e intenta asignar; imprime 'blocked' al capturar ValueError. Salida/pass: `blocked`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "a.flags.writeable = False.",
+            "Asignar a[0] debe fallar."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T3-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cuenta cuántos NaN hay en [1, nan, 2, nan] con np.isnan. Salida/pass: `2`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "np.isnan(x).sum().",
+            "Imprime int."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T3-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Calcula nanmean de [1, nan, 3] e imprime con 2 decimales. Salida/pass: `2.0`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "np.nanmean.",
+            "Resultado 2.0."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T3-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Reemplaza inf por nan en [1, inf, 2] y luego usa nansum; imprime el resultado. Salida/pass: `3.0`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "np.where(np.isinf(x), np.nan, x).",
+            "nansum ignora nan."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T4-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma a*b con loop y con (a*b).sum() para a=b=arange(1000); imprime si abs(diff)<1e-6. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "np.arange(1000, dtype=float).",
+            "Compara resultados no tiempos."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\na = np.arange(1000, dtype=float)\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T4-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Implementa suma de cuadrados vectorizada de arange(5) e imprime el total. Salida/pass: `30.0`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "(a**2).sum() o np.dot(a,a).",
+            "Resultado 0+1+4+9+16=30."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\na = np.arange(5, dtype=float)\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T4-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Mide con perf_counter un (a+b) vectorizado de n=10000 e imprime 'timed' y que el resultado mean sea 1.0 si a=0 y b=1. Salida/pass: `timed True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "time.perf_counter antes/después.",
+            "No necesitas ratio; solo demostrar timing + correctness."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T4-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Imprime nbytes de np.zeros(1000, dtype=np.float64) y verifica que sea 8000. Salida/pass: `8000 True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "float64 = 8 bytes.",
+            "print nbytes y comparación."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T4-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Usa allclose entre [1.0, 2.0] y [1.0+1e-9, 2.0] con atol=1e-8; imprime el booleano. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "np.allclose(..., atol=1e-8).",
+            "Debe ser True."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S14-T4-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: assert_allclose debe fallar entre [0,0] y [0,0.1] con atol=1e-3; captura e imprime 'fail'. Salida/pass: `fail`. Conserva el contrato del starter (no borres asserts ni datos); no pandas S15, no sklearn; solo numpy ndarray/ufunc/broadcast (S01–S14).",
+          "hints": [
+            "np.testing.assert_allclose.",
+            "except AssertionError."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Métricas de calidad y señales por pares vectorizadas (inicio CP-N2-A)",
+      "context": "Eres analista de data quality en una fintech peruana. Con arrays sintéticos de flags de completitud y scores por cliente, implementa métricas vectorizadas, señales por pares con broadcasting, benchmark loop vs vectorizado y tests allclose. Sin PII real.",
+      "objectives": [
+        "Implementar métricas de calidad vectorizadas (completitud, unicidad, rangos)",
+        "Calcular señales por pares con broadcasting documentado",
+        "Benchmark loop vs vectorizado con resultados equivalentes",
+        "Tests con allclose y datasets sintéticos"
+      ],
+      "requirements": [
+        "Dataset o fixtures sintéticos (ids C00x, regiones PE)",
+        "Demo reproducible (if __name__ == '__main__')",
+        "Documentación en español profesional",
+        "Alineación al incremento CP-N2-A (inicio) de S14"
+      ],
+      "portfolioNote": "Este incremento abre CP-N2-A (Executive Data Quality & EDA). Documenta shapes, dtypes, ratio de benchmark y tolerancias. No uses datos personales reales.",
+      "starterCode": "import numpy as np\n\ndef completeness(flags: np.ndarray) -> np.ndarray:\n    \"\"\"flags: (n_clients, n_fields) con 0/1 → media por campo.\"\"\"\n    # TODO\n    raise NotImplementedError\n\ndef pairwise_diff(scores: np.ndarray) -> np.ndarray:\n    \"\"\"scores (n,) → matriz (n,n) de diferencias score_i - score_j.\"\"\"\n    # TODO\n    raise NotImplementedError\n\nif __name__ == \"__main__\":\n    flags = np.array([[1, 1, 0], [1, 0, 1], [1, 1, 1]], dtype=float)\n    print(\"completitud\", completeness(flags))\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?",
+        "options": [
+          "shape",
+          "dtype",
+          "ndim",
+          "base"
+        ]
+      },
+      {
+        "question": "Una máscara booleana a > 0.5 se usa principalmente para:",
+        "options": [
+          "Cambiar el dtype",
+          "Forzar una copy siempre",
+          "Aumentar ndim",
+          "Filtrar o seleccionar elementos que cumplen la condición"
+        ]
+      },
+      {
+        "question": "axis=0 en una reducción sobre una matriz 2D suele agregar:",
+        "options": [
+          "Por columna (colapsa filas)",
+          "Por fila (colapsa columnas)",
+          "Solo el elemento [0,0]",
+          "Nada; axis solo existe en pandas"
+        ]
+      },
+      {
+        "question": "Mutar un slice simple de un ndarray normalmente:",
+        "options": [
+          "Nunca afecta al original",
+          "Convierte todo a object",
+          "Puede mutar el array base porque suele ser un view",
+          "Borra el dtype"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "9e9ad4a25bca928a"
+}

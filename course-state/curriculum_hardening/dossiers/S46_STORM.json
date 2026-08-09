@@ -1,0 +1,1311 @@
+{
+  "section": 46,
+  "title": "Ingeniería de datos y orquestación de producción",
+  "file": "s46-gpu-computing.ts",
+  "n_required": 46,
+  "n_logged": 46,
+  "generated_at": "2026-07-24T04:09:01.718560+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "idempotent backfill; freshness SLO; lineage; no silent late data",
+    "v3_retarget": "data eng orchestration not GPU CUDA",
+    "expert_pass_at": "2026-07-24T04:09:01.718560+00:00"
+  },
+  "unique_foci": 46,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "event time vs processing time",
+      "research": [
+        {
+          "family": "Apache Beam",
+          "title": "Programming guide",
+          "url": "https://beam.apache.org/documentation/programming-guide/",
+          "note": "windows watermarks"
+        },
+        {
+          "family": "dbt",
+          "title": "Incremental models",
+          "url": "https://docs.getdbt.com/docs/build/incremental-models",
+          "note": "incremental loads"
+        },
+        {
+          "family": "Dagster",
+          "title": "Software-defined assets",
+          "url": "https://docs.dagster.io/concepts/assets/software-defined-assets",
+          "note": "assets"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 1/46: «event time vs processing time» via Apache Beam, Dagster, dbt (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «event time vs processing time».",
+      "expand_scope": "E1/E2/E3 + docs for «event time vs processing time»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 1/46: «event time vs processing time» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "tumbling sliding session windows",
+      "research": [
+        {
+          "family": "Flink",
+          "title": "Event time concepts",
+          "url": "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/",
+          "note": "event time"
+        },
+        {
+          "family": "OpenLineage",
+          "title": "OpenLineage docs",
+          "url": "https://openlineage.io/docs/",
+          "note": "lineage"
+        },
+        {
+          "family": "Prefect",
+          "title": "Prefect docs",
+          "url": "https://docs.prefect.io/",
+          "note": "workflow orchestration"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 2/46: «tumbling sliding session windows» via Flink, OpenLineage, Prefect (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «tumbling sliding session windows».",
+      "expand_scope": "E1/E2/E3 + docs for «tumbling sliding session windows»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 2/46: «tumbling sliding session windows» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "watermark lag policy",
+      "research": [
+        {
+          "family": "Airflow",
+          "title": "Airflow docs",
+          "url": "https://airflow.apache.org/docs/",
+          "note": "DAG orchestration"
+        },
+        {
+          "family": "GX",
+          "title": "Great Expectations",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data quality"
+        },
+        {
+          "family": "Spark",
+          "title": "Structured Streaming",
+          "url": "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html",
+          "note": "stream processing"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 3/46: «watermark lag policy» via Airflow, GX, Spark (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «watermark lag policy».",
+      "expand_scope": "E1/E2/E3 + docs for «watermark lag policy»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 3/46: «watermark lag policy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "late data side output or recompute",
+      "research": [
+        {
+          "family": "dbt",
+          "title": "Incremental models",
+          "url": "https://docs.getdbt.com/docs/build/incremental-models",
+          "note": "incremental loads"
+        },
+        {
+          "family": "Dagster",
+          "title": "Software-defined assets",
+          "url": "https://docs.dagster.io/concepts/assets/software-defined-assets",
+          "note": "assets"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLO freshness"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 4/46: «late data side output or recompute» via Dagster, SRE, dbt (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «late data side output or recompute».",
+      "expand_scope": "E1/E2/E3 + docs for «late data side output or recompute»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 4/46: «late data side output or recompute» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "exactly-once as composed property",
+      "research": [
+        {
+          "family": "OpenLineage",
+          "title": "OpenLineage docs",
+          "url": "https://openlineage.io/docs/",
+          "note": "lineage"
+        },
+        {
+          "family": "Prefect",
+          "title": "Prefect docs",
+          "url": "https://docs.prefect.io/",
+          "note": "workflow orchestration"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering Specialization",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "DE curriculum"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 5/46: «exactly-once as composed property» via OpenLineage, Prefect, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «exactly-once as composed property».",
+      "expand_scope": "E1/E2/E3 + docs for «exactly-once as composed property»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 5/46: «exactly-once as composed property» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "idempotent sink keys",
+      "research": [
+        {
+          "family": "GX",
+          "title": "Great Expectations",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data quality"
+        },
+        {
+          "family": "Spark",
+          "title": "Structured Streaming",
+          "url": "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html",
+          "note": "stream processing"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS246",
+          "url": "http://web.stanford.edu/class/cs246/",
+          "note": "large-scale data"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 6/46: «idempotent sink keys» via GX, Spark, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «idempotent sink keys».",
+      "expand_scope": "E1/E2/E3 + docs for «idempotent sink keys»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 6/46: «idempotent sink keys» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "DAG assets no cycles",
+      "research": [
+        {
+          "family": "Dagster",
+          "title": "Software-defined assets",
+          "url": "https://docs.dagster.io/concepts/assets/software-defined-assets",
+          "note": "assets"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLO freshness"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 7/46: «DAG assets no cycles» via Dagster, MIT, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «DAG assets no cycles».",
+      "expand_scope": "E1/E2/E3 + docs for «DAG assets no cycles»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 7/46: «DAG assets no cycles» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "typed dependencies between assets",
+      "research": [
+        {
+          "family": "Prefect",
+          "title": "Prefect docs",
+          "url": "https://docs.prefect.io/",
+          "note": "workflow orchestration"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering Specialization",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "DE curriculum"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 8/46: «typed dependencies between assets» via Harvard, Prefect, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «typed dependencies between assets».",
+      "expand_scope": "E1/E2/E3 + docs for «typed dependencies between assets»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 8/46: «typed dependencies between assets» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "schedules and catchup",
+      "research": [
+        {
+          "family": "Spark",
+          "title": "Structured Streaming",
+          "url": "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html",
+          "note": "stream processing"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS246",
+          "url": "http://web.stanford.edu/class/cs246/",
+          "note": "large-scale data"
+        },
+        {
+          "family": "Coursera",
+          "title": "Data Engineering",
+          "url": "https://www.coursera.org/courses?query=data%20engineering",
+          "note": "DE MOOCs"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 9/46: «schedules and catchup» via Coursera, Spark, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «schedules and catchup».",
+      "expand_scope": "E1/E2/E3 + docs for «schedules and catchup»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 9/46: «schedules and catchup» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "backfill bounded historical ranges",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLO freshness"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 10/46: «backfill bounded historical ranges» via MIT, Py4E, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «backfill bounded historical ranges».",
+      "expand_scope": "E1/E2/E3 + docs for «backfill bounded historical ranges»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 10/46: «backfill bounded historical ranges» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "checkpoint state recovery",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering Specialization",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "DE curriculum"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 11/46: «checkpoint state recovery» via Harvard, Live, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «checkpoint state recovery».",
+      "expand_scope": "E1/E2/E3 + docs for «checkpoint state recovery»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 11/46: «checkpoint state recovery» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "data contracts schema freshness",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS246",
+          "url": "http://web.stanford.edu/class/cs246/",
+          "note": "large-scale data"
+        },
+        {
+          "family": "Coursera",
+          "title": "Data Engineering",
+          "url": "https://www.coursera.org/courses?query=data%20engineering",
+          "note": "DE MOOCs"
+        },
+        {
+          "family": "Kafka",
+          "title": "Kafka docs",
+          "url": "https://kafka.apache.org/documentation/",
+          "note": "streaming backbone"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 12/46: «data contracts schema freshness» via Coursera, Kafka, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «data contracts schema freshness».",
+      "expand_scope": "E1/E2/E3 + docs for «data contracts schema freshness»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 12/46: «data contracts schema freshness» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "great expectations style checks",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "DataHub",
+          "title": "DataHub docs",
+          "url": "https://datahubproject.io/docs/",
+          "note": "metadata lineage"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 13/46: «great expectations style checks» via DataHub, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «great expectations style checks».",
+      "expand_scope": "E1/E2/E3 + docs for «great expectations style checks»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 13/46: «great expectations style checks» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "lineage openlineage columns tables",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops discipline"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 14/46: «lineage openlineage columns tables» via 12factor, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «lineage openlineage columns tables».",
+      "expand_scope": "E1/E2/E3 + docs for «lineage openlineage columns tables»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 14/46: «lineage openlineage columns tables» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "ownership on-call data product",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Data Engineering",
+          "url": "https://www.coursera.org/courses?query=data%20engineering",
+          "note": "DE MOOCs"
+        },
+        {
+          "family": "Kafka",
+          "title": "Kafka docs",
+          "url": "https://kafka.apache.org/documentation/",
+          "note": "streaming backbone"
+        },
+        {
+          "family": "Apache Beam",
+          "title": "Programming guide",
+          "url": "https://beam.apache.org/documentation/programming-guide/",
+          "note": "windows watermarks"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 15/46: «ownership on-call data product» via Apache Beam, Coursera, Kafka (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ownership on-call data product».",
+      "expand_scope": "E1/E2/E3 + docs for «ownership on-call data product»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 15/46: «ownership on-call data product» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "partitioned incremental loads",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "DataHub",
+          "title": "DataHub docs",
+          "url": "https://datahubproject.io/docs/",
+          "note": "metadata lineage"
+        },
+        {
+          "family": "Flink",
+          "title": "Event time concepts",
+          "url": "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/",
+          "note": "event time"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 16/46: «partitioned incremental loads» via DataHub, Flink, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «partitioned incremental loads».",
+      "expand_scope": "E1/E2/E3 + docs for «partitioned incremental loads»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 16/46: «partitioned incremental loads» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "merge/upsert without full rewrite",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops discipline"
+        },
+        {
+          "family": "Airflow",
+          "title": "Airflow docs",
+          "url": "https://airflow.apache.org/docs/",
+          "note": "DAG orchestration"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 17/46: «merge/upsert without full rewrite» via 12factor, Airflow, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «merge/upsert without full rewrite».",
+      "expand_scope": "E1/E2/E3 + docs for «merge/upsert without full rewrite»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 17/46: «merge/upsert without full rewrite» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "freshness SLO SLI",
+      "research": [
+        {
+          "family": "Kafka",
+          "title": "Kafka docs",
+          "url": "https://kafka.apache.org/documentation/",
+          "note": "streaming backbone"
+        },
+        {
+          "family": "Apache Beam",
+          "title": "Programming guide",
+          "url": "https://beam.apache.org/documentation/programming-guide/",
+          "note": "windows watermarks"
+        },
+        {
+          "family": "dbt",
+          "title": "Incremental models",
+          "url": "https://docs.getdbt.com/docs/build/incremental-models",
+          "note": "incremental loads"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 18/46: «freshness SLO SLI» via Apache Beam, Kafka, dbt (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «freshness SLO SLI».",
+      "expand_scope": "E1/E2/E3 + docs for «freshness SLO SLI»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 18/46: «freshness SLO SLI» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "data incidents runbooks",
+      "research": [
+        {
+          "family": "DataHub",
+          "title": "DataHub docs",
+          "url": "https://datahubproject.io/docs/",
+          "note": "metadata lineage"
+        },
+        {
+          "family": "Flink",
+          "title": "Event time concepts",
+          "url": "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/",
+          "note": "event time"
+        },
+        {
+          "family": "OpenLineage",
+          "title": "OpenLineage docs",
+          "url": "https://openlineage.io/docs/",
+          "note": "lineage"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 19/46: «data incidents runbooks» via DataHub, Flink, OpenLineage (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «data incidents runbooks».",
+      "expand_scope": "E1/E2/E3 + docs for «data incidents runbooks»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 19/46: «data incidents runbooks» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "recovery recompute from lineage",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops discipline"
+        },
+        {
+          "family": "Airflow",
+          "title": "Airflow docs",
+          "url": "https://airflow.apache.org/docs/",
+          "note": "DAG orchestration"
+        },
+        {
+          "family": "GX",
+          "title": "Great Expectations",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data quality"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 20/46: «recovery recompute from lineage» via 12factor, Airflow, GX (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «recovery recompute from lineage».",
+      "expand_scope": "E1/E2/E3 + docs for «recovery recompute from lineage»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 20/46: «recovery recompute from lineage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "CASO-HYO-046 Huancayo synthetic events",
+      "research": [
+        {
+          "family": "Apache Beam",
+          "title": "Programming guide",
+          "url": "https://beam.apache.org/documentation/programming-guide/",
+          "note": "windows watermarks"
+        },
+        {
+          "family": "dbt",
+          "title": "Incremental models",
+          "url": "https://docs.getdbt.com/docs/build/incremental-models",
+          "note": "incremental loads"
+        },
+        {
+          "family": "Dagster",
+          "title": "Software-defined assets",
+          "url": "https://docs.dagster.io/concepts/assets/software-defined-assets",
+          "note": "assets"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 21/46: «CASO-HYO-046 Huancayo synthetic events» via Apache Beam, Dagster, dbt (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-HYO-046 Huancayo synthetic events».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-HYO-046 Huancayo synthetic events»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 21/46: «CASO-HYO-046 Huancayo synthetic events» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "V3 retarget not GPU CUDA kernels",
+      "research": [
+        {
+          "family": "Flink",
+          "title": "Event time concepts",
+          "url": "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/",
+          "note": "event time"
+        },
+        {
+          "family": "OpenLineage",
+          "title": "OpenLineage docs",
+          "url": "https://openlineage.io/docs/",
+          "note": "lineage"
+        },
+        {
+          "family": "Prefect",
+          "title": "Prefect docs",
+          "url": "https://docs.prefect.io/",
+          "note": "workflow orchestration"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 22/46: «V3 retarget not GPU CUDA kernels» via Flink, OpenLineage, Prefect (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 retarget not GPU CUDA kernels».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget not GPU CUDA kernels»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 22/46: «V3 retarget not GPU CUDA kernels» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "CP-N4-B data pipeline gate",
+      "research": [
+        {
+          "family": "Airflow",
+          "title": "Airflow docs",
+          "url": "https://airflow.apache.org/docs/",
+          "note": "DAG orchestration"
+        },
+        {
+          "family": "GX",
+          "title": "Great Expectations",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data quality"
+        },
+        {
+          "family": "Spark",
+          "title": "Structured Streaming",
+          "url": "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html",
+          "note": "stream processing"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 23/46: «CP-N4-B data pipeline gate» via Airflow, GX, Spark (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N4-B data pipeline gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N4-B data pipeline gate»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 23/46: «CP-N4-B data pipeline gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "E1 guided watermark DEFECT",
+      "research": [
+        {
+          "family": "dbt",
+          "title": "Incremental models",
+          "url": "https://docs.getdbt.com/docs/build/incremental-models",
+          "note": "incremental loads"
+        },
+        {
+          "family": "Dagster",
+          "title": "Software-defined assets",
+          "url": "https://docs.dagster.io/concepts/assets/software-defined-assets",
+          "note": "assets"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLO freshness"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 24/46: «E1 guided watermark DEFECT» via Dagster, SRE, dbt (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E1 guided watermark DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided watermark DEFECT»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 24/46: «E1 guided watermark DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "E2 independent DAG acyclic",
+      "research": [
+        {
+          "family": "OpenLineage",
+          "title": "OpenLineage docs",
+          "url": "https://openlineage.io/docs/",
+          "note": "lineage"
+        },
+        {
+          "family": "Prefect",
+          "title": "Prefect docs",
+          "url": "https://docs.prefect.io/",
+          "note": "workflow orchestration"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering Specialization",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "DE curriculum"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 25/46: «E2 independent DAG acyclic» via OpenLineage, Prefect, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2 independent DAG acyclic».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent DAG acyclic»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 25/46: «E2 independent DAG acyclic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "E3 transfer freshness lineage",
+      "research": [
+        {
+          "family": "GX",
+          "title": "Great Expectations",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data quality"
+        },
+        {
+          "family": "Spark",
+          "title": "Structured Streaming",
+          "url": "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html",
+          "note": "stream processing"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS246",
+          "url": "http://web.stanford.edu/class/cs246/",
+          "note": "large-scale data"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 26/46: «E3 transfer freshness lineage» via GX, Spark, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E3 transfer freshness lineage».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer freshness lineage»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 26/46: «E3 transfer freshness lineage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "Apache Beam programming guide",
+      "research": [
+        {
+          "family": "Dagster",
+          "title": "Software-defined assets",
+          "url": "https://docs.dagster.io/concepts/assets/software-defined-assets",
+          "note": "assets"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLO freshness"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 27/46: «Apache Beam programming guide» via Dagster, MIT, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Apache Beam programming guide».",
+      "expand_scope": "E1/E2/E3 + docs for «Apache Beam programming guide»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 27/46: «Apache Beam programming guide» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "Flink event time concepts",
+      "research": [
+        {
+          "family": "Prefect",
+          "title": "Prefect docs",
+          "url": "https://docs.prefect.io/",
+          "note": "workflow orchestration"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering Specialization",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "DE curriculum"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 28/46: «Flink event time concepts» via Harvard, Prefect, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Flink event time concepts».",
+      "expand_scope": "E1/E2/E3 + docs for «Flink event time concepts»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 28/46: «Flink event time concepts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "Airflow orchestration research",
+      "research": [
+        {
+          "family": "Spark",
+          "title": "Structured Streaming",
+          "url": "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html",
+          "note": "stream processing"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS246",
+          "url": "http://web.stanford.edu/class/cs246/",
+          "note": "large-scale data"
+        },
+        {
+          "family": "Coursera",
+          "title": "Data Engineering",
+          "url": "https://www.coursera.org/courses?query=data%20engineering",
+          "note": "DE MOOCs"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 29/46: «Airflow orchestration research» via Coursera, Spark, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Airflow orchestration research».",
+      "expand_scope": "E1/E2/E3 + docs for «Airflow orchestration research»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 29/46: «Airflow orchestration research» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "dbt incremental models",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLO freshness"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 30/46: «dbt incremental models» via MIT, Py4E, SRE (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «dbt incremental models».",
+      "expand_scope": "E1/E2/E3 + docs for «dbt incremental models»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 30/46: «dbt incremental models» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "OpenLineage competitive research",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering Specialization",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "DE curriculum"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 31/46: «OpenLineage competitive research» via Harvard, Live, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OpenLineage competitive research».",
+      "expand_scope": "E1/E2/E3 + docs for «OpenLineage competitive research»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 31/46: «OpenLineage competitive research» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "deeplearning.ai data engineering",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS246",
+          "url": "http://web.stanford.edu/class/cs246/",
+          "note": "large-scale data"
+        },
+        {
+          "family": "Coursera",
+          "title": "Data Engineering",
+          "url": "https://www.coursera.org/courses?query=data%20engineering",
+          "note": "DE MOOCs"
+        },
+        {
+          "family": "Kafka",
+          "title": "Kafka docs",
+          "url": "https://kafka.apache.org/documentation/",
+          "note": "streaming backbone"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 32/46: «deeplearning.ai data engineering» via Coursera, Kafka, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «deeplearning.ai data engineering».",
+      "expand_scope": "E1/E2/E3 + docs for «deeplearning.ai data engineering»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 32/46: «deeplearning.ai data engineering» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "Stanford CS246 large-scale data",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "DataHub",
+          "title": "DataHub docs",
+          "url": "https://datahubproject.io/docs/",
+          "note": "metadata lineage"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 33/46: «Stanford CS246 large-scale data» via DataHub, MIT, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Stanford CS246 large-scale data».",
+      "expand_scope": "E1/E2/E3 + docs for «Stanford CS246 large-scale data»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 33/46: «Stanford CS246 large-scale data» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "pair from S45 async job to DE pipeline",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops discipline"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 34/46: «pair from S45 async job to DE pipeline» via 12factor, Harvard, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S45 async job to DE pipeline».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S45 async job to DE pipeline»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 34/46: «pair from S45 async job to DE pipeline» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "selfCheck DE MCQ ≥5",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Data Engineering",
+          "url": "https://www.coursera.org/courses?query=data%20engineering",
+          "note": "DE MOOCs"
+        },
+        {
+          "family": "Kafka",
+          "title": "Kafka docs",
+          "url": "https://kafka.apache.org/documentation/",
+          "note": "streaming backbone"
+        },
+        {
+          "family": "Apache Beam",
+          "title": "Programming guide",
+          "url": "https://beam.apache.org/documentation/programming-guide/",
+          "note": "windows watermarks"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 35/46: «selfCheck DE MCQ ≥5» via Apache Beam, Coursera, Kafka (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «selfCheck DE MCQ ≥5».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck DE MCQ ≥5»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 35/46: «selfCheck DE MCQ ≥5» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "silent late data is gate failure",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive disclosure"
+        },
+        {
+          "family": "DataHub",
+          "title": "DataHub docs",
+          "url": "https://datahubproject.io/docs/",
+          "note": "metadata lineage"
+        },
+        {
+          "family": "Flink",
+          "title": "Event time concepts",
+          "url": "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/",
+          "note": "event time"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 36/46: «silent late data is gate failure» via DataHub, Flink, Py4E (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «silent late data is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «silent late data is gate failure»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 36/46: «silent late data is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "cyclic DAG is gate failure",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops discipline"
+        },
+        {
+          "family": "Airflow",
+          "title": "Airflow docs",
+          "url": "https://airflow.apache.org/docs/",
+          "note": "DAG orchestration"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 37/46: «cyclic DAG is gate failure» via 12factor, Airflow, Live (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cyclic DAG is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «cyclic DAG is gate failure»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 37/46: «cyclic DAG is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "second run rewrite uncontrolled is gate failure",
+      "research": [
+        {
+          "family": "Kafka",
+          "title": "Kafka docs",
+          "url": "https://kafka.apache.org/documentation/",
+          "note": "streaming backbone"
+        },
+        {
+          "family": "Apache Beam",
+          "title": "Programming guide",
+          "url": "https://beam.apache.org/documentation/programming-guide/",
+          "note": "windows watermarks"
+        },
+        {
+          "family": "dbt",
+          "title": "Incremental models",
+          "url": "https://docs.getdbt.com/docs/build/incremental-models",
+          "note": "incremental loads"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 38/46: «second run rewrite uncontrolled is gate failure» via Apache Beam, Kafka, dbt (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «second run rewrite uncontrolled is gate failure».",
+      "expand_scope": "E1/E2/E3 + docs for «second run rewrite uncontrolled is gate failure»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 38/46: «second run rewrite uncontrolled is gate failure» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "schema drift detection required",
+      "research": [
+        {
+          "family": "DataHub",
+          "title": "DataHub docs",
+          "url": "https://datahubproject.io/docs/",
+          "note": "metadata lineage"
+        },
+        {
+          "family": "Flink",
+          "title": "Event time concepts",
+          "url": "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/",
+          "note": "event time"
+        },
+        {
+          "family": "OpenLineage",
+          "title": "OpenLineage docs",
+          "url": "https://openlineage.io/docs/",
+          "note": "lineage"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 39/46: «schema drift detection required» via DataHub, Flink, OpenLineage (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «schema drift detection required».",
+      "expand_scope": "E1/E2/E3 + docs for «schema drift detection required»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 39/46: «schema drift detection required» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "progressive disclosure stdlib contracts",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor App",
+          "url": "https://12factor.net/",
+          "note": "ops discipline"
+        },
+        {
+          "family": "Airflow",
+          "title": "Airflow docs",
+          "url": "https://airflow.apache.org/docs/",
+          "note": "DAG orchestration"
+        },
+        {
+          "family": "GX",
+          "title": "Great Expectations",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data quality"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 40/46: «progressive disclosure stdlib contracts» via 12factor, Airflow, GX (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «progressive disclosure stdlib contracts».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure stdlib contracts»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 40/46: «progressive disclosure stdlib contracts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "Dagster software-defined assets",
+      "research": [
+        {
+          "family": "Apache Beam",
+          "title": "Programming guide",
+          "url": "https://beam.apache.org/documentation/programming-guide/",
+          "note": "windows watermarks"
+        },
+        {
+          "family": "dbt",
+          "title": "Incremental models",
+          "url": "https://docs.getdbt.com/docs/build/incremental-models",
+          "note": "incremental loads"
+        },
+        {
+          "family": "Dagster",
+          "title": "Software-defined assets",
+          "url": "https://docs.dagster.io/concepts/assets/software-defined-assets",
+          "note": "assets"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 41/46: «Dagster software-defined assets» via Apache Beam, Dagster, dbt (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Dagster software-defined assets».",
+      "expand_scope": "E1/E2/E3 + docs for «Dagster software-defined assets»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 41/46: «Dagster software-defined assets» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "Prefect workflow orchestration",
+      "research": [
+        {
+          "family": "Flink",
+          "title": "Event time concepts",
+          "url": "https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/",
+          "note": "event time"
+        },
+        {
+          "family": "OpenLineage",
+          "title": "OpenLineage docs",
+          "url": "https://openlineage.io/docs/",
+          "note": "lineage"
+        },
+        {
+          "family": "Prefect",
+          "title": "Prefect docs",
+          "url": "https://docs.prefect.io/",
+          "note": "workflow orchestration"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 42/46: «Prefect workflow orchestration» via Flink, OpenLineage, Prefect (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Prefect workflow orchestration».",
+      "expand_scope": "E1/E2/E3 + docs for «Prefect workflow orchestration»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 42/46: «Prefect workflow orchestration» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 43,
+      "focus": "Spark structured streaming transfer",
+      "research": [
+        {
+          "family": "Airflow",
+          "title": "Airflow docs",
+          "url": "https://airflow.apache.org/docs/",
+          "note": "DAG orchestration"
+        },
+        {
+          "family": "GX",
+          "title": "Great Expectations",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data quality"
+        },
+        {
+          "family": "Spark",
+          "title": "Structured Streaming",
+          "url": "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html",
+          "note": "stream processing"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 43/46: «Spark structured streaming transfer» via Airflow, GX, Spark (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Spark structured streaming transfer».",
+      "expand_scope": "E1/E2/E3 + docs for «Spark structured streaming transfer»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 43/46: «Spark structured streaming transfer» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 44,
+      "focus": "Kafka streaming backbone analogy",
+      "research": [
+        {
+          "family": "dbt",
+          "title": "Incremental models",
+          "url": "https://docs.getdbt.com/docs/build/incremental-models",
+          "note": "incremental loads"
+        },
+        {
+          "family": "Dagster",
+          "title": "Software-defined assets",
+          "url": "https://docs.dagster.io/concepts/assets/software-defined-assets",
+          "note": "assets"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring workbook",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "SLO freshness"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 44/46: «Kafka streaming backbone analogy» via Dagster, SRE, dbt (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Kafka streaming backbone analogy».",
+      "expand_scope": "E1/E2/E3 + docs for «Kafka streaming backbone analogy»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 44/46: «Kafka streaming backbone analogy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 45,
+      "focus": "SRE monitoring freshness SLO",
+      "research": [
+        {
+          "family": "OpenLineage",
+          "title": "OpenLineage docs",
+          "url": "https://openlineage.io/docs/",
+          "note": "lineage"
+        },
+        {
+          "family": "Prefect",
+          "title": "Prefect docs",
+          "url": "https://docs.prefect.io/",
+          "note": "workflow orchestration"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering Specialization",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "DE curriculum"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 45/46: «SRE monitoring freshness SLO» via OpenLineage, Prefect, deeplearning.ai (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SRE monitoring freshness SLO».",
+      "expand_scope": "E1/E2/E3 + docs for «SRE monitoring freshness SLO»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 45/46: «SRE monitoring freshness SLO» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 46,
+      "focus": "DataHub metadata catalog",
+      "research": [
+        {
+          "family": "GX",
+          "title": "Great Expectations",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data quality"
+        },
+        {
+          "family": "Spark",
+          "title": "Structured Streaming",
+          "url": "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html",
+          "note": "stream processing"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS246",
+          "url": "http://web.stanford.edu/class/cs246/",
+          "note": "large-scale data"
+        }
+      ],
+      "synthesize": "S46 «Ingeniería de datos y orquestación de producción» cycle 46/46: «DataHub metadata catalog» via GX, Spark, Stanford (CASO).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «DataHub metadata catalog».",
+      "expand_scope": "E1/E2/E3 + docs for «DataHub metadata catalog»; V3 roadmap; pair S46↔S47.",
+      "re_synthesize": "Decision 46/46: «DataHub metadata catalog» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T04:09:01.718560+00:00"
+}

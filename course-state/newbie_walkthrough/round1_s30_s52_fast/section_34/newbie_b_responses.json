@@ -1,0 +1,367 @@
+{
+  "agent": "b",
+  "section_index": 34,
+  "recorded_at": "2026-08-01T15:23:35.765982+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Precision/recall o PR-AUC (familia PR) de la cola",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          6.15,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "Introduce fuga de datos y métricas infladas",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.0,
+          2.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          6.0,
+          4.0,
+          6.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "Abstener según política (abstain)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          4.0,
+          4.0,
+          4.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "chosen_text": "La media de (p − y)² sobre los casos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          1.0,
+          2.0,
+          3.15
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 0,
+        "chosen_text": "Porque ROC puede verse optimista cuando los negativos dominan; PR enfoca la cola positiva",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          11.6,
+          6.3,
+          3.0,
+          5.3
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 2,
+        "chosen_text": "Tratar overload como breach operativo (reevaluar thr / k) aunque la métrica de top-k luzca bien",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.15,
+          2.0,
+          9.0,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S34-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Abre el starter: `f1 = p + r` y `tn = 0` (DEFECT).n2. Cuenta TN con `zip` (pares y=0, pred=0).n3. Reemplaza F1 por `2",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: da PASS cuando `accuracy_only` es True (DEFECT).n2. Mantén la rama `MISSING:` primero.n3. PASS sol",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: missing devuelve CONTINUE y el pred está invertido.n2. Sin `tp` → `REQUEST_CONFUSION`.n3. Con datos: C",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-034-1B · precision@k y recall@k\n# DEFECT: recall divide entre k (no n_pos)\nlabels = [1, 0, 1]\nk, n_pos = 3, 2\nload, capacity = 8, 10\nprecision_at_k = sum(labels[:k]) / k\nrecall_at_k = sum(labels[:k]) / k  # DEFECT\nok = (\n    abs(precision_at_k - 2 / 3) < 1e-9\n    and abs(recall_at_k - 1.0) < 1e-9\n    and load <= capacity\n)\nstatus = \"PASS\" if ok else \"REJECT_QUEUE_OVERLOAD\"\nprint(\"S34-T1-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "mantén",
+          "suma",
+          "antes",
+          "guarda",
+          "starter",
+          "usa"
+        ]
+      },
+      {
+        "exercise_id": "S34-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: PASS cuando load > capacity (DEFECT).n2. Invierte el predicado y valida rango de precision_at_k.n3",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: missing→CONTINUE y pred invertido.n2. Sin capacity → REQUEST_CAPACITY.n3. CONTINUE solo con load ≤ cap",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-034-2A · pesos + fold CV-safe\n# DEFECT: resample_train_only = resample_global\nn0, n1 = 9, 1\nresample_global = False\nweight_ratio = n0 / n1\nresample_train_only = resample_global  # DEFECT\nok = (\n    abs(weight_ratio - 9.0) < 1e-9\n    and resample_train_only is True\n    and n1 > 0\n)\nstatus = \"PASS\" if ok else \"REJECT_LEAKY_RESAMPLE\"\nprint(\"S34-T2-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "train",
+          "abre",
+          "mantén",
+          "ratio",
+          "only",
+          "copia",
+          "solo",
+          "flag"
+        ]
+      },
+      {
+        "exercise_id": "S34-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: PASS si resample_global es True (DEFECT).n2. Invierte: PASS solo con False + n1>0 + n0>n1.n3. Mant",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: missing→CONTINUE y pred invertido.n2. Sin n1 → REQUEST_WEIGHTS.n3. CONTINUE solo con política CV-safe.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-034-2B · prevalencia + accuracy trap\n# DEFECT: accuracy_enough = True\npos, n = 25, 1000\nprevalence = pos / n\nall_neg_acc = 1 - prevalence\naccuracy_enough = True  # DEFECT\nok = accuracy_enough is False and 0 < prevalence < 0.5\nstatus = \"PASS\" if ok else \"REJECT_PREVALENCE_BLIND\"\nprint(\"S34-T2-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "calcula",
+          "solo",
+          "contrato",
+          "cumple",
+          "fija",
+          "starter",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S34-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: PASS si accuracy_enough True (DEFECT).n2. Invierte y exige rango de prevalencia.n3. Mantén MISSING",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: missing→CONTINUE y pred invertido.n2. Sin prevalence → REQUEST_BASE_RATE.n3. CONTINUE solo con accurac",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-034-3A · Brier medio + bin\n# DEFECT: brier de un solo punto (1.0,1) en vez de la media del set\nps = [0.5, 0.5]\nys = [0, 1]\nbrier = (1.0 - 1) ** 2  # DEFECT: ignora el set\nmean_p = sum(ps) / len(ps)\nfreq = sum(ys) / len(ys)\nok = abs(brier - 0.25) < 1e-9 and abs(mean_p - freq) <= 0.1\nstatus = \"PASS\" if ok else \"REJECT_UNCALIBRATED\"\nprint(\"S34-T3-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ambas",
+          "reemplaza",
+          "abre",
+          "zip",
+          "calcula",
+          "perfecto",
+          "condiciones",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S34-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: PASS si |mean_p−freq| > 0.3 (DEFECT).n2. Exige alineación ≤0.1 y brier ≤0.25.n3. Mantén MISSING:br",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: missing→CONTINUE y pred invertido.n2. Sin brier → REQUEST_BRIER.n3. CONTINUE con umbrales del contrato",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-034-3B · afín holdout (Platt simplificado)\n# DEFECT: solo clip, sin a·x+b\nraw = [1.5, -0.2, 0.4]\na, b = 0.8, 0.1\ncal = [min(1.0, max(0.0, x)) for x in raw]  # DEFECT: clip sin a·x+b\ncalibrator_set = \"holdout_v1\"\nexpected = [1.0, 0.0, 0.42]\nok = (\n    cal == expected\n    and calibrator_set.startswith(\"holdout\")\n    and len(raw) == len(cal)\n)\nstatus = \"PASS\" if ok else \"REJECT_IN_SAMPLE_CAL\"\nprint(\"S34-T3-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "round",
+          "mantén",
+          "aplica",
+          "longitudes",
+          "set",
+          "starter",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S34-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: PASS si set == train_in_sample (DEFECT).n2. Exige startswith('holdout') y len(raw)==len(cal).n3. M",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: missing→CONTINUE y pred invertido.n2. Sin set → REQUEST_CAL_SET.n3. CONTINUE solo con holdout + misma ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Abre el starter: thr fijo 0.5 (DEFECT).n2. Itera thr en sorted(set(scores)).n3. Descarta n_review > capacity o 0; min",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: PASS si thr_id == default (DEFECT).n2. Exige startswith('thr-v'), cost is not None y n_review ≥ 1.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T4-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: missing→CONTINUE y pred invertido.n2. Sin cost → REQUEST_COST_MATRIX.n3. CONTINUE con thr-v* y cost do",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-034-4B · banda de abstención\n# DEFECT: en banda devuelve 'review' (fuerza cola)\ndef decide(score, low=0.3, high=0.7):\n    if score < low:\n        return \"skip\"\n    if score > high:\n        return \"review\"\n    return \"review\"  # DEFECT: debería abstain\n\nok = decide(0.5) == \"abstain\" and decide(0.1) == \"skip\" and decide(0.9) == \"review\"\nstatus = \"PASS\" if ok else \"REJECT_FORCE_LABEL\"\nprint(\"S34-T4-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "mantén",
+          "pasan",
+          "ramas",
+          "solo",
+          "cambia",
+          "pruebas",
+          "tres"
+        ]
+      },
+      {
+        "exercise_id": "S34-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: PASS si decision == force_1 (DEFECT).n2. Exige score estrictamente en (low, high) y decision absta",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S34-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: missing→CONTINUE y pred invertido.n2. Sin low → REQUEST_ABSTAIN_BAND.n3. CONTINUE solo con score en ba",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "d3dec09af1f0278e"
+  }
+}

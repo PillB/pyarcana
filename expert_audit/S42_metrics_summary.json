@@ -1,0 +1,96 @@
+{
+  "n_blocks": 267,
+  "n_sentences": 348,
+  "mean_FH": 74.3,
+  "mean_INFLESZ": 69.9,
+  "mean_WPS": 10.49,
+  "mean_SPW": 2.03,
+  "long_gt32": 2,
+  "runon_gt45": 0,
+  "missing_terminal": 145,
+  "missing_inverted": 1,
+  "unbalanced": 0,
+  "double_space": 0,
+  "space_before_punct": 0,
+  "gerund_pileup": 0,
+  "high_comma": 26,
+  "repeated_word": 0,
+  "anaphora_paragraphs": 0,
+  "worst_sentences": [
+    {
+      "FH": -82.2,
+      "words": 4,
+      "sentence": "Google Cybersecurity Professional Certificate"
+    },
+    {
+      "FH": -52.2,
+      "words": 4,
+      "sentence": "Reproducibilidad, lineage y evidencia"
+    },
+    {
+      "FH": -35.2,
+      "words": 2,
+      "sentence": "Produce exactamente CODE."
+    },
+    {
+      "FH": -35.2,
+      "words": 2,
+      "sentence": "Produce exactamente CODE."
+    },
+    {
+      "FH": -35.2,
+      "words": 2,
+      "sentence": "Produce exactamente CODE."
+    },
+    {
+      "FH": -35.2,
+      "words": 2,
+      "sentence": "Produce exactamente CODE."
+    },
+    {
+      "FH": -35.2,
+      "words": 2,
+      "sentence": "Produce exactamente CODE."
+    },
+    {
+      "FH": -35.2,
+      "words": 2,
+      "sentence": "Produce exactamente CODE."
+    },
+    {
+      "FH": -35.2,
+      "words": 2,
+      "sentence": "Produce exactamente CODE."
+    },
+    {
+      "FH": -35.2,
+      "words": 2,
+      "sentence": "Contratos verificables"
+    },
+    {
+      "FH": -7.2,
+      "words": 4,
+      "sentence": "Minimización, purpose y retención"
+    },
+    {
+      "FH": -7.2,
+      "words": 4,
+      "sentence": "Identidad digital y autenticación"
+    },
+    {
+      "FH": -7.2,
+      "words": 4,
+      "sentence": "Tokens y pseudonimización didáctica"
+    },
+    {
+      "FH": -7.2,
+      "words": 4,
+      "sentence": "Designing Data-Intensive Applications"
+    },
+    {
+      "FH": -7.2,
+      "words": 4,
+      "sentence": "Contratos, aislamiento y evolución"
+    }
+  ]
+}

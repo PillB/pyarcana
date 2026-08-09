@@ -1,0 +1,1087 @@
+{
+  "section_index": 5,
+  "section_id": "oop",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 5,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S05-T1-A-E1",
+          "code": "def doble(n):\n    return n * 2\nprint(doble(21))",
+          "note": "",
+          "concepts_used": [
+            "def",
+            "return"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T1-A-E2",
+          "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))",
+          "note": "",
+          "concepts_used": [
+            "strip_collapse"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T1-A-E3",
+          "code": "def saluda(nombre):\n    return f'Hola {nombre}'\nprint(saluda('Ana'))",
+          "note": "",
+          "concepts_used": [
+            "return vs None"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T1-B-E1",
+          "code": "def present(nombre, titulo='Cliente'):\n    return f'{titulo}: {nombre}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))",
+          "note": "",
+          "concepts_used": [
+            "defaults",
+            "keyword"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T1-B-E2",
+          "code": "def good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))",
+          "note": "",
+          "concepts_used": [
+            "default None mutable"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T1-B-E3",
+          "code": "def normalize_telefono(raw, *, digits_only=True):\n    s = raw.strip()\n    if digits_only:\n        return ''.join(c for c in s if c.isdigit())\n    return s\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))",
+          "note": "",
+          "concepts_used": [
+            "keyword-only *"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-A-E1",
+          "code": "def area(w, h):\n    \"\"\"Área de un rectángulo w×h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))",
+          "note": "",
+          "concepts_used": [
+            "docstring"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-A-E2",
+          "code": "def normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\"\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"falta @\")\n    return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)",
+          "note": "",
+          "concepts_used": [
+            "ValueError email"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-A-E3",
+          "code": "def normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return \" \".join(raw.strip().split())\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == r.strip() and '  ' not in r\nprint('post OK')",
+          "note": "",
+          "concepts_used": [
+            "postcondición assert"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-B-E1",
+          "code": "def len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\nprint('Nota: el hint no valida en runtime')",
+          "note": "",
+          "concepts_used": [
+            "type hints"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-B-E2",
+          "code": "from typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    try:\n        n = int(raw.strip())\n    except ValueError:\n        return False, None, 'no es int'\n    if n < 0:\n        return False, None, 'negativo'\n    return True, n, None\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))",
+          "note": "",
+          "concepts_used": [
+            "tuple dominio"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-B-E3",
+          "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('falta @')\n    return s\nprint('Política: raise por fila; try/except en el lote no aborta todo')\nfor e in ['ok@ex.com', 'malo']:\n    try:\n        print('OK', normalize_email(e))\n    except ValueError:\n        print('SKIP', e)",
+          "note": "",
+          "concepts_used": [
+            "raise en lote"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-A-E1",
+          "code": "def strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\nprint(normalize_nombre('  ana  maría '))",
+          "note": "",
+          "concepts_used": [
+            "composición"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-A-E2",
+          "code": "def norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    return {'nombre': norm_n(nombre), 'email': norm_e(email)}\nprint(normalize_contact('  luis ', '  L@E.COM '))",
+          "note": "",
+          "concepts_used": [
+            "orquestador"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-A-E3",
+          "code": "def norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef norm_t(s):\n    return ''.join(c for c in s if c.isdigit())\ndef normalize_all(n, e, t):\n    return {'nombre': norm_n(n), 'email': norm_e(e), 'telefono': norm_t(t)}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))",
+          "note": "",
+          "concepts_used": [
+            "descomposición"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-B-E1",
+          "code": "def normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)",
+          "note": "",
+          "concepts_used": [
+            "idempotencia"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-B-E2",
+          "code": "def normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print('email=', normalize_email(raw))\nprint_report('  Z@W.COM ')",
+          "note": "",
+          "concepts_used": [
+            "pureza vs I/O"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-B-E3",
+          "code": "def normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))",
+          "note": "",
+          "concepts_used": [
+            "inyección norm"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-A-E1",
+          "code": "x = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)",
+          "note": "",
+          "concepts_used": [
+            "LEGB local"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-A-E2",
+          "code": "def make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))",
+          "note": "",
+          "concepts_used": [
+            "closure"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-A-E3",
+          "code": "def make_normalizer(mode):\n    if mode == 'digits':\n        def digits(s):\n            return ''.join(c for c in s if c.isdigit())\n        return digits\n    if mode == 'lower':\n        def lower(s):\n            return s.strip().lower()\n        return lower\n    raise ValueError(mode)\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))",
+          "note": "",
+          "concepts_used": [
+            "factory mode"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-B-E1",
+          "code": "def normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('A@B.COM') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == normalize_email('A@B.COM')\nprint('OK')",
+          "note": "",
+          "concepts_used": [
+            "asserts ejemplo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-B-E2",
+          "code": "def strip_collapse(raw):\n    return ' '.join(raw.strip().split())\ndef normalize_dir(raw):\n    return strip_collapse(raw).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\nprint(normalize_dir(' jr 2 '))",
+          "note": "",
+          "concepts_used": [
+            "refactor sin cambiar conducta"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-B-E3",
+          "code": "def normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nfor inp, exp in cases:\n    got = normalize_nombre(inp)\n    assert got == exp, (inp, got, exp)\n    print('PASS', inp, got)\nprint('all PASS')",
+          "note": "",
+          "concepts_used": [
+            "suite cases"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S05-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "42\n",
+          "expected_head": "42",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Juan Pérez\n",
+          "expected_head": "Juan Pérez",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Hola Ana\n",
+          "expected_head": "Hola Ana",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Cliente: Quispe\nVIP: Quispe\n",
+          "expected_head": "Cliente: Quispe\nVIP: Quispe",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1]\n[2]\n",
+          "expected_head": "[1]\n[2]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "999000\n999-000\n",
+          "expected_head": "999000\n999-000",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Área de un rectángulo w×h.\n12\n",
+          "expected_head": "Retorna el área de un rectángulo w×h.\n12",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a@b.com\nerr falta @\n",
+          "expected_head": "a@b.com\nerr email sin @",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana María\npost OK\n",
+          "expected_head": "Ana María\npost OK",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\nNota: el hint no valida en runtime\n",
+          "expected_head": "3\nhint no valida en runtime",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0 (True, 0, None)\n10 (True, 10, None)\n-1 (False, None, 'negativo')\nx (False, None, 'no es int')\n",
+          "expected_head": "0 (True, 0, None)\n10 (True, 10, None)\n-1 (False, None, 'negativo no permitido')\nx (False, None, 'no es entero')",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "Política: raise por fila; try/except en el lote no aborta todo\nOK ok@ex.com\nSKIP malo\n",
+          "expected_head": "estrategia: raise + try por fila en el borde\nOK ok@ex.com\nSKIP malo email inválido",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana María\n",
+          "expected_head": "Ana María",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'nombre': 'Luis', 'email': 'l@e.com'}\n",
+          "expected_head": "{'nombre': 'Luis', 'email': 'l@e.com'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'nombre': 'Ana', 'email': 'a@b.com', 'telefono': '9991'}\n",
+          "expected_head": "{'nombre': 'Ana', 'email': 'a@b.com', 'tel': '9991'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "999000 True\n",
+          "expected_head": "999000 True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "email= z@w.com\n",
+          "expected_head": "email= z@w.com",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "999\n999-A\n",
+          "expected_head": "999\n999-A",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "in 2\nout 1\n",
+          "expected_head": "in 2\nout 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "12 40\n",
+          "expected_head": "12 40",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "12 hola\n",
+          "expected_head": "12 hola",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "OK\n",
+          "expected_head": "OK",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "JR 2\n",
+          "expected_head": "JR 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "PASS   a  b  a b\nPASS X X\nall PASS\n",
+          "expected_head": "PASS   a  b  → a b\nPASS X → X\nall PASS",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 23,
+      "code_tried": 24,
+      "code_ratio": 0.958,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S05-T1-A-E1",
+          "code": "def doble(n):\n    return n * 2\nprint(doble(21))",
+          "note": "",
+          "concepts_used": [
+            "def",
+            "return"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T1-A-E2",
+          "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))",
+          "note": "",
+          "concepts_used": [
+            "strip collapse"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T1-A-E3",
+          "code": "def saluda(nombre):\n    return f'Hola {nombre}'\nprint(saluda('Ana'))",
+          "note": "",
+          "concepts_used": [
+            "return vs None"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T1-B-E1",
+          "code": "def present(nombre, titulo='Cliente'):\n    return f'{titulo}: {nombre}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))",
+          "note": "",
+          "concepts_used": [
+            "defaults",
+            "keyword"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T1-B-E2",
+          "code": "def good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))",
+          "note": "",
+          "concepts_used": [
+            "None default"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T1-B-E3",
+          "code": "def normalize_telefono(raw, *, digits_only=True):\n    if digits_only:\n        return ''.join(c for c in raw if c.isdigit())\n    return raw.strip()\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))",
+          "note": "",
+          "concepts_used": [
+            "keyword-only *"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-A-E1",
+          "code": "def area(w, h):\n    \"\"\"Área del rectángulo w*h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))",
+          "note": "",
+          "concepts_used": [
+            "docstring"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-A-E2",
+          "code": "def normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower strip con @. Raises ValueError si falta @.\"\"\"\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"falta @\")\n    return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)",
+          "note": "",
+          "concepts_used": [
+            "pre/post",
+            "ValueError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-A-E3",
+          "code": "def normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return ' '.join(raw.strip().split())\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == r.strip() and '  ' not in r\nprint('post OK')",
+          "note": "",
+          "concepts_used": [
+            "postcondition"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-B-E1",
+          "code": "def len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\nprint('nota: type hints no validan en runtime')",
+          "note": "",
+          "concepts_used": [
+            "type hints"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-B-E2",
+          "code": "from typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    try:\n        n = int(raw.strip())\n    except ValueError:\n        return False, None, 'no int'\n    if n < 0:\n        return False, None, 'negativo'\n    return True, n, None\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))",
+          "note": "",
+          "concepts_used": [
+            "domain error tuple"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T2-B-E3",
+          "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('falta @')\n    return s\nprint('elección: raise ValueError — el caller decide skip por fila')\nfor e in ['ok@ex.com', 'malo']:\n    try:\n        print('OK', normalize_email(e))\n    except ValueError:\n        print('SKIP', e)",
+          "note": "",
+          "concepts_used": [
+            "try/except per row"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-A-E1",
+          "code": "def strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\nprint(normalize_nombre('  ana  maría '))",
+          "note": "",
+          "concepts_used": [
+            "composition"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-A-E2",
+          "code": "def norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    return {'nombre': norm_n(nombre), 'email': norm_e(email)}\nprint(normalize_contact('  luis ', '  L@E.COM '))",
+          "note": "",
+          "concepts_used": [
+            "orchestrator"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-A-E3",
+          "code": "def n_nombre(n):\n    return ' '.join(n.strip().split()).title()\ndef n_email(e):\n    return e.strip().lower()\ndef n_tel(t):\n    return ''.join(c for c in t if c.isdigit())\ndef normalize_all(n, e, t):\n    return {'nombre': n_nombre(n), 'email': n_email(e), 'telefono': n_tel(t)}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))",
+          "note": "",
+          "concepts_used": [
+            "decompose + orchestrate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-B-E1",
+          "code": "def normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)",
+          "note": "",
+          "concepts_used": [
+            "idempotence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-B-E2",
+          "code": "def normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print(f'email= {normalize_email(raw)}')\nprint_report('  Z@W.COM ')",
+          "note": "",
+          "concepts_used": [
+            "I/O at edge"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T3-B-E3",
+          "code": "def normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))",
+          "note": "",
+          "concepts_used": [
+            "injection",
+            "lambda"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-A-E1",
+          "code": "x = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)",
+          "note": "",
+          "concepts_used": [
+            "LEGB"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-A-E2",
+          "code": "def make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))",
+          "note": "",
+          "concepts_used": [
+            "closure"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-A-E3",
+          "code": "def make_normalizer(mode):\n    if mode == 'digits':\n        def norm(s):\n            return ''.join(c for c in s if c.isdigit())\n        return norm\n    if mode == 'lower':\n        def norm(s):\n            return s.strip().lower()\n        return norm\n    raise ValueError(mode)\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))",
+          "note": "",
+          "concepts_used": [
+            "factory"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-B-E1",
+          "code": "def normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('A@B.COM') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == normalize_email('A@B.COM')\nprint('OK')",
+          "note": "",
+          "concepts_used": [
+            "asserts",
+            "idempotence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-B-E2",
+          "code": "def normalize_dir(raw):\n    collapsed = ' '.join(raw.strip().split())\n    return collapsed.upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\nprint(normalize_dir(' jr 2 '))",
+          "note": "",
+          "concepts_used": [
+            "refactor preserve"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S05-T4-B-E3",
+          "code": "def normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nfor inp, expected in cases:\n    got = normalize_nombre(inp)\n    assert got == expected, (inp, got, expected)\n    print('PASS', inp, got)\nprint('all PASS')",
+          "note": "",
+          "concepts_used": [
+            "case suite"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S05-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "42\n",
+          "expected_head": "42",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Juan Pérez\n",
+          "expected_head": "Juan Pérez",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Hola Ana\n",
+          "expected_head": "Hola Ana",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Cliente: Quispe\nVIP: Quispe\n",
+          "expected_head": "Cliente: Quispe\nVIP: Quispe",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1]\n[2]\n",
+          "expected_head": "[1]\n[2]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "999000\n999-000\n",
+          "expected_head": "999000\n999-000",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Área del rectángulo w*h.\n12\n",
+          "expected_head": "Retorna el área de un rectángulo w×h.\n12",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a@b.com\nerr falta @\n",
+          "expected_head": "a@b.com\nerr email sin @",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana María\npost OK\n",
+          "expected_head": "Ana María\npost OK",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\nnota: type hints no validan en runtime\n",
+          "expected_head": "3\nhint no valida en runtime",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0 (True, 0, None)\n10 (True, 10, None)\n-1 (False, None, 'negativo')\nx (False, None, 'no int')\n",
+          "expected_head": "0 (True, 0, None)\n10 (True, 10, None)\n-1 (False, None, 'negativo no permitido')\nx (False, None, 'no es entero')",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "elección: raise ValueError — el caller decide skip por fila\nOK ok@ex.com\nSKIP malo\n",
+          "expected_head": "estrategia: raise + try por fila en el borde\nOK ok@ex.com\nSKIP malo email inválido",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana María\n",
+          "expected_head": "Ana María",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'nombre': 'Luis', 'email': 'l@e.com'}\n",
+          "expected_head": "{'nombre': 'Luis', 'email': 'l@e.com'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'nombre': 'Ana', 'email': 'a@b.com', 'telefono': '9991'}\n",
+          "expected_head": "{'nombre': 'Ana', 'email': 'a@b.com', 'tel': '9991'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "999000 True\n",
+          "expected_head": "999000 True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "email= z@w.com\n",
+          "expected_head": "email= z@w.com",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "999\n999-A\n",
+          "expected_head": "999\n999-A",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "in 2\nout 1\n",
+          "expected_head": "in 2\nout 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "12 40\n",
+          "expected_head": "12 40",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "12 hola\n",
+          "expected_head": "12 hola",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "OK\n",
+          "expected_head": "OK",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "JR 2\n",
+          "expected_head": "JR 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S05-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "PASS   a  b  a b\nPASS X X\nall PASS\n",
+          "expected_head": "PASS   a  b  → a b\nPASS X → X\nall PASS",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 23,
+      "code_tried": 24,
+      "code_ratio": 0.958,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

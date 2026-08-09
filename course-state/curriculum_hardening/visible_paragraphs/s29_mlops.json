@@ -1,0 +1,612 @@
+{
+  "index": 29,
+  "id": "mlops",
+  "title": "SQL avanzado y modelado relacional",
+  "file": "s29-mlops.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa S29 — SQL avanzado y almacén de verdad ER",
+      "len": 46
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S29. PK/FK/constraints: integridad. Normalización: reducir redundancia sin borrar historia. Temporalidad/provenance: cuándo y de dónde vino el hecho. CTE/window: consultas legibles y rankings. Anti-join: candidatos sin decisión. ACID/isolation: transacciones. Upsert: insert or update controlado. Migration/index: evolución segura. Repository: frontera de persistencia.",
+      "len": 381
+    },
+    {
+      "i": 2,
+      "text": "Prerrequisitos S12 y S28. Producto: almacén de verdad ER que preserva registros fuente, entidades, pares, decisiones y evidencia sin sobrescribir historia. Id mlops legacy; V3 es SQL avanzado. Caso CASO-LIM-029.",
+      "len": 211
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: DDL + DML sintéticos en sqlite. Salida: schema con historia, queries de cola review, upserts seguros. Error: DELETE de evidencia o match que implica fraude.",
+      "len": 175
+    },
+    {
+      "i": 4,
+      "text": "Orden T1 Modelo → T2 Consulta → T3 Transacción → T4 Evolución. Stack: sqlite3 stdlib.",
+      "len": 85
+    },
+    {
+      "i": 5,
+      "text": "Claves, constraints y normalización",
+      "len": 35
+    },
+    {
+      "i": 6,
+      "text": "Las claves identifican filas; las constraints impiden basura (NOT NULL, UNIQUE, FK). Normalizar separa entidades de hechos sin perder la capacidad de reconstruir el registro fuente.",
+      "len": 181
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: PK en entities; FK de pairs→entities; UNIQUE natural key sintética.",
+      "len": 78
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: DDL. Salida: tablas con constraints activas. CASO-LIM-029-T1A.",
+      "len": 81
+    },
+    {
+      "i": 9,
+      "text": "Aplicación: entities(id PK), source_records(id PK, raw_json). Sin PII real en el lab.",
+      "len": 85
+    },
+    {
+      "i": 10,
+      "text": "Temporalidad y provenance",
+      "len": 25
+    },
+    {
+      "i": 11,
+      "text": "Temporalidad registra valid_from/valid_to o created_at de decisión. Provenance apunta al source_record. Sobrescribir in-place borra la auditoría del revisor.",
+      "len": 157
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: tabla decisions append-only; nueva fila por cambio de band.",
+      "len": 70
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: decisión v1 y v2. Salida: count=2 historia. CASO-LIM-029-T1B.",
+      "len": 80
+    },
+    {
+      "i": 14,
+      "text": "Aplicación: pair p1 review→auto genera 2 filas. No es prueba de fraude.",
+      "len": 71
+    },
+    {
+      "i": 15,
+      "text": "CTEs, windows y anti-joins",
+      "len": 26
+    },
+    {
+      "i": 16,
+      "text": "Las CTE nombran pasos. Las windows calculan rank/particiones. El anti-join encuentra pares sin decisión o entidades sin par — base de la cola de review.",
+      "len": 152
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: WITH ... SELECT ... WHERE id NOT IN (SELECT ...); window ROW_NUMBER() OVER (PARTITION BY ...).",
+      "len": 105
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: pairs y decisions. Salida: n_pending. CASO-LIM-029-T2A.",
+      "len": 74
+    },
+    {
+      "i": 19,
+      "text": "Aplicación: 3 pairs, 1 decidido → 2 pending. sqlite.",
+      "len": 52
+    },
+    {
+      "i": 20,
+      "text": "Cardinalidad, NULL y planes",
+      "len": 27
+    },
+    {
+      "i": 21,
+      "text": "La cardinalidad del join multiplica filas; NULL no iguala con =. Un plan malo (scan) aparece con datos grandes; en el lab mides n_out vs n_in.",
+      "len": 142
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: left join con NULL en derecha; count de matched vs unmatched.",
+      "len": 72
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: dos tablas. Salida: n_matched y null_safe True. CASO-LIM-029-T2B.",
+      "len": 84
+    },
+    {
+      "i": 24,
+      "text": "Aplicación: entities 2, pairs 1 → unmatched 1. No interpretes NULL como fraude.",
+      "len": 79
+    },
+    {
+      "i": 25,
+      "text": "ACID, isolation y recuperación",
+      "len": 30
+    },
+    {
+      "i": 26,
+      "text": "ACID garantiza atomicidad y consistencia. Isolation evita lecturas sucias entre transacciones concurrentes. En sqlite: begin/commit/rollback didácticos.",
+      "len": 152
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: insert en tx; rollback deja count previo; commit fija.",
+      "len": 65
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: tx con error simulado. Salida: rolled_back True. CASO-LIM-029-T3A.",
+      "len": 85
+    },
+    {
+      "i": 29,
+      "text": "Aplicación: par insertado y rollback → n=0. Recuperación = reintentar tx limpia.",
+      "len": 80
+    },
+    {
+      "i": 30,
+      "text": "Upserts, concurrencia y recuperación",
+      "len": 36
+    },
+    {
+      "i": 31,
+      "text": "Upsert (INSERT ON CONFLICT) actualiza sin duplicar PK. La concurrencia exige reintentos ante lock. Recuperación documenta el último estado durable.",
+      "len": 147
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: insert pair score; conflict → update score; count sigue 1.",
+      "len": 69
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: dos upserts mismo id. Salida: n=1 y score final. CASO-LIM-029-T3B.",
+      "len": 85
+    },
+    {
+      "i": 34,
+      "text": "Aplicación: score 0.4 luego 0.8 → una fila. No auto-etiqueta fraude.",
+      "len": 68
+    },
+    {
+      "i": 35,
+      "text": "Índices, migrations y pruebas",
+      "len": 29
+    },
+    {
+      "i": 36,
+      "text": "Un índice acelera predicados de cola (band, pair_id). Una migration versiona DDL. Pruebas de migración: apply → assert schema → optional rollback de lab.",
+      "len": 153
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: CREATE INDEX; pragma/table_info verifica columnas nuevas.",
+      "len": 68
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: migration add column. Salida: column_present True. CASO-LIM-029-T4A.",
+      "len": 87
+    },
+    {
+      "i": 39,
+      "text": "Aplicación: add evidence_json a pairs. Sin borrar columnas de provenance.",
+      "len": 73
+    },
+    {
+      "i": 40,
+      "text": "Repository pattern, pooling y pruebas",
+      "len": 37
+    },
+    {
+      "i": 41,
+      "text": "El repository es la frontera: el dominio no habla SQL crudo. Pooling reutiliza conexiones. Pruebas inyectan repo fake o sqlite memoria.",
+      "len": 135
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: clase PairRepo con add/get/count_pending; tests no abren sqlite en el dominio.",
+      "len": 89
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: repo API. Salida: pending count. CASO-LIM-029-T4B.",
+      "len": 69
+    },
+    {
+      "i": 44,
+      "text": "Aplicación: add 2 pairs, decide 1 → pending 1. Decisiones ≠ fraude.",
+      "len": 67
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 46,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa S29 — SQL avanzado y almacén de verdad ER",
+      "text": "Mapa S29 — SQL avanzado y almacén de verdad ER"
+    },
+    {
+      "i": 1,
+      "len": 381,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S29. PK/FK/constraints: integridad. Normalización: reducir redundancia sin borrar historia. Temporalidad/provenance: cuándo y de dónde vino el hecho. CTE/window: consul",
+      "text": "Diccionario S29. PK/FK/constraints: integridad. Normalización: reducir redundancia sin borrar historia. Temporalidad/provenance: cuándo y de dónde vino el hecho. CTE/window: consultas legibles y rankings. Anti-join: candidatos sin decisión. ACID/isolation: transacciones. Upsert: insert or update controlado. Migration/index: evolución segura. Repository: frontera de persistencia."
+    },
+    {
+      "i": 2,
+      "len": 211,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prerrequisitos S12 y S28. Producto: almacén de verdad ER que preserva registros fuente, entidades, pares, decisiones y evidencia sin sobrescribir historia. Id mlops legacy; V3 es S",
+      "text": "Prerrequisitos S12 y S28. Producto: almacén de verdad ER que preserva registros fuente, entidades, pares, decisiones y evidencia sin sobrescribir historia. Id mlops legacy; V3 es SQL avanzado. Caso CASO-LIM-029."
+    },
+    {
+      "i": 3,
+      "len": 175,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: DDL + DML sintéticos en sqlite. Salida: schema con historia, queries de cola review, upserts seguros. Error: DELETE de evidencia o match que implica fraude.",
+      "text": "Contrato. Entrada: DDL + DML sintéticos en sqlite. Salida: schema con historia, queries de cola review, upserts seguros. Error: DELETE de evidencia o match que implica fraude."
+    },
+    {
+      "i": 4,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden T1 Modelo → T2 Consulta → T3 Transacción → T4 Evolución. Stack: sqlite3 stdlib.",
+      "text": "Orden T1 Modelo → T2 Consulta → T3 Transacción → T4 Evolución. Stack: sqlite3 stdlib."
+    },
+    {
+      "i": 5,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Claves, constraints y normalización",
+      "text": "Claves, constraints y normalización"
+    },
+    {
+      "i": 6,
+      "len": 181,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Las claves identifican filas; las constraints impiden basura (NOT NULL, UNIQUE, FK). Normalizar separa entidades de hechos sin perder la capacidad de reconstruir el registro fuente",
+      "text": "Las claves identifican filas; las constraints impiden basura (NOT NULL, UNIQUE, FK). Normalizar separa entidades de hechos sin perder la capacidad de reconstruir el registro fuente."
+    },
+    {
+      "i": 7,
+      "len": 78,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: PK en entities; FK de pairs→entities; UNIQUE natural key sintética.",
+      "text": "Mecanismo: PK en entities; FK de pairs→entities; UNIQUE natural key sintética."
+    },
+    {
+      "i": 8,
+      "len": 81,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: DDL. Salida: tablas con constraints activas. CASO-LIM-029-T1A.",
+      "text": "Contrato. Entrada: DDL. Salida: tablas con constraints activas. CASO-LIM-029-T1A."
+    },
+    {
+      "i": 9,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: entities(id PK), source_records(id PK, raw_json). Sin PII real en el lab.",
+      "text": "Aplicación: entities(id PK), source_records(id PK, raw_json). Sin PII real en el lab."
+    },
+    {
+      "i": 10,
+      "len": 25,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Temporalidad y provenance",
+      "text": "Temporalidad y provenance"
+    },
+    {
+      "i": 11,
+      "len": 157,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Temporalidad registra valid_from/valid_to o created_at de decisión. Provenance apunta al source_record. Sobrescribir in-place borra la auditoría del revisor.",
+      "text": "Temporalidad registra valid_from/valid_to o created_at de decisión. Provenance apunta al source_record. Sobrescribir in-place borra la auditoría del revisor."
+    },
+    {
+      "i": 12,
+      "len": 70,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: tabla decisions append-only; nueva fila por cambio de band.",
+      "text": "Mecanismo: tabla decisions append-only; nueva fila por cambio de band."
+    },
+    {
+      "i": 13,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: decisión v1 y v2. Salida: count=2 historia. CASO-LIM-029-T1B.",
+      "text": "Contrato. Entrada: decisión v1 y v2. Salida: count=2 historia. CASO-LIM-029-T1B."
+    },
+    {
+      "i": 14,
+      "len": 71,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: pair p1 review→auto genera 2 filas. No es prueba de fraude.",
+      "text": "Aplicación: pair p1 review→auto genera 2 filas. No es prueba de fraude."
+    },
+    {
+      "i": 15,
+      "len": 26,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "CTEs, windows y anti-joins",
+      "text": "CTEs, windows y anti-joins"
+    },
+    {
+      "i": 16,
+      "len": 152,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Las CTE nombran pasos. Las windows calculan rank/particiones. El anti-join encuentra pares sin decisión o entidades sin par — base de la cola de review.",
+      "text": "Las CTE nombran pasos. Las windows calculan rank/particiones. El anti-join encuentra pares sin decisión o entidades sin par — base de la cola de review."
+    },
+    {
+      "i": 17,
+      "len": 105,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: WITH ... SELECT ... WHERE id NOT IN (SELECT ...); window ROW_NUMBER() OVER (PARTITION BY ...).",
+      "text": "Mecanismo: WITH ... SELECT ... WHERE id NOT IN (SELECT ...); window ROW_NUMBER() OVER (PARTITION BY ...)."
+    },
+    {
+      "i": 18,
+      "len": 74,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: pairs y decisions. Salida: n_pending. CASO-LIM-029-T2A.",
+      "text": "Contrato. Entrada: pairs y decisions. Salida: n_pending. CASO-LIM-029-T2A."
+    },
+    {
+      "i": 19,
+      "len": 52,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: 3 pairs, 1 decidido → 2 pending. sqlite.",
+      "text": "Aplicación: 3 pairs, 1 decidido → 2 pending. sqlite."
+    },
+    {
+      "i": 20,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Cardinalidad, NULL y planes",
+      "text": "Cardinalidad, NULL y planes"
+    },
+    {
+      "i": 21,
+      "len": 142,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La cardinalidad del join multiplica filas; NULL no iguala con =. Un plan malo (scan) aparece con datos grandes; en el lab mides n_out vs n_in.",
+      "text": "La cardinalidad del join multiplica filas; NULL no iguala con =. Un plan malo (scan) aparece con datos grandes; en el lab mides n_out vs n_in."
+    },
+    {
+      "i": 22,
+      "len": 72,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: left join con NULL en derecha; count de matched vs unmatched.",
+      "text": "Mecanismo: left join con NULL en derecha; count de matched vs unmatched."
+    },
+    {
+      "i": 23,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: dos tablas. Salida: n_matched y null_safe True. CASO-LIM-029-T2B.",
+      "text": "Contrato. Entrada: dos tablas. Salida: n_matched y null_safe True. CASO-LIM-029-T2B."
+    },
+    {
+      "i": 24,
+      "len": 79,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: entities 2, pairs 1 → unmatched 1. No interpretes NULL como fraude.",
+      "text": "Aplicación: entities 2, pairs 1 → unmatched 1. No interpretes NULL como fraude."
+    },
+    {
+      "i": 25,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "ACID, isolation y recuperación",
+      "text": "ACID, isolation y recuperación"
+    },
+    {
+      "i": 26,
+      "len": 152,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "ACID garantiza atomicidad y consistencia. Isolation evita lecturas sucias entre transacciones concurrentes. En sqlite: begin/commit/rollback didácticos.",
+      "text": "ACID garantiza atomicidad y consistencia. Isolation evita lecturas sucias entre transacciones concurrentes. En sqlite: begin/commit/rollback didácticos."
+    },
+    {
+      "i": 27,
+      "len": 65,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: insert en tx; rollback deja count previo; commit fija.",
+      "text": "Mecanismo: insert en tx; rollback deja count previo; commit fija."
+    },
+    {
+      "i": 28,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: tx con error simulado. Salida: rolled_back True. CASO-LIM-029-T3A.",
+      "text": "Contrato. Entrada: tx con error simulado. Salida: rolled_back True. CASO-LIM-029-T3A."
+    },
+    {
+      "i": 29,
+      "len": 80,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: par insertado y rollback → n=0. Recuperación = reintentar tx limpia.",
+      "text": "Aplicación: par insertado y rollback → n=0. Recuperación = reintentar tx limpia."
+    },
+    {
+      "i": 30,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Upserts, concurrencia y recuperación",
+      "text": "Upserts, concurrencia y recuperación"
+    },
+    {
+      "i": 31,
+      "len": 147,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Upsert (INSERT ON CONFLICT) actualiza sin duplicar PK. La concurrencia exige reintentos ante lock. Recuperación documenta el último estado durable.",
+      "text": "Upsert (INSERT ON CONFLICT) actualiza sin duplicar PK. La concurrencia exige reintentos ante lock. Recuperación documenta el último estado durable."
+    },
+    {
+      "i": 32,
+      "len": 69,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: insert pair score; conflict → update score; count sigue 1.",
+      "text": "Mecanismo: insert pair score; conflict → update score; count sigue 1."
+    },
+    {
+      "i": 33,
+      "len": 85,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: dos upserts mismo id. Salida: n=1 y score final. CASO-LIM-029-T3B.",
+      "text": "Contrato. Entrada: dos upserts mismo id. Salida: n=1 y score final. CASO-LIM-029-T3B."
+    },
+    {
+      "i": 34,
+      "len": 68,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: score 0.4 luego 0.8 → una fila. No auto-etiqueta fraude.",
+      "text": "Aplicación: score 0.4 luego 0.8 → una fila. No auto-etiqueta fraude."
+    },
+    {
+      "i": 35,
+      "len": 29,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Índices, migrations y pruebas",
+      "text": "Índices, migrations y pruebas"
+    },
+    {
+      "i": 36,
+      "len": 153,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un índice acelera predicados de cola (band, pair_id). Una migration versiona DDL. Pruebas de migración: apply → assert schema → optional rollback de lab.",
+      "text": "Un índice acelera predicados de cola (band, pair_id). Una migration versiona DDL. Pruebas de migración: apply → assert schema → optional rollback de lab."
+    },
+    {
+      "i": 37,
+      "len": 68,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: CREATE INDEX; pragma/table_info verifica columnas nuevas.",
+      "text": "Mecanismo: CREATE INDEX; pragma/table_info verifica columnas nuevas."
+    },
+    {
+      "i": 38,
+      "len": 87,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: migration add column. Salida: column_present True. CASO-LIM-029-T4A.",
+      "text": "Contrato. Entrada: migration add column. Salida: column_present True. CASO-LIM-029-T4A."
+    },
+    {
+      "i": 39,
+      "len": 73,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: add evidence_json a pairs. Sin borrar columnas de provenance.",
+      "text": "Aplicación: add evidence_json a pairs. Sin borrar columnas de provenance."
+    },
+    {
+      "i": 40,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Repository pattern, pooling y pruebas",
+      "text": "Repository pattern, pooling y pruebas"
+    },
+    {
+      "i": 41,
+      "len": 135,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El repository es la frontera: el dominio no habla SQL crudo. Pooling reutiliza conexiones. Pruebas inyectan repo fake o sqlite memoria.",
+      "text": "El repository es la frontera: el dominio no habla SQL crudo. Pooling reutiliza conexiones. Pruebas inyectan repo fake o sqlite memoria."
+    },
+    {
+      "i": 42,
+      "len": 89,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: clase PairRepo con add/get/count_pending; tests no abren sqlite en el dominio.",
+      "text": "Mecanismo: clase PairRepo con add/get/count_pending; tests no abren sqlite en el dominio."
+    },
+    {
+      "i": 43,
+      "len": 69,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: repo API. Salida: pending count. CASO-LIM-029-T4B.",
+      "text": "Contrato. Entrada: repo API. Salida: pending count. CASO-LIM-029-T4B."
+    },
+    {
+      "i": 44,
+      "len": 67,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación: add 2 pairs, decide 1 → pending 1. Decisiones ≠ fraude.",
+      "text": "Aplicación: add 2 pairs, decide 1 → pending 1. Decisiones ≠ fraude."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 9902
+}

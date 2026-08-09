@@ -1,0 +1,586 @@
+{
+  "index": 46,
+  "id": "gpu-computing",
+  "title": "Ingeniería de datos y orquestación de producción",
+  "file": "s46-gpu-computing.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Ruta de S46: Ingeniería de datos y orquestación de producción",
+      "len": 61
+    },
+    {
+      "i": 1,
+      "text": "Diccionario. Event time: cuándo ocurrió el hecho. Processing time: cuándo lo ves. Watermark: umbral de lateness aceptada. Exactly-once (compuesto): sink idempotente + checkpoint + dedup de claves. DAG/asset: grafo de dependencias con I/O tipado. Backfill: reproceso de intervalos históricos sin solape. Freshness: edad del dato vs SLO. Lineage: inputs→outputs de un run con dueño.",
+      "len": 380
+    },
+    {
+      "i": 2,
+      "text": "S46 eleva el job de S45 a pipeline production-grade: ventanas, orquestación, calidad y operación. Id gpu-computing es legacy; no es CUDA — es data engineering de producción V3.",
+      "len": 176
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: eventos con event_time, clave estable, schema y partición. Salida: tablas incrementales con lineage, freshness y métricas de late data. Error: contrato roto, watermark excedido o reejecución duplicada → contención del asset.",
+      "len": 243
+    },
+    {
+      "i": 4,
+      "text": "Caso CASO-HYO-046 (entidad ficticia de atención en Huancayo (Valle del Mantaro Lab)): eventos sintéticos de atención. T1 batch/stream → T2 orquestación → T3 calidad/linaje → T4 operación. Solo stdlib.",
+      "len": 200
+    },
+    {
+      "i": 5,
+      "text": "ventanas, event time y watermarks",
+      "len": 33
+    },
+    {
+      "i": 6,
+      "text": "Agrupa por event time, no por reloj del worker. El watermark declara cuánto esperar antes de marcar un evento como tardío (allowed_lateness).",
+      "len": 141
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: un evento es on-time si watermark - allowed_lateness <= event_time <= window_end. Fuera de eso, side-output o quarantine — no lo mezcles en silencio al agregado cerrado.",
+      "len": 180
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: event_time, window_end, watermark, lateness. Salida: on-time vs late. Error: late sin política → SIDE_OUTPUT_LATE_EVENT.",
+      "len": 139
+    },
+    {
+      "i": 9,
+      "text": "Aplicación CASO-HYO-046-1A: event_time=110, window_end=120, watermark=115, lateness=10 → on-time en el stream sintético de Huancayo.",
+      "len": 132
+    },
+    {
+      "i": 10,
+      "text": "late data y exactly-once como propiedad compuesta",
+      "len": 49
+    },
+    {
+      "i": 11,
+      "text": "Exactly-once no es un switch del broker: es sink idempotente + checkpoint + política de late (update/side-output/quarantine). Replays no deben crecer el agregado.",
+      "len": 162
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: set(event_ids) == sink_ids y checkpoint avanza monótono. Duplicados en source colapsan en el sink.",
+      "len": 109
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: event_ids, sink_ids, checkpoint, late_policy. Salida: paridad sin dups. Error: sink crece con replay → REPLAY_IDEMPOTENTLY.",
+      "len": 142
+    },
+    {
+      "i": 14,
+      "text": "Aplicación CASO-HYO-046-1B: event_ids con dup e1, sink {e1,e2}, checkpoint=2, late_policy=update.",
+      "len": 97
+    },
+    {
+      "i": 16,
+      "text": "Un DAG de assets declara nodos y aristas sin ciclos; cada edge es dependencia de datos con I/O tipado. Un ciclo o nodo huérfano invalida el grafo.",
+      "len": 146
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: nodos en set; edges (a,b) con a≠b y ambos en nodos. typed_io=True es la bandera de contrato de schema entre assets.",
+      "len": 126
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: nodes, edges, typed_io. Salida: grafo aceptable. Error: ciclo/self-edge/nodo desconocido → REJECT_DAG.",
+      "len": 121
+    },
+    {
+      "i": 19,
+      "text": "Aplicación CASO-HYO-046-2A: nodes={raw,clean,report}, edges raw→clean→report, typed_io.",
+      "len": 87
+    },
+    {
+      "i": 20,
+      "text": "schedules, backfills y state recovery",
+      "len": 37
+    },
+    {
+      "i": 21,
+      "text": "Schedules disparan intervalos; backfills reprocesan historia sin solape. State recovery reanuda desde checkpoint (resume_from) sin rehacer efectos confirmados.",
+      "len": 159
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: intervalos [a,b),[c,d) con b≤c; overlap=False; checkpoint == resume_from.",
+      "len": 84
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: intervals, overlap flag, checkpoint. Salida: backfill acotado reanudable. Error: solape → STOP_OVERLAPPING_BACKFILL.",
+      "len": 135
+    },
+    {
+      "i": 24,
+      "text": "Aplicación CASO-HYO-046-2B: intervals [[1,3],[4,6]], checkpoint=2026-07-01 = resume_from.",
+      "len": 89
+    },
+    {
+      "i": 26,
+      "text": "Un data contract fija schema esperado vs observado. Freshness mide retraso (freshness_min <= slo_min) con owner humano responsable del asset.",
+      "len": 141
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: igualdad de schemas (mapas campo→tipo) y umbral de frescura; sin owner no hay escalamiento de incidente.",
+      "len": 115
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: schema, observed, freshness, owner. Salida: pass o quarantine. Error: break/stale/sin dueño → QUARANTINE_DATASET.",
+      "len": 132
+    },
+    {
+      "i": 29,
+      "text": "Aplicación CASO-HYO-046-3A: schema case_id:str,event_time:int; freshness dentro de SLO; owner asignado en Huancayo lab.",
+      "len": 119
+    },
+    {
+      "i": 30,
+      "text": "lineage, observability y ownership",
+      "len": 34
+    },
+    {
+      "i": 31,
+      "text": "Lineage de run: run_id, inputs, outputs, métricas (p. ej. null_rate) y owner. Sin eso, un incidente de calidad no se reconstruye.",
+      "len": 129
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: run_id con prefijo, sets de I/O no vacíos, null_rate ≤ umbral, owner presente.",
+      "len": 89
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: registro de run. Salida: incidente reconstruible. Error: lineage incompleto → OPEN_QUALITY_INCIDENT.",
+      "len": 119
+    },
+    {
+      "i": 34,
+      "text": "Aplicación CASO-HYO-046-3B: run-hyo-46, inputs raw-v2, outputs clean-v2, null_rate≤0.02, owner.",
+      "len": 95
+    },
+    {
+      "i": 35,
+      "text": "partitions e incremental loads",
+      "len": 30
+    },
+    {
+      "i": 36,
+      "text": "Cargas incrementales por partición deben ser idempotentes: segunda corrida cambia cero filas. Controla small files para no degradar lecturas.",
+      "len": 141
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: source_keys == target_keys, second_run_changes == 0, small_files ≤ max.",
+      "len": 82
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: keys y contadores de segunda corrida. Salida: partición estable. Error: drift de keys o reescritura → REBUILD_PARTITION.",
+      "len": 139
+    },
+    {
+      "i": 39,
+      "text": "Aplicación CASO-HYO-046-4A: partition 2026-07-22, keys {a,b,c} estables, small_files bajo umbral.",
+      "len": 97
+    },
+    {
+      "i": 40,
+      "text": "SLO, incidentes y data recovery",
+      "len": 31
+    },
+    {
+      "i": 41,
+      "text": "SLO de freshness (SLI ≥ objetivo), RTO de recuperación y postmortem con acciones son el cierre operativo del pipeline. Sin owner, el incidente no escala.",
+      "len": 153
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: freshness_sli ≥ freshness_slo, rto ≤ target, postmortem_actions ≥ 1, owner.",
+      "len": 86
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: SLI/SLO, RTO, postmortem. Salida: simulacro OK. Error: SLI roto o sin acciones → DECLARE_DATA_INCIDENT.",
+      "len": 122
+    },
+    {
+      "i": 44,
+      "text": "Aplicación CASO-HYO-046-4B: SLI 0.995 ≥ 0.99, RTO 25≤30, ≥1 acción de postmortem, owner data-ops.",
+      "len": 97
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 61,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Ruta de S46: Ingeniería de datos y orquestación de producción",
+      "text": "Ruta de S46: Ingeniería de datos y orquestación de producción"
+    },
+    {
+      "i": 1,
+      "len": 380,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario. Event time: cuándo ocurrió el hecho. Processing time: cuándo lo ves. Watermark: umbral de lateness aceptada. Exactly-once (compuesto): sink idempotente + checkpoint + ",
+      "text": "Diccionario. Event time: cuándo ocurrió el hecho. Processing time: cuándo lo ves. Watermark: umbral de lateness aceptada. Exactly-once (compuesto): sink idempotente + checkpoint + dedup de claves. DAG/asset: grafo de dependencias con I/O tipado. Backfill: reproceso de intervalos históricos sin solape. Freshness: edad del dato vs SLO. Lineage: inputs→outputs de un run con dueño."
+    },
+    {
+      "i": 2,
+      "len": 176,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "S46 eleva el job de S45 a pipeline production-grade: ventanas, orquestación, calidad y operación. Id gpu-computing es legacy; no es CUDA — es data engineering de producción V3.",
+      "text": "S46 eleva el job de S45 a pipeline production-grade: ventanas, orquestación, calidad y operación. Id gpu-computing es legacy; no es CUDA — es data engineering de producción V3."
+    },
+    {
+      "i": 3,
+      "len": 243,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: eventos con event_time, clave estable, schema y partición. Salida: tablas incrementales con lineage, freshness y métricas de late data. Error: contrato roto, wat",
+      "text": "Contrato. Entrada: eventos con event_time, clave estable, schema y partición. Salida: tablas incrementales con lineage, freshness y métricas de late data. Error: contrato roto, watermark excedido o reejecución duplicada → contención del asset."
+    },
+    {
+      "i": 4,
+      "len": 200,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso CASO-HYO-046 (entidad ficticia de atención en Huancayo (Valle del Mantaro Lab)): eventos sintéticos de atención. T1 batch/stream → T2 orquestación → T3 calidad/linaje → T4 ope",
+      "text": "Caso CASO-HYO-046 (entidad ficticia de atención en Huancayo (Valle del Mantaro Lab)): eventos sintéticos de atención. T1 batch/stream → T2 orquestación → T3 calidad/linaje → T4 operación. Solo stdlib."
+    },
+    {
+      "i": 5,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "ventanas, event time y watermarks",
+      "text": "ventanas, event time y watermarks"
+    },
+    {
+      "i": 6,
+      "len": 141,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Agrupa por event time, no por reloj del worker. El watermark declara cuánto esperar antes de marcar un evento como tardío (allowed_lateness).",
+      "text": "Agrupa por event time, no por reloj del worker. El watermark declara cuánto esperar antes de marcar un evento como tardío (allowed_lateness)."
+    },
+    {
+      "i": 7,
+      "len": 180,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: un evento es on-time si watermark - allowed_lateness <= event_time <= window_end. Fuera de eso, side-output o quarantine — no lo mezcles en silencio al agregado cerrado.",
+      "text": "Mecanismo: un evento es on-time si watermark - allowed_lateness <= event_time <= window_end. Fuera de eso, side-output o quarantine — no lo mezcles en silencio al agregado cerrado."
+    },
+    {
+      "i": 8,
+      "len": 139,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: event_time, window_end, watermark, lateness. Salida: on-time vs late. Error: late sin política → SIDE_OUTPUT_LATE_EVENT.",
+      "text": "Contrato. Entrada: event_time, window_end, watermark, lateness. Salida: on-time vs late. Error: late sin política → SIDE_OUTPUT_LATE_EVENT."
+    },
+    {
+      "i": 9,
+      "len": 132,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-HYO-046-1A: event_time=110, window_end=120, watermark=115, lateness=10 → on-time en el stream sintético de Huancayo.",
+      "text": "Aplicación CASO-HYO-046-1A: event_time=110, window_end=120, watermark=115, lateness=10 → on-time en el stream sintético de Huancayo."
+    },
+    {
+      "i": 10,
+      "len": 49,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "late data y exactly-once como propiedad compuesta",
+      "text": "late data y exactly-once como propiedad compuesta"
+    },
+    {
+      "i": 11,
+      "len": 162,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Exactly-once no es un switch del broker: es sink idempotente + checkpoint + política de late (update/side-output/quarantine). Replays no deben crecer el agregado.",
+      "text": "Exactly-once no es un switch del broker: es sink idempotente + checkpoint + política de late (update/side-output/quarantine). Replays no deben crecer el agregado."
+    },
+    {
+      "i": 12,
+      "len": 109,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: set(event_ids) == sink_ids y checkpoint avanza monótono. Duplicados en source colapsan en el sink.",
+      "text": "Mecanismo: set(event_ids) == sink_ids y checkpoint avanza monótono. Duplicados en source colapsan en el sink."
+    },
+    {
+      "i": 13,
+      "len": 142,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: event_ids, sink_ids, checkpoint, late_policy. Salida: paridad sin dups. Error: sink crece con replay → REPLAY_IDEMPOTENTLY.",
+      "text": "Contrato. Entrada: event_ids, sink_ids, checkpoint, late_policy. Salida: paridad sin dups. Error: sink crece con replay → REPLAY_IDEMPOTENTLY."
+    },
+    {
+      "i": 14,
+      "len": 97,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-HYO-046-1B: event_ids con dup e1, sink {e1,e2}, checkpoint=2, late_policy=update.",
+      "text": "Aplicación CASO-HYO-046-1B: event_ids con dup e1, sink {e1,e2}, checkpoint=2, late_policy=update."
+    },
+    {
+      "i": 16,
+      "len": 146,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un DAG de assets declara nodos y aristas sin ciclos; cada edge es dependencia de datos con I/O tipado. Un ciclo o nodo huérfano invalida el grafo.",
+      "text": "Un DAG de assets declara nodos y aristas sin ciclos; cada edge es dependencia de datos con I/O tipado. Un ciclo o nodo huérfano invalida el grafo."
+    },
+    {
+      "i": 17,
+      "len": 126,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: nodos en set; edges (a,b) con a≠b y ambos en nodos. typed_io=True es la bandera de contrato de schema entre assets.",
+      "text": "Mecanismo: nodos en set; edges (a,b) con a≠b y ambos en nodos. typed_io=True es la bandera de contrato de schema entre assets."
+    },
+    {
+      "i": 18,
+      "len": 121,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: nodes, edges, typed_io. Salida: grafo aceptable. Error: ciclo/self-edge/nodo desconocido → REJECT_DAG.",
+      "text": "Contrato. Entrada: nodes, edges, typed_io. Salida: grafo aceptable. Error: ciclo/self-edge/nodo desconocido → REJECT_DAG."
+    },
+    {
+      "i": 19,
+      "len": 87,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-HYO-046-2A: nodes={raw,clean,report}, edges raw→clean→report, typed_io.",
+      "text": "Aplicación CASO-HYO-046-2A: nodes={raw,clean,report}, edges raw→clean→report, typed_io."
+    },
+    {
+      "i": 20,
+      "len": 37,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "schedules, backfills y state recovery",
+      "text": "schedules, backfills y state recovery"
+    },
+    {
+      "i": 21,
+      "len": 159,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Schedules disparan intervalos; backfills reprocesan historia sin solape. State recovery reanuda desde checkpoint (resume_from) sin rehacer efectos confirmados.",
+      "text": "Schedules disparan intervalos; backfills reprocesan historia sin solape. State recovery reanuda desde checkpoint (resume_from) sin rehacer efectos confirmados."
+    },
+    {
+      "i": 22,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: intervalos [a,b),[c,d) con b≤c; overlap=False; checkpoint == resume_from.",
+      "text": "Mecanismo: intervalos [a,b),[c,d) con b≤c; overlap=False; checkpoint == resume_from."
+    },
+    {
+      "i": 23,
+      "len": 135,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: intervals, overlap flag, checkpoint. Salida: backfill acotado reanudable. Error: solape → STOP_OVERLAPPING_BACKFILL.",
+      "text": "Contrato. Entrada: intervals, overlap flag, checkpoint. Salida: backfill acotado reanudable. Error: solape → STOP_OVERLAPPING_BACKFILL."
+    },
+    {
+      "i": 24,
+      "len": 89,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-HYO-046-2B: intervals [[1,3],[4,6]], checkpoint=2026-07-01 = resume_from.",
+      "text": "Aplicación CASO-HYO-046-2B: intervals [[1,3],[4,6]], checkpoint=2026-07-01 = resume_from."
+    },
+    {
+      "i": 26,
+      "len": 141,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un data contract fija schema esperado vs observado. Freshness mide retraso (freshness_min <= slo_min) con owner humano responsable del asset.",
+      "text": "Un data contract fija schema esperado vs observado. Freshness mide retraso (freshness_min <= slo_min) con owner humano responsable del asset."
+    },
+    {
+      "i": 27,
+      "len": 115,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: igualdad de schemas (mapas campo→tipo) y umbral de frescura; sin owner no hay escalamiento de incidente.",
+      "text": "Mecanismo: igualdad de schemas (mapas campo→tipo) y umbral de frescura; sin owner no hay escalamiento de incidente."
+    },
+    {
+      "i": 28,
+      "len": 132,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: schema, observed, freshness, owner. Salida: pass o quarantine. Error: break/stale/sin dueño → QUARANTINE_DATASET.",
+      "text": "Contrato. Entrada: schema, observed, freshness, owner. Salida: pass o quarantine. Error: break/stale/sin dueño → QUARANTINE_DATASET."
+    },
+    {
+      "i": 29,
+      "len": 119,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-HYO-046-3A: schema case_id:str,event_time:int; freshness dentro de SLO; owner asignado en Huancayo lab.",
+      "text": "Aplicación CASO-HYO-046-3A: schema case_id:str,event_time:int; freshness dentro de SLO; owner asignado en Huancayo lab."
+    },
+    {
+      "i": 30,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "lineage, observability y ownership",
+      "text": "lineage, observability y ownership"
+    },
+    {
+      "i": 31,
+      "len": 129,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Lineage de run: run_id, inputs, outputs, métricas (p. ej. null_rate) y owner. Sin eso, un incidente de calidad no se reconstruye.",
+      "text": "Lineage de run: run_id, inputs, outputs, métricas (p. ej. null_rate) y owner. Sin eso, un incidente de calidad no se reconstruye."
+    },
+    {
+      "i": 32,
+      "len": 89,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: run_id con prefijo, sets de I/O no vacíos, null_rate ≤ umbral, owner presente.",
+      "text": "Mecanismo: run_id con prefijo, sets de I/O no vacíos, null_rate ≤ umbral, owner presente."
+    },
+    {
+      "i": 33,
+      "len": 119,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: registro de run. Salida: incidente reconstruible. Error: lineage incompleto → OPEN_QUALITY_INCIDENT.",
+      "text": "Contrato. Entrada: registro de run. Salida: incidente reconstruible. Error: lineage incompleto → OPEN_QUALITY_INCIDENT."
+    },
+    {
+      "i": 34,
+      "len": 95,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-HYO-046-3B: run-hyo-46, inputs raw-v2, outputs clean-v2, null_rate≤0.02, owner.",
+      "text": "Aplicación CASO-HYO-046-3B: run-hyo-46, inputs raw-v2, outputs clean-v2, null_rate≤0.02, owner."
+    },
+    {
+      "i": 35,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "partitions e incremental loads",
+      "text": "partitions e incremental loads"
+    },
+    {
+      "i": 36,
+      "len": 141,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cargas incrementales por partición deben ser idempotentes: segunda corrida cambia cero filas. Controla small files para no degradar lecturas.",
+      "text": "Cargas incrementales por partición deben ser idempotentes: segunda corrida cambia cero filas. Controla small files para no degradar lecturas."
+    },
+    {
+      "i": 37,
+      "len": 82,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: source_keys == target_keys, second_run_changes == 0, small_files ≤ max.",
+      "text": "Mecanismo: source_keys == target_keys, second_run_changes == 0, small_files ≤ max."
+    },
+    {
+      "i": 38,
+      "len": 139,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: keys y contadores de segunda corrida. Salida: partición estable. Error: drift de keys o reescritura → REBUILD_PARTITION.",
+      "text": "Contrato. Entrada: keys y contadores de segunda corrida. Salida: partición estable. Error: drift de keys o reescritura → REBUILD_PARTITION."
+    },
+    {
+      "i": 39,
+      "len": 97,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-HYO-046-4A: partition 2026-07-22, keys {a,b,c} estables, small_files bajo umbral.",
+      "text": "Aplicación CASO-HYO-046-4A: partition 2026-07-22, keys {a,b,c} estables, small_files bajo umbral."
+    },
+    {
+      "i": 40,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "SLO, incidentes y data recovery",
+      "text": "SLO, incidentes y data recovery"
+    },
+    {
+      "i": 41,
+      "len": 153,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "SLO de freshness (SLI ≥ objetivo), RTO de recuperación y postmortem con acciones son el cierre operativo del pipeline. Sin owner, el incidente no escala.",
+      "text": "SLO de freshness (SLI ≥ objetivo), RTO de recuperación y postmortem con acciones son el cierre operativo del pipeline. Sin owner, el incidente no escala."
+    },
+    {
+      "i": 42,
+      "len": 86,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: freshness_sli ≥ freshness_slo, rto ≤ target, postmortem_actions ≥ 1, owner.",
+      "text": "Mecanismo: freshness_sli ≥ freshness_slo, rto ≤ target, postmortem_actions ≥ 1, owner."
+    },
+    {
+      "i": 43,
+      "len": 122,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: SLI/SLO, RTO, postmortem. Salida: simulacro OK. Error: SLI roto o sin acciones → DECLARE_DATA_INCIDENT.",
+      "text": "Contrato. Entrada: SLI/SLO, RTO, postmortem. Salida: simulacro OK. Error: SLI roto o sin acciones → DECLARE_DATA_INCIDENT."
+    },
+    {
+      "i": 44,
+      "len": 97,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-HYO-046-4B: SLI 0.995 ≥ 0.99, RTO 25≤30, ≥1 acción de postmortem, owner data-ops.",
+      "text": "Aplicación CASO-HYO-046-4B: SLI 0.995 ≥ 0.99, RTO 25≤30, ≥1 acción de postmortem, owner data-ops."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 10903
+}

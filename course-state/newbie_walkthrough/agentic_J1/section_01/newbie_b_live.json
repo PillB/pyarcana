@@ -1,0 +1,370 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 1,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-ske-s01-3ef7508d7f",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# REPL transcript — no es un script ejecutable de producción\n# >>> 2 + 2\n# 4\n# >>> type(\"x\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.12.3'\n# >>> quit()\nprint(4)\nprint(\"<class 'str'>\")\nprint(\"3.12.3\")\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T1-A-E1: contrasté el código con el subtema S01-T1-A y la rúbrica/tests del quiz_card. La teoría insiste en intérprete, python, python3; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Cuando instalas Python, lo que realmente instalas es un **intérprete**: un programa que lee tu código y lo ejecuta. En la terminal, ese prog…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"Ana Quispe\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T1-A-E2: contrasté el código con el subtema S01-T1-A y la rúbrica/tests del quiz_card. La teoría insiste en intérprete, python, python3; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Cuando instalas Python, lo que realmente instalas es un **intérprete**: un programa que lee tu código y lo ejecuta. En la terminal, ese prog…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. Abrir una terminal nueva y anotar el SO (Windows vs macOS/Linux).\n2. Probar `python --version` y, si falla, `python3 --version` (Windows: `py --version`).\n3. Si no hay intérprete: instalar solo desde https://www.python.org/downloads/ (oficial). En Windows marcar \"Add python.exe to PATH\" y desactivar alias de Microsoft Store si interfiere.\n4. En macOS/Linux usar `python3` de forma consistente y documentarlo en el README.\n5. Cerrar y reabrir la terminal tras cambios de PATH; repetir `--version`.\n6. Solo con 3.12+ visible: `python3 -m pip --version` (nunca pip suelto sin verificar intérprete).\n\n## Verificación final\n- Comando: `python3 --version` (o `python --version` si responde)\n- Resultado esperado: Python 3.12+ (o 3.x del curso)\nprint(\"protocolo_diagnostico_interprete_ok\")\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T1-A-E3: contrasté el código con el subtema S01-T1-A y la rúbrica/tests del quiz_card. La teoría insiste en intérprete, python, python3; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Cuando instalas Python, lo que realmente instalas es un **intérprete**: un programa que lee tu código y lo ejecuta. En la terminal, ese prog…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# 3) Anota tu shell: bash | zsh | powershell\n# SHELL_USADA=zsh\nprint(\"codigo_ok=0\")\nprint(\"codigo_fail=1\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T1-B-E1: contrasté el código con el subtema S01-T1-B y la rúbrica/tests del quiz_card. La teoría insiste en terminal, python, git, mkdir; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas procesos: `python`, `git`, `mkdir`. Cada comando que escribes es un **proc…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import sys\n\ndef main() -> None:\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T1-B-E2: contrasté el código con el subtema S01-T1-B y la rúbrica/tests del quiz_card. La teoría insiste en terminal, python, git, mkdir; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas procesos: `python`, `git`, `mkdir`. Cada comando que escribes es un **proc…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# pip falla: ¿PATH o intérprete distinto?\n\n## Escenario A — \"pip no se reconoce como comando\"\nClasificación: PATH / ejecutable no encontrado en la shell.\n1. Verificar `python3 --version` (o `py --version` en Windows).\n2. Preferir `python3 -m pip --version` para atar pip al mismo intérprete.\n3. Si Python no está en PATH: reinstalar desde python.org con PATH y reabrir terminal.\n\n## Escenario B — pip corre pero `import pandas` falla (ModuleNotFoundError)\nClasificación: pip e intérprete distintos / venv no activado.\n1. `python3 -c \"import sys; print(sys.executable)\"`\n2. Instalar con ese ejecutable: `python3 -m pip install pandas`\n3. Confirmar venv activo (`sys.prefix` / prompt `(.venv)`) y reintentar import.\n\n## Regla del curso\nPreferir siempre `python -m pip` para atar pip al intérprete que ejecutas.\nprint(\"forense_pip_path_ok\")\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T1-B-E3: contrasté el código con el subtema S01-T1-B y la rúbrica/tests del quiz_card. La teoría insiste en terminal, python, git, mkdir; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas procesos: `python`, `git`, `mkdir`. Cada comando que escribes es un **proc…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\nmkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv .venv\n\n# 2) Activar (Unix)\nsource .venv/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.prefix)\"\n\n# 4) Salir\ndeactivate\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T2-A-E1: contrasté el código con el subtema S01-T2-A y la rúbrica/tests del quiz_card. La teoría insiste en entorno virtual, `venv`, python -m venv .venv; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Un **entorno virtual** es una carpeta autocontenida con su propio intérprete Python y su propio directorio de paquetes. La herramienta están…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# 0) Asegúrate de no estar usando el venv viejo\ndeactivate 2>/dev/null || true\n\n# 1) Eliminar entorno roto\nrm -rf .venv\n\n# 2) Recrear\npython3 -m venv .venv\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T2-A-E2: contrasté el código con el subtema S01-T2-A y la rúbrica/tests del quiz_card. La teoría insiste en entorno virtual, `venv`, python -m venv .venv; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Un **entorno virtual** es una carpeta autocontenida con su propio intérprete Python y su propio directorio de paquetes. La herramienta están…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nProyecto A necesita pandas 1.x y Proyecto B necesita pandas 2.x.\nUn solo site-packages global no puede satisfacer ambas versiones a la vez;\nun upgrade rompe el otro proyecto (\"a mí me funciona\").\n\n## Flujo recomendado (este curso)\n1. python -m venv .venv\n2. source .venv/bin/activate  (o Activate.ps1 en Windows)\n3. python -m pip install ...  por proyecto\n\n## Nota sobre la herramienta\n- venv es stdlib (viene con Python; no requiere descarga extra)\n- Nombre canónico de carpeta: .venv\nprint(\"porque_venv_no_global\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T2-A-E3: contrasté el código con el subtema S01-T2-A y la rúbrica/tests del quiz_card. La teoría insiste en entorno virtual, `venv`, python -m venv .venv; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Un **entorno virtual** es una carpeta autocontenida con su propio intérprete Python y su propio directorio de paquetes. La herramienta están…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\nsource .venv/bin/activate   # o Activate.ps1 en Windows\n\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\n\n# Verifica:\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T2-B-E1: contrasté el código con el subtema S01-T2-B y la rúbrica/tests del quiz_card. La teoría insiste en .venv, terceros, `python -m pip`, python -m; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Con el `.venv` activado, instalas dependencias de **terceros** con **`python -m pip`**. El prefijo `python -m` ata pip al mismo intérprete q…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T2-B-E2: contrasté el código con el subtema S01-T2-B y la rúbrica/tests del quiz_card. La teoría insiste en .venv, terceros, `python -m pip`, python -m; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Con el `.venv` activado, instalas dependencias de **terceros** con **`python -m pip`**. El prefijo `python -m` ata pip al mismo intérprete q…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl paquete de terceros no está en el entorno activo.\n\n## Hipótesis B — instalado en otro intérprete\npip y python no son la misma instalación / venv no activado.\n\n## Protocolo (5 pasos)\n1. python -c \"import sys; print(sys.executable)\" — identifica el intérprete.\n2. Clasificar el módulo: ¿stdlib (sys, datetime) o terceros (requests)?\n3. python -m pip list / python -m pip show requests con el mismo python.\n4. Si falta: python -m pip install requests en el venv correcto.\n5. Reintentar import; si pip list muestra el paquete e import falla → dos Pythons.\n\n## ¿stdlib o terceros?\n- requests: terceros (necesita pip install)\n- datetime: stdlib (no va a requirements)\nprint(\"forense_modulenotfound_ok\")\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T2-B-E3: contrasté el código con el subtema S01-T2-B y la rúbrica/tests del quiz_card. La teoría insiste en .venv, terceros, `python -m pip`, python -m; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Con el `.venv` activado, instalas dependencias de **terceros** con **`python -m pip`**. El prefijo `python -m` ata pip al mismo intérprete q…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\nmkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T3-A-E1: contrasté el código con el subtema S01-T3-A y la rúbrica/tests del quiz_card. La teoría insiste en sistema de control de versiones, git init, git status, git add; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Git es un **sistema de control de versiones**: registra *quién cambió qué y por qué*, no solo “guardar en la nube”. Flujo local mínimo: `git…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# Lectura de diff\n\n## Comandos usados\necho \"Setup con venv.\" >> README.md\ngit add README.md\ngit commit -m \"docs: documentar setup con venv\"\nGIT_PAGER=cat git show HEAD\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLas líneas nuevas del README (p. ej. \"Setup con venv.\") aparecen con prefijo +.\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: solo las líneas tocadas con +/−. Un archivo nuevo aparecería todo con +.\n\n## 3) Resumen en una frase\nEl commit documenta el setup con venv en el README ya existente.\nprint(\"diff_readme_ok\")\n",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T3-A-E2: contrasté el código con el subtema S01-T3-A y la rúbrica/tests del quiz_card. La teoría insiste en sistema de control de versiones, git init, git status, git add; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Git es un **sistema de control de versiones**: registra *quién cambió qué y por qué*, no solo “guardar en la nube”. Flujo local mínimo: `git…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\nB\n\n## Justificación\nConventional Commits pide prefijo + descripción imperativa legible en el historial y el PR.\n`feat: agregar smoke hello_env` dice el tipo y el valor observable. `wip` no es aceptable en main;\n\"Actualicé cosas\" no nombra archivo ni beneficio.\n\n## Reescritura de A\nchore: WIP local smoke hello_env (squash antes de main)\n\n## Reescritura de C\ndocs: documentar setup del smoke hello_env\nprint(\"commit_message_choice_B\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T3-A-E3: contrasté el código con el subtema S01-T3-A y la rúbrica/tests del quiz_card. La teoría insiste en sistema de control de versiones, git init, git status, git add; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Git es un **sistema de control de versiones**: registra *quién cambió qué y por qué*, no solo “guardar en la nube”. Flujo local mínimo: `git…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\ngit switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T3-B-E1: contrasté el código con el subtema S01-T3-B y la rúbrica/tests del quiz_card. La teoría insiste en main, rama de feature, git switch -c feat/nombre-corto, git push -u origin feat/nombre-corto; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Trabajar siempre en `main` es el atajo del principiante y el riesgo del equipo. El flujo profesional: crea una **rama de feature** con `git …». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# Título del PR\nfeat: smoke hello_env y README de instalación\n\n## Resumen\n- Agrega scripts/hello_env.py como smoke del entorno (exit 0)\n- Actualiza README con pasos venv + pip install -r\n- Mantiene el esqueleto CP-N1-A clonable sin secretos\n\n## Plan de prueba\n1. python -m venv .venv && source .venv/bin/activate\n2. python -m pip install -r requirements.txt\n3. python scripts/hello_env.py  # exit 0\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] Solo datos sintéticos / placeholders en .env.example\nprint(\"pr_description_ok\")\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T3-B-E2: contrasté el código con el subtema S01-T3-B y la rúbrica/tests del quiz_card. La teoría insiste en main, rama de feature, git switch -c feat/nombre-corto, git push -u origin feat/nombre-corto; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Trabajar siempre en `main` es el atajo del principiante y el riesgo del equipo. El flujo profesional: crea una **rama de feature** con `git …». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. Revisar el cambio: git status && git diff README.md\n2. Descartar: git restore README.md  (vuelve a la última versión commiteada)\n\n## ¿Cuándo stash en su lugar?\nSi quieres guardar el WIP para recuperarlo después: git stash push -m \"wip readme\" y luego git stash pop.\n\n## Por qué NO force-push a main\nReescribe historial compartido y puede borrar trabajo de colegas; este curso prohíbe git push --force a main.\n\n## Por qué no reset --hard como default\nBorra trabajo no commiteado sin red de seguridad; preferir restore/stash primero.\nprint(\"restore_not_force_ok\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T3-B-E3: contrasté el código con el subtema S01-T3-B y la rúbrica/tests del quiz_card. La teoría insiste en main, rama de feature, git switch -c feat/nombre-corto, git push -u origin feat/nombre-corto; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «Trabajar siempre en `main` es el atajo del principiante y el riesgo del equipo. El flujo profesional: crea una **rama de feature** con `git …». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T4-A-E1: contrasté el código con el subtema S01-T4-A y la rúbrica/tests del quiz_card. La teoría insiste en VS Code, Python, Ruff; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «El editor recomendado en este curso es **VS Code** con la extensión de **Python** (Pylance para tipos e IntelliSense) y **Ruff** (linter/for…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T4-A-E2: contrasté el código con el subtema S01-T4-A y la rúbrica/tests del quiz_card. La teoría insiste en VS Code, Python, Ruff; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «El editor recomendado en este curso es **VS Code** con la extensión de **Python** (Pylance para tipos e IntelliSense) y **Ruff** (linter/for…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]`\n\n## Por qué no ALL el día 1\nALL genera cientos de hallazgos; el equipo deja de mirar el linter.\nUn mínimo respetado vale más que un máximo ignorado.\n\n## Qué cubren E, F, I\nE: pycodestyle errores; F: pyflakes (imports muertos F401); I: isort.\n\n## Cuándo ampliar\nCuando el check limpio en E/F/I ya es hábito y hay acuerdo de equipo.\nprint(\"ruff_select_minimo\")\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T4-A-E3: contrasté el código con el subtema S01-T4-A y la rúbrica/tests del quiz_card. La teoría insiste en VS Code, Python, Ruff; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «El editor recomendado en este curso es **VS Code** con la extensión de **Python** (Pylance para tipos e IntelliSense) y **Ruff** (linter/for…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n.venv/\nvenv/\n__pycache__/\n*.pyc\n.env\n.ipynb_checkpoints/\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T4-B-E1: contrasté el código con el subtema S01-T4-B y la rúbrica/tests del quiz_card. La teoría insiste en .gitignore, .venv/, venv/, __pycache__/; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env`, `.ipynb_checkpoints/`,…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=https://example.com\nDB_HOST=localhost\nLOG_LEVEL=INFO\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T4-B-E2: contrasté el código con el subtema S01-T4-B y la rúbrica/tests del quiz_card. La teoría insiste en .gitignore, .venv/, venv/, __pycache__/; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env`, `.ipynb_checkpoints/`,…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic check s01\n# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. git clone <repo> && cd python-ds-journey\n- [ ] 2. python -m venv .venv && source .venv/bin/activate\n- [ ] 3. python -m pip install -r requirements.txt\n- [ ] 4. python scripts/hello_env.py  # exit 0\n- [ ] 5. git check-ignore -v .env  # debe matchear .gitignore\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\nprint(\"checklist_cp_n1_a\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S01-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Revisión escéptica de S01-T4-B-E3: contrasté el código con el subtema S01-T4-B y la rúbrica/tests del quiz_card. La teoría insiste en .gitignore, .venv/, venv/, __pycache__/; comprobé que no queden ____ ni TODO y que el contrato (prints/def/return/exit según el caso) se cumpla. Referencia del paquete: «**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env`, `.ipynb_checkpoints/`,…». Si el exercise es de protocolo/markdown, la justificación operativa sigue los hints del paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Chequeo escéptico Q0: la pregunta «¿Para qué sirve un entorno virtual (venv) en Python?» se resuelve con la opción 0 («Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones»). Verifiqué contra párrafos del paquete que mencionan Para, dependencias, paquetes, proyecto, conflictos; las demás opciones contradicen definiciones explícitas de la sección o confunden conceptos (p. ej. PATH vs cwd, == vs is, stdlib vs terceros). Confianza moderada-alta por anclaje textual."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Chequeo escéptico Q1: la pregunta «¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?» se resuelve con la opción 2 («.venv/ (o venv/)»). Verifiqué contra párrafos del paquete que mencionan venv, venv; las demás opciones contradicen definiciones explícitas de la sección o confunden conceptos (p. ej. PATH vs cwd, == vs is, stdlib vs terceros). Confianza moderada-alta por anclaje textual."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.91,
+      "blocked_on": [],
+      "justification_from_packet": "Chequeo escéptico Q2: la pregunta «¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?» se resuelve con la opción 3 («\"feat: agregar cálculo de churn por segmento\"»). Verifiqué contra párrafos del paquete que mencionan feat, agregar; las demás opciones contradicen definiciones explícitas de la sección o confunden conceptos (p. ej. PATH vs cwd, == vs is, stdlib vs terceros). Confianza moderada-alta por anclaje textual."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.71,
+      "blocked_on": [],
+      "justification_from_packet": "Chequeo escéptico Q3: la pregunta «¿Qué comando te permite replicar el entorno de otro desarrollador?» se resuelve con la opción 1 («pip install -r requirements.txt»). Verifiqué contra párrafos del paquete que mencionan install, requirements; las demás opciones contradicen definiciones explícitas de la sección o confunden conceptos (p. ej. PATH vs cwd, == vs is, stdlib vs terceros). Confianza moderada-alta por anclaje textual."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "blocked_on": [],
+      "justification_from_packet": "Chequeo escéptico Q4: la pregunta «¿Por qué NO debes subir el archivo .env a GitHub?» se resuelve con la opción 0 («Porque suele contener credenciales (API keys, passwords, tokens) que son secretos»). Verifiqué contra párrafos del paquete que mencionan Porque, suele, keys, secretos; las demás opciones contradicen definiciones explícitas de la sección o confunden conceptos (p. ej. PATH vs cwd, == vs is, stdlib vs terceros). Confianza moderada-alta por anclaje textual."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:06:25+00:00",
+  "session_started_at": "2026-07-23T12:06:15+00:00",
+  "session_ended_at": "2026-07-23T12:06:25+00:00",
+  "receipt_response_sha256": "b79ca39d69b5629ab9df64b894205246e31e4578645be2396c7f256cceefcc46"
+}

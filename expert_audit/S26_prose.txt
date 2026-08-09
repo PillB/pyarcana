@@ -1,0 +1,590 @@
+# S26 extracted learner-facing Spanish prose (improved: inline code spans preserved)
+
+## Double-quoted prose strings
+
+[1] Orquestación y VP RPA + AI Analyst
+
+[2] VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas
+
+[3] Cierras **CP-N2-C** orquestando el Value Proposition **RPA + AI Analyst**: Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo. En un escritorio de operaciones (p. ej. Lima) demuestras evidencia por estado, recuperación ante fallas, regresión N2 reproducible y costo acotado. Sin auto-fraude ni envío sin approve registrado en audit.
+
+[4] Configurar límites, metadata y schedules
+
+[5] Diseñar revisión humana de análisis/reporte/destinatario
+
+[6] Operar aprobación, rechazo, edición y auditoría
+
+[7] Validar E2E, seguridad, costo y métricas de valor
+
+[8] Cierre CP-N2-C: orquestación del VP y regresión N2
+
+[9] S25 te dejó **ai_assist** evaluado: la IA propone, el humano cierra. S26 cierra el **Value Proposition RPA + AI Analyst** de CP-N2-C orquestando el pipeline sintético Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo, con evidencia por estado y recuperación ante fallas. En un escritorio de operaciones en Lima, el run_id une logs, artefactos y la cola HITL sin reescribir historial.
+
+[10] La regresión N2 (S14–S26 + CF-2) exige contratos estables entre análisis, reporting y automatización: mismos fixtures sintéticos, mismos predicates de éxito, y cero etiquetas automáticas de fraude. Matching o score de IA solo alimentan revisión humana; el correo no se envía sin aprobación explícita registrada en audit.
+
+[11] Orden pedagógico: **T1 Orquestación** (DAG/estados/límites) → **T2 Resiliencia** (checkpoint, retry, DLQ, idempotencia, rollback) → **T3 HITL** (colas, approve/reject/edit) → **T4 Operación/E2E** (SLO, runbook, costo/valor). Cada bloque asume el anterior: sin path no hay checkpoint; sin HITL no hay draft; sin E2E no hay promoción.
+
+[12] Diccionario rápido de la sección: **DAG** = grafo de dependencias sin ciclos; **HITL** (human-in-the-loop) = revisión humana obligatoria; **DLQ** (dead-letter queue) = cola de ítems que agotaron reintentos; **SLO** = objetivo de servicio medible; **fail-closed** = ante duda, bloquear; **drain** = vaciar workers antes de cambiar schema; **page on-call** = avisar al turno de guardia con severidad explícita. Privacidad: datos de demo sintéticos; no uses RUC/nombres reales de clientes.
+
+[13] Criterio de promoción N2
+
+[14] La promoción exige CP-N2-A/B/C, regresión S14–S26 y CF-2 aprobados con evidencia reproducible.
+
+[15] Tasks, flows, DAG y estados del VP
+
+[16] Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni generar draft_email antes de approve. Path canónico del VP (7 steps): **ingest → validate → analyze → ai_assist → report → approve → draft_email**. Ese orden es el contrato del cierre CP-N2-C; las vistas parciales de ejercicios lo declaran cuando omiten AI o email a propósito.
+
+[17] Cada **task** expone estados observables: `pending`, `running`, `success`, `failed`, `skipped`. El **flow** agrega un estado global (p. ej. `failed` si un nodo crítico falló). El dashboard del analista muestra **timestamp + run_id** por nodo para reanudar sin adivinar.
+
+[18] Implementación didáctica con dicts de nodos + edges y **orden topológico** (sin Prefect/Airflow instalado): si hay ciclo, el pipeline **no arranca**. Contrato: `edges list[(str,str)]` → `order list[str]`; `approve` **antes** de `draft_email` es dependencia de negocio, no de “preferencia”.
+
+[19] El dashboard del VP muestra el estado de cada nodo con timestamp y run_id.
+
+[20] Límites, metadata y schedules del run
+
+[21] Acabas de fijar el DAG; ahora sin **límites** un schedule tumba el export. **Rate limits** (api_rpm, max_parallel_tasks) protegen APIs y colas compartidas: un *burst* (ráfaga) nocturno de reintentos no debe tumbar el endpoint de export del sistema sintético. Metadata inmutable al start del run: run_id, trigger (manual|schedule), git_sha sintético, data_cutoff — versionas un nuevo run_id si cambias la foto de datos.
+
+[22] **Schedules** tipo cron (`0 6 * * 1-5` America/Lima) cubren días hábiles 06:00; on-demand cubre cierre de mes o reprocesos. En deploy: **`disable_schedule` → drain** (vaciar workers) antes de cambiar schema de informe — no mezclar versiones a mitad del batch.
+
+[23] Caso PE: San Isidro fija `max_parallel_tasks=2` y `api_rpm=30`; si `api_rpm>60` el preflight imprime `too_high` y **bloquea** el schedule hasta revisión humana del límite.
+
+[24] No reescribas metadata tras el start; versiona un nuevo run_id.
+
+[25] Checkpoints, reintentos con backoff y dead-letter (DLQ)
+
+[26] Con el path estable, un crash a mitad de `analyze` exige **checkpoint**: persiste ids ya procesados para reanudar sin rehacer ingest costoso. Tras el fallo, solo quedan pendientes los no marcados. Lab: set en memoria; capstone: JSON. Contrato: **skip si id ∈ ckpt**.
+
+[27] Glosa: **checkpoint** = marca de progreso persistida; **backoff** = espera creciente entre reintentos (`base * 2**(attempt-1)`, con cap); **DLQ (dead-letter queue)** = cola de ítems que agotaron reintentos y requieren dueño humano. **Retry con backoff** absorbe 429/timeout. **No** reintentes schema inválido de negocio: eso va a DLQ con owner y SLA — DLQ no es basurero silencioso.
+
+[28] Caso PE: item flaky de export reintenta hasta `max_attempts`; si sigue fallando → DLQ con `reason=timeout_exhausted`, owner=`ops_rpa`. Contrato lab: `process_with_dlq` → `(ok, dlq, ckpt)` **sin duplicar** ok tras reanudación; flaky no cae a DLQ en el primer intento.
+
+[29] Cada mensaje en DLQ tiene owner y SLA de inspección; no se borra el rastro.
+
+[30] Tras checkpoint y DLQ, el siguiente riesgo es el **reintento exitoso dos veces**: pasos **idempotentes** usan keys de negocio (`run_id`, `entity_id`) para que la segunda escritura no pise un valor ya materializado (create-once). Un retry **no** duplica drafts por reentrega del mensaje.
+
+[31] **Concurrencia**: locks/flags `locked` por entidad evitan dos workers en el mismo informe. Si `locked=True` → busy y reencola (**fail-closed**: ante duda, no entras). Lab: flag; prod: lease con TTL.
+
+[32] **Rollback/compensación** no siempre es ACID: si falla `draft_email` tras `write_report`, borra el draft y marca el report como `superseded` (no lo eliminas del historial de defensa). Documenta el grafo de compensación en el runbook del VP.
+
+[33] Compensación
+
+[34] Rollback no siempre es transacción ACID; define compensaciones explícitas (draft fuera, report superseded).
+
+[35] Revisión de análisis, reporte y destinatario (HITL)
+
+[36] Con resiliencia y compensación listas, el path aún no puede materializar correo: el HITL del VP exige **tres colas** — `analysis` (métricas/outliers), `report` (narrativa), `recipient` (destinatario). Cualquier `pending>0` **bloquea** envío: `blocked = any(count>0)`. Checklist mínima: metrics + narrative + recipient.
+
+[37] La IA asistida (**ai_assist**, handoff de S25) **solo propone** texto/highlights; **no cierra** el caso. Si `analysis` pending, el flow queda en `human_review` aunque `report` esté listo — evita “correo automático con narrativa alucinada”.
+
+[38] Caso: `cpn2c-hitl-01` con analysis=1, report=1, recipient=0 → `blocked True`. Scores de matching alimentan `analysis` como **evidencia**, nunca como veredicto de fraude.
+
+[39] Sin las tres revisiones en verde, no hay draft_email.
+
+[40] Aprobación, rechazo, edición y auditoría
+
+[41] Las colas HITL se vacían con decisiones humanas; cada una deja **audit** `{action, actor, ts, reason?}`. `approve` avanza; `reject` exige reason no vacío; `edit` versiona (1→2) sin borrar historia. Sin audit, CP-N2-C no es defendible en el capstone.
+
+[42] Actor = id sintético (`r1`, `r2`), no correo personal real. El sistema **no envía**: solo materializa `draft_email` tras approve. Rechazos reabren cola según reason code del runbook.
+
+[43] Política PE: `quality_narrative` → reencola report; `wrong_recipient` → reencola recipient. Audit **append-only** — nunca reescritura de entradas previas.
+
+[44] Con el gate HITL y el audit en verde, falta **operar** el VP en producción. **SLO** sintético: `success_rate ≥ 0.95` diario; si rate=0.90 → alerta `alert_success_rate` (mismo nombre en prosa, lab y runbook). P0: `sends_without_approve > 0` — violación de control, no warning suave.
+
+[45] Runbook de incidente: **`disable_schedule → drain → page`**. Primero detienes el cron America/Lima, drenas workers (vacías la cola en vuelo), luego *pages on-call* (avisas al turno de guardia) con severidad explícita.
+
+[46] Métricas del metadata de run: throughput, fallas, HITL latency, costo de tokens. **No** inventes `fraud_rate` en el dashboard — matching/score ≠ culpabilidad.
+
+[47] Cualquier envío sin approve es incidente P0 aunque sea sandbox mal configurado.
+
+[48] Pruebas E2E, seguridad, costo y métricas de valor
+
+[49] SLO y runbook protegen el día a día; el **cierre de nivel** exige evidencia E2E del path canónico **ingest → validate → analyze → ai_assist → report → approve → draft_email** en success con fixtures sintéticos. Seguridad: secretos fuera del repo, scopes mínimos, **`fraud_labels=0`** (el VP no auto-etiqueta fraude).
+
+[50] Costo: tokens de IA + minutos de RPA acotados. Valor: minutos ahorrados estimados (p. ej. 45) vs manual — estimación de producto, no promesa financiera.
+
+[51] Regresión N2: re-ejecutar tests críticos de CP-N2-A/B/C, E2E del tramo S14–S26 y controles de privacidad/seguridad, más CF-2. Paquete de defensa: e2e, cost, value, `fraud_labels=0`, `n2_regression=pass` con evidencia real (no “planned”).
+
+[52] Caso PE: `cpn2c-close-e2e` con `data_cutoff` fijo; si un step failed → E2E False y **no** se firma promoción. Matching/OCR/RPA solo encolan evidencia — nunca claim de colusión/fraude en el informe final.
+
+[53] CF-2 y regresión
+
+[54] CF-2 fija interfaces entre Familiarity, reporting y automatización. La regresión N2 no se “compensa” entre capstones.
+
+[55] Te muestro el cierre de CP-N2-C pensando en voz alta: path canónico de 7 steps, resiliencia, HITL triple, SLO y un mini-runner E2E con regresión N2/CF-2 — sin envío real ni fraude automático.
+
+[56] Derivo el path canónico de 7 steps desde edges (ai_assist + draft_email).
+
+[57] El orden del VP es el contrato del flow: se deriva de edges; omitir ai_assist rompe el handoff de S25.
+
+[58] Metadata de run con límites y zona America/Lima (thinking aloud).
+
+[59] Sin metadata (run_id, límites, tz) no hay auditoría ni schedule defendible; el preflight evita tumbar el export.
+
+[60] Checkpoint de reanudación + reintentos hasta max_attempts y DLQ con owner.
+
+[61] Reanudar sin rehacer lo exitoso; reintentar hasta max_attempts y solo entonces DLQ con owner — no basurero silencioso ni DLQ al primer fallo.
+
+[62] Thinking aloud: create-once no pisa; si falla el draft, pop draft y report → superseded.
+
+[63] Create-once evita drafts duplicados; compensación parcial deja report superseded (no borra evidencia).
+
+[64] Thinking aloud: cuento pending en analysis/report/recipient y demuestro que un solo pending bloquea draft_email.
+
+[65] Triple revisión antes del correo: un solo pending basta para bloquear; all_clear solo con las tres en 0.
+
+[66] Reject sin reason se rechaza; approve deja audit append-only — sin eso el capstone no es defendible.
+
+[67] Thinking aloud: evalúo success_rate y sends_without_approve; nombro alertas como en el runbook.
+
+[68] alert_success_rate y P0_unapproved_send son contratos de runbook; un alias informal rompe la página on-call.
+
+[69] Mini-runner E2E: estados nodo a nodo, fallo en analyze, gate approve→draft, regresión pass.
+
+[70] Un solo run lifecycle une path, crash observable, gate HITL, fraud_labels=0 y regresión N2 con evidencia pass (no planned).
+
+[71] 24 ejercicios de DAG, limits, checkpoint/DLQ, rollback, colas HITL, audit, SLO y E2E/regresión. Cada starter trae un **DEFECT** (fallo intencional) marcado en un comentario: tu trabajo es corregirlo hasta igualar el output de la solución.
+
+[72] Vista parcial del path (sin AI ni email): a partir de partial_edges=[('ingest','validate'),('validate','analyze'),('analyze','report')], deriva el orden lineal empezando en 'ingest' y recorriendo cada arista a→b. El full path del VP **inserta** `ai_assist` entre analyze y report, y cierra con approve → draft_email; aquí solo el tramo base. Pass: ['ingest', 'validate', 'analyze', 'report'].
+
+[73] parte de first=edges[0][0] y append b si a==último
+
+[74] No omitas validate: el DEFECT salta de ingest a analyze.
+
+[75] Full path canónico: …analyze → ai_assist → report → approve → draft_email.
+
+[76] draft_email solo tras approve en el path completo
+
+[77] orden derivado de partial_edges (4 steps) sin hardcodear la lista a ciegas
+
+[78] Si falta validate, el DAG de negocio se rompe antes de llegar a AI o email; derivar de edges evita inventar el orden.
+
+[79] Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a,b),(b,c) con zip y cuenta len(edges). Contrato: input lista de 3 nodos → output '2 [(...) ]' con pares ordenados. Ciclos prohibidos en producción; aquí solo path. Pass: 2 [('a', 'b'), ('b', 'c')].
+
+[80] Imprime len(edges) y luego edges en la misma línea.
+
+[81] Imprimir solo len pierde la evidencia de qué dependencias modelaste.
+
+[82] Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier task == 'failed', imprime failed; si no, success. Contrato: dict[str,str] → 'failed'|'success'. Skipped no cuenta como failed en este lab. Pass string exacto: failed.
+
+[83] agregación failed|success según any failed en values
+
+[84] Un solo nodo failed debe tumbar el estado global del flow.
+
+[85] Metadata inmutable de run: m={'run_id':'cpn2c-1','api_rpm':30,'tz':'America/Lima'}. Construye un snapshot de solo lectura con las claves run_id y api_rpm e imprime (run_id, api_rpm, n_keys) donde n_keys es el tamaño del snapshot. No mutes m. Pass: ('cpn2c-1', 30, 2).
+
+[86] No reasignes claves en m; el snapshot es la foto inmutable del start.
+
+[87] Imprimir el dict entero no sirve como llave de join; el ops necesita run_id + límite en un snapshot legible.
+
+[88] Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Imprime 'too_high' si api_rpm>60, si no 'ok'. Contrato: int → etiqueta de gate. En ops Lima esto bloquearía enable del schedule. Pass: too_high.
+
+[89] Este gate impide enable del schedule en el lab.
+
+[90] etiqueta too_high|ok según umbral 60
+
+[91] Con umbral 100 el preflight deja pasar un rpm que tumba el export.
+
+[92] Schedule del escritorio PE: arma schedule={'cron':'0 6 * * 1-5','tz':'America/Lima'} y un preflight que imprime 'ready' solo si tz=='America/Lima' y el cron empieza por '0 6'; si no, 'blocked'. Luego imprime en una línea cron y tz. Contrato: no uses UTC. Pass exacto en dos líneas: ready / 0 6 * * 1-5 America/Lima.
+
+[93] Condición ready: schedule['tz']=='America/Lima' y schedule['cron'].startswith('0 6').
+
+[94] Segunda línea: print(schedule['cron'], schedule['tz']).
+
+[95] línea ready y línea 0 6 * * 1-5 America/Lima
+
+[96] UTC o un cron sin 06:00 local desplaza el batch fuera del horario operativo de Lima.
+
+[97] Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el entero ms de espera. Contrato: no aplica cap en este ejercicio; solo la fórmula. Pass: 400. (En prod añadirías jitter y cap.)
+
+[98] El lab no aplica cap; solo la fórmula.
+
+[99] entero 400 según fórmula de backoff
+
+[100] Backoff lineal no da el respiro creciente que absorbe 429/timeout.
+
+[101] Dead-letter tras agotar reintentos: attempts=3, max_attempts=3, item id='x'. Si attempts>=max_attempts, append a dlq el dict {'id':'x','reason':'timeout_exhausted','owner':'ops_rpa','attempts':3} e imprime la lista. Si aún quedan reintentos, imprime []. Pass: [{'id': 'x', 'reason': 'timeout_exhausted', 'owner': 'ops_rpa', 'attempts': 3}].
+
+[102] Compara attempts con max_attempts antes de append.
+
+[103] Incluye attempts en el dict para evidencia del runbook.
+
+[104] No envíes a DLQ en el primer fallo si aún hay cupo de reintento.
+
+[105] lista con un dict id/reason/owner/attempts tras agotar
+
+[106] Una DLQ sin owner o sin attempts no es defendible; DLQ al primer fallo contradice el retry.
+
+[107] Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈ ckpt). Contrato: list comprehension que filtra solo pendientes (skip si id ya está en ckpt). Pass: ['b'].
+
+[108] 'a' ya está en ckpt → solo queda 'b'.
+
+[109] lista de pendientes no presentes en ckpt
+
+[110] Reprocesar todo tras un crash desperdicia ingest y rompe el checkpoint.
+
+[111] Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store. Llama put('r','v1') y put('r','v2'); imprime store['r'] (debe seguir v1). Contrato: segunda escritura no pisa. Pass: v1.
+
+[112] Dentro de put: escribe solo si k no está en store.
+
+[113] La segunda put('r','v2') no debe cambiar el valor.
+
+[114] Sobrescribir en cada put duplica drafts bajo reentrega del mensaje.
+
+[115] Compensación/rollback parcial: state={'report':'ok','draft':'ok'}. Elimina draft (pop) y marca report='superseded' (no lo borres). Imprime state. Contrato: draft side-effect revertido; report queda para defensa. Pass: {'report': 'superseded'}.
+
+[116] El grafo de compensación del VP no borra evidencia del informe.
+
+[117] Borrar el report pierde la evidencia; superseded es la compensación correcta.
+
+[118] Lock optimista de concurrencia: entity={'id':'report-1','locked':True}. Si locked, imprime ('busy', entity['id']) y no entres; si no, ('enter', entity['id']). Contrato: fail-closed (ante duda, no entras); sin busy-loop en el lab. Pass: ('busy', 'report-1').
+
+[119] El DEFECT invierte la condición: no lo copies.
+
+[120] Entrar con locked=True permite dos workers sobre el mismo informe; el id en la tupla deja evidencia para el runbook.
+
+[121] Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cuántos status=='pending' e imprime el entero. Contrato: solo analysis en este step; no mutes la lista. Pass: 1.
+
+[122] entero de pendientes en analysis
+
+[123] Contar 'done' en vez de 'pending' subestima la cola HITL.
+
+[124] Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0 (blocked), False si todas 0. Contrato: any sobre values. Pass: True (aún no se puede draft_email).
+
+[125] all(v > 0) sería incorrecto: basta un pending.
+
+[126] Con analysis=1 el gate debe ser True.
+
+[127] Usar all exige las tres colas llenas; el gate real bloquea con una sola.
+
+[128] Checklist HITL del VP: given queues={'analysis':'pending','report':'done','recipient':'pending'}, construye la lista de claves aún pending e imprime solo esas (orden: analysis, report, recipient). Contrato: no hardcodees el checklist fijo; deriva de status. Pass: ['analysis', 'recipient'].
+
+[129] Recorre el orden canónico analysis → report → recipient.
+
+[130] report está done → no entra en la lista.
+
+[131] lista de colas pending en orden canónico
+
+[132] Hardcodear metrics/narrative/recipient no enseña a leer el estado de las colas.
+
+[133] Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor 'rev'; imprime (action, len(audit)). Contrato: no reescribir historial. Pass: ('approve', 1).
+
+[134] La tupla demuestra decisión + que hay exactamente un evento.
+
+[135] Imprimir solo el actor no demuestra la decisión; len(audit) prueba que no se reescribió el log.
+
+[136] Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None → imprime 'invalid'; si no, 'ok'. Contrato: fail-closed en rechazo sin justificación. Pass: invalid.
+
+[137] Condición: action=='reject' and not reason → 'invalid'.
+
+[138] reason vacío o None son ambos inválidos.
+
+[139] Reject sin reason se rechaza a nivel API; el lab lo modela como 'invalid'.
+
+[140] Edit con audit append-only: parte de ver=1 y audit=[]. Al editar, incrementa ver y append {'action':'edit','actor':'ana','from':1,'to':2}. Imprime (ver, len(audit), audit[-1]['action']). Contrato: no borrar eventos previos. Pass: (2, 1, 'edit').
+
+[141] Usa las claves action/actor/from/to del contrato.
+
+[142] El versionado sin evento de audit no es defendible en CP-N2-C.
+
+[143] SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert_success_rate', si no 'ok'. Contrato: nombre de alerta alineado al runbook (no un alias genérico). Pass: alert_success_rate.
+
+[144] El string de alerta es alert_success_rate.
+
+[145] 0.9 está bajo el umbral → alerta.
+
+[146] Invertir la comparación o usar un nombre informal rompe el contrato del runbook.
+
+[147] Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send', si no 'ok'. Contrato: cero envíos sin approve humano. Pass: P0_unapproved_send.
+
+[148] El DEFECT invierte la lógica: no lo copies.
+
+[149] Un solo envío sin approve ya es incidente P0.
+
+[150] Tratar unapproved send como ok en sandbox sigue siendo P0 en el VP.
+
+[151] Runbook de incidente P0: parts=['disable_schedule','drain','page'] y severity='P0'. Une parts con ' -> ' e imprime severity y la secuencia en una línea (p. ej. P0 disable_schedule -> drain -> page). Contrato: orden fijo de contención + severidad explícita para on-call. Pass: P0 disable_schedule -> drain -> page.
+
+[152] print(severity, seq) en una sola línea.
+
+[153] El orden disable_schedule → drain → page es fijo; no omitas severity.
+
+[154] línea P0 disable_schedule -> drain -> page
+
+[155] Saltar disable_schedule/drain o no declarar severidad deja al on-call sin contención clara.
+
+[156] Gate E2E del path canónico: steps con los 7 nodos del VP y status success en todos; audit=[{'action':'approve'}]. Imprime True solo si all(status[s]=='success' for s in steps) **y** hay al menos un action=='approve' en audit. Contrato: draft_email no se defiende sin approve. Pass: True.
+
+[157] steps debe ser el path de 7: ingest…draft_email.
+
+[158] Combina all(...) de status con any(a['action']=='approve' for a in audit).
+
+[159] Sin approve el E2E del cierre debe ser False aunque todo esté success.
+
+[160] True solo con full path success + approve en audit
+
+[161] Un E2E de tres steps sin approve no demuestra el gate draft del VP.
+
+[162] Paquete de defensa anti-fraude-auto: pkg={'fraud_labels':0,'approved':True}. Imprime 'ok' solo si fraud_labels==0 **y** approved es True; si no, 'fail'. Matching/OCR no generan labels de fraude; draft no se defiende sin approve. Pass: ok.
+
+[163] Combina fraud_labels==0 y approved con and.
+
+[164] Matching/score nunca justifican labels automáticos.
+
+[165] ok solo con fraud_labels=0 y approved True
+
+[166] fraud_labels=0 sin approve no cierra el E2E; ambas condiciones son obligatorias.
+
+[167] Paquete de defensa del cierre: implementa defense_package(n2_status, value_min, cf2_note) que devuelve dict con claves n2_regression, value_minutes_saved_est y cf2. Llama con n2_status='CP-N2-A/B/C critical+privacy', value_min=45, cf2_note='interfaces Familiarity-reporting-automation' e imprime el dict. Contrato: las tres claves son obligatorias (sin value no hay métrica de valor). Pass debe coincidir el dict de solution output.
+
+[168] def que arma las tres claves; no omitas value_min
+
+[169] El DEFECT omite value_minutes_saved_est: restáuralo.
+
+[170] cf2 documenta interfaces Familiarity-reporting-automation (no un string vacío).
+
+[171] gate ≥80% no crítica; 0 fallas críticas
+
+[172] dict completo vía función (n2_regression + value + CF-2)
+
+[173] Sin value estimate o CF-2 el paquete de cierre no es defendible; hardcodear solo dos claves es print-theater.
+
+[174] VP RPA + AI Analyst — cierre CP-N2-C + notas regresión N2
+
+[175] Orquesta el VP sintético de punta a punta: ingest→validate→analyze→ai_assist→report→approve→draft_email. Incluye checkpoint/DLQ, triple cola HITL, audit, SLO y un checklist de **regresión N2** (tests críticos CP-N2-A/B/C, E2E S14–S26, privacidad/seguridad, CF-2 interfaces). No envíes correo real; fraud_labels=0; matching no implica fraude.
+
+[176] DAG ejecutable con estados y metadata de run
+
+[177] HITL: revisión análisis/reporte/destinatario + audit approve/reject/edit
+
+[178] Operación: SLO/alerts/runbook + E2E con costo/valor
+
+[179] Documentar notas de regresión N2 y CF-2 en el portafolio
+
+[180] Solo datos sintéticos; sin secretos ni PII real
+
+[181] Cero envíos sin approve (y de hecho cero envíos reales)
+
+[182] fraud_labels automáticos = 0 (matching ≠ fraude)
+
+[183] Evidencia por estado del pipeline (manifest de steps)
+
+[184] Notas de regresión N2 y CF-2 en You Do / README del proyecto
+
+[185] Español profesional (es-PE) en runbook y mensajes de UI
+
+[186] Paquete de cierre CP-N2-C para portafolio: pipeline con evidencia por estado, HITL triple, draft en sandbox y sección explícita de **regresión N2** (S14–S26) más contratos **CF-2** (Familiarity ↔ reporting ↔ automatización). Documenta límites: datos sintéticos, fraud_labels=0 y cero envíos reales. Artefactos mínimos sugeridos: manifest de estados por step, sample de audit append-only, línea de costo (tokens/minutos) y nota de privacidad.
+
+[187] Cobertura del pipeline VP y de los criterios de cierre CP-N2-C (7 steps canónicos + HITL)
+
+[188] Correctitud técnica: estados, checkpoint/DLQ, rollback superseded y gate approve→draft_email
+
+[189] Casos de borde documentados: fallos, resume, reject con reason, blocked sin approve
+
+[190] Código legible: run_id, metadata inmutable y límites (api_rpm) explícitos
+
+[191] Documentación en español profesional (es-PE): runbook y mensajes de UI
+
+[192] Notas de regresión N2 y CF-2 con: lista de tests re-ejecutados, resultado, y interfaces CF-2 verificadas
+
+[193] El orden draft_email respecto a approve en el path canónico es:
+
+[194] Aprobación humana precede al borrador final; draft_email solo tras approve con audit.
+
+[195] La regresión N2 del cierre incluye:
+
+[196] Tests críticos de capstones N2, E2E y controles de privacidad/seguridad
+
+[197] La regresión N2 revalida tests críticos de capstones, E2E del tramo y controles de privacidad/seguridad.
+
+[198] Las colas HITL analysis, report y recipient con un solo pending>0 deben:
+
+[199] Etiquetar fraude automático
+
+[200] Triple gate: any(pending>0) bloquea el borrador; la IA solo propone, no cierra el caso.
+
+[201] fraud_labels automáticos en el VP deben ser:
+
+[202] Igual al score de matching
+
+[203] Matching/score ≠ fraude; fraud_labels automáticos deben ser 0.
+
+[204] Un item agota reintentos de timeout de export. ¿Dónde debe quedar y con qué atributo mínimo?
+
+[205] En DLQ con owner y razón (p. ej. timeout_exhausted)
+
+[206] Marcado fraud_labels=1 automáticamente
+
+[207] Borrado del checkpoint para rehacer todo el batch
+
+[208] DLQ no es basurero: conserva el item con owner/SLA; no se convierte en fraude ni se pierde sin rastro.
+
+[209] Orquestación y dependencias
+
+
+## Backtick prose blocks (long-form, intro/portfolio/comments)
+
+[B1] # Thinking aloud: el orden no se inventa; sale de las dependencias de negocio.
+edges = [
+    ("ingest", "validate"),
+    ("validate", "analyze"),
+    ("analyze", "ai_assist"),   # handoff S25
+    ("ai_assist", "report"),
+    ("report", "approve"),
+    ("approve", "draft_email"),  # gate HITL: approve antes del borrador
+]
+
+def order_from_edges(edges):
+    # Path lineal del VP: cada arista es "antes → después"
+    first = edges[0][0]
+    order = [first]
+    for a, b in edges:
+        if a == order[-1]:
+            order.append(b)
+    return order
+
+order = order_from_edges(edges)
+print(order)
+print("n_steps", len(order))
+print("ok", True)
+
+
+[B2] # Thinking aloud: el run_id une logs/HITL; api_rpm y tz fijan el contrato del schedule.
+def run_meta(run_id, api_rpm=30, tz="America/Lima"):
+    # Metadata inmutable al start: no reescribir tras el primer tick
+    return {"run_id": run_id, "api_rpm": api_rpm, "tz": tz}
+
+meta = run_meta("r1")
+print(meta)
+# Preflight didáctico San Isidro: >60 bloquearía enable del schedule
+print("preflight", "too_high" if meta["api_rpm"] > 60 else "ok")
+print("ok", True)
+
+
+[B3] def resume_and_dlq(ckpt, flaky_id, max_attempts=3):
+    # ckpt = ya OK; flaky falla cada intento; al agotar → DLQ con razón y owner
+    pending = [x for x in ["a", "b", "c"] if x not in ckpt]
+    dlq = []
+    for it in pending:
+        if it == flaky_id:
+            for attempt in range(1, max_attempts + 1):
+                if attempt >= max_attempts:
+                    dlq.append({
+                        "id": it,
+                        "reason": "timeout_exhausted",
+                        "owner": "ops_rpa",
+                        "attempts": attempt,
+                    })
+            continue
+        ckpt.add(it)
+    return sorted(ckpt), dlq
+
+rf, d = resume_and_dlq({"a"}, "b")
+print("resume_from", rf, "dlq", d)
+print("ok", True)
+
+
+[B4] # Thinking aloud: tres colas; basta una >0 para bloquear el borrador.
+def queue_blocked(q):
+    return any(v > 0 for v in q.values())
+
+q = {"analysis": 1, "report": 1, "recipient": 0}
+print(q, "blocked", queue_blocked(q))
+# Si vaciamos analysis y report, recipient=0 → all_clear
+q_clear = {"analysis": 0, "report": 0, "recipient": 0}
+print("all_clear", not queue_blocked(q_clear))
+print("ok", True)
+
+
+[B5] STEPS = [
+    "ingest", "validate", "analyze", "ai_assist",
+    "report", "approve", "draft_email",
+]
+
+def run_vp(fail_at=None):
+    # Thinking aloud: un solo lifecycle une path, fallo, gate HITL y draft.
+    state = {s: "pending" for s in STEPS}
+    audit = []
+    for s in STEPS:
+        if fail_at == s:
+            state[s] = "failed"
+            break
+        if s == "draft_email" and not any(a["action"] == "approve" for a in audit):
+            state[s] = "blocked"
+            break
+        state[s] = "success"
+        if s == "approve":
+            audit.append({"action": "approve", "actor": "r1"})
+    return state, audit
+
+# Camino feliz: 7 success + approve en audit
+st, au = run_vp()
+print([st[s] for s in STEPS])
+print("audit", len(au), "fraud_labels", 0, "n2_regression", "pass")
+# Camino con crash: analyze falla; report sigue pending (no se avanza)
+st_fail, _ = run_vp(fail_at="analyze")
+print("fail_at_analyze", st_fail["analyze"], "report", st_fail["report"])
+print("ok", True)
+
+
+[B6] # VP RPA + AI Analyst — esqueleto de cierre CP-N2-C
+# Path canónico (no renombres): ingest→validate→analyze→ai_assist→report→approve→draft_email
+STEPS = ["ingest", "validate", "analyze", "ai_assist", "report", "approve", "draft_email"]
+state = {s: "pending" for s in STEPS}
+audit = []
+hitl = {"analysis": 0, "report": 0, "recipient": 0}  # pending counts (0 = clear)
+ckpt, dlq = set(), []
+fraud_labels = 0  # debe permanecer 0: matching ≠ fraude
+run_meta = {"run_id": "cpn2c-close-01", "api_rpm": 30, "tz": "America/Lima"}
+
+def advance(step, ok=True):
+    """Marca un step success|failed; si es approve exitoso, append al audit."""
+    state[step] = "success" if ok else "failed"
+    if ok and step == "approve":
+        audit.append({"action": "approve", "actor": "r1"})
+    if ok:
+        ckpt.add(step)
+
+def can_draft():
+    """draft_email solo si hay approve en audit y triple cola HITL en 0."""
+    approved = any(a.get("action") == "approve" for a in audit)
+    clear = all(v == 0 for v in hitl.values())
+    return approved and clear
+
+def run_all(fail_at=None):
+    """Recorre STEPS; respeta can_draft; opcional fail_at para simular crash."""
+    for s in STEPS:
+        if fail_at == s:
+            advance(s, ok=False)
+            break
+        if s == "draft_email" and not can_draft():
+            state[s] = "blocked"
+            break
+        advance(s, ok=True)
+    return state, audit
+
+def package_e2e():
+    """Paquete de defensa del cierre (amplíalo en el portafolio)."""
+    return {
+        "path": STEPS,
+        "states": dict(state),
+        "audit_events": len(audit),
+        "fraud_labels": fraud_labels,
+        "cost_tokens": 1200,
+        "value_minutes_saved_est": 45,
+        "n2_regression": "pass",  # re-run real: CP-N2-A/B/C + privacy + CF-2
+        "run_id": run_meta["run_id"],
+    }
+
+# Completa en el portafolio (sobre este esqueleto ejecutable):
+# 1) Simula fail_at='analyze', resume desde ckpt y un item flaky → DLQ con owner.
+# 2) HITL: sube pending, decide reject con reason / edit versionado / approve; audit append-only.
+# 3) Empaqueta e2e + nota de privacidad (solo datos sintéticos).
+# 4) Notas de regresión N2: lista de tests re-ejecutados + resultado; interfaces CF-2.
+# No envíes correo real.
+
+st, au = run_all()
+print("states", [st[s] for s in STEPS])
+print("can_draft_after", can_draft(), "fraud_labels", fraud_labels)
+print("package", package_e2e()["n2_regression"], package_e2e()["value_minutes_saved_est"])
+
+

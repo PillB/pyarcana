@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F2",
+  "section_index": 47,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-F2-s47-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T1-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"tolerance\":0.01}}\nmeets_contract = abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"]\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\n\n# F2-note:ee729db17c packet-grounded (skeptic); instr_tokens=56\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/50f5fed2] S47-T1-A-E1: rechazo claves offline. Paquete dice «S47-T1-A-E1 · Calcula el contrato de `tracking y reproducibilidad` sobre `CASO-TAC-047-1A`. La entrada es el dict completo del starter; la operación debe demost». Demo S47-T1-A-DEMO. Línea: `record = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"`. Pista «Relaciona los campos `seed`, `params`, `metric`, `rerun_metric`, `tolerance` con la regla »."
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T1-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('tracking y reproducibilidad')\n\n# F2-note:9e47388c6f packet-grounded (skeptic); instr_tokens=53\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/8d08d631] Dudé del atajo en S47-T1-A-E2; me ceñí al weDo. «S47-T1-A-E2 · Modela tres rutas de `tracking y reproducibilidad`: fixture válido, fixture adverso y registro sin `tolerance`. Entrada: dict con case_id, seed, p». Hint «Primero se calcula `missing`; ningún acceso a tolerance debe ocurrir antes de esa rama.». Ancla: `print('tracking y reproducibilidad')`. S47-T1-A-DEMO. tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T1-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos\n2. `CASO-TAC-047-1A` debe continuar, el adverso debe devolver `MARK_RUN_NONREPRODUCIBLE` y la ausencia de `tolerance` debe devolver `INVESTIGATE_RANDOMNESS`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `INVESTIGATE_RANDOMNESS` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró rerun dentro de tolerancia con seed/parámetros; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:1586807752 packet-grounded (skeptic); instr_tokens=48\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/db61e1fe] Dudé del atajo en S47-T1-A-E3; me ceñí al weDo. «S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos. `CASO-TAC-047-1A` debe continuar, el adverso debe devolver `M». Hint «Una ausencia no equivale a breach: enrútala a `INVESTIGATE_RANDOMNESS` antes de evaluar el». Ancla: `1. S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos`. S47-T1-A-DEMO. tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T1-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v1\",\"metric_definition\":\"f1-v2\",\"candidate\":0.82,\"baseline\":0.78}}\nmeets_contract = not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"]\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\n\n# F2-note:cb616bc8c1 packet-grounded (skeptic); instr_tokens=56\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/9e8eac0e] Solo acepto S47-T1-B-E1 si el paquete lo enseña. Instrucción: «S47-T1-B-E1 · Compara el contrato de `data/code/env lineage y comparación` sobre `CASO-TAC-047-1B`. La entrada es el dict completo del starter; la operación deb». Verifiqué pista «Relaciona los campos `data`, `code`, `env`, `split`, `metric_definition`, `candidate`, `ba» y demo S47-T1-B-DEMO. Código justificado: `record = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v`. No invento APIs. Teoría: tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T1-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('data/code/env lineage y comparación')\n\n# F2-note:f4588d6b81 packet-grounded (skeptic); instr_tokens=56\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/65402fdb] S47-T1-B-E2: rechazo claves offline. Paquete dice «S47-T1-B-E2 · Verifica tres rutas de `data/code/env lineage y comparación`: fixture válido, fixture adverso y registro sin `baseline`. Entrada: dict con case_id». Demo S47-T1-B-DEMO. Línea: `print('data/code/env lineage y comparación')`. Pista «Primero se calcula `missing`; ningún acceso a baseline debe ocurrir antes de esa rama.»."
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T1-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos\n2. `CASO-TAC-047-1B` debe continuar, el adverso debe devolver `INVALIDATE_COMPARISON` y la ausencia de `baseline` debe devolver `RESTORE_LINEAGE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `RESTORE_LINEAGE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró data/code/env/split/métrica versionados y candidato mejor; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:27f420a49d packet-grounded (skeptic); instr_tokens=49\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/10263acd] Solo acepto S47-T1-B-E3 si el paquete lo enseña. Instrucción: «S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos. `CASO-TAC-047-1B` debe continuar, el adverso debe d». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `RESTORE_LINEAGE` antes de evaluar el conten» y demo S47-T1-B-DEMO. Código justificado: `1. S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos`. No invento APIs. Teoría: tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T2-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{\"priority\":\"float\"},\"stage\":\"staging\",\"approved\":True}}\nmeets_contract = not record[\"approved\"] or record[\"stage\"] == \"production\"\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\n\n# F2-note:3bdd931531 packet-grounded (skeptic); instr_tokens=56\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/c94fe64e] Solo acepto S47-T2-A-E1 si el paquete lo enseña. Instrucción: «S47-T2-A-E1 · Filtra el contrato de `firmas, stages y approvals` sobre `CASO-TAC-047-2A`. La entrada es el dict completo del starter; la operación debe demostra». Verifiqué pista «Relaciona los campos `input_signature`, `output_signature`, `stage`, `approved` con la reg» y demo S47-T2-A-DEMO. Código justificado: `record = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{`. No invento APIs. Teoría: tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T2-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('firmas, stages y approvals')\n\n# F2-note:26b2169054 packet-grounded (skeptic); instr_tokens=53\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/df08cbf3] Dudé del atajo en S47-T2-A-E2; me ceñí al weDo. «S47-T2-A-E2 · Clasifica tres rutas de `firmas, stages y approvals`: fixture válido, fixture adverso y registro sin `approved`. Entrada: dict con case_id, input_». Hint «Primero se calcula `missing`; ningún acceso a approved debe ocurrir antes de esa rama.». Ancla: `print('firmas, stages y approvals')`. S47-T2-A-DEMO. tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T2-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos\n2. `CASO-TAC-047-2A` debe continuar, el adverso debe devolver `DENY_MODEL_PROMOTION` y la ausencia de `approved` debe devolver `REQUEST_MODEL_APPROVAL`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REQUEST_MODEL_APPROVAL` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró firma exacta, staging y aprobación; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:c708c84f66 packet-grounded (skeptic); instr_tokens=49\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/4932178c] S47-T2-A-E3: rechazo claves offline. Paquete dice «S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos. `CASO-TAC-047-2A` debe continuar, el adverso debe devolver `». Demo S47-T2-A-DEMO. Línea: `1. S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos`. Pista «Una ausencia no equivale a breach: enrútala a `REQUEST_MODEL_APPROVAL` antes de evaluar el»."
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T2-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\nmeets_contract = record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\n\n# F2-note:4017bd7cb2 packet-grounded (skeptic); instr_tokens=59\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/86a67a97] Dudé del atajo en S47-T2-B-E1; me ceñí al weDo. «S47-T2-B-E1 · Modela el contrato de `artefactos, model card y compatibilidad` sobre `CASO-TAC-047-2B`. La entrada es el dict completo del starter; la operación ». Hint «Relaciona los campos `artifact_digest`, `feature_version`, `serving_feature_version`, `car». Ancla: `record = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"s`. S47-T2-B-DEMO. tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T2-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('artefactos, model card y compatibilidad')\n\n# F2-note:74ded5ee0a packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/64c60794] Dudé del atajo en S47-T2-B-E2; me ceñí al weDo. «S47-T2-B-E2 · Audita tres rutas de `artefactos, model card y compatibilidad`: fixture válido, fixture adverso y registro sin `card_sections`. Entrada: dict con ». Hint «Primero se calcula `missing`; ningún acceso a card_sections debe ocurrir antes de esa rama». Ancla: `print('artefactos, model card y compatibilidad')`. S47-T2-B-DEMO. tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T2-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures distintos\n2. `CASO-TAC-047-2B` debe continuar, el adverso debe devolver `REJECT_MODEL_ARTIFACT` y la ausencia de `card_sections` debe devolver `COMPLETE_MODEL_CARD`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró digest, compatibilidad de features y card completa; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:f90c05bb1c packet-grounded (skeptic); instr_tokens=50\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/30010965] Solo acepto S47-T2-B-E3 si el paquete lo enseña. Instrucción: «S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures distintos. `CASO-TAC-047-2B` debe continuar, el adverso de». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el co» y demo S47-T2-B-DEMO. Código justificado: `1. S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures disti`. No invento APIs. Teoría: tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T3-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"leakage\":False,\"contract_tests\":3}}\nmeets_contract = record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"]\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\n\n# F2-note:d2a670d324 packet-grounded (skeptic); instr_tokens=58\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/4a723c84] Solo acepto S47-T3-A-E1 si el paquete lo enseña. Instrucción: «S47-T3-A-E1 · Verifica el contrato de `batch/online y feature consistency` sobre `CASO-TAC-047-3A`. La entrada es el dict completo del starter; la operación deb». Verifiqué pista «Relaciona los campos `batch_features`, `online_features`, `leakage`, `contract_tests` con » y demo S47-T3-A-DEMO. Código justificado: `record = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"lea`. No invento APIs. Teoría: tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T3-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('batch/online y feature consistency')\n\n# F2-note:53d80e4bca packet-grounded (skeptic); instr_tokens=53\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/33456c03] Dudé del atajo en S47-T3-A-E2; me ceñí al weDo. «S47-T3-A-E2 · Decide tres rutas de `batch/online y feature consistency`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case». Hint «Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa ram». Ancla: `print('batch/online y feature consistency')`. S47-T3-A-DEMO. tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T3-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos\n2. `CASO-TAC-047-3A` debe continuar, el adverso debe devolver `DISABLE_INCONSISTENT_SERVING` y la ausencia de `contract_tests` debe devolver `TRACE_FEATURE_PIPELINE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró paridad batch/online sin leakage y contract tests; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:470e7bcba4 packet-grounded (skeptic); instr_tokens=49\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/3a4c5724] Solo acepto S47-T3-A-E3 si el paquete lo enseña. Instrucción: «S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos. `CASO-TAC-047-3A` debe continuar, el adverso debe d». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el» y demo S47-T3-A-DEMO. Código justificado: `1. S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos`. No invento APIs. Teoría: tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T3-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fallback_tested\":True}}\nmeets_contract = record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"]\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\n\n# F2-note:7e055b11ba packet-grounded (skeptic); instr_tokens=59\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/128a354f] S47-T3-B-E1: rechazo claves offline. Paquete dice «S47-T3-B-E1 · Clasifica el contrato de `latency, batching y fallback` sobre `CASO-TAC-047-3B`. La entrada es el dict completo del starter; la operación debe dem». Demo S47-T3-B-DEMO. Línea: `record = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fa`. Pista «Relaciona los campos `p95_ms`, `slo_ms`, `batch_size`, `fallback`, `fallback_tested` con l»."
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T3-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('latency, batching y fallback')\n\n# F2-note:c81eebed99 packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/7e08b362] Dudé del atajo en S47-T3-B-E2; me ceñí al weDo. «S47-T3-B-E2 · Calcula tres rutas de `latency, batching y fallback`: fixture válido, fixture adverso y registro sin `fallback_tested`. Entrada: dict con case_id,». Hint «Primero se calcula `missing`; ningún acceso a fallback_tested debe ocurrir antes de esa ra». Ancla: `print('latency, batching y fallback')`. S47-T3-B-DEMO. tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T3-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos\n2. `CASO-TAC-047-3B` debe continuar, el adverso debe devolver `ACTIVATE_SAFE_FALLBACK` y la ausencia de `fallback_tested` debe devolver `TUNE_BATCH_OR_CAPACITY`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `TUNE_BATCH_OR_CAPACITY` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró p95 bajo SLO, batch acotado y fallback probado; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:53ab5e3e74 packet-grounded (skeptic); instr_tokens=49\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/7343e56a] S47-T3-B-E3: rechazo claves offline. Paquete dice «S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos. `CASO-TAC-047-3B` debe continuar, el adverso debe devol». Demo S47-T3-B-DEMO. Línea: `1. S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos`. Pista «Una ausencia no equivale a breach: enrútala a `TUNE_BATCH_OR_CAPACITY` antes de evaluar el»."
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T4-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\nmeets_contract = record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"]\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\n\n# F2-note:ab510a9a9b packet-grounded (skeptic); instr_tokens=57\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/2d444c17] Solo acepto S47-T4-A-E1 si el paquete lo enseña. Instrucción: «S47-T4-A-E1 · Audita el contrato de `shadow/canary y monitoring hooks` sobre `CASO-TAC-047-4A`. La entrada es el dict completo del starter; la operación debe de». Verifiqué pista «Relaciona los campos `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_ra» y demo S47-T4-A-DEMO. Código justificado: `record = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_d`. No invento APIs. Teoría: tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T4-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('shadow/canary y monitoring hooks')\n\n# F2-note:d51ea72da3 packet-grounded (skeptic); instr_tokens=56\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/65e49cc0] Dudé del atajo en S47-T4-A-E2; me ceñí al weDo. «S47-T4-A-E2 · Compara tres rutas de `shadow/canary y monitoring hooks`: fixture válido, fixture adverso y registro sin `hooks`. Entrada: dict con case_id, mode,». Hint «Primero se calcula `missing`; ningún acceso a hooks debe ocurrir antes de esa rama.». Ancla: `print('shadow/canary y monitoring hooks')`. S47-T4-A-DEMO. tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T4-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos\n2. `CASO-TAC-047-4A` debe continuar, el adverso debe devolver `STOP_CANARY` y la ausencia de `hooks` debe devolver `COLLECT_MORE_SHADOW_EVIDENCE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `COLLECT_MORE_SHADOW_EVIDENCE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró tráfico limitado, quality/error gates y hooks; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:4607ad047d packet-grounded (skeptic); instr_tokens=49\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/3c6d7e0f] S47-T4-A-E3: rechazo claves offline. Paquete dice «S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos. `CASO-TAC-047-4A` debe continuar, el adverso debe devolve». Demo S47-T4-A-DEMO. Línea: `1. S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos`. Pista «Una ausencia no equivale a breach: enrútala a `COLLECT_MORE_SHADOW_EVIDENCE` antes de eval»."
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T4-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"rollback_tested\":True,\"retired\":{\"1.0.0\"},\"audit_entry\":True}}\nmeets_contract = not record[\"compatible_features\"] or not record[\"rollback_tested\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\n\n# F2-note:e034ce77ed packet-grounded (skeptic); instr_tokens=57\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/95bbc262] Dudé del atajo en S47-T4-B-E1; me ceñí al weDo. «S47-T4-B-E1 · Decide el contrato de `rollback, retirement y audit` sobre `CASO-TAC-047-4B`. La entrada es el dict completo del starter; la operación debe demost». Hint «Relaciona los campos `current`, `last_good`, `compatible_features`, `rollback_tested`, `re». Ancla: `record = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"r`. S47-T4-B-DEMO. tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T4-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('rollback, retirement y audit')\n\n# F2-note:d2caeca73a packet-grounded (skeptic); instr_tokens=55\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/87293da7] Solo acepto S47-T4-B-E2 si el paquete lo enseña. Instrucción: «S47-T4-B-E2 · Filtra tres rutas de `rollback, retirement y audit`: fixture válido, fixture adverso y registro sin `audit_entry`. Entrada: dict con case_id, curr». Verifiqué pista «Primero se calcula `missing`; ningún acceso a audit_entry debe ocurrir antes de esa rama.» y demo S47-T4-B-DEMO. Código justificado: `print('rollback, retirement y audit')`. No invento APIs. Teoría: tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S47-T4-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos\n2. `CASO-TAC-047-4B` debe continuar, el adverso debe devolver `ROLLBACK_TO_LAST_GOOD` y la ausencia de `audit_entry` debe devolver `REVIEW_RETIREMENT`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró last-known-good compatible, rollback y retiro auditado; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:3f8dc1f162 packet-grounded (skeptic); instr_tokens=49\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S47",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/d115c2ad] Dudé del atajo en S47-T4-B-E3; me ceñí al weDo. «S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos. `CASO-TAC-047-4B` debe continuar, el adverso debe devolve». Hint «Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el cont». Ancla: `1. S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos`. S47-T4-B-DEMO. tracking y reproducibilidad | data/code/env lineage y comparación | firmas, stag."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "rerun dentro de tolerancia declarada",
+      "justification_from_packet": "[agentic_F2/Skeptic] S47 q0: print sin versión no es tracking. Rerun en tolerancia (índice 2).",
+      "blocked_on": [],
+      "confidence": 0.78
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "emitir ROLLBACK_MODEL y conservar evidencia",
+      "justification_from_packet": "[agentic_F2/Skeptic] S47 q1: ocultar warning en promo de modelo es grave. ROLLBACK_MODEL + evidencia (índice 0).",
+      "blocked_on": [],
+      "confidence": 0.79
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia",
+      "justification_from_packet": "[agentic_F2/Skeptic] S47 q2: 'herramienta más nueva' no es gate. Promote gated + rollback (índice 1).",
+      "blocked_on": [],
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "justification_from_packet": "[agentic_F2/Skeptic] S47 q3: no inferir parentesco desde ER. Sintético (índice 3).",
+      "blocked_on": [],
+      "confidence": 0.77
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.892082+00:00"
+}

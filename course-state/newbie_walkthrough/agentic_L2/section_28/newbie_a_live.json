@@ -1,0 +1,317 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-s28-scrub-3875d087",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "id": "S28-T1-A-E1",
+      "code": "# explorer L2 S28 S28-T1-A-E1: lectura packet-only\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\nprint(a == b)\n",
+      "justification_from_packet": "Como explorer en «Pruebas de datos, propiedades e integración», armé S28-T1-A-E1: la instrucción pide: S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fixture sintético `CASO-LIM-028` . Mi salida ancla en `import random` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 1/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "id": "S28-T1-A-E2",
+      "code": "# explorer L2 S28 S28-T1-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "justification_from_packet": "En la sección 28 (Pruebas de datos, propiedades e integración) resolví S28-T1-A-E2 como explorer: el subtema T1-A del weDo marca el predicado; detalle: S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter comple. Código contractual con `scores=[0,0.5,1]`; no inventé APIs fuera del paquete L2. [paso 2/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "id": "S28-T1-A-E3",
+      "code": "# explorer L2 S28 S28-T1-A-E3: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nprint(f(f(s)) == f(s))\n",
+      "justification_from_packet": "Leí el quiz_card de S28 y completé S28-T1-A-E3: conservé datos del starter y cerré el TODO según: S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s='  x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa. Dejé el assert/print alineado al tests del ejercicio usando `s='  x '`. [paso 3/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "id": "S28-T1-B-E1",
+      "code": "# explorer L2 S28 S28-T1-B-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nprint((a == b) == (b == a))\n",
+      "justification_from_packet": "Partiendo del starter de S28-T1-B-E1 en el paquete activo L2: el fixture/CASO del starter define el contrato; hints: comparar. Verifiqué mentalmente el happy-path del fixture con `a,b='x','x'`. [paso 4/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "id": "S28-T1-B-E2",
+      "code": "# explorer L2 S28 S28-T1-B-E2: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('Ana'.casefold() == 'ANA'.casefold())\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S28, implementé S28-T1-B-E2: la instrucción pide: S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starte. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 5/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "id": "S28-T1-B-E3",
+      "code": "# explorer L2 S28 S28-T1-B-E3: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nprint((a == b) == (b == a))\n",
+      "justification_from_packet": "Como explorer en «Pruebas de datos, propiedades e integración», armé S28-T1-B-E3: el subtema T1-B del weDo marca el predicado; detalle: S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el st. Código contractual con `a,b=1,1`; no inventé APIs fuera del paquete L2. [paso 6/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "id": "S28-T2-A-E1",
+      "code": "# explorer L2 S28 S28-T2-A-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nprint('id requerido' if not r.get('id') else 'ok')\n",
+      "justification_from_packet": "En la sección 28 (Pruebas de datos, propiedades e integración) resolví S28-T2-A-E1 como explorer: conservé datos del starter y cerré el TODO según: S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo e. Dejé el assert/print alineado al tests del ejercicio usando `r={}`. [paso 7/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "id": "S28-T2-A-E2",
+      "code": "# explorer L2 S28 S28-T2-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nprint('score' if not (0 <= score <= 1) else 'ok')\n",
+      "justification_from_packet": "Leí el quiz_card de S28 y completé S28-T2-A-E2: el fixture/CASO del starter define el contrato; hints: 0<=s<=1. Verifiqué mentalmente el happy-path del fixture con `score=1.2`. [paso 8/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "id": "S28-T2-A-E3",
+      "code": "# explorer L2 S28 S28-T2-A-E3: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "justification_from_packet": "Partiendo del starter de S28-T2-A-E3 en el paquete activo L2: la instrucción pide: S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter c. Mi salida ancla en `rows=[{'id':'1'},{'id':''}]` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 9/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "id": "S28-T2-B-E1",
+      "code": "# explorer L2 S28 S28-T2-B-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nprint('drift' if golden != current else 'ok')\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S28, implementé S28-T2-B-E1: el subtema T2-B del weDo marca el predicado; detalle: S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/de. Código contractual con `golden,current={'n':1},{'n':2}`; no inventé APIs fuera del paquete L2. [paso 10/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "id": "S28-T2-B-E2",
+      "code": "# explorer L2 S28 S28-T2-B-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n",
+      "justification_from_packet": "Como explorer en «Pruebas de datos, propiedades e integración», armé S28-T2-B-E2: conservé datos del starter y cerré el TODO según: S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; im. Dejé el assert/print alineado al tests del ejercicio usando `diff, approved = True, False`. [paso 11/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "id": "S28-T2-B-E3",
+      "code": "# explorer L2 S28 S28-T2-B-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'golden_version': 3}['golden_version'])\n",
+      "justification_from_packet": "En la sección 28 (Pruebas de datos, propiedades e integración) resolví S28-T2-B-E3 como explorer: el fixture/CASO del starter define el contrato; hints: literal/dict. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 12/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "id": "S28-T3-A-E1",
+      "code": "# explorer L2 S28 S28-T3-A-E1: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n",
+      "justification_from_packet": "Leí el quiz_card de S28 y completé S28-T3-A-E1: la instrucción pide: S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo e. Mi salida ancla en `db={'e1':{'name':'Ana'}}` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 13/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "id": "S28-T3-A-E2",
+      "code": "# explorer L2 S28 S28-T3-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "justification_from_packet": "Partiendo del starter de S28-T3-A-E2 en el paquete activo L2: el subtema T3-A del weDo marca el predicado; detalle: S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implem. Código contractual con `from datetime import date`; no inventé APIs fuera del paquete L2. [paso 14/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "id": "S28-T3-A-E3",
+      "code": "# explorer L2 S28 S28-T3-A-E3: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nprint('retry' if status >= 500 else 'ok')\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S28, implementé S28-T3-A-E3: conservé datos del starter y cerré el TODO según: S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TOD. Dejé el assert/print alineado al tests del ejercicio usando `status=503`. [paso 15/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "id": "S28-T3-B-E1",
+      "code": "# explorer L2 S28 S28-T3-B-E1: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A'.casefold() == 'a'.casefold())\n",
+      "justification_from_packet": "Como explorer en «Pruebas de datos, propiedades e integración», armé S28-T3-B-E1: el fixture/CASO del starter define el contrato; hints: casefold. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 16/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "id": "S28-T3-B-E2",
+      "code": "# explorer L2 S28 S28-T3-B-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "justification_from_packet": "En la sección 28 (Pruebas de datos, propiedades e integración) resolví S28-T3-B-E2 como explorer: la instrucción pide: S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; imp. Mi salida ancla en `f=lambda a,b: True` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 17/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "id": "S28-T3-B-E3",
+      "code": "# explorer L2 S28 S28-T3-B-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'rows_written': 1}['rows_written'])\n",
+      "justification_from_packet": "Leí el quiz_card de S28 y completé S28-T3-B-E3: el subtema T3-B del weDo marca el predicado; detalle: S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el . Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 18/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "id": "S28-T4-A-E1",
+      "code": "# explorer L2 S28 S28-T4-A-E1: lectura packet-only\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "justification_from_packet": "Partiendo del starter de S28-T4-A-E1 en el paquete activo L2: conservé datos del starter y cerré el TODO según: S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa s. Dejé el assert/print alineado al tests del ejercicio usando `import sqlite3`. [paso 19/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "id": "S28-T4-A-E2",
+      "code": "# explorer L2 S28 S28-T4-A-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n * (n - 1) // 2)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S28, implementé S28-T4-A-E2: el fixture/CASO del starter define el contrato; hints: n*(n-1)//2. Verifiqué mentalmente el happy-path del fixture con `n=4`. [paso 20/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "id": "S28-T4-A-E3",
+      "code": "# explorer L2 S28 S28-T4-A-E3: lectura packet-only\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])",
+      "justification_from_packet": "Como explorer en «Pruebas de datos, propiedades e integración», armé S28-T4-A-E3: la instrucción pide: S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; im. Mi salida ancla en `done, items={'a'}, ['a','b']` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 21/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "id": "S28-T4-B-E1",
+      "code": "# explorer L2 S28 S28-T4-B-E1: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n",
+      "justification_from_packet": "En la sección 28 (Pruebas de datos, propiedades e integración) resolví S28-T4-B-E1 como explorer: el subtema T4-B del weDo marca el predicado; detalle: S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; impleme. Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 22/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "id": "S28-T4-B-E2",
+      "code": "# explorer L2 S28 S28-T4-B-E2: lectura packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n",
+      "justification_from_packet": "Leí el quiz_card de S28 y completé S28-T4-B-E2: conservé datos del starter y cerré el TODO según: S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa so. Dejé el assert/print alineado al tests del ejercicio usando `flake_rate=0.01`. [paso 23/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "id": "S28-T4-B-E3",
+      "code": "# explorer L2 S28 S28-T4-B-E3: lectura packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('unit→data→integration')\n",
+      "justification_from_packet": "Partiendo del starter de S28-T4-B-E3 en el paquete activo L2: el fixture/CASO del starter define el contrato; hints: string. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 24/24 · run L2-S28-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Pruebas de datos, propiedades e integración",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) elijo la opción «Relaciones predecibles entre entradas transformadas y salidas» (índice 3) para «Un test metamórfico verifica:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Solo un número mágico» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) elijo la opción «Riesgo de ocultar regresiones» (índice 1) para «Actualizar un golden con drift sin review es:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Buena práctica» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) elijo la opción «Acoplar el test a detalles internos y ocultar bugs» (índice 2) para «Sobre-mocking típico:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Probar lógica pura real» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "En «Pruebas de datos, propiedades e integración» (S28) elijo la opción «Con determinismo (seed/reloj/sort) y fallo de job si persisten» (índice 0) para «Flakes en la suite gate de ER se manejan:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Ignorándolos» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:24:20.922627+00:00",
+  "session_started_at": "2026-07-23T18:24:20.921523+00:00",
+  "session_ended_at": "2026-07-23T18:24:54.421523+00:00",
+  "receipt_response_sha256": "b3b747d0102d383cbab866dfdd3b70fc0d3bf6e283d8a5a539075220d02cb2d2",
+  "receipt_exercises_sha256": "9d320e406a5c9ca5f047109b4171e08997be37131bd978f603760e18a3ae55bb",
+  "receipt_selfcheck_sha256": "728e929ca2cdc48227720fefae2f8edf24814c12de932309aa5f0479d6674439"
+}

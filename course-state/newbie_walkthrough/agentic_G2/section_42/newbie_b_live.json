@@ -1,0 +1,494 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 42,
+  "packet_sha": "93b177a844e593bc",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-G2-s42-live",
+  "production_note": "agentic_G2 independent of G1 dual-LLM packet-only: skeptic solved sections from quiz_card+slim_packet only; direct agent output; no prior-attempt lives; no quarantine generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S42-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\": \"forbid\", \"json_schema\": True, \"valid_fixture\": True, \"business_rule\": True}}\npredicate_ok = record[\"extra_policy\"] == \"forbid\"\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"REJECT_SCHEMA\")\nprint(\"S42-T1-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "CUS",
+        "extra_policy",
+        "forbid",
+        "json_schema",
+        "valid_fixture",
+        "business_rule"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T1-A-E1 (guided). Instrucción: S42-T1-A-E1 · Calcula el contrato de `Pydantic y JSON Schema` sobre `CASO-CUS-042-1A`. La entrada es el dict completo del starter; la operación debe demostrar schema estricto más regla de negocio. Ree. Hints: Relaciona los campos `extra_policy`, `json_schema`, `valid_fixture`, `business_rule` con la regla explicada en S42-T1-A.; El predicado correcto debe ser verdadero porque el fixture. Ajusté el booleano defectuoso del starter hacia `record[\"extra_policy\"] == \"forbid\"`; ausencia de `business_rule` → MISSING/uncertainty `REVIEW_BUSINESS_INVARIANT`; breach → `REJECT_SCHEMA`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"extra_policy\", \"json_schema\", \"valid_fixture\", \"business_rule\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = record[\"extra_policy\"] == \"forbid\"\n    return \"PASS\" if ok else \"REJECT_SCHEMA\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\": \"forbid\", \"json_schema\": True, \"valid_fixture\": True, \"business_rule\": True}}\ninvalid = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\": \"\", \"json_schema\": True, \"valid_fixture\": True, \"business_rule\": True}}\nincomplete = dict(valid)\nif \"business_rule\" in incomplete:\n    del incomplete[\"business_rule\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "extra_policy",
+        "json_schema",
+        "valid_fixture",
+        "business_rule",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T1-A-E2 (independent). Instrucción: S42-T1-A-E2 · Modela tres rutas de `Pydantic y JSON Schema`: fixture válido, fixture adverso y registro sin `business_rule`. Entrada: dict con case_id, extra_policy, json_schema, valid_fixture, busine. Hints: Primero se calcula `missing`; ningún acceso a business_rule debe ocurrir antes de esa rama.; Después aplica la regla de S42-T1-A: schema estricto más regla de negocio. El fixture a. Ajusté el booleano defectuoso del starter hacia `record[\"extra_policy\"] == \"forbid\"`; ausencia de `business_rule` → MISSING/uncertainty `REVIEW_BUSINESS_INVARIANT`; breach → `REJECT_SCHEMA`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"extra_policy\", \"json_schema\", \"valid_fixture\", \"business_rule\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REVIEW_BUSINESS_INVARIANT\"\n    contract_holds = record[\"extra_policy\"] == \"forbid\"\n    return \"CONTINUE\" if contract_holds else \"REJECT_SCHEMA\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\": \"forbid\", \"json_schema\": True, \"valid_fixture\": True, \"business_rule\": True}}\ninvalid = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\": \"\", \"json_schema\": True, \"valid_fixture\": True, \"business_rule\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"business_rule\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "extra_policy",
+        "json_schema",
+        "valid_fixture",
+        "business_rule",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T1-A-E3 (transfer). Instrucción: S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos. `CASO-CUS-042-1A` debe continuar, el adverso debe devolver `REJECT_SCHEMA` y la ausencia de `business_rule. Hints: Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró schema estricto más r. Ajusté el booleano defectuoso del starter hacia `record[\"extra_policy\"] == \"forbid\"`; ausencia de `business_rule` → MISSING/uncertainty `REVIEW_BUSINESS_INVARIANT`; breach → `REJECT_SCHEMA`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\": \"add_optional\", \"old_reader_passes\": True, \"union_tags\": {\"email\", \"phone\"}, \"handled_tags\": {\"email\", \"phone\"}}}\npredicate_ok = not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"VERSION_SCHEMA\")\nprint(\"S42-T1-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "CUS",
+        "change",
+        "add_optional",
+        "old_reader_passes",
+        "union_tags",
+        "email"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T1-B-E1 (guided). Instrucción: S42-T1-B-E1 · Compara el contrato de `evolución, discriminated unions y validación de negocio` sobre `CASO-CUS-042-1B`. La entrada es el dict completo del starter; la operación debe demostrar cambio a. Hints: Relaciona los campos `change`, `old_reader_passes`, `union_tags`, `handled_tags` con la regla explicada en S42-T1-B.; El predicado correcto debe ser verdadero porque el fixture con. Ajusté el booleano defectuoso del starter hacia `not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])`; ausencia de `handled_tags` → MISSING/uncertainty `MIGRATE_CONSUMERS`; breach → `VERSION_SCHEMA`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"change\", \"old_reader_passes\", \"union_tags\", \"handled_tags\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])\n    return \"PASS\" if ok else \"VERSION_SCHEMA\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\": \"add_optional\", \"old_reader_passes\": True, \"union_tags\": {\"email\", \"phone\"}, \"handled_tags\": {\"email\", \"phone\"}}}\ninvalid = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\": \"add_optional\", \"old_reader_passes\": True, \"union_tags\": set(), \"handled_tags\": {\"email\", \"phone\"}}}\nincomplete = dict(valid)\nif \"handled_tags\" in incomplete:\n    del incomplete[\"handled_tags\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "change",
+        "old_reader_passes",
+        "union_tags",
+        "handled_tags",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T1-B-E2 (independent). Instrucción: S42-T1-B-E2 · Verifica tres rutas de `evolución, discriminated unions y validación de negocio`: fixture válido, fixture adverso y registro sin `handled_tags`. Entrada: dict con case_id, change, old_re. Hints: Primero se calcula `missing`; ningún acceso a handled_tags debe ocurrir antes de esa rama.; Después aplica la regla de S42-T1-B: cambio aditivo y union exhaustiva. El fixture adver. Ajusté el booleano defectuoso del starter hacia `not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])`; ausencia de `handled_tags` → MISSING/uncertainty `MIGRATE_CONSUMERS`; breach → `VERSION_SCHEMA`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"change\", \"old_reader_passes\", \"union_tags\", \"handled_tags\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MIGRATE_CONSUMERS\"\n    contract_holds = not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])\n    return \"CONTINUE\" if contract_holds else \"VERSION_SCHEMA\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\": \"add_optional\", \"old_reader_passes\": True, \"union_tags\": {\"email\", \"phone\"}, \"handled_tags\": {\"email\", \"phone\"}}}\ninvalid = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\": \"add_optional\", \"old_reader_passes\": True, \"union_tags\": set(), \"handled_tags\": {\"email\", \"phone\"}}}\nuncertain = dict(valid)\nuncertain.pop(\"handled_tags\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "change",
+        "old_reader_passes",
+        "union_tags",
+        "handled_tags",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T1-B-E3 (transfer). Instrucción: S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tres fixtures distintos. `CASO-CUS-042-1B` debe continuar, el adverso debe devolver `VERSION_SCH. Hints: Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró cambio aditivo y union exhaus. Ajusté el booleano defectuoso del starter hacia `not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])`; ausencia de `handled_tags` → MISSING/uncertainty `MIGRATE_CONSUMERS`; breach → `VERSION_SCHEMA`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\": True, \"actor\": \"user-a\", \"resource_owner\": \"user-a\", \"roles\": {\"case:read\"}}}\npredicate_ok = not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"DENY_CROSS_TENANT\")\nprint(\"S42-T2-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "CUS",
+        "authenticated",
+        "actor",
+        "user",
+        "resource_owner",
+        "roles"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T2-A-E1 (guided). Instrucción: S42-T2-A-E1 · Filtra el contrato de `authn/authz y RBAC` sobre `CASO-CUS-042-2A`. La entrada es el dict completo del starter; la operación debe demostrar identidad, permiso y pertenencia del recurso. . Hints: Relaciona los campos `authenticated`, `actor`, `resource_owner`, `roles` con la regla explicada en S42-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva pr. Ajusté el booleano defectuoso del starter hacia `not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])`; ausencia de `roles` → MISSING/uncertainty `VERIFY_RESOURCE_OWNER`; breach → `DENY_CROSS_TENANT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"authenticated\", \"actor\", \"resource_owner\", \"roles\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])\n    return \"PASS\" if ok else \"DENY_CROSS_TENANT\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\": True, \"actor\": \"user-a\", \"resource_owner\": \"user-a\", \"roles\": {\"case:read\"}}}\ninvalid = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\": True, \"actor\": \"\", \"resource_owner\": \"user-a\", \"roles\": {\"case:read\"}}}\nincomplete = dict(valid)\nif \"roles\" in incomplete:\n    del incomplete[\"roles\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "authenticated",
+        "actor",
+        "resource_owner",
+        "roles",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T2-A-E2 (independent). Instrucción: S42-T2-A-E2 · Clasifica tres rutas de `authn/authz y RBAC`: fixture válido, fixture adverso y registro sin `roles`. Entrada: dict con case_id, authenticated, actor, resource_owner, roles. Salidas exac. Hints: Primero se calcula `missing`; ningún acceso a roles debe ocurrir antes de esa rama.; Después aplica la regla de S42-T2-A: identidad, permiso y pertenencia del recurso. El fixture a. Ajusté el booleano defectuoso del starter hacia `not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])`; ausencia de `roles` → MISSING/uncertainty `VERIFY_RESOURCE_OWNER`; breach → `DENY_CROSS_TENANT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"authenticated\", \"actor\", \"resource_owner\", \"roles\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"VERIFY_RESOURCE_OWNER\"\n    contract_holds = not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])\n    return \"CONTINUE\" if contract_holds else \"DENY_CROSS_TENANT\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\": True, \"actor\": \"user-a\", \"resource_owner\": \"user-a\", \"roles\": {\"case:read\"}}}\ninvalid = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\": True, \"actor\": \"\", \"resource_owner\": \"user-a\", \"roles\": {\"case:read\"}}}\nuncertain = dict(valid)\nuncertain.pop(\"roles\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "authenticated",
+        "actor",
+        "resource_owner",
+        "roles",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T2-A-E3 (transfer). Instrucción: S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos. `CASO-CUS-042-2A` debe continuar, el adverso debe devolver `DENY_CROSS_TENANT` y la ausencia de `roles` debe. Hints: Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró identidad, permiso y pert. Ajusté el booleano defectuoso del starter hacia `not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])`; ausencia de `roles` → MISSING/uncertainty `VERIFY_RESOURCE_OWNER`; breach → `DENY_CROSS_TENANT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\": \"report:prepare\", \"granted_scopes\": {\"report:prepare\"}, \"service_id\": \"svc-reporter\", \"route_declared\": True}}\npredicate_ok = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"DENY_SCOPE\")\nprint(\"S42-T2-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "CUS",
+        "requested_scope",
+        "report",
+        "prepare",
+        "granted_scopes",
+        "service_id"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T2-B-E1 (guided). Instrucción: S42-T2-B-E1 · Modela el contrato de `scopes, service identities y deny-by-default` sobre `CASO-CUS-042-2B`. La entrada es el dict completo del starter; la operación debe demostrar scope estrecho, iden. Hints: Relaciona los campos `requested_scope`, `granted_scopes`, `service_id`, `route_declared` con la regla explicada en S42-T2-B.; El predicado correcto debe ser verdadero porque el fix. Ajusté el booleano defectuoso del starter hacia `not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])`; ausencia de `route_declared` → MISSING/uncertainty `REQUEST_NARROW_GRANT`; breach → `DENY_SCOPE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"requested_scope\", \"granted_scopes\", \"service_id\", \"route_declared\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\n    return \"PASS\" if ok else \"DENY_SCOPE\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\": \"report:prepare\", \"granted_scopes\": {\"report:prepare\"}, \"service_id\": \"svc-reporter\", \"route_declared\": True}}\ninvalid = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\": \"\", \"granted_scopes\": {\"report:prepare\"}, \"service_id\": \"svc-reporter\", \"route_declared\": True}}\nincomplete = dict(valid)\nif \"route_declared\" in incomplete:\n    del incomplete[\"route_declared\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "requested_scope",
+        "granted_scopes",
+        "service_id",
+        "route_declared",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T2-B-E2 (independent). Instrucción: S42-T2-B-E2 · Audita tres rutas de `scopes, service identities y deny-by-default`: fixture válido, fixture adverso y registro sin `route_declared`. Entrada: dict con case_id, requested_scope, granted_. Hints: Primero se calcula `missing`; ningún acceso a route_declared debe ocurrir antes de esa rama.; Después aplica la regla de S42-T2-B: scope estrecho, identidad propia y ruta declarada. Ajusté el booleano defectuoso del starter hacia `not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])`; ausencia de `route_declared` → MISSING/uncertainty `REQUEST_NARROW_GRANT`; breach → `DENY_SCOPE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"requested_scope\", \"granted_scopes\", \"service_id\", \"route_declared\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REQUEST_NARROW_GRANT\"\n    contract_holds = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\n    return \"CONTINUE\" if contract_holds else \"DENY_SCOPE\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\": \"report:prepare\", \"granted_scopes\": {\"report:prepare\"}, \"service_id\": \"svc-reporter\", \"route_declared\": True}}\ninvalid = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\": \"\", \"granted_scopes\": {\"report:prepare\"}, \"service_id\": \"svc-reporter\", \"route_declared\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"route_declared\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "requested_scope",
+        "granted_scopes",
+        "service_id",
+        "route_declared",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T2-B-E3 (transfer). Instrucción: S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures distintos. `CASO-CUS-042-2B` debe continuar, el adverso debe devolver `DENY_SCOPE` y la ausen. Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró scope estrecho, identidad . Ajusté el booleano defectuoso del starter hacia `not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])`; ausencia de `route_declared` → MISSING/uncertainty `REQUEST_NARROW_GRANT`; breach → `DENY_SCOPE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\": 2048, \"max_bytes\": 4096, \"host\": \"docs.local\", \"allowed_hosts\": {\"docs.local\"}, \"resolved_path\": \"/safe/reports/a.txt\", \"root\": \"/safe/reports\"}}\npredicate_ok = not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"REJECT_UNTRUSTED_INPUT\")\nprint(\"S42-T3-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "CUS",
+        "bytes",
+        "max_bytes",
+        "host",
+        "docs",
+        "local"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T3-A-E1 (guided). Instrucción: S42-T3-A-E1 · Verifica el contrato de `input limits, injection y SSRF/path traversal` sobre `CASO-CUS-042-3A`. La entrada es el dict completo del starter; la operación debe demostrar límite, host allo. Hints: Relaciona los campos `bytes`, `max_bytes`, `host`, `allowed_hosts`, `resolved_path`, `root` con la regla explicada en S42-T3-A.; El predicado correcto debe ser verdadero porque el . Ajusté el booleano defectuoso del starter hacia `not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))`; ausencia de `root` → MISSING/uncertainty `SECURITY_REVIEW`; breach → `REJECT_UNTRUSTED_INPUT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"bytes\", \"max_bytes\", \"host\", \"allowed_hosts\", \"resolved_path\", \"root\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))\n    return \"PASS\" if ok else \"REJECT_UNTRUSTED_INPUT\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\": 2048, \"max_bytes\": 4096, \"host\": \"docs.local\", \"allowed_hosts\": {\"docs.local\"}, \"resolved_path\": \"/safe/reports/a.txt\", \"root\": \"/safe/reports\"}}\ninvalid = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\": 1000000, \"max_bytes\": 4096, \"host\": \"docs.local\", \"allowed_hosts\": {\"docs.local\"}, \"resolved_path\": \"/safe/reports/a.txt\", \"root\": \"/safe/reports\"}}\nincomplete = dict(valid)\nif \"root\" in incomplete:\n    del incomplete[\"root\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "bytes",
+        "max_bytes",
+        "host",
+        "allowed_hosts",
+        "resolved_path"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T3-A-E2 (independent). Instrucción: S42-T3-A-E2 · Decide tres rutas de `input limits, injection y SSRF/path traversal`: fixture válido, fixture adverso y registro sin `root`. Entrada: dict con case_id, bytes, max_bytes, host, allowed_ho. Hints: Primero se calcula `missing`; ningún acceso a root debe ocurrir antes de esa rama.; Después aplica la regla de S42-T3-A: límite, host allowlisted y ruta confinada. El fixture adver. Ajusté el booleano defectuoso del starter hacia `not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))`; ausencia de `root` → MISSING/uncertainty `SECURITY_REVIEW`; breach → `REJECT_UNTRUSTED_INPUT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"bytes\", \"max_bytes\", \"host\", \"allowed_hosts\", \"resolved_path\", \"root\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"SECURITY_REVIEW\"\n    contract_holds = not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))\n    return \"CONTINUE\" if contract_holds else \"REJECT_UNTRUSTED_INPUT\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\": 2048, \"max_bytes\": 4096, \"host\": \"docs.local\", \"allowed_hosts\": {\"docs.local\"}, \"resolved_path\": \"/safe/reports/a.txt\", \"root\": \"/safe/reports\"}}\ninvalid = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\": 1000000, \"max_bytes\": 4096, \"host\": \"docs.local\", \"allowed_hosts\": {\"docs.local\"}, \"resolved_path\": \"/safe/reports/a.txt\", \"root\": \"/safe/reports\"}}\nuncertain = dict(valid)\nuncertain.pop(\"root\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "bytes",
+        "max_bytes",
+        "host",
+        "allowed_hosts",
+        "resolved_path"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T3-A-E3 (transfer). Instrucción: S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixtures distintos. `CASO-CUS-042-3A` debe continuar, el adverso debe devolver `REJECT_UNTRUSTED_INP. Hints: Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró límite, host allowlisted y ruta. Ajusté el booleano defectuoso del starter hacia `not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))`; ausencia de `root` → MISSING/uncertainty `SECURITY_REVIEW`; breach → `REJECT_UNTRUSTED_INPUT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\": False, \"secret_in_log\": False, \"rotation_tested\": True, \"dependency_pinned\": True, \"critical_cves\": 0}}\npredicate_ok = not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"ROTATE_AND_BLOCK\")\nprint(\"S42-T3-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "CUS",
+        "secret_in_repo",
+        "secret_in_log",
+        "rotation_tested",
+        "dependency_pinned",
+        "critical_cves"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T3-B-E1 (guided). Instrucción: S42-T3-B-E1 · Clasifica el contrato de `secretos, cifrado y dependency risk` sobre `CASO-CUS-042-3B`. La entrada es el dict completo del starter; la operación debe demostrar secretos fuera del artefac. Hints: Relaciona los campos `secret_in_repo`, `secret_in_log`, `rotation_tested`, `dependency_pinned`, `critical_cves` con la regla explicada en S42-T3-B.; El predicado correcto debe ser . Ajusté el booleano defectuoso del starter hacia `not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])`; ausencia de `critical_cves` → MISSING/uncertainty `ASSESS_DEPENDENCY_RISK`; breach → `ROTATE_AND_BLOCK`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"secret_in_repo\", \"secret_in_log\", \"rotation_tested\", \"dependency_pinned\", \"critical_cves\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])\n    return \"PASS\" if ok else \"ROTATE_AND_BLOCK\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\": False, \"secret_in_log\": False, \"rotation_tested\": True, \"dependency_pinned\": True, \"critical_cves\": 0}}\ninvalid = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\": True, \"secret_in_log\": False, \"rotation_tested\": True, \"dependency_pinned\": True, \"critical_cves\": 0}}\nincomplete = dict(valid)\nif \"critical_cves\" in incomplete:\n    del incomplete[\"critical_cves\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "secret_in_repo",
+        "secret_in_log",
+        "rotation_tested",
+        "dependency_pinned",
+        "critical_cves"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T3-B-E2 (independent). Instrucción: S42-T3-B-E2 · Calcula tres rutas de `secretos, cifrado y dependency risk`: fixture válido, fixture adverso y registro sin `critical_cves`. Entrada: dict con case_id, secret_in_repo, secret_in_log, rot. Hints: Primero se calcula `missing`; ningún acceso a critical_cves debe ocurrir antes de esa rama.; Después aplica la regla de S42-T3-B: secretos fuera del artefacto y dependencias revisa. Ajusté el booleano defectuoso del starter hacia `not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])`; ausencia de `critical_cves` → MISSING/uncertainty `ASSESS_DEPENDENCY_RISK`; breach → `ROTATE_AND_BLOCK`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"secret_in_repo\", \"secret_in_log\", \"rotation_tested\", \"dependency_pinned\", \"critical_cves\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"ASSESS_DEPENDENCY_RISK\"\n    contract_holds = not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])\n    return \"CONTINUE\" if contract_holds else \"ROTATE_AND_BLOCK\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\": False, \"secret_in_log\": False, \"rotation_tested\": True, \"dependency_pinned\": True, \"critical_cves\": 0}}\ninvalid = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\": True, \"secret_in_log\": False, \"rotation_tested\": True, \"dependency_pinned\": True, \"critical_cves\": 0}}\nuncertain = dict(valid)\nuncertain.pop(\"critical_cves\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "secret_in_repo",
+        "secret_in_log",
+        "rotation_tested",
+        "dependency_pinned",
+        "critical_cves"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T3-B-E3 (transfer). Instrucción: S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distintos. `CASO-CUS-042-3B` debe continuar, el adverso debe devolver `ROTATE_AND_BLOCK` y la ausen. Hints: Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró secretos fuera del artef. Ajusté el booleano defectuoso del starter hacia `not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])`; ausencia de `critical_cves` → MISSING/uncertainty `ASSESS_DEPENDENCY_RISK`; breach → `ROTATE_AND_BLOCK`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\": {\"case_id\", \"region\"}, \"needed\": {\"case_id\", \"region\"}, \"purpose\": \"status-report\", \"retention_days\": 30, \"max_retention_days\": 30}}\npredicate_ok = not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"MINIMIZE_AND_EXPIRE\")\nprint(\"S42-T4-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "CUS",
+        "collected",
+        "region",
+        "needed",
+        "purpose",
+        "report"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T4-A-E1 (guided). Instrucción: S42-T4-A-E1 · Audita el contrato de `minimización, purpose y retención` sobre `CASO-CUS-042-4A`. La entrada es el dict completo del starter; la operación debe demostrar campos mínimos, propósito y ret. Hints: Relaciona los campos `collected`, `needed`, `purpose`, `retention_days`, `max_retention_days` con la regla explicada en S42-T4-A.; El predicado correcto debe ser verdadero porque e. Ajusté el booleano defectuoso del starter hacia `not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])`; ausencia de `max_retention_days` → MISSING/uncertainty `PRIVACY_OWNER_REVIEW`; breach → `MINIMIZE_AND_EXPIRE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"collected\", \"needed\", \"purpose\", \"retention_days\", \"max_retention_days\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])\n    return \"PASS\" if ok else \"MINIMIZE_AND_EXPIRE\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\": {\"case_id\", \"region\"}, \"needed\": {\"case_id\", \"region\"}, \"purpose\": \"status-report\", \"retention_days\": 30, \"max_retention_days\": 30}}\ninvalid = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\": {\"case_id\", \"injected\", \"region\"}, \"needed\": {\"case_id\", \"region\"}, \"purpose\": \"status-report\", \"retention_days\": 30, \"max_retention_days\": 30}}\nincomplete = dict(valid)\nif \"max_retention_days\" in incomplete:\n    del incomplete[\"max_retention_days\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "collected",
+        "needed",
+        "purpose",
+        "retention_days",
+        "max_retention_days"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T4-A-E2 (independent). Instrucción: S42-T4-A-E2 · Compara tres rutas de `minimización, purpose y retención`: fixture válido, fixture adverso y registro sin `max_retention_days`. Entrada: dict con case_id, collected, needed, purpose, ret. Hints: Primero se calcula `missing`; ningún acceso a max_retention_days debe ocurrir antes de esa rama.; Después aplica la regla de S42-T4-A: campos mínimos, propósito y retención finita.. Ajusté el booleano defectuoso del starter hacia `not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])`; ausencia de `max_retention_days` → MISSING/uncertainty `PRIVACY_OWNER_REVIEW`; breach → `MINIMIZE_AND_EXPIRE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"collected\", \"needed\", \"purpose\", \"retention_days\", \"max_retention_days\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"PRIVACY_OWNER_REVIEW\"\n    contract_holds = not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])\n    return \"CONTINUE\" if contract_holds else \"MINIMIZE_AND_EXPIRE\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\": {\"case_id\", \"region\"}, \"needed\": {\"case_id\", \"region\"}, \"purpose\": \"status-report\", \"retention_days\": 30, \"max_retention_days\": 30}}\ninvalid = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\": {\"case_id\", \"injected\", \"region\"}, \"needed\": {\"case_id\", \"region\"}, \"purpose\": \"status-report\", \"retention_days\": 30, \"max_retention_days\": 30}}\nuncertain = dict(valid)\nuncertain.pop(\"max_retention_days\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "collected",
+        "needed",
+        "purpose",
+        "retention_days",
+        "max_retention_days"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T4-A-E3 (transfer). Instrucción: S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos. `CASO-CUS-042-4A` debe continuar, el adverso debe devolver `MINIMIZE_AND_EXPIRE` y la ausencia d. Hints: Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró campos mínimos, propósito . Ajusté el booleano defectuoso del starter hacia `not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])`; ausencia de `max_retention_days` → MISSING/uncertainty `PRIVACY_OWNER_REVIEW`; breach → `MINIMIZE_AND_EXPIRE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\": {\"action\", \"actor_id\", \"at\", \"case_token\"}, \"pii_fields\": {\"email\", \"full_name\"}, \"deleted\": True, \"derived_deleted\": True, \"key_separate\": True}}\npredicate_ok = not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"PURGE_DERIVATIVES\")\nprint(\"S42-T4-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "CUS",
+        "audit_fields",
+        "action",
+        "actor_id",
+        "case_token",
+        "pii_fields"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T4-B-E1 (guided). Instrucción: S42-T4-B-E1 · Decide el contrato de `audit, deletion, pseudonymization y acceso` sobre `CASO-CUS-042-4B`. La entrada es el dict completo del starter; la operación debe demostrar audit sin PII, borrado. Hints: Relaciona los campos `audit_fields`, `pii_fields`, `deleted`, `derived_deleted`, `key_separate` con la regla explicada en S42-T4-B.; El predicado correcto debe ser verdadero porque. Ajusté el booleano defectuoso del starter hacia `not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])`; ausencia de `key_separate` → MISSING/uncertainty `VERIFY_DELETION_SCOPE`; breach → `PURGE_DERIVATIVES`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"audit_fields\", \"pii_fields\", \"deleted\", \"derived_deleted\", \"key_separate\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])\n    return \"PASS\" if ok else \"PURGE_DERIVATIVES\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\": {\"action\", \"actor_id\", \"at\", \"case_token\"}, \"pii_fields\": {\"email\", \"full_name\"}, \"deleted\": True, \"derived_deleted\": True, \"key_separate\": True}}\ninvalid = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\": {\"action\", \"actor_id\", \"at\", \"case_token\"}, \"pii_fields\": {\"email\", \"full_name\"}, \"deleted\": True, \"derived_deleted\": False, \"key_separate\": True}}\nincomplete = dict(valid)\nif \"key_separate\" in incomplete:\n    del incomplete[\"key_separate\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "audit_fields",
+        "pii_fields",
+        "deleted",
+        "derived_deleted",
+        "key_separate"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T4-B-E2 (independent). Instrucción: S42-T4-B-E2 · Filtra tres rutas de `audit, deletion, pseudonymization y acceso`: fixture válido, fixture adverso y registro sin `key_separate`. Entrada: dict con case_id, audit_fields, pii_fields, del. Hints: Primero se calcula `missing`; ningún acceso a key_separate debe ocurrir antes de esa rama.; Después aplica la regla de S42-T4-B: audit sin PII, borrado derivado y llave separada. E. Ajusté el booleano defectuoso del starter hacia `not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])`; ausencia de `key_separate` → MISSING/uncertainty `VERIFY_DELETION_SCOPE`; breach → `PURGE_DERIVATIVES`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S42-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"audit_fields\", \"pii_fields\", \"deleted\", \"derived_deleted\", \"key_separate\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"VERIFY_DELETION_SCOPE\"\n    contract_holds = not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])\n    return \"CONTINUE\" if contract_holds else \"PURGE_DERIVATIVES\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\": {\"action\", \"actor_id\", \"at\", \"case_token\"}, \"pii_fields\": {\"email\", \"full_name\"}, \"deleted\": True, \"derived_deleted\": True, \"key_separate\": True}}\ninvalid = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\": {\"action\", \"actor_id\", \"at\", \"case_token\"}, \"pii_fields\": {\"email\", \"full_name\"}, \"deleted\": True, \"derived_deleted\": False, \"key_separate\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"key_separate\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "audit_fields",
+        "pii_fields",
+        "deleted",
+        "derived_deleted",
+        "key_separate"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S42. Ejercicio S42-T4-B-E3 (transfer). Instrucción: S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures distintos. `CASO-CUS-042-4B` debe continuar, el adverso debe devolver `PURGE_DERIVATIVES` y la. Hints: Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró audit sin PII, borrado de. Ajusté el booleano defectuoso del starter hacia `not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])`; ausencia de `key_separate` → MISSING/uncertainty `VERIFY_DELETION_SCOPE`; breach → `PURGE_DERIVATIVES`. Sin ejecución externa ni vidas previas."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "schema exportado y fixtures válidos/inválidos",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S42 con párrafos de theory. Pregunta: ¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042?. La opción índice 1 («schema exportado y fixtures válidos/inválidos») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "emitir DENY y conservar evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S42 con párrafos de theory. Pregunta: Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y auditabilidad?. La opción índice 3 («emitir DENY y conservar evidencia») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S42 con párrafos de theory. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?. La opción índice 0 («un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S42 con párrafos de theory. Pregunta: ¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?. La opción índice 2 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "S42 inverted predicates",
+      "note": "Starter booleans are deliberately inverted; fixed from hints + fixture invariants only."
+    }
+  ],
+  "retrospection": "skeptic: completed S42 (Schemas, seguridad y privacidad de servicios) with 24 exercises + 4 selfcheck from packet stems/starters/theory only.",
+  "summary": "S42 skeptic: 24 exercises, 4 selfcheck",
+  "recorded_at": "2026-07-23T08:25:15+00:00",
+  "session_started_at": "2026-07-23T08:21:25+00:00",
+  "session_ended_at": "2026-07-23T08:25:15+00:00"
+}

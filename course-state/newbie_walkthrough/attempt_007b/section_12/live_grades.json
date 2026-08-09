@@ -1,0 +1,1080 @@
+{
+  "section_index": 12,
+  "section_id": "performance",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 5,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S12-T1-A-E1",
+          "code": "store = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\ndef get_entity(store, entity_id):\n    if entity_id in store:\n        return 200, store[entity_id]\n    return 404, {\"error\": \"not_found\"}\nprint(get_entity(store, \"C001\"))\nprint(get_entity(store, \"C999\"))",
+          "note": "",
+          "concepts_used": [
+            "status body"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T1-A-E2",
+          "code": "def parse_entity(payload):\n    req = {\"id\", \"region\"}\n    if not req.issubset(payload):\n        return None\n    return {\"id\": payload[\"id\"], \"region\": payload[\"region\"]}\nprint(parse_entity({\"id\": \"C001\", \"region\": \"Lima\", \"extra\": 1}))\nprint(parse_entity({\"id\": \"C001\"}))",
+          "note": "",
+          "concepts_used": [
+            "required keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T1-A-E3",
+          "code": "STATUS_ACTION = {\n    200: \"use_body\",\n    404: \"missing\",\n    429: \"retry\",\n    500: \"retry\",\n    400: \"fix_client\",\n}\nfor code in [200, 404, 429, 400, 500]:\n    print(code, STATUS_ACTION.get(code, \"unknown\"))",
+          "note": "",
+          "concepts_used": [
+            "status action"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T1-B-E1",
+          "code": "def fetch(timeout_s, cost_s):\n    if cost_s > timeout_s:\n        return \"timeout\"\n    return \"ok\"\nprint(fetch(2.0, 0.5))\nprint(fetch(1.0, 3.0))",
+          "note": "",
+          "concepts_used": [
+            "timeout"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T1-B-E2",
+          "code": "api = {\n    1: {\"items\": [\"a\"], \"next\": 2},\n    2: {\"items\": [\"b\", \"c\"], \"next\": None},\n}\ndef collect_all(api):\n    out, page = [], 1\n    while page is not None:\n        out.extend(api[page][\"items\"])\n        page = api[page][\"next\"]\n    return out\nprint(collect_all(api))",
+          "note": "",
+          "concepts_used": [
+            "paginación"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T1-B-E3",
+          "code": "def should_retry(status):\n    return status in {429, 503}\nfor s in [400, 404, 429, 503, 200]:\n    print(s, should_retry(s))",
+          "note": "",
+          "concepts_used": [
+            "retry selectivo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-A-E1",
+          "code": "def require_token(env):\n    tok = env.get(\"API_TOKEN\")\n    if not tok:\n        raise ValueError(\"API_TOKEN missing\")\n    return tok\nprint(require_token({\"API_TOKEN\": \"abc\"}))\ntry:\n    require_token({})\nexcept ValueError as e:\n    print(str(e))",
+          "note": "",
+          "concepts_used": [
+            "secret env"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-A-E2",
+          "code": "class Cache:\n    def __init__(self):\n        self._data = {}\n    def get(self, url):\n        if url in self._data:\n            return self._data[url], True\n        return None, False\n    def set(self, url, body):\n        self._data[url] = body\nc = Cache()\nc.set(\"u1\", {\"ok\": True})\nprint(c.get(\"u1\"))\nprint(c.get(\"missing\"))",
+          "note": "",
+          "concepts_used": [
+            "cache GET"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-A-E3",
+          "code": "def min_provenance(url, status, cache_hit):\n    return {\n        \"source_url\": url,\n        \"fetched_at\": \"2026-07-20T00:00:00Z\",\n        \"status_code\": status,\n        \"cache_hit\": cache_hit,\n    }\nprint(sorted(min_provenance(\"https://x\", 200, False).items()))",
+          "note": "",
+          "concepts_used": [
+            "provenance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-B-E1",
+          "code": "def assert_keys(payload, required):\n    missing = sorted(set(required) - set(payload))\n    if missing:\n        raise AssertionError(missing)\nassert_keys({\"lat\": 1, \"lon\": 2}, [\"lat\", \"lon\"])\nprint(\"ok\")\ntry:\n    assert_keys({\"lat\": 1}, [\"lat\", \"lon\"])\nexcept AssertionError as e:\n    print(e)",
+          "note": "",
+          "concepts_used": [
+            "contract keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-B-E2",
+          "code": "def fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return local_body, \"offline\"\n    return {\"online\": True}, \"online\"\nprint(fetch_with_fallback(200, {\"lat\": 0}))\nprint(fetch_with_fallback(503, {\"lat\": -12.0}))",
+          "note": "",
+          "concepts_used": [
+            "fallback offline"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-B-E3",
+          "code": "matrix = {True: \"live_api\", False: \"local_file\"}\nfor online in (True, False):\n    print(online, matrix[online])",
+          "note": "",
+          "concepts_used": [
+            "online offline matrix"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-A-E1",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)\")\ncon.execute(\"INSERT INTO evidence VALUES ('E1','C001','geo')\")\nprint(con.execute(\"SELECT COUNT(*) FROM evidence\").fetchone()[0])\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "sqlite create"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-A-E2",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\ncon.execute(\"UPDATE clients SET name=? WHERE id=?\", (\"Ana Q\", \"C001\"))\nprint(con.execute(\"SELECT name FROM clients WHERE id=?\", (\"C001\",)).fetchone()[0])\ncon.execute(\"DELETE FROM clients WHERE id=?\", (\"C001\",))\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "CRUD"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-A-E3",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\nINSERT INTO clients VALUES ('C001','Ana');\nINSERT INTO evidence VALUES ('E1','C001','geo');\nINSERT INTO evidence VALUES ('E2','C001','phone');\nINSERT INTO evidence VALUES ('E3','C002','geo');\n''')\nrows = con.execute(\n    \"SELECT e.kind FROM evidence e JOIN clients c ON c.id=e.entity_id WHERE c.id=? ORDER BY e.kind\",\n    (\"C001\",),\n).fetchall()\nprint([r[0] for r in rows])\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "JOIN"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-B-E1",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\nuser_id = \"C001' OR '1'='1\"\nprint(con.execute(\"SELECT name FROM clients WHERE id = ?\", (user_id,)).fetchone())\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "SQL params"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-B-E2",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ntry:\n    con.execute(\"BEGIN\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute(\"COMMIT\")\nexcept sqlite3.IntegrityError:\n    con.rollback()\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "rollback"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-B-E3",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)\")\ncon.execute(\"CREATE INDEX idx_document_id ON clients(document_id)\")\nprint([r[1] for r in con.execute(\"PRAGMA index_list('clients')\").fetchall()])\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "index"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-A-E1",
+          "code": "import re\ndef normalize_address(s):\n    return re.sub(r\"\\s+\", \" \", s.strip())\nprint(repr(normalize_address(\"  Jr.  de  la  Unión  100 \")))",
+          "note": "",
+          "concepts_used": [
+            "normalize_address"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-A-E2",
+          "code": "class MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {\"city\": city, \"lat\": lat, \"lon\": lon, \"provider\": \"mock\"}\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"lat\"])\nprint(g.geocode(\"Cusco\"))",
+          "note": "",
+          "concepts_used": [
+            "MockGeocoder"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-A-E3",
+          "code": "ALLOWED = {\"address\", \"city\", \"country\"}\ndef allowed_for_public_geocoder(payload):\n    return set(payload) <= ALLOWED\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"address\": \"Av 1\"}))\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"document_id\": \"D1\"}))",
+          "note": "",
+          "concepts_used": [
+            "egress policy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-B-E1",
+          "code": "def valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\nfor p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:\n    print(p, valid_lat_lon(*p))",
+          "note": "",
+          "concepts_used": [
+            "valid coords"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-B-E2",
+          "code": "import math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\nd = haversine_km((0.0, 0.0), (0.0, 1.0))\nprint(round(d, 2))\nassert abs(d - 111.19) < 1\nprint(\"tolerance_ok\")",
+          "note": "",
+          "concepts_used": [
+            "Haversine"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-B-E3",
+          "code": "def as_relationship_signal(km):\n    return {\"type\": \"geo_distance_km\", \"value\": km, \"kinship_verdict\": None}\nprint(as_relationship_signal(1.2))",
+          "note": "",
+          "concepts_used": [
+            "geoseñal"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S12-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(200, {'id': 'C001', 'region': 'Lima'})\n(404, {'error': 'not_found'})\n",
+          "expected_head": "(200, {'id': 'C001', 'region': 'Lima'})\n(404, {'error': 'not_found'})",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'C001', 'region': 'Lima'}\nNone\n",
+          "expected_head": "{'id': 'C001', 'region': 'Lima'}\nNone",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "200 use_body\n404 missing\n429 retry\n400 fix_client\n500 retry\n",
+          "expected_head": "200 use_body\n404 missing\n429 retry\n400 fix_client\n500 retry",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\ntimeout\n",
+          "expected_head": "ok\ntimeout",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a', 'b', 'c']\n",
+          "expected_head": "['a', 'b', 'c']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "400 False\n404 False\n429 True\n503 True\n200 False\n",
+          "expected_head": "400 False\n404 False\n429 True\n503 True\n200 False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "abc\nAPI_TOKEN missing\n",
+          "expected_head": "abc\nAPI_TOKEN missing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "({'ok': True}, True)\n(None, False)\n",
+          "expected_head": "({'ok': True}, True)\n(None, False)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[('cache_hit', False), ('fetched_at', '2026-07-20T00:00:00Z'), ('source_url', 'https://x'), ('status_code', 200)]\n",
+          "expected_head": "[('cache_hit', False), ('fetched_at', '2026-07-20T00:00:00Z'), ('source_url', 'https://x'), ('status_code', 200)]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\n['lon']\n",
+          "expected_head": "ok\nmissing keys: ['lon']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "({'online': True}, 'online')\n({'lat': -12.0}, 'offline')\n",
+          "expected_head": "({'online': True}, 'online')\n({'lat': -12.0}, 'offline')",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True live_api\nFalse local_file\n",
+          "expected_head": "True live_api\nFalse local_file",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana Q\n0\n",
+          "expected_head": "Ana Q\n0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['geo', 'phone']\n",
+          "expected_head": "['geo', 'phone']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None\n",
+          "expected_head": "None",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0\n",
+          "expected_head": "0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['idx_document_id', 'sqlite_autoindex_clients_1']\n",
+          "expected_head": "['idx_document_id', 'sqlite_autoindex_clients_1']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "'Jr. de la Unión 100'\n",
+          "expected_head": "'Jr. de la Unión 100'",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "-12.0464\nNone\n",
+          "expected_head": "-12.0464\nNone",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(0, 0) True\n(91, 0) False\n(0, 181) False\n(-12.04, -77.04) True\n",
+          "expected_head": "(0, 0) True\n(91, 0) False\n(0, 181) False\n(-12.04, -77.04) True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "111.19\ntolerance_ok\n",
+          "expected_head": "111.19\ntolerance_ok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'type': 'geo_distance_km', 'value': 1.2, 'kinship_verdict': None}\n",
+          "expected_head": "{'type': 'geo_distance_km', 'value': 1.2, 'kinship_verdict': None}",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S12-T1-A-E1",
+          "code": "store = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\ndef get_entity(store, entity_id):\n    if entity_id in store:\n        return 200, store[entity_id]\n    return 404, {'error': 'not_found'}\nprint(get_entity(store, \"C001\"))\nprint(get_entity(store, \"C999\"))",
+          "note": "",
+          "concepts_used": [
+            "status body"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T1-A-E2",
+          "code": "def parse_entity(payload):\n    req = {'id', 'region'}\n    if not req.issubset(payload):\n        return None\n    return {'id': payload['id'], 'region': payload['region']}\nprint(parse_entity({\"id\": \"C001\", \"region\": \"Lima\", \"extra\": 1}))\nprint(parse_entity({\"id\": \"C001\"}))",
+          "note": "",
+          "concepts_used": [
+            "required keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T1-A-E3",
+          "code": "STATUS_ACTION = {\n    200: 'use_body',\n    404: 'missing',\n    429: 'retry',\n    500: 'retry',\n    400: 'fail_client',\n}\nfor code in [200, 404, 429, 400, 500]:\n    print(code, STATUS_ACTION.get(code, \"unknown\"))",
+          "note": "",
+          "concepts_used": [
+            "status action map"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T1-B-E1",
+          "code": "def fetch(timeout_s, cost_s):\n    if cost_s > timeout_s:\n        return 'timeout'\n    return 'ok'\nprint(fetch(2.0, 0.5))\nprint(fetch(1.0, 3.0))",
+          "note": "",
+          "concepts_used": [
+            "timeout"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T1-B-E2",
+          "code": "api = {\n    1: {\"items\": [\"a\"], \"next\": 2},\n    2: {\"items\": [\"b\", \"c\"], \"next\": None},\n}\ndef collect_all(api):\n    out, page = [], 1\n    while page is not None:\n        out.extend(api[page]['items'])\n        page = api[page]['next']\n    return out\nprint(collect_all(api))",
+          "note": "",
+          "concepts_used": [
+            "pagination"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T1-B-E3",
+          "code": "def should_retry(status):\n    return status in {429, 503}\nfor s in [400, 404, 429, 503, 200]:\n    print(s, should_retry(s))",
+          "note": "",
+          "concepts_used": [
+            "retry 429/503"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-A-E1",
+          "code": "def require_token(env):\n    tok = env.get('API_TOKEN')\n    if not tok:\n        raise ValueError('API_TOKEN missing')\n    return tok\nprint(require_token({\"API_TOKEN\": \"abc\"}))\ntry:\n    require_token({})\nexcept ValueError as e:\n    print(str(e))",
+          "note": "",
+          "concepts_used": [
+            "env secret"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-A-E2",
+          "code": "class Cache:\n    def __init__(self):\n        self._data = {}\n    def get(self, url):\n        if url in self._data:\n            return self._data[url], True\n        return None, False\n    def set(self, url, body):\n        self._data[url] = body\nc = Cache()\nc.set(\"u1\", {\"ok\": True})\nprint(c.get(\"u1\"))\nprint(c.get(\"missing\"))",
+          "note": "",
+          "concepts_used": [
+            "GET cache"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-A-E3",
+          "code": "def min_provenance(url, status, cache_hit):\n    return {\n        'source_url': url,\n        'fetched_at': '2026-07-20T00:00:00Z',\n        'status_code': status,\n        'cache_hit': cache_hit,\n    }\nprint(sorted(min_provenance(\"https://x\", 200, False).items()))",
+          "note": "",
+          "concepts_used": [
+            "provenance no token"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-B-E1",
+          "code": "def assert_keys(payload, required):\n    missing = sorted(set(required) - set(payload))\n    if missing:\n        raise AssertionError(f'missing {missing}')\nassert_keys({\"lat\": 1, \"lon\": 2}, [\"lat\", \"lon\"])\nprint(\"ok\")\ntry:\n    assert_keys({\"lat\": 1}, [\"lat\", \"lon\"])\nexcept AssertionError as e:\n    print(e)",
+          "note": "",
+          "concepts_used": [
+            "contract keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-B-E2",
+          "code": "def fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return local_body, 'offline'\n    if status == 200:\n        return {'online': True}, 'online'\n    return local_body, 'offline'\nprint(fetch_with_fallback(200, {\"lat\": 0}))\nprint(fetch_with_fallback(503, {\"lat\": -12.0}))",
+          "note": "",
+          "concepts_used": [
+            "offline fallback"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T2-B-E3",
+          "code": "matrix = {True: 'live_api', False: 'local_file'}\nfor online in (True, False):\n    print(online, matrix[online])",
+          "note": "",
+          "concepts_used": [
+            "online offline"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-A-E1",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)\")\ncon.execute(\"INSERT INTO evidence VALUES ('E1','C001','geo')\")\nprint(con.execute(\"SELECT COUNT(*) FROM evidence\").fetchone()[0])\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "sqlite create"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-A-E2",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\ncon.execute(\"UPDATE clients SET name=? WHERE id=?\", ('Ana Q', 'C001'))\nprint(con.execute(\"SELECT name FROM clients WHERE id=?\", ('C001',)).fetchone()[0])\ncon.execute(\"DELETE FROM clients WHERE id=?\", ('C001',))\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "CRUD ?"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-A-E3",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\nINSERT INTO clients VALUES ('C001','Ana');\nINSERT INTO evidence VALUES ('E1','C001','geo');\nINSERT INTO evidence VALUES ('E2','C001','phone');\nINSERT INTO evidence VALUES ('E3','C002','geo');\n''')\nrows = con.execute(\n    \"SELECT e.kind FROM evidence e JOIN clients c ON c.id=e.entity_id WHERE c.id=? ORDER BY e.kind\",\n    ('C001',),\n).fetchall()\nprint([r[0] for r in rows])\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "JOIN"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-B-E1",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\nuser_id = \"C001' OR '1'='1\"\nprint(con.execute(\"SELECT name FROM clients WHERE id = ?\", (user_id,)).fetchone())\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "SQL injection prevention"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-B-E2",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ntry:\n    con.execute('BEGIN')\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute('COMMIT')\nexcept sqlite3.IntegrityError:\n    con.rollback()\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "rollback"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T3-B-E3",
+          "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)\")\ncon.execute(\"CREATE INDEX idx_document_id ON clients(document_id)\")\nidxs = [r[1] for r in con.execute(\"PRAGMA index_list('clients')\").fetchall()]\nprint(idxs)\ncon.close()",
+          "note": "",
+          "concepts_used": [
+            "CREATE INDEX"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-A-E1",
+          "code": "import re\ndef normalize_address(s):\n    return re.sub(r'\\s+', ' ', s.strip())\nprint(repr(normalize_address(\"  Jr.  de  la  Unión  100 \")))",
+          "note": "",
+          "concepts_used": [
+            "normalize_address"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-A-E2",
+          "code": "class MockGeocoder:\n    DB = {'Lima': (-12.0464, -77.0428), 'Arequipa': (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {'lat': lat, 'lon': lon, 'provider': 'mock'}\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"lat\"])\nprint(g.geocode(\"Cusco\"))",
+          "note": "",
+          "concepts_used": [
+            "MockGeocoder"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-A-E3",
+          "code": "ALLOWED = {\"address\", \"city\", \"country\"}\ndef allowed_for_public_geocoder(payload):\n    return set(payload) <= ALLOWED\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"address\": \"Av 1\"}))\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"document_id\": \"D1\"}))",
+          "note": "",
+          "concepts_used": [
+            "egress checklist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-B-E1",
+          "code": "def valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\nfor p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:\n    print(p, valid_lat_lon(*p))",
+          "note": "",
+          "concepts_used": [
+            "lat lon ranges"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-B-E2",
+          "code": "import math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\nd = haversine_km((0.0, 0.0), (0.0, 1.0))\nprint(round(d, 2))\nassert abs(d - 111.19) < 1\nprint(\"tolerance_ok\")",
+          "note": "",
+          "concepts_used": [
+            "Haversine"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S12-T4-B-E3",
+          "code": "def as_relationship_signal(km):\n    return {'type': 'geo_distance_km', 'value': km, 'kinship_verdict': None}\nprint(as_relationship_signal(1.2))",
+          "note": "",
+          "concepts_used": [
+            "geo signal no verdict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S12-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(200, {'id': 'C001', 'region': 'Lima'})\n(404, {'error': 'not_found'})\n",
+          "expected_head": "(200, {'id': 'C001', 'region': 'Lima'})\n(404, {'error': 'not_found'})",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'C001', 'region': 'Lima'}\nNone\n",
+          "expected_head": "{'id': 'C001', 'region': 'Lima'}\nNone",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "200 use_body\n404 missing\n429 retry\n400 fail_client\n500 retry\n",
+          "expected_head": "200 use_body\n404 missing\n429 retry\n400 fix_client\n500 retry",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\ntimeout\n",
+          "expected_head": "ok\ntimeout",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a', 'b', 'c']\n",
+          "expected_head": "['a', 'b', 'c']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "400 False\n404 False\n429 True\n503 True\n200 False\n",
+          "expected_head": "400 False\n404 False\n429 True\n503 True\n200 False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "abc\nAPI_TOKEN missing\n",
+          "expected_head": "abc\nAPI_TOKEN missing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "({'ok': True}, True)\n(None, False)\n",
+          "expected_head": "({'ok': True}, True)\n(None, False)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[('cache_hit', False), ('fetched_at', '2026-07-20T00:00:00Z'), ('source_url', 'https://x'), ('status_code', 200)]\n",
+          "expected_head": "[('cache_hit', False), ('fetched_at', '2026-07-20T00:00:00Z'), ('source_url', 'https://x'), ('status_code', 200)]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\nmissing ['lon']\n",
+          "expected_head": "ok\nmissing keys: ['lon']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "({'online': True}, 'online')\n({'lat': -12.0}, 'offline')\n",
+          "expected_head": "({'online': True}, 'online')\n({'lat': -12.0}, 'offline')",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True live_api\nFalse local_file\n",
+          "expected_head": "True live_api\nFalse local_file",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana Q\n0\n",
+          "expected_head": "Ana Q\n0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['geo', 'phone']\n",
+          "expected_head": "['geo', 'phone']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None\n",
+          "expected_head": "None",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0\n",
+          "expected_head": "0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['idx_document_id', 'sqlite_autoindex_clients_1']\n",
+          "expected_head": "['idx_document_id', 'sqlite_autoindex_clients_1']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "'Jr. de la Unión 100'\n",
+          "expected_head": "'Jr. de la Unión 100'",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "-12.0464\nNone\n",
+          "expected_head": "-12.0464\nNone",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(0, 0) True\n(91, 0) False\n(0, 181) False\n(-12.04, -77.04) True\n",
+          "expected_head": "(0, 0) True\n(91, 0) False\n(0, 181) False\n(-12.04, -77.04) True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "111.19\ntolerance_ok\n",
+          "expected_head": "111.19\ntolerance_ok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S12-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'type': 'geo_distance_km', 'value': 1.2, 'kinship_verdict': None}\n",
+          "expected_head": "{'type': 'geo_distance_km', 'value': 1.2, 'kinship_verdict': None}",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

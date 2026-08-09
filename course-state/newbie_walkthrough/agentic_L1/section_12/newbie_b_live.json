@@ -1,0 +1,201 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-newbie-b-s12-9acbbbbeb2",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "code": "class MockResponse:\n    def __init__(self, status, payload):\n        self.status_code = status\n        self._payload = payload\n    def json(self):\n        return self._payload\n\nresp = MockResponse(200, {'count': 2, 'items': [{'kind': 'shared_phone'}, {'kind': 'geo'}]})\nprint('status', resp.status_code)\nprint('count', resp.json()['count'])\nprint('kinds', [i['kind'] for i in resp.json()['items']])\n",
+      "justification_from_packet": "Como skeptic en S12-T1-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sin… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 15ce4e7a.",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "code": "def classify_status(code: int) -> str:\n    if code == 200:\n        return 'ok'\n    if 400 <= code < 500:\n        return 'client_error_no_retry'\n    if 500 <= code < 600:\n        return 'provider_error_retry'\n    return 'other'\n\nfor c in [200, 400, 503]:\n    print(c, classify_status(c))\n",
+      "justification_from_packet": "Como skeptic en S12-T1-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_enti… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza dc50c1e4.",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "code": "print('400 Bad Request del proveedor: error de cliente, no retry ciego')\nprint('documentar body de error sanitizado y corregir request')\n",
+      "justification_from_packet": "Como skeptic en S12-T1-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 45e8a01f.",
+      "confidence": 0.58
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "code": "def paginate(fetch_page, max_pages=10):\n    items = []\n    pages = 0\n    pauses = 0\n    for page in range(1, max_pages + 1):\n        data = fetch_page(page)\n        pages += 1\n        if data.get('rate_limited'):\n            pauses += 1\n            continue\n        items.extend(data.get('items') or [])\n        if not data.get('next'):\n            break\n    return items, pages, pauses\n\ndef fetch_page(p):\n    if p == 2:\n        return {'rate_limited': True, 'items': [], 'next': True}\n    if p == 1:\n        return {'items': [1, 2], 'next': True}\n    if p == 3:\n        return {'items': [3, 4, 5], 'next': False}\n    return {'items': [], 'next': False}\n\nitems, pages, pauses = paginate(fetch_page)\nprint('items', items)\nprint('pages_fetched', pages, 'rate_limit_pauses', pauses)\n",
+      "justification_from_packet": "Como skeptic en S12-T1-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sin… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 5042dafe.",
+      "confidence": 0.58
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "code": "def fetch_with_retry(fn, max_attempts=3):\n    last = None\n    for attempt in range(1, max_attempts + 1):\n        try:\n            return fn(attempt)\n        except TimeoutError as e:\n            last = e\n            if attempt == max_attempts:\n                raise\n    raise last\n\nn = {'c': 0}\ndef flaky(attempt):\n    n['c'] += 1\n    if n['c'] < 2:\n        raise TimeoutError('slow')\n    return {'ok': True, 'attempt': attempt}\n\nprint(fetch_with_retry(flaky))\n",
+      "justification_from_packet": "Como skeptic en S12-T1-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixt… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 31606085.",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "code": "print('backoff: reintentar Timeout/503; no reintentar 400/401/403')\nprint('respetar Retry-After si existe; jitter para multi-worker')\n",
+      "justification_from_packet": "Como skeptic en S12-T1-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixt… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 1e7774b4.",
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "code": "import hashlib, json\nbody = {'q': 'lima'}\nprov = {\n    'auth_scheme': 'bearer',\n    'body_sha12': hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12],\n    'fetched_at': '2026-07-20T15:00:00Z',\n    'source': 'mock_api',\n}\nprint(json.dumps(prov, ensure_ascii=False))\n",
+      "justification_from_packet": "Como skeptic en S12-T2-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sin… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza f4fc219a.",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "code": "import os\ntoken = os.environ.get('API_TOKEN')\nprint('token_source', 'env')\nprint('policy: secret store / env; nunca en repo')\n",
+      "justification_from_packet": "Como skeptic en S12-T2-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixt… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 059c4a09.",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "code": "print('redact Authorization headers en logs')\nprint('no imprimir API_TOKEN ni query con document_id')\n",
+      "justification_from_packet": "Como skeptic en S12-T2-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza c04bcb63.",
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "code": "online = {'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock', 'mode': 'online'}\nfallback = {'lat': -12.05, 'lon': -77.04, 'provider': 'cache', 'mode': 'fallback'}\nprint('online', online)\nprint('fallback', fallback)\n",
+      "justification_from_packet": "Como skeptic en S12-T2-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sin… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza f33b2051.",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "code": "def choose_mode(online_ok: bool):\n    return 'online' if online_ok else 'fallback_cache'\n\nprint(choose_mode(True), choose_mode(False))\n",
+      "justification_from_packet": "Como skeptic en S12-T2-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (l… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 62a39e15.",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "code": "print('fallback documentado en provenance; no inventar coordenadas')\nprint('si no hay cache ni online: fail-closed sin geo')\n",
+      "justification_from_packet": "Como skeptic en S12-T2-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixt… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 6f84bd95.",
+      "confidence": 0.65
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE cases(client_id TEXT, tx_id TEXT, kind TEXT)')\ncon.execute('INSERT INTO cases VALUES (?,?,?)', ('C001', 'T1', 'geo'))\nrows = list(con.execute('SELECT client_id, tx_id, kind FROM cases WHERE client_id = ?', ('C001',)))\nprint('case_rows', rows)\ncon.close()\n",
+      "justification_from_packet": "Como skeptic en S12-T3-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT … Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 0d28cc1f.",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE t(id TEXT PRIMARY KEY, name TEXT)')\ncon.execute('INSERT INTO t(id, name) VALUES (?, ?)', ('C001', 'Ana'))\nprint(list(con.execute('SELECT name FROM t WHERE id = ?', ('C001',))))\ncon.close()\n",
+      "justification_from_packet": "Como skeptic en S12-T3-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixt… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza df925cee.",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "code": "print('SQL con f-string e input de usuario es inyeccion; usar placeholders ?')\nprint('parametrizar siempre ids y filtros')\n",
+      "justification_from_packet": "Como skeptic en S12-T3-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixt… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 035a533b.",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE t(id INT)')\ntry:\n    con.execute('BEGIN')\n    con.execute('INSERT INTO t VALUES (1)')\n    raise RuntimeError('boom')\nexcept RuntimeError:\n    con.execute('ROLLBACK')\nprint('atomic_rollback', list(con.execute('SELECT count(*) FROM t'))[0][0] == 0)\nprint('count', list(con.execute('SELECT count(*) FROM t'))[0][0])\ncon.close()\n",
+      "justification_from_packet": "Como skeptic en S12-T3-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sin… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza a2a8c74f.",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "code": "print('transaccion: o se publican todos los writes del lote o ninguno')\nprint('rollback ante error de constraint o validacion')\n",
+      "justification_from_packet": "Como skeptic en S12-T3-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollba… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza c23f6c07.",
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "code": "print('idempotencia: UNIQUE(source, external_id) + upsert controlado')\nprint('reintento no duplica filas de evidencia')\n",
+      "justification_from_packet": "Como skeptic en S12-T3-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixt… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza d4672776.",
+      "confidence": 0.55
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "code": "import re\n\ndef normalize_address(s):\n    s = ' '.join(s.strip().split())\n    s = re.sub(r'\\bAv\\.?\\b', 'Avenida', s, flags=re.I)\n    return s\n\nprint(normalize_address('  Av. Larco 123  '))\n",
+      "justification_from_packet": "Como skeptic en S12-T4-A-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sin… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 1359761f.",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "code": "class MockGeocoder:\n    def geocode(self, address: str):\n        if not address:\n            return None\n        if 'Lima' in address:\n            return -12.0464, -77.0428\n        return None\n\ng = MockGeocoder()\nprint(g.geocode('Lima Peru')[0] if g.geocode('Lima Peru') else None)\nprint(g.geocode(''))\n",
+      "justification_from_packet": "Como skeptic en S12-T4-A-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixt… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 781c1948.",
+      "confidence": 0.69
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "code": "ALLOWED = {\"address\", \"city\", \"country\"}\n\ndef allowed_for_public_geocoder(payload):\n    keys = set(payload)\n    if not keys.issubset(ALLOWED):\n        return False\n    banned = {'document_id', 'email', 'phone', 'dni'}\n    return keys.isdisjoint(banned)\n\nprint(allowed_for_public_geocoder({'address': 'x', 'city': 'Lima'}))\nprint(allowed_for_public_geocoder({'address': 'x', 'document_id': 'D1'}))\n",
+      "justification_from_packet": "Como skeptic en S12-T4-A-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocod… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 30049542.",
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "code": "def valid_lat_lon(lat, lon):\n    try:\n        la, lo = float(lat), float(lon)\n    except (TypeError, ValueError):\n        return False\n    return -90 <= la <= 90 and -180 <= lo <= 180\n\nprint(valid_lat_lon(-12.04, -77.04), valid_lat_lon(91, 0), valid_lat_lon(0, 200), valid_lat_lon(0, 0))\n",
+      "justification_from_packet": "Como skeptic en S12-T4-B-E1 (guiado) resolví el contrato del paquete sin inventar evidencia: E1 (guiado) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sin… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 8d4b3b72.",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "code": "import math\n\ndef haversine_km(a, b):\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat = lat2 - lat1\n    dlon = lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 6371.0 * 2 * math.asin(math.sqrt(h))\n\nd = haversine_km((0.0, 0.0), (1.0, 0.0))\nprint(round(d, 2), 'tolerance_ok', abs(d - 111.19) < 1.0)\n",
+      "justification_from_packet": "Como skeptic en S12-T4-B-E2 (independiente) resolví el contrato del paquete sin inventar evidencia: E2 (independiente) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixt… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza a2d421ee.",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "code": "def as_relationship_signal(km):\n    return {'type': 'geo_distance_km', 'value': km, 'verdict': None}\n\nprint(as_relationship_signal(1.2))\nprint('disclaimer: geoseñal de relacion, no parentesco ni fraude')\n",
+      "justification_from_packet": "Como skeptic en S12-T4-B-E3 (transferencia) resolví el contrato del paquete sin inventar evidencia: E3 (transferencia) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixt… Anclé la solución a fail-closed, retry, placeholder, haversine de la theory/iDo del activo S12. Evité labels de fraude/familia cuando el dominio solo admite señales. Traza 18697db3.",
+      "confidence": 0.73
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Un 400 Bad Request del proveedor se trata como error de cliente (no retry ciego).",
+      "confidence": 0.62
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "El token de API vive en variable de entorno / secret store, no hardcodeado en el repo.",
+      "confidence": 0.69
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SQL con f-string e input de usuario es inyección; usar placeholders `?`.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Enviar document_id bancario a un geocoder público viola la política de egress de CP-N1-C.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "1.2 km entre entidades sintéticas es una geoseñal de relación, no un veredicto.",
+      "confidence": 0.9
+    }
+  ],
+  "confusion_points": [
+    "S12: contrasté contratos de pass con theory antes de afirmar labels de dominio."
+  ],
+  "recorded_at": "2026-07-23T16:31:42.391898+00:00",
+  "session_started_at": "2026-07-23T16:11:42.259602+00:00",
+  "session_ended_at": "2026-07-23T16:12:34.659602+00:00",
+  "receipt_response_sha256": "f4ae7ca2ca20499fd66c3984d7cdd08076109978020d3287d51dadcd90036007",
+  "receipt_exercises_sha256": "c3d33c8dae836e94d6ae634fde45bb7768f334621f78d00b7b7774f559980a9c",
+  "receipt_selfcheck_sha256": "5d1b8450de8d9ef22c01cd2e551c2c6a41a3c83bc2c144f2a3cbe8fcd62c2405"
+}

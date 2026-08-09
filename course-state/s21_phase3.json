@@ -1,0 +1,1080 @@
+{
+  "version": "3.2",
+  "section": "S21",
+  "section_id": "fastapi",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S21 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S21 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s21-fastapi.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "fastapi",
+    "index": 21,
+    "title_platform": "FastAPI — Backend Python para Sitios Web en Vivo",
+    "title_v3": "Documentos, plantillas y reportes trazables",
+    "title_decision": "KEEP platform id 'fastapi' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números r",
+    "estimatedHours": 14,
+    "level": "Competente",
+    "phase": 1,
+    "prerequisites": [
+      "S20"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N2-B (cierre)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "fastapi",
+    "platform_title": "FastAPI — Backend Python para Sitios Web en Vivo",
+    "v3_title": "Documentos, plantillas y reportes trazables",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante separa datos y presentación con Jinja.",
+    "El estudiante renderiza condiciones/tablas con formato seguro.",
+    "El estudiante genera DOCX/PDF con estilos de sección.",
+    "El estudiante distingue PDF digital de imagen/OCR.",
+    "El estudiante estructura informe ejecutivo con método y hallazgos.",
+    "El estudiante embebe gráficos/tablas con fuentes y limitaciones.",
+    "El estudiante revisa redacción, a11y y consistencia.",
+    "El estudiante documenta provenance y flujo de aprobación."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S21-T1-A",
+      "slug": "jinja-data-presentation",
+      "title": "Jinja y separación datos/presentación"
+    },
+    {
+      "subtopic_id": "S21-T1-B",
+      "slug": "conditions-tables-safe-format",
+      "title": "condiciones, tablas y formato seguro"
+    },
+    {
+      "subtopic_id": "S21-T2-A",
+      "slug": "styles-sections-docx-pdf",
+      "title": "estilos y secciones"
+    },
+    {
+      "subtopic_id": "S21-T2-B",
+      "slug": "pdf-digital-vs-image-ocr",
+      "title": "extracción de PDF digital y detección de imagen/OCR"
+    },
+    {
+      "subtopic_id": "S21-T3-A",
+      "slug": "exec-summary-method-findings",
+      "title": "resumen ejecutivo, método y hallazgos"
+    },
+    {
+      "subtopic_id": "S21-T3-B",
+      "slug": "charts-tables-sources-limits",
+      "title": "gráficos, tablas, fuentes y limitaciones"
+    },
+    {
+      "subtopic_id": "S21-T4-A",
+      "slug": "copy-a11y-consistency",
+      "title": "redacción, accesibilidad y consistencia"
+    },
+    {
+      "subtopic_id": "S21-T4-B",
+      "slug": "visual-render-provenance-approval",
+      "title": "render visual, provenance y aprobación"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S21-T1",
+      "title": "Templates",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S21-T1-A",
+          "slug": "jinja-data-presentation",
+          "title": "Jinja y separación datos/presentación",
+          "outcome": "El estudiante separa datos y presentación con Jinja.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Jinja y separación datos/presentación",
+              "must_cover": [
+                "Jinja2",
+                "context dict",
+                "separation"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S21-T1-A-DEMO",
+              "title": "Separar datos de plantilla Jinja",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S21-T1-A-E1",
+                "kind": "guided",
+                "title": "Jinja y separación datos/presentación — guided",
+                "skill": "jinja",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T1-A-E2",
+                "kind": "independent",
+                "title": "Jinja y separación datos/presentación — independent",
+                "skill": "jinja",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T1-A-E3",
+                "kind": "transfer",
+                "title": "Jinja y separación datos/presentación — transfer",
+                "skill": "jinja",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S21-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S21-T1-B",
+          "slug": "conditions-tables-safe-format",
+          "title": "condiciones, tablas y formato seguro",
+          "outcome": "El estudiante renderiza condiciones/tablas con formato seguro.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "condiciones, tablas y formato seguro",
+              "must_cover": [
+                "if/for",
+                "table blocks",
+                "escape"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S21-T1-B-DEMO",
+              "title": "Render condicional seguro de tablas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S21-T1-B-E1",
+                "kind": "guided",
+                "title": "condiciones, tablas y formato seguro — guided",
+                "skill": "conditions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T1-B-E2",
+                "kind": "independent",
+                "title": "condiciones, tablas y formato seguro — independent",
+                "skill": "conditions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T1-B-E3",
+                "kind": "transfer",
+                "title": "condiciones, tablas y formato seguro — transfer",
+                "skill": "conditions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S21-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S21-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S21-T1-EVAL-1",
+            "title": "Jinja y separación datos/presentación — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S21-T1-EVAL-2",
+            "title": "condiciones, tablas y formato seguro — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S21-T2",
+      "title": "DOCX/PDF",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S21-T2-A",
+          "slug": "styles-sections-docx-pdf",
+          "title": "estilos y secciones",
+          "outcome": "El estudiante genera DOCX/PDF con estilos de sección.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "estilos y secciones",
+              "must_cover": [
+                "python-docx",
+                "reportlab/weasy",
+                "styles"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S21-T2-A-DEMO",
+              "title": "Generar DOCX/PDF con estilos de sección",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S21-T2-A-E1",
+                "kind": "guided",
+                "title": "estilos y secciones — guided",
+                "skill": "styles",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T2-A-E2",
+                "kind": "independent",
+                "title": "estilos y secciones — independent",
+                "skill": "styles",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T2-A-E3",
+                "kind": "transfer",
+                "title": "estilos y secciones — transfer",
+                "skill": "styles",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S21-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S21-T2-B",
+          "slug": "pdf-digital-vs-image-ocr",
+          "title": "extracción de PDF digital y detección de imagen/OCR",
+          "outcome": "El estudiante distingue PDF digital de imagen/OCR.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "extracción de PDF digital y detección de imagen/OCR",
+              "must_cover": [
+                "pdf text extract",
+                "image page detect",
+                "OCR handoff"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S21-T2-B-DEMO",
+              "title": "Clasificar PDF digital vs imagen/OCR",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S21-T2-B-E1",
+                "kind": "guided",
+                "title": "extracción de PDF digital y detección de imagen/OCR — guided",
+                "skill": "pdf",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T2-B-E2",
+                "kind": "independent",
+                "title": "extracción de PDF digital y detección de imagen/OCR — independent",
+                "skill": "pdf",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T2-B-E3",
+                "kind": "transfer",
+                "title": "extracción de PDF digital y detección de imagen/OCR — transfer",
+                "skill": "pdf",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S21-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S21-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S21-T2-EVAL-1",
+            "title": "estilos y secciones — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S21-T2-EVAL-2",
+            "title": "extracción de PDF digital y detección de imagen/OCR — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S21-T3",
+      "title": "Informe",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S21-T3-A",
+          "slug": "exec-summary-method-findings",
+          "title": "resumen ejecutivo, método y hallazgos",
+          "outcome": "El estudiante estructura informe ejecutivo con método y hallazgos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "resumen ejecutivo, método y hallazgos",
+              "must_cover": [
+                "exec summary",
+                "method",
+                "findings"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S21-T3-A-DEMO",
+              "title": "Estructurar informe en resumen/método/hallazgos",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S21-T3-A-E1",
+                "kind": "guided",
+                "title": "resumen ejecutivo, método y hallazgos — guided",
+                "skill": "exec",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T3-A-E2",
+                "kind": "independent",
+                "title": "resumen ejecutivo, método y hallazgos — independent",
+                "skill": "exec",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T3-A-E3",
+                "kind": "transfer",
+                "title": "resumen ejecutivo, método y hallazgos — transfer",
+                "skill": "exec",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S21-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S21-T3-B",
+          "slug": "charts-tables-sources-limits",
+          "title": "gráficos, tablas, fuentes y limitaciones",
+          "outcome": "El estudiante embebe gráficos/tablas con fuentes y limitaciones.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "gráficos, tablas, fuentes y limitaciones",
+              "must_cover": [
+                "embed charts",
+                "source table",
+                "limits"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S21-T3-B-DEMO",
+              "title": "Incluir gráficos/tablas con fuentes y límites",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S21-T3-B-E1",
+                "kind": "guided",
+                "title": "gráficos, tablas, fuentes y limitaciones — guided",
+                "skill": "charts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T3-B-E2",
+                "kind": "independent",
+                "title": "gráficos, tablas, fuentes y limitaciones — independent",
+                "skill": "charts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T3-B-E3",
+                "kind": "transfer",
+                "title": "gráficos, tablas, fuentes y limitaciones — transfer",
+                "skill": "charts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S21-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S21-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S21-T3-EVAL-1",
+            "title": "resumen ejecutivo, método y hallazgos — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S21-T3-EVAL-2",
+            "title": "gráficos, tablas, fuentes y limitaciones — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S21-T4",
+      "title": "QA",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S21-T4-A",
+          "slug": "copy-a11y-consistency",
+          "title": "redacción, accesibilidad y consistencia",
+          "outcome": "El estudiante revisa redacción, a11y y consistencia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "redacción, accesibilidad y consistencia",
+              "must_cover": [
+                "plain language",
+                "a11y",
+                "number consistency"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S21-T4-A-DEMO",
+              "title": "Revisar consistencia numérica y accesibilidad",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S21-T4-A-E1",
+                "kind": "guided",
+                "title": "redacción, accesibilidad y consistencia — guided",
+                "skill": "copy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T4-A-E2",
+                "kind": "independent",
+                "title": "redacción, accesibilidad y consistencia — independent",
+                "skill": "copy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T4-A-E3",
+                "kind": "transfer",
+                "title": "redacción, accesibilidad y consistencia — transfer",
+                "skill": "copy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S21-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S21-T4-B",
+          "slug": "visual-render-provenance-approval",
+          "title": "render visual, provenance y aprobación",
+          "outcome": "El estudiante documenta provenance y flujo de aprobación.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "render visual, provenance y aprobación",
+              "must_cover": [
+                "screenshot QA",
+                "provenance",
+                "approval gate"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S21-T4-B-DEMO",
+              "title": "Registrar provenance y cola de aprobación",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S21-T4-B-E1",
+                "kind": "guided",
+                "title": "render visual, provenance y aprobación — guided",
+                "skill": "visual",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T4-B-E2",
+                "kind": "independent",
+                "title": "render visual, provenance y aprobación — independent",
+                "skill": "visual",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S21-T4-B-E3",
+                "kind": "transfer",
+                "title": "render visual, provenance y aprobación — transfer",
+                "skill": "visual",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S21-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S21-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S21-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S21-T4-EVAL-1",
+            "title": "redacción, accesibilidad y consistencia — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S21-T4-EVAL-2",
+            "title": "render visual, provenance y aprobación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S21-PROJ",
+    "title": "Accessible Insights Dashboard & Reporting Factory (cierre CP-N2-B)",
+    "replaces_legacy": "Legacy You Do de 'FastAPI — Backend Python para Sitios Web en Vivo' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Una corrida → dashboard + DOCX/PDF + workbook",
+      "Números reconciliados entre artefactos",
+      "Revisión visual documentada",
+      "Provenance y límites explícitos"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-B (cierre)",
+    "increment_gate": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'fastapi' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s21-fastapi.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'FastAPI — Backend Python para Sitios Web en Vivo' vs 'Documentos, plantillas y reportes trazables'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-B (cierre)",
+    "increment_gate": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+    "project_id": "S21-PROJ",
+    "section_passed": false,
+    "notes": "S21 contributes to CP-N2-B (cierre). No passed states written by factory lane.",
+    "capstone_gate": "CP-N2-B",
+    "gate_role": "CLOSE",
+    "promotion_requires": [
+      "CP-N2-B reporting factory evidence"
+    ]
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'FastAPI — Backend Python para Sitios Web en Vivo' until product rename; large topic mismatch vs V3 'Documentos, plantillas y reportes trazables'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S21-T1-A first"
+  }
+}

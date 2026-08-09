@@ -1,0 +1,222 @@
+{
+  "version": "3.2",
+  "section": "S52",
+  "section_id": "career-strategy",
+  "phase": "PHASE_6",
+  "lane": "LANE-S40-S52-CLOSE",
+  "role": "Isolated Validator (lightweight)",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s52-career-strategy.ts",
+    "prisma/seed.ts (career-strategy)"
+  ],
+  "status": "passed",
+  "summary": "S52 sub=8 demos=8 ex=24 exam=24; fields=24/24; snippets=3; authorized_to_close_section=True",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S52-T1-A",
+        "S52-T1-B",
+        "S52-T2-A",
+        "S52-T2-B",
+        "S52-T3-A",
+        "S52-T3-B",
+        "S52-T4-A",
+        "S52-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S52-T1-A-DEMO",
+        "S52-T1-B-DEMO",
+        "S52-T2-A-DEMO",
+        "S52-T2-B-DEMO",
+        "S52-T3-A-DEMO",
+        "S52-T3-B-DEMO",
+        "S52-T4-A-DEMO",
+        "S52-T4-B-DEMO"
+      ]
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S52-T1-A-E1",
+        "S52-T1-A-E2",
+        "S52-T1-A-E3",
+        "S52-T1-B-E1",
+        "S52-T1-B-E2",
+        "S52-T1-B-E3",
+        "S52-T2-A-E1",
+        "S52-T2-A-E2",
+        "S52-T2-A-E3",
+        "S52-T2-B-E1",
+        "S52-T2-B-E2",
+        "S52-T2-B-E3",
+        "S52-T3-A-E1",
+        "S52-T3-A-E2",
+        "S52-T3-A-E3",
+        "S52-T3-B-E1",
+        "S52-T3-B-E2",
+        "S52-T3-B-E3",
+        "S52-T4-A-E1",
+        "S52-T4-A-E2",
+        "S52-T4-A-E3",
+        "S52-T4-B-E1",
+        "S52-T4-B-E2",
+        "S52-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "field_counts": {
+        "solutionCode": 24,
+        "starterCode": 25,
+        "hints": 24,
+        "edgeCases": 24,
+        "tests": 24,
+        "feedback": 24,
+        "per_exercise_complete": 24
+      },
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK['career-strategy']",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "stakeholders-jobs-success-cf1",
+        "changes-constraints-risks-nogo",
+        "bounded-apis-events",
+        "data-models-rpa-rag-human",
+        "tests-evals-redteam-perf",
+        "slo-backup-rollback-disaster",
+        "demo-cv-narrative",
+        "arch-readme-cards-license-video-defense"
+      ]
+    },
+    "youDo": {
+      "title_present": true,
+      "cp_mentions": 52,
+      "has_objectives": true,
+      "has_requirements": true,
+      "has_rubric": true,
+      "has_starterCode": true
+    },
+    "selfCheck_present": true
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "['S52-T1-A', 'S52-T1-B', 'S52-T2-A', 'S52-T2-B', 'S52-T3-A', 'S52-T3-B', 'S52-T4-A', 'S52-T4-B']"
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "['S52-T1-A-DEMO', 'S52-T1-B-DEMO', 'S52-T2-A-DEMO', 'S52-T2-B-DEMO', 'S52-T3-A-DEMO', 'S52-T3-B-DEMO', 'S52-T4-A-DEMO', 'S52-T4-B-DEMO']"
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "24; solutionCode=24"
+    },
+    {
+      "id": "FIELDS-COMPLETE",
+      "pass": true,
+      "evidence": "sol=24 starter=25 hints=24 edge=24 tests=24 feedback=24"
+    },
+    {
+      "id": "SEED-CAREER_STRATEGY-8x3",
+      "pass": true,
+      "evidence": "24; ['stakeholders-jobs-success-cf1', 'changes-constraints-risks-nogo', 'bounded-apis-events', 'data-models-rpa-rag-human', 'tests-evals-redteam-perf', 'slo-backup-rollback-disaster', 'demo-cv-narrative', 'arch-readme-cards-license-video-defense']"
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "8×3 MCQ-4 es-PE"
+    },
+    {
+      "id": "SNIPPET-EXEC",
+      "pass": true,
+      "evidence": "3 snippets OK; failures=0"
+    },
+    {
+      "id": "YOUDO-PRESENT",
+      "pass": true,
+      "evidence": "{'title_present': True, 'cp_mentions': 52, 'has_objectives': True, 'has_requirements': True, 'has_rubric': True, 'has_starterCode': True}"
+    },
+    {
+      "id": "SELFCHECK-PRESENT",
+      "pass": true,
+      "evidence": "True"
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Synthetic data policy OK; matching ≠ fraud/parentesco"
+    },
+    {
+      "id": "PRIVACY-MATCHING-NOT-FRAUD",
+      "pass": true,
+      "evidence": "Exam + content: resolución/matching no implica fraude"
+    },
+    {
+      "id": "SNIPPET-OK-1",
+      "pass": true,
+      "evidence": "S52-T1-A-E1: print(['ops','compliance','data']) → \"['ops', 'compliance', 'data']\\n\""
+    },
+    {
+      "id": "SNIPPET-OK-2",
+      "pass": true,
+      "evidence": "S52-T1-A-E2: print(['intake','er','report']) → \"['intake', 'er', 'report']\\n\""
+    },
+    {
+      "id": "SNIPPET-OK-3",
+      "pass": true,
+      "evidence": "S52-T1-A-E3: print(['ttr','precision_review']) → \"['ttr', 'precision_review']\\n\""
+    }
+  ],
+  "snippet_execution": {
+    "solutionCode_extracted": 24,
+    "successes": [
+      {
+        "label": "S52-T1-A-E1",
+        "head": "print(['ops','compliance','data'])",
+        "stdout_preview": "['ops', 'compliance', 'data']\n"
+      },
+      {
+        "label": "S52-T1-A-E2",
+        "head": "print(['intake','er','report'])",
+        "stdout_preview": "['intake', 'er', 'report']\n"
+      },
+      {
+        "label": "S52-T1-A-E3",
+        "head": "print(['ttr','precision_review'])",
+        "stdout_preview": "['ttr', 'precision_review']\n"
+      }
+    ],
+    "failures_sample": []
+  },
+  "issues_found": [],
+  "authorized_to_close_section": true,
+  "notes_non_blocking": [
+    "Regex inventory supports double quotes in section TS.",
+    "Hints ≥2 counted via hints: [ blocks.",
+    "solutionCode is object with nested code template; executed first 3 solutions with python3.",
+    "Privacy: matching/resolución ≠ fraude/parentesco/colusión.",
+    "Does not edit checkpoint/section_ledger."
+  ]
+}

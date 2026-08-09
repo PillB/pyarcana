@@ -1,0 +1,388 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-ske-s10-360640-98040",
+  "production_note": "agentic_H2 dual-LLM skeptic: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "code": "# skeptical re-read completes via iDo\n__all__ = [\"normalize\"]\n\ndef normalize(text: str) -> str:\n    return \" \".join(text.split()).casefold()\n\ndef main(argv=None) -> int:\n    import sys\n    args = argv if argv is not None else [\"  Ana  \"]\n    print(normalize(args[0]))\n    return 0\n\n# al importar no corre main; lo invocamos explícito\nassert normalize(\"X\") == \"x\"\nraise SystemExit(main([\"  José Pérez \"]))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T1-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético de». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo __all__ = [\"normalize\"]  def nor». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "code": "# skeptical re-read completes via iDo\n__all__ = [\"normalize\"]\n\ndef normalize(text: str) -> str:\n    return \" \".join(text.split()).casefold()\n\ndef main(argv=None) -> int:\n    import sys\n    args = argv if argv is not None else [\"  Ana  \"]\n    print(normalize(args[0]))\n    return 0\n\n# al importar no corre main; lo invocamos explícito\nassert normalize(\"X\") == \"x\"\nraise SystemExit(main([\"  José Pérez \"]))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T1-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo __all__ = [\"normalize\"]  def nor». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "code": "# Transfer / protocolo — S10-T1-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Elige import absoluto vs relativo en layout src: imprime la recomend\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: imports, namespaces, __main__, import, name, cargan, módulo, modules.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T1-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S10-T1-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "code": "# skeptical re-read completes via iDo\ndef _private_token(s: str) -> list[str]:\n    return s.split()\n\ndef normalize(s: str) -> str:\n    return \" \".join(_private_token(s)).casefold()\n\ndef compare(a: str, b: str) -> float:\n    return 1.0 if normalize(a) == normalize(b) else 0.0\n\ndef ingest_row(row: dict) -> dict:\n    return {**row, \"name\": normalize(row.get(\"name\", \"\"))}\n\ndef report(rows: list) -> int:\n    return len(rows)\n\n__all__ = [\"normalize\", \"compare\", \"ingest_row\", \"report\"]\nprint(\"exports\", __all__)\nprint(compare(\"Ana\", \" ana \"))\nprint(report([ingest_row({\"name\": \" Luis \"})]))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T1-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético de». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo def _private_token(s: str) -> li». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "code": "# skeptical re-read completes via iDo\ndef _private_token(s: str) -> list[str]:\n    return s.split()\n\ndef normalize(s: str) -> str:\n    return \" \".join(_private_token(s)).casefold()\n\ndef compare(a: str, b: str) -> float:\n    return 1.0 if normalize(a) == normalize(b) else 0.0\n\ndef ingest_row(row: dict) -> dict:\n    return {**row, \"name\": normalize(row.get(\"name\", \"\"))}\n\ndef report(rows: list) -> int:\n    return len(rows)\n\n__all__ = [\"normalize\", \"compare\", \"ingest_row\", \"report\"]\nprint(\"exports\", __all__)\nprint(compare(\"Ana\", \" ana \"))\nprint(report([ingest_row({\"name\": \" Luis \"})]))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T1-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo def _private_token(s: str) -> li». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "code": "# Transfer / protocolo — S10-T1-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Documenta un breaking change de firma pública: old → new y versión m\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: imports, namespaces, __main__, import, name, cargan, módulo, modules.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Imprime BREAKING y NEW_VERSION.\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T1-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S10-T1-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nproject = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}",
+      "answer": "",
+      "justification_from_packet": "Para S10-T2-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético de». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints project = {     \"name\":». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\npaths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]",
+      "answer": "",
+      "justification_from_packet": "Para S10-T2-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints paths = [     \"src/fami». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.]",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "code": "# Transfer / protocolo — S10-T2-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Diagnostica ModuleNotFoundError: imprime 3 causas probables post-ins\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: imports, namespaces, __main__, import, name, cargan, módulo, modules.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Piensa en nombre, editable, y cwd.\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T2-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S10-T2-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nniveles = {\n    \"renombrar normalize a clean_name (API pública)\": \"major\",\n    \"añadir flag --format a report\": \"minor\",\n    \"corregir typo en help\": \"patch\",\n    \"eliminar subcomando compare\": \"major\",\n}\nfor c, n in niveles.items():",
+      "answer": "",
+      "justification_from_packet": "Para S10-T2-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético de». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints niveles = {     \"renomb». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\ndeps = {\n    \"requires-python\": \">=3.11\",\n    \"dependencies\": [],\n    \"optional-dependencies\": {\"dev\": [\"pytest\"]},\n}",
+      "answer": "",
+      "justification_from_packet": "Para S10-T2-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints deps = {     \"requires-». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "code": "# Transfer / protocolo — S10-T2-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe una política de compatibilidad hacia S11 dominio (3 bullets)\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: imports, namespaces, __main__, import, name, cargan, módulo, modules.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Cubrir renames de entidades y versiones.\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T2-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S10-T2-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "code": "# skeptical re-read completes via iDo\nimport argparse\n\ndef main(argv: list[str]) -> int:\n    p = argparse.ArgumentParser(prog=\"familiarity\")\n    sub = p.add_subparsers(dest=\"cmd\", required=True)\n    sub.add_parser(\"ingest\")\n    sub.add_parser(\"normalize\")\n    sub.add_parser(\"compare\")\n    r = sub.add_parser(\"report\")\n    r.add_argument(\"--format\", default=\"text\")\n    try:\n        ns = p.parse_args(argv)\n    except SystemExit as e:\n        # argparse ya usa 2 en usage errors cuando no se intercepta;\n        # aquí re-lanzamos código\n        return int(e.code) if e.code is not None else 2\n    if ns.cmd == \"report\":\n        print(f\"report format={ns.format}\")\n        return 0\n    print(f\"run {ns.cmd}\")\n    return 0\n\nprint(\"code\", main([\"report\", \"--format\", \"json\"]))\nprint(\"code\", main([\"normalize\"]))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T3-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético de». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo import argparse  def main(argv: ». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\ncodes = {\n    \"normalize ok\": 0,\n    \"archivo de input no existe\": 1,\n    \"flag desconocido\": 2,\n    \"subcomando ausente\": 2,\n    \"validación de config falla al arrancar\": 1,\n}\nfor c, code in codes.items():",
+      "answer": "",
+      "justification_from_packet": "Para S10-T3-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints codes = {     \"normaliz». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "code": "# Transfer / protocolo — S10-T3-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe 3 líneas de ayuda --help orientadas a operador no dev. Salid\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: imports, namespaces, __main__, import, name, cargan, módulo, modules.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Evita jerga de frameworks.\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T3-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S10-T3-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nfrom io import StringIO\nimport sys\n\ndef process(n: int, err: StringIO) -> int:\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S10-T3-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético de». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints from io import StringIO». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\ndef read_input(path_or_dash, stdin_text=\"\", file_text=None):\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S10-T3-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints def read_input(path_or_». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "code": "# Transfer / protocolo — S10-T3-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Revisa un CLI que contamina stdout con prints de progreso y propón l\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: imports, namespaces, __main__, import, name, cargan, módulo, modules.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Imprime BAD y GOOD.\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T3-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S10-T3-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nlayers = [\"defaults\", \"file\", \"env\", \"flags\"]\nfor i, name in enumerate(layers, 1):",
+      "answer": "",
+      "justification_from_packet": "Para S10-T4-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético de». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints layers = [\"defaults\", \"». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.]",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\ndef merge(defaults, file_cfg, env_cfg, flags):\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S10-T4-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints def merge(defaults, fil». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "code": "# Transfer / protocolo — S10-T4-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Caso conflictivo: env=DEBUG y flag=INFO — imprime el resultado esper\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: imports, namespaces, __main__, import, name, cargan, módulo, modules.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Una línea result= y una razón.\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T4-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S10-T4-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "code": "# Transfer / protocolo — S10-T4-B-E1\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E1 (guiado) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Checklist de secretos en .gitignore: imprime 4 entradas típicas. Salida/pas\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: imports, namespaces, __main__, import, name, cargan, módulo, modules.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí local.\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T4-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético de». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S10-T4-B-E1 # skeptical re-read  ## Lectura d». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "code": "# skeptical re-read completes via iDo\nREQUIRED = {\"ingest\": \"input_path\", \"report\": \"manifest_path\"}\n\ndef validate(command: str, cfg: dict) -> None:\n    key = REQUIRED.get(command)\n    if key and not cfg.get(key):\n        raise SystemExit(f\"config: falta {key} para {command}\")\n\nvalidate(\"normalize\", {})\nprint(\"normalize ok\")\ntry:\n    validate(\"ingest\", {})\nexcept SystemExit as e:\n    print(\"abort\", e)\nvalidate(\"ingest\", {\"input_path\": \"data/clients.csv\"})\nprint(\"ingest ok\")\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T4-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo REQUIRED = {\"ingest\": \"input_pat». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "code": "# Transfer / protocolo — S10-T4-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Dado un default inseguro (log_level=DEBUG y echo_sql=True), propone \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: imports, namespaces, __main__, import, name, cargan, módulo, modules.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Imprime old → new por clave.\n",
+      "answer": "",
+      "justification_from_packet": "Para S10-T4-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sinté». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S10-T4-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: Imports namespaces __main__ import from import name cargan módulo modules. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "dulos",
+        "packaging",
+        "Entrada",
+        "fixture"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "S10 ítem 0: descarto distractores y me quedo con 1 («Ejecutar el CLI/demo solo al correr el módulo, no al importar»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Para qué sirve `if __name__ == '__main__'`?». Tokens: imports namespaces __main__ import from name cargan módulo modules __name__ nombre ejecuta."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "S10 ítem 1: descarto distractores y me quedo con 3 («flags > env > file > defaults»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Precedencia correcta de config…». Tokens: imports namespaces __main__ import from name cargan módulo modules __name__ nombre ejecuta."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "S10 ítem 2: descarto distractores y me quedo con 0 («Error de uso/parseo de argumentos»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Exit code 2 en CLI argparse suele significar…». Tokens: imports namespaces __main__ import from name cargan módulo modules __name__ nombre ejecuta."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "S10 ítem 3: descarto distractores y me quedo con 2 («stderr»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Dónde van los logs de progreso?». Tokens: imports namespaces __main__ import from name cargan módulo modules __name__ nombre ejecuta."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "S10 ítem 4: descarto distractores y me quedo con 1 («minor»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Añadir un subcomando nuevo compatible es tipicamente…». Tokens: imports namespaces __main__ import from name cargan módulo modules __name__ nombre ejecuta."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "justification_from_packet": "S10 ítem 5: descarto distractores y me quedo con 3 («.env con API_TOKEN»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Qué no debe ir al git del paquete?». Tokens: imports namespaces __main__ import from name cargan módulo modules __name__ nombre ejecuta."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:14:46.537095+00:00",
+  "session_started_at": "2026-07-23T09:14:00.565038+00:00",
+  "session_ended_at": "2026-07-23T09:14:46.537095+00:00"
+}

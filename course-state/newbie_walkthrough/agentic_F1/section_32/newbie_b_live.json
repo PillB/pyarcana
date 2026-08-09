@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 32,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s32",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T1-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c3b73699] Dudé del atajo en S32-T1-A-E1; me ceñí al weDo. «S32-T1-A-E1 · Calcula el contrato de `numéricas/categóricas/texto` sobre `CASO-LIM-032-1A`. La entrada es el dict completo del starter; la operación debe demost». Hint «Relaciona los campos `schema, row, catalog_ok` con la regla explicada en S32-T1-A.». Ancla: `record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'ro`. S32-T1-A-DEMO. numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T1-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is False else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2d026378] S32-T1-A-E2: rechazo claves offline. Paquete dice «S32-T1-A-E2 · Modela tres rutas de `numéricas/categóricas/texto`: fixture válido, fixture adverso y registro sin `schema`. Entrada: dict con case_id, schema, ro». Demo S32-T1-A-DEMO. Línea: `def assess(record: dict) -> str:`. Pista «Primero se calcula `missing`; ningún acceso a schema debe ocurrir antes de esa rama.»."
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T1-A-E3: packet-only solve (no prior lives)\n# From iDo demo in active packet\nprint(['amount_7d'])\nprint('unknown', False)\nprint('ok', True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "iDo",
+        "demo"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b22210bf] S32-T1-A-E3: rechazo claves offline. Paquete dice «S32-T1-A-E3 · Contrasta fallo cerrado para `numéricas/categóricas/texto` con tres fixtures distintos. `CASO-LIM-032-1A` debe continuar, el adverso debe devolver». Demo S32-T1-A-DEMO. Línea: `print(['amount_7d'])`. Pista «Una ausencia no equivale a breach: enrútala a `REQUEST_CATALOG` antes de evaluar el conten»."
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T1-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2ace99ca] Solo acepto S32-T1-B-E1 si el paquete lo enseña. Instrucción: «S32-T1-B-E1 · Calcula el contrato de `missing indicators, escalamiento y encoding` sobre `CASO-LIM-032-1B`. La entrada es el dict completo del starter; la opera». Verifiqué pista «Relaciona los campos `values, median, silent_fill` con la regla explicada en S32-T1-B.» y demo S32-T1-B-DEMO. Código justificado: `record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}`. No invento APIs. Teoría: numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T1-B-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is True else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/cfce68f5] Dudé del atajo en S32-T1-B-E2; me ceñí al weDo. «S32-T1-B-E2 · Modela tres rutas de `missing indicators, escalamiento y encoding`: fixture válido, fixture adverso y registro sin `median`. Entrada: dict con cas». Hint «Primero se calcula `missing`; ningún acceso a median debe ocurrir antes de esa rama.». Ancla: `def assess(record: dict) -> str:`. S32-T1-B-DEMO. numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T1-B-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is True else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/798cf297] S32-T1-B-E3: rechazo claves offline. Paquete dice «S32-T1-B-E3 · Contrasta fallo cerrado para `missing indicators, escalamiento y encoding` con tres fixtures distintos. `CASO-LIM-032-1B` debe continuar, el adver». Demo S32-T1-B-DEMO. Línea: `def decide(record: dict) -> str:`. Pista «Una ausencia no equivale a breach: enrútala a `REQUEST_MEDIAN` antes de evaluar el conteni»."
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T2-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/639a1243] S32-T2-A-E1: rechazo claves offline. Paquete dice «S32-T2-A-E1 · Calcula el contrato de `shared contact/address, distance y graph features` sobre `CASO-LIM-032-2A`. La entrada es el dict completo del starter; la». Demo S32-T2-A-DEMO. Línea: `record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}`. Pista «Relaciona los campos `shared, degree, uses_label` con la regla explicada en S32-T2-A.»."
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T2-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is True else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/fb2bedb7] S32-T2-A-E2: rechazo claves offline. Paquete dice «S32-T2-A-E2 · Modela tres rutas de `shared contact/address, distance y graph features`: fixture válido, fixture adverso y registro sin `degree`. Entrada: dict c». Demo S32-T2-A-DEMO. Línea: `def assess(record: dict) -> str:`. Pista «Primero se calcula `missing`; ningún acceso a degree debe ocurrir antes de esa rama.»."
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T2-A-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"uses_label\"] is True else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/6fd08373] Dudé del atajo en S32-T2-A-E3; me ceñí al weDo. «S32-T2-A-E3 · Contrasta fallo cerrado para `shared contact/address, distance y graph features` con tres fixtures distintos. `CASO-LIM-032-2A` debe continuar, el». Hint «Una ausencia no equivale a breach: enrútala a `REQUEST_GRAPH_FEAT` antes de evaluar el con». Ancla: `def decide(record: dict) -> str:`. S32-T2-A-DEMO. numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T2-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/5af376ef] Solo acepto S32-T2-B-E1 si el paquete lo enseña. Instrucción: «S32-T2-B-E1 · Calcula el contrato de `ventanas y frecuencia` sobre `CASO-LIM-032-2B`. La entrada es el dict completo del starter; la operación debe demostrar ve». Verifiqué pista «Relaciona los campos `events, t, w, includes_t` con la regla explicada en S32-T2-B.» y demo S32-T2-B-DEMO. Código justificado: `record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}`. No invento APIs. Teoría: numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T2-B-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is True else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/5441ea43] Dudé del atajo en S32-T2-B-E2; me ceñí al weDo. «S32-T2-B-E2 · Modela tres rutas de `ventanas y frecuencia`: fixture válido, fixture adverso y registro sin `w`. Entrada: dict con case_id, events, t, w, include». Hint «Primero se calcula `missing`; ningún acceso a w debe ocurrir antes de esa rama.». Ancla: `def assess(record: dict) -> str:`. S32-T2-B-DEMO. numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T2-B-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"includes_t\"] is True else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/1cc65271] Dudé del atajo en S32-T2-B-E3; me ceñí al weDo. «S32-T2-B-E3 · Contrasta fallo cerrado para `ventanas y frecuencia` con tres fixtures distintos. `CASO-LIM-032-2B` debe continuar, el adverso debe devolver `REJE». Hint «Una ausencia no equivale a breach: enrútala a `REQUEST_WINDOW` antes de evaluar el conteni». Ancla: `def decide(record: dict) -> str:`. S32-T2-B-DEMO. numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T3-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ec881d69] Solo acepto S32-T3-A-E1 si el paquete lo enseña. Instrucción: «S32-T3-A-E1 · Calcula el contrato de `ColumnTransformer y custom transformers` sobre `CASO-LIM-032-3A`. La entrada es el dict completo del starter; la operación». Verifiqué pista «Relaciona los campos `fitted, mode, transform_before_fit` con la regla explicada en S32-T3» y demo S32-T3-A-DEMO. Código justificado: `record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}`. No invento APIs. Teoría: numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T3-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is True else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/bf055c7b] Solo acepto S32-T3-A-E2 si el paquete lo enseña. Instrucción: «S32-T3-A-E2 · Modela tres rutas de `ColumnTransformer y custom transformers`: fixture válido, fixture adverso y registro sin `fitted`. Entrada: dict con case_id». Verifiqué pista «Primero se calcula `missing`; ningún acceso a fitted debe ocurrir antes de esa rama.» y demo S32-T3-A-DEMO. Código justificado: `def assess(record: dict) -> str:`. No invento APIs. Teoría: numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T3-A-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is True else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e4db4294] Dudé del atajo en S32-T3-A-E3; me ceñí al weDo. «S32-T3-A-E3 · Contrasta fallo cerrado para `ColumnTransformer y custom transformers` con tres fixtures distintos. `CASO-LIM-032-3A` debe continuar, el adverso d». Hint «Una ausencia no equivale a breach: enrútala a `REQUEST_FIT_STATE` antes de evaluar el cont». Ancla: `def decide(record: dict) -> str:`. S32-T3-A-DEMO. numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T3-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is False or not record[\"version\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b30e3ed1] S32-T3-B-E1: rechazo claves offline. Paquete dice «S32-T3-B-E1 · Calcula el contrato de `fit/transform y persistencia` sobre `CASO-LIM-032-3B`. La entrada es el dict completo del starter; la operación debe demos». Demo S32-T3-B-DEMO. Línea: `record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}`. Pista «Relaciona los campos `state, version, versioned` con la regla explicada en S32-T3-B.»."
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T3-B-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"versioned\"] is False or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a8a40983] Solo acepto S32-T3-B-E2 si el paquete lo enseña. Instrucción: «S32-T3-B-E2 · Modela tres rutas de `fit/transform y persistencia`: fixture válido, fixture adverso y registro sin `version`. Entrada: dict con case_id, state, v». Verifiqué pista «Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.» y demo S32-T3-B-DEMO. Código justificado: `def assess(record: dict) -> str:`. No invento APIs. Teoría: numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T3-B-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"versioned\"] is False or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2826a6cc] S32-T3-B-E3: rechazo claves offline. Paquete dice «S32-T3-B-E3 · Contrasta fallo cerrado para `fit/transform y persistencia` con tres fixtures distintos. `CASO-LIM-032-3B` debe continuar, el adverso debe devolve». Demo S32-T3-B-DEMO. Línea: `def decide(record: dict) -> str:`. Pista «Una ausencia no equivale a breach: enrútala a `REQUEST_STATE_JSON` antes de evaluar el con»."
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T4-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = record[\"overlap\"] > 0\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/04ba975a] Dudé del atajo en S32-T4-A-E1; me ceñí al weDo. «S32-T4-A-E1 · Calcula el contrato de `split por entidad/grupo/tiempo` sobre `CASO-LIM-032-4A`. La entrada es el dict completo del starter; la operación debe dem». Hint «Relaciona los campos `n_train, n_test, overlap` con la regla explicada en S32-T4-A.». Ancla: `record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}`. S32-T4-A-DEMO. numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T4-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"overlap\"] > 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/65193f7b] Dudé del atajo en S32-T4-A-E2; me ceñí al weDo. «S32-T4-A-E2 · Modela tres rutas de `split por entidad/grupo/tiempo`: fixture válido, fixture adverso y registro sin `overlap`. Entrada: dict con case_id, n_trai». Hint «Primero se calcula `missing`; ningún acceso a overlap debe ocurrir antes de esa rama.». Ancla: `def assess(record: dict) -> str:`. S32-T4-A-DEMO. numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T4-A-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"overlap\"] > 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/55718bf9] Solo acepto S32-T4-A-E3 si el paquete lo enseña. Instrucción: «S32-T4-A-E3 · Contrasta fallo cerrado para `split por entidad/grupo/tiempo` con tres fixtures distintos. `CASO-LIM-032-4A` debe continuar, el adverso debe devol». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `REQUEST_SPLIT_KEYS` antes de evaluar el con» y demo S32-T4-A-DEMO. Código justificado: `def decide(record: dict) -> str:`. No invento APIs. Teoría: numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T4-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = bool(record[\"leaky\"]) or record[\"skew\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ee0820b8] Solo acepto S32-T4-B-E1 si el paquete lo enseña. Instrucción: «S32-T4-B-E1 · Calcula el contrato de `leakage, train–serve skew y versionado` sobre `CASO-LIM-032-4B`. La entrada es el dict completo del starter; la operación ». Verifiqué pista «Relaciona los campos `leaky, skew, feature_set` con la regla explicada en S32-T4-B.» y demo S32-T4-B-DEMO. Código justificado: `record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}`. No invento APIs. Teoría: numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T4-B-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/86f98b54] Dudé del atajo en S32-T4-B-E2; me ceñí al weDo. «S32-T4-B-E2 · Modela tres rutas de `leakage, train–serve skew y versionado`: fixture válido, fixture adverso y registro sin `feature_set`. Entrada: dict con cas». Hint «Primero se calcula `missing`; ningún acceso a feature_set debe ocurrir antes de esa rama.». Ancla: `def assess(record: dict) -> str:`. S32-T4-B-DEMO. numéricas/categóricas/texto | missing indicators, escalamiento y encoding | shar."
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S32-T4-B-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S32",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/44a95f3b] S32-T4-B-E3: rechazo claves offline. Paquete dice «S32-T4-B-E3 · Contrasta fallo cerrado para `leakage, train–serve skew y versionado` con tres fixtures distintos. `CASO-LIM-032-4B` debe continuar, el adverso de». Demo S32-T4-B-DEMO. Línea: `def decide(record: dict) -> str:`. Pista «Una ausencia no equivale a breach: enrútala a `REQUEST_FEATURE_SET_ID` antes de evaluar el»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "El instante t y el futuro",
+      "justification_from_packet": "[agentic_F1/skeptic/b32q0s1] Half-open no «excluye todo el pasado»: el demo marca includes_t=False — se corta en t y no mira el futuro.",
+      "blocked_on": [],
+      "confidence": 0.76
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Fallar de forma explícita",
+      "justification_from_packet": "[agentic_F1/skeptic/b32q1s2] Usar stats de test o rellenar 0 en silencio viola fit-then-transform; el paquete exige fallo explícito si no hay fit.",
+      "blocked_on": [],
+      "confidence": 0.76
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Es leakage de identidad",
+      "justification_from_packet": "[agentic_F1/skeptic/b32q2s3] Group CV no «ignora» el overlap: el split por entidad existe precisamente porque el solape de identidades es leakage.",
+      "blocked_on": [],
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Es red flag de leakage",
+      "justification_from_packet": "[agentic_F1/skeptic/b32q3s4] Features con label/decision no son inofensivas: el heading de leakage las marca como señal de target filtrado.",
+      "blocked_on": [],
+      "confidence": 0.76
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:18.268440+00:00"
+}

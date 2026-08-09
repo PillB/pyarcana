@@ -1,0 +1,4325 @@
+{
+  "source_file": "/home/z/my-project/repo/pyarcana/src/lib/course/sections/s40-agentic-architecture.ts",
+  "total_records": 241,
+  "filtered_records": 238,
+  "total_sentences": 385,
+  "total_words": 6544,
+  "aggregate": {
+    "fh_mean": 68.65,
+    "inflesz_mean": 64.36,
+    "wps_mean": 17.0,
+    "spw_mean": 2.014
+  },
+  "band_distribution": {
+    "bastante_difícil": 63,
+    "difícil": 53,
+    "normal": 69,
+    "muy_difícil": 12,
+    "muy_fácil": 56,
+    "bastante_fácil": 82,
+    "fácil": 50
+  },
+  "finding_distribution": {
+    "missing_terminal": 18,
+    "high_comma_density": 26,
+    "long_sentence": 11,
+    "run_on": 5,
+    "english_dominant_suspect": 23
+  },
+  "per_paragraph": [
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 39,
+      "spw": 2.294,
+      "wps": 17.0,
+      "fh": 51.9,
+      "inflesz": 46.9,
+      "band": "bastante_difícil",
+      "locator": "L8:tagline",
+      "field": "tagline",
+      "text": "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 5,
+          "wc": 17
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 64,
+      "n_syllables": 141,
+      "spw": 2.203,
+      "wps": 32.0,
+      "fh": 42.0,
+      "inflesz": 37.6,
+      "band": "difícil",
+      "locator": "L15:paragraph",
+      "field": "paragraph",
+      "text": "En equipos de plataforma y producto (banca, fintech y operaciones en LatAm), arquitectura, DDD y decisiones técnicas convierten requisitos en fronteras de código y evidencia revisable. El portfolio de esta sección es un dossier con escenarios de quality attributes, context map, C4 (context/container) y ADRs con alternativas, consecuencias y plan de reversión; se promueve solo cuando cada flujo conserva medida, dueño y consecuencia.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 64
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 8,
+      "n_syllables": 18,
+      "spw": 2.25,
+      "wps": 8.0,
+      "fh": 63.7,
+      "inflesz": 58.7,
+      "band": "normal",
+      "locator": "L28:heading",
+      "field": "heading",
+      "text": "Ruta de S40: Arquitectura, DDD y decisiones técnicas",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 66,
+      "n_syllables": 156,
+      "spw": 2.364,
+      "wps": 66.0,
+      "fh": -2.3,
+      "inflesz": -6.4,
+      "band": "muy_difícil",
+      "locator": "L30:paragraph",
+      "field": "paragraph",
+      "text": "**Diccionario de la sección** (léelo antes de T1). **Quality attribute (QA):** escenario medible (fuente, estímulo, respuesta, umbral, dueño). **Trade-off:** elección entre alternativas con scores y riesgo residual aceptado. **Bounded context:** frontera de lenguaje ubicuo. **Ports/adapters:** dependencias apuntan al dominio, no al revés. **C4:** context/container/component/code. **ADR:** Architecture Decision Record (contexto, decisión, consecuencias). **Medida + dueño + consecuencia:** trío mínimo para promover un trade-off.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 66
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 78,
+      "n_syllables": 152,
+      "spw": 1.949,
+      "wps": 19.5,
+      "fh": 70.0,
+      "inflesz": 65.9,
+      "band": "bastante_fácil",
+      "locator": "L31:paragraph",
+      "field": "paragraph",
+      "text": "Esta sección abre el Nivel 4 (experto→máster) a partir del cierre CP-N3-C en S39 (triage y controles). Solo reutiliza contratos, pruebas y controles ya enseñados: no hay APIs cloud ni credenciales. El caso `CASO-LIM-040` (Red Andina, Lima sintético) modela un mapa de arquitectura para intake → ER → grafo → triage → reporting → IA auxiliar, sin PII real. Lo que aprendas aquí (ports, evolución aditiva) alimenta S41 (APIs) y deja la orquestación de agentes para más adelante.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 78
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 50,
+      "n_syllables": 120,
+      "spw": 2.4,
+      "wps": 12.5,
+      "fh": 50.1,
+      "inflesz": 44.8,
+      "band": "bastante_difícil",
+      "locator": "L32:paragraph",
+      "field": "paragraph",
+      "text": "Producto incremental: dossier de arquitectura gobernada. Entrada: FR, escenarios de quality attributes, vocabulario ubicuo y restricciones (latencia, dueños, secretos fuera del repo). Salida: capas/ports, bounded contexts, C4 (context/container) y ADRs versionados con medida, dueño y consecuencia. Error de promoción: frontera ambigua, dependencia invertida o trade-off sin umbral.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 50
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 83,
+      "n_syllables": 164,
+      "spw": 1.976,
+      "wps": 41.5,
+      "fh": 46.0,
+      "inflesz": 42.2,
+      "band": "difícil",
+      "locator": "L33:paragraph",
+      "field": "paragraph",
+      "text": "Orden de aprendizaje: T1 requisitos y trade-offs → T2 capas/ports → T3 bounded contexts y modelo → T4 C4/ADR y evolución de APIs. En cada subtema verás un criterio medible, una demo que calcula el contrato y laboratorio E1/E2/E3 (E1 a menudo ensambla el artefacto: context map, C4+ADR, entity/VO, consumer contract; E2/E3 refuerzan fail-closed). **Alcance:** arquitectura y DDD aplicados a intake→ER→triage→reporting; no orquestación de agentes LLM. Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 83
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 30,
+      "spw": 2.0,
+      "wps": 15.0,
+      "fh": 71.5,
+      "inflesz": 67.2,
+      "band": "bastante_fácil",
+      "locator": "L59:content",
+      "field": "content",
+      "text": "Nota de orientación: S40-T1-A: caso sintético con asserts locales; si falta, no promociones.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 15,
+      "spw": 3.0,
+      "wps": 5.0,
+      "fh": 21.7,
+      "inflesz": 14.9,
+      "band": "muy_difícil",
+      "locator": "L63:heading",
+      "field": "heading",
+      "text": "Requisitos funcionales y quality attributes",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 57,
+      "n_syllables": 128,
+      "spw": 2.246,
+      "wps": 19.0,
+      "fh": 52.7,
+      "inflesz": 47.9,
+      "band": "bastante_difícil",
+      "locator": "L66:paragraph",
+      "field": "paragraph",
+      "text": "Un **requisito funcional (FR)** describe una capacidad del negocio: «el triage de Red Andina acepta un lote sintético y devuelve scores de prioridad». Un **quality attribute (QA)** no se escribe con adjetivos («rápido», «escalable»): se escribe como **escenario medible** con fuente, estímulo, entorno, respuesta, medida y umbral. Sin esos campos, el requisito no es auditable ni negociable.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 57
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 50,
+      "n_syllables": 97,
+      "spw": 1.94,
+      "wps": 12.5,
+      "fh": 77.7,
+      "inflesz": 73.5,
+      "band": "bastante_fácil",
+      "locator": "L67:paragraph",
+      "field": "paragraph",
+      "text": "Contrato de S40-T1-A. Entrada: FR + escenarios QA con `source`, `stimulus`, `environment`, `response`, `observed_ms`/`target_ms` y `owner`. Salida: escenario completo o rechazo. Error local: `REJECT_QA_SCENARIO` si el umbral se viola; si falta el dueño: `REQUEST_QA_OWNER`. No inventes PII ni secretos para «hacerlo real».",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 50
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 54,
+      "n_syllables": 95,
+      "spw": 1.759,
+      "wps": 18.0,
+      "fh": 82.9,
+      "inflesz": 79.2,
+      "band": "fácil",
+      "locator": "L68:paragraph",
+      "field": "paragraph",
+      "text": "En `CASO-LIM-040` (Red Andina, Lima sintético): un pico de 100 req/s en intake con `latency_p95_ms` observada 280 ≤ target 300 y dueño `platform` es evidencia válida. Una latencia 410 ms con el mismo target es breach. Una señal incierta se deriva a revisión humana; nunca prueba fraude, parentesco o intención.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 54
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 29,
+      "spw": 2.071,
+      "wps": 14.0,
+      "fh": 68.3,
+      "inflesz": 63.8,
+      "band": "normal",
+      "locator": "L97:paragraph",
+      "field": "paragraph",
+      "text": "Antes de promover S40-T1-B, verifica el contrato ejecutable y el riesgo residual.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 6,
+      "n_syllables": 12,
+      "spw": 2.0,
+      "wps": 6.0,
+      "fh": 80.7,
+      "inflesz": 76.2,
+      "band": "fácil",
+      "locator": "L101:heading",
+      "field": "heading",
+      "text": "Trade-offs, riesgos y criterios medibles",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 39,
+      "n_syllables": 91,
+      "spw": 2.333,
+      "wps": 19.5,
+      "fh": 47.0,
+      "inflesz": 42.0,
+      "band": "difícil",
+      "locator": "L104:paragraph",
+      "field": "paragraph",
+      "text": "Un **trade-off** compara alternativas contra criterios ponderados y registra riesgo residual (probabilidad × impacto) con mitigación. No existe la opción «siempre mejor»: sync puede simplificar la operación y async puede bajar latencia percibida a costa de complejidad de mensajes.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 39
+        }
+      ]
+    },
+    {
+      "n_sentences": 5,
+      "n_words": 62,
+      "n_syllables": 117,
+      "spw": 1.887,
+      "wps": 12.4,
+      "fh": 81.0,
+      "inflesz": 76.9,
+      "band": "fácil",
+      "locator": "L105:paragraph",
+      "field": "paragraph",
+      "text": "Contrato de decisión S40-T1-B. Entrada: alternativas con **score de costo ponderado** (menor es mejor bajo `min_score`) y residual aceptable (umbral ≤ 2 en el lab). Salida: opción elegida, tabla de scores y dueño que firma el residual. Error: elegir por moda o sin umbral → `REOPEN_TRADEOFF`. Si falta el residual: `ESCALATE_RESIDUAL_RISK`. La tabla se versiona junto al ADR.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 62
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 50,
+      "n_syllables": 85,
+      "spw": 1.7,
+      "wps": 50.0,
+      "fh": 53.8,
+      "inflesz": 50.9,
+      "band": "bastante_difícil",
+      "locator": "L106:paragraph",
+      "field": "paragraph",
+      "text": "Aplicación a `CASO-LIM-040-T1B` (Red Andina, sintético): el score es un **costo ponderado** (menor es mejor). async=2.2 vence a sync=3.8 bajo `min_score`; el riesgo residual de complejidad de mensajes (umbral ≤ 2) lo acepta el owner de plataforma (`arquitectura`), no el revisor de cola.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 50
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 26,
+      "spw": 1.857,
+      "wps": 14.0,
+      "fh": 81.1,
+      "inflesz": 77.1,
+      "band": "fácil",
+      "locator": "L131:paragraph",
+      "field": "paragraph",
+      "text": "La revisión de S40-T2-A exige salida esperada y fail-closed ante breach.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 4,
+      "n_syllables": 11,
+      "spw": 2.75,
+      "wps": 4.0,
+      "fh": 37.8,
+      "inflesz": 31.5,
+      "band": "difícil",
+      "locator": "L135:heading",
+      "field": "heading",
+      "text": "Cohesión, acoplamiento y capas",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 64,
+      "n_syllables": 127,
+      "spw": 1.984,
+      "wps": 21.333,
+      "fh": 66.0,
+      "inflesz": 61.9,
+      "band": "normal",
+      "locator": "L138:paragraph",
+      "field": "paragraph",
+      "text": "Alta **cohesión** agrupa reglas que cambian por la misma razón (p. ej. scoring de triage junto a su política de abstención). Bajo **acoplamiento** evita que UI o SQL dicten el lenguaje del dominio: presentación habla con application; domain no importa drivers de base de datos ni frameworks web. Si mañana cambias Postgres por un almacén de documentos, el lenguaje de triage no debería reescribirse.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 64
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 50,
+      "n_syllables": 117,
+      "spw": 2.34,
+      "wps": 12.5,
+      "fh": 53.7,
+      "inflesz": 48.6,
+      "band": "bastante_difícil",
+      "locator": "L139:paragraph",
+      "field": "paragraph",
+      "text": "Contrato de capas S40-T2-A. Entrada: lista de capas y aristas de dependencia. Salida: grafo sin saltos prohibidos. **Prohibido:** `presentation→infrastructure` (saltar application) y `domain→infrastructure` (dominio acoplado a infra). **Permitido:** `infrastructure→domain` (el adapter mira hacia adentro). Error local: `REDRAW_BOUNDARY`. Si falta el grafo: `REVIEW_LAYER_OWNER`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 50
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 63,
+      "n_syllables": 122,
+      "spw": 1.937,
+      "wps": 21.0,
+      "fh": 69.2,
+      "inflesz": 65.2,
+      "band": "normal",
+      "locator": "L140:paragraph",
+      "field": "paragraph",
+      "text": "En `CASO-LIM-040`, la UI de intake de Red Andina (formularios sintéticos de Lima) no llama al almacén ER directamente: pasa por application. El worker de infraestructura implementa el port que el dominio declara. Si dibujas presentation→db, redibuja la frontera (`REDRAW_BOUNDARY`) antes de promover el dossier — un salto de capa es un bug de arquitectura, no un atajo de sprint.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 63
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 7,
+      "n_syllables": 15,
+      "spw": 2.143,
+      "wps": 7.0,
+      "fh": 71.1,
+      "inflesz": 66.3,
+      "band": "bastante_fácil",
+      "locator": "L171:heading",
+      "field": "heading",
+      "text": "Ports/adapters y dependencia hacia el dominio",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 50,
+      "n_syllables": 97,
+      "spw": 1.94,
+      "wps": 16.667,
+      "fh": 73.4,
+      "inflesz": 69.3,
+      "band": "bastante_fácil",
+      "locator": "L174:paragraph",
+      "field": "paragraph",
+      "text": "Un **port** es el contrato que el dominio necesita (p. ej. «dame el caso por id»). Un **adapter** traduce HTTP, SQL o colas a ese contrato. Las flechas de importación apuntan hacia políticas estables: el dominio no importa FastAPI ni SQLAlchemy; el adapter implementa el port y vive en infraestructura.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 50
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 53,
+      "n_syllables": 101,
+      "spw": 1.906,
+      "wps": 13.25,
+      "fh": 79.0,
+      "inflesz": 74.9,
+      "band": "bastante_fácil",
+      "locator": "L175:paragraph",
+      "field": "paragraph",
+      "text": "Contrato hexagonal S40-T2-B. Entrada: nombre de port, adapter que lo implementa, lista de imports del dominio y conteo de contract tests. Salida: dominio testeable con adapter en memoria (`implements_port=True`, `domain_imports=[]`, `contract_tests ≥ 3`). Error: imports de infra en dominio → `INVERT_DEPENDENCY`. Sin tests de contrato → `DEFINE_PORT_CONTRACT`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 53
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 43,
+      "n_syllables": 91,
+      "spw": 2.116,
+      "wps": 21.5,
+      "fh": 57.9,
+      "inflesz": 53.5,
+      "band": "bastante_difícil",
+      "locator": "L176:paragraph",
+      "field": "paragraph",
+      "text": "En `CASO-LIM-040`, `MemoryCaseRepository` implementa `CaseRepository` sin red ni SQL. Puedes sustituir el adapter por uno SQL en producción sin reescribir la regla de negocio de triage. Si el dominio importa `sqlalchemy` o FastAPI, invierte la dependencia (`INVERT_DEPENDENCY`) antes de promover.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 43
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 23,
+      "spw": 1.769,
+      "wps": 13.0,
+      "fh": 87.4,
+      "inflesz": 83.6,
+      "band": "fácil",
+      "locator": "L205:paragraph",
+      "field": "paragraph",
+      "text": "Para S40-T3-A: fixture S40-T3-A; si falta evidencia, no promociones.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 11,
+      "spw": 2.2,
+      "wps": 5.0,
+      "fh": 69.7,
+      "inflesz": 64.8,
+      "band": "normal",
+      "locator": "L209:heading",
+      "field": "heading",
+      "text": "Bounded contexts y lenguaje ubicuo",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 49,
+      "n_syllables": 97,
+      "spw": 1.98,
+      "wps": 24.5,
+      "fh": 63.1,
+      "inflesz": 59.0,
+      "band": "normal",
+      "locator": "L212:paragraph",
+      "field": "paragraph",
+      "text": "Un **bounded context** da significado local a cada término del lenguaje ubicuo. «Caso» en intake no es el mismo concepto que «record» en ER ni que «ticket» en triage. El **context map** declara relaciones (customer/supplier, ACL, shared kernel) y **traducciones** entre glosarios para no fusionar modelos por accidente.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 49
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 47,
+      "n_syllables": 95,
+      "spw": 2.021,
+      "wps": 11.75,
+      "fh": 73.6,
+      "inflesz": 69.2,
+      "band": "bastante_fácil",
+      "locator": "L213:paragraph",
+      "field": "paragraph",
+      "text": "Contrato de fronteras S40-T3-A. Entrada: conjuntos de términos por contexto y mapa de traducciones. Salida: glosarios **disjuntos** más al menos una traducción explícita (p. ej. case→record). Si hay intersección de términos sin ACL: `SPLIT_CONTEXTS`. Si falta el mapa de traducciones: `WORKSHOP_UBIQUITOUS_LANGUAGE`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 47
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 43,
+      "n_syllables": 76,
+      "spw": 1.767,
+      "wps": 21.5,
+      "fh": 78.9,
+      "inflesz": 75.2,
+      "band": "bastante_fácil",
+      "locator": "L214:paragraph",
+      "field": "paragraph",
+      "text": "En `CASO-LIM-040`, intake posee `{case}`; ER posee `{record, score}`; la traducción `case→record` es el Anti-Corruption Layer (ACL) que evita que el score de ER contamine el lenguaje de intake. No mezcles «score» en la UI de recepción sin traducir.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 43
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 26,
+      "spw": 2.167,
+      "wps": 12.0,
+      "fh": 64.6,
+      "inflesz": 59.9,
+      "band": "normal",
+      "locator": "L235:paragraph",
+      "field": "paragraph",
+      "text": "Promoción de S40-T3-B solo con evidencia reproducible y dueño asignado.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 7,
+      "n_syllables": 15,
+      "spw": 2.143,
+      "wps": 7.0,
+      "fh": 71.1,
+      "inflesz": 66.3,
+      "band": "bastante_fácil",
+      "locator": "L239:heading",
+      "field": "heading",
+      "text": "Entities, value objects y servicios de dominio",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 65,
+      "n_syllables": 116,
+      "spw": 1.785,
+      "wps": 21.667,
+      "fh": 77.7,
+      "inflesz": 74.0,
+      "band": "bastante_fácil",
+      "locator": "L242:paragraph",
+      "field": "paragraph",
+      "text": "Una **entity** se rastrea por **identidad** a lo largo del tiempo (`CASE-001` sigue siendo el mismo caso aunque cambie su estado). Un **value object (VO)** se compara por **valor** (150 PEN es igual a otro 150 PEN) y suele ser inmutable. Un **servicio de dominio** aloja una regla que no encaja naturalmente en una sola entidad (p. ej. fusionar scores sin guardar estado propio).",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 65
+        }
+      ]
+    },
+    {
+      "n_sentences": 5,
+      "n_words": 61,
+      "n_syllables": 119,
+      "spw": 1.951,
+      "wps": 12.2,
+      "fh": 77.3,
+      "inflesz": 73.1,
+      "band": "bastante_fácil",
+      "locator": "L243:paragraph",
+      "field": "paragraph",
+      "text": "Contrato táctico S40-T3-B. Entrada: `entity_id`, VO (monto + moneda), flags de inmutabilidad y servicio sin estado. Salida: invariantes probadas — id estable (`CASE-…`), moneda de negocio `PEN` en el lab, `vo_frozen=True`, `service_stateless=True`. Breach → `REJECT_DOMAIN_MODEL`. Si falta la bandera del servicio → `CLARIFY_INVARIANT`. Anti-patrón: usar el id de la entidad como moneda del VO.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 61
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 41,
+      "n_syllables": 74,
+      "spw": 1.805,
+      "wps": 20.5,
+      "fh": 77.6,
+      "inflesz": 73.9,
+      "band": "bastante_fácil",
+      "locator": "L244:paragraph",
+      "field": "paragraph",
+      "text": "En `CASO-LIM-040`, el caso sintético `CASE-001` porta un VO de 150 PEN inmutable; el servicio de fusión de scores no guarda sesión. ER no implica fraude ni parentesco: solo correspondencia de entidad con score, sujeto a revisión humana.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 41
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 26,
+      "spw": 1.625,
+      "wps": 16.0,
+      "fh": 93.0,
+      "inflesz": 89.6,
+      "band": "muy_fácil",
+      "locator": "L275:paragraph",
+      "field": "paragraph",
+      "text": "El dueño de S40-T4-A responde por rollback y evidencia; sin dueño no hay promote.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 5,
+      "n_syllables": 8,
+      "spw": 1.6,
+      "wps": 5.0,
+      "fh": 105.7,
+      "inflesz": 102.2,
+      "band": "muy_fácil",
+      "locator": "L279:heading",
+      "field": "heading",
+      "text": "Diagramas C4, flujo y ADRs",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 63,
+      "n_syllables": 126,
+      "spw": 2.0,
+      "wps": 21.0,
+      "fh": 65.4,
+      "inflesz": 61.2,
+      "band": "normal",
+      "locator": "L282:paragraph",
+      "field": "paragraph",
+      "text": "**C4** comunica arquitectura en capas de zoom: **context** (personas y sistemas externos), **container** (api, worker, db, object store), component y code (opcional en el lab). Un **ADR** (Architecture Decision Record) no es el dibujo final: registra contexto, decisión, **alternatives**, **consequences**, **status** y señal de **rollback**. Un diagrama sin ADR es una foto; un ADR sin rollback es una promesa sin freno de mano.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 63
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 48,
+      "n_syllables": 90,
+      "spw": 1.875,
+      "wps": 16.0,
+      "fh": 78.0,
+      "inflesz": 74.0,
+      "band": "bastante_fácil",
+      "locator": "L283:paragraph",
+      "field": "paragraph",
+      "text": "Contrato documental S40-T4-A. Entrada: niveles C4 presentes y campos del ADR. Salida mínima: `{context, container}` en C4 y `{decision, alternatives, consequences, rollback}` con `status=accepted`. Si el ADR está incompleto o en draft sin campos: `RETURN_ADR_TO_DRAFT`. Si falta el status: `REQUEST_ARCH_REVIEW`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 48
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 56,
+      "n_syllables": 96,
+      "spw": 1.714,
+      "wps": 28.0,
+      "fh": 75.4,
+      "inflesz": 72.0,
+      "band": "bastante_fácil",
+      "locator": "L284:paragraph",
+      "field": "paragraph",
+      "text": "En `CASO-LIM-040`, el C4 de Red Andina muestra al analista de triage y al banco partner en context; en container aparecen api, worker, db y object_store. El ADR-001 documenta por qué se eligió cola async (picos de intake en Lima), qué alternativa se descartó (sync HTTP) y cómo revertir (`feature_flag_off`).",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 56
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 61,
+      "n_syllables": 113,
+      "spw": 1.852,
+      "wps": 30.5,
+      "fh": 64.6,
+      "inflesz": 60.9,
+      "band": "normal",
+      "locator": "L285:paragraph",
+      "field": "paragraph",
+      "text": "**Rúbrica de calidad de un ADR** (úsa la en You Do, no solo «campos presentes»): (1) **contexto** con estímulo real del negocio; (2) **≥2 alternatives** evaluadas, no un monólogo; (3) **consequences** con ganancia y costo residual; (4) **rollback** operable en ≤1 release; (5) **status** `accepted` solo cuando un dueño contactable firma. Un archivo vacío con títulos no pasa CP-N4-A.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 61
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 21,
+      "spw": 1.615,
+      "wps": 13.0,
+      "fh": 96.7,
+      "inflesz": 93.2,
+      "band": "muy_fácil",
+      "locator": "L308:paragraph",
+      "field": "paragraph",
+      "text": "Cierre de S40-T4-B: documenta residual risk y límites del lab stdlib.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 6,
+      "n_syllables": 16,
+      "spw": 2.667,
+      "wps": 6.0,
+      "fh": 40.7,
+      "inflesz": 34.7,
+      "band": "difícil",
+      "locator": "L312:heading",
+      "field": "heading",
+      "text": "APIs, eventos, deuda y evolución compatible",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 43,
+      "n_syllables": 83,
+      "spw": 1.93,
+      "wps": 14.333,
+      "fh": 76.4,
+      "inflesz": 72.2,
+      "band": "bastante_fácil",
+      "locator": "L315:paragraph",
+      "field": "paragraph",
+      "text": "Los cambios **compatibles** son aditivos: añaden campos o eventos sin romper consumidores de la versión previa. Un **consumer contract** verifica que `v1_fields ⊆ v_next`. La **deuda técnica** no es un chiste de standup: lleva dueño, fecha de retiro y criterio de aceptación.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 43
+        }
+      ]
+    },
+    {
+      "n_sentences": 5,
+      "n_words": 53,
+      "n_syllables": 99,
+      "spw": 1.868,
+      "wps": 10.6,
+      "fh": 84.0,
+      "inflesz": 79.9,
+      "band": "fácil",
+      "locator": "L316:paragraph",
+      "field": "paragraph",
+      "text": "Contrato de evolución S40-T4-B. Entrada: conjuntos de campos v1 y v1.1, `debt_owner` y `retire_on`. Salida: consumer contract en verde + deuda con dueño y fecha. Si se eliminan campos de v1: `BLOCK_BREAKING_CHANGE`. Si falta la fecha de retiro: `NEGOTIATE_VERSION`. Versiona eventos (`case.created`) al cambiar semántica.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 53
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 51,
+      "n_syllables": 86,
+      "spw": 1.686,
+      "wps": 25.5,
+      "fh": 79.7,
+      "inflesz": 76.3,
+      "band": "bastante_fácil",
+      "locator": "L317:paragraph",
+      "field": "paragraph",
+      "text": "En `CASO-LIM-040`, el payload v1 `{case_id, status}` sigue legible en v1.1 con `priority` añadido: un consumidor antiguo permanece en verde. La deuda del job async de cola de intake tiene dueño `platform` y retiro planificado `2026-12-01`; sin `retire_on` no se negocia versión a ciegas.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 51
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 25,
+      "n_syllables": 46,
+      "spw": 1.84,
+      "wps": 25.0,
+      "fh": 70.9,
+      "inflesz": 67.2,
+      "band": "bastante_fácil",
+      "locator": "L341:paragraph",
+      "field": "paragraph",
+      "text": "Cierre de S40-T4-B: conserva el consumer contract de la versión previa en verde, evidencia de `BLOCK_BREAKING_CHANGE` y ruta humana `NEGOTIATE_VERSION`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 29,
+      "n_syllables": 56,
+      "spw": 1.931,
+      "wps": 29.0,
+      "fh": 61.4,
+      "inflesz": 57.5,
+      "band": "normal",
+      "locator": "L346:intro",
+      "field": "intro",
+      "text": "Te muestro 8 demos de S40 (Arquitectura, DDD y decisiones técnicas) alineadas a CP-N4-A. Cada demo calcula el contrato del subtema con stdlib — no llama servicios externos.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 29,
+      "spw": 2.417,
+      "wps": 12.0,
+      "fh": 49.6,
+      "inflesz": 44.3,
+      "band": "difícil",
+      "locator": "L352:description",
+      "field": "description",
+      "text": "Demo: escenario QA completo (fuente, estímulo, umbral, dueño) para intake Red Andina",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 3,
+          "wc": 12
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 35,
+      "n_syllables": 74,
+      "spw": 2.114,
+      "wps": 17.5,
+      "fh": 62.1,
+      "inflesz": 57.6,
+      "band": "normal",
+      "locator": "L376:why",
+      "field": "why",
+      "text": "Construye un escenario QA con fuente, estímulo, entorno peak_lima, respuesta, observed≤target y dueño `platform`. Sin umbral o sin dueño el escenario no es auditable: el gate pide medida + dueño, no adjetivos como «rápido».",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 35
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 20,
+      "spw": 1.818,
+      "wps": 11.0,
+      "fh": 86.5,
+      "inflesz": 82.6,
+      "band": "fácil",
+      "locator": "L382:description",
+      "field": "description",
+      "text": "Demo: trade-off por costo ponderado (menor es mejor) + residual ≤ 2",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 41,
+      "n_syllables": 70,
+      "spw": 1.707,
+      "wps": 20.5,
+      "fh": 83.5,
+      "inflesz": 80.0,
+      "band": "fácil",
+      "locator": "L402:why",
+      "field": "why",
+      "text": "Elige async porque 2.2 < 3.8 bajo min_score (costo ponderado, menor es mejor) y el residual 2 no supera el umbral del owner. Si maximizaras el score «por costumbre de ML», promoverías sync y romperías el trade-off medible.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 41
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 22,
+      "spw": 2.2,
+      "wps": 10.0,
+      "fh": 64.6,
+      "inflesz": 59.8,
+      "band": "normal",
+      "locator": "L408:description",
+      "field": "description",
+      "text": "Demo: grafo de capas sin saltos prohibidos ni domain→infrastructure",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 29,
+      "n_syllables": 76,
+      "spw": 2.621,
+      "wps": 14.5,
+      "fh": 34.8,
+      "inflesz": 29.1,
+      "band": "difícil",
+      "locator": "L430:why",
+      "field": "why",
+      "text": "Valida aristas del grafo de capas: presentation→application→domain e infrastructure→domain están permitidas; presentation→infrastructure y domain→infrastructure son breach. Evidencia = diagrama de dependencias, no conteo de módulos.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 27,
+      "spw": 2.7,
+      "wps": 10.0,
+      "fh": 34.6,
+      "inflesz": 28.6,
+      "band": "difícil",
+      "locator": "L436:description",
+      "field": "description",
+      "text": "Demo: dominio depende de Protocol CaseRepo; MemoryCaseRepo es el adapter",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 47,
+      "n_syllables": 89,
+      "spw": 1.894,
+      "wps": 15.667,
+      "fh": 77.2,
+      "inflesz": 73.2,
+      "band": "bastante_fácil",
+      "locator": "L460:why",
+      "field": "why",
+      "text": "El dominio recibe un `CaseRepo` (port) y el adapter en memoria cumple el contrato. La flecha de dependencia va hacia el dominio: puedes cambiar MemoryCaseRepo por un SQL real sin reescribir `open_case`. El flag `implements_port` es la evidencia de DIP, no el sufijo del nombre.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 47
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 25,
+      "spw": 1.786,
+      "wps": 14.0,
+      "fh": 85.4,
+      "inflesz": 81.6,
+      "band": "fácil",
+      "locator": "L466:description",
+      "field": "description",
+      "text": "Demo: ACL de ER→intake que oculta score y expone solo case_id/source",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 34,
+      "n_syllables": 66,
+      "spw": 1.941,
+      "wps": 17.0,
+      "fh": 73.0,
+      "inflesz": 68.9,
+      "band": "bastante_fácil",
+      "locator": "L482:why",
+      "field": "why",
+      "text": "Traduce un paquete ER al lenguaje de intake y elimina `score`. El ACL protege el bounded context: cada glosario local se mantiene disjunto y las traducciones se declaran, no se improvisan en la UI.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 34
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 21,
+      "spw": 1.909,
+      "wps": 11.0,
+      "fh": 81.1,
+      "inflesz": 76.9,
+      "band": "fácil",
+      "locator": "L488:description",
+      "field": "description",
+      "text": "Demo: entity identity + VO Money (PEN) + servicio de fusión sin estado",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 46,
+      "n_syllables": 78,
+      "spw": 1.696,
+      "wps": 46.0,
+      "fh": 58.2,
+      "inflesz": 55.2,
+      "band": "bastante_difícil",
+      "locator": "L515:why",
+      "field": "why",
+      "text": "Contrasta identidad de entity (`CASE-001`) con igualdad por valor del VO Money en PEN, y calcula un servicio de fusión de scores sin guardar sesión. `vo_frozen` prohíbe mutar el monto in-place; el servicio se prueba aparte del ciclo de vida de la entity.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 46
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 17,
+      "spw": 1.889,
+      "wps": 9.0,
+      "fh": 84.3,
+      "inflesz": 80.2,
+      "band": "fácil",
+      "locator": "L521:description",
+      "field": "description",
+      "text": "Demo: checklist C4 context/container + ADR accepted con rollback",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 33,
+      "n_syllables": 65,
+      "spw": 1.97,
+      "wps": 16.5,
+      "fh": 71.8,
+      "inflesz": 67.6,
+      "band": "bastante_fácil",
+      "locator": "L541:why",
+      "field": "why",
+      "text": "Comprueba niveles C4 mínimos (context + container) y campos de ADR (decision, alternatives, consequences, rollback) con status accepted. Un dibujo sin ADR o un ADR sin plan de reversión no pasan el gate documental.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 33
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 22,
+      "spw": 1.833,
+      "wps": 12.0,
+      "fh": 84.6,
+      "inflesz": 80.6,
+      "band": "fácil",
+      "locator": "L547:description",
+      "field": "description",
+      "text": "Demo: evolución aditiva (v1 ⊆ v1.1) + deuda con dueño y retire_on",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 42,
+      "n_syllables": 66,
+      "spw": 1.571,
+      "wps": 21.0,
+      "fh": 91.1,
+      "inflesz": 87.9,
+      "band": "muy_fácil",
+      "locator": "L564:why",
+      "field": "why",
+      "text": "Comprueba que v1 ⊆ v1.1 (el consumidor antiguo sigue en verde) y que la deuda del job async tiene dueño y fecha de retiro. Sin `retire_on` no se negocia versión a ciegas; borrar un campo de v1 es `BLOCK_BREAKING_CHANGE`.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 42
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 67,
+      "n_syllables": 146,
+      "spw": 2.179,
+      "wps": 16.75,
+      "fh": 59.0,
+      "inflesz": 54.3,
+      "band": "bastante_difícil",
+      "locator": "L569:intro",
+      "field": "intro",
+      "text": "S40 · Laboratorio del dossier de arquitectura gobernada para Red Andina (organización ficticia, Lima sintético): 24 retos locales sobre CASO-LIM-040. E1 repara un defecto y, en varios subtemas, ensambla un artefacto de oficio (context map, ports/DIP, entity/VO, mini C4+ADR, consumer contract). E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed (CONTINUE / breach / REQUEST_*). Fixtures sintéticos con vocabulario intake→ER→triage→reporting.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 67
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 67,
+      "n_syllables": 134,
+      "spw": 2.0,
+      "wps": 16.75,
+      "fh": 69.8,
+      "inflesz": 65.5,
+      "band": "normal",
+      "locator": "L575:instruction",
+      "field": "instruction",
+      "text": "S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-040-1A`. La entrada es el dict completo del starter; la operación debe demostrar latencia observada contra umbral y dueño. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_QA_SCENARIO` en E2.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 67
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 40,
+      "spw": 2.0,
+      "wps": 20.0,
+      "fh": 66.4,
+      "inflesz": 62.2,
+      "band": "normal",
+      "locator": "L576:hint",
+      "field": "hint",
+      "text": "Relaciona los campos `source`, `stimulus`, `environment`, `response`, `observed_ms`, `target_ms`, `owner` con la regla explicada en S40-T1-A.",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 6,
+          "wc": 20
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 40,
+      "spw": 2.0,
+      "wps": 20.0,
+      "fh": 66.4,
+      "inflesz": 62.2,
+      "band": "normal",
+      "locator": "L578:paragraph",
+      "field": "paragraph",
+      "text": "Relaciona los campos `source`, `stimulus`, `environment`, `response`, `observed_ms`, `target_ms`, `owner` con la regla explicada en S40-T1-A.",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 6,
+          "wc": 20
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 24,
+      "n_syllables": 57,
+      "spw": 2.375,
+      "wps": 24.0,
+      "fh": 39.9,
+      "inflesz": 34.9,
+      "band": "difícil",
+      "locator": "L579:paragraph",
+      "field": "paragraph",
+      "text": "El predicado correcto debe ser verdadero porque el fixture conserva escenario QA completo con umbral y dueño; revisa dirección de comparación, conjuntos y negaciones.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 22,
+      "n_syllables": 41,
+      "spw": 1.864,
+      "wps": 22.0,
+      "fh": 72.6,
+      "inflesz": 68.7,
+      "band": "bastante_fácil",
+      "locator": "L582:tests",
+      "field": "tests",
+      "text": "El fixture `CASO-LIM-040-1A` satisface un predicado de dominio real; imprime `S40-T1-A PASS` y el assert booleano pasa.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 27,
+      "n_syllables": 46,
+      "spw": 1.704,
+      "wps": 13.5,
+      "fh": 90.8,
+      "inflesz": 87.2,
+      "band": "muy_fácil",
+      "locator": "L583:feedback",
+      "field": "feedback",
+      "text": "S40-T1-A-E1: el PASS exige observed_ms ≤ target_ms y owner truthy. Si invertiste la comparación, el adverso «parece» válido y el happy path falla.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 65,
+      "n_syllables": 137,
+      "spw": 2.108,
+      "wps": 16.25,
+      "fh": 63.8,
+      "inflesz": 59.3,
+      "band": "normal",
+      "locator": "L612:instruction",
+      "field": "instruction",
+      "text": "S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, source, stimulus, environment, response, observed_ms, target_ms, owner. Salidas exactas: `PASS`, `REJECT_QA_SCENARIO`, `MISSING:owner`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 65
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 29,
+      "spw": 2.071,
+      "wps": 14.0,
+      "fh": 68.3,
+      "inflesz": 63.8,
+      "band": "normal",
+      "locator": "L613:hint",
+      "field": "hint",
+      "text": "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 29,
+      "spw": 2.071,
+      "wps": 14.0,
+      "fh": 68.3,
+      "inflesz": 63.8,
+      "band": "normal",
+      "locator": "L615:paragraph",
+      "field": "paragraph",
+      "text": "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 24,
+      "n_syllables": 46,
+      "spw": 1.917,
+      "wps": 12.0,
+      "fh": 79.6,
+      "inflesz": 75.4,
+      "band": "bastante_fácil",
+      "locator": "L616:paragraph",
+      "field": "paragraph",
+      "text": "Después aplica la regla de S40-T1-A: latencia observada contra umbral y dueño. El fixture adverso debe fallar por contenido, no por schema.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 38,
+      "spw": 2.235,
+      "wps": 17.0,
+      "fh": 55.4,
+      "inflesz": 50.6,
+      "band": "bastante_difícil",
+      "locator": "L619:tests",
+      "field": "tests",
+      "text": "La tabla cubre válido/adverso/campo `owner` ausente y produce exactamente `PASS REJECT_QA_SCENARIO MISSING:owner`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 24,
+      "n_syllables": 44,
+      "spw": 1.833,
+      "wps": 24.0,
+      "fh": 72.4,
+      "inflesz": 68.6,
+      "band": "bastante_fácil",
+      "locator": "L620:feedback",
+      "field": "feedback",
+      "text": "S40-T1-A-E2: tres salidas distintas — umbral OK+owner → PASS; latencia rota → REJECT_QA_SCENARIO; sin owner → MISSING:owner (schema antes que contenido).",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 2,
+          "wc": 24
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 59,
+      "n_syllables": 127,
+      "spw": 2.153,
+      "wps": 29.5,
+      "fh": 47.6,
+      "inflesz": 43.2,
+      "band": "difícil",
+      "locator": "L666:instruction",
+      "field": "instruction",
+      "text": "S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos. `CASO-LIM-040-1A` debe continuar, el adverso debe devolver `REJECT_QA_SCENARIO` y la ausencia de `owner` debe devolver `REQUEST_QA_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 59
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 34,
+      "spw": 2.125,
+      "wps": 16.0,
+      "fh": 63.0,
+      "inflesz": 58.4,
+      "band": "normal",
+      "locator": "L667:hint",
+      "field": "hint",
+      "text": "Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 34,
+      "spw": 2.125,
+      "wps": 16.0,
+      "fh": 63.0,
+      "inflesz": 58.4,
+      "band": "normal",
+      "locator": "L669:paragraph",
+      "field": "paragraph",
+      "text": "Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 19,
+      "n_syllables": 44,
+      "spw": 2.316,
+      "wps": 19.0,
+      "fh": 48.5,
+      "inflesz": 43.6,
+      "band": "difícil",
+      "locator": "L670:paragraph",
+      "field": "paragraph",
+      "text": "Para datos completos reutiliza la regla que demostró latencia observada contra umbral y dueño; solo ese caso devuelve `CONTINUE`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 29,
+      "spw": 1.812,
+      "wps": 16.0,
+      "fh": 81.8,
+      "inflesz": 77.9,
+      "band": "fácil",
+      "locator": "L673:tests",
+      "field": "tests",
+      "text": "Fixtures `CASO-LIM-040-1A`, adverso y sin `owner` prueban continue/breach/uncertainty en ese orden.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 26,
+      "n_syllables": 51,
+      "spw": 1.962,
+      "wps": 26.0,
+      "fh": 62.6,
+      "inflesz": 58.6,
+      "band": "normal",
+      "locator": "L674:feedback",
+      "field": "feedback",
+      "text": "S40-T1-A-E3: fail-closed — CONTINUE solo con escenario medible; breach es REJECT_QA_SCENARIO; incertidumbre (sin owner) es REQUEST_QA_OWNER, no CONTINUE silencioso.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 60,
+      "n_syllables": 102,
+      "spw": 1.7,
+      "wps": 15.0,
+      "fh": 89.5,
+      "inflesz": 85.9,
+      "band": "fácil",
+      "locator": "L720:instruction",
+      "field": "instruction",
+      "text": "S40-T1-B-E1 · Compara el trade-off sobre `CASO-LIM-040-1B`. El score es un **costo ponderado** (menor es mejor): `selected` debe ser la clave de menor score y `residual_risk` ≤ 2. Reemplaza la expresión booleana defectuosa (el starter usa max en vez de min). Salida exacta: `S40-T1-B PASS`; el adverso en E2 activa `REOPEN_TRADEOFF`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 60
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 24,
+      "spw": 1.714,
+      "wps": 14.0,
+      "fh": 89.7,
+      "inflesz": 86.0,
+      "band": "fácil",
+      "locator": "L721:hint",
+      "field": "hint",
+      "text": "score = costo → min(scores); residual_risk ≤ 2; risk_owner debe existir en el fixture.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 21,
+      "spw": 1.75,
+      "wps": 12.0,
+      "fh": 89.6,
+      "inflesz": 85.8,
+      "band": "fácil",
+      "locator": "L724:paragraph",
+      "field": "paragraph",
+      "text": "No uses max: un score alto es peor costo, no mejor utilidad.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 22,
+      "n_syllables": 41,
+      "spw": 1.864,
+      "wps": 22.0,
+      "fh": 72.6,
+      "inflesz": 68.7,
+      "band": "bastante_fácil",
+      "locator": "L727:tests",
+      "field": "tests",
+      "text": "El fixture `CASO-LIM-040-1B` satisface un predicado de dominio real; imprime `S40-T1-B PASS` y el assert booleano pasa.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 25,
+      "n_syllables": 38,
+      "spw": 1.52,
+      "wps": 25.0,
+      "fh": 90.1,
+      "inflesz": 87.1,
+      "band": "muy_fácil",
+      "locator": "L728:feedback",
+      "field": "feedback",
+      "text": "S40-T1-B-E1: score = costo (menor es mejor). selected debe ser min(scores) y residual_risk ≤ 2; el starter usa max — invierte a min.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 64,
+      "n_syllables": 128,
+      "spw": 2.0,
+      "wps": 16.0,
+      "fh": 70.5,
+      "inflesz": 66.2,
+      "band": "bastante_fácil",
+      "locator": "L757:instruction",
+      "field": "instruction",
+      "text": "S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fixture adverso y registro sin `residual_risk`. Entrada: dict con case_id, scores, selected, risk_owner, residual_risk. Salidas exactas: `PASS`, `REOPEN_TRADEOFF`, `MISSING:residual_risk`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 64
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 31,
+      "spw": 2.067,
+      "wps": 15.0,
+      "fh": 67.5,
+      "inflesz": 63.1,
+      "band": "normal",
+      "locator": "L758:hint",
+      "field": "hint",
+      "text": "Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 31,
+      "spw": 2.067,
+      "wps": 15.0,
+      "fh": 67.5,
+      "inflesz": 63.1,
+      "band": "normal",
+      "locator": "L760:paragraph",
+      "field": "paragraph",
+      "text": "Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 26,
+      "n_syllables": 52,
+      "spw": 2.0,
+      "wps": 13.0,
+      "fh": 73.6,
+      "inflesz": 69.2,
+      "band": "bastante_fácil",
+      "locator": "L761:paragraph",
+      "field": "paragraph",
+      "text": "Después aplica la regla de S40-T1-B: alternativa con menor score y riesgo residual aceptable. El fixture adverso debe fallar por contenido, no por schema.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 18,
+      "n_syllables": 40,
+      "spw": 2.222,
+      "wps": 18.0,
+      "fh": 55.1,
+      "inflesz": 50.4,
+      "band": "bastante_difícil",
+      "locator": "L764:tests",
+      "field": "tests",
+      "text": "La tabla cubre válido/adverso/campo `residual_risk` ausente y produce exactamente `PASS REOPEN_TRADEOFF MISSING:residual_risk`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 27,
+      "n_syllables": 45,
+      "spw": 1.667,
+      "wps": 27.0,
+      "fh": 79.3,
+      "inflesz": 76.0,
+      "band": "bastante_fácil",
+      "locator": "L765:feedback",
+      "field": "feedback",
+      "text": "S40-T1-B-E2: tabla de tres rutas — min_score+residual OK → PASS; moda o residual alto → REOPEN_TRADEOFF; sin residual_risk → MISSING (no inventes el residual).",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 60,
+      "n_syllables": 127,
+      "spw": 2.117,
+      "wps": 30.0,
+      "fh": 49.2,
+      "inflesz": 45.0,
+      "band": "difícil",
+      "locator": "L811:instruction",
+      "field": "instruction",
+      "text": "S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos. `CASO-LIM-040-1B` debe continuar, el adverso debe devolver `REOPEN_TRADEOFF` y la ausencia de `residual_risk` debe devolver `ESCALATE_RESIDUAL_RISK`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 60
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 37,
+      "spw": 2.312,
+      "wps": 16.0,
+      "fh": 51.8,
+      "inflesz": 46.8,
+      "band": "bastante_difícil",
+      "locator": "L812:hint",
+      "field": "hint",
+      "text": "Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 37,
+      "spw": 2.312,
+      "wps": 16.0,
+      "fh": 51.8,
+      "inflesz": 46.8,
+      "band": "bastante_difícil",
+      "locator": "L814:paragraph",
+      "field": "paragraph",
+      "text": "Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 21,
+      "n_syllables": 50,
+      "spw": 2.381,
+      "wps": 21.0,
+      "fh": 42.6,
+      "inflesz": 37.5,
+      "band": "difícil",
+      "locator": "L815:paragraph",
+      "field": "paragraph",
+      "text": "Para datos completos reutiliza la regla que demostró alternativa con menor score y riesgo residual aceptable; solo ese caso devuelve `CONTINUE`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 31,
+      "spw": 1.824,
+      "wps": 17.0,
+      "fh": 80.1,
+      "inflesz": 76.2,
+      "band": "fácil",
+      "locator": "L818:tests",
+      "field": "tests",
+      "text": "Fixtures `CASO-LIM-040-1B`, adverso y sin `residual_risk` prueban continue/breach/uncertainty en ese orden.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 24,
+      "n_syllables": 43,
+      "spw": 1.792,
+      "wps": 24.0,
+      "fh": 74.9,
+      "inflesz": 71.2,
+      "band": "bastante_fácil",
+      "locator": "L819:feedback",
+      "field": "feedback",
+      "text": "S40-T1-B-E3: CONTINUE solo con trade-off medible; breach → REOPEN_TRADEOFF; sin residual → ESCALATE_RESIDUAL_RISK (el owner no firma a ciegas).",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 63,
+      "n_syllables": 125,
+      "spw": 1.984,
+      "wps": 15.75,
+      "fh": 71.7,
+      "inflesz": 67.5,
+      "band": "bastante_fácil",
+      "locator": "L865:instruction",
+      "field": "instruction",
+      "text": "S40-T2-A-E1 · Filtra el contrato de capas sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar grafo sin `domain→infrastructure` ni `presentation→infrastructure` (sí se permite `infrastructure→domain`). Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T2-A PASS`; el fixture adverso en E2 activa `REDRAW_BOUNDARY`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 63
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 27,
+      "spw": 1.929,
+      "wps": 14.0,
+      "fh": 76.8,
+      "inflesz": 72.7,
+      "band": "bastante_fácil",
+      "locator": "L866:hint",
+      "field": "hint",
+      "text": "Relaciona los campos `layers` y `dependencies` con las aristas prohibidas de S40-T2-A.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 39,
+      "spw": 2.6,
+      "wps": 15.0,
+      "fh": 35.5,
+      "inflesz": 29.9,
+      "band": "difícil",
+      "locator": "L868:paragraph",
+      "field": "paragraph",
+      "text": "Convierte cada edge a tuple y compáralo con el conjunto forbidden {(domain, infrastructure), (presentation, infrastructure)}.",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 3,
+          "wc": 15
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 38,
+      "spw": 2.375,
+      "wps": 16.0,
+      "fh": 48.0,
+      "inflesz": 42.9,
+      "band": "difícil",
+      "locator": "L869:paragraph",
+      "field": "paragraph",
+      "text": "El fixture válido tiene presentation→application, application→domain e infrastructure→domain; layers[2] debe ser domain.",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 1,
+          "wc": 16
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 22,
+      "n_syllables": 41,
+      "spw": 1.864,
+      "wps": 22.0,
+      "fh": 72.6,
+      "inflesz": 68.7,
+      "band": "bastante_fácil",
+      "locator": "L872:tests",
+      "field": "tests",
+      "text": "El fixture `CASO-LIM-040-2A` satisface un predicado de dominio real; imprime `S40-T2-A PASS` y el assert booleano pasa.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 17,
+      "n_syllables": 44,
+      "spw": 2.588,
+      "wps": 8.5,
+      "fh": 42.9,
+      "inflesz": 37.1,
+      "band": "difícil",
+      "locator": "L873:feedback",
+      "field": "feedback",
+      "text": "S40-T2-A-E1: forbidden = {(domain,infrastructure), (presentation,infrastructure)}. Construye tuple(edge); infrastructure→domain sí está permitido.",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 0,
+          "wc": 17
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 45,
+      "n_syllables": 99,
+      "spw": 2.2,
+      "wps": 11.25,
+      "fh": 63.4,
+      "inflesz": 58.5,
+      "band": "normal",
+      "locator": "L906:instruction",
+      "field": "instruction",
+      "text": "S40-T2-A-E2 · Clasifica tres rutas de capas: fixture válido, fixture adverso (incluye saltos prohibidos) y registro sin `dependencies`. Entrada: dict con case_id, layers, dependencies. Salidas exactas: `PASS`, `REDRAW_BOUNDARY`, `MISSING:dependencies`. Corrige solo la decisión de dominio; conserva la validación de campos.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 45
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 31,
+      "spw": 2.214,
+      "wps": 14.0,
+      "fh": 59.7,
+      "inflesz": 54.9,
+      "band": "bastante_difícil",
+      "locator": "L907:hint",
+      "field": "hint",
+      "text": "Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 31,
+      "spw": 2.214,
+      "wps": 14.0,
+      "fh": 59.7,
+      "inflesz": 54.9,
+      "band": "bastante_difícil",
+      "locator": "L909:paragraph",
+      "field": "paragraph",
+      "text": "Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 40,
+      "spw": 2.5,
+      "wps": 16.0,
+      "fh": 40.5,
+      "inflesz": 35.1,
+      "band": "difícil",
+      "locator": "L910:paragraph",
+      "field": "paragraph",
+      "text": "Después aplica forbidden = domain→infrastructure y presentation→infrastructure; el adverso falla por contenido, no por schema.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 40,
+      "spw": 2.5,
+      "wps": 16.0,
+      "fh": 40.5,
+      "inflesz": 35.1,
+      "band": "difícil",
+      "locator": "L913:tests",
+      "field": "tests",
+      "text": "La tabla cubre válido/adverso/campo `dependencies` ausente y produce exactamente `PASS REDRAW_BOUNDARY MISSING:dependencies`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 39,
+      "spw": 1.95,
+      "wps": 20.0,
+      "fh": 69.4,
+      "inflesz": 65.4,
+      "band": "normal",
+      "locator": "L914:feedback",
+      "field": "feedback",
+      "text": "S40-T2-A-E2: grafo limpio → PASS; cualquier arista prohibida → REDRAW_BOUNDARY; sin dependencies → MISSING (no asumas un grafo vacío).",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 57,
+      "n_syllables": 121,
+      "spw": 2.123,
+      "wps": 28.5,
+      "fh": 50.4,
+      "inflesz": 46.1,
+      "band": "bastante_difícil",
+      "locator": "L965:instruction",
+      "field": "instruction",
+      "text": "S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `CASO-LIM-040-2A` debe continuar, el adverso debe devolver `REDRAW_BOUNDARY` y la ausencia de `dependencies` debe devolver `REVIEW_LAYER_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 57
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 35,
+      "spw": 2.188,
+      "wps": 16.0,
+      "fh": 59.3,
+      "inflesz": 54.6,
+      "band": "bastante_difícil",
+      "locator": "L966:hint",
+      "field": "hint",
+      "text": "Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 35,
+      "spw": 2.188,
+      "wps": 16.0,
+      "fh": 59.3,
+      "inflesz": 54.6,
+      "band": "bastante_difícil",
+      "locator": "L968:paragraph",
+      "field": "paragraph",
+      "text": "Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 49,
+      "spw": 2.45,
+      "wps": 20.0,
+      "fh": 39.4,
+      "inflesz": 34.2,
+      "band": "difícil",
+      "locator": "L969:paragraph",
+      "field": "paragraph",
+      "text": "Para datos completos reutiliza la regla que demostró grafo de dependencias sin dominio hacia infraestructura; solo ese caso devuelve `CONTINUE`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 31,
+      "spw": 1.938,
+      "wps": 16.0,
+      "fh": 74.3,
+      "inflesz": 70.1,
+      "band": "bastante_fácil",
+      "locator": "L972:tests",
+      "field": "tests",
+      "text": "Fixtures `CASO-LIM-040-2A`, adverso y sin `dependencies` prueban continue/breach/uncertainty en ese orden.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 21,
+      "n_syllables": 41,
+      "spw": 1.952,
+      "wps": 21.0,
+      "fh": 68.3,
+      "inflesz": 64.2,
+      "band": "normal",
+      "locator": "L973:feedback",
+      "field": "feedback",
+      "text": "S40-T2-A-E3: CONTINUE solo con capas limpias; saltos de capa → REDRAW_BOUNDARY; grafo ausente → REVIEW_LAYER_OWNER (incertidumbre ≠ breach).",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 62,
+      "n_syllables": 119,
+      "spw": 1.919,
+      "wps": 15.5,
+      "fh": 75.9,
+      "inflesz": 71.8,
+      "band": "bastante_fácil",
+      "locator": "L1024:instruction",
+      "field": "instruction",
+      "text": "S40-T2-B-E1 · **Oficio hexagonal (DIP)**: el starter modela el port `CaseRepository` y el adapter `MemoryCaseRepository` de Red Andina. El dominio solo debe depender del port (`implements_port=True`, `domain_imports=[]`, ≥3 contract tests). Corrige el DEFECT que exige adapter==port e imports de infra. Salida exacta: `S40-T2-B PASS`; el adverso en E2 (sqlalchemy en dominio) activa `INVERT_DEPENDENCY`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 62
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 29,
+      "spw": 1.933,
+      "wps": 15.0,
+      "fh": 75.5,
+      "inflesz": 71.4,
+      "band": "bastante_fácil",
+      "locator": "L1025:hint",
+      "field": "hint",
+      "text": "Usa el flag explícito `implements_port` — no inventes reglas por sufijo del nombre del adapter.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 18,
+      "n_syllables": 33,
+      "spw": 1.833,
+      "wps": 18.0,
+      "fh": 78.5,
+      "inflesz": 74.6,
+      "band": "bastante_fácil",
+      "locator": "L1028:paragraph",
+      "field": "paragraph",
+      "text": "El DEFECT del starter exige adapter==port e imports no vacíos: invierte esa lógica y lee el flag.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 19,
+      "n_syllables": 32,
+      "spw": 1.684,
+      "wps": 19.0,
+      "fh": 86.4,
+      "inflesz": 82.9,
+      "band": "fácil",
+      "locator": "L1031:tests",
+      "field": "tests",
+      "text": "El fixture hexagonal de `CASO-LIM-040-2B` demuestra DIP con adapter en memoria; imprime `S40-T2-B PASS`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 31,
+      "n_syllables": 49,
+      "spw": 1.581,
+      "wps": 15.5,
+      "fh": 96.2,
+      "inflesz": 92.9,
+      "band": "muy_fácil",
+      "locator": "L1032:feedback",
+      "field": "feedback",
+      "text": "S40-T2-B-E1: evidencia de DIP = implements_port + domain_imports vacío + contract_tests≥3. El nombre del adapter no es la regla; imports de sqlalchemy en dominio sí son breach.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 46,
+      "n_syllables": 85,
+      "spw": 1.848,
+      "wps": 15.333,
+      "fh": 80.3,
+      "inflesz": 76.4,
+      "band": "fácil",
+      "locator": "L1092:instruction",
+      "field": "instruction",
+      "text": "S40-T2-B-E2 · Audita tres rutas hexagonal: fixture válido (`implements_port` + sin imports de infra + ≥3 tests), fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, port, adapter, implements_port, domain_imports, contract_tests. Salidas exactas: `PASS`, `INVERT_DEPENDENCY`, `MISSING:contract_tests`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 46
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 30,
+      "spw": 2.0,
+      "wps": 15.0,
+      "fh": 71.5,
+      "inflesz": 67.2,
+      "band": "bastante_fácil",
+      "locator": "L1093:hint",
+      "field": "hint",
+      "text": "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 30,
+      "spw": 2.0,
+      "wps": 15.0,
+      "fh": 71.5,
+      "inflesz": 67.2,
+      "band": "bastante_fácil",
+      "locator": "L1095:paragraph",
+      "field": "paragraph",
+      "text": "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 22,
+      "n_syllables": 37,
+      "spw": 1.682,
+      "wps": 11.0,
+      "fh": 94.7,
+      "inflesz": 91.1,
+      "band": "muy_fácil",
+      "locator": "L1096:paragraph",
+      "field": "paragraph",
+      "text": "Después: implements_port is True and not domain_imports and contract_tests >= 3. El adverso falla por contenido (sqlalchemy / implements_port False).",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 18,
+      "n_syllables": 39,
+      "spw": 2.167,
+      "wps": 18.0,
+      "fh": 58.5,
+      "inflesz": 53.9,
+      "band": "bastante_difícil",
+      "locator": "L1099:tests",
+      "field": "tests",
+      "text": "La tabla cubre válido/adverso/campo `contract_tests` ausente y produce exactamente `PASS INVERT_DEPENDENCY MISSING:contract_tests`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 25,
+      "n_syllables": 38,
+      "spw": 1.52,
+      "wps": 25.0,
+      "fh": 90.1,
+      "inflesz": 87.1,
+      "band": "muy_fácil",
+      "locator": "L1100:feedback",
+      "field": "feedback",
+      "text": "S40-T2-B-E2: no uses endswith del nombre del adapter; el contrato es el flag implements_port más la ausencia de imports de infra.",
+      "findings": []
+    },
+    {
+      "n_sentences": 3,
+      "n_words": 40,
+      "n_syllables": 82,
+      "spw": 2.05,
+      "wps": 13.333,
+      "fh": 70.2,
+      "inflesz": 65.8,
+      "band": "bastante_fácil",
+      "locator": "L1151:instruction",
+      "field": "instruction",
+      "text": "S40-T2-B-E3 · Recupera fallo cerrado hexagonal: `CASO-LIM-040-2B` → CONTINUE, adverso → `INVERT_DEPENDENCY`, sin `contract_tests` → `DEFINE_PORT_CONTRACT`. Corrige la rama missing y el predicado invertido sin rellenar evidencia. Salida: imprime el valor de meets_contract.",
+      "findings": [
+        {
+          "rule": "long_sentence",
+          "sev": "M",
+          "wc": 40
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 35,
+      "spw": 2.188,
+      "wps": 16.0,
+      "fh": 59.3,
+      "inflesz": 54.6,
+      "band": "bastante_difícil",
+      "locator": "L1152:hint",
+      "field": "hint",
+      "text": "Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 35,
+      "spw": 2.188,
+      "wps": 16.0,
+      "fh": 59.3,
+      "inflesz": 54.6,
+      "band": "bastante_difícil",
+      "locator": "L1154:paragraph",
+      "field": "paragraph",
+      "text": "Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 26,
+      "spw": 1.625,
+      "wps": 16.0,
+      "fh": 93.0,
+      "inflesz": 89.6,
+      "band": "muy_fácil",
+      "locator": "L1155:paragraph",
+      "field": "paragraph",
+      "text": "Para datos completos: implements_port is True and not domain_imports and contract_tests >= 3 → CONTINUE.",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 1,
+          "wc": 16
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 30,
+      "spw": 1.765,
+      "wps": 17.0,
+      "fh": 83.6,
+      "inflesz": 79.9,
+      "band": "fácil",
+      "locator": "L1158:tests",
+      "field": "tests",
+      "text": "Fixtures `CASO-LIM-040-2B`, adverso y sin `contract_tests` prueban continue/breach/uncertainty en ese orden.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 25,
+      "n_syllables": 42,
+      "spw": 1.68,
+      "wps": 25.0,
+      "fh": 80.5,
+      "inflesz": 77.2,
+      "band": "fácil",
+      "locator": "L1159:feedback",
+      "field": "feedback",
+      "text": "S40-T2-B-E3: uncertainty (DEFINE_PORT_CONTRACT) ≠ breach (INVERT_DEPENDENCY); el flag implements_port es la evidencia de DIP, no el sufijo del nombre.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 79,
+      "n_syllables": 134,
+      "spw": 1.696,
+      "wps": 19.75,
+      "fh": 84.9,
+      "inflesz": 81.4,
+      "band": "fácil",
+      "locator": "L1210:instruction",
+      "field": "instruction",
+      "text": "S40-T3-A-E1 · **Oficio de context map** (no solo un booleano): el starter trae filas de mapa para Red Andina (`intake` vs `er`) y un ACL `case→record`. Corrige el DEFECT para que el contrato pase solo si (1) los glosarios de cada fila son **disjuntos**, (2) existe la traducción `case→record` y (3) se imprime el resumen del mapa. Salida exacta: `S40-T3-A PASS`. En E2 el adverso (término `case` en ambos lados) activa `SPLIT_CONTEXTS`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 79
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 26,
+      "spw": 2.167,
+      "wps": 12.0,
+      "fh": 64.6,
+      "inflesz": 59.9,
+      "band": "normal",
+      "locator": "L1211:hint",
+      "field": "hint",
+      "text": "Construye conjuntos de términos por BC y exige `isdisjoint` + `translations['case'] == 'record'`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 13,
+      "n_syllables": 19,
+      "spw": 1.462,
+      "wps": 13.0,
+      "fh": 105.9,
+      "inflesz": 102.8,
+      "band": "muy_fácil",
+      "locator": "L1213:paragraph",
+      "field": "paragraph",
+      "text": "Lee `rows[0]['terms']` e `rows[1]['terms']`; no uses intersección como éxito.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 15,
+      "n_syllables": 27,
+      "spw": 1.8,
+      "wps": 7.5,
+      "fh": 91.2,
+      "inflesz": 87.2,
+      "band": "muy_fácil",
+      "locator": "L1214:paragraph",
+      "field": "paragraph",
+      "text": "El ACL mínimo del lab es `translations.get('case') == 'record'`. Imprime también el mapa legible.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 22,
+      "n_syllables": 33,
+      "spw": 1.5,
+      "wps": 22.0,
+      "fh": 94.4,
+      "inflesz": 91.4,
+      "band": "muy_fácil",
+      "locator": "L1217:tests",
+      "field": "tests",
+      "text": "El context map de `CASO-LIM-040-3A` es disjunto con ACL; imprime `S40-T3-A PASS` y el assert booleano pasa.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 36,
+      "spw": 1.8,
+      "wps": 20.0,
+      "fh": 78.4,
+      "inflesz": 74.7,
+      "band": "bastante_fácil",
+      "locator": "L1218:feedback",
+      "field": "feedback",
+      "text": "S40-T3-A-E1: el artefacto es el mapa (BC + términos + ACL). isdisjoint + case→record; intersección de glosarios ⇒ SPLIT_CONTEXTS.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 57,
+      "n_syllables": 116,
+      "spw": 2.035,
+      "wps": 14.25,
+      "fh": 70.2,
+      "inflesz": 65.8,
+      "band": "bastante_fácil",
+      "locator": "L1263:instruction",
+      "field": "instruction",
+      "text": "S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adverso y registro sin `translations`. Entrada: dict con case_id, contexts, translations. Salidas exactas: `PASS`, `SPLIT_CONTEXTS`, `MISSING:translations`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 57
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 30,
+      "spw": 2.143,
+      "wps": 14.0,
+      "fh": 64.0,
+      "inflesz": 59.3,
+      "band": "normal",
+      "locator": "L1264:hint",
+      "field": "hint",
+      "text": "Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 30,
+      "spw": 2.143,
+      "wps": 14.0,
+      "fh": 64.0,
+      "inflesz": 59.3,
+      "band": "normal",
+      "locator": "L1266:paragraph",
+      "field": "paragraph",
+      "text": "Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 24,
+      "n_syllables": 49,
+      "spw": 2.042,
+      "wps": 12.0,
+      "fh": 72.1,
+      "inflesz": 67.6,
+      "band": "bastante_fácil",
+      "locator": "L1267:paragraph",
+      "field": "paragraph",
+      "text": "Después aplica la regla de S40-T3-A: términos locales disjuntos y traducción declarada. El fixture adverso debe fallar por contenido, no por schema.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 37,
+      "spw": 2.312,
+      "wps": 16.0,
+      "fh": 51.8,
+      "inflesz": 46.8,
+      "band": "bastante_difícil",
+      "locator": "L1270:tests",
+      "field": "tests",
+      "text": "La tabla cubre válido/adverso/campo `translations` ausente y produce exactamente `PASS SPLIT_CONTEXTS MISSING:translations`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 35,
+      "spw": 1.75,
+      "wps": 20.0,
+      "fh": 81.4,
+      "inflesz": 77.8,
+      "band": "fácil",
+      "locator": "L1271:feedback",
+      "field": "feedback",
+      "text": "S40-T3-A-E2: glosarios disjuntos + ACL → PASS; solape de términos → SPLIT_CONTEXTS; sin translations → MISSING (no improvises el ACL).",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 58,
+      "n_syllables": 125,
+      "spw": 2.155,
+      "wps": 29.0,
+      "fh": 47.9,
+      "inflesz": 43.6,
+      "band": "difícil",
+      "locator": "L1317:instruction",
+      "field": "instruction",
+      "text": "S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos. `CASO-LIM-040-3A` debe continuar, el adverso debe devolver `SPLIT_CONTEXTS` y la ausencia de `translations` debe devolver `WORKSHOP_UBIQUITOUS_LANGUAGE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 58
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 38,
+      "spw": 2.375,
+      "wps": 16.0,
+      "fh": 48.0,
+      "inflesz": 42.9,
+      "band": "difícil",
+      "locator": "L1318:hint",
+      "field": "hint",
+      "text": "Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 38,
+      "spw": 2.375,
+      "wps": 16.0,
+      "fh": 48.0,
+      "inflesz": 42.9,
+      "band": "difícil",
+      "locator": "L1320:paragraph",
+      "field": "paragraph",
+      "text": "Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 19,
+      "n_syllables": 47,
+      "spw": 2.474,
+      "wps": 19.0,
+      "fh": 39.0,
+      "inflesz": 33.7,
+      "band": "difícil",
+      "locator": "L1321:paragraph",
+      "field": "paragraph",
+      "text": "Para datos completos reutiliza la regla que demostró términos locales disjuntos y traducción declarada; solo ese caso devuelve `CONTINUE`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 30,
+      "spw": 1.875,
+      "wps": 16.0,
+      "fh": 78.0,
+      "inflesz": 74.0,
+      "band": "bastante_fácil",
+      "locator": "L1324:tests",
+      "field": "tests",
+      "text": "Fixtures `CASO-LIM-040-3A`, adverso y sin `translations` prueban continue/breach/uncertainty en ese orden.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 18,
+      "n_syllables": 36,
+      "spw": 2.0,
+      "wps": 18.0,
+      "fh": 68.5,
+      "inflesz": 64.2,
+      "band": "normal",
+      "locator": "L1325:feedback",
+      "field": "feedback",
+      "text": "S40-T3-A-E3: CONTINUE con fronteras claras; solape → SPLIT_CONTEXTS; sin mapa de traducciones → WORKSHOP_UBIQUITOUS_LANGUAGE.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 80,
+      "n_syllables": 131,
+      "spw": 1.637,
+      "wps": 20.0,
+      "fh": 88.2,
+      "inflesz": 84.8,
+      "band": "fácil",
+      "locator": "L1371:instruction",
+      "field": "instruction",
+      "text": "S40-T3-B-E1 · **Oficio táctico entity/VO/servicio** (calcula, no solo flags): el starter trae dos referencias al caso `CASE-001`, dos VOs Money 150 PEN y un servicio `merge_scores`. Corrige el DEFECT: el contrato pasa solo si (1) `same_entity` por identidad, (2) `same_money` por valor, (3) `vo_frozen` y (4) el servicio devuelve 0.7 sin mutar entidades. Salida exacta: `S40-T3-B PASS`. En E2 el adverso (USD / id vacío) activa `REJECT_DOMAIN_MODEL`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 80
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 17,
+      "n_syllables": 36,
+      "spw": 2.118,
+      "wps": 8.5,
+      "fh": 71.1,
+      "inflesz": 66.4,
+      "band": "bastante_fácil",
+      "locator": "L1372:hint",
+      "field": "hint",
+      "text": "No compares `currency` con `entity_id`. Identidad = ids iguales; VO = amount+currency; servicio = media ponderada sin estado.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 25,
+      "spw": 1.471,
+      "wps": 17.0,
+      "fh": 101.3,
+      "inflesz": 98.2,
+      "band": "muy_fácil",
+      "locator": "L1374:paragraph",
+      "field": "paragraph",
+      "text": "same_entity(entity_a, entity_b) y same_money(vo_a, vo_b); currency debe ser PEN.",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 1,
+          "wc": 17
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 18,
+      "spw": 1.125,
+      "wps": 16.0,
+      "fh": 123.0,
+      "inflesz": 120.7,
+      "band": "muy_fácil",
+      "locator": "L1375:paragraph",
+      "field": "paragraph",
+      "text": "merge_scores(0.8, 0.6) → 0.7; service_stateless y vo_frozen deben ser True.",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 1,
+          "wc": 16
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 21,
+      "n_syllables": 35,
+      "spw": 1.667,
+      "wps": 21.0,
+      "fh": 85.4,
+      "inflesz": 82.0,
+      "band": "fácil",
+      "locator": "L1378:tests",
+      "field": "tests",
+      "text": "El modelo táctico de `CASO-LIM-040-3B` prueba identidad, VO PEN y servicio sin estado; imprime `S40-T3-B PASS`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 25,
+      "n_syllables": 49,
+      "spw": 1.96,
+      "wps": 12.5,
+      "fh": 76.5,
+      "inflesz": 72.2,
+      "band": "bastante_fácil",
+      "locator": "L1379:feedback",
+      "field": "feedback",
+      "text": "S40-T3-B-E1: el artefacto es el contraste identidad vs valor + servicio stateless. DEFECT mezclaba currency con entity_id — eso rompe el modelo táctico.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 65,
+      "n_syllables": 133,
+      "spw": 2.046,
+      "wps": 16.25,
+      "fh": 67.5,
+      "inflesz": 63.1,
+      "band": "normal",
+      "locator": "L1451:instruction",
+      "field": "instruction",
+      "text": "S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture adverso y registro sin `service_stateless`. Entrada: dict con case_id, entity_id, vo, vo_frozen, service_stateless. Salidas exactas: `PASS`, `REJECT_DOMAIN_MODEL`, `MISSING:service_stateless`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 65
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 33,
+      "spw": 2.2,
+      "wps": 15.0,
+      "fh": 59.5,
+      "inflesz": 54.8,
+      "band": "bastante_difícil",
+      "locator": "L1452:hint",
+      "field": "hint",
+      "text": "Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 33,
+      "spw": 2.2,
+      "wps": 15.0,
+      "fh": 59.5,
+      "inflesz": 54.8,
+      "band": "bastante_difícil",
+      "locator": "L1454:paragraph",
+      "field": "paragraph",
+      "text": "Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 26,
+      "n_syllables": 51,
+      "spw": 1.962,
+      "wps": 13.0,
+      "fh": 75.9,
+      "inflesz": 71.6,
+      "band": "bastante_fácil",
+      "locator": "L1455:paragraph",
+      "field": "paragraph",
+      "text": "Después aplica la regla de S40-T3-B: identidad estable, VO en PEN e invariantes inmutables. El fixture adverso debe fallar por contenido, no por schema.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 19,
+      "n_syllables": 46,
+      "spw": 2.421,
+      "wps": 19.0,
+      "fh": 42.2,
+      "inflesz": 37.0,
+      "band": "difícil",
+      "locator": "L1458:tests",
+      "field": "tests",
+      "text": "La tabla cubre válido/adverso/campo `service_stateless` ausente y produce exactamente `PASS REJECT_DOMAIN_MODEL MISSING:service_stateless`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 21,
+      "n_syllables": 40,
+      "spw": 1.905,
+      "wps": 21.0,
+      "fh": 71.1,
+      "inflesz": 67.2,
+      "band": "bastante_fácil",
+      "locator": "L1459:feedback",
+      "field": "feedback",
+      "text": "S40-T3-B-E2: invariantes OK → PASS; identidad/VO rotos → REJECT_DOMAIN_MODEL; sin service_stateless → MISSING (no asumas el servicio).",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 59,
+      "n_syllables": 128,
+      "spw": 2.169,
+      "wps": 29.5,
+      "fh": 46.6,
+      "inflesz": 42.2,
+      "band": "difícil",
+      "locator": "L1505:instruction",
+      "field": "instruction",
+      "text": "S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos. `CASO-LIM-040-3B` debe continuar, el adverso debe devolver `REJECT_DOMAIN_MODEL` y la ausencia de `service_stateless` debe devolver `CLARIFY_INVARIANT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 59
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 34,
+      "spw": 2.267,
+      "wps": 15.0,
+      "fh": 55.5,
+      "inflesz": 50.6,
+      "band": "bastante_difícil",
+      "locator": "L1506:hint",
+      "field": "hint",
+      "text": "Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 34,
+      "spw": 2.267,
+      "wps": 15.0,
+      "fh": 55.5,
+      "inflesz": 50.6,
+      "band": "bastante_difícil",
+      "locator": "L1508:paragraph",
+      "field": "paragraph",
+      "text": "Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 21,
+      "n_syllables": 49,
+      "spw": 2.333,
+      "wps": 21.0,
+      "fh": 45.4,
+      "inflesz": 40.5,
+      "band": "difícil",
+      "locator": "L1509:paragraph",
+      "field": "paragraph",
+      "text": "Para datos completos reutiliza la regla que demostró identidad estable, VO en PEN e invariantes inmutables; solo ese caso devuelve `CONTINUE`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 33,
+      "spw": 1.941,
+      "wps": 17.0,
+      "fh": 73.0,
+      "inflesz": 68.9,
+      "band": "bastante_fácil",
+      "locator": "L1512:tests",
+      "field": "tests",
+      "text": "Fixtures `CASO-LIM-040-3B`, adverso y sin `service_stateless` prueban continue/breach/uncertainty en ese orden.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 19,
+      "n_syllables": 39,
+      "spw": 2.053,
+      "wps": 19.0,
+      "fh": 64.3,
+      "inflesz": 60.0,
+      "band": "normal",
+      "locator": "L1513:feedback",
+      "field": "feedback",
+      "text": "S40-T3-B-E3: CONTINUE con modelo táctico sano; breach → REJECT_DOMAIN_MODEL; bandera de servicio ausente → CLARIFY_INVARIANT.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 80,
+      "n_syllables": 150,
+      "spw": 1.875,
+      "wps": 20.0,
+      "fh": 73.9,
+      "inflesz": 70.0,
+      "band": "bastante_fácil",
+      "locator": "L1559:instruction",
+      "field": "instruction",
+      "text": "S40-T4-A-E1 · **Oficio C4 + ADR** (ensambla el artefacto, no solo nombres de campo): el starter trae un C4 de Red Andina (context/container con personas y cajas) y un ADR-001 con decisión async, alternativas, consecuencias y rollback. Corrige el DEFECT: el contrato pasa solo si hay niveles context+container, el ADR tiene `decision`/`alternatives`/`consequences`/`rollback` y `status == 'accepted'`. Salida exacta: `S40-T4-A PASS`. En You Do reutilizarás esta plantilla para dos ADRs reales del dossier.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 80
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 35,
+      "spw": 1.75,
+      "wps": 20.0,
+      "fh": 81.4,
+      "inflesz": 77.8,
+      "band": "fácil",
+      "locator": "L1560:hint",
+      "field": "hint",
+      "text": "Valida claves del dict `adr` y que `c4` contenga listas no vacías en context y container; status debe ser accepted.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 27,
+      "spw": 2.455,
+      "wps": 11.0,
+      "fh": 48.3,
+      "inflesz": 42.9,
+      "band": "difícil",
+      "locator": "L1562:paragraph",
+      "field": "paragraph",
+      "text": "need_adr = decision, alternatives, consequences, rollback presentes y truthy; status == 'accepted'.",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 3,
+          "wc": 11
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 24,
+      "spw": 1.714,
+      "wps": 14.0,
+      "fh": 89.7,
+      "inflesz": 86.0,
+      "band": "fácil",
+      "locator": "L1563:paragraph",
+      "field": "paragraph",
+      "text": "El DEFECT del starter acepta draft con menos de 3 campos: invierte esa lógica.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 18,
+      "n_syllables": 26,
+      "spw": 1.444,
+      "wps": 18.0,
+      "fh": 101.8,
+      "inflesz": 98.8,
+      "band": "muy_fácil",
+      "locator": "L1566:tests",
+      "field": "tests",
+      "text": "El mini ADR+C4 de `CASO-LIM-040-4A` está completo y accepted; imprime `S40-T4-A PASS`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 22,
+      "n_syllables": 43,
+      "spw": 1.955,
+      "wps": 22.0,
+      "fh": 67.1,
+      "inflesz": 63.1,
+      "band": "normal",
+      "locator": "L1567:feedback",
+      "field": "feedback",
+      "text": "S40-T4-A-E1: el artefacto es el ADR relleno (no un set abstracto). need_c4 + decision/alternatives/consequences/rollback + status accepted.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 65,
+      "n_syllables": 118,
+      "spw": 1.815,
+      "wps": 16.25,
+      "fh": 81.3,
+      "inflesz": 77.5,
+      "band": "fácil",
+      "locator": "L1625:instruction",
+      "field": "instruction",
+      "text": "S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y registro sin `adr_status`. Entrada: dict con case_id, c4_levels, adr_fields, adr_status. Salidas exactas: `PASS`, `RETURN_ADR_TO_DRAFT`, `MISSING:adr_status`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 65
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 30,
+      "spw": 2.0,
+      "wps": 15.0,
+      "fh": 71.5,
+      "inflesz": 67.2,
+      "band": "bastante_fácil",
+      "locator": "L1626:hint",
+      "field": "hint",
+      "text": "Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 30,
+      "spw": 2.0,
+      "wps": 15.0,
+      "fh": 71.5,
+      "inflesz": 67.2,
+      "band": "bastante_fácil",
+      "locator": "L1628:paragraph",
+      "field": "paragraph",
+      "text": "Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 27,
+      "n_syllables": 51,
+      "spw": 1.889,
+      "wps": 13.5,
+      "fh": 79.7,
+      "inflesz": 75.7,
+      "band": "bastante_fácil",
+      "locator": "L1629:paragraph",
+      "field": "paragraph",
+      "text": "Después aplica la regla de S40-T4-A: C4 mínimo y ADR con alternativas, consecuencias y rollback. El fixture adverso debe fallar por contenido, no por schema.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 39,
+      "spw": 1.95,
+      "wps": 20.0,
+      "fh": 69.4,
+      "inflesz": 65.4,
+      "band": "normal",
+      "locator": "L1632:tests",
+      "field": "tests",
+      "text": "La tabla cubre válido/adverso/campo `adr_status` ausente y produce exactamente `PASS RETURN_ADR_TO_DRAFT MISSING:adr_status`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 22,
+      "n_syllables": 36,
+      "spw": 1.636,
+      "wps": 22.0,
+      "fh": 86.2,
+      "inflesz": 82.9,
+      "band": "fácil",
+      "locator": "L1633:feedback",
+      "field": "feedback",
+      "text": "S40-T4-A-E2: C4+ADR accepted completo → PASS; draft/incompleto → RETURN_ADR_TO_DRAFT; sin adr_status → MISSING (no asumas accepted).",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 1,
+          "wc": 22
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 61,
+      "n_syllables": 119,
+      "spw": 1.951,
+      "wps": 30.5,
+      "fh": 58.7,
+      "inflesz": 54.8,
+      "band": "bastante_difícil",
+      "locator": "L1679:instruction",
+      "field": "instruction",
+      "text": "S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CASO-LIM-040-4A` debe continuar, el adverso debe devolver `RETURN_ADR_TO_DRAFT` y la ausencia de `adr_status` debe devolver `REQUEST_ARCH_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 61
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 34,
+      "spw": 2.125,
+      "wps": 16.0,
+      "fh": 63.0,
+      "inflesz": 58.4,
+      "band": "normal",
+      "locator": "L1680:hint",
+      "field": "hint",
+      "text": "Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 34,
+      "spw": 2.125,
+      "wps": 16.0,
+      "fh": 63.0,
+      "inflesz": 58.4,
+      "band": "normal",
+      "locator": "L1682:paragraph",
+      "field": "paragraph",
+      "text": "Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 22,
+      "n_syllables": 49,
+      "spw": 2.227,
+      "wps": 22.0,
+      "fh": 50.8,
+      "inflesz": 46.1,
+      "band": "bastante_difícil",
+      "locator": "L1683:paragraph",
+      "field": "paragraph",
+      "text": "Para datos completos reutiliza la regla que demostró C4 mínimo y ADR con alternativas, consecuencias y rollback; solo ese caso devuelve `CONTINUE`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 30,
+      "spw": 1.765,
+      "wps": 17.0,
+      "fh": 83.6,
+      "inflesz": 79.9,
+      "band": "fácil",
+      "locator": "L1686:tests",
+      "field": "tests",
+      "text": "Fixtures `CASO-LIM-040-4A`, adverso y sin `adr_status` prueban continue/breach/uncertainty en ese orden.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 19,
+      "n_syllables": 35,
+      "spw": 1.842,
+      "wps": 19.0,
+      "fh": 76.9,
+      "inflesz": 73.1,
+      "band": "bastante_fácil",
+      "locator": "L1687:feedback",
+      "field": "feedback",
+      "text": "S40-T4-A-E3: CONTINUE con documentación aceptada; ADR incompleto → RETURN_ADR_TO_DRAFT; sin status → REQUEST_ARCH_REVIEW.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 81,
+      "n_syllables": 133,
+      "spw": 1.642,
+      "wps": 20.25,
+      "fh": 87.7,
+      "inflesz": 84.3,
+      "band": "fácil",
+      "locator": "L1733:instruction",
+      "field": "instruction",
+      "text": "S40-T4-B-E1 · **Oficio de evolución aditiva** (consumer contract + deuda): el starter trae payload v1 `{case_id, status}` y v1.1 con `priority`, más deuda del job async de intake Red Andina. Corrige el DEFECT: el contrato pasa solo si (1) `v1_fields ⊆ v11_fields`, (2) el consumidor antiguo sigue leyendo `case_id:status` y (3) la deuda tiene `debt_owner` + `retire_on`. Salida exacta: `S40-T4-B PASS`. En E2 borrar un campo de v1 activa `BLOCK_BREAKING_CHANGE`.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 81
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 15,
+      "n_syllables": 28,
+      "spw": 1.867,
+      "wps": 7.5,
+      "fh": 87.2,
+      "inflesz": 83.0,
+      "band": "fácil",
+      "locator": "L1734:hint",
+      "field": "hint",
+      "text": "Subconjunto correcto: v1 ⊆ v11 (no al revés). Imprime la vista del consumidor y la deuda.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 22,
+      "spw": 1.571,
+      "wps": 14.0,
+      "fh": 98.3,
+      "inflesz": 94.9,
+      "band": "muy_fácil",
+      "locator": "L1736:paragraph",
+      "field": "paragraph",
+      "text": "additive_ok = v1_fields <= v11_fields; debt_owner truthy y retire_on no vacío.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 23,
+      "spw": 1.643,
+      "wps": 14.0,
+      "fh": 94.0,
+      "inflesz": 90.5,
+      "band": "muy_fácil",
+      "locator": "L1737:paragraph",
+      "field": "paragraph",
+      "text": "consumer_view usa solo case_id y status — debe funcionar igual en v1.1.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 37,
+      "spw": 1.85,
+      "wps": 20.0,
+      "fh": 75.4,
+      "inflesz": 71.6,
+      "band": "bastante_fácil",
+      "locator": "L1740:tests",
+      "field": "tests",
+      "text": "La evolución aditiva de `CASO-LIM-040-4B` conserva el consumer contract y documenta deuda; imprime `S40-T4-B PASS`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 22,
+      "n_syllables": 40,
+      "spw": 1.818,
+      "wps": 11.0,
+      "fh": 86.5,
+      "inflesz": 82.6,
+      "band": "fácil",
+      "locator": "L1741:feedback",
+      "field": "feedback",
+      "text": "S40-T4-B-E1: el artefacto es v1⊆v1.1 + vista del consumidor + deuda fechada. DEFECT invertía el subconjunto (pedía v11 ⊂ v1).",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 67,
+      "n_syllables": 130,
+      "spw": 1.94,
+      "wps": 16.75,
+      "fh": 73.3,
+      "inflesz": 69.2,
+      "band": "bastante_fácil",
+      "locator": "L1797:instruction",
+      "field": "instruction",
+      "text": "S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fixture adverso y registro sin `retire_on`. Entrada: dict con case_id, v1_fields, v11_fields, debt_owner, retire_on. Salidas exactas: `PASS`, `BLOCK_BREAKING_CHANGE`, `MISSING:retire_on`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 67
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 31,
+      "spw": 2.067,
+      "wps": 15.0,
+      "fh": 67.5,
+      "inflesz": 63.1,
+      "band": "normal",
+      "locator": "L1798:hint",
+      "field": "hint",
+      "text": "Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 31,
+      "spw": 2.067,
+      "wps": 15.0,
+      "fh": 67.5,
+      "inflesz": 63.1,
+      "band": "normal",
+      "locator": "L1800:paragraph",
+      "field": "paragraph",
+      "text": "Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 26,
+      "n_syllables": 47,
+      "spw": 1.808,
+      "wps": 13.0,
+      "fh": 85.1,
+      "inflesz": 81.2,
+      "band": "fácil",
+      "locator": "L1801:paragraph",
+      "field": "paragraph",
+      "text": "Después aplica la regla de S40-T4-B: campos v1 preservados y deuda con owner/fecha. El fixture adverso debe fallar por contenido, no por schema.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 19,
+      "n_syllables": 41,
+      "spw": 2.158,
+      "wps": 19.0,
+      "fh": 58.0,
+      "inflesz": 53.4,
+      "band": "bastante_difícil",
+      "locator": "L1804:tests",
+      "field": "tests",
+      "text": "La tabla cubre válido/adverso/campo `retire_on` ausente y produce exactamente `PASS BLOCK_BREAKING_CHANGE MISSING:retire_on`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 18,
+      "n_syllables": 33,
+      "spw": 1.833,
+      "wps": 18.0,
+      "fh": 78.5,
+      "inflesz": 74.6,
+      "band": "bastante_fácil",
+      "locator": "L1805:feedback",
+      "field": "feedback",
+      "text": "S40-T4-B-E2: evolución aditiva + deuda fechada → PASS; romper v1 → BLOCK_BREAKING_CHANGE; sin retire_on → MISSING.",
+      "findings": [
+        {
+          "rule": "english_dominant_suspect",
+          "sev": "L",
+          "es_markers": 1,
+          "wc": 18
+        }
+      ]
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 60,
+      "n_syllables": 130,
+      "spw": 2.167,
+      "wps": 30.0,
+      "fh": 46.2,
+      "inflesz": 41.9,
+      "band": "difícil",
+      "locator": "L1851:instruction",
+      "field": "instruction",
+      "text": "S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos. `CASO-LIM-040-4B` debe continuar, el adverso debe devolver `BLOCK_BREAKING_CHANGE` y la ausencia de `retire_on` debe devolver `NEGOTIATE_VERSION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 60
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 35,
+      "spw": 2.333,
+      "wps": 15.0,
+      "fh": 51.5,
+      "inflesz": 46.5,
+      "band": "bastante_difícil",
+      "locator": "L1852:hint",
+      "field": "hint",
+      "text": "Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 35,
+      "spw": 2.333,
+      "wps": 15.0,
+      "fh": 51.5,
+      "inflesz": 46.5,
+      "band": "bastante_difícil",
+      "locator": "L1854:paragraph",
+      "field": "paragraph",
+      "text": "Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 21,
+      "n_syllables": 45,
+      "spw": 2.143,
+      "wps": 21.0,
+      "fh": 56.8,
+      "inflesz": 52.3,
+      "band": "bastante_difícil",
+      "locator": "L1855:paragraph",
+      "field": "paragraph",
+      "text": "Para datos completos reutiliza la regla que demostró campos v1 preservados y deuda con owner/fecha; solo ese caso devuelve `CONTINUE`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 31,
+      "spw": 1.824,
+      "wps": 17.0,
+      "fh": 80.1,
+      "inflesz": 76.2,
+      "band": "fácil",
+      "locator": "L1858:tests",
+      "field": "tests",
+      "text": "Fixtures `CASO-LIM-040-4B`, adverso y sin `retire_on` prueban continue/breach/uncertainty en ese orden.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 18,
+      "n_syllables": 35,
+      "spw": 1.944,
+      "wps": 18.0,
+      "fh": 71.8,
+      "inflesz": 67.7,
+      "band": "bastante_fácil",
+      "locator": "L1859:feedback",
+      "field": "feedback",
+      "text": "S40-T4-B-E3: CONTINUE con compat aditiva; breaking → BLOCK_BREAKING_CHANGE; sin fecha de retiro → NEGOTIATE_VERSION.",
+      "findings": []
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 69,
+      "n_syllables": 170,
+      "spw": 2.464,
+      "wps": 17.25,
+      "fh": 41.4,
+      "inflesz": 36.1,
+      "band": "difícil",
+      "locator": "L1905:context",
+      "field": "context",
+      "text": "Dossier de arquitectura gobernada para Red Andina (organización ficticia). Trabaja sobre una plataforma sintética de atención empresarial en Lima que separa intake, resolución de entidades (ER), relación, triage, reporting e IA. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida: mapa C4, context map, contratos y ADRs versionados con responsables. El gate se bloquea si hay frontera ambigua, dependencia del dominio hacia infraestructura o decisión sin medida.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 69
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 21,
+      "n_syllables": 50,
+      "spw": 2.381,
+      "wps": 21.0,
+      "fh": 42.6,
+      "inflesz": 37.5,
+      "band": "difícil",
+      "locator": "L1907:paragraph",
+      "field": "paragraph",
+      "text": "Convertir requisitos, escenarios de calidad, vocabulario de dominio y restricciones en mapa C4, context map, contratos y ADRs versionados con responsables.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 38,
+      "spw": 2.235,
+      "wps": 17.0,
+      "fh": 55.4,
+      "inflesz": 50.6,
+      "band": "bastante_difícil",
+      "locator": "L1908:paragraph",
+      "field": "paragraph",
+      "text": "Demostrar el gate: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 22,
+      "n_syllables": 47,
+      "spw": 2.136,
+      "wps": 22.0,
+      "fh": 56.2,
+      "inflesz": 51.7,
+      "band": "bastante_difícil",
+      "locator": "L1909:paragraph",
+      "field": "paragraph",
+      "text": "Probar el fallo: si hay frontera ambigua, dependencia del dominio hacia infraestructura o decisión sin medida, el gate se bloquea (fail-closed).",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 35,
+      "spw": 2.917,
+      "wps": 12.0,
+      "fh": 19.6,
+      "inflesz": 13.1,
+      "band": "muy_difícil",
+      "locator": "L1910:paragraph",
+      "field": "paragraph",
+      "text": "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 3,
+          "wc": 12
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 25,
+      "spw": 2.778,
+      "wps": 9.0,
+      "fh": 31.0,
+      "inflesz": 24.8,
+      "band": "difícil",
+      "locator": "L1913:paragraph",
+      "field": "paragraph",
+      "text": "Usa exclusivamente fixtures sintéticos identificados por `CASO-LIM-040`.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 29,
+      "spw": 2.636,
+      "wps": 11.0,
+      "fh": 37.4,
+      "inflesz": 31.6,
+      "band": "difícil",
+      "locator": "L1914:paragraph",
+      "field": "paragraph",
+      "text": "Incluye quality-attribute scenarios con fuente, estímulo, entorno, respuesta y medida.",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 3,
+          "wc": 11
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 20,
+      "spw": 2.0,
+      "wps": 10.0,
+      "fh": 76.6,
+      "inflesz": 72.2,
+      "band": "bastante_fácil",
+      "locator": "L1915:paragraph",
+      "field": "paragraph",
+      "text": "Incluye context map de intake/ER/relación/triage/reporting/IA.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 6,
+      "n_syllables": 14,
+      "spw": 2.333,
+      "wps": 6.0,
+      "fh": 60.7,
+      "inflesz": 55.5,
+      "band": "normal",
+      "locator": "L1916:paragraph",
+      "field": "paragraph",
+      "text": "Incluye C4 de contexto y contenedores.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 21,
+      "spw": 2.1,
+      "wps": 10.0,
+      "fh": 70.6,
+      "inflesz": 66.0,
+      "band": "bastante_fácil",
+      "locator": "L1917:paragraph",
+      "field": "paragraph",
+      "text": "Incluye dos ADRs con alternativas, consecuencias y plan de reversión.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 30,
+      "spw": 2.143,
+      "wps": 14.0,
+      "fh": 64.0,
+      "inflesz": 59.3,
+      "band": "normal",
+      "locator": "L1918:paragraph",
+      "field": "paragraph",
+      "text": "Automatiza un caso normal, uno de breach (`BLOCK_ARCHITECTURE`) y uno incierto (`REVIEW_ADR`).",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 9,
+      "n_syllables": 29,
+      "spw": 3.222,
+      "wps": 9.0,
+      "fh": 4.3,
+      "inflesz": -2.9,
+      "band": "muy_difícil",
+      "locator": "L1919:paragraph",
+      "field": "paragraph",
+      "text": "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 10,
+      "n_syllables": 28,
+      "spw": 2.8,
+      "wps": 10.0,
+      "fh": 28.6,
+      "inflesz": 22.4,
+      "band": "muy_difícil",
+      "locator": "L1920:paragraph",
+      "field": "paragraph",
+      "text": "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 2,
+          "wc": 10
+        }
+      ]
+    },
+    {
+      "n_sentences": 4,
+      "n_words": 64,
+      "n_syllables": 131,
+      "spw": 2.047,
+      "wps": 16.0,
+      "fh": 67.7,
+      "inflesz": 63.3,
+      "band": "normal",
+      "locator": "L2015:portfolioNote",
+      "field": "portfolioNote",
+      "text": "Evidencia de CP-N4-A · mapa de arquitectura gobernado: completa las plantillas QA, context map, C4 y dos ADRs del starter. Rúbrica ADR: contexto de negocio, ≥2 alternatives, consequences con residual, rollback operable, status accepted firmado por dueño — no archivos vacíos con títulos. Marca evidence en True solo con artefactos reales. El checklist inicia en BLOCKED por diseño — no cambies asserts para forzar READY.",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 64
+        }
+      ]
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 25,
+      "spw": 2.083,
+      "wps": 12.0,
+      "fh": 69.6,
+      "inflesz": 65.0,
+      "band": "normal",
+      "locator": "L2028:question",
+      "field": "question",
+      "text": "¿Qué evidencia permite aprobar un quality-attribute scenario en CASO-LIM-040?",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 22,
+      "n_syllables": 56,
+      "spw": 2.545,
+      "wps": 22.0,
+      "fh": 31.7,
+      "inflesz": 26.3,
+      "band": "difícil",
+      "locator": "L2031:explanation",
+      "field": "explanation",
+      "text": "La teoría exige escenario QA completo (fuente, estímulo, entorno, respuesta, medida/umbral y dueño); evidencia decorativa o PII no satisface el contrato.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 35,
+      "spw": 2.188,
+      "wps": 16.0,
+      "fh": 59.3,
+      "inflesz": 54.6,
+      "band": "bastante_difícil",
+      "locator": "L2034:question",
+      "field": "question",
+      "text": "Si ocurre un breach de arquitectura en el You Do, ¿qué respuesta preserva seguridad y auditabilidad?",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 36,
+      "spw": 2.4,
+      "wps": 15.0,
+      "fh": 47.5,
+      "inflesz": 42.3,
+      "band": "difícil",
+      "locator": "L2037:explanation",
+      "field": "explanation",
+      "text": "El contrato falla cerrado con BLOCK_ARCHITECTURE; no convierte incertidumbre o breach en éxito silencioso.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 12,
+      "n_syllables": 26,
+      "spw": 2.167,
+      "wps": 12.0,
+      "fh": 64.6,
+      "inflesz": 59.9,
+      "band": "normal",
+      "locator": "L2040:question",
+      "field": "question",
+      "text": "¿Cuál resultado demuestra el gate CP-N4-A (mapa de arquitectura gobernado)?",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 34,
+      "spw": 2.125,
+      "wps": 16.0,
+      "fh": 63.0,
+      "inflesz": 58.4,
+      "band": "normal",
+      "locator": "L2043:explanation",
+      "field": "explanation",
+      "text": "El gate es conductual y medible: fronteras explícitas + medida, dueño y consecuencia en cada trade-off.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 19,
+      "spw": 1.727,
+      "wps": 11.0,
+      "fh": 92.0,
+      "inflesz": 88.2,
+      "band": "muy_fácil",
+      "locator": "L2046:question",
+      "field": "question",
+      "text": "¿Qué tratamiento de CASO-LIM-040 respeta el alcance del curso?",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 17,
+      "n_syllables": 36,
+      "spw": 2.118,
+      "wps": 17.0,
+      "fh": 62.4,
+      "inflesz": 57.9,
+      "band": "normal",
+      "locator": "L2049:explanation",
+      "field": "explanation",
+      "text": "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 11,
+      "n_syllables": 22,
+      "spw": 2.0,
+      "wps": 11.0,
+      "fh": 75.6,
+      "inflesz": 71.2,
+      "band": "bastante_fácil",
+      "locator": "L2052:question",
+      "field": "question",
+      "text": "En ports & adapters (hexagonal), ¿qué dependencia es un breach de frontera?",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 20,
+      "n_syllables": 41,
+      "spw": 2.05,
+      "wps": 20.0,
+      "fh": 63.4,
+      "inflesz": 59.1,
+      "band": "normal",
+      "locator": "L2055:explanation",
+      "field": "explanation",
+      "text": "Invertir la dependencia (dominio → framework) acopla el núcleo a la infra; el adapter debe depender del puerto, no al revés.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 15,
+      "n_syllables": 23,
+      "spw": 1.533,
+      "wps": 15.0,
+      "fh": 99.5,
+      "inflesz": 96.3,
+      "band": "muy_fácil",
+      "locator": "L2058:question",
+      "field": "question",
+      "text": "En C4 para CASO-LIM-040, ¿qué pertenece al nivel container y no al context?",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 16,
+      "n_syllables": 36,
+      "spw": 2.25,
+      "wps": 16.0,
+      "fh": 55.5,
+      "inflesz": 50.7,
+      "band": "bastante_difícil",
+      "locator": "L2061:explanation",
+      "field": "explanation",
+      "text": "Context muestra personas y sistemas externos; container descompone la aplicación en api/worker/db/object_store.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 14,
+      "n_syllables": 25,
+      "spw": 1.786,
+      "wps": 14.0,
+      "fh": 85.4,
+      "inflesz": 81.6,
+      "band": "fácil",
+      "locator": "L2064:question",
+      "field": "question",
+      "text": "¿Qué campos mínimos hacen aceptable un ADR de evolución de API en S40-T4?",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 18,
+      "n_syllables": 40,
+      "spw": 2.222,
+      "wps": 18.0,
+      "fh": 55.1,
+      "inflesz": 50.4,
+      "band": "bastante_difícil",
+      "locator": "L2067:explanation",
+      "field": "explanation",
+      "text": "Un ADR accepted requiere decisión, alternativas, consecuencias y señal de reversión (rollback), no solo un título o imagen.",
+      "findings": []
+    },
+    {
+      "n_sentences": 1,
+      "n_words": 18,
+      "n_syllables": 32,
+      "spw": 1.778,
+      "wps": 18.0,
+      "fh": 81.8,
+      "inflesz": 78.1,
+      "band": "fácil",
+      "locator": "L2070:question",
+      "field": "question",
+      "text": "En evolución de APIs (S40-T4-B), ¿cuándo el consumer contract de la versión previa permanece en verde?",
+      "findings": []
+    },
+    {
+      "n_sentences": 2,
+      "n_words": 26,
+      "n_syllables": 52,
+      "spw": 2.0,
+      "wps": 13.0,
+      "fh": 73.6,
+      "inflesz": 69.2,
+      "band": "bastante_fácil",
+      "locator": "L2073:explanation",
+      "field": "explanation",
+      "text": "Compatibilidad aditiva conserva los campos de v1 en v1.1; borrar o redefinir sin versión es breaking. La deuda técnica exige dueño y fecha de retiro.",
+      "findings": []
+    }
+  ],
+  "per_sentence_count": 385,
+  "worst_25_sentences": [
+    {
+      "locator": "L30:paragraph",
+      "field": "paragraph",
+      "text": "**Diccionario de la sección** (léelo antes de T1). **Quality attribute (QA):** escenario medible (fuente, estímulo, respuesta, umbral, dueño). **Trade-off:** elección entre alternativas con scores y riesgo residual aceptado. **Bounded context:** frontera de lenguaje ubicuo. **Ports/adapters:** dependencias apuntan al dominio, no al revés. **C4:** context/container/component/code. **ADR:** Architecture Decision Record (contexto, decisión, consecuencias). **Medida + dueño + consecuencia:** trío mínimo para promover un trade-off.",
+      "n_words": 66,
+      "n_syl": 156,
+      "spw": 2.364,
+      "wps": 66,
+      "fh": -2.3,
+      "inflesz": -6.4,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 66
+        }
+      ]
+    },
+    {
+      "locator": "L1919:paragraph",
+      "field": "paragraph",
+      "text": "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
+      "n_words": 9,
+      "n_syl": 29,
+      "spw": 3.222,
+      "wps": 9,
+      "fh": 4.3,
+      "inflesz": -2.9,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L32:paragraph",
+      "field": "paragraph",
+      "text": "Producto incremental: dossier de arquitectura gobernada.",
+      "n_words": 6,
+      "n_syl": 19,
+      "spw": 3.167,
+      "wps": 6,
+      "fh": 10.7,
+      "inflesz": 3.6,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L139:paragraph",
+      "field": "paragraph",
+      "text": "Salida: grafo sin saltos prohibidos. **Prohibido:** `presentation→infrastructure` (saltar application) y `domain→infrastructure` (dominio acoplado a infra). **Permitido:** `infrastructure→domain` (el adapter mira hacia adentro).",
+      "n_words": 25,
+      "n_syl": 71,
+      "spw": 2.84,
+      "wps": 25,
+      "fh": 10.9,
+      "inflesz": 4.9,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L1910:paragraph",
+      "field": "paragraph",
+      "text": "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
+      "n_words": 12,
+      "n_syl": 35,
+      "spw": 2.917,
+      "wps": 12,
+      "fh": 19.6,
+      "inflesz": 13.1,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 3,
+          "wc": 12
+        }
+      ]
+    },
+    {
+      "locator": "L1905:context",
+      "field": "context",
+      "text": "Trabaja sobre una plataforma sintética de atención empresarial en Lima que separa intake, resolución de entidades (ER), relación, triage, reporting e IA. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones.",
+      "n_words": 32,
+      "n_syl": 82,
+      "spw": 2.562,
+      "wps": 32,
+      "fh": 20.5,
+      "inflesz": 15.2,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L63:heading",
+      "field": "heading",
+      "text": "Requisitos funcionales y quality attributes",
+      "n_words": 5,
+      "n_syl": 15,
+      "spw": 3.0,
+      "wps": 5,
+      "fh": 21.7,
+      "inflesz": 14.9,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "locator": "L33:paragraph",
+      "field": "paragraph",
+      "text": "En cada subtema verás un criterio medible, una demo que calcula el contrato y laboratorio E1/E2/E3 (E1 a menudo ensambla el artefacto: context map, C4+ADR, entity/VO, consumer contract; E2/E3 refuerzan fail-closed). **Alcance:** arquitectura y DDD aplicados a intake→ER→triage→reporting; no orquestación de agentes LLM. Stack didáctico: **stdlib** (dicts, listas) para progressive disclosure.",
+      "n_words": 60,
+      "n_syl": 123,
+      "spw": 2.05,
+      "wps": 60,
+      "fh": 22.6,
+      "inflesz": 19.1,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "run_on",
+          "sev": "H",
+          "wc": 60
+        }
+      ]
+    },
+    {
+      "locator": "L1905:context",
+      "field": "context",
+      "text": "Dossier de arquitectura gobernada para Red Andina (organización ficticia).",
+      "n_words": 9,
+      "n_syl": 26,
+      "spw": 2.889,
+      "wps": 9,
+      "fh": 24.3,
+      "inflesz": 17.9,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L430:why",
+      "field": "why",
+      "text": "Valida aristas del grafo de capas: presentation→application→domain e infrastructure→domain están permitidas; presentation→infrastructure y domain→infrastructure son breach.",
+      "n_words": 21,
+      "n_syl": 56,
+      "spw": 2.667,
+      "wps": 21,
+      "fh": 25.4,
+      "inflesz": 19.7,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L1920:paragraph",
+      "field": "paragraph",
+      "text": "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.",
+      "n_words": 10,
+      "n_syl": 28,
+      "spw": 2.8,
+      "wps": 10,
+      "fh": 28.6,
+      "inflesz": 22.4,
+      "band": "muy_difícil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 2,
+          "wc": 10
+        }
+      ]
+    },
+    {
+      "locator": "L104:paragraph",
+      "field": "paragraph",
+      "text": "Un **trade-off** compara alternativas contra criterios ponderados y registra riesgo residual (probabilidad × impacto) con mitigación.",
+      "n_words": 16,
+      "n_syl": 43,
+      "spw": 2.688,
+      "wps": 16,
+      "fh": 29.3,
+      "inflesz": 23.4,
+      "band": "muy_difícil",
+      "findings": []
+    },
+    {
+      "locator": "L1913:paragraph",
+      "field": "paragraph",
+      "text": "Usa exclusivamente fixtures sintéticos identificados por `CASO-LIM-040`.",
+      "n_words": 9,
+      "n_syl": 25,
+      "spw": 2.778,
+      "wps": 9,
+      "fh": 31.0,
+      "inflesz": 24.8,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "locator": "L2031:explanation",
+      "field": "explanation",
+      "text": "La teoría exige escenario QA completo (fuente, estímulo, entorno, respuesta, medida/umbral y dueño); evidencia decorativa o PII no satisface el contrato.",
+      "n_words": 22,
+      "n_syl": 56,
+      "spw": 2.545,
+      "wps": 22,
+      "fh": 31.7,
+      "inflesz": 26.3,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "locator": "L15:paragraph",
+      "field": "paragraph",
+      "text": "En equipos de plataforma y producto (banca, fintech y operaciones en LatAm), arquitectura, DDD y decisiones técnicas convierten requisitos en fronteras de código y evidencia revisable.",
+      "n_words": 26,
+      "n_syl": 64,
+      "spw": 2.462,
+      "wps": 26,
+      "fh": 32.6,
+      "inflesz": 27.5,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "locator": "L569:intro",
+      "field": "intro",
+      "text": "Fixtures sintéticos con vocabulario intake→ER→triage→reporting.",
+      "n_words": 8,
+      "n_syl": 22,
+      "spw": 2.75,
+      "wps": 8,
+      "fh": 33.7,
+      "inflesz": 27.5,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "locator": "L67:paragraph",
+      "field": "paragraph",
+      "text": "Salida: escenario completo o rechazo.",
+      "n_words": 5,
+      "n_syl": 14,
+      "spw": 2.8,
+      "wps": 5,
+      "fh": 33.7,
+      "inflesz": 27.4,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "locator": "L436:description",
+      "field": "description",
+      "text": "Demo: dominio depende de Protocol CaseRepo; MemoryCaseRepo es el adapter",
+      "n_words": 10,
+      "n_syl": 27,
+      "spw": 2.7,
+      "wps": 10,
+      "fh": 34.6,
+      "inflesz": 28.6,
+      "band": "difícil",
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M"
+        }
+      ]
+    },
+    {
+      "locator": "L868:paragraph",
+      "field": "paragraph",
+      "text": "Convierte cada edge a tuple y compáralo con el conjunto forbidden {(domain, infrastructure), (presentation, infrastructure)}.",
+      "n_words": 15,
+      "n_syl": 39,
+      "spw": 2.6,
+      "wps": 15,
+      "fh": 35.5,
+      "inflesz": 29.9,
+      "band": "difícil",
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "commas": 3,
+          "wc": 15
+        }
+      ]
+    },
+    {
+      "locator": "L666:instruction",
+      "field": "instruction",
+      "text": "El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "n_words": 19,
+      "n_syl": 48,
+      "spw": 2.526,
+      "wps": 19,
+      "fh": 35.9,
+      "inflesz": 30.4,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "locator": "L811:instruction",
+      "field": "instruction",
+      "text": "El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "n_words": 19,
+      "n_syl": 48,
+      "spw": 2.526,
+      "wps": 19,
+      "fh": 35.9,
+      "inflesz": 30.4,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "locator": "L965:instruction",
+      "field": "instruction",
+      "text": "El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "n_words": 19,
+      "n_syl": 48,
+      "spw": 2.526,
+      "wps": 19,
+      "fh": 35.9,
+      "inflesz": 30.4,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "locator": "L1317:instruction",
+      "field": "instruction",
+      "text": "El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "n_words": 19,
+      "n_syl": 48,
+      "spw": 2.526,
+      "wps": 19,
+      "fh": 35.9,
+      "inflesz": 30.4,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "locator": "L1505:instruction",
+      "field": "instruction",
+      "text": "El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "n_words": 19,
+      "n_syl": 48,
+      "spw": 2.526,
+      "wps": 19,
+      "fh": 35.9,
+      "inflesz": 30.4,
+      "band": "difícil",
+      "findings": []
+    },
+    {
+      "locator": "L1679:instruction",
+      "field": "instruction",
+      "text": "El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "n_words": 19,
+      "n_syl": 48,
+      "spw": 2.526,
+      "wps": 19,
+      "fh": 35.9,
+      "inflesz": 30.4,
+      "band": "difícil",
+      "findings": []
+    }
+  ]
+}

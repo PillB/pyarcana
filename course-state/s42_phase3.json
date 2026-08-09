@@ -1,0 +1,1070 @@
+{
+  "version": "3.2",
+  "section": "S42",
+  "section_id": "graph-rag",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S42 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S42 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s42-graph-rag.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "graph-rag",
+    "index": 42,
+    "title_platform": "Graph RAG y Knowledge Graphs",
+    "title_v3": "Schemas, seguridad y privacidad de servicios",
+    "title_decision": "KEEP platform id 'graph-rag' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted",
+    "estimatedHours": 14,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S41"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N4-A (control plane)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "graph-rag",
+    "platform_title": "Graph RAG y Knowledge Graphs",
+    "v3_title": "Schemas, seguridad y privacidad de servicios",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante define schemas Pydantic/JSON Schema.",
+    "El estudiante evoluciona schemas con validación de negocio.",
+    "El estudiante implementa authn/authz RBAC.",
+    "El estudiante aplica scopes y deny-by-default.",
+    "El estudiante mitiga injection/SSRF/path traversal.",
+    "El estudiante gestiona secretos, cifrado y deps.",
+    "El estudiante minimiza datos y fija retención.",
+    "El estudiante audita, borra y seudonimiza accesos."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S42-T1-A",
+      "slug": "pydantic-jsonschema",
+      "title": "Pydantic y JSON Schema"
+    },
+    {
+      "subtopic_id": "S42-T1-B",
+      "slug": "evolution-unions-business-val",
+      "title": "evolución, discriminated unions y validación de negocio"
+    },
+    {
+      "subtopic_id": "S42-T2-A",
+      "slug": "authn-authz-rbac",
+      "title": "authn/authz y RBAC"
+    },
+    {
+      "subtopic_id": "S42-T2-B",
+      "slug": "scopes-service-ids-deny",
+      "title": "scopes, service identities y deny-by-default"
+    },
+    {
+      "subtopic_id": "S42-T3-A",
+      "slug": "limits-injection-ssrf-path",
+      "title": "input limits, injection y SSRF/path traversal"
+    },
+    {
+      "subtopic_id": "S42-T3-B",
+      "slug": "secrets-crypto-deps",
+      "title": "secretos, cifrado y dependency risk"
+    },
+    {
+      "subtopic_id": "S42-T4-A",
+      "slug": "minimize-purpose-retention",
+      "title": "minimización, purpose y retención"
+    },
+    {
+      "subtopic_id": "S42-T4-B",
+      "slug": "audit-delete-pseudo-access",
+      "title": "audit, deletion, pseudonymization y acceso"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S42-T1",
+      "title": "Schemas",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S42-T1-A",
+          "slug": "pydantic-jsonschema",
+          "title": "Pydantic y JSON Schema",
+          "outcome": "El estudiante define schemas Pydantic/JSON Schema.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Pydantic y JSON Schema",
+              "must_cover": [
+                "Pydantic",
+                "JSON Schema"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S42-T1-A-DEMO",
+              "title": "Demo: Pydantic y JSON Schema",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S42-T1-A-E1",
+                "kind": "guided",
+                "title": "Pydantic y JSON Schema — guided",
+                "skill": "pydantic",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T1-A-E2",
+                "kind": "independent",
+                "title": "Pydantic y JSON Schema — independent",
+                "skill": "pydantic",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T1-A-E3",
+                "kind": "transfer",
+                "title": "Pydantic y JSON Schema — transfer",
+                "skill": "pydantic",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S42-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S42-T1-B",
+          "slug": "evolution-unions-business-val",
+          "title": "evolución, discriminated unions y validación de negocio",
+          "outcome": "El estudiante evoluciona schemas con validación de negocio.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "evolución, discriminated unions y validación de negocio",
+              "must_cover": [
+                "schema evolution",
+                "union"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S42-T1-B-DEMO",
+              "title": "Demo: evolución, discriminated unions y validación de negocio",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S42-T1-B-E1",
+                "kind": "guided",
+                "title": "evolución, discriminated unions y validación de negocio — guided",
+                "skill": "evolution",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T1-B-E2",
+                "kind": "independent",
+                "title": "evolución, discriminated unions y validación de negocio — independent",
+                "skill": "evolution",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T1-B-E3",
+                "kind": "transfer",
+                "title": "evolución, discriminated unions y validación de negocio — transfer",
+                "skill": "evolution",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S42-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S42-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S42-T1-EVAL-1",
+            "title": "Pydantic y JSON Schema — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S42-T1-EVAL-2",
+            "title": "evolución, discriminated unions y validación de negocio — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S42-T2",
+      "title": "Identidad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S42-T2-A",
+          "slug": "authn-authz-rbac",
+          "title": "authn/authz y RBAC",
+          "outcome": "El estudiante implementa authn/authz RBAC.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "authn/authz y RBAC",
+              "must_cover": [
+                "JWT",
+                "RBAC"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S42-T2-A-DEMO",
+              "title": "Demo: authn/authz y RBAC",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S42-T2-A-E1",
+                "kind": "guided",
+                "title": "authn/authz y RBAC — guided",
+                "skill": "authn",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T2-A-E2",
+                "kind": "independent",
+                "title": "authn/authz y RBAC — independent",
+                "skill": "authn",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T2-A-E3",
+                "kind": "transfer",
+                "title": "authn/authz y RBAC — transfer",
+                "skill": "authn",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S42-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S42-T2-B",
+          "slug": "scopes-service-ids-deny",
+          "title": "scopes, service identities y deny-by-default",
+          "outcome": "El estudiante aplica scopes y deny-by-default.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "scopes, service identities y deny-by-default",
+              "must_cover": [
+                "scopes",
+                "deny-by-default"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S42-T2-B-DEMO",
+              "title": "Demo: scopes, service identities y deny-by-default",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S42-T2-B-E1",
+                "kind": "guided",
+                "title": "scopes, service identities y deny-by-default — guided",
+                "skill": "scopes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T2-B-E2",
+                "kind": "independent",
+                "title": "scopes, service identities y deny-by-default — independent",
+                "skill": "scopes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T2-B-E3",
+                "kind": "transfer",
+                "title": "scopes, service identities y deny-by-default — transfer",
+                "skill": "scopes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S42-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S42-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S42-T2-EVAL-1",
+            "title": "authn/authz y RBAC — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S42-T2-EVAL-2",
+            "title": "scopes, service identities y deny-by-default — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S42-T3",
+      "title": "Seguridad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S42-T3-A",
+          "slug": "limits-injection-ssrf-path",
+          "title": "input limits, injection y SSRF/path traversal",
+          "outcome": "El estudiante mitiga injection/SSRF/path traversal.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "input limits, injection y SSRF/path traversal",
+              "must_cover": [
+                "injection",
+                "SSRF",
+                "path traversal"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S42-T3-A-DEMO",
+              "title": "Demo: input limits, injection y SSRF/path traversal",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S42-T3-A-E1",
+                "kind": "guided",
+                "title": "input limits, injection y SSRF/path traversal — guided",
+                "skill": "limits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T3-A-E2",
+                "kind": "independent",
+                "title": "input limits, injection y SSRF/path traversal — independent",
+                "skill": "limits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T3-A-E3",
+                "kind": "transfer",
+                "title": "input limits, injection y SSRF/path traversal — transfer",
+                "skill": "limits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S42-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S42-T3-B",
+          "slug": "secrets-crypto-deps",
+          "title": "secretos, cifrado y dependency risk",
+          "outcome": "El estudiante gestiona secretos, cifrado y deps.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "secretos, cifrado y dependency risk",
+              "must_cover": [
+                "secrets",
+                "crypto",
+                "deps"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S42-T3-B-DEMO",
+              "title": "Demo: secretos, cifrado y dependency risk",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S42-T3-B-E1",
+                "kind": "guided",
+                "title": "secretos, cifrado y dependency risk — guided",
+                "skill": "secrets",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T3-B-E2",
+                "kind": "independent",
+                "title": "secretos, cifrado y dependency risk — independent",
+                "skill": "secrets",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T3-B-E3",
+                "kind": "transfer",
+                "title": "secretos, cifrado y dependency risk — transfer",
+                "skill": "secrets",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S42-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S42-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S42-T3-EVAL-1",
+            "title": "input limits, injection y SSRF/path traversal — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S42-T3-EVAL-2",
+            "title": "secretos, cifrado y dependency risk — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S42-T4",
+      "title": "Privacidad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S42-T4-A",
+          "slug": "minimize-purpose-retention",
+          "title": "minimización, purpose y retención",
+          "outcome": "El estudiante minimiza datos y fija retención.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "minimización, purpose y retención",
+              "must_cover": [
+                "data minimization",
+                "retention"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S42-T4-A-DEMO",
+              "title": "Demo: minimización, purpose y retención",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S42-T4-A-E1",
+                "kind": "guided",
+                "title": "minimización, purpose y retención — guided",
+                "skill": "minimize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T4-A-E2",
+                "kind": "independent",
+                "title": "minimización, purpose y retención — independent",
+                "skill": "minimize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T4-A-E3",
+                "kind": "transfer",
+                "title": "minimización, purpose y retención — transfer",
+                "skill": "minimize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S42-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S42-T4-B",
+          "slug": "audit-delete-pseudo-access",
+          "title": "audit, deletion, pseudonymization y acceso",
+          "outcome": "El estudiante audita, borra y seudonimiza accesos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "audit, deletion, pseudonymization y acceso",
+              "must_cover": [
+                "audit log",
+                "right to delete"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S42-T4-B-DEMO",
+              "title": "Demo: audit, deletion, pseudonymization y acceso",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S42-T4-B-E1",
+                "kind": "guided",
+                "title": "audit, deletion, pseudonymization y acceso — guided",
+                "skill": "audit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T4-B-E2",
+                "kind": "independent",
+                "title": "audit, deletion, pseudonymization y acceso — independent",
+                "skill": "audit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S42-T4-B-E3",
+                "kind": "transfer",
+                "title": "audit, deletion, pseudonymization y acceso — transfer",
+                "skill": "audit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S42-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S42-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S42-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S42-T4-EVAL-1",
+            "title": "minimización, purpose y retención — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S42-T4-EVAL-2",
+            "title": "audit, deletion, pseudonymization y acceso — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S42-PROJ",
+    "title": "Schemas, seguridad y privacidad de servicios",
+    "replaces_legacy": "Legacy You Do de 'Graph RAG y Knowledge Graphs' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-A (control plane)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-A (control plane)",
+    "increment_gate": "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'graph-rag' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s42-graph-rag.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Graph RAG y Knowledge Graphs' vs 'Schemas, seguridad y privacidad de servicios'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-A (control plane)",
+    "increment_gate": "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted.",
+    "project_id": "S42-PROJ",
+    "section_passed": false,
+    "notes": "S42 contributes to CP-N4-A (control plane). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S42",
+    "risk": "Display title still 'Graph RAG y Knowledge Graphs' until product rename; topic mismatch vs V3 'Schemas, seguridad y privacidad de servicios'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S42-T1-A first"
+  }
+}

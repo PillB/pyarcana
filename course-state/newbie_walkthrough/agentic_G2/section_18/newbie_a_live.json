@@ -1,0 +1,530 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 18,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-dual-explorer-s18-0a31d4c2c0",
+  "production_note": "agentic_G2 dual-LLM explorer: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(\"n\", montos.size, \"| mean\", round(float(montos.mean()), 1), \"| median\", float(np.median(montos)))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "montos",
+        "array",
+        "dtype",
+        "float",
+        "print",
+        "size",
+        "mean",
+        "round"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T1-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: centro (mean/median) y n de montos. Fixture `S18-T1-A-E1` / datos …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(\"n\", montos.size, \"| mean\", round(float(montos.mean()), 1), \"| median\", float(np.median(montos)))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\niqr = float(q3 - q1)\nprint(\"Q1\", float(q1), \"| Q3\", float(q3), \"| IQR\", iqr)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "montos",
+        "array",
+        "dtype",
+        "float",
+        "quantile",
+        "iqr",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T1-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: cuartiles e IQR. Fixture `S18-T1-A-E2` / datos sintéticos: …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(\"Q1\", float(q1), \"| Q3\", float(q3), \"| IQR\", iqr)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\nprint(resumen([1, 2, 3, 4, 5]))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "def",
+        "resumen",
+        "asarray",
+        "dtype",
+        "float",
+        "return",
+        "int",
+        "size"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T1-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: función resumen n/mean/median/std. Fixture `S18-T1-A-E3` / …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(resumen([1, 2, 3, 4, 5]))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nprint(\"mean\", round(m, 1), \"| median\", med)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "mean",
+        "med",
+        "median",
+        "print",
+        "round"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T1-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: mean vs median y razón. Fixture `S18-T1-B-E1` / datos sintéticos: …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(\"mean\", round(m, 1), \"| median\", med)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\nprint(\"median\", med, \"| mad\", mad)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "med",
+        "median",
+        "mad",
+        "abs",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T1-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: MAD respecto a la mediana. Fixture `S18-T1-B-E2` / datos si…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(\"median\", med, \"| mad\", mad)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint(\"p10\", float(np.quantile(x, 0.1)), \"| p90\", float(np.quantile(x, 0.9)))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "print",
+        "p10",
+        "quantile",
+        "p90"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T1-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: transformación log1p de montos. Fixture `S18-T1-B-E3` / dat…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(\"p10\", float(np.quantile(x, 0.1)), \"| p90\", float(np.quantile(x, 0.9)))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nmuestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\nprint(round(share_lima, 2))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "muestra",
+        "Lima",
+        "Cusco",
+        "share_lima",
+        "count",
+        "len",
+        "print",
+        "round"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T2-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: share muestral vs población. Fixture `S18-T2-A-E1` / datos sintéti…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(round(share_lima, 2))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nshare = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(share - pob, 2))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "share",
+        "pob",
+        "print",
+        "bias_Lima_pp",
+        "round"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T2-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: bias en puntos porcentuales. Fixture `S18-T2-A-E2` / datos …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(\"bias_Lima_pp\", round(share - pob, 2))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ndef max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 3, \"Cusco\": 1}), 2))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "def",
+        "max_bias",
+        "pob",
+        "counts",
+        "sum",
+        "values",
+        "return",
+        "max",
+        "abs",
+        "for"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T2-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: máximo |bias| entre segmentos. Fixture `S18-T2-A-E3` / dato…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 3, \"Cusco\": 1}), 2))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(round(media - margen, 2), round(media + margen, 2))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "math",
+        "media",
+        "margen",
+        "sqrt",
+        "print",
+        "round"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T2-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: margen de IC 95% (1.96·s/√n). Fixture `S18-T2-B-E1` / datos sintét…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(round(media - margen, 2), round(media + margen, 2))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nd = (13 - 10) / 2\nprint(\"d\", round(d, 2))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "print",
+        "round"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T2-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: tamaño de efecto Cohen's d. Fixture `S18-T2-B-E2` / datos s…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(\"d\", round(d, 2))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ndiff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(ic)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "diff",
+        "round",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T2-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: IC95 como tupla (low, high). Fixture `S18-T2-B-E3` / datos …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(ic)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nr = float(np.corrcoef(x, y)[0, 1])\nprint(round(r, 4))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "corrcoef",
+        "print",
+        "round"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T3-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: correlación de Pearson. Fixture `S18-T3-A-E1` / datos sintéticos: …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(round(r, 4))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nr = 0.82\nprint(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "print",
+        "asociacion_observada",
+        "abs",
+        "else",
+        "asociacion_debil"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T3-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: etiqueta asociación_observada (no causa). Fixture `S18-T3-A…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nxr = x - np.polyval(bx, z)\nyr = y - np.polyval(by, z)\nr_part = float(np.corrcoef(xr, yr)[0, 1]) if np.std(xr) and np.std(yr) else 0.0\nprint(round(r_raw, 4), round(r_part, 4))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "copy",
+        "r_raw",
+        "corrcoef",
+        "polyfit",
+        "polyval"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T3-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: correlación residual tras confusor. Fixture `S18-T3-A-E3` /…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(round(r_raw, 4), round(r_part, 4))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 1.5 * iqr\nprint(m[m > hi].tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "quantile",
+        "iqr",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T3-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: conteo de outliers Tukey (hi=Q3+1.5·IQR). Fixture `S18-T3-B-E1` / …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(m[m > hi].tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"])\nflag = np.array([True, True, False])\nprint(region[flag].tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "region",
+        "array",
+        "Lima",
+        "Cusco",
+        "flag",
+        "True",
+        "False",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T3-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: tasa de anomalías por región. Fixture `S18-T3-B-E2` / datos…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(region[flag].tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nclean = m[(m >= lo) & (m <= hi)]\nprint(float(np.median(clean)))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "quantile",
+        "iqr",
+        "clean",
+        "print",
+        "median"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T3-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: flags booleanos Tukey. Fixture `S18-T3-B-E3` / datos sintét…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(float(np.median(clean)))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nevidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana >= 5\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"pregunta\"])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "evidencia",
+        "pregunta",
+        "ticket",
+        "mediano",
+        "hipotesis",
+        "mediana",
+        "resultado",
+        "median",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T4-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: dict pregunta/hipótesis/resultado. Fixture `S18-T4-A-E1` / datos s…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(evidencia[\"pregunta\"])']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nmedian = 12\nprint(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "median",
+        "print",
+        "solo_hallazgo",
+        "else",
+        "candidato_decision"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T4-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: hallazgo vs umbral de decisión. Fixture `S18-T4-A-E2` / dat…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\ndef traza(pregunta, metrica, valor, limite):\n    print(f\"P: {pregunta} | M: {metrica} | V: {valor} | L: {limite}\")\ntraza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "def",
+        "traza",
+        "pregunta",
+        "metrica",
+        "valor",
+        "limite",
+        "print",
+        "ticket",
+        "mediano",
+        "Lima"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T4-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: traza Pregunta→Métrica→Valor→Límite. Fixture `S18-T4-A-E3` …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(f\"P: {pregunta} | M: {metrica} | V: {valor} | L: {limite}\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "note",
+        "n_raw",
+        "n_final",
+        "filtros",
+        "monto",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T4-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: data note n_raw/n_final/filtros. Fixture `S18-T4-B-E1` / datos sin…»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(note)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "hashlib",
+        "print",
+        "sha1",
+        "hexdigest"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T4-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: sha1 hex[:8] de payload CSV. Fixture `S18-T4-B-E2` / datos …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(hashlib.sha1(b\"a,b\\\\n1,2\\\\n\").hexdigest()[:8])']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "n_raw",
+        "len",
+        "df2",
+        "note",
+        "n_final",
+        "seed"
+      ],
+      "justification_from_packet": "[G2-Explorer] S18-T4-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: note tras filtro monto>0 con seed. Fixture `S18-T4-B-E3` / …»). Teoría activa: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar . Código usa ['print(note)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S18 Q0: «¿Qué comunica mejor un ticket “típico” con outliers fuertes?». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `dd. Opts vistas: ['Solo la media', 'Mediana (y opcionalmente IQR)', 'Solo el máximo', 'La moda de ids']."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S18 Q1: «Una correlación alta entre X e Y implica:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `dd. Opts vistas: ['Que X causa Y', 'Que no hay confusores', 'Que el IC es innecesario', 'Asociación observada (no causal por sí s']."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S18 Q2: «¿Qué debe incluir un data note mínimo?». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `dd. Opts vistas: ['Origen, filtros, n y límites de cobertur', 'Solo el gráfico final', 'La contraseña del VPN', 'El prompt del LLM']."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S18 Q3: «El sesgo de muestra ocurre cuando:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `dd. Opts vistas: ['std es alta', 'Usas mediana', 'La muestra no representa la población de', 'n > 30']."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S18 Q4: «En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r de Pearson alto entre gasto y visi». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «centro, dispersión y cuantiles» El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `dd. Opts vistas: ['Afirmar que más visitas causan más gasto', 'Reportar asociación observada, explorar ', 'Eliminar la correlación del informe porq', 'Usar solo la media y omitir n e interval']."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:01:42.818030+00:00",
+  "session_started_at": "2026-07-23T07:01:42.814506+00:00",
+  "session_ended_at": "2026-07-23T07:01:42.818046+00:00"
+}

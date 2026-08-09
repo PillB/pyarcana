@@ -1,0 +1,9 @@
+{
+  "section": 7,
+  "id": "data-acquisition",
+  "file": "src/lib/course/sections/s07-data-acquisition.ts",
+  "score_1_to_10": 6.4,
+  "issue_count": 22,
+  "meta_leak_count": 10,
+  "status": "complete"
+}

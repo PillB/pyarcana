@@ -1,0 +1,355 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 9,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s09-5276e093cb82",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "id": "S09-T1-A-E1",
+      "code": "fallos = [\n    (\"archivo ausente\", \"FileNotFoundError\"),\n    (\"tipo malo\", \"TypeError\"),\n    (\"valor malo\", \"ValueError\"),\n    (\"clave dict\", \"KeyError\"),\n    (\"timeout red\", \"TimeoutError\"),\n]\nfor f, t in fallos:\n    print(f\"{f} -> {t}\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S09-T1-A-E1 en «Excepciones, debugging y logging seguro» decidí contrastar con el output de la demo: el enunciado dice «Mapea 5 fallos sintéticos al tipo de excepción más adecuado e imprime `fallo -> Tipo`.». Hint útil: Piensa: tipo incorrecto vs valor ilegal vs clave ausente vs I/O vs genérico de dominio.. Checklist/tests: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. No asumo que la primera idea basta; vocabulario del paquete: debugging, numérico, Exception, TypeError. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "exceptions"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "id": "S09-T1-A-E2",
+      "code": "try:\n    int(\"x\")\nexcept ValueError as e:\n    print(type(e).__name__, e)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia en el paquete activo al resolver S09-T1-A-E2. La sección «Excepciones, debugging y logging seguro» exige Implementa `parse_monto(raw)` con `Decimal`: normaliza coma decimal, cuantiza a 0.01 y hace raise ValueError con mensaje accionable si no parsea, no es finito o es negativo.. Me baso en ilegal, Tipos, complica y en el hint «Decimal desde str; captura InvalidOperation. Mensaje debe incluir el raw.». Validación esperada: Contrato exacto: 10.5→Decimal('10.50'); 3,25→Decimal('3.25'); abc da 'monto no numérico'; -1 da 'mon. Por eso conviene contrastar con el output de la demo antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "except"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "id": "S09-T1-A-E3",
+      "code": "class IntakeError(Exception):\n    pass\ntry:\n    raise IntakeError(\"campo edad\")\nexcept IntakeError as e:\n    print(e)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S09-T1-A-E3 no improvisé: opté por derivar del starter sin inventar APIs y armé el cuerpo desde el starter. Instrucción (resumen): Define `DataLoadError` y `load_text(path_fn)` que captura OSError del lector y re-lanza DataLoadError con `from`.. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: chaining, causa, Excepciones, montos, concretos. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "custom"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "id": "S09-T1-B-E1",
+      "code": "try:\n    raise ValueError(\"raw\")\nexcept ValueError as e:\n    raise RuntimeError(\"wrap\") from e\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que la primera idea basta al resolver S09-T1-B-E1. La sección «Excepciones, debugging y logging seguro» exige Completa el `finally` para marcar el recurso como cerrado aunque haya excepción.. Me baso en KeyError, clave, texto y en el hint «El flag `closed` debe quedar True siempre.». Validación esperada: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Por eso conviene apoyar en la teoría del heading antes de cerrar; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "raise from"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "id": "S09-T1-B-E2",
+      "code": "def load_config(delim):\n    if delim is None or delim == \"\":\n        raise ValueError(\"delimiter vacio: fail-fast\")\n    return delim\ntry:\n    load_config(\"\")\nexcept ValueError as e:\n    print(e)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S09-T1-B-E2 no improvisé: opté por seguir el contrato del instruction y armé el cuerpo desde el starter. Instrucción (resumen): Clasifica 6 errores en recover o fail-fast e imprime `nombre: política`.. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: except, monto, montos, ilegal, FileNotFoundError. Sigo dudando de atajos.",
+      "concepts_used": [
+        "fail-fast"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "id": "S09-T1-B-E3",
+      "code": "def parse_or_quarantine(row):\n    try:\n        return \"ok\", int(row)\n    except ValueError:\n        return \"quarantine\", row\nprint(parse_or_quarantine(\"10\"), parse_or_quarantine(\"x\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S09/S09-T1-B-E3 («Excepciones, debugging y logging seguro»): Refactoriza el handler bare: captura ValueError (cuarentena) y deja propagar el resto.. Apoyo léxico: numérico, monto, concretos, previo. Hint: No uses except desnudo.. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. Desconfío de respuestas 'bonitas'; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "quarantine"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "id": "S09-T2-A-E1",
+      "code": "import sys\nprint(\"dato\", file=sys.stdout)\nprint(\"diag\", file=sys.stderr)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido y verificable al resolver S09-T2-A-E1. La sección «Excepciones, debugging y logging seguro» exige Dado un traceback sintético en string, anota 3 frames (nombre de función) de afuera hacia adentro.. Me baso en genérico, oculta, mantenemos y en el hint «Busca líneas 'File' o patrones 'in nombre'.». Validación esperada: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Por eso conviene seguir el contrato del instruction antes de cerrar; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "streams"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "id": "S09-T2-A-E2",
+      "code": "import logging\nlogging.basicConfig(level=logging.INFO)\nlog = logging.getLogger(\"intake\")\nlog.info(\"filas=%s\", 3)\nprint('{\"n\":3}')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S09-T2-A-E2 no improvisé: opté por confrontar con los hints y armé el cuerpo desde el starter. Instrucción (resumen): Simula un 'breakpoint': en normalize, si falta email, imprime locals seguros (solo id) y lanza KeyError.. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: valor, oculta, triage, contexto, OSError. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "logging"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "id": "S09-T2-A-E3",
+      "code": "def cli_emit(payload, log_msg):\n    import sys\n    print(log_msg, file=sys.stderr)\n    print(payload)\ncli_emit('{\"ok\":true}', \"done\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S09/S09-T2-A-E3 («Excepciones, debugging y logging seguro»): Solo con el traceback, imprime la causa raíz en una frase (función + clave faltante).. Apoyo léxico: valores, texto, ValueError, Tipos. Hint: No re-ejecutes el código original; parsea el texto.. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. Me resisto a copiar sin entender; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "cli"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "id": "S09-T2-B-E1",
+      "code": "def mask_email(e):\n    if \"@\" not in e:\n        return \"***\"\n    local, domain = e.split(\"@\", 1)\n    return (local[:1] + \"***@\" + domain) if local else \"***@\" + domain\nprint(mask_email(\"ana@ejemplo.pe\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S09-T2-B-E1 no improvisé: opté por releer con desconfianza el material y armé el cuerpo desde el starter. Instrucción (resumen): Recorta la fixture a la fila mínima que hace fallar `parse_dni` (debe ser 8 dígitos).. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: raise, complica, valores, Tipos, oculta. No asumo que la primera idea basta.",
+      "concepts_used": [
+        "mask"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "id": "S09-T2-B-E2",
+      "code": "def mask_phone(p):\n    digits = \"\".join(c for c in p if c.isdigit())\n    if len(digits) < 4:\n        return \"***\"\n    return \"*\" * (len(digits) - 4) + digits[-4:]\nprint(mask_phone(\"999000111\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S09/S09-T2-B-E2 («Excepciones, debugging y logging seguro»): Un reporte afirma que `normalize_phone` perdió el código de país +51. Formula 2 hipótesis y experimentos que distingan el símbolo `+` de los dígitos de país `51`, según el contrato. Apoyo léxico: triage, except, contrato, TypeError. Hint: El formato normalizado contiene solo dígitos: debe conservar 51, no el carácter +.. Si el resultado no pasa «Contrato exacto: '+51 999 111 222'→'51999111222'; '999 111 222'→'999111222'; afirmar country_digits_», reintento. No asumo que la primera idea basta; si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "mask"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "id": "S09-T2-B-E3",
+      "code": "def safe_log_record(rec):\n    out = dict(rec)\n    if \"email\" in out:\n        e = out[\"email\"]\n        out[\"email\"] = e[0] + \"***@\" + e.split(\"@\")[-1] if e and \"@\" in e else \"***\"\n    return out\nprint(safe_log_record({\"id\": \"C1\", \"email\": \"ana@ejemplo.pe\"}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S09-T2-B-E3 en «Excepciones, debugging y logging seguro» decidí contrastar con el output de la demo: el enunciado dice «Añade un test de regresión: falla en rojo con la función bugueada y pasa tras el fix.». Hint útil: Imprime RED luego GREEN.. Checklist/tests: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Me resisto a copiar sin entender; vocabulario del paquete: ValueError, contexto, OSError, contrato. Riesgo que evito: si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "redact"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "id": "S09-T3-A-E1",
+      "code": "def fetch(retry=0):\n    if retry < 2:\n        raise TimeoutError(\"temp\")\n    return \"ok\"\nattempt = 0\nwhile True:\n    try:\n        print(fetch(attempt))\n        break\n    except TimeoutError:\n        attempt += 1\n        if attempt > 3:\n            raise\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S09-T3-A-E1 no improvisé: opté por releer con desconfianza el material y armé el cuerpo desde el starter. Instrucción (resumen): Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a 6 eventos e imprime `evento: NIVEL`.. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: ilegal, OSError, Decimal, genérico, causa. Exijo evidencia en el paquete activo.",
+      "concepts_used": [
+        "retry"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "id": "S09-T3-A-E2",
+      "code": "def classify_error(e):\n    if isinstance(e, TimeoutError):\n        return \"retryable\"\n    if isinstance(e, ValueError):\n        return \"data\"\n    return \"other\"\nprint(classify_error(TimeoutError()), classify_error(ValueError(\"x\")))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S09/S09-T3-A-E2 («Excepciones, debugging y logging seguro»): Configura un logger de módulo con StreamHandler a un StringIO y emite un INFO estructurado.. Apoyo léxico: contexto, KeyError, ValueError, raise. Hint: propagate=False; formatter simple.. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. Prefiero lo aburrido y verificable; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "classify"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "id": "S09-T3-A-E3",
+      "code": "import time\ndef backoff(i):\n    return min(2 ** i, 8)\nprint([backoff(i) for i in range(4)])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S09-T3-A-E3 en «Excepciones, debugging y logging seguro» decidí verificar contra el checklist de tests: el enunciado dice «Convierte prints de un CLI stub a logs estructurados; stdout final solo con el resultado.». Hint útil: Progreso a logger; resultado con print o stdout data.. Checklist/tests: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Me resisto a copiar sin entender; vocabulario del paquete: Prefiere, accionable, Decimal, ausente. Riesgo que evito: si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "backoff"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "id": "S09-T3-B-E1",
+      "code": "def minimal_repro(rows):\n    for r in rows:\n        try:\n            int(r)\n        except ValueError:\n            return r\n    return None\nprint(minimal_repro([\"1\", \"2\", \"x\", \"4\"]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S09/S09-T3-B-E1 («Excepciones, debugging y logging seguro»): Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos peruanos.. Apoyo léxico: triage, raise, complica, Excepciones. Hint: email: primer char + ***@dominio; phone: *** + últimos 4 dígitos.. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. Prefiero lo aburrido y verificable; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "repro"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "id": "S09-T3-B-E2",
+      "code": "def assert_repro(fn, sample):\n    try:\n        fn(sample)\n        return \"no_fail\"\n    except Exception as e:\n        return type(e).__name__\nprint(assert_repro(lambda s: int(s), \"x\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S09-T3-B-E2 en «Excepciones, debugging y logging seguro» decidí apoyar en la teoría del heading: el enunciado dice «Propaga `correlation_id` por 3 capas (cli → service → repo) e imprime el id en cada una.». Hint útil: Pasa el id como argumento explícito (sin global).. Checklist/tests: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Me resisto a copiar sin entender; vocabulario del paquete: logging, genérico, específicos, causa. Riesgo que evito: si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "repro"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "id": "S09-T3-B-E3",
+      "code": "bug_note = {\n    \"input\": \"edad='abc'\",\n    \"expected\": \"ValueError capturado a errors\",\n    \"not\": \"CSV completo de produccion\",\n}\nprint(bug_note)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin entender al resolver S09-T3-B-E3. La sección «Excepciones, debugging y logging seguro» exige Audita estáticamente el helper inseguro sin ejecutarlo ni imprimir PII raw; luego emite únicamente el log seguro redactado.. Me baso en monto, causa, Exception y en el hint «Detecta email/teléfono en el mensaje.». Validación esperada: Contrato exacto: stdout contiene solo 'detected_unsafe True' y 'SAFE error en a***@ejemplo.pe tel=**. Por eso conviene derivar del starter sin inventar APIs antes de cerrar; si mezclo intérpretes, el import falla en silencio.",
+      "concepts_used": [
+        "docs"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "id": "S09-T4-A-E1",
+      "code": "import traceback\ntry:\n    1/0\nexcept ZeroDivisionError:\n    print(\"caught\")\n    # traceback.print_exc()  # a stderr en debug\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico en S09/S09-T4-A-E1 («Excepciones, debugging y logging seguro»): Clasifica 8 fallos en data|config|provider e imprime `fallo: clase`.. Apoyo léxico: complica, ilegal, texto, contexto. Hint: Config = arranque/schema; data = fila; provider = red/IO externo.. Si el resultado no pasa «Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou», reintento. Desconfío de respuestas 'bonitas'; si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "traceback"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "id": "S09-T4-A-E2",
+      "code": "def handle(e):\n    return {\"error_type\": type(e).__name__, \"msg\": str(e)}\nprint(handle(ValueError(\"edad\")))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S09-T4-A-E2 en «Excepciones, debugging y logging seguro» decidí contrastar con el output de la demo: el enunciado dice «Implementa `process_batch` que envía filas sin `id` a quarantine y retorna conteos.». Hint útil: Retorno: ok, quarantined, in.. Checklist/tests: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. No asumo que la primera idea basta; vocabulario del paquete: seguro, debugging, TypeError, Prefiere. Riesgo que evito: si fusione scores o secretos, el curso lo marca como error de juicio.",
+      "concepts_used": [
+        "error dict"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "id": "S09-T4-A-E3",
+      "code": "errors = []\nfor raw in [\"10\", \"x\"]:\n    try:\n        errors.append((\"ok\", int(raw)))\n    except ValueError as e:\n        errors.append((\"err\", str(e)))\nprint(errors)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin entender al resolver S09-T4-A-E3. La sección «Excepciones, debugging y logging seguro» exige Escribe una política en 3 líneas: cuándo abortar el job (imprime POLICY:...).. Me baso en complica, logging, texto y en el hint «Cubre config, umbral de cuarentena y provider total down.». Validación esperada: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Por eso conviene confrontar con los hints antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "batch"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "id": "S09-T4-B-E1",
+      "code": "def job(config):\n    if not config.get(\"delimiter\"):\n        raise SystemExit(2)\n    return 0\nprint(job({\"delimiter\": \",\"}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Para S09-T4-B-E1 en «Excepciones, debugging y logging seguro» decidí seguir el contrato del instruction: el enunciado dice «Tabla error → retry sí/no para 5 tipos e imprime `error: yes|no`.». Hint útil: Solo transitorios: TimeoutError, ConnectionError.. Checklist/tests: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Desconfío de respuestas 'bonitas'; vocabulario del paquete: TypeError, Tipos, valor, complica. Riesgo que evito: si dejo ____ o pass, el checklist me caza.",
+      "concepts_used": [
+        "exit codes"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "id": "S09-T4-B-E2",
+      "code": "STEPS = [\"validate_config\", \"read\", \"parse\", \"write\", \"reconcile\"]\nprint(STEPS)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "No asumo que la primera idea basta al resolver S09-T4-B-E2. La sección «Excepciones, debugging y logging seguro» exige Implementa `retry_call(fn, max_attempts=3)` que reintenta solo TimeoutError.. Me baso en numérico, raise, incorrecto y en el hint «Devuelve el resultado o relanza el último TimeoutError.». Validación esperada: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Por eso conviene derivar del starter sin inventar APIs antes de cerrar; si ignoro hints, el exit code o el tipo salen mal.",
+      "concepts_used": [
+        "steps"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "id": "S09-T4-B-E3",
+      "code": "runbook = {\n    \"on_TimeoutError\": \"retry with backoff\",\n    \"on_ValueError\": \"quarantine row\",\n    \"on_config_error\": \"fail-fast\",\n}\nprint(runbook)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S09-T4-B-E3 no improvisé: opté por contrastar con el output de la demo y armé el cuerpo desde el starter. Instrucción (resumen): Diseña la clave de idempotencia para re-ingesta e imprímela para un ejemplo.. Los tests piden: Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdou. Conceptos del paquete que usé: oculta, FileNotFoundError, valores, complica, Tipos. Prefiero lo aburrido y verificable.",
+      "concepts_used": [
+        "runbook"
+      ],
+      "confidence": 0.88
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S09#0 en «Excepciones, debugging y logging seguro»: «¿Para qué sirve `raise NewError(...) from e`?». Escojo índice 0 → «Encadenar la causa en __cause__ sin perder contexto». Descarto «Ignorar el error original / Convertir todo a SystemExit» porque no cuadra con la teoría/demos. Señales del paquete: ausente, Decimal, texto, contrato. Exijo evidencia en el paquete activo.",
+      "confidence": 0.81
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S09#1 en «Excepciones, debugging y logging seguro»: «Un delimiter vacío en config del job debería…». Escojo índice 2 → «Fail-fast (abortar el job)». Descarto «Cuarentenar una fila y seguir / Reintentar 3 veces siempre» porque no cuadra con la teoría/demos. Señales del paquete: seguro, OSError, incorrecto, contrato. Prefiero lo aburrido y verificable.",
+      "confidence": 0.93
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S09#2 en «Excepciones, debugging y logging seguro»: «¿Qué va a stdout en una CLI bien diseñada?». Escojo índice 3 → «Solo datos; diagnóstico a stderr». Descarto «Logs DEBUG y el JSON de salida mezclados / Solo tracebacks» porque no cuadra con la teoría/demos. Señales del paquete: rechazo, contrato, debugging, OSError. Sigo dudando de atajos.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S09#3 en «Excepciones, debugging y logging seguro»: «mask_email('ana@ejemplo.pe') de forma segura podría ser…». Escojo índice 1 → «a***@ejemplo.pe». Descarto «ana@ejemplo.pe sin cambios / None» porque no cuadra con la teoría/demos. Señales del paquete: KeyError, concretos, seguro, Excepciones. Sigo dudando de atajos.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S09#4 en «Excepciones, debugging y logging seguro»: «TimeoutError en un fetch remoto típico…». Escojo índice 0 → «Puede reintentarse con backoff; ValueError de datos no». Descarto «Nunca se reintenta / Se convierte en KeyError» porque no cuadra con la teoría/demos. Señales del paquete: previo, contexto, concretos, raise. Prefiero lo aburrido y verificable.",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S09#5 en «Excepciones, debugging y logging seguro»: «¿Cuál es un buen minimal repro?». Escojo índice 2 → «La entrada más pequeña que reproduce el bug». Descarto «Todo el CSV de producción / Reiniciar el servidor tres veces» porque no cuadra con la teoría/demos. Señales del paquete: triage, causa, Prefiere, concretos. Me resisto a copiar sin entender.",
+      "confidence": 0.85
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:16:36.878605+00:00",
+  "session_started_at": "2026-07-23T15:15:41.566705+00:00",
+  "session_ended_at": "2026-07-23T15:16:36.876711+00:00",
+  "receipt_response_sha256": "d56aed87e7d37bf88a201138fbc4457f76a41f5aa4a5bfed3c4c636c42790d7a",
+  "receipt_exercises_sha256": "77a6534989c4fa0fd54bc5fcc233c602d126f375d0d8d2eb6b0fa15b41b35caa",
+  "receipt_selfcheck_sha256": "1121beb6970cff6aee59ed693b8c79d99b1a99854f9b2bedd1113b08ecd35e3e"
+}

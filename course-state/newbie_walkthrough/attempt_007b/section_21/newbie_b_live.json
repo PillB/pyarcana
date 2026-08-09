@@ -1,0 +1,279 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_007b",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 21,
+  "recorded_at": "2026-07-21T21:24:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos + weDo instruction/hints/starters only",
+      "notes": "Jinja/report factory from demos; jinja2 Template + classify OCR density."
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Para reutilizar presentación y auditar métricas en Python",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: data in Python, template only presents."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "OCR / tratamiento de imagen",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory needs_ocr for scanned PDF; demo classify."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Mismas métricas clave en dashboard, Excel y documento",
+        "confidence": 0.96,
+        "blocked_on": [],
+        "note": "Demo T4-A parity dash==xlsx==doc."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Provenance, checklist visual y hallazgos trazables",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory + final provenance demo."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S21-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "from jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["jinja Template"],
+        "note": "Hints Template.render."
+      },
+      {
+        "exercise_id": "S21-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from jinja2 import Template\nprint(Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(region=\"Lima\", median=28, n=40))\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["median n PEN"],
+        "note": "Theory template pattern Lima 28 n=40."
+      },
+      {
+        "exercise_id": "S21-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "from jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\n\nprint(render_kpi({\"region\": \"Lima\", \"median\": 28.0, \"n\": 40}))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["render_kpi"],
+        "note": "Hints fixed template region/median/n."
+      },
+      {
+        "exercise_id": "S21-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "median = None\nprint(\"—\" if median is None else median)\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["missing em-dash"],
+        "note": "Starter median=None → —."
+      },
+      {
+        "exercise_id": "S21-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "x = 28.456\nprint(f\"{x:.2f}\")\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["2 decimals"],
+        "note": "Hints 28.46."
+      },
+      {
+        "exercise_id": "S21-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "from jinja2 import Template\nrows = [{\"region\": \"Lima\", \"value\": 28}, {\"region\": \"Cusco\", \"value\": 22}]\nprint(Template(\"{% for r in rows %}{{ r.region }}:{{ r.value }}\\n{% endfor %}\").render(rows=rows), end=\"\")\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["jinja for"],
+        "note": "Hints for loop two regions."
+      },
+      {
+        "exercise_id": "S21-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "sections = [{\"h\": 1, \"name\": \"Resumen\"}, {\"h\": 1, \"name\": \"Método\"}]\nprint([s[\"name\"] for s in sections])\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["sections list"],
+        "note": "Hints list of dicts names."
+      },
+      {
+        "exercise_id": "S21-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "sections = [{\"h\": 1}, {\"h\": 2}, {\"h\": 1}]\nprint(sum(1 for s in sections if s[\"h\"] == 1))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["count H1"],
+        "note": "Starter → 2."
+      },
+      {
+        "exercise_id": "S21-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "def render_outline(sections):\n    lines = []\n    for s in sections:\n        pad = \"  \" * (s[\"h\"] - 1)\n        lines.append(f\"{pad}H{s['h']} {s['name']}\")\n    return \"\\n\".join(lines)\n\nprint(render_outline([{\"h\": 1, \"name\": \"Resumen\"}, {\"h\": 2, \"name\": \"Datos\"}]))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["outline indent"],
+        "note": "Demo render_outline pattern."
+      },
+      {
+        "exercise_id": "S21-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "chars, pages = 10, 2\ndens = chars / max(pages, 1)\nprint(\"needs_ocr\" if dens < 20 else \"digital\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["ocr density"],
+        "note": "10/2=5 < 20 → needs_ocr."
+      },
+      {
+        "exercise_id": "S21-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "def classify(chars, pages):\n    dens = chars / max(pages, 1)\n    return \"digital\" if dens >= 20 else \"needs_ocr\"\n\nprint(classify(100, 1))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["classify"],
+        "note": "Demo classify; 100/1 digital."
+      },
+      {
+        "exercise_id": "S21-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "text = \"\"\nprint({\"needs_ocr\": not bool(text)})\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["empty text ocr"],
+        "note": "Hints bool(text)."
+      },
+      {
+        "exercise_id": "S21-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(h[\"id\"])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["hallazgo id"],
+        "note": "Hints dict H1."
+      },
+      {
+        "exercise_id": "S21-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "s = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["resumen n="],
+        "note": "Starter has n=."
+      },
+      {
+        "exercise_id": "S21-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "def pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\n\nprint(sorted(pack_report([\"x\"], {}, [{\"id\": \"H1\"}]).keys()))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["pack_report"],
+        "note": "Hints 3 keys sorted."
+      },
+      {
+        "exercise_id": "S21-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "dash = {\"median_Lima\": 28}\ndoc = {\"median_Lima\": 28}\nprint(dash == doc)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["parity"],
+        "note": "Hints compare → True."
+      },
+      {
+        "exercise_id": "S21-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "cap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["caption Fuente"],
+        "note": "Starter contains Fuente."
+      },
+      {
+        "exercise_id": "S21-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "def check_parity(a, b, c):\n    return a == b == c\n\nprint(check_parity(1, 1, 2))\nprint(check_parity(1, 1, 1))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["check_parity"],
+        "note": "Hints two prints fail then success."
+      },
+      {
+        "exercise_id": "S21-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "vals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["round 1 decimal"],
+        "note": "Hints round list."
+      },
+      {
+        "exercise_id": "S21-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "def fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\n\nprint(fmt_pen(28.04))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["fmt_pen"],
+        "note": "Demo fmt_pen 28.0 PEN."
+      },
+      {
+        "exercise_id": "S21-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "def a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\n\nprint(a11y_min(True, [\"Barras mediana por región n=40\"]))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["a11y_min"],
+        "note": "Demo a11y_min pattern."
+      },
+      {
+        "exercise_id": "S21-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "approval = {\"status\": \"pending_review\"}\nprint(approval[\"status\"])\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["pending_review"],
+        "note": "Final demo approval status."
+      },
+      {
+        "exercise_id": "S21-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["sha1_8"],
+        "note": "Hints sha1 slice 8."
+      },
+      {
+        "exercise_id": "S21-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "def ready(checklist):\n    return all(checklist.values())\n\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["visual checklist"],
+        "note": "Final demo ready_for_review."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet.",
+    "packet_sha": "c6d8c339a8e5e5c1",
+    "summary": {
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "blocked_selfcheck_ids": [],
+      "residual_gaps": []
+    }
+  }
+}

@@ -1,0 +1,1071 @@
+{
+  "version": "3.2",
+  "section": "S40",
+  "section_id": "agentic-architecture",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S40 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S40 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s40-agentic-architecture.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "agentic-architecture",
+    "index": 40,
+    "title_platform": "Arquitectura de Sistemas Agénticos a Escala",
+    "title_v3": "Arquitectura, DDD y decisiones técnicas",
+    "title_decision": "KEEP platform id 'agentic-architecture' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos",
+    "estimatedHours": 12,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "Nivel 3 (S27–S39)"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N4-A (inicio)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "agentic-architecture",
+    "platform_title": "Arquitectura de Sistemas Agénticos a Escala",
+    "v3_title": "Arquitectura, DDD y decisiones técnicas",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante captura FR y quality attributes.",
+    "El estudiante documenta trade-offs y riesgos medibles.",
+    "El estudiante diseña capas con baja coupling.",
+    "El estudiante aplica ports/adapters hacia dominio.",
+    "El estudiante delinea bounded contexts.",
+    "El estudiante modela entities, VO y servicios.",
+    "El estudiante documenta C4 y ADRs.",
+    "El estudiante evoluciona APIs/eventos con compatibilidad."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S40-T1-A",
+      "slug": "functional-quality-attrs",
+      "title": "requisitos funcionales y quality attributes"
+    },
+    {
+      "subtopic_id": "S40-T1-B",
+      "slug": "tradeoffs-risks-measurable",
+      "title": "trade-offs, riesgos y criterios medibles"
+    },
+    {
+      "subtopic_id": "S40-T2-A",
+      "slug": "cohesion-coupling-layers",
+      "title": "cohesión/coupling y capas"
+    },
+    {
+      "subtopic_id": "S40-T2-B",
+      "slug": "ports-adapters-domain-dep",
+      "title": "ports/adapters y dependencia hacia dominio"
+    },
+    {
+      "subtopic_id": "S40-T3-A",
+      "slug": "bounded-contexts-ubiquitous",
+      "title": "bounded contexts y lenguaje ubicuo"
+    },
+    {
+      "subtopic_id": "S40-T3-B",
+      "slug": "entities-vo-services",
+      "title": "entities, value objects y servicios"
+    },
+    {
+      "subtopic_id": "S40-T4-A",
+      "slug": "c4-flow-adr",
+      "title": "diagramas C4/flujo y ADRs"
+    },
+    {
+      "subtopic_id": "S40-T4-B",
+      "slug": "apis-events-debt-compat",
+      "title": "APIs, eventos, deuda y evolución compatible"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S40-T1",
+      "title": "Calidad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S40-T1-A",
+          "slug": "functional-quality-attrs",
+          "title": "requisitos funcionales y quality attributes",
+          "outcome": "El estudiante captura FR y quality attributes.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "requisitos funcionales y quality attributes",
+              "must_cover": [
+                "FR",
+                "QA"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S40-T1-A-DEMO",
+              "title": "Demo: requisitos funcionales y quality attributes",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S40-T1-A-E1",
+                "kind": "guided",
+                "title": "requisitos funcionales y quality attributes — guided",
+                "skill": "functional",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T1-A-E2",
+                "kind": "independent",
+                "title": "requisitos funcionales y quality attributes — independent",
+                "skill": "functional",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T1-A-E3",
+                "kind": "transfer",
+                "title": "requisitos funcionales y quality attributes — transfer",
+                "skill": "functional",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S40-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S40-T1-B",
+          "slug": "tradeoffs-risks-measurable",
+          "title": "trade-offs, riesgos y criterios medibles",
+          "outcome": "El estudiante documenta trade-offs y riesgos medibles.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "trade-offs, riesgos y criterios medibles",
+              "must_cover": [
+                "trade-off",
+                "risk"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S40-T1-B-DEMO",
+              "title": "Demo: trade-offs, riesgos y criterios medibles",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S40-T1-B-E1",
+                "kind": "guided",
+                "title": "trade-offs, riesgos y criterios medibles — guided",
+                "skill": "tradeoffs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T1-B-E2",
+                "kind": "independent",
+                "title": "trade-offs, riesgos y criterios medibles — independent",
+                "skill": "tradeoffs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T1-B-E3",
+                "kind": "transfer",
+                "title": "trade-offs, riesgos y criterios medibles — transfer",
+                "skill": "tradeoffs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S40-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S40-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S40-T1-EVAL-1",
+            "title": "requisitos funcionales y quality attributes — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S40-T1-EVAL-2",
+            "title": "trade-offs, riesgos y criterios medibles — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S40-T2",
+      "title": "Fronteras",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S40-T2-A",
+          "slug": "cohesion-coupling-layers",
+          "title": "cohesión/coupling y capas",
+          "outcome": "El estudiante diseña capas con baja coupling.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "cohesión/coupling y capas",
+              "must_cover": [
+                "cohesion",
+                "coupling",
+                "layers"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S40-T2-A-DEMO",
+              "title": "Demo: cohesión/coupling y capas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S40-T2-A-E1",
+                "kind": "guided",
+                "title": "cohesión/coupling y capas — guided",
+                "skill": "cohesion",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T2-A-E2",
+                "kind": "independent",
+                "title": "cohesión/coupling y capas — independent",
+                "skill": "cohesion",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T2-A-E3",
+                "kind": "transfer",
+                "title": "cohesión/coupling y capas — transfer",
+                "skill": "cohesion",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S40-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S40-T2-B",
+          "slug": "ports-adapters-domain-dep",
+          "title": "ports/adapters y dependencia hacia dominio",
+          "outcome": "El estudiante aplica ports/adapters hacia dominio.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ports/adapters y dependencia hacia dominio",
+              "must_cover": [
+                "hexagonal",
+                "dependency rule"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S40-T2-B-DEMO",
+              "title": "Demo: ports/adapters y dependencia hacia dominio",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S40-T2-B-E1",
+                "kind": "guided",
+                "title": "ports/adapters y dependencia hacia dominio — guided",
+                "skill": "ports",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T2-B-E2",
+                "kind": "independent",
+                "title": "ports/adapters y dependencia hacia dominio — independent",
+                "skill": "ports",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T2-B-E3",
+                "kind": "transfer",
+                "title": "ports/adapters y dependencia hacia dominio — transfer",
+                "skill": "ports",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S40-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S40-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S40-T2-EVAL-1",
+            "title": "cohesión/coupling y capas — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S40-T2-EVAL-2",
+            "title": "ports/adapters y dependencia hacia dominio — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S40-T3",
+      "title": "Dominio",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S40-T3-A",
+          "slug": "bounded-contexts-ubiquitous",
+          "title": "bounded contexts y lenguaje ubicuo",
+          "outcome": "El estudiante delinea bounded contexts.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "bounded contexts y lenguaje ubicuo",
+              "must_cover": [
+                "bounded context",
+                "ubiquitous language"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S40-T3-A-DEMO",
+              "title": "Demo: bounded contexts y lenguaje ubicuo",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S40-T3-A-E1",
+                "kind": "guided",
+                "title": "bounded contexts y lenguaje ubicuo — guided",
+                "skill": "bounded",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T3-A-E2",
+                "kind": "independent",
+                "title": "bounded contexts y lenguaje ubicuo — independent",
+                "skill": "bounded",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T3-A-E3",
+                "kind": "transfer",
+                "title": "bounded contexts y lenguaje ubicuo — transfer",
+                "skill": "bounded",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S40-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S40-T3-B",
+          "slug": "entities-vo-services",
+          "title": "entities, value objects y servicios",
+          "outcome": "El estudiante modela entities, VO y servicios.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "entities, value objects y servicios",
+              "must_cover": [
+                "entity",
+                "VO",
+                "domain service"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S40-T3-B-DEMO",
+              "title": "Demo: entities, value objects y servicios",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S40-T3-B-E1",
+                "kind": "guided",
+                "title": "entities, value objects y servicios — guided",
+                "skill": "entities",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T3-B-E2",
+                "kind": "independent",
+                "title": "entities, value objects y servicios — independent",
+                "skill": "entities",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T3-B-E3",
+                "kind": "transfer",
+                "title": "entities, value objects y servicios — transfer",
+                "skill": "entities",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S40-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S40-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S40-T3-EVAL-1",
+            "title": "bounded contexts y lenguaje ubicuo — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S40-T3-EVAL-2",
+            "title": "entities, value objects y servicios — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S40-T4",
+      "title": "Decisiones",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S40-T4-A",
+          "slug": "c4-flow-adr",
+          "title": "diagramas C4/flujo y ADRs",
+          "outcome": "El estudiante documenta C4 y ADRs.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "diagramas C4/flujo y ADRs",
+              "must_cover": [
+                "C4",
+                "ADR"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S40-T4-A-DEMO",
+              "title": "Demo: diagramas C4/flujo y ADRs",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S40-T4-A-E1",
+                "kind": "guided",
+                "title": "diagramas C4/flujo y ADRs — guided",
+                "skill": "c4",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T4-A-E2",
+                "kind": "independent",
+                "title": "diagramas C4/flujo y ADRs — independent",
+                "skill": "c4",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T4-A-E3",
+                "kind": "transfer",
+                "title": "diagramas C4/flujo y ADRs — transfer",
+                "skill": "c4",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S40-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S40-T4-B",
+          "slug": "apis-events-debt-compat",
+          "title": "APIs, eventos, deuda y evolución compatible",
+          "outcome": "El estudiante evoluciona APIs/eventos con compatibilidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "APIs, eventos, deuda y evolución compatible",
+              "must_cover": [
+                "API",
+                "events",
+                "compat"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S40-T4-B-DEMO",
+              "title": "Demo: APIs, eventos, deuda y evolución compatible",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S40-T4-B-E1",
+                "kind": "guided",
+                "title": "APIs, eventos, deuda y evolución compatible — guided",
+                "skill": "apis",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T4-B-E2",
+                "kind": "independent",
+                "title": "APIs, eventos, deuda y evolución compatible — independent",
+                "skill": "apis",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S40-T4-B-E3",
+                "kind": "transfer",
+                "title": "APIs, eventos, deuda y evolución compatible — transfer",
+                "skill": "apis",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S40-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S40-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S40-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S40-T4-EVAL-1",
+            "title": "diagramas C4/flujo y ADRs — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S40-T4-EVAL-2",
+            "title": "APIs, eventos, deuda y evolución compatible — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S40-PROJ",
+    "title": "Arquitectura, DDD y decisiones técnicas",
+    "replaces_legacy": "Legacy You Do de 'Arquitectura de Sistemas Agénticos a Escala' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-A (inicio)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-A (inicio)",
+    "increment_gate": "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'agentic-architecture' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s40-agentic-architecture.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Arquitectura de Sistemas Agénticos a Escala' vs 'Arquitectura, DDD y decisiones técnicas'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-A (inicio)",
+    "increment_gate": "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos.",
+    "project_id": "S40-PROJ",
+    "section_passed": false,
+    "notes": "S40 contributes to CP-N4-A (inicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S40",
+    "risk": "Display title still 'Arquitectura de Sistemas Agénticos a Escala' until product rename; topic mismatch vs V3 'Arquitectura, DDD y decisiones técnicas'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S40-T1-A first"
+  }
+}

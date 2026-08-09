@@ -1,0 +1,337 @@
+{
+  "agent": "a",
+  "section_index": 47,
+  "recorded_at": "2026-08-01T15:25:57.747809+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "seed presente, params no vacíos y |metric−rerun| ≤ tolerancia",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          7.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "emitir ROLLBACK_TO_LAST_GOOD y conservar evidencia",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          3.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          9.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          3.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "chosen_text": "servirse igual porque el digest existe",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          2.0,
+          4.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 0,
+        "chosen_text": "cuando online diverge del batch o hay leakage sin contract tests",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          9.0,
+          8.0,
+          2.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 1,
+        "chosen_text": "detenerse con STOP_CANARY y recolectar más evidencia si faltan hooks",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          7.15,
+          5.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 3,
+        "chosen_text": "digest versionado (sha256), paridad de features y card completa (use/limits/metrics/risks)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          4.0,
+          8.15,
+          11.6
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S47-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` usa `>` (bug: aprueba lo ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con campos presentes devuelve PASS si el",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `tolerance` → `INVESTIGATE_RANDOMNESS`",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `not record[\"data\"] or candidate <= baseli",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si falta data o candidate ≤ baseline (bug: ap",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → RESTORE_LINEAGE (no CONTINUE).n2. Completo: reuti",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T2-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: `not approved or stage == \"production\"` (bug: apru",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte PASS/DENY cuando el record está completo.n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REQUEST_MODEL_APPROVAL.n2. Completo: predicado de",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-TAC-047 · artifact digest + model card\n# DEFECT: PASS si feature_version drift o card_sections<4\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\nrecord = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\n# DEFECT: feature version skew o card incompleta\nmeets_contract = record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "hay",
+          "bug",
+          "exige",
+          "startswith",
+          "starter",
+          "REJECT",
+          "corta",
+          "reject"
+        ]
+      },
+      {
+        "exercise_id": "S47-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: con campos presentes devuelve PASS si hay skew o `",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-TAC-047 · decide REJECT_MODEL_ARTIFACT\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"artifact_digest\", \"feature_version\", \"serving_feature_version\", \"card_sections\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4 else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\ninvalid = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"latest\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v2\",\"card_sections\":{\"use\"}}}\nuncertain = {**valid}\nuncertain.pop(\"card_sections\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "orden",
+          "predicado",
+          "pass",
+          "completo",
+          "imprime",
+          "adverso",
+          "s47",
+          "debe"
+        ]
+      },
+      {
+        "exercise_id": "S47-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si batch≠online o leakage (bug: aprueba skew)",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si batch≠online o leakage (bug: aprueba skew)",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → TRACE_FEATURE_PIPELINE.n2. Completo: predicado de",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si p95>slo o not tested (bug).n2. Invierte a ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte PASS/ACTIVATE con campos presentes.n2. Pri",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → TUNE_BATCH_OR_CAPACITY.n2. Completo: predicado de",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si traffic>10 o error>max (bug).n2. Exige mod",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si traffic>10 o error>max (bug: invierte y om",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-TAC-047 · decide STOP_CANARY\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"mode\", \"traffic_pct\", \"quality_delta\", \"max_quality_drop\", \"error_rate\", \"max_error_rate\", \"hooks\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"] else \"STOP_CANARY\"\n\nvalid = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\ninvalid = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"full\",\"traffic_pct\":100,\"quality_delta\":-0.2,\"max_quality_drop\":0.02,\"error_rate\":0.1,\"max_error_rate\":0.01,\"hooks\":False}}\nuncertain = {**valid}\nuncertain.pop(\"hooks\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "orden",
+          "predicado",
+          "pass",
+          "completo",
+          "imprime",
+          "adverso",
+          "s47",
+          "debe"
+        ]
+      },
+      {
+        "exercise_id": "S47-T4-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not compatible o not tested (bug).n2. Exig",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte PASS/ROLLBACK con campos presentes (bug: a",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S47-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S47-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REVIEW_RETIREMENT.n2. Completo: predicado de E1/E",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "d8faea76f81cad43"
+  }
+}

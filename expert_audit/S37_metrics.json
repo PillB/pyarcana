@@ -1,0 +1,1321 @@
+{
+  "section": "S37",
+  "n_records": 173,
+  "n_spanish_records": 151,
+  "n_sentences": 198,
+  "WPS": {
+    "n": 198,
+    "min": 3,
+    "p25": 7,
+    "median": 11,
+    "p75": 16,
+    "max": 40,
+    "mean": 12.3
+  },
+  "SPW": {
+    "n": 198,
+    "min": 0.8,
+    "p25": 1.4,
+    "median": 1.6,
+    "p75": 1.7,
+    "max": 3.0,
+    "mean": 1.5
+  },
+  "FH": {
+    "n": 198,
+    "min": 22.8,
+    "p25": 93.7,
+    "median": 100.6,
+    "p75": 111.9,
+    "max": 150.7,
+    "mean": 102.6
+  },
+  "INFLESZ": {
+    "n": 198,
+    "min": 15.9,
+    "p25": 89.8,
+    "median": 97.2,
+    "p75": 109.4,
+    "max": 148.9,
+    "mean": 99.3
+  },
+  "findings_count": {
+    "missing_terminal": 42,
+    "meta_leak": 1,
+    "long_gt32": 2,
+    "high_comma_density": 5
+  },
+  "worst_sentences_by_WPS": [
+    {
+      "field": "instruction",
+      "lineno": 1567,
+      "sentence": "S37-T4-B-E2 · Claridad sobre shaving 2%: con algo_gain=0.80 y micro_gain=0.02, prefiere 'clarity' si micro_gain < 0.05 y algo_gain > micro_gain; imprime prefer, ok (algo_gain > micro_gain), shave '2pct_no'.",
+      "words": 40,
+      "syllables": 44,
+      "WPS": 40,
+      "SPW": 1.1,
+      "FH": 100.0,
+      "INFLESZ": 98.3,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 707,
+      "sentence": "S37-T1-A-E2 · Mide wall, CPU y pico de memoria del work sintético (perf_counter + process_time + tracemalloc) con n=5000; imprime wall_ok True, cpu_ok True, peak_ok True, n 5000.",
+      "words": 34,
+      "syllables": 41,
+      "WPS": 34,
+      "SPW": 1.206,
+      "FH": 99.8,
+      "INFLESZ": 97.7,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 774,
+      "sentence": "S37-T1-A-E3 · Correctitud junto a velocidad: calcula same_result comparando before_fn y after_fn sobre el mismo input; imprime same_result, ok (igual a same_result) y n 1.",
+      "words": 32,
+      "syllables": 47,
+      "WPS": 32,
+      "SPW": 1.469,
+      "FH": 86.1,
+      "INFLESZ": 83.3,
+      "findings": []
+    },
+    {
+      "field": "instruction",
+      "lineno": 1493,
+      "sentence": "S37-T4-A-E3 · Budget multi-métrica: con límites {latency_p95:50, memory:512, pairs:10000} y medidos {12, 400, 8000}, imprime keys ['latency_p95','memory','pairs'], all_pass True, n 3.",
+      "words": 32,
+      "syllables": 37,
+      "WPS": 32,
+      "SPW": 1.156,
+      "FH": 104.8,
+      "INFLESZ": 102.8,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 930,
+      "sentence": "S37-T1-B-E3 · Variabilidad en muestra chica: con runs=[1,2,9] imprime max=9 como proxy de cola, spread=max-min=8, proxy 'p95_small_n', ok True.",
+      "words": 30,
+      "syllables": 33,
+      "WPS": 30,
+      "SPW": 1.1,
+      "FH": 110.2,
+      "INFLESZ": 108.3,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "why",
+      "lineno": 452,
+      "sentence": "Deriva wall, CPU, pico de alocaciones y la función caliente (cProfile) del work real con n; los ms exactos varían por máquina, por eso el demo reporta predicados estables.",
+      "words": 29,
+      "syllables": 49,
+      "WPS": 29,
+      "SPW": 1.69,
+      "FH": 75.9,
+      "INFLESZ": 72.6,
+      "findings": []
+    },
+    {
+      "field": "instruction",
+      "lineno": 1077,
+      "sentence": "S37-T2-B-E1 · Membership: con ids=[1,2,3,4,5] y target=4, construye un set, consulta membership y reporta structure 'set', found True, scan False.",
+      "words": 28,
+      "syllables": 31,
+      "WPS": 28,
+      "SPW": 1.107,
+      "FH": 111.9,
+      "INFLESZ": 109.9,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1605,
+      "sentence": "S37-T4-B-E3 · Claves del reporte before/after: construye un dict con before, after, dataset y hardware; imprime ['before','after','dataset','hardware'], ok True, n 4.",
+      "words": 27,
+      "syllables": 48,
+      "WPS": 27,
+      "SPW": 1.778,
+      "FH": 72.6,
+      "INFLESZ": 69.1,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1152,
+      "sentence": "S37-T2-B-E3 · Orden operativo: con n=10, all_pairs=n*(n-1)//2 y blocked con 5 bloques, el pipeline correcto es block→score.",
+      "words": 26,
+      "syllables": 32,
+      "WPS": 26,
+      "SPW": 1.231,
+      "FH": 106.5,
+      "INFLESZ": 104.2,
+      "findings": []
+    },
+    {
+      "field": "instruction",
+      "lineno": 1347,
+      "sentence": "S37-T3-B-E2 · Invalidación por versión: con store pre-cargado en fs-v1, al pedir fs-v2 imprime reason 'version_change', hit False, stale True.",
+      "words": 26,
+      "syllables": 38,
+      "WPS": 26,
+      "SPW": 1.462,
+      "FH": 92.6,
+      "INFLESZ": 89.8,
+      "findings": []
+    }
+  ],
+  "worst_sentences_by_FH_low": [
+    {
+      "field": "criterion",
+      "lineno": 1725,
+      "sentence": "Documentación en español profesional",
+      "words": 4,
+      "syllables": 12,
+      "WPS": 4,
+      "SPW": 3.0,
+      "FH": 22.8,
+      "INFLESZ": 15.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1721,
+      "sentence": "Correctitud técnica en entorno declarado",
+      "words": 5,
+      "syllables": 13,
+      "WPS": 5,
+      "SPW": 2.6,
+      "FH": 45.7,
+      "INFLESZ": 39.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "tagline",
+      "lineno": 8,
+      "sentence": "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada",
+      "words": 14,
+      "syllables": 31,
+      "WPS": 14,
+      "SPW": 2.214,
+      "FH": 59.7,
+      "INFLESZ": 54.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1605,
+      "sentence": "Starter solo ['before','after'] (defect: omite dataset y hardware).",
+      "words": 9,
+      "syllables": 20,
+      "WPS": 9,
+      "SPW": 2.222,
+      "FH": 64.3,
+      "INFLESZ": 59.4,
+      "findings": []
+    },
+    {
+      "field": "title",
+      "lineno": 6,
+      "sentence": "Profiling, algoritmos y rendimiento",
+      "words": 4,
+      "syllables": 9,
+      "WPS": 4,
+      "SPW": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1310,
+      "sentence": "Fixture de features sintéticas versionadas.",
+      "words": 5,
+      "syllables": 11,
+      "WPS": 5,
+      "SPW": 2.2,
+      "FH": 69.7,
+      "INFLESZ": 64.8,
+      "findings": []
+    },
+    {
+      "field": "heading",
+      "lineno": 215,
+      "sentence": "Estructuras, vectorización y reducción de candidatos",
+      "words": 6,
+      "syllables": 13,
+      "WPS": 6,
+      "SPW": 2.167,
+      "FH": 70.7,
+      "INFLESZ": 65.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "why",
+      "lineno": 618,
+      "sentence": "El test de performance compara measured contra budget acordado.",
+      "words": 9,
+      "syllables": 19,
+      "WPS": 9,
+      "SPW": 2.111,
+      "FH": 71.0,
+      "INFLESZ": 66.3,
+      "findings": []
+    },
+    {
+      "field": "instruction",
+      "lineno": 1605,
+      "sentence": "S37-T4-B-E3 · Claves del reporte before/after: construye un dict con before, after, dataset y hardware; imprime ['before','after','dataset','hardware'], ok True, n 4.",
+      "words": 27,
+      "syllables": 48,
+      "WPS": 27,
+      "SPW": 1.778,
+      "FH": 72.6,
+      "INFLESZ": 69.1,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "explanation",
+      "lineno": 1735,
+      "sentence": "La primera corrida incluye cold start; warmup la descarta para reportar el estado estacionario del algoritmo.",
+      "words": 16,
+      "syllables": 31,
+      "WPS": 16,
+      "SPW": 1.938,
+      "FH": 74.3,
+      "INFLESZ": 70.1,
+      "findings": []
+    }
+  ],
+  "sentences_with_findings": [
+    {
+      "field": "title",
+      "lineno": 6,
+      "sentence": "Profiling, algoritmos y rendimiento",
+      "words": 4,
+      "syllables": 9,
+      "WPS": 4,
+      "SPW": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "shortTitle",
+      "lineno": 7,
+      "sentence": "Profiling y rendimiento",
+      "words": 3,
+      "syllables": 6,
+      "WPS": 3,
+      "SPW": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "tagline",
+      "lineno": 8,
+      "sentence": "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada",
+      "words": 14,
+      "syllables": 31,
+      "WPS": 14,
+      "SPW": 2.214,
+      "FH": 59.7,
+      "INFLESZ": 54.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 17,
+      "sentence": "Profilear wall y CPU (perf_counter / process_time) y anotar memoria con n explícito",
+      "words": 14,
+      "syllables": 23,
+      "WPS": 14,
+      "SPW": 1.643,
+      "FH": 94.0,
+      "INFLESZ": 90.5,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 18,
+      "sentence": "Benchmarkear con warmup, mediana y una nota de variabilidad (rango o IQR simple)",
+      "words": 13,
+      "syllables": 21,
+      "WPS": 13,
+      "SPW": 1.615,
+      "FH": 96.7,
+      "INFLESZ": 93.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 19,
+      "sentence": "Analizar complejidad O(n²) y medir reducción por blocking sin abandonar recall",
+      "words": 12,
+      "syllables": 21,
+      "WPS": 12,
+      "SPW": 1.75,
+      "FH": 89.6,
+      "INFLESZ": 85.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 20,
+      "sentence": "Reducir candidatos con estructuras e índices invertidos antes del scorer",
+      "words": 10,
+      "syllables": 18,
+      "WPS": 10,
+      "SPW": 1.8,
+      "FH": 88.6,
+      "INFLESZ": 84.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 21,
+      "sentence": "Aplicar dtypes angostos, chunks y lectura columnar mínima con bound de memoria",
+      "words": 12,
+      "syllables": 21,
+      "WPS": 12,
+      "SPW": 1.75,
+      "FH": 89.6,
+      "INFLESZ": 85.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 22,
+      "sentence": "Diseñar cache con invalidación por versión/cutoff y estrategia out-of-core",
+      "words": 12,
+      "syllables": 21,
+      "WPS": 12,
+      "SPW": 1.75,
+      "FH": 89.6,
+      "INFLESZ": 85.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 23,
+      "sentence": "Fijar performance budgets y tests de regresión que pueden fallar en CI light",
+      "words": 13,
+      "syllables": 20,
+      "WPS": 13,
+      "SPW": 1.538,
+      "FH": 101.3,
+      "INFLESZ": 98.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "text",
+      "lineno": 24,
+      "sentence": "Priorizar costo total y claridad sobre microoptimización del 2% sin medición",
+      "words": 11,
+      "syllables": 19,
+      "WPS": 11,
+      "SPW": 1.727,
+      "FH": 92.0,
+      "INFLESZ": 88.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "title",
+      "lineno": 58,
+      "sentence": "Gate de escala",
+      "words": 3,
+      "syllables": 6,
+      "WPS": 3,
+      "SPW": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 64,
+      "sentence": "Wall, CPU y profiling de memoria",
+      "words": 6,
+      "syllables": 9,
+      "WPS": 6,
+      "SPW": 1.5,
+      "FH": 110.7,
+      "INFLESZ": 107.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 142,
+      "sentence": "Benchmark: fixture, warmup y variabilidad",
+      "words": 5,
+      "syllables": 9,
+      "WPS": 5,
+      "SPW": 1.8,
+      "FH": 93.7,
+      "INFLESZ": 89.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 182,
+      "sentence": "Complejidad y blocking",
+      "words": 3,
+      "syllables": 5,
+      "WPS": 3,
+      "SPW": 1.667,
+      "FH": 103.8,
+      "INFLESZ": 100.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "title",
+      "lineno": 209,
+      "sentence": "Cuenta pares y recall",
+      "words": 4,
+      "syllables": 7,
+      "WPS": 4,
+      "SPW": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 215,
+      "sentence": "Estructuras, vectorización y reducción de candidatos",
+      "words": 6,
+      "syllables": 13,
+      "WPS": 6,
+      "SPW": 2.167,
+      "FH": 70.7,
+      "INFLESZ": 65.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 250,
+      "sentence": "Dtypes, chunking y lectura columnar",
+      "words": 5,
+      "syllables": 8,
+      "WPS": 5,
+      "SPW": 1.6,
+      "FH": 105.7,
+      "INFLESZ": 102.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "title",
+      "lineno": 283,
+      "sentence": "Chunk size y bound",
+      "words": 4,
+      "syllables": 4,
+      "WPS": 4,
+      "SPW": 1.0,
+      "FH": 142.8,
+      "INFLESZ": 140.5,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 289,
+      "sentence": "Caching, invalidación y out-of-core",
+      "words": 6,
+      "syllables": 9,
+      "WPS": 6,
+      "SPW": 1.5,
+      "FH": 110.7,
+      "INFLESZ": 107.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 323,
+      "sentence": "Performance budget y tests",
+      "words": 4,
+      "syllables": 7,
+      "WPS": 4,
+      "SPW": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "heading",
+      "lineno": 352,
+      "sentence": "Costo total, claridad y no microoptimización",
+      "words": 6,
+      "syllables": 12,
+      "WPS": 6,
+      "SPW": 2.0,
+      "FH": 80.7,
+      "INFLESZ": 76.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "hint",
+      "lineno": 658,
+      "sentence": "Todo wall_ms viaja con su n.",
+      "words": 7,
+      "syllables": 9,
+      "WPS": 7,
+      "SPW": 1.286,
+      "FH": 122.6,
+      "INFLESZ": 119.7,
+      "findings": [
+        {
+          "rule": "meta_leak",
+          "sev": "H",
+          "cause": "Authoring residue",
+          "fix": "Pure teacher voice"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 707,
+      "sentence": "S37-T1-A-E2 · Mide wall, CPU y pico de memoria del work sintético (perf_counter + process_time + tracemalloc) con n=5000; imprime wall_ok True, cpu_ok True, peak_ok True, n 5000.",
+      "words": 34,
+      "syllables": 41,
+      "WPS": 34,
+      "SPW": 1.206,
+      "FH": 99.8,
+      "INFLESZ": 97.7,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        },
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 824,
+      "sentence": "Fixture CASO-LIM-037-1B. (Los ms exactos varían por máquina; el grader usa el predicado estable.)",
+      "words": 17,
+      "syllables": 27,
+      "WPS": 17,
+      "SPW": 1.588,
+      "FH": 94.2,
+      "INFLESZ": 90.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 930,
+      "sentence": "S37-T1-B-E3 · Variabilidad en muestra chica: con runs=[1,2,9] imprime max=9 como proxy de cola, spread=max-min=8, proxy 'p95_small_n', ok True.",
+      "words": 30,
+      "syllables": 33,
+      "WPS": 30,
+      "SPW": 1.1,
+      "FH": 110.2,
+      "INFLESZ": 108.3,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1077,
+      "sentence": "S37-T2-B-E1 · Membership: con ids=[1,2,3,4,5] y target=4, construye un set, consulta membership y reporta structure 'set', found True, scan False.",
+      "words": 28,
+      "syllables": 31,
+      "WPS": 28,
+      "SPW": 1.107,
+      "FH": 111.9,
+      "INFLESZ": 109.9,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1493,
+      "sentence": "S37-T4-A-E3 · Budget multi-métrica: con límites {latency_p95:50, memory:512, pairs:10000} y medidos {12, 400, 8000}, imprime keys ['latency_p95','memory','pairs'], all_pass True, n 3.",
+      "words": 32,
+      "syllables": 37,
+      "WPS": 32,
+      "SPW": 1.156,
+      "FH": 104.8,
+      "INFLESZ": 102.8,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1567,
+      "sentence": "S37-T4-B-E2 · Claridad sobre shaving 2%: con algo_gain=0.80 y micro_gain=0.02, prefiere 'clarity' si micro_gain < 0.05 y algo_gain > micro_gain; imprime prefer, ok (algo_gain > micro_gain), shave '2pct_no'.",
+      "words": 40,
+      "syllables": 44,
+      "WPS": 40,
+      "SPW": 1.1,
+      "FH": 100.0,
+      "INFLESZ": 98.3,
+      "findings": [
+        {
+          "rule": "long_gt32",
+          "sev": "M",
+          "cause": "Long sentence",
+          "fix": "Split or use list"
+        }
+      ]
+    },
+    {
+      "field": "instruction",
+      "lineno": 1605,
+      "sentence": "S37-T4-B-E3 · Claves del reporte before/after: construye un dict con before, after, dataset y hardware; imprime ['before','after','dataset','hardware'], ok True, n 4.",
+      "words": 27,
+      "syllables": 48,
+      "WPS": 27,
+      "SPW": 1.778,
+      "FH": 72.6,
+      "INFLESZ": 69.1,
+      "findings": [
+        {
+          "rule": "high_comma_density",
+          "sev": "L",
+          "cause": "Hypotaxis",
+          "fix": "Use list/shorter clauses"
+        }
+      ]
+    },
+    {
+      "field": "title",
+      "lineno": 1646,
+      "sentence": "Reporte antes/después de escala del triage (CP-N3-C escala)",
+      "words": 11,
+      "syllables": 20,
+      "WPS": 11,
+      "SPW": 1.818,
+      "FH": 86.5,
+      "INFLESZ": 82.6,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1720,
+      "sentence": "Alineación al gate de escala de la sección (same_result + before/after + budget)",
+      "words": 13,
+      "syllables": 23,
+      "WPS": 13,
+      "SPW": 1.769,
+      "FH": 87.4,
+      "INFLESZ": 83.6,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1721,
+      "sentence": "Correctitud técnica en entorno declarado",
+      "words": 5,
+      "syllables": 13,
+      "WPS": 5,
+      "SPW": 2.6,
+      "FH": 45.7,
+      "INFLESZ": 39.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1722,
+      "sentence": "Privacidad / sin PII real / sin secretos / sin inferencia de fraude",
+      "words": 10,
+      "syllables": 16,
+      "WPS": 10,
+      "SPW": 1.6,
+      "FH": 100.6,
+      "INFLESZ": 97.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1723,
+      "sentence": "Pruebas o casos de borde documentados",
+      "words": 6,
+      "syllables": 12,
+      "WPS": 6,
+      "SPW": 2.0,
+      "FH": 80.7,
+      "INFLESZ": 76.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1724,
+      "sentence": "Código legible y límites claros",
+      "words": 5,
+      "syllables": 9,
+      "WPS": 5,
+      "SPW": 1.8,
+      "FH": 93.7,
+      "INFLESZ": 89.7,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1725,
+      "sentence": "Documentación en español profesional",
+      "words": 4,
+      "syllables": 12,
+      "WPS": 4,
+      "SPW": 3.0,
+      "FH": 22.8,
+      "INFLESZ": 15.9,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "criterion",
+      "lineno": 1726,
+      "sentence": "Before/after con mismo resultado",
+      "words": 5,
+      "syllables": 10,
+      "WPS": 5,
+      "SPW": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "question",
+      "lineno": 1744,
+      "sentence": "Performance budget en CI:",
+      "words": 4,
+      "syllables": 7,
+      "WPS": 4,
+      "SPW": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "question",
+      "lineno": 1750,
+      "sentence": "Microoptimizar 2% sin medición:",
+      "words": 4,
+      "syllables": 6,
+      "WPS": 4,
+      "SPW": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "question",
+      "lineno": 1756,
+      "sentence": "Un wall_ms sin n en el reporte:",
+      "words": 8,
+      "syllables": 10,
+      "WPS": 8,
+      "SPW": 1.25,
+      "FH": 123.7,
+      "INFLESZ": 121.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1765,
+      "sentence": "Wall clock monotónico",
+      "words": 3,
+      "syllables": 6,
+      "WPS": 3,
+      "SPW": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1768,
+      "sentence": "Nombra la función caliente tras medir wall",
+      "words": 7,
+      "syllables": 10,
+      "WPS": 7,
+      "SPW": 1.429,
+      "FH": 114.0,
+      "INFLESZ": 110.8,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1772,
+      "sentence": "Budgets y SLI",
+      "words": 3,
+      "syllables": 3,
+      "WPS": 3,
+      "SPW": 1.0,
+      "FH": 143.8,
+      "INFLESZ": 141.5,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1773,
+      "sentence": "Regresión de performance en CI",
+      "words": 5,
+      "syllables": 10,
+      "WPS": 5,
+      "SPW": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1776,
+      "sentence": "Profiling y memoria",
+      "words": 3,
+      "syllables": 6,
+      "WPS": 3,
+      "SPW": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1777,
+      "sentence": "Complejidad y diseño",
+      "words": 3,
+      "syllables": 6,
+      "WPS": 3,
+      "SPW": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1781,
+      "sentence": "Big-O y costos",
+      "words": 4,
+      "syllables": 5,
+      "WPS": 4,
+      "SPW": 1.25,
+      "FH": 127.8,
+      "INFLESZ": 125.0,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    },
+    {
+      "field": "note",
+      "lineno": 1784,
+      "sentence": "Python con stdlib primero",
+      "words": 4,
+      "syllables": 6,
+      "WPS": 4,
+      "SPW": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "findings": [
+        {
+          "rule": "missing_terminal",
+          "sev": "M",
+          "cause": "Fragment editing",
+          "fix": "Add terminal punctuation"
+        }
+      ]
+    }
+  ]
+}

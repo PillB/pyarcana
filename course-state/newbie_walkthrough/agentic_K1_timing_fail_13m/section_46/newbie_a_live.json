@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 46,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s46-8b5d1b88f1a3",
+  "production_note": "agentic_K1 dual-LLM Explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S46-T1-A-E1",
+      "code": "# Explorer packet solve S46-T1-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness\":10}}\nmeets_contract = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "ventanas, event time y watermarks",
+        "T1"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «ventanas, event time y watermarks» usando el fixture CASO-HYO-046 del paquete activo; la rama esperada distingue SIDE_OUTPUT_LATE_EVENT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T1-A-E2",
+      "code": "# Explorer packet solve S46-T1-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'allowed_lateness', 'window_end', 'watermark', 'event_time', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])) else 'SIDE_OUTPUT_LATE_EVENT'\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 1110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = {**valid}\nincomplete.pop('allowed_lateness', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ventanas, event time y watermarks",
+        "T1"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «ventanas, event time y watermarks» usando la instruction de S46-T1-A-E2 y sus hints de dominio; la rama esperada distingue PASS, SIDE_OUTPUT_LATE_EVENT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T1-A-E3",
+      "code": "# Explorer packet solve S46-T1-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'allowed_lateness', 'window_end', 'watermark', 'event_time', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'WAIT_FOR_WATERMARK'\n    return 'CONTINUE' if (not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])) else 'SIDE_OUTPUT_LATE_EVENT'\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 1110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = {**valid}\nincomplete.pop('allowed_lateness', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "ventanas, event time y watermarks",
+        "T1"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «ventanas, event time y watermarks» usando theory «ventanas, event time y watermarks» y el iDo de la sección; la rama esperada distingue SIDE_OUTPUT_LATE_EVENT, WAIT_FOR_WATERMARK y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T1-B-E1",
+      "code": "# Explorer packet solve S46-T1-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,\"late_policy\":\"update\"}}\nmeets_contract = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [
+        "late data y exactly-once como propiedad compuesta",
+        "T1"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «late data y exactly-once como propiedad compuesta» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue REPLAY_IDEMPOTENTLY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T1-B-E2",
+      "code": "# Explorer packet solve S46-T1-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'event_ids', 'checkpoint', 'late_policy', 'sink_ids', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])) else 'REPLAY_IDEMPOTENTLY'\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'__adv__', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\nincomplete = {**valid}\nincomplete.pop('late_policy', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [
+        "late data y exactly-once como propiedad compuesta",
+        "T1"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «late data y exactly-once como propiedad compuesta» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, REPLAY_IDEMPOTENTLY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T1-B-E3",
+      "code": "# Explorer packet solve S46-T1-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'event_ids', 'checkpoint', 'late_policy', 'sink_ids', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CHOOSE_LATE_POLICY'\n    return 'CONTINUE' if (not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])) else 'REPLAY_IDEMPOTENTLY'\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'__adv__', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\nincomplete = {**valid}\nincomplete.pop('late_policy', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "late data y exactly-once como propiedad compuesta",
+        "T1"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «late data y exactly-once como propiedad compuesta» usando el fixture CASO-HYO-046 del paquete activo; la rama esperada distingue REPLAY_IDEMPOTENTLY, CHOOSE_LATE_POLICY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T2-A-E1",
+      "code": "# Explorer packet solve S46-T2-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\nmeets_contract = not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "DAG/assets y dependency",
+        "T2"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «DAG/assets y dependency» usando la instruction de S46-T2-A-E1 y sus hints de dominio; la rama esperada distingue REJECT_DAG y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T2-A-E2",
+      "code": "# Explorer packet solve S46-T2-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'edges', 'typed_io', 'nodes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))) else 'REJECT_DAG'\n\nvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\ninvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': False}\nincomplete = {**valid}\nincomplete.pop('typed_io', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "DAG/assets y dependency",
+        "T2"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «DAG/assets y dependency» usando theory «DAG/assets y dependency» y el iDo de la sección; la rama esperada distingue PASS, REJECT_DAG y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T2-A-E3",
+      "code": "# Explorer packet solve S46-T2-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'edges', 'typed_io', 'nodes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'DECLARE_ASSET_DEPENDENCY'\n    return 'CONTINUE' if (not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))) else 'REJECT_DAG'\n\nvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\ninvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': False}\nincomplete = {**valid}\nincomplete.pop('typed_io', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "DAG/assets y dependency",
+        "T2"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «DAG/assets y dependency» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue REJECT_DAG, DECLARE_ASSET_DEPENDENCY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T2-B-E1",
+      "code": "# Explorer packet solve S46-T2-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\",\"resume_from\":\"2026-07-01\"}}\nmeets_contract = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "schedules, backfills y state recovery",
+        "T2"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «schedules, backfills y state recovery» usando el escenario sintético sin PII del curso; la rama esperada distingue STOP_OVERLAPPING_BACKFILL y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T2-B-E2",
+      "code": "# Explorer packet solve S46-T2-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'checkpoint', 'overlap', 'resume_from', 'intervals', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])) else 'STOP_OVERLAPPING_BACKFILL'\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nincomplete = {**valid}\nincomplete.pop('resume_from', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "schedules, backfills y state recovery",
+        "T2"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «schedules, backfills y state recovery» usando el fixture fixture de S46-T2-B-E2 del paquete activo; la rama esperada distingue PASS, STOP_OVERLAPPING_BACKFILL y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T2-B-E3",
+      "code": "# Explorer packet solve S46-T2-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'checkpoint', 'overlap', 'resume_from', 'intervals', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RECOVER_CHECKPOINT'\n    return 'CONTINUE' if (not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])) else 'STOP_OVERLAPPING_BACKFILL'\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nincomplete = {**valid}\nincomplete.pop('resume_from', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "schedules, backfills y state recovery",
+        "T2"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «schedules, backfills y state recovery» usando la instruction de S46-T2-B-E3 y sus hints de dominio; la rama esperada distingue STOP_OVERLAPPING_BACKFILL, RECOVER_CHECKPOINT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T3-A-E1",
+      "code": "# Explorer packet solve S46-T3-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"freshness_min\":8,\"slo_min\":15,\"owner\":\"data-ops\"}}\nmeets_contract = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "contracts y freshness",
+        "T3"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «contracts y freshness» usando theory «contracts y freshness» y el iDo de la sección; la rama esperada distingue QUARANTINE_DATASET y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T3-A-E2",
+      "code": "# Explorer packet solve S46-T3-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'freshness_min', 'observed_schema', 'case_id', 'slo_min', 'owner', 'schema'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])) else 'QUARANTINE_DATASET'\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int', '_x': 1}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [
+        "contracts y freshness",
+        "T3"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «contracts y freshness» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue PASS, QUARANTINE_DATASET y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T3-A-E3",
+      "code": "# Explorer packet solve S46-T3-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'freshness_min', 'observed_schema', 'case_id', 'slo_min', 'owner', 'schema'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PAGE_DATA_OWNER'\n    return 'CONTINUE' if (not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])) else 'QUARANTINE_DATASET'\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int', '_x': 1}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "contracts y freshness",
+        "T3"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «contracts y freshness» usando el escenario sintético sin PII del curso; la rama esperada distingue QUARANTINE_DATASET, PAGE_DATA_OWNER y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T3-B-E1",
+      "code": "# Explorer packet solve S46-T3-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"metrics\":{\"rows\":120,\"null_rate\":0.01},\"owner\":\"analytics\"}}\nmeets_contract = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [
+        "lineage, observability y ownership",
+        "T3"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «lineage, observability y ownership» usando el fixture CASO-HYO-046 del paquete activo; la rama esperada distingue OPEN_QUALITY_INCIDENT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T3-B-E2",
+      "code": "# Explorer packet solve S46-T3-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'outputs', 'run_id', 'metrics', 'inputs', 'owner', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)) else 'OPEN_QUALITY_INCIDENT'\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': set(), 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "lineage, observability y ownership",
+        "T3"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «lineage, observability y ownership» usando la instruction de S46-T3-B-E2 y sus hints de dominio; la rama esperada distingue PASS, OPEN_QUALITY_INCIDENT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T3-B-E3",
+      "code": "# Explorer packet solve S46-T3-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'outputs', 'run_id', 'metrics', 'inputs', 'owner', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'TRACE_LINEAGE'\n    return 'CONTINUE' if (not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)) else 'OPEN_QUALITY_INCIDENT'\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': set(), 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "lineage, observability y ownership",
+        "T3"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «lineage, observability y ownership» usando theory «lineage, observability y ownership» y el iDo de la sección; la rama esperada distingue OPEN_QUALITY_INCIDENT, TRACE_LINEAGE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T4-A-E1",
+      "code": "# Explorer packet solve S46-T4-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":{\"a\",\"b\",\"c\"},\"second_run_changes\":0,\"small_files\":2,\"max_small_files\":5}}\nmeets_contract = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "partitions e incremental loads",
+        "T4"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «partitions e incremental loads» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue REBUILD_PARTITION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T4-A-E2",
+      "code": "# Explorer packet solve S46-T4-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'small_files', 'max_small_files', 'partition', 'second_run_changes', 'target_keys', 'source_keys', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)) else 'REBUILD_PARTITION'\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': set(), 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\nincomplete = {**valid}\nincomplete.pop('max_small_files', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "partitions e incremental loads",
+        "T4"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «partitions e incremental loads» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, REBUILD_PARTITION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T4-A-E3",
+      "code": "# Explorer packet solve S46-T4-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'small_files', 'max_small_files', 'partition', 'second_run_changes', 'target_keys', 'source_keys', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_INCREMENTAL_KEY'\n    return 'CONTINUE' if (not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)) else 'REBUILD_PARTITION'\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': set(), 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\nincomplete = {**valid}\nincomplete.pop('max_small_files', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "partitions e incremental loads",
+        "T4"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «partitions e incremental loads» usando el fixture CASO-HYO-046 del paquete activo; la rama esperada distingue REBUILD_PARTITION, REVIEW_INCREMENTAL_KEY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T4-B-E1",
+      "code": "# Explorer packet solve S46-T4-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target_rto_minutes\":30,\"postmortem_actions\":3,\"owner\":\"data-oncall\"}}\nmeets_contract = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "SLO, incidentes y data recovery",
+        "T4"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «SLO, incidentes y data recovery» usando la instruction de S46-T4-B-E1 y sus hints de dominio; la rama esperada distingue DECLARE_DATA_INCIDENT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T4-B-E2",
+      "code": "# Explorer packet solve S46-T4-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'postmortem_actions', 'freshness_slo', 'rto_minutes', 'owner', 'freshness_sli', 'target_rto_minutes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])) else 'DECLARE_DATA_INCIDENT'\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 100.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "SLO, incidentes y data recovery",
+        "T4"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «SLO, incidentes y data recovery» usando theory «SLO, incidentes y data recovery» y el iDo de la sección; la rama esperada distingue PASS, DECLARE_DATA_INCIDENT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S46-T4-B-E3",
+      "code": "# Explorer packet solve S46-T4-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'postmortem_actions', 'freshness_slo', 'rto_minutes', 'owner', 'freshness_sli', 'target_rto_minutes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ACTIVATE_RECOVERY_RUNBOOK'\n    return 'CONTINUE' if (not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])) else 'DECLARE_DATA_INCIDENT'\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 100.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "SLO, incidentes y data recovery",
+        "T4"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «SLO, incidentes y data recovery» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue DECLARE_DATA_INCIDENT, ACTIVATE_RECOVERY_RUNBOOK y no inventa evidencia ni oculta el fallo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.61,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «fixtures en hora/desorden/tardío con resultado esperado» para «¿Qué evidencia permite aprobar `ventanas, event time y watermarks` en CASO-HYO-0» porque la theory/outcomes de S46 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 1 del quiz_card activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.67,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «emitir QUARANTINE_PARTITION y conservar evidencia» para «Si ocurre la condición de error de S46, ¿qué respuesta preserva seguridad y audi» porque la theory/outcomes de S46 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 3 del quiz_card activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.82,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness» para «¿Cuál resultado demuestra el gate `CP-N4-B · pipeline incremental y backfillable» porque la theory/outcomes de S46 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 0 del quiz_card activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para «¿Qué tratamiento de `CASO-HYO-046` respeta el alcance del curso?» porque la theory/outcomes de S46 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 2 del quiz_card activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:32:11.592565+00:00",
+  "session_started_at": "2026-07-23T13:31:54.782165+00:00",
+  "session_ended_at": "2026-07-23T13:32:11.590051+00:00",
+  "receipt_response_sha256": "9d69010f6d710a872deeb8374c59bbf7c4b0a0b877ca534233569b85c7d2015a",
+  "receipt_exercises_sha256": "4876a87a9b0e078dcae42bedd11ce81e24eb9273103290b3e386f2d73102adde",
+  "receipt_selfcheck_sha256": "821bd78cd9bf32bb76a55eaf9660187b7280207658eaca6cbf5fb036c789b4d2"
+}

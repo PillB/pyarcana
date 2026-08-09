@@ -1,0 +1,9 @@
+{
+  "section": 1,
+  "id": "setup",
+  "file": "s01-setup.ts",
+  "score_1_to_10": 6.8,
+  "issue_count": 17,
+  "meta_leak_count": 6,
+  "status": "complete"
+}

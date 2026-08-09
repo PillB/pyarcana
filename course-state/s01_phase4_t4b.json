@@ -1,0 +1,25 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "block": "S01-T4-B",
+  "block_status": "COMPLETE",
+  "generated_at": "2026-07-20T06:15:00Z",
+  "artifacts_authored": {
+    "theory": { "heading": "Archivos de calidad: ignore, secretos y README", "subtopicId": "S01-T4-B" },
+    "demo": { "demoId": "S01-T4-B-DEMO", "environment": "local-python", "executed": true },
+    "exercises": ["S01-T4-B-E1", "S01-T4-B-E2", "S01-T4-B-E3"],
+    "youDo": "Updated to CP-N1-A skeleton with data dictionary + synthetic dataset"
+  },
+  "execution_evidence": {
+    "workdir": "/tmp/s01_t4b_verify",
+    "status": "PASS",
+    "notes": "git check-ignore .env and .venv; .env.example tracked"
+  },
+  "authorized_to_proceed": "PHASE_5_EXAM_BANK or topic-eval platform render",
+  "phase_4_gate": {
+    "all_8_subtopics": true,
+    "exercises_24": true,
+    "demos_8": true,
+    "authorized_phase_4_content": "COMPLETE"
+  }
+}

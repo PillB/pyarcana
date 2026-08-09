@@ -1,0 +1,285 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 14,
+  "recorded_at": "2026-07-21T22:00:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos + weDo instruction/hints/starters only",
+      "required_for_early_exercises": {
+        "np.array/dtype/shape/ndim": { "in_theory_or_demo": true, "where": "theory ndarray + S14-T1-B-DEMO" },
+        "máscaras booleanas / np.where": { "in_theory_or_demo": true, "where": "theory máscaras + S14-T2-A-DEMO" },
+        "ufuncs/reducciones/axis/keepdims": { "in_theory_or_demo": true, "where": "theory ufuncs + demos T2/T3" },
+        "broadcasting/newaxis": { "in_theory_or_demo": true, "where": "theory broadcasting + S14-T3-A-DEMO" },
+        "views/copies/writeable": { "in_theory_or_demo": true, "where": "theory views + S14-T3-B-DEMO" },
+        "nan/inf/isfinite/nanmean": { "in_theory_or_demo": true, "where": "theory NaN + S14-T4-A-DEMO" },
+        "perf_counter/allclose": { "in_theory_or_demo": true, "where": "theory vectorización + S14-T4-B-DEMO + assert demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "dtype",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: dtype fija el tipo homogéneo de elementos del ndarray."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Filtrar o seleccionar elementos que cumplen la condición",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: a[mask] filtra; máscara booleana es forma idiomática de calidad."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Por columna (colapsa filas)",
+        "confidence": 0.92,
+        "blocked_on": [],
+        "note": "Theory: axis=0 reduce filas→agrega por columna. Skeptic rejects 'solo pandas' as untaught contradiction."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Puede mutar el array base porque suele ser un view",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory + S14-T3-B-DEMO: mutar view muta original."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S14-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["np.array", "dtype", "shape", "ndim", "uint8"],
+        "note": "Hints + theory dtype/shape; demo make_quality_arrays pattern."
+      },
+      {
+        "exercise_id": "S14-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["linspace", "itemsize", "nbytes", "float64"],
+        "note": "Instruction names linspace; theory itemsize/nbytes."
+      },
+      {
+        "exercise_id": "S14-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\n\ndef validate(a):\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"need 1D float64\")\n    print(\"ok\", a.size)\n\nvalidate(np.array([0.1, 0.2], dtype=np.float64))\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["ndim", "dtype", "ValueError", "size"],
+        "note": "Hints: check ndim and dtype; raise ValueError. ValueError/try appear in later exercises of same section + prior packet patterns."
+      },
+      {
+        "exercise_id": "S14-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["máscara", "np.where"],
+        "note": "Hints give mask and np.where(mask)[0]."
+      },
+      {
+        "exercise_id": "S14-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.2, 0.8, 0.4, 0.9])\nmed = np.median(scores)\nprint(ids[scores < med])\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["np.median", "boolean mask", "C00x ids"],
+        "note": "Hints np.median + ids[scores < med]; ids C001..C004 from instruction + demo style."
+      },
+      {
+        "exercise_id": "S14-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["fancy index"],
+        "note": "Theory fancy index a[[0,2]]; hints a[order]."
+      },
+      {
+        "exercise_id": "S14-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(np.round(M.mean(axis=0), 2).tolist())\nprint(np.round(M.mean(axis=1), 2).tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["mean", "axis", "np.round"],
+        "note": "Hints mean axis 0/1 + round.tolist."
+      },
+      {
+        "exercise_id": "S14-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(np.std(scores, axis=0), 4).tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["np.std", "axis=0"],
+        "note": "Hints np.std axis=0 ddof=0 default."
+      },
+      {
+        "exercise_id": "S14-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nnormed = X - X.mean(axis=1, keepdims=True)\nprint(np.round(normed.mean(axis=1), 10).tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["keepdims", "mean axis=1"],
+        "note": "Hints keepdims pattern from theory."
+      },
+      {
+        "exercise_id": "S14-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nM = np.zeros((2, 3))\npesos = np.array([1., 2., 3.])\nprint(M + pesos)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["broadcast", "zeros"],
+        "note": "Hints zeros + pesos broadcast."
+      },
+      {
+        "exercise_id": "S14-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\nprod = a[:, None] * b\nprint(prod.shape)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["newaxis", "None", "broadcast"],
+        "note": "Hints a[:, None] * b → (4,3); demo uses newaxis."
+      },
+      {
+        "exercise_id": "S14-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\ntry:\n    np.zeros((2, 3)) + np.zeros((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["ValueError", "broadcast fail"],
+        "note": "Theory ValueError on incompatible shapes; hints try/except."
+      },
+      {
+        "exercise_id": "S14-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["view", "slice"],
+        "note": "S14-T3-B-DEMO shows view mutation."
+      },
+      {
+        "exercise_id": "S14-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw)\nprint(copia)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": [".copy()"],
+        "note": "Demo copy isolates mutation."
+      },
+      {
+        "exercise_id": "S14-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\na = np.array([1, 2, 3])\na.flags.writeable = False\ntry:\n    a[0] = 9\nexcept ValueError:\n    print(\"blocked\")\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["flags.writeable"],
+        "note": "Theory arr.flags.writeable; hints writeable=False."
+      },
+      {
+        "exercise_id": "S14-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["np.isnan"],
+        "note": "Hints isnan sum."
+      },
+      {
+        "exercise_id": "S14-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(round(float(np.nanmean(x)), 2))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["np.nanmean"],
+        "note": "Hints nanmean; result 2.0."
+      },
+      {
+        "exercise_id": "S14-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\nx2 = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(x2)))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["np.where", "isinf", "nansum"],
+        "note": "Hints + S14-T4-A-DEMO pattern."
+      },
+      {
+        "exercise_id": "S14-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\na = np.arange(1000, dtype=float)\nb = np.arange(1000, dtype=float)\ns_loop = 0.0\nfor i in range(len(a)):\n    s_loop += a[i] * b[i]\ns_vec = (a * b).sum()\nprint(abs(s_loop - s_vec) < 1e-6)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["loop vs vectorizado", "sum"],
+        "note": "Hints compare results not times; demo shows loop vs vec pattern."
+      },
+      {
+        "exercise_id": "S14-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\na = np.arange(5)\nprint(int((a ** 2).sum()))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["vectorized sum squares"],
+        "note": "Hints (a**2).sum() = 30."
+      },
+      {
+        "exercise_id": "S14-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np, time\na = np.zeros(10000)\nb = np.ones(10000)\nt0 = time.perf_counter()\nout = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", float(out.mean()) == 1.0)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["time.perf_counter", "vector add"],
+        "note": "Demo uses perf_counter; instruction wants timed + mean 1.0."
+      },
+      {
+        "exercise_id": "S14-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["nbytes", "float64=8"],
+        "note": "Theory nbytes; hints 8000."
+      },
+      {
+        "exercise_id": "S14-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nprint(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["np.allclose"],
+        "note": "Theory + assert demo allclose."
+      },
+      {
+        "exercise_id": "S14-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0, 0], [0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["assert_allclose", "AssertionError"],
+        "note": "Theory np.testing.assert_allclose; demo uses it."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "713af9c68e66238e",
+    "summary": {
+      "n_exercises": 24,
+      "n_blocked_exercises": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_blocked_selfcheck": 0,
+      "residual_gaps": [
+        "S14-T2-B-DEMO reduction code was null in packet — used theory axis text instead"
+      ],
+      "top_gaps": []
+    }
+  }
+}

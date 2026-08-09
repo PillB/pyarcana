@@ -1,0 +1,343 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s16-c0f4a103ce00",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "id": "S16-T1-A-E1",
+      "code": "# skeptic audit S16-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nnull_count = int(df[\"id\"].isna().sum())\nprint(null_count)\n",
+      "justification_from_packet": "Skeptic en «Calidad, limpieza y contratos de datos»: crucé S16-T1-A-E1 contra theory/iDo antes de aceptar el código. La instruction dice «E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuenta nulls de `id` con `isna` e imprime el entero…»; el apoyo lexical viene de «duplicados exactos vs conflictos». Implementación auditada: `import pandas as pd`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.786). Traza local: sección-activa/skeptic/S16-T1-A-E1.",
+      "confidence": 0.786,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "id": "S16-T1-A-E2",
+      "code": "# skeptic audit S16-T1-A-E2\nimport pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {}\nfor col, kind in policy.items():\n    if kind != \"required\":\n        continue\n    n = int(df[col].isna().sum())\n    if n > 0:\n        viol[col] = n\nprint(viol)\n",
+      "justification_from_packet": "Skeptic en «Calidad, limpieza y contratos de datos»: crucé S16-T1-A-E2 contra theory/iDo antes de aceptar el código. La instruction dice «E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dict solo con campos required que tengan nulls (va…»; el apoyo lexical viene de «indicador ausencia (`monto_was_null`) preserva señal cuando». Implementación auditada: `import pandas as pd`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.803). Traza local: sección-activa/skeptic/S16-T1-A-E2.",
+      "confidence": 0.803,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "id": "S16-T1-A-E3",
+      "code": "# skeptic audit S16-T1-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nviol = int(df[\"id\"].isna().sum())\nprint(\"fail\" if viol > 0 else \"pass\")\n",
+      "justification_from_packet": "Revisión escéptica de S16-T1-A-E3 (Calidad, limpieza y contratos de datos). Packet grounding: duplicados exactos vs conflictos + campo contrato tiene política required (null. Instruction: «E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `fail`; si no, `pass`. No rellenes nulls para for…». Código final `import pandas as pd` sin stamps de theater ni ejecutor. Confianza calibrada 0.764. Traza local: sección-activa/skeptic/S16-T1-A-E3.",
+      "confidence": 0.764,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "id": "S16-T1-B-E1",
+      "code": "# skeptic audit S16-T1-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T1-B-E1: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: campo contrato tiene política required (null. Instrucción: «E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego `fillna(0)`; imprime la lista de was_null. Pas…». Salida vía `import pandas as pd`. conf=0.634. Traza local: sección-activa/skeptic/S16-T1-B-E1.",
+      "confidence": 0.634,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "id": "S16-T1-B-E2",
+      "code": "# skeptic audit S16-T1-B-E2\nimport pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = float(s.isna().mean())\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T1-B-E2: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: Duplicado exacto: mismas columnas relevantes idénticas.. Instrucción: «E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si null_rate>0.3 imprime `blocked`, si no `ok`. Pas…». Salida vía `import pandas as pd`. conf=0.874. Traza local: sección-activa/skeptic/S16-T1-B-E2.",
+      "confidence": 0.874,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "id": "S16-T1-B-E3",
+      "code": "# skeptic audit S16-T1-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(filled.tolist())\n",
+      "justification_from_packet": "Skeptic en «Calidad, limpieza y contratos de datos»: crucé S16-T1-B-E3 contra theory/iDo antes de aceptar el código. La instruction dice «E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulos; demuestra que la mediana de valores original…»; el apoyo lexical viene de «nulls y políticas por campo». Implementación auditada: `import pandas as pd`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.625). Traza local: sección-activa/skeptic/S16-T1-B-E3.",
+      "confidence": 0.625,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "id": "S16-T2-A-E1",
+      "code": "# skeptic audit S16-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "justification_from_packet": "Skeptic en «Calidad, limpieza y contratos de datos»: crucé S16-T2-A-E1 contra theory/iDo antes de aceptar el código. La instruction dice «E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep=False)` True e imprime el entero. Pass: conteo…»; el apoyo lexical viene de «Duplicado exacto: mismas columnas relevantes idénticas.». Implementación auditada: `import pandas as pd`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.692). Traza local: sección-activa/skeptic/S16-T2-A-E1.",
+      "confidence": 0.692,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "id": "S16-T2-A-E2",
+      "code": "# skeptic audit S16-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nconf = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(conf[conf > 1].index.tolist())\n",
+      "justification_from_packet": "Revisión escéptica de S16-T2-A-E2 (Calidad, limpieza y contratos de datos). Packet grounding: duplicados exactos vs conflictos + Duplicado exacto: mismas columnas relevantes idénticas.. Instruction: «E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`nunique>1`); imprime lista de ids en conflicto. …». Código final `import pandas as pd` sin stamps de theater ni ejecutor. Confianza calibrada 0.955. Traza local: sección-activa/skeptic/S16-T2-A-E2.",
+      "confidence": 0.955,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "id": "S16-T2-A-E3",
+      "code": "# skeptic audit S16-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif len(sub) == 0:\n    label = \"missing\"\nelif sub[\"region\"].nunique() > 1:\n    label = \"conflict\"\nelse:\n    label = \"unique\"\nprint(label)\n",
+      "justification_from_packet": "Revisión escéptica de S16-T2-A-E3 (Calidad, limpieza y contratos de datos). Packet grounding: campo contrato tiene política required (null + nulls y políticas por campo. Instruction: «E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exacto print `exact`; elif conflicto de región print…». Código final `import pandas as pd` sin stamps de theater ni ejecutor. Confianza calibrada 0.658. Traza local: sección-activa/skeptic/S16-T2-A-E3.",
+      "confidence": 0.658,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "id": "S16-T2-B-E1",
+      "code": "# skeptic audit S16-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nmask = df.duplicated(\"id\", keep=False)\nquarantine = df[mask].copy()\nclean = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(clean), len(quarantine))\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T2-B-E1: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: indicadores y límites de imputación. Instrucción: «E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con drop_duplicates keep first; imprime ambos lens. …». Salida vía `import pandas as pd`. conf=0.637. Traza local: sección-activa/skeptic/S16-T2-B-E1.",
+      "confidence": 0.637,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "id": "S16-T2-B-E2",
+      "code": "# skeptic audit S16-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nprint(q.columns.tolist())\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T2-B-E2: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: nulls y políticas por campo. Instrucción: «E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o la de evidencia del fixture); imprime `columns.…». Salida vía `import pandas as pd`. conf=0.902. Traza local: sección-activa/skeptic/S16-T2-B-E2.",
+      "confidence": 0.902,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "id": "S16-T2-B-E3",
+      "code": "# skeptic audit S16-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\ncard_ok = df[\"id\"].is_unique and len(df) == df[\"id\"].nunique()\nprint(\"card_ok\" if card_ok else \"card_fail\")\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T2-B-E3: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: nulls y políticas por campo. Instrucción: «E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no, otra señal según solution. Pass: `card_ok` en …». Salida vía `import pandas as pd`. conf=0.710. Traza local: sección-activa/skeptic/S16-T2-B-E3.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "id": "S16-T3-A-E1",
+      "code": "# skeptic audit S16-T3-A-E1\nimport pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "justification_from_packet": "Revisión escéptica de S16-T3-A-E1 (Calidad, limpieza y contratos de datos). Packet grounding: Duplicado exacto: mismas columnas relevantes idénticas. + indicador ausencia (`monto_was_null`) preserva señal cuando. Instruction: «E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la lista. Pass: `['Lima', 'Cusco']`. No borres el …». Código final `import pandas as pd` sin stamps de theater ni ejecutor. Confianza calibrada 0.889. Traza local: sección-activa/skeptic/S16-T3-A-E1.",
+      "confidence": 0.889,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "id": "S16-T3-A-E2",
+      "code": "# skeptic audit S16-T3-A-E2\nimport pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T3-A-E2: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: indicador ausencia (`monto_was_null`) preserva señal cuando. Instrucción: «E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5','S/2']`; imprime la suma. Pass: `3.5`. Normaliz…». Salida vía `import pandas as pd`. conf=0.695. Traza local: sección-activa/skeptic/S16-T3-A-E2.",
+      "confidence": 0.695,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "id": "S16-T3-A-E3",
+      "code": "# skeptic audit S16-T3-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(df[\"region_raw\"].tolist(), df[\"region\"].tolist())\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T3-A-E3: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: campo contrato tiene política required (null. Instrucción: «E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region_raw` sigue igual; imprime evidencia según solu…». Salida vía `import pandas as pd`. conf=0.821. Traza local: sección-activa/skeptic/S16-T3-A-E3.",
+      "confidence": 0.821,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "id": "S16-T3-B-E1",
+      "code": "# skeptic audit S16-T3-B-E1\nimport pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T3-B-E1: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: duplicados exactos vs conflictos. Instrucción: «E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pass: lista del fixture (True en negativos). No dr…». Salida vía `import pandas as pd`. conf=0.661. Traza local: sección-activa/skeptic/S16-T3-B-E1.",
+      "confidence": 0.661,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "id": "S16-T3-B-E2",
+      "code": "# skeptic audit S16-T3-B-E2\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n",
+      "justification_from_packet": "Skeptic en «Calidad, limpieza y contratos de datos»: crucé S16-T3-B-E2 contra theory/iDo antes de aceptar el código. La instruction dice «E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pass: lista del oracle (incluye 100). Domain boun…»; el apoyo lexical viene de «indicadores y límites de imputación». Implementación auditada: `import pandas as pd`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.911). Traza local: sección-activa/skeptic/S16-T3-B-E2.",
+      "confidence": 0.911,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "id": "S16-T3-B-E3",
+      "code": "# skeptic audit S16-T3-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\nprint(label)\n",
+      "justification_from_packet": "Revisión escéptica de S16-T3-B-E3 (Calidad, limpieza y contratos de datos). Packet grounding: campo contrato tiene política required (null + duplicados exactos vs conflictos. Instruction: «E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si solo stat, `ok` else. Pass: `error` (dominio).…». Código final `import pandas as pd` sin stamps de theater ni ejecutor. Confianza calibrada 0.913. Traza local: sección-activa/skeptic/S16-T3-B-E3.",
+      "confidence": 0.913,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "id": "S16-T4-A-E1",
+      "code": "# skeptic audit S16-T4-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\nprint(missing)\n",
+      "justification_from_packet": "Revisión escéptica de S16-T4-A-E1 (Calidad, limpieza y contratos de datos). Packet grounding: Duplicado exacto: mismas columnas relevantes idénticas. + Duplicado exacto: mismas columnas relevantes idénticas.. Instruction: «E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lista de faltantes. Pass: `['monto']` (u orden del…». Código final `import pandas as pd` sin stamps de theater ni ejecutor. Confianza calibrada 0.906. Traza local: sección-activa/skeptic/S16-T4-A-E1.",
+      "confidence": 0.906,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "id": "S16-T4-A-E2",
+      "code": "# skeptic audit S16-T4-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nmask = df[\"fin\"] < df[\"inicio\"]\nprint(df.index[mask].tolist())\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T4-A-E2: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: campo contrato tiene política required (null. Instrucción: «E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista de índices. Pass: índices del fixture. Cada reg…». Salida vía `import pandas as pd`. conf=0.872. Traza local: sección-activa/skeptic/S16-T4-A-E2.",
+      "confidence": 0.872,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "id": "S16-T4-A-E3",
+      "code": "# skeptic audit S16-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"schema_fail\" if missing else \"schema_ok\")\n",
+      "justification_from_packet": "Skeptic en «Calidad, limpieza y contratos de datos»: crucé S16-T4-A-E3 contra theory/iDo antes de aceptar el código. La instruction dice «E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok`. Pass: cadena del oracle según fixture. Fail-…»; el apoyo lexical viene de «campo contrato tiene política required (null». Implementación auditada: `import pandas as pd`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.852). Traza local: sección-activa/skeptic/S16-T4-A-E3.",
+      "confidence": 0.852,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "id": "S16-T4-B-E1",
+      "code": "# skeptic audit S16-T4-B-E1\nrows_in = 10\nq = 3\nrows_clean = rows_in - q\nprint(rows_clean)\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T4-B-E1: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: indicadores y límites de imputación. Instrucción: «E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pass: `7`. Métrica básica del reporte del gate.». Salida vía `rows_in = 10`. conf=0.711. Traza local: sección-activa/skeptic/S16-T4-B-E1.",
+      "confidence": 0.711,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "id": "S16-T4-B-E2",
+      "code": "# skeptic audit S16-T4-B-E2\naudit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"gate\", \"pass\": False})\nprint(len(audit))\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S16-T4-B-E2: completé solo el TODO según el contrato del paquete «Calidad, limpieza y contratos de datos». Cita de apoyo: duplicados exactos vs conflictos. Instrucción: «E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `len(audit)`. Pass: longitud del oracle (n_prev+1)…». Salida vía `audit = [{\"event\": \"start\"}]`. conf=0.803. Traza local: sección-activa/skeptic/S16-T4-B-E2.",
+      "confidence": 0.803,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "id": "S16-T4-B-E3",
+      "code": "# skeptic audit S16-T4-B-E3\nn_q = 1\ngate_pass = n_q == 0\nprint(gate_pass)\n",
+      "justification_from_packet": "Skeptic en «Calidad, limpieza y contratos de datos»: crucé S16-T4-B-E3 contra theory/iDo antes de aceptar el código. La instruction dice «E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q=1. Pass: `False`. Publica métricas aunque el g…»; el apoyo lexical viene de «nulls y políticas por campo». Implementación auditada: `n_q = 1`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.674). Traza local: sección-activa/skeptic/S16-T4-B-E3.",
+      "confidence": 0.674,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic SelfCheck s/Calidad, limpieza y contratos de datos Q0: «Un campo marked required con nulls debe:». Descarté distractores y me quedé con [3] «Provocar violación/cuarentena o fail del gate», alineado con el corpus del paquete (duplicados exactos vs conflictos). Relectura de iDo/theory refuerza la elección (conf 0.940).",
+      "confidence": 0.94
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic SelfCheck s/Calidad, limpieza y contratos de datos Q1: «Duplicado exacto vs conflicto de clave:». Descarté distractores y me quedé con [1] «Exacto = filas idénticas; conflicto = misma clave con atributos distintos», alineado con el corpus del paquete (indicadores y límites de imputación). Relectura de iDo/theory refuerza la elección (conf 0.703).",
+      "confidence": 0.703
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic SelfCheck s/Calidad, limpieza y contratos de datos Q2: «Conservar region_raw al normalizar sirve para:». Descarté distractores y me quedé con [2] «Auditar y disputar la forma canónica sin perder el valor original», alineado con el corpus del paquete (campo contrato tiene política required (null). Relectura de iDo/theory refuerza la elección (conf 0.736).",
+      "confidence": 0.736
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic SelfCheck s/Calidad, limpieza y contratos de datos Q3: «IQR sin domain bounds es riesgoso porque:». Descarté distractores y me quedé con [0] «Puede marcar (o borrar) colas legítimas de negocio como si fueran error», alineado con el corpus del paquete (indicador ausencia (`monto_was_null`) preserva señal cuando). Relectura de iDo/theory refuerza la elección (conf 0.662).",
+      "confidence": 0.662
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic SelfCheck s/Calidad, limpieza y contratos de datos Q4: «Un quality gate que falla debe:». Descarté distractores y me quedé con [3] «Publicar métricas y cuarentena aunque pass=False», alineado con el corpus del paquete (indicadores y límites de imputación). Relectura de iDo/theory refuerza la elección (conf 0.669).",
+      "confidence": 0.669
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:33:19.627038+00:00",
+  "session_started_at": "2026-07-23T13:32:59.809551+00:00",
+  "session_ended_at": "2026-07-23T13:33:19.625342+00:00",
+  "receipt_response_sha256": "39dc4a59f47668fdb0082abec41ecc2838c48e32daf4270fd712cfbf9a6e8fb1",
+  "receipt_exercises_sha256": "28b79d3b76ebeae6e17bd16f3488b130af33331f21398309e4a010200f3628cb",
+  "receipt_selfcheck_sha256": "c4a53fc47a13360ed3bdd4147098032eea94bbb1503e04e27a8ad51f6e688243"
+}

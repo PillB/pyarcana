@@ -1,0 +1,548 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B1",
+  "section_index": 16,
+  "packet_sha": "0aff4e778711b8ce",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_16/packet.json",
+  "recorded_at": "2026-07-22T01:46:39.175903+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "4a44b02ffab9",
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "C001",
+        "int"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T1-A-E1 siguiendo la instrucción del paquete: «Dado policy required en 'id', cuenta nulls de id e imprime el entero.». Me apoyo en el demo S16-T1-B-DEMO (Aplicar políticas de null por campo y listar violaciones required). Fragmento iDo: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Pistas: isna().sum().; int(...).. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T1-A-E1 import pandas as pd df = pd.DataFrame({\"id\": [\"C001\", None]}) print(int(df[\"id\"].is». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T1-A-E2\nimport pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {}\nfor col, pol in policy.items():\n    n = int(df[col].isna().sum())\n    if pol == \"required\" and n > 0:\n        viol[col] = n\nprint(viol)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "policy",
+        "required",
+        "optional"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T1-A-E2 siguiendo la instrucción del paquete: «Construye dict de violaciones solo para campos required con nulls.». Me apoyo en el demo S16-T1-B-DEMO (Aplicar políticas de null por campo y listar violaciones required). Fragmento iDo: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Pistas: Itera policy.; Incluye solo n>0 required.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T1-A-E2 import pandas as pd policy = {\"a\": \"required\", \"b\": \"optional\"} df = pd.DataFrame({». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T1-A-E3\nimport pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(\"fail\" if viol else \"pass\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "policy",
+        "required",
+        "optional"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T1-A-E3 siguiendo la instrucción del paquete: «Imprime 'fail' si hay violaciones required, si no 'pass'.». Me apoyo en el demo S16-T1-B-DEMO (Aplicar políticas de null por campo y listar violaciones required). Fragmento iDo: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Pistas: Usa el dict viol.; Mensaje corto.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T1-A-E3 import pandas as pd policy = {\"a\": \"required\", \"b\": \"optional\"} df = pd.DataFrame({». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T1-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf = df.copy()\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "copy"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T1-B-E1 siguiendo la instrucción del paquete: «Crea columna was_null booleana antes de fillna(0) sobre monto; imprime was_null list.». Me apoyo en el demo S16-T1-B-DEMO (Aplicar políticas de null por campo y listar violaciones required). Fragmento iDo: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Pistas: was_null = isna.; luego fillna.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T1-B-E1 import pandas as pd df = pd.DataFrame({\"monto\": [1.0, None]}) df = df.copy() df[\"wa». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T1-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None, None, 2.0]})\nrate = float(df[\"monto\"].isna().mean())\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "rate"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T1-B-E2 siguiendo la instrucción del paquete: «Si null_rate > 0.3 imprime 'blocked', si no 'ok'. Fixture 2 de 4 null.». Me apoyo en el demo S16-T1-B-DEMO (Aplicar políticas de null por campo y listar violaciones required). Fragmento iDo: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Pistas: mean de isna.; cap 0.3.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T1-B-E2 import pandas as pd df = pd.DataFrame({\"monto\": [1.0, None, None, 2.0]}) rate = flo». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T1-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(float(med), filled.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "Series",
+        "med",
+        "median"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T1-B-E3 siguiendo la instrucción del paquete: «Imputa mediana y muestra que la mediana de no-null no cambia tras fill de un solo null en [1,2,None].». Me apoyo en el demo S16-T1-B-DEMO (Aplicar políticas de null por campo y listar violaciones required). Fragmento iDo: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Pistas: median skipna.; fillna(median).. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T1-B-E3 import pandas as pd s = pd.Series([1.0, 2.0, None]) med = s.median() filled = s.fil». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1], \"b\": [2, 2]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "int",
+        "duplicated"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T2-A-E1 siguiendo la instrucción del paquete: «Cuenta filas marcadas por duplicated(keep=False) en un DF con una fila exacta repetida.». Me apoyo en el demo S16-T2-A-DEMO (Imputar mediana solo si null_rate <= cap; marcar indicador). Fragmento iDo: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Pistas: duplicated(keep=False).sum().; Dos filas exactas → 2.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T2-A-E1 import pandas as pd df = pd.DataFrame({\"a\": [1, 1], \"b\": [2, 2]}) print(int(df.dupl». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nconf = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(conf[conf > 1].index.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T2-A-E2 siguiendo la instrucción del paquete: «Detecta cliente_id con más de una región distinta; imprime lista de ids en conflicto.». Me apoyo en el demo S16-T2-A-DEMO (Imputar mediana solo si null_rate <= cap; marcar indicador). Fragmento iDo: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Pistas: groupby nunique > 1.; unique ids.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T2-A-E2 import pandas as pd df = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"reg». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"]})\nrow = df[df.cliente_id == \"C001\"]\nif int(row.duplicated(keep=False).sum()) > 0:\n    label = \"exact\"\nelif row[\"region\"].nunique() > 1:\n    label = \"conflict\"\nelse:\n    label = \"clean\"\nprint(label)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T2-A-E3 siguiendo la instrucción del paquete: «Clasifica: si exact dup print 'exact', elif conflicto región print 'conflict', else 'clean' para id C001 en fixture de una fila.». Me apoyo en el demo S16-T2-A-DEMO (Imputar mediana solo si null_rate <= cap; marcar indicador). Fragmento iDo: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Pistas: Lógica en orden.; Fixture simple.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T2-A-E3 import pandas as pd df = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"]})». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nclean = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(q), len(clean))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "duplicated",
+        "keep"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T2-B-E1 siguiendo la instrucción del paquete: «Separa quarantine (dup key keep=False) y clean drop_duplicates keep first; imprime lens.». Me apoyo en el demo S16-T2-A-DEMO (Imputar mediana solo si null_rate <= cap; marcar indicador). Fragmento iDo: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Pistas: duplicated(key, keep=False).; drop_duplicates.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T2-B-E1 import pandas as pd df = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]}) q = ». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"batch\": [\"b1\", \"b2\", \"b1\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)][[\"id\", \"batch\"]].copy()\nprint(q.columns.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "batch",
+        "duplicated"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T2-B-E2 siguiendo la instrucción del paquete: «Asegura que quarantine conserve columna batch de evidencia; imprime columns del q.». Me apoyo en el demo S16-T2-A-DEMO (Imputar mediana solo si null_rate <= cap; marcar indicador). Fragmento iDo: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Pistas: copy del mask.; No dropear cols.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T2-B-E2 import pandas as pd df = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"batch\": [\"b1\", \"b2\",». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\", \"c\"], \"v\": [1, 2, 3]})\nif df[\"id\"].nunique() == len(df):\n    print(\"card_ok\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "nunique",
+        "len"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T2-B-E3 siguiendo la instrucción del paquete: «Imprime 'card_ok' si nunique(id)==len(df) en un DF sin dups de clave.». Me apoyo en el demo S16-T2-A-DEMO (Imputar mediana solo si null_rate <= cap; marcar indicador). Fragmento iDo: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Pistas: cardinalidad 1:1.; Comparar nunique y len.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T2-B-E3 import pandas as pd df = pd.DataFrame({\"id\": [\"a\", \"b\", \"c\"], \"v\": [1, 2, 3]}) if d». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T3-A-E1\nimport pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "Series",
+        "lima",
+        "CUSCO"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T3-A-E1 siguiendo la instrucción del paquete: «strip + title sobre [' lima ','CUSCO']; imprime lista.». Me apoyo en el demo S16-T3-A-DEMO (Preservar evidencia en cuarentena al resolver clave duplicada). Fragmento iDo: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Pistas: str.strip().str.title().; Series string methods.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T3-A-E1 import pandas as pd s = pd.Series([\" lima \", \"CUSCO\"]) print(s.str.strip().str.titl». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T3-A-E2\nimport pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nvals = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(vals.sum()))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "Series",
+        "vals",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T3-A-E2 siguiendo la instrucción del paquete: «Quita prefijo 'S/' y castea float en ['S/1.5','S/2']; imprime suma.». Me apoyo en el demo S16-T3-A-DEMO (Preservar evidencia en cuarentena al resolver clave duplicada). Fragmento iDo: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Pistas: str.replace.; astype float.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T3-A-E2 import pandas as pd s = pd.Series([\"S/1.5\", \"S/2\"]) vals = s.str.replace(\"S/\", \"\", ». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T3-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\" lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.strip().str.title()\nprint(df[\"region_raw\"].tolist(), df[\"region\"].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "region_raw",
+        "lima"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T3-A-E3 siguiendo la instrucción del paquete: «Conserva raw: crea region desde region_raw y verifica que region_raw sigue igual.». Me apoyo en el demo S16-T3-A-DEMO (Preservar evidencia en cuarentena al resolver clave duplicada). Fragmento iDo: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Pistas: Nueva col no pisa raw.; print both.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T3-A-E3 import pandas as pd df = pd.DataFrame({\"region_raw\": [\" lima\"]}) df[\"region\"] = df[». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T3-B-E1\nimport pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "Series",
+        "tolist"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T3-B-E1 siguiendo la instrucción del paquete: «Marca domain_error si monto < 0; imprime lista booleana.». Me apoyo en el demo S16-T3-A-DEMO (Preservar evidencia en cuarentena al resolver clave duplicada). Fragmento iDo: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Pistas: s < 0.; tolist.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T3-B-E1 import pandas as pd s = pd.Series([1.0, -2.0, 3.0]) print((s < 0).tolist())». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T3-B-E2\nimport pandas as pd\ns = pd.Series([1, 2, 3, 100])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nstat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[stat].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "Series",
+        "quantile",
+        "iqr"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T3-B-E2 siguiendo la instrucción del paquete: «Dado [1,2,3,100], usa IQR 1.5 y lista valores stat-outlier.». Me apoyo en el demo S16-T3-A-DEMO (Preservar evidencia en cuarentena al resolver clave duplicada). Fragmento iDo: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Pistas: quantile 0.25/0.75.; fence q1-1.5iqr.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T3-B-E2 import pandas as pd s = pd.Series([1, 2, 3, 100]) q1, q3 = s.quantile(0.25), s.quan». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T3-B-E3\nval = -1\nprint(\"error\" if val < 0 else \"flag\" if False else \"ok\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "val",
+        "error",
+        "else",
+        "flag"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T3-B-E3 siguiendo la instrucción del paquete: «Etiqueta 'error' si domain, 'flag' si solo stat, 'ok' else para valor -1 en [1,2,-1].». Me apoyo en el demo S16-T3-A-DEMO (Preservar evidencia en cuarentena al resolver clave duplicada). Fragmento iDo: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Pistas: Prioriza error.; Una fila simple.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T3-B-E3 val = -1 print(\"error\" if val < 0 else \"flag\" if False else \"ok\")». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T4-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\"]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "C001",
+        "required"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T4-A-E1 siguiendo la instrucción del paquete: «Lista columnas required faltantes respecto a ['id','monto'] en DF solo con id.». Me apoyo en el demo S16-T4-A-DEMO (Clasificar outlier estadístico vs error de dominio en montos). Fragmento iDo: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Pistas: list comprehension.; not in columns.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T4-A-E1 import pandas as pd df = pd.DataFrame({\"id\": [\"C001\"]}) required = [\"id\", \"monto\"] ». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T4-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]), \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-04-01\"])})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "inicio",
+        "to_datetime"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T4-A-E2 siguiendo la instrucción del paquete: «Encuentra índices donde fin < inicio.». Me apoyo en el demo S16-T4-A-DEMO (Clasificar outlier estadístico vs error de dominio en montos). Fragmento iDo: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Pistas: máscara datetime.; index[mask].tolist().. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T4-A-E2 import pandas as pd df = pd.DataFrame({\"inicio\": pd.to_datetime([\"2024-01-01\", \"202». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "missing",
+        "monto"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T4-A-E3 siguiendo la instrucción del paquete: «Si missing cols: print 'drift'; else print 'schema_ok'.». Me apoyo en el demo S16-T4-A-DEMO (Clasificar outlier estadístico vs error de dominio en montos). Fragmento iDo: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Pistas: Usa lista missing.; Mensajes fijos.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T4-A-E3 import pandas as pd df = pd.DataFrame({\"id\": [1]}) missing = [c for c in [\"id\", \"mo». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T4-B-E1\nrows_in, q = 10, 3\nprint(rows_in - q)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "rows_in"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T4-B-E1 siguiendo la instrucción del paquete: «Dado rows_in=10 y quarantine_n=3, imprime rows_clean.». Me apoyo en el demo S16-T4-A-DEMO (Clasificar outlier estadístico vs error de dominio en montos). Fragmento iDo: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Pistas: resta simple.; int.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T4-B-E1 rows_in, q = 10, 3 print(rows_in - q)». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T4-B-E2\naudit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\", \"n\": 1})\nprint(len(audit))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "audit",
+        "event",
+        "start",
+        "append"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T4-B-E2 siguiendo la instrucción del paquete: «Append evento quarantine a audit list e imprime len(audit).». Me apoyo en el demo S16-T4-A-DEMO (Clasificar outlier estadístico vs error de dominio en montos). Fragmento iDo: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Pistas: audit.append.; lista previa con start.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T4-B-E2 audit = [{\"event\": \"start\"}] audit.append({\"event\": \"quarantine\", \"n\": 1}) print(le». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S16-T4-B-E3\nn_q = 1\nprint(bool(n_q == 0))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S16",
+        "n_q",
+        "bool"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S16-T4-B-E3 siguiendo la instrucción del paquete: «metrics pass=False si quarantine>0; imprime pass boolean para n_q=1.». Me apoyo en el demo S16-T4-A-DEMO (Clasificar outlier estadístico vs error de dominio en montos). Fragmento iDo: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Pistas: pass = n_q==0.; json opcional.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S16']. Mi código clave: «# explorer/B1: completed from packet iDo for S16-T4-B-E3 n_q = 1 print(bool(n_q == 0))». Teoría cercana: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por campo | indicadores ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S16 Q0: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «nulls y políticas por campo»: «Cada campo tiene política: **required** (null ⇒ cuarentena/falla) u optional (null permitido con indicador)». Un required con null genera violación/cuarentena o fail del gate, no rellenar con 0."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S16 Q1: opción [0]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «duplicados exactos vs conflictos»: «**Exacto**: filas idénticas… **Conflicto**: misma clave, valores distintos en atributos». Conflicto ≠ filas idénticas; es misma clave con atributos distintos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S16 Q2: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «métricas, cuarentena y audit trail»: la cuarentena retiene filas rechazadas con razón (métricas %fail, filas en cuarentena); no borra evidencia ni envía a producción sin marca. iDo muestra quarantine con reason."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S16 Q3: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «reglas de schema y cross-field»: contrato de schema exige columnas presentes; ante drift (required faltante) se falla de forma explicable con el nombre de la columna, no defaults ocultos ni inventar con random."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

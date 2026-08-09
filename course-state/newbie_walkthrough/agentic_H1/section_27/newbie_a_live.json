@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s27-1c11c4b574bd",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "code": "# dual explorer-H1 · S27-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nh1_out = impact * likelihood\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T1-A-E1 leyendo el instruction del quiz_card: «S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe):…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "code": "# dual explorer-H1 · S27-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T1-A-E2 leyendo el instruction del quiz_card: «S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la en…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "code": "# dual explorer-H1 · S27-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nh1_out = top_layer == 'unit'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T1-A-E3 leyendo el instruction del quiz_card: «S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el start…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "code": "# dual explorer-H1 · S27-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nh1_out = ' '.join(s.casefold().split())\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T1-B-E1 leyendo el instruction del quiz_card: «S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "code": "# dual explorer-H1 · S27-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nh1_out = 'pass'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T1-B-E2 leyendo el instruction del quiz_card: «S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe):…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "code": "# dual explorer-H1 · S27-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T1-B-E3 leyendo el instruction del quiz_card: «S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01,…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints [\"print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\"]. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "code": "# dual explorer-H1 · S27-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T2-A-E1 leyendo el instruction del quiz_card: «S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints [\"print([n for n in names if n.startswith('test_')])\"]. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "code": "# dual explorer-H1 · S27-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nh1_out = 'ok' if left == right else 'fail'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T2-A-E2 leyendo el instruction del quiz_card: «S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la e…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "code": "# dual explorer-H1 · S27-T2-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T2-A-E3 leyendo el instruction del quiz_card: «S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=c…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, sint; salida anclada a prints [\"print([(' x ', 'x')])\"]. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "code": "# dual explorer-H1 · S27-T2-B-E1\nfrom copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nh1_out = orig[0]['n']\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T2-B-E1 leyendo el instruction del quiz_card: «S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-0…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, copy, deepcopy; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "copy",
+        "deepcopy",
+        "orig",
+        "h1_out",
+        "Copia"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "code": "# dual explorer-H1 · S27-T2-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = 'function'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T2-B-E2 leyendo el instruction del quiz_card: «S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entr…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "code": "# dual explorer-H1 · S27-T2-B-E3\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nh1_out = len(make(3))\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T2-B-E3 leyendo el instruction del quiz_card: «S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cp…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, make, range; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "make",
+        "range",
+        "h1_out",
+        "len",
+        "Factory"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "code": "# dual explorer-H1 · S27-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T3-A-E1 leyendo el instruction del quiz_card: «S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entr…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(math.isclose(0.1 + 0.2, 0.3))']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "code": "# dual explorer-H1 · S27-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('err')\nh1_out = 'bad'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T3-A-E2 leyendo el instruction del quiz_card: «S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints [\"print('err')\", 'print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "code": "# dual explorer-H1 · S27-T3-A-E3\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nh1_out = Path(path).read_text(encoding='utf-8').strip()\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T3-A-E3 leyendo el instruction del quiz_card: «S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-0…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, tempfile, pathlib; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "tempfile",
+        "pathlib",
+        "Path",
+        "NamedTemporaryFile",
+        "delete"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "code": "# dual explorer-H1 · S27-T3-B-E1\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    h1_out = e\n    print(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T3-B-E1 leyendo el instruction del quiz_card: «S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01,…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, email, raise; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "email",
+        "raise",
+        "ValueError",
+        "vac",
+        "h1_out"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "code": "# dual explorer-H1 · S27-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nh1_out = 'ok' if '@' in s else 'invalid'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T3-B-E2 leyendo el instruction del quiz_card: «S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe)…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "code": "# dual explorer-H1 · S27-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nh1_out = f'campo score inválido: {v!r}'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T3-B-E3 leyendo el instruction del quiz_card: «S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @exa…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "code": "# dual explorer-H1 · S27-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T4-A-E1 leyendo el instruction del quiz_card: «S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.p…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(f(1), f(-1))']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "code": "# dual explorer-H1 · S27-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nh1_out = 'non' not in hit\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T4-A-E2 leyendo el instruction del quiz_card: «S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @exa…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "code": "# dual explorer-H1 · S27-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nh1_out = int(100 * k / n)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T4-A-E3 leyendo el instruction del quiz_card: «S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "code": "# dual explorer-H1 · S27-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nh1_out = good == 'a' and mutant != 'a'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T4-B-E1 leyendo el instruction del quiz_card: «S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "code": "# dual explorer-H1 · S27-T4-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T4-B-E2 leyendo el instruction del quiz_card: «S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, sint; salida anclada a prints [\"print({'expected': 1, 'actual': 2})\"]. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "code": "# dual explorer-H1 · S27-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nh1_out = 'bug_repro → regression_test'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Estrategia de pruebas con pytest» (S27) resolví S27-T4-B-E3 leyendo el instruction del quiz_card: «S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S27, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en m.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S27",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S27 Q0: «En la pirámide de pruebas, la base más ancha suele ser:». En la teoría del slim_packet («riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u) la opción «Pruebas unitarias» es la que describe el concepto; descarto p.ej. ['E2E UI', 'Solo manual']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S27 Q1: «Un oráculo confiable es:». En la teoría del slim_packet («riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u) la opción «Una fuente de verdad determinista para el assert» es la que describe el concepto; descarto p.ej. ['Un print en consola', 'El reloj del sistema sin fijar']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S27 Q2: «Si mutas un casefold y ningún test falla:». En la teoría del slim_packet («riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u) la opción «El contrato es débil; el mutante sobrevivió» es la que describe el concepto; descarto p.ej. ['Está bien', 'pytest está roto siempre']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S27 Q3: «Las pruebas de matching en CP-N3-A demuestran:». En la teoría del slim_packet («riesgos y pirámide de pruebas» La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: u) la opción «Contratos de misma entidad / normalización — no riesgo ni relación» es la que describe el concepto; descarto p.ej. ['Fraude automático', 'Parentescos']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:18:15.402370+00:00",
+  "session_started_at": "2026-07-23T08:17:56.058950+00:00",
+  "session_ended_at": "2026-07-23T08:18:15.402370+00:00"
+}

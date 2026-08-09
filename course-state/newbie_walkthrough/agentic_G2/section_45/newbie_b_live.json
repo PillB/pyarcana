@@ -1,0 +1,494 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 45,
+  "packet_sha": "c95d2786702fb237",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-G2-s45-live",
+  "production_note": "agentic_G2 independent of G1 dual-LLM packet-only: skeptic solved sections from quiz_card+slim_packet only; direct agent output; no prior-attempt lives; no quarantine generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\": \"object\", \"transactions\": \"relational\", \"cache_authoritative\": False, \"cache_ttl_s\": 300}}\npredicate_ok = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\")\nprint(\"S45-T1-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "IQU",
+        "blob_store",
+        "object",
+        "transactions",
+        "relational",
+        "cache_authoritative"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T1-A-E1 (guided). Instrucción: S45-T1-A-E1 · Calcula el contrato de `object store, relacional y cache` sobre `CASO-IQU-045-1A`. La entrada es el dict completo del starter; la operación debe demostrar object/relational por semántica. Hints: Relaciona los campos `blob_store`, `transactions`, `cache_authoritative`, `cache_ttl_s` con la regla explicada en S45-T1-A.; El predicado correcto debe ser verdadero porque el fixt. Ajusté el booleano defectuoso del starter hacia `not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")`; ausencia de `cache_ttl_s` → MISSING/uncertainty `WRITE_STORE_ADR`; breach → `REDESIGN_PERSISTENCE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"blob_store\", \"transactions\", \"cache_authoritative\", \"cache_ttl_s\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\n    return \"PASS\" if ok else \"REDESIGN_PERSISTENCE\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\": \"object\", \"transactions\": \"relational\", \"cache_authoritative\": False, \"cache_ttl_s\": 300}}\ninvalid = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\": \"object\", \"transactions\": \"relational\", \"cache_authoritative\": True, \"cache_ttl_s\": 300}}\nincomplete = dict(valid)\nif \"cache_ttl_s\" in incomplete:\n    del incomplete[\"cache_ttl_s\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "blob_store",
+        "transactions",
+        "cache_authoritative",
+        "cache_ttl_s",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T1-A-E2 (independent). Instrucción: S45-T1-A-E2 · Modela tres rutas de `object store, relacional y cache`: fixture válido, fixture adverso y registro sin `cache_ttl_s`. Entrada: dict con case_id, blob_store, transactions, cache_authorit. Hints: Primero se calcula `missing`; ningún acceso a cache_ttl_s debe ocurrir antes de esa rama.; Después aplica la regla de S45-T1-A: object/relational por semántica y cache descartable.. Ajusté el booleano defectuoso del starter hacia `not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")`; ausencia de `cache_ttl_s` → MISSING/uncertainty `WRITE_STORE_ADR`; breach → `REDESIGN_PERSISTENCE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"blob_store\", \"transactions\", \"cache_authoritative\", \"cache_ttl_s\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"WRITE_STORE_ADR\"\n    contract_holds = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\n    return \"CONTINUE\" if contract_holds else \"REDESIGN_PERSISTENCE\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\": \"object\", \"transactions\": \"relational\", \"cache_authoritative\": False, \"cache_ttl_s\": 300}}\ninvalid = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\": \"object\", \"transactions\": \"relational\", \"cache_authoritative\": True, \"cache_ttl_s\": 300}}\nuncertain = dict(valid)\nuncertain.pop(\"cache_ttl_s\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "blob_store",
+        "transactions",
+        "cache_authoritative",
+        "cache_ttl_s",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T1-A-E3 (transfer). Instrucción: S45-T1-A-E3 · Simula fallo cerrado para `object store, relacional y cache` con tres fixtures distintos. `CASO-IQU-045-1A` debe continuar, el adverso debe devolver `REDESIGN_PERSISTENCE` y la ausencia . Hints: Una ausencia no equivale a breach: enrútala a `WRITE_STORE_ADR` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró object/relational por semántica. Ajusté el booleano defectuoso del starter hacia `not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")`; ausencia de `cache_ttl_s` → MISSING/uncertainty `WRITE_STORE_ADR`; breach → `REDESIGN_PERSISTENCE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\": \"job-status\", \"consistency\": \"read-after-write\", \"backup_age_h\": 4, \"rpo_h\": 6, \"restore_minutes\": 25, \"rto_minutes\": 30}}\npredicate_ok = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\")\nprint(\"S45-T1-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "IQU",
+        "operation",
+        "job",
+        "consistency",
+        "read",
+        "after"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T1-B-E1 (guided). Instrucción: S45-T1-B-E1 · Compara el contrato de `consistencia, lifecycle y backups` sobre `CASO-IQU-045-1B`. La entrada es el dict completo del starter; la operación debe demostrar consistencia explícita y resto. Hints: Relaciona los campos `operation`, `consistency`, `backup_age_h`, `rpo_h`, `restore_minutes`, `rto_minutes` con la regla explicada en S45-T1-B.; El predicado correcto debe ser verda. Ajusté el booleano defectuoso del starter hacia `not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])`; ausencia de `rto_minutes` → MISSING/uncertainty `RUN_RESTORE_DRILL`; breach → `DECLARE_DATA_LOSS_RISK`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"operation\", \"consistency\", \"backup_age_h\", \"rpo_h\", \"restore_minutes\", \"rto_minutes\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if ok else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\": \"job-status\", \"consistency\": \"read-after-write\", \"backup_age_h\": 4, \"rpo_h\": 6, \"restore_minutes\": 25, \"rto_minutes\": 30}}\ninvalid = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\": \"job-status\", \"consistency\": \"read-after-write\", \"backup_age_h\": 999, \"rpo_h\": 6, \"restore_minutes\": 25, \"rto_minutes\": 30}}\nincomplete = dict(valid)\nif \"rto_minutes\" in incomplete:\n    del incomplete[\"rto_minutes\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "operation",
+        "consistency",
+        "backup_age_h",
+        "rpo_h",
+        "restore_minutes"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T1-B-E2 (independent). Instrucción: S45-T1-B-E2 · Verifica tres rutas de `consistencia, lifecycle y backups`: fixture válido, fixture adverso y registro sin `rto_minutes`. Entrada: dict con case_id, operation, consistency, backup_age_h,. Hints: Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.; Después aplica la regla de S45-T1-B: consistencia explícita y restore dentro de RPO/RTO. . Ajusté el booleano defectuoso del starter hacia `not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])`; ausencia de `rto_minutes` → MISSING/uncertainty `RUN_RESTORE_DRILL`; breach → `DECLARE_DATA_LOSS_RISK`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"operation\", \"consistency\", \"backup_age_h\", \"rpo_h\", \"restore_minutes\", \"rto_minutes\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"RUN_RESTORE_DRILL\"\n    contract_holds = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\n    return \"CONTINUE\" if contract_holds else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\": \"job-status\", \"consistency\": \"read-after-write\", \"backup_age_h\": 4, \"rpo_h\": 6, \"restore_minutes\": 25, \"rto_minutes\": 30}}\ninvalid = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\": \"job-status\", \"consistency\": \"read-after-write\", \"backup_age_h\": 999, \"rpo_h\": 6, \"restore_minutes\": 25, \"rto_minutes\": 30}}\nuncertain = dict(valid)\nuncertain.pop(\"rto_minutes\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "operation",
+        "consistency",
+        "backup_age_h",
+        "rpo_h",
+        "restore_minutes"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T1-B-E3 (transfer). Instrucción: S45-T1-B-E3 · Extiende fallo cerrado para `consistencia, lifecycle y backups` con tres fixtures distintos. `CASO-IQU-045-1B` debe continuar, el adverso debe devolver `DECLARE_DATA_LOSS_RISK` y la ause. Hints: Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró consistencia explícita y rest. Ajusté el booleano defectuoso del starter hacia `not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])`; ausencia de `rto_minutes` → MISSING/uncertainty `RUN_RESTORE_DRILL`; breach → `DECLARE_DATA_LOSS_RISK`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\": \"at-least-once\", \"effect_durable\": True, \"acked_after_effect\": True, \"idempotency_key\": \"job-iqu-1\", \"backoff\": True}}\npredicate_ok = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"NACK_AND_RETRY\")\nprint(\"S45-T2-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "IQU",
+        "delivery",
+        "least",
+        "once",
+        "effect_durable",
+        "acked_after_effect"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T2-A-E1 (guided). Instrucción: S45-T2-A-E1 · Filtra el contrato de `queue/event y delivery semantics` sobre `CASO-IQU-045-2A`. La entrada es el dict completo del starter; la operación debe demostrar ack posterior al efecto, key ide. Hints: Relaciona los campos `delivery`, `effect_durable`, `acked_after_effect`, `idempotency_key`, `backoff` con la regla explicada en S45-T2-A.; El predicado correcto debe ser verdadero . Ajusté el booleano defectuoso del starter hacia `not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])`; ausencia de `backoff` → MISSING/uncertainty `VERIFY_DELIVERY_SEMANTICS`; breach → `NACK_AND_RETRY`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"delivery\", \"effect_durable\", \"acked_after_effect\", \"idempotency_key\", \"backoff\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\n    return \"PASS\" if ok else \"NACK_AND_RETRY\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\": \"at-least-once\", \"effect_durable\": True, \"acked_after_effect\": True, \"idempotency_key\": \"job-iqu-1\", \"backoff\": True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\": \"at-least-once\", \"effect_durable\": True, \"acked_after_effect\": False, \"idempotency_key\": \"job-iqu-1\", \"backoff\": True}}\nincomplete = dict(valid)\nif \"backoff\" in incomplete:\n    del incomplete[\"backoff\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "delivery",
+        "effect_durable",
+        "acked_after_effect",
+        "idempotency_key",
+        "backoff"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T2-A-E2 (independent). Instrucción: S45-T2-A-E2 · Clasifica tres rutas de `queue/event y delivery semantics`: fixture válido, fixture adverso y registro sin `backoff`. Entrada: dict con case_id, delivery, effect_durable, acked_after_eff. Hints: Primero se calcula `missing`; ningún acceso a backoff debe ocurrir antes de esa rama.; Después aplica la regla de S45-T2-A: ack posterior al efecto, key idempotente y backoff. El f. Ajusté el booleano defectuoso del starter hacia `not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])`; ausencia de `backoff` → MISSING/uncertainty `VERIFY_DELIVERY_SEMANTICS`; breach → `NACK_AND_RETRY`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"delivery\", \"effect_durable\", \"acked_after_effect\", \"idempotency_key\", \"backoff\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"VERIFY_DELIVERY_SEMANTICS\"\n    contract_holds = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\n    return \"CONTINUE\" if contract_holds else \"NACK_AND_RETRY\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\": \"at-least-once\", \"effect_durable\": True, \"acked_after_effect\": True, \"idempotency_key\": \"job-iqu-1\", \"backoff\": True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\": \"at-least-once\", \"effect_durable\": True, \"acked_after_effect\": False, \"idempotency_key\": \"job-iqu-1\", \"backoff\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"backoff\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "delivery",
+        "effect_durable",
+        "acked_after_effect",
+        "idempotency_key",
+        "backoff"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T2-A-E3 (transfer). Instrucción: S45-T2-A-E3 · Defiende fallo cerrado para `queue/event y delivery semantics` con tres fixtures distintos. `CASO-IQU-045-2A` debe continuar, el adverso debe devolver `NACK_AND_RETRY` y la ausencia de `. Hints: Una ausencia no equivale a breach: enrútala a `VERIFY_DELIVERY_SEMANTICS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró ack posterior al efec. Ajusté el booleano defectuoso del starter hacia `not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])`; ausencia de `backoff` → MISSING/uncertainty `VERIFY_DELIVERY_SEMANTICS`; breach → `NACK_AND_RETRY`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\": [\"m1\", \"m1\", \"m2\"], \"processed_ids\": {\"m1\", \"m2\"}, \"ordered_partition\": True, \"terminal_in_dlq\": True}}\npredicate_ok = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"DEDUP_OR_DLQ\")\nprint(\"S45-T2-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "IQU",
+        "message_ids",
+        "processed_ids",
+        "ordered_partition",
+        "terminal_in_dlq",
+        "predicate_ok"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T2-B-E1 (guided). Instrucción: S45-T2-B-E1 · Modela el contrato de `dedup, ordering y dead-letter` sobre `CASO-IQU-045-2B`. La entrada es el dict completo del starter; la operación debe demostrar deduplicación, ordering acotado y t. Hints: Relaciona los campos `message_ids`, `processed_ids`, `ordered_partition`, `terminal_in_dlq` con la regla explicada en S45-T2-B.; El predicado correcto debe ser verdadero porque el . Ajusté el booleano defectuoso del starter hacia `not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])`; ausencia de `terminal_in_dlq` → MISSING/uncertainty `INSPECT_MESSAGE_ORDER`; breach → `DEDUP_OR_DLQ`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"message_ids\", \"processed_ids\", \"ordered_partition\", \"terminal_in_dlq\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\n    return \"PASS\" if ok else \"DEDUP_OR_DLQ\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\": [\"m1\", \"m1\", \"m2\"], \"processed_ids\": {\"m1\", \"m2\"}, \"ordered_partition\": True, \"terminal_in_dlq\": True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\": [\"m1\", \"m1\", \"m2\"], \"processed_ids\": {\"injected\", \"m1\", \"m2\"}, \"ordered_partition\": True, \"terminal_in_dlq\": True}}\nincomplete = dict(valid)\nif \"terminal_in_dlq\" in incomplete:\n    del incomplete[\"terminal_in_dlq\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "message_ids",
+        "processed_ids",
+        "ordered_partition",
+        "terminal_in_dlq",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T2-B-E2 (independent). Instrucción: S45-T2-B-E2 · Audita tres rutas de `dedup, ordering y dead-letter`: fixture válido, fixture adverso y registro sin `terminal_in_dlq`. Entrada: dict con case_id, message_ids, processed_ids, ordered_par. Hints: Primero se calcula `missing`; ningún acceso a terminal_in_dlq debe ocurrir antes de esa rama.; Después aplica la regla de S45-T2-B: deduplicación, ordering acotado y terminal en DL. Ajusté el booleano defectuoso del starter hacia `not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])`; ausencia de `terminal_in_dlq` → MISSING/uncertainty `INSPECT_MESSAGE_ORDER`; breach → `DEDUP_OR_DLQ`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"message_ids\", \"processed_ids\", \"ordered_partition\", \"terminal_in_dlq\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"INSPECT_MESSAGE_ORDER\"\n    contract_holds = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\n    return \"CONTINUE\" if contract_holds else \"DEDUP_OR_DLQ\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\": [\"m1\", \"m1\", \"m2\"], \"processed_ids\": {\"m1\", \"m2\"}, \"ordered_partition\": True, \"terminal_in_dlq\": True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\": [\"m1\", \"m1\", \"m2\"], \"processed_ids\": {\"injected\", \"m1\", \"m2\"}, \"ordered_partition\": True, \"terminal_in_dlq\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"terminal_in_dlq\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "message_ids",
+        "processed_ids",
+        "ordered_partition",
+        "terminal_in_dlq",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T2-B-E3 (transfer). Instrucción: S45-T2-B-E3 · Recupera fallo cerrado para `dedup, ordering y dead-letter` con tres fixtures distintos. `CASO-IQU-045-2B` debe continuar, el adverso debe devolver `DEDUP_OR_DLQ` y la ausencia de `termi. Hints: Una ausencia no equivale a breach: enrútala a `INSPECT_MESSAGE_ORDER` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró deduplicación, ordering a. Ajusté el booleano defectuoso del starter hacia `not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])`; ausencia de `terminal_in_dlq` → MISSING/uncertainty `INSPECT_MESSAGE_ORDER`; breach → `DEDUP_OR_DLQ`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\": 80, \"workers\": 4, \"target_per_worker\": 25, \"quota_workers\": 6, \"private_network\": True, \"backpressure\": True}}\npredicate_ok = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\")\nprint(\"S45-T3-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "IQU",
+        "backlog",
+        "workers",
+        "target_per_worker",
+        "quota_workers",
+        "private_network"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T3-A-E1 (guided). Instrucción: S45-T3-A-E1 · Verifica el contrato de `compute, autoscaling y networking` sobre `CASO-IQU-045-3A`. La entrada es el dict completo del starter; la operación debe demostrar workers dentro de cuota y bac. Hints: Relaciona los campos `backlog`, `workers`, `target_per_worker`, `quota_workers`, `private_network`, `backpressure` con la regla explicada en S45-T3-A.; El predicado correcto debe s. Ajusté el booleano defectuoso del starter hacia `not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])`; ausencia de `backpressure` → MISSING/uncertainty `REQUEST_CAPACITY`; breach → `APPLY_BACKPRESSURE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"backlog\", \"workers\", \"target_per_worker\", \"quota_workers\", \"private_network\", \"backpressure\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\n    return \"PASS\" if ok else \"APPLY_BACKPRESSURE\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\": 80, \"workers\": 4, \"target_per_worker\": 25, \"quota_workers\": 6, \"private_network\": True, \"backpressure\": True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\": 80, \"workers\": 999, \"target_per_worker\": 25, \"quota_workers\": 6, \"private_network\": True, \"backpressure\": True}}\nincomplete = dict(valid)\nif \"backpressure\" in incomplete:\n    del incomplete[\"backpressure\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "backlog",
+        "workers",
+        "target_per_worker",
+        "quota_workers",
+        "private_network"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T3-A-E2 (independent). Instrucción: S45-T3-A-E2 · Decide tres rutas de `compute, autoscaling y networking`: fixture válido, fixture adverso y registro sin `backpressure`. Entrada: dict con case_id, backlog, workers, target_per_worker, q. Hints: Primero se calcula `missing`; ningún acceso a backpressure debe ocurrir antes de esa rama.; Después aplica la regla de S45-T3-A: workers dentro de cuota y backlog por worker bajo o. Ajusté el booleano defectuoso del starter hacia `not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])`; ausencia de `backpressure` → MISSING/uncertainty `REQUEST_CAPACITY`; breach → `APPLY_BACKPRESSURE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"backlog\", \"workers\", \"target_per_worker\", \"quota_workers\", \"private_network\", \"backpressure\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REQUEST_CAPACITY\"\n    contract_holds = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\n    return \"CONTINUE\" if contract_holds else \"APPLY_BACKPRESSURE\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\": 80, \"workers\": 4, \"target_per_worker\": 25, \"quota_workers\": 6, \"private_network\": True, \"backpressure\": True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\": 80, \"workers\": 999, \"target_per_worker\": 25, \"quota_workers\": 6, \"private_network\": True, \"backpressure\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"backpressure\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "backlog",
+        "workers",
+        "target_per_worker",
+        "quota_workers",
+        "private_network"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T3-A-E3 (transfer). Instrucción: S45-T3-A-E3 · Contrasta fallo cerrado para `compute, autoscaling y networking` con tres fixtures distintos. `CASO-IQU-045-3A` debe continuar, el adverso debe devolver `APPLY_BACKPRESSURE` y la ausenci. Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_CAPACITY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró workers dentro de cuota y back. Ajusté el booleano defectuoso del starter hacia `not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])`; ausencia de `backpressure` → MISSING/uncertainty `REQUEST_CAPACITY`; breach → `APPLY_BACKPRESSURE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\": {\"object:get\", \"queue:ack\"}, \"requested_action\": \"object:get\", \"private_path\": True, \"egress_host\": \"api.internal\", \"egress_allow\": {\"api.internal\"}}}\npredicate_ok = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\")\nprint(\"S45-T3-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "IQU",
+        "allowed_actions",
+        "object",
+        "get",
+        "queue",
+        "ack"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T3-B-E1 (guided). Instrucción: S45-T3-B-E1 · Clasifica el contrato de `IAM, private paths y egress` sobre `CASO-IQU-045-3B`. La entrada es el dict completo del starter; la operación debe demostrar acción IAM mínima, path privado y . Hints: Relaciona los campos `allowed_actions`, `requested_action`, `private_path`, `egress_host`, `egress_allow` con la regla explicada en S45-T3-B.; El predicado correcto debe ser verdad. Ajusté el booleano defectuoso del starter hacia `not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])`; ausencia de `egress_allow` → MISSING/uncertainty `REQUEST_SCOPED_POLICY`; breach → `DENY_IAM_OR_EGRESS`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"allowed_actions\", \"requested_action\", \"private_path\", \"egress_host\", \"egress_allow\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    return \"PASS\" if ok else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\": {\"object:get\", \"queue:ack\"}, \"requested_action\": \"object:get\", \"private_path\": True, \"egress_host\": \"api.internal\", \"egress_allow\": {\"api.internal\"}}}\ninvalid = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\": set(), \"requested_action\": \"object:get\", \"private_path\": True, \"egress_host\": \"api.internal\", \"egress_allow\": {\"api.internal\"}}}\nincomplete = dict(valid)\nif \"egress_allow\" in incomplete:\n    del incomplete[\"egress_allow\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "allowed_actions",
+        "requested_action",
+        "private_path",
+        "egress_host",
+        "egress_allow"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T3-B-E2 (independent). Instrucción: S45-T3-B-E2 · Calcula tres rutas de `IAM, private paths y egress`: fixture válido, fixture adverso y registro sin `egress_allow`. Entrada: dict con case_id, allowed_actions, requested_action, private_. Hints: Primero se calcula `missing`; ningún acceso a egress_allow debe ocurrir antes de esa rama.; Después aplica la regla de S45-T3-B: acción IAM mínima, path privado y egress allowliste. Ajusté el booleano defectuoso del starter hacia `not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])`; ausencia de `egress_allow` → MISSING/uncertainty `REQUEST_SCOPED_POLICY`; breach → `DENY_IAM_OR_EGRESS`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"allowed_actions\", \"requested_action\", \"private_path\", \"egress_host\", \"egress_allow\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REQUEST_SCOPED_POLICY\"\n    contract_holds = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    return \"CONTINUE\" if contract_holds else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\": {\"object:get\", \"queue:ack\"}, \"requested_action\": \"object:get\", \"private_path\": True, \"egress_host\": \"api.internal\", \"egress_allow\": {\"api.internal\"}}}\ninvalid = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\": set(), \"requested_action\": \"object:get\", \"private_path\": True, \"egress_host\": \"api.internal\", \"egress_allow\": {\"api.internal\"}}}\nuncertain = dict(valid)\nuncertain.pop(\"egress_allow\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "allowed_actions",
+        "requested_action",
+        "private_path",
+        "egress_host",
+        "egress_allow"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T3-B-E3 (transfer). Instrucción: S45-T3-B-E3 · Instrumenta fallo cerrado para `IAM, private paths y egress` con tres fixtures distintos. `CASO-IQU-045-3B` debe continuar, el adverso debe devolver `DENY_IAM_OR_EGRESS` y la ausencia de. Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_SCOPED_POLICY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró acción IAM mínima, path p. Ajusté el booleano defectuoso del starter hacia `not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])`; ausencia de `egress_allow` → MISSING/uncertainty `REQUEST_SCOPED_POLICY`; breach → `DENY_IAM_OR_EGRESS`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\": {\"bucket\", \"queue\"}, \"planned_resources\": {\"bucket\", \"queue\"}, \"environment\": \"staging\", \"secret_values_in_plan\": False, \"destructive_changes\": 0}}\npredicate_ok = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"REJECT_IAC_PLAN\")\nprint(\"S45-T4-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "IQU",
+        "declared_resources",
+        "bucket",
+        "queue",
+        "planned_resources",
+        "environment"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T4-A-E1 (guided). Instrucción: S45-T4-A-E1 · Audita el contrato de `configuración declarativa y environments` sobre `CASO-IQU-045-4A`. La entrada es el dict completo del starter; la operación debe demostrar plan coincide, entorno v. Hints: Relaciona los campos `declared_resources`, `planned_resources`, `environment`, `secret_values_in_plan`, `destructive_changes` con la regla explicada en S45-T4-A.; El predicado corr. Ajusté el booleano defectuoso del starter hacia `not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)`; ausencia de `destructive_changes` → MISSING/uncertainty `REVIEW_DRIFT`; breach → `REJECT_IAC_PLAN`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"declared_resources\", \"planned_resources\", \"environment\", \"secret_values_in_plan\", \"destructive_changes\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\n    return \"PASS\" if ok else \"REJECT_IAC_PLAN\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\": {\"bucket\", \"queue\"}, \"planned_resources\": {\"bucket\", \"queue\"}, \"environment\": \"staging\", \"secret_values_in_plan\": False, \"destructive_changes\": 0}}\ninvalid = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\": {\"bucket\", \"queue\"}, \"planned_resources\": {\"bucket\", \"queue\"}, \"environment\": \"staging\", \"secret_values_in_plan\": True, \"destructive_changes\": 0}}\nincomplete = dict(valid)\nif \"destructive_changes\" in incomplete:\n    del incomplete[\"destructive_changes\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "declared_resources",
+        "planned_resources",
+        "environment",
+        "secret_values_in_plan",
+        "destructive_changes"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T4-A-E2 (independent). Instrucción: S45-T4-A-E2 · Compara tres rutas de `configuración declarativa y environments`: fixture válido, fixture adverso y registro sin `destructive_changes`. Entrada: dict con case_id, declared_resources, pla. Hints: Primero se calcula `missing`; ningún acceso a destructive_changes debe ocurrir antes de esa rama.; Después aplica la regla de S45-T4-A: plan coincide, entorno válido, sin secretos . Ajusté el booleano defectuoso del starter hacia `not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)`; ausencia de `destructive_changes` → MISSING/uncertainty `REVIEW_DRIFT`; breach → `REJECT_IAC_PLAN`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"declared_resources\", \"planned_resources\", \"environment\", \"secret_values_in_plan\", \"destructive_changes\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REVIEW_DRIFT\"\n    contract_holds = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\n    return \"CONTINUE\" if contract_holds else \"REJECT_IAC_PLAN\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\": {\"bucket\", \"queue\"}, \"planned_resources\": {\"bucket\", \"queue\"}, \"environment\": \"staging\", \"secret_values_in_plan\": False, \"destructive_changes\": 0}}\ninvalid = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\": {\"bucket\", \"queue\"}, \"planned_resources\": {\"bucket\", \"queue\"}, \"environment\": \"staging\", \"secret_values_in_plan\": True, \"destructive_changes\": 0}}\nuncertain = dict(valid)\nuncertain.pop(\"destructive_changes\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "declared_resources",
+        "planned_resources",
+        "environment",
+        "secret_values_in_plan",
+        "destructive_changes"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T4-A-E3 (transfer). Instrucción: S45-T4-A-E3 · Aísla fallo cerrado para `configuración declarativa y environments` con tres fixtures distintos. `CASO-IQU-045-4A` debe continuar, el adverso debe devolver `REJECT_IAC_PLAN` y la ausenci. Hints: Una ausencia no equivale a breach: enrútala a `REVIEW_DRIFT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró plan coincide, entorno válido, sin. Ajusté el booleano defectuoso del starter hacia `not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)`; ausencia de `destructive_changes` → MISSING/uncertainty `REVIEW_DRIFT`; breach → `REJECT_IAC_PLAN`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\": 820, \"budget_pen\": 1000, \"quota_used\": 72, \"quota_limit\": 100, \"restore_tested\": True, \"portable_export\": True}}\npredicate_ok = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\")\nprint(\"S45-T4-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "IQU",
+        "forecast_pen",
+        "budget_pen",
+        "quota_used",
+        "quota_limit",
+        "restore_tested"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T4-B-E1 (guided). Instrucción: S45-T4-B-E1 · Decide el contrato de `costos, quotas, recovery y portability` sobre `CASO-IQU-045-4B`. La entrada es el dict completo del starter; la operación debe demostrar costo/cuota bajo límite y . Hints: Relaciona los campos `forecast_pen`, `budget_pen`, `quota_used`, `quota_limit`, `restore_tested`, `portable_export` con la regla explicada en S45-T4-B.; El predicado correcto debe . Ajusté el booleano defectuoso del starter hacia `not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])`; ausencia de `portable_export` → MISSING/uncertainty `COST_OWNER_REVIEW`; breach → `FREEZE_SCALE_OUT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"forecast_pen\", \"budget_pen\", \"quota_used\", \"quota_limit\", \"restore_tested\", \"portable_export\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\n    return \"PASS\" if ok else \"FREEZE_SCALE_OUT\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\": 820, \"budget_pen\": 1000, \"quota_used\": 72, \"quota_limit\": 100, \"restore_tested\": True, \"portable_export\": True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\": 1000000, \"budget_pen\": 1000, \"quota_used\": 72, \"quota_limit\": 100, \"restore_tested\": True, \"portable_export\": True}}\nincomplete = dict(valid)\nif \"portable_export\" in incomplete:\n    del incomplete[\"portable_export\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "forecast_pen",
+        "budget_pen",
+        "quota_used",
+        "quota_limit",
+        "restore_tested"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T4-B-E2 (independent). Instrucción: S45-T4-B-E2 · Filtra tres rutas de `costos, quotas, recovery y portability`: fixture válido, fixture adverso y registro sin `portable_export`. Entrada: dict con case_id, forecast_pen, budget_pen, quot. Hints: Primero se calcula `missing`; ningún acceso a portable_export debe ocurrir antes de esa rama.; Después aplica la regla de S45-T4-B: costo/cuota bajo límite y recovery/portability e. Ajusté el booleano defectuoso del starter hacia `not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])`; ausencia de `portable_export` → MISSING/uncertainty `COST_OWNER_REVIEW`; breach → `FREEZE_SCALE_OUT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"forecast_pen\", \"budget_pen\", \"quota_used\", \"quota_limit\", \"restore_tested\", \"portable_export\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"COST_OWNER_REVIEW\"\n    contract_holds = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\n    return \"CONTINUE\" if contract_holds else \"FREEZE_SCALE_OUT\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\": 820, \"budget_pen\": 1000, \"quota_used\": 72, \"quota_limit\": 100, \"restore_tested\": True, \"portable_export\": True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\": 1000000, \"budget_pen\": 1000, \"quota_used\": 72, \"quota_limit\": 100, \"restore_tested\": True, \"portable_export\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"portable_export\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "forecast_pen",
+        "budget_pen",
+        "quota_used",
+        "quota_limit",
+        "restore_tested"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S45. Ejercicio S45-T4-B-E3 (transfer). Instrucción: S45-T4-B-E3 · Demuestra fallo cerrado para `costos, quotas, recovery y portability` con tres fixtures distintos. `CASO-IQU-045-4B` debe continuar, el adverso debe devolver `FREEZE_SCALE_OUT` y la ause. Hints: Una ausencia no equivale a breach: enrútala a `COST_OWNER_REVIEW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró costo/cuota bajo límite y rec. Ajusté el booleano defectuoso del starter hacia `not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])`; ausencia de `portable_export` → MISSING/uncertainty `COST_OWNER_REVIEW`; breach → `FREEZE_SCALE_OUT`. Sin ejecución externa ni vidas previas."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "ADR de persistencia con fuente de verdad",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S45 con párrafos de theory. Pregunta: ¿Qué evidencia permite aprobar `object store, relacional y cache` en CASO-IQU-045?. La opción índice 0 («ADR de persistencia con fuente de verdad») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "emitir SEND_TO_DLQ y conservar evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S45 con párrafos de theory. Pregunta: Si ocurre la condición de error de S45, ¿qué respuesta preserva seguridad y auditabilidad?. La opción índice 2 («emitir SEND_TO_DLQ y conservar evidencia») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S45 con párrafos de theory. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?. La opción índice 3 («reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S45 con párrafos de theory. Pregunta: ¿Qué tratamiento de `CASO-IQU-045` respeta el alcance del curso?. La opción índice 1 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "S45 inverted predicates",
+      "note": "Starter booleans are deliberately inverted; fixed from hints + fixture invariants only."
+    }
+  ],
+  "retrospection": "skeptic: completed S45 (Cloud, almacenamiento, colas e infraestructura) with 24 exercises + 4 selfcheck from packet stems/starters/theory only.",
+  "summary": "S45 skeptic: 24 exercises, 4 selfcheck",
+  "recorded_at": "2026-07-23T08:51:15+00:00",
+  "session_started_at": "2026-07-23T08:47:25+00:00",
+  "session_ended_at": "2026-07-23T08:51:15+00:00"
+}

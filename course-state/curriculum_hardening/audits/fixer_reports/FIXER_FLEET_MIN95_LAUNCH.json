@@ -1,0 +1,246 @@
+{
+  "wave": "min95_embedded_verbatim",
+  "launched_at": "2026-07-24T17:23:09",
+  "goal": "minimum section score_after_estimate >= 9.5",
+  "policy": "Full verbatim Curriculum Fixer mission is the STARTING instruction (only Section N changes). Explorer report sole fix authority. Ignore other audits/prior Fixer reports.",
+  "explorer_reports_dir": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports",
+  "starting_prompts_dir": "/tmp/fixer_spawn_min95",
+  "project_mirror": "course-state/curriculum_hardening/audits/fixer_reports/spawn_prompts_embedded",
+  "count": 52,
+  "starting_instruction_audit": "52/52 PASS (elite multi-agent + anti-aberration + explorer bind + 9.5 target)",
+  "agents": {
+    "1": {
+      "mode": "spawn_subagent",
+      "id": "019f9639-1250-7252-88cb-95673f9f536a",
+      "priority": "min_lift"
+    },
+    "2": {
+      "mode": "headless_grok",
+      "pid": 39206
+    },
+    "3": {
+      "mode": "headless_grok",
+      "pid": 39211
+    },
+    "4": {
+      "mode": "headless_grok",
+      "pid": 39216
+    },
+    "5": {
+      "mode": "headless_grok",
+      "pid": 39221
+    },
+    "6": {
+      "mode": "headless_grok",
+      "pid": 39226
+    },
+    "7": {
+      "mode": "headless_grok",
+      "pid": 39231
+    },
+    "8": {
+      "mode": "headless_grok",
+      "pid": 39236
+    },
+    "9": {
+      "mode": "headless_grok",
+      "pid": 39241
+    },
+    "10": {
+      "mode": "headless_grok",
+      "pid": 39246
+    },
+    "11": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7059-72e1-b027-8df328e582e7",
+      "priority": "min_lift"
+    },
+    "12": {
+      "mode": "headless_grok",
+      "pid": 39256
+    },
+    "13": {
+      "mode": "headless_grok",
+      "pid": 39261
+    },
+    "14": {
+      "mode": "headless_grok",
+      "pid": 39266
+    },
+    "15": {
+      "mode": "headless_grok",
+      "pid": 39271
+    },
+    "16": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7055-78c1-a43b-d05f4581b581",
+      "priority": "min_lift"
+    },
+    "17": {
+      "mode": "headless_grok",
+      "pid": 39281
+    },
+    "18": {
+      "mode": "headless_grok",
+      "pid": 39286
+    },
+    "19": {
+      "mode": "headless_grok",
+      "pid": 39291
+    },
+    "20": {
+      "mode": "headless_grok",
+      "pid": 39296
+    },
+    "21": {
+      "mode": "headless_grok",
+      "pid": 39301
+    },
+    "22": {
+      "mode": "headless_grok",
+      "pid": 39306
+    },
+    "23": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7057-7842-bd9b-3b1b87300418",
+      "priority": "min_lift"
+    },
+    "24": {
+      "mode": "headless_grok",
+      "pid": 39316
+    },
+    "25": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7057-7842-bd9b-3b259120e8c0",
+      "priority": "min_lift"
+    },
+    "26": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7030-75a2-8496-af58c8865030",
+      "priority": "min_lift"
+    },
+    "27": {
+      "mode": "headless_grok",
+      "pid": 39331
+    },
+    "28": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7031-7720-9603-97cd3a0074b7",
+      "priority": "min_lift"
+    },
+    "29": {
+      "mode": "headless_grok",
+      "pid": 39341
+    },
+    "30": {
+      "mode": "headless_grok",
+      "pid": 39346
+    },
+    "31": {
+      "mode": "headless_grok",
+      "pid": 39351
+    },
+    "32": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7059-72e1-b027-8e02be742c4f",
+      "priority": "min_lift"
+    },
+    "33": {
+      "mode": "headless_grok",
+      "pid": 39361
+    },
+    "34": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7054-77a1-a540-0101c208dc56",
+      "priority": "min_lift"
+    },
+    "35": {
+      "mode": "headless_grok",
+      "pid": 39371
+    },
+    "36": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7031-7720-9603-97ab72fc89d0",
+      "priority": "min_lift"
+    },
+    "37": {
+      "mode": "headless_grok",
+      "pid": 39381
+    },
+    "38": {
+      "mode": "headless_grok",
+      "pid": 39386
+    },
+    "39": {
+      "mode": "headless_grok",
+      "pid": 39391
+    },
+    "40": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7057-7842-bd9b-3b3c4ea6bf44",
+      "priority": "min_lift"
+    },
+    "41": {
+      "mode": "headless_grok",
+      "pid": 39401
+    },
+    "42": {
+      "mode": "headless_grok",
+      "pid": 39406
+    },
+    "43": {
+      "mode": "headless_grok",
+      "pid": 39411
+    },
+    "44": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7032-75a2-86c5-efcf88850853",
+      "priority": "min_lift"
+    },
+    "45": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7031-7720-9603-97b758203d11",
+      "priority": "min_lift"
+    },
+    "46": {
+      "mode": "headless_grok",
+      "pid": 39426
+    },
+    "47": {
+      "mode": "headless_grok",
+      "pid": 39431
+    },
+    "48": {
+      "mode": "headless_grok",
+      "pid": 39436
+    },
+    "49": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7058-7283-a4fb-612cd92e494d",
+      "priority": "min_lift"
+    },
+    "50": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7053-7f01-8685-61f48e15df8f",
+      "priority": "min_lift"
+    },
+    "51": {
+      "mode": "spawn_subagent",
+      "id": "019f963c-7059-72e1-b027-8de78ac4fec7",
+      "priority": "min_lift"
+    },
+    "52": {
+      "mode": "headless_grok",
+      "pid": 39456
+    }
+  },
+  "baseline_before_wave": {
+    "avg": 9.101,
+    "min": 8.6,
+    "max": 9.55,
+    "below_9_5": 49
+  },
+  "spawn_subagent_count": 16,
+  "headless_count": 36,
+  "updated_at": "2026-07-24T17:26:32"
+}

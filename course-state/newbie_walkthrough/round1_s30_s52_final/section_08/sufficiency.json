@@ -1,0 +1,68 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Evita depender del locale del SO (p. ej. Windows)"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "escribir a temp (name + '.tmp') y os.replace al destino"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Ir a cuarentena con motivo (p. ej. col_count)"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "n_in == n_clean + n_quarantine"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Fallar (exit non-zero) / fail-closed"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "El archivo de entrada crudo"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 0.83,
+    "correct_preview": "Un objeto JSON por línea (append-friendly)"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Decimal desde texto, quantize 0.01, serializar como string"
+  },
+  {
+    "i": 8,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "null → None con clave presente; clave ausente no aparece en el dict"
+  },
+  {
+    "i": 9,
+    "ok": true,
+    "support_ratio": 0.86,
+    "correct_preview": "Porque un sobrante en una fuente puede compensar un faltante en otra"
+  },
+  {
+    "i": 10,
+    "ok": true,
+    "support_ratio": 0.86,
+    "correct_preview": "Para que el módulo csv controle los terminadores y evite CR dobles en Windows"
+  }
+]

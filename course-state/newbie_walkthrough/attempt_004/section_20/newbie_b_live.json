@@ -1,0 +1,280 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 20,
+  "recorded_at": "2026-07-21T22:30:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + demos + weDo hints",
+      "required_for_early_exercises": {
+        "openpyxl Workbook sheets cells": { "in_theory_or_demo": true, "where": "theory + opening code" },
+        "formulas vs python calc": { "in_theory_or_demo": true, "where": "theory formulas" },
+        "Font PatternFill merge date": { "in_theory_or_demo": true, "where": "theory estilos/fechas" },
+        "reconcile pivot manifest idempotent": { "in_theory_or_demo": true, "where": "conciliación + final demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "No; suele devolver la fórmula o cache si existe",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: openpyxl does not evaluate formulas by default."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Escribir en la celda ancla (top-left)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory merged cells write anchor; non-anchor may be None."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Estados de batch, conciliación y backups",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Final demo manifest keys."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Misma entrada → mismo resultado lógico",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Demo idempotent True with sorted build."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S20-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames)\nprint(ws[\"A1\"].value)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["Workbook", "title", "A1"],
+        "note": "Opening theory code."
+      },
+      {
+        "exercise_id": "S20-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["append", "max_row"],
+        "note": "Hints append; youDo starter same pattern."
+      },
+      {
+        "exercise_id": "S20-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["create_sheet"],
+        "note": "Theory create_sheet Entrada/Salida."
+      },
+      {
+        "exercise_id": "S20-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(str(ws[\"A3\"].value).startswith(\"=\"))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["formula string"],
+        "note": "Theory formula =A1+A2."
+      },
+      {
+        "exercise_id": "S20-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["python sum values"],
+        "note": "Theory python_sum without evaluating Excel."
+      },
+      {
+        "exercise_id": "S20-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "def es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\n\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["es_formula"],
+        "note": "Hints isinstance str startswith =."
+      },
+      {
+        "exercise_id": "S20-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"].font = Font(bold=True)\nprint(ws[\"A1\"].font.bold)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["Font bold"],
+        "note": "Theory Font; starter imports Font."
+      },
+      {
+        "exercise_id": "S20-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill is not None)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["PatternFill"],
+        "note": "Hints PatternFill solid fgColor."
+      },
+      {
+        "exercise_id": "S20-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, cell):\n    ws[cell].font = Font(bold=True)\n    ws[cell].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n\nwb = Workbook()\nws = wb.active\nheader_style(ws, \"A1\")\nprint(ws[\"A1\"].font.bold)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["header_style"],
+        "note": "Combines Font+Fill from T2-A."
+      },
+      {
+        "exercise_id": "S20-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["date isoformat"],
+        "note": "Theory date isoformat demo."
+      },
+      {
+        "exercise_id": "S20-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["merge_cells", "non-anchor None"],
+        "note": "Theory C1_is_none."
+      },
+      {
+        "exercise_id": "S20-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["len merged ranges"],
+        "note": "Hints len merged_cells.ranges."
+      },
+      {
+        "exercise_id": "S20-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "detalle = 10 + 5\nportada = 15\nprint(abs(detalle - portada) < 0.01)\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["reconcile tol"],
+        "note": "Theory conciliación abs < 0.01."
+      },
+      {
+        "exercise_id": "S20-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndet = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\npivot = det.groupby(\"region\")[\"monto\"].sum()\nprint(pivot.to_dict())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["groupby pivot"],
+        "note": "Theory pivot code."
+      },
+      {
+        "exercise_id": "S20-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "def reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) <= tol\n\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["reconcile function"],
+        "note": "Hints abs <= tol; two prints."
+      },
+      {
+        "exercise_id": "S20-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "expected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nprint(expected == got)\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["header equality"],
+        "note": "Starter expected/got."
+      },
+      {
+        "exercise_id": "S20-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "regions = [\"Lima\", \"Piura\"]\nallowed = {\"Lima\", \"Cusco\"}\nbad = [r for r in regions if r not in allowed]\nprint(bad)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["allowed regions"],
+        "note": "Hints list comp."
+      },
+      {
+        "exercise_id": "S20-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "def validate_rows(rows, allowed):\n    return [r for r in rows if r not in allowed]\n\nprint(validate_rows([\"Lima\", \"Piura\"], {\"Lima\", \"Cusco\"}))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["validate_rows"],
+        "note": "Hints comprehension."
+      },
+      {
+        "exercise_id": "S20-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "st = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(1 for s in st if s == \"ok\"))\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["count ok"],
+        "note": "Hints sum genexp."
+      },
+      {
+        "exercise_id": "S20-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "name = \"report.lock\"\nstatus = \"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\"\nprint(status)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["lock classify"],
+        "note": "Hints locked if lock in name."
+      },
+      {
+        "exercise_id": "S20-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "from collections import Counter\n\ndef batch_status(files_dict):\n    return dict(Counter(files_dict.values()))\n\nprint(batch_status({\"a\": \"ok\", \"b\": \"corrupt\"}))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["Counter batch"],
+        "note": "Starter Counter."
+      },
+      {
+        "exercise_id": "S20-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "manifest = {\"backup\": \"results.prev.xlsx\", \"idempotent\": True}\nprint(manifest)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["manifest backup"],
+        "note": "Final demo manifest."
+      },
+      {
+        "exercise_id": "S20-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import hashlib\n\ndef build(rows):\n    lines = [\"region,monto\"] + [f\"{r},{m}\" for r, m in sorted(rows)]\n    return \"\\n\".join(lines) + \"\\n\"\n\nrows = [(\"Lima\", 10), (\"Cusco\", 5)]\no1 = build(rows)\no2 = build(list(reversed(rows)))\nprint(hashlib.sha1(o1.encode()).hexdigest() == hashlib.sha1(o2.encode()).hexdigest())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["idempotent sorted hash"],
+        "note": "Final demo build_output sorted."
+      },
+      {
+        "exercise_id": "S20-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "def structural_ok(sheetnames, need):\n    return set(sheetnames).issuperset(need)\n\nprint(structural_ok([\"Entrada\", \"Salida\", \"Extra\"], {\"Entrada\", \"Salida\"}))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["issuperset sheets"],
+        "note": "Hints set issuperset."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "cecd7c28c679cace",
+    "summary": {
+      "n_exercises": 24,
+      "n_blocked_exercises": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_blocked_selfcheck": 0,
+      "residual_gaps": [],
+      "top_gaps": []
+    }
+  }
+}

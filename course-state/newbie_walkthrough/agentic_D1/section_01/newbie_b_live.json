@@ -1,0 +1,506 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "section_index": 1,
+  "packet_sha": "acffd96ca937a8e8",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Transcript REPL completado (copiar línea a línea; no es script ejecutable)\n\n# >>> 2 + 2\n# 4\n\n# >>> type(\"Hola\")\n# <class 'str'>\n\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n\n# >>> quit()   # salir del REPL\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Completa",
+        "las",
+        "marcadas",
+        "con",
+        "____",
+        "Esto",
+        "ejecuta",
+        "como"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T1-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Completa el transcript de una sesión REPL: suma, type() e import de sys. No crees un archivo .py; simula el diálogo en comentarios y luego pruébalo en tu terminal real.. Hints: En el REPL el prompt es >>>. Tras import sys, usa sys.version.split()[0] para la versión corta.; Para salir usa quit() o exit(). Eso no cierra la terminal: vuel. Entrega: «# Completa las líneas marcadas con ____ # Esto NO se ejecuta como script: cópialo al REPL línea por línea.  # >>> 2 + 2 # 4  # >>> type(\"Hol». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"Ana Demo\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "sys",
+        "main",
+        "nombre",
+        "Ana",
+        "Demo",
+        "version",
+        "split",
+        "Hola"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T1-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con sys. Debe usar `if __name__ == \"__main__\":` y salir con código 0 al correrse como script (no en el REPL).. Hints: Importa sys. La versión corta es sys.version.split()[0]. Envuelve la lógica en main().; El bloque if __name__ == \"__main__\": llama a main(). Así el archivo es u. Entrega: «import sys  def main() -> None:     nombre = \"Ana Demo\"     version = sys.version.split()[0]     print(f\"Hola, soy {nombre}\")     print(f\"Py». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. Descargar e instalar Python 3.12+ solo desde https://www.python.org/downloads/ (fuente oficial).\n2. En Windows: marcar \"Add python.exe to PATH\" y desactivar alias de Microsoft Store si bloquea el comando.\n3. En macOS/Linux: usar de forma consistente `python3` (y `python3 -m pip`) en lugar de `python`.\n4. Cerrar y reabrir la terminal; verificar con `python3 --version` (o `py -3 --version` en Windows).\n5. (opcional) Comprobar ruta real: `which python3` / `where python`.\n6. (opcional) Solo después de verificar, crear venv: `python3 -m venv .venv`.\n\n## Verificación final\n- Comando: python3 --version\n- Resultado esperado: Python 3.12+ (o 3.x del curso)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "encontrado",
+        "Contexto",
+        "Caso",
+        "Windows",
+        "python",
+        "version",
+        "reconoce",
+        "macOS"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T1-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtiene \"no se reconoce como comando\". En macOS, `python` falla pero `python3 --version` muestra 3.12.1. Escribe un procedim. Hints: En Windows el culpable típico es el PATH o el alias de la Microsoft Store. En macOS/Linux suele bastar usar python3 de forma consistente.; Cierra y reabre la te. Entrega: «# Diagnóstico: intérprete no encontrado  ## Contexto - Caso A (Windows): `python --version` → no se reconoce - Caso B (macOS/Linux): `python». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Transcript de shell: códigos de salida 0 y 1\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# 3) Anota tu shell: bash | zsh | powershell\n# SHELL_USADA=zsh\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Completa",
+        "los",
+        "____",
+        "ejecuta",
+        "shell",
+        "python3",
+        "sys",
+        "exit"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T1-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1, y anota `$?` (bash/zsh) o `$LASTEXITCODE` (PowerShell). No subas secretos ni rutas de usuario reales en la entrega.. Hints: Tras cada comando, imprime el código de salida. En bash: echo $?. En PowerShell: echo $LASTEXITCODE.; python3 -c \"import sys; sys.exit(0)\" debe dejar 0; sys.exi. Entrega: «# Completa los ____ y ejecuta en tu shell  # 1) Éxito python3 -c \"import sys; print('ok'); sys.exit(0)\" echo \"codigo_ok=$?\"    # bash/zsh: $». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import sys\n\ndef main() -> None:\n    # sys.argv: [script, arg1, arg2, ...]\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "sys",
+        "main",
+        "argv",
+        "script",
+        "arg1",
+        "arg2",
+        "args",
+        "len"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T1-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos, imprime `OK:<arg>` y termina con código 0; si no hay argumentos (o hay más de uno), imprime un mensaje de uso en stder. Hints: sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1].; print(..., file=sys.stderr) para el mensaje de error. sys.exit(0) vs s. Entrega: «import sys  def main() -> None:     # sys.argv: [script, arg1, arg2, ...]     args = sys.argv[1:]     if len(args) != 1:         print(\"Uso:». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Diagnóstico pip vs intérprete\n\n## Escenario A — \"pip no se reconoce como comando\"\nClasificación: el shell no encuentra el ejecutable (PATH / nombre de comando).\n1. Verificar `python3 --version` (o `py -3 --version`).\n2. Preferir `python3 -m pip --version` para atar pip al mismo intérprete.\n3. Si `-m pip` funciona, usar siempre `python3 -m pip install ...` y no el bare `pip`.\n\n## Escenario B — pip corre pero `import pandas` falla (ModuleNotFoundError)\nClasificación: pip y el `python` del import no son la misma instalación / venv no activado.\n1. Comparar `python3 -c \"import sys; print(sys.executable)\"` con la ruta que reporta pip.\n2. Activar el `.venv` del proyecto y repetir `python -m pip install pandas` + import.\n3. Confirmar `sys.prefix` apunta a `.venv` antes de instalar.\n\n## Preferencia del curso\nSiempre `python -m pip` para no desacoplar instalador e intérprete.\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "pip",
+        "Escenario",
+        "reconoce",
+        "como",
+        "comando",
+        "shell",
+        "encuentra",
+        "ejecutable"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T1-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaje es \"pip no se reconoce como comando\"; en otro, pip corre pero `python -c \"import pandas\"` falla con ModuleNotFoundErr. Hints: Pregunta siempre: ¿qué ejecutable falló? ¿qué python usa import? Preferir python -m pip para atar pip al mismo intérprete.; Escenario A: el shell no encuentra p. Entrega: «# Diagnóstico pip vs intérprete  ## Escenario A — \"pip no se reconoce como comando\" Clasificación: el shell no encuentra el ejecutable (PATH». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv .venv\n\n# 2) Activar (Unix)\nsource .venv/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.prefix)\"\n\n# 4) Salir\ndeactivate\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "mkdir",
+        "lab_venv_t2a",
+        "Crear",
+        "python3",
+        "venv",
+        "Activar",
+        "Unix",
+        "source"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T2-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actívalo y verifica que `sys.prefix` apunta a esa carpeta. Luego ejecuta `deactivate`.. Hints: Comando de creación: python3 -m venv .venv. Activación Unix: source .venv/bin/activate. Windows: .venv\\Scripts\\Activate.ps1; Verifica con: python -c \"import sys. Entrega: «mkdir -p lab_venv_t2a && cd lab_venv_t2a  # 1) Crear python3 -m venv .venv  # 2) Activar (Unix) source .venv/bin/activate # Windows: .venv\\S». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Supón que ya tienes hello.py en el proyecto y un .venv roto.\n# Completa:\n\n# 0) Asegúrate de no estar usando el venv viejo\ndeactivate 2>/dev/null || true\n\n# 1) Eliminar entorno roto\nrm -rf .venv\n\n# 2) Recrear\npython3 -m venv .venv\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "que",
+        "tienes",
+        "hello",
+        "proyecto",
+        "venv",
+        "roto",
+        "Completa",
+        "estar"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T2-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (o renómbrala) y recrea un `.venv` limpio sin tocar tu código fuente. Documenta los comandos en orden. No uses conda ni r. Hints: El código (.py, README) vive fuera de .venv. Borrar .venv no borra tus scripts si están en la raíz del proyecto.; rm -rf .venv  (Unix) o Remove-Item -Recurse -F. Entrega: «# Supón que ya tienes hello.py en el proyecto y un .venv roto. # Completa:  # 0) Asegúrate de no estar usando el venv viejo deactivate 2>/de». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nProyecto A necesita pandas 1.x y Proyecto B necesita pandas 2.x. Un solo site-packages global no puede satisfacer ambos a la vez: al actualizar se rompe el otro proyecto, aparecen imports fantasma y la reproducción del entorno deja de ser confiable. Instalar “para no perder tiempo” termina costando más en debugging de versiones cruzadas.\n\n## Flujo recomendado (este curso)\n1. python3 -m venv .venv  (un entorno por proyecto)\n2. source .venv/bin/activate  (o Activate.ps1 en Windows)\n3. python -m pip install pandas==X.Y.Z  y congelar con python -m pip freeze > requirements.txt\n\n## Nota sobre la herramienta\n- venv es stdlib (no requiere descarga extra de terceros para crear el entorno)\n- Nombre canónico de carpeta: .venv\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Por",
+        "instalar",
+        "pandas",
+        "Python",
+        "global",
+        "Escenario",
+        "conflicto",
+        "Proyecto"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T2-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Un colega propone instalar pandas con `pip install pandas` en el Python global “para no perder tiempo con venv”. Escribe un párrafo (5–8 oraciones) o un markdown corto que: (1) explique el riesgo con. Hints: Usa el escenario: Proyecto A necesita pandas 1.x; Proyecto B necesita 2.x. Un solo site-packages global no puede satisfacer ambos.; Cierra con el flujo: python . Entrega: «# ¿Por qué no instalar pandas en el Python global?  ## Escenario de conflicto Proyecto A necesita pandas 1.x y Proyecto B necesita pandas 2.». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "source .venv/bin/activate   # o Activate.ps1 en Windows\n\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\n\n# Verifica:\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "source",
+        "venv",
+        "bin",
+        "activate",
+        "Activate",
+        "ps1",
+        "Windows",
+        "python"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T2-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.32.3`), genera `requirements.txt` con freeze y verifica que el archivo contiene `paquete==versión`. No uses el Python global.. Hints: Siempre: python -m pip install ... y python -m pip freeze > requirements.txt; Si freeze lista paquetes del sistema y no del proyecto, no activaste el venv. Revi. Entrega: «source .venv/bin/activate   # o Activate.ps1 en Windows  python -m pip install requests==2.32.3 python -m pip freeze > requirements.txt  # V». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Parte de un requirements.txt existente en la raíz\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list\npython -c \"import requests; print('ok', requests.__version__)\"\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Parte",
+        "requirements",
+        "txt",
+        "existente",
+        "python3",
+        "venv",
+        "venv_replica",
+        "source"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T2-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo** entorno limpio (`.venv_replica` o borra y recrea `.venv`), actívalo e instala con `python -m pip install -r requireme. Hints: No copies site-packages a mano. El contrato es el archivo -r.; python3 -m venv .venv_replica && source .venv_replica/bin/activate && python -m pip install -r re. Entrega: «# Parte de un requirements.txt existente en la raíz python3 -m venv .venv_replica source .venv_replica/bin/activate python -m pip install -r». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl intérprete actual no tiene el paquete en su site-packages.\n\n## Hipótesis B — instalado en otro intérprete\npip instaló en un Python distinto al que ejecuta el import (venv no activado / wrong interpreter).\n\n## Protocolo (5 pasos)\n1. python -c \"import sys; print(sys.executable, sys.prefix)\"\n2. python -m pip show <paquete>  (o pip list) en el mismo intérprete\n3. Si es de terceros y falta: python -m pip install <paquete>\n4. Reintentar import con el mismo python\n5. Si pip list lo muestra pero import falla: hay dos Pythons; unificar vía venv + python -m pip\n\n## ¿stdlib o terceros?\n- requests: terceros (pip)\n- datetime: stdlib (no pip)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Forense",
+        "ModuleNotFoundError",
+        "nunca",
+        "instalado",
+        "actual",
+        "tiene",
+        "paquete",
+        "site"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T2-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y falla. En un caso, nunca instaló el paquete; en otro, lo instaló con un `pip` de otro Python. Escribe un protocolo de 5 p. Hints: Primero identifica el intérprete; luego pregunta si el módulo es stdlib; luego instala con python -m pip en ese intérprete/venv.; requests es de terceros; sys/d. Entrega: «# Forense ModuleNotFoundError  ## Hipótesis A — nunca instalado El intérprete actual no tiene el paquete en su site-packages.  ## Hipótesis ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "mkdir",
+        "lab_git_t3a",
+        "git",
+        "init",
+        "echo",
+        "lab",
+        "README",
+        "add"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T3-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensaje Conventional Commits (`docs:` o `feat:`). Verifica con `git log -1`. No uses mensajes vacíos ni “wip”.. Hints: git add <archivo> && git commit -m \"docs: ...\" — el prefijo va en minúsculas seguido de dos puntos y espacio.; Si Git pide identidad: git config user.email y us. Entrega: «mkdir -p lab_git_t3a && cd lab_git_t3a git init echo \"# lab\" > README.md git add README.md git commit -m \"docs: agregar README de practica\" ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Lectura de diff\n\n## Comandos usados\necho \"Esqueleto CP-N1-A.\" >> README.md\ngit add README.md\ngit commit -m \"docs: mencionar esqueleto CP-N1-A\"\nGIT_PAGER=cat git show HEAD\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLas líneas nuevas o modificadas del commit (p. ej. la frase añadida al README) aparecen con prefijo +.\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: solo las líneas tocadas llevan +/−. En un archivo nuevo, casi todo el contenido aparece con +.\n\n## 3) Resumen en una frase\nEl commit documenta el esqueleto CP-N1-A en el README con un mensaje Conventional Commits.\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Lectura",
+        "diff",
+        "Comandos",
+        "usados",
+        "echo",
+        "Esqueleto",
+        "README",
+        "git"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T3-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Modifica un README ya commiteado (agrega una línea), haz commit, y responde en un markdown corto: (1) qué muestra `git show HEAD` en líneas `+`; (2) diferencia entre archivo nuevo vs modificado; (3) . Hints: Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD; Archivo nuevo: todo el contenido aparece con +. Modificado: solo las líneas tocada. Entrega: «# Lectura de diff  ## Comandos usados echo \"Esqueleto CP-N1-A.\" >> README.md git add README.md git commit -m \"docs: mencionar esqueleto CP-N». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\nB\n\n## Justificación\nB usa prefijo Conventional Commits y describe el valor observable (smoke hello_env). wip no es aceptable en main: no dice qué cambió. “Actualicé cosas” es vago y no orienta al revisor ni al historial. Un mensaje bueno acelera code review y git bisect.\n\n## Reescritura de A (si fuera un commit temporal local que luego se limpia)\nchore: checkpoint local antes de limpiar historial\n\n## Reescritura de C\ndocs: aclarar pasos de setup del entorno en README\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Mejor",
+        "mensaje",
+        "commit",
+        "Candidatos",
+        "wip",
+        "feat",
+        "agregar",
+        "smoke"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T3-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello_env.py` que imprime la versión de Python): (A) `wip`, (B) `feat: agregar smoke hello_env`, (C) `Actualicé cosas del se. Hints: El mejor es claro, con prefijo de tipo y descripción imperativa del *porqué/qué* observable.; wip no es aceptable en main; “Actualicé cosas” no dice qué archivo. Entrega: «# Mejor mensaje de commit  Candidatos: - A: `wip` - B: `feat: agregar smoke hello_env` - C: `Actualicé cosas del setup`  ## Elección B  ## J». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "git switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "git",
+        "switch",
+        "main",
+        "feat",
+        "practica",
+        "s01",
+        "echo",
+        "nota"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T3-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`, añade un archivo pequeño, commit con `feat:` y lista las ramas. No hagas force-push. Si no tienes remote, basta el flujo loc. Hints: git switch -c feat/practica-s01  (equivalente moderno a checkout -b); git branch debe mostrar * feat/practica-s01. El commit debe vivir en esa rama, no solo en . Entrega: «git switch main git switch -c feat/practica-s01 echo \"ok\" > nota.txt git add nota.txt git commit -m \"feat: agregar nota de practica\" git bra». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Título del PR\nfeat: agregar smoke hello_env y docs de instalación\n\n## Resumen\n- Agrega scripts/hello_env.py como smoke del intérprete/venv\n- Actualiza README con pasos venv + pip install -r\n- Mantiene .env fuera del repo vía .gitignore\n\n## Plan de prueba\n1. python3 -m venv .venv && source .venv/bin/activate\n2. python -m pip install -r requirements.txt\n3. python scripts/hello_env.py  (exit 0)\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] git check-ignore -v .env confirma ignore\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "del",
+        "feat",
+        "agregar",
+        "smoke",
+        "hello_env",
+        "docs",
+        "Resumen",
+        "Agrega"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T3-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Redacta la descripción de un Pull Request (markdown) para una rama que agrega `scripts/hello_env.py` y actualiza el README de instalación. Incluye: título, resumen (3 bullets), plan de prueba, y chec. Hints: Título al estilo Conventional Commits; cuerpo orientado al revisor, no a ti.; Plan de prueba: comandos concretos (venv, install -r, python scripts/hello_env.py). Entrega: «# Título del PR feat: agregar smoke hello_env y docs de instalación  ## Resumen - Agrega scripts/hello_env.py como smoke del intérprete/venv». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. Revisar el diff: git diff README.md\n2. Descartar el working tree: git restore README.md\n\n## ¿Cuándo stash en su lugar?\nSi el cambio podría servir después: git stash push -m \"wip readme\" y recuperar con stash pop/apply.\n\n## Por qué NO force-push a main\nReescribe historial compartido, rompe clones ajenos y es política prohibida del curso para main.\n\n## Por qué no reset --hard como default\nBorra trabajo no commiteado sin red de seguridad; restore/stash son más seguros como primera opción.\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "destructiva",
+        "README",
+        "modificado",
+        "sin",
+        "commit",
+        "cambio",
+        "indeseado",
+        "Procedimiento"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T3-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te dice “usa `reset --hard`” y otro “`push --force` a main”. Escribe el procedimiento correcto con `git restore` (y cuándo u. Hints: restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno reescribe main remoto.; reset --hard borra trabajo no commiteado sin re. Entrega: «# Recuperación no destructiva  ## Situación README.md modificado, sin commit, cambio indeseado.  ## Procedimiento con restore 1. Revisar el ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# pyproject.toml mínimo para Ruff\n[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n\nprint(\"ruff config ready: E/F/I line-length=88 target=py312\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "pyproject",
+        "toml",
+        "para",
+        "Ruff",
+        "tool",
+        "ruff",
+        "line",
+        "length"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T4-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-version) y `[tool.ruff.lint] select = [\"E\", \"F\", \"I\"]`. No hace falta publicar en PyPI; solo config local.. Hints: TOML usa secciones entre corchetes y listas con corchetes para select.; target-version como \"py312\" (string). line-length es número sin comillas.. Entrega: «# pyproject.toml mínimo para Ruff [tool.ruff] line-length = 88 target-version = \"py312\"  [tool.ruff.lint] select = [\"E\", \"F\", \"I\"]  print(\"r». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n\n# ruff check limpio: se quitaron imports sin usar (sys, os) F401\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "datetime",
+        "main",
+        "hola",
+        "now",
+        "date",
+        "__name__",
+        "__main__",
+        "ruff"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T4-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -m ruff check` y corrige hasta exit 0. Entrega el script limpio (sin imports muertos).. Hints: F401 = imported but unused. La corrección habitual es borrar el import.; python -m pip install ruff && python -m ruff check archivo.py. Entrega: «from datetime import datetime  def main() -> None:     print(\"hola\")     print(datetime.now().date())  if __name__ == \"__main__\":     main()». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]`\n\n## Por qué no ALL el día 1\nALL dispara cientos de hallazgos en notebooks y scripts de analytics; el equipo deja de mirar el linter. Mejor señal alta al inicio.\n\n## Qué cubren E, F, I\nE: errores de estilo básicos; F: errores reales (imports muertos, nombres indefinidos); I: orden de imports.\n\n## Cuándo ampliar\nCuando E/F/I ya es hábito limpio y hay acuerdo de equipo para reglas extra (p. ej. bugbear) sin ahogar el review.\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Select",
+        "para",
+        "repo",
+        "datos",
+        "S01",
+        "Propuesta",
+        "select",
+        "Por"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T4-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebooks. Justifica por escrito un `select` mínimo (E/F/I u otro set pequeño) para S01: qué ganas, qué ruido evitas, y cuándo . Hints: ALL genera cientos de hallazgos; el equipo deja de mirar el linter. Empieza por errores reales (F) y estilo básico (E/I).; Ampliar cuando el check limpio en E/F. Entrega: «# Select mínimo para repo de datos (S01)  ## Propuesta `select = [\"E\", \"F\", \"I\"]`  ## Por qué no ALL el día 1 ALL dispara cientos de hallazg». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# .gitignore mínimo Python/data\n.venv/\nvenv/\n__pycache__/\n*.pyc\n.env\n.ipynb_checkpoints/\n\n# verificación: git check-ignore -v .env\nprint(\"gitignore includes .venv/, venv/, __pycache__/, *.pyc, .env, checkpoints\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "gitignore",
+        "Python",
+        "data",
+        "venv",
+        "__pycache__",
+        "pyc",
+        "env",
+        "ipynb_checkpoints"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T4-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env` e ipynb checkpoints. Verifica con `git check-ignore -v .env` en un repo de prueba.. Hints: Una entrada por línea. Las barras finales marcan directorios.; Incluye AMBOS: .venv/ y venv/. Si .env ya estaba trackeado, git rm --cached .env tras el ignore.. Entrega: «# .gitignore mínimo Python/data .venv/ venv/ __pycache__/ *.pyc .env .ipynb_checkpoints/  # verificación: git check-ignore -v .env print(\"gi». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=https://api.example.local\nDB_HOST=localhost\nLOG_LEVEL=INFO\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Copia",
+        "env",
+        "completa",
+        "valores",
+        "locales",
+        "nunca",
+        "commitees",
+        "API_URL"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T4-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_URL`, `DB_HOST`, `LOG_LEVEL`) con valores vacíos o ficticios no sensibles. Confirma que `.env` real no se commitea. Nunca . Hints: Clave=valor; el valor en example es placeholder. El .env local puede tener secretos pero queda ignorado.; Patrones prohibidos en example: sk-..., passwords real. Entrega: «# Copia a .env y completa valores locales (nunca commitees .env) API_URL=https://api.example.local DB_HOST=localhost LOG_LEVEL=INFO ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. git clone del repo y cd al proyecto (working tree limpio)\n- [ ] 2. python3 -m venv .venv && source .venv/bin/activate; sys.prefix contiene .venv\n- [ ] 3. python -m pip install -r requirements.txt exit 0\n- [ ] 4. python scripts/hello_env.py exit 0 (smoke)\n- [ ] 5. git check-ignore -v .env confirma que secretos no se trackean\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Checklist",
+        "limpia",
+        "esqueleto",
+        "git",
+        "clone",
+        "del",
+        "repo",
+        "proyecto"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S01-T4-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verificables (clon → venv → install -r → smoke → ignore de .env) que un revisor pueda tildar. Incluye mención a data dictionar. Hints: Cada ítem debe ser observable (comando + resultado esperado), no “que se vea bonito”.; Incluye: git check-ignore .env; python scripts/hello_env.py exit 0; exist. Entrega: «# Checklist máquina limpia — esqueleto CP-N1-A  - [ ] 1. git clone del repo y cd al proyecto (working tree limpio) - [ ] 2. python3 -m venv ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q0 elijo índice 0 «Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Para qué sirve un entorno virtual (venv) en Python?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": ".venv/ (o venv/)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q1 elijo índice 2 «.venv/ (o venv/)» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "\"feat: agregar cálculo de churn por segmento\"",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q2 elijo índice 3 «\"feat: agregar cálculo de churn por segmento\"» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "pip install -r requirements.txt",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q3 elijo índice 1 «pip install -r requirements.txt» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Qué comando te permite replicar el entorno de otro desarrollador?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q4 elijo índice 0 «Porque suele contener credenciales (API keys, passwords, tokens) que son secretos» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Por qué NO debes subir el archivo .env a GitHub?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:41:41.930924+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s01-live",
+  "method_declared": "llm_packet_only_no_gen"
+}

@@ -1,0 +1,171 @@
+{
+  "version": "3.2",
+  "section": "S05",
+  "section_id": "oop",
+  "section_title": "Funciones, contratos y descomposición",
+  "artifact": "topic_evaluations",
+  "platform_note": "Paquetes TE V3 (4 por sección). Datos estructurados para render TopicEvaluation; CourseSection.topicEvaluations es opcional.",
+  "generated_at": "2026-07-20T14:52:23Z",
+  "rubric_scale": "0-3 per criterion",
+  "language": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_principle": "Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude.",
+  "topic_evaluations": [
+    {
+      "id": "S05-T1-TE",
+      "topic_id": "S05-T1",
+      "title": "Evaluación formativa — Funciones",
+      "subtopics_covered": [
+        "S05-T1-A",
+        "S05-T1-B"
+      ],
+      "topic_summary": "definición, llamada y retorno; parámetros posicionales, keyword y defaults seguros.",
+      "tasks": [
+        {
+          "id": "S05-T1-TE-1",
+          "title": "Tarea auténtica — Funciones: definición, llamada y retorno",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: definición, llamada y retorno. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S05, tema T1.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S05-T1-TE-2",
+          "title": "Tarea auténtica — Funciones: parámetros posicionales, keyword y defaults seguros",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: parámetros posicionales, keyword y defaults seguros. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S05, tema T1.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Funciones» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S05-T2-TE",
+      "topic_id": "S05-T2",
+      "title": "Evaluación formativa — Contratos",
+      "subtopics_covered": [
+        "S05-T2-A",
+        "S05-T2-B"
+      ],
+      "topic_summary": "pre/postcondiciones y docstrings; type hints graduales y errores de dominio.",
+      "tasks": [
+        {
+          "id": "S05-T2-TE-1",
+          "title": "Tarea auténtica — Contratos: pre/postcondiciones y docstrings",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: pre/postcondiciones y docstrings. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S05, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S05-T2-TE-2",
+          "title": "Tarea auténtica — Contratos: type hints graduales y errores de dominio",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: type hints graduales y errores de dominio. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S05, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Contratos» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S05-T3-TE",
+      "topic_id": "S05-T3",
+      "title": "Evaluación formativa — Diseño",
+      "subtopics_covered": [
+        "S05-T3-A",
+        "S05-T3-B"
+      ],
+      "topic_summary": "funciones pequeñas y composición; pureza, efectos e inyección de I/O.",
+      "tasks": [
+        {
+          "id": "S05-T3-TE-1",
+          "title": "Tarea auténtica — Diseño: funciones pequeñas y composición",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: funciones pequeñas y composición. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S05, tema T3.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S05-T3-TE-2",
+          "title": "Tarea auténtica — Diseño: pureza, efectos e inyección de I/O",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: pureza, efectos e inyección de I/O. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S05, tema T3.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Diseño» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S05-T4-TE",
+      "topic_id": "S05-T4",
+      "title": "Evaluación formativa — Alcance",
+      "subtopics_covered": [
+        "S05-T4-A",
+        "S05-T4-B"
+      ],
+      "topic_summary": "LEGB y closures básicos; pruebas de ejemplo y refactor sin cambiar conducta.",
+      "tasks": [
+        {
+          "id": "S05-T4-TE-1",
+          "title": "Tarea auténtica — Alcance: LEGB y closures básicos",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: LEGB y closures básicos. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S05, tema T4.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S05-T4-TE-2",
+          "title": "Tarea auténtica — Alcance: pruebas de ejemplo y refactor sin cambiar conducta",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: pruebas de ejemplo y refactor sin cambiar conducta. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S05, tema T4.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Alcance» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    }
+  ],
+  "counts": {
+    "topic_evaluations": 4,
+    "tasks": 8
+  }
+}

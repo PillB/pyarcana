@@ -1,0 +1,1077 @@
+{
+  "version": "3.2",
+  "section": "S47",
+  "section_id": "opensource",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S47 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S47 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s47-opensource.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "opensource",
+    "index": 47,
+    "title_platform": "Contribución Open Source y Diseño de APIs Públicas",
+    "title_v3": "MLOps: experimentos, registro y serving",
+    "title_decision": "KEEP platform id 'opensource' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4",
+    "estimatedHours": 16,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S46"
+    ],
+    "environment": "local/cloud",
+    "project_capstone": "CP-N4-B (cierre) + CF-4"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "opensource",
+    "platform_title": "Contribución Open Source y Diseño de APIs Públicas",
+    "v3_title": "MLOps: experimentos, registro y serving",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante trackea experimentos reproducibles.",
+    "El estudiante compara runs con lineage completo.",
+    "El estudiante registra con stages y approvals.",
+    "El estudiante publica artefactos y compatibilidad.",
+    "El estudiante sirve batch/online con features consistentes.",
+    "El estudiante controla latency, batching y fallback.",
+    "El estudiante despliega shadow/canary con monitoring.",
+    "El estudiante revierte, retira y audita modelos."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S47-T1-A",
+      "slug": "tracking-reproducibility",
+      "title": "tracking y reproducibilidad"
+    },
+    {
+      "subtopic_id": "S47-T1-B",
+      "slug": "data-code-env-lineage-compare",
+      "title": "data/code/env lineage y comparación"
+    },
+    {
+      "subtopic_id": "S47-T2-A",
+      "slug": "signatures-stages-approvals",
+      "title": "firmas, stages y approvals"
+    },
+    {
+      "subtopic_id": "S47-T2-B",
+      "slug": "artifacts-card-compat",
+      "title": "artefactos, model card y compatibilidad"
+    },
+    {
+      "subtopic_id": "S47-T3-A",
+      "slug": "batch-online-feature-consistency",
+      "title": "batch/online y feature consistency"
+    },
+    {
+      "subtopic_id": "S47-T3-B",
+      "slug": "latency-batching-fallback",
+      "title": "latency, batching y fallback"
+    },
+    {
+      "subtopic_id": "S47-T4-A",
+      "slug": "shadow-canary-monitoring",
+      "title": "shadow/canary y monitoring hooks"
+    },
+    {
+      "subtopic_id": "S47-T4-B",
+      "slug": "rollback-retire-audit",
+      "title": "rollback, retirement y audit"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S47-T1",
+      "title": "Experimentos",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S47-T1-A",
+          "slug": "tracking-reproducibility",
+          "title": "tracking y reproducibilidad",
+          "outcome": "El estudiante trackea experimentos reproducibles.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "tracking y reproducibilidad",
+              "must_cover": [
+                "MLflow",
+                "repro"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S47-T1-A-DEMO",
+              "title": "Demo: tracking y reproducibilidad",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S47-T1-A-E1",
+                "kind": "guided",
+                "title": "tracking y reproducibilidad — guided",
+                "skill": "tracking",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T1-A-E2",
+                "kind": "independent",
+                "title": "tracking y reproducibilidad — independent",
+                "skill": "tracking",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T1-A-E3",
+                "kind": "transfer",
+                "title": "tracking y reproducibilidad — transfer",
+                "skill": "tracking",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S47-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S47-T1-B",
+          "slug": "data-code-env-lineage-compare",
+          "title": "data/code/env lineage y comparación",
+          "outcome": "El estudiante compara runs con lineage completo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "data/code/env lineage y comparación",
+              "must_cover": [
+                "lineage",
+                "compare runs"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S47-T1-B-DEMO",
+              "title": "Demo: data/code/env lineage y comparación",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S47-T1-B-E1",
+                "kind": "guided",
+                "title": "data/code/env lineage y comparación — guided",
+                "skill": "data",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T1-B-E2",
+                "kind": "independent",
+                "title": "data/code/env lineage y comparación — independent",
+                "skill": "data",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T1-B-E3",
+                "kind": "transfer",
+                "title": "data/code/env lineage y comparación — transfer",
+                "skill": "data",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S47-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S47-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S47-T1-EVAL-1",
+            "title": "tracking y reproducibilidad — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S47-T1-EVAL-2",
+            "title": "data/code/env lineage y comparación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S47-T2",
+      "title": "Registro",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S47-T2-A",
+          "slug": "signatures-stages-approvals",
+          "title": "firmas, stages y approvals",
+          "outcome": "El estudiante registra con stages y approvals.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "firmas, stages y approvals",
+              "must_cover": [
+                "model registry",
+                "stage"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S47-T2-A-DEMO",
+              "title": "Demo: firmas, stages y approvals",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S47-T2-A-E1",
+                "kind": "guided",
+                "title": "firmas, stages y approvals — guided",
+                "skill": "signatures",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T2-A-E2",
+                "kind": "independent",
+                "title": "firmas, stages y approvals — independent",
+                "skill": "signatures",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T2-A-E3",
+                "kind": "transfer",
+                "title": "firmas, stages y approvals — transfer",
+                "skill": "signatures",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S47-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S47-T2-B",
+          "slug": "artifacts-card-compat",
+          "title": "artefactos, model card y compatibilidad",
+          "outcome": "El estudiante publica artefactos y compatibilidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "artefactos, model card y compatibilidad",
+              "must_cover": [
+                "model card",
+                "signature"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S47-T2-B-DEMO",
+              "title": "Demo: artefactos, model card y compatibilidad",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S47-T2-B-E1",
+                "kind": "guided",
+                "title": "artefactos, model card y compatibilidad — guided",
+                "skill": "artifacts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T2-B-E2",
+                "kind": "independent",
+                "title": "artefactos, model card y compatibilidad — independent",
+                "skill": "artifacts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T2-B-E3",
+                "kind": "transfer",
+                "title": "artefactos, model card y compatibilidad — transfer",
+                "skill": "artifacts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S47-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S47-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S47-T2-EVAL-1",
+            "title": "firmas, stages y approvals — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S47-T2-EVAL-2",
+            "title": "artefactos, model card y compatibilidad — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S47-T3",
+      "title": "Serving",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S47-T3-A",
+          "slug": "batch-online-feature-consistency",
+          "title": "batch/online y feature consistency",
+          "outcome": "El estudiante sirve batch/online con features consistentes.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "batch/online y feature consistency",
+              "must_cover": [
+                "batch serve",
+                "online"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S47-T3-A-DEMO",
+              "title": "Demo: batch/online y feature consistency",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S47-T3-A-E1",
+                "kind": "guided",
+                "title": "batch/online y feature consistency — guided",
+                "skill": "batch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T3-A-E2",
+                "kind": "independent",
+                "title": "batch/online y feature consistency — independent",
+                "skill": "batch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T3-A-E3",
+                "kind": "transfer",
+                "title": "batch/online y feature consistency — transfer",
+                "skill": "batch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S47-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S47-T3-B",
+          "slug": "latency-batching-fallback",
+          "title": "latency, batching y fallback",
+          "outcome": "El estudiante controla latency, batching y fallback.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "latency, batching y fallback",
+              "must_cover": [
+                "latency",
+                "fallback"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S47-T3-B-DEMO",
+              "title": "Demo: latency, batching y fallback",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S47-T3-B-E1",
+                "kind": "guided",
+                "title": "latency, batching y fallback — guided",
+                "skill": "latency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T3-B-E2",
+                "kind": "independent",
+                "title": "latency, batching y fallback — independent",
+                "skill": "latency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T3-B-E3",
+                "kind": "transfer",
+                "title": "latency, batching y fallback — transfer",
+                "skill": "latency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S47-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S47-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S47-T3-EVAL-1",
+            "title": "batch/online y feature consistency — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S47-T3-EVAL-2",
+            "title": "latency, batching y fallback — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S47-T4",
+      "title": "Entrega",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S47-T4-A",
+          "slug": "shadow-canary-monitoring",
+          "title": "shadow/canary y monitoring hooks",
+          "outcome": "El estudiante despliega shadow/canary con monitoring.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "shadow/canary y monitoring hooks",
+              "must_cover": [
+                "shadow",
+                "canary"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S47-T4-A-DEMO",
+              "title": "Demo: shadow/canary y monitoring hooks",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S47-T4-A-E1",
+                "kind": "guided",
+                "title": "shadow/canary y monitoring hooks — guided",
+                "skill": "shadow",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T4-A-E2",
+                "kind": "independent",
+                "title": "shadow/canary y monitoring hooks — independent",
+                "skill": "shadow",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T4-A-E3",
+                "kind": "transfer",
+                "title": "shadow/canary y monitoring hooks — transfer",
+                "skill": "shadow",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S47-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S47-T4-B",
+          "slug": "rollback-retire-audit",
+          "title": "rollback, retirement y audit",
+          "outcome": "El estudiante revierte, retira y audita modelos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "rollback, retirement y audit",
+              "must_cover": [
+                "rollback",
+                "retire"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S47-T4-B-DEMO",
+              "title": "Demo: rollback, retirement y audit",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S47-T4-B-E1",
+                "kind": "guided",
+                "title": "rollback, retirement y audit — guided",
+                "skill": "rollback",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T4-B-E2",
+                "kind": "independent",
+                "title": "rollback, retirement y audit — independent",
+                "skill": "rollback",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S47-T4-B-E3",
+                "kind": "transfer",
+                "title": "rollback, retirement y audit — transfer",
+                "skill": "rollback",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S47-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S47-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S47-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S47-T4-EVAL-1",
+            "title": "shadow/canary y monitoring hooks — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S47-T4-EVAL-2",
+            "title": "rollback, retirement y audit — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S47-PROJ",
+    "title": "MLOps: experimentos, registro y serving (CP-N4-B (cierre) + CF-4)",
+    "replaces_legacy": "Legacy You Do de 'Contribución Open Source y Diseño de APIs Públicas' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Production Data/ML Platform promueve un modelo desde experimento hasta servicio solo tras gates, conserva lineage y revierte sin perder decisiones. CF-4 valida la ruta desplegable de los capstones pre",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-B (cierre) + CF-4"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-B (cierre) + CF-4",
+    "increment_gate": "Production Data/ML Platform promueve un modelo desde experimento hasta servicio solo tras gates, conserva lineage y revierte sin perder decisiones. CF-4 valida la ruta desplegable de los capstones previos."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'opensource' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s47-opensource.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Contribución Open Source y Diseño de APIs Públicas' vs 'MLOps: experimentos, registro y serving'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-B (cierre) + CF-4",
+    "increment_gate": "Production Data/ML Platform promueve un modelo desde experimento hasta servicio solo tras gates, conserva lineage y revierte sin perder decisiones. CF-4 valida la ruta desplegable de los capstones previos.",
+    "project_id": "S47-PROJ",
+    "section_passed": false,
+    "notes": "S47 contributes to CP-N4-B (cierre) + CF-4. No passed states written by factory lane.",
+    "capstone_gate": "CP-N4-B",
+    "gate_role": "CLOSE + CF-4",
+    "promotion_requires": [
+      "CP-N4-B",
+      "CF-4"
+    ],
+    "blocks": "S48 until CP-N4-B and CF-4 PASS",
+    "cp_n4_b": "PLANNED_NOT_PASSED",
+    "cf4": "PLANNED_NOT_PASSED"
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S47",
+    "risk": "Display title still 'Contribución Open Source y Diseño de APIs Públicas' until product rename; topic mismatch vs V3 'MLOps: experimentos, registro y serving'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S47-T1-A first"
+  }
+}

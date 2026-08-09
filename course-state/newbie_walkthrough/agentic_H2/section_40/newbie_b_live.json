@@ -1,0 +1,318 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 40,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-skeptic-s40-1784798366",
+  "production_note": "agentic_H2 dual-LLM Skeptic: solved from quiz_card+slim_packet only; independent of H1; packet-only; no stamps; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nmeets_contract = record[\"observed_ms\"] < record[\"target_ms\"]\nstatus = \"PASS\" if bool(meets_contract) else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S40-T1-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\"`. Soporte: «S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-0». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"source\", \"stimulus\", \"environment\", \"response\", \"observed_ms\", \"target_ms\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record[\"observed_ms\"] < record[\"target_ms\"]\n    return \"PASS\" if ok else \"REJECT_QA_SCENARIO\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"owner\" in incomplete:\n    incomplete.pop(\"owner\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S40-T1-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fi». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_QA_OWNER\"\n    ok = record[\"observed_ms\"] < record[\"target_ms\"]\n    return \"CONTINUE\" if ok else \"REJECT_QA_SCENARIO\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S40-T1-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtu». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nmeets_contract = record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get)\nstatus = \"PASS\" if bool(meets_contract) else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S40-T1-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectu`. Soporte: «S40-T1-B-E1 · Compara el contrato de `trade-offs, riesgos y criterios medibles` sobre `CASO-LIM-040-». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"scores\", \"selected\", \"risk_owner\", \"residual_risk\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get)\n    return \"PASS\" if ok else \"REOPEN_TRADEOFF\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"residual_risk\" in incomplete:\n    incomplete.pop(\"residual_risk\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S40-T1-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fix». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ESCALATE_RESIDUAL_RISK\"\n    ok = record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get)\n    return \"CONTINUE\" if ok else \"REOPEN_TRADEOFF\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S40-T1-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtur». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nmeets_contract = all(edge[1] != \"infrastructure\" for edge in record[\"dependencies\"])\nstatus = \"PASS\" if bool(meets_contract) else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S40-T2-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependenci`. Soporte: «S40-T2-A-E1 · Filtra el contrato de `cohesión/coupling y capas` sobre `CASO-LIM-040-2A`. La entrada ». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"layers\", \"dependencies\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = all(edge[1] != \"infrastructure\" for edge in record[\"dependencies\"])\n    return \"PASS\" if ok else \"REDRAW_BOUNDARY\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"dependencies\" in incomplete:\n    incomplete.pop(\"dependencies\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S40-T2-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = all(edge[1] != \"infrastructure\" for edge in record[\"dependencies\"])\n    return \"CONTINUE\" if ok else \"REJECT\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S40-T2-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nmeets_contract = not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))\nstatus = \"PASS\" if bool(meets_contract) else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S40-T2-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],`. Soporte: «S40-T2-B-E1 · Modela el contrato de `ports/adapters y dependencia hacia dominio` sobre `CASO-LIM-040». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"port\", \"adapter\", \"domain_imports\", \"contract_tests\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))\n    return \"PASS\" if ok else \"INVERT_DEPENDENCY\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"contract_tests\" in incomplete:\n    incomplete.pop(\"contract_tests\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S40-T2-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fix». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))\n    return \"CONTINUE\" if ok else \"REJECT\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S40-T2-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixt». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\nmeets_contract = not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))\nstatus = \"PASS\" if bool(meets_contract) else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S40-T3-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\"`. Soporte: «S40-T3-A-E1 · Verifica el contrato de `bounded contexts y lenguaje ubicuo` sobre `CASO-LIM-040-3A`. ». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])) else\"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"case\",\"score\"}},\"translations\":{}}}\nincomplete = {**valid}\nincomplete.pop(\"translations\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S40-T3-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adv». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic E3 fail-closed from E2 sibling\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    return \"CONTINUE\" if not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])) else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"case\",\"score\"}},\"translations\":{}}}\nincomplete = {**valid}\nincomplete.pop(\"translations\")\nuncertain = {**valid}\nfor _f in list(uncertain.keys()):\n    if _f != 'case_id':\n        uncertain.pop(_f); break\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S40-T3-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures di». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nmeets_contract = record[\"vo\"][\"currency\"] != record[\"entity_id\"]\nstatus = \"PASS\" if bool(meets_contract) else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S40-T3-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,`. Soporte: «S40-T3-B-E1 · Clasifica el contrato de `entities, value objects y servicios` sobre `CASO-LIM-040-3B`». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"entity_id\", \"vo\", \"vo_frozen\", \"service_stateless\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record[\"vo\"][\"currency\"] != record[\"entity_id\"]\n    return \"PASS\" if ok else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"service_stateless\" in incomplete:\n    incomplete.pop(\"service_stateless\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S40-T3-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture a». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = record[\"vo\"][\"currency\"] != record[\"entity_id\"]\n    return \"CONTINUE\" if ok else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S40-T3-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nmeets_contract = not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)\nstatus = \"PASS\" if bool(meets_contract) else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S40-T4-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alter`. Soporte: «S40-T4-A-E1 · Audita el contrato de `diagramas C4/flujo y ADRs` sobre `CASO-LIM-040-4A`. La entrada ». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"c4_levels\", \"adr_fields\", \"adr_status\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)\n    return \"PASS\" if ok else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"adr_status\" in incomplete:\n    incomplete.pop(\"adr_status\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S40-T4-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y r». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_ARCH_REVIEW\"\n    ok = not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)\n    return \"CONTINUE\" if ok else \"REJECT\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S40-T4-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CAS». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic: invert starter defect; keep fixture data\nrecord = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nmeets_contract = record[\"v11_fields\"] >= record[\"v1_fields\"]\nstatus = \"PASS\" if bool(meets_contract) else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S40-T4-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `record = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"}`. Soporte: «S40-T4-B-E1 · Decide el contrato de `APIs, eventos, deuda y evolución compatible` sobre `CASO-LIM-04». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"v1_fields\", \"v11_fields\", \"debt_owner\", \"retire_on\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record[\"v11_fields\"] >= record[\"v1_fields\"]\n    return \"PASS\" if ok else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nincomplete = {**valid}\nif \"retire_on\" in incomplete:\n    incomplete.pop(\"retire_on\")\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S40-T4-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def assess(record: dict) -> str:`. Soporte: «S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fi». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic empty-starter: fail-closed routes from instruction\ndef decide(record: dict) -> str:\n    required = {\"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIELD\"\n    ok = record[\"v11_fields\"] >= record[\"v1_fields\"]\n    return \"CONTINUE\" if ok else \"REJECT\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\ninvalid = {**valid}\n# adversario: viola el predicado de dominio del E1\nif \"observed_ms\" in invalid and \"target_ms\" in invalid:\n    invalid[\"observed_ms\"] = invalid[\"target_ms\"] + 50\nelif \"load\" in invalid and \"capacity\" in invalid:\n    invalid[\"load\"] = invalid[\"capacity\"] + 1\nelif \"selected\" in invalid and \"scores\" in invalid:\n    invalid[\"selected\"] = max(invalid[\"scores\"], key=invalid[\"scores\"].get)\nelif \"stages\" in invalid and \"CANON\" in globals():\n    invalid[\"stages\"] = list(reversed(CANON))\nelif \"stages\" in invalid:\n    invalid[\"stages\"] = list(reversed(list(invalid[\"stages\"])))\nelse:\n    for _k, _v in list(invalid.items()):\n        if isinstance(_v, bool):\n            invalid[_k] = not _v\n            break\nuncertain = {**valid}\nif \"field\" in uncertain:\n    uncertain.pop(\"field\")\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S40-T4-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `def decide(record: dict) -> str:`. Soporte: «S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fi». Intento agentic_H2 independiente de H1."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_option": "escenario QA completo con umbral y dueño",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q0: contrasté opciones del quiz_card; me quedo con «escenario QA completo con umbral y dueño» (idx 3) por soporte lexical en theory del paquete (evidencia, permite, aprobar, requisitos, funcionales). Independiente de H1; solo H2 packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_option": "emitir BLOCK_ARCHITECTURE y conservar evidencia",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q1: contrasté opciones del quiz_card; me quedo con «emitir BLOCK_ARCHITECTURE y conservar evidencia» (idx 1) por soporte lexical en theory del paquete (ocurre, condición, error, respuesta, preserva). Independiente de H1; solo H2 packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_option": "cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q2: contrasté opciones del quiz_card; me quedo con «cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y » (idx 2) por soporte lexical en theory del paquete (Cuál, resultado, demuestra, gate, mapa). Independiente de H1; solo H2 packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_option": "reemplazarlo por datos reales sin consentimiento",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q3: contrasté opciones del quiz_card; me quedo con «reemplazarlo por datos reales sin consentimiento» (idx 1) por soporte lexical en theory del paquete (tratamiento, CASO, respeta, alcance, curso). Independiente de H1; solo H2 packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:19:48.554128+00:00",
+  "session_started_at": "2026-07-23T09:19:26.432152+00:00",
+  "session_ended_at": "2026-07-23T09:19:48.554128+00:00"
+}

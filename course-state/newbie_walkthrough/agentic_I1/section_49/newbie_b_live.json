@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 49,
+  "packet_sha": "2864233a4f8e529b",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-I1-s49-live",
+  "production_note": "packet-only dual-LLM solve from quiz_card/packet; no bulk writers; no prior-attempt maps; no stamps",
+  "knowledge_boundary": "Only landing + prior sequential packets + active section packet.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\":True,\"branch_count\":2,\"tool_choice_uncertain\":False,\"baseline_success\":0.96,\"agent_success\":0.9}}\nmeets_contract = bool(not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"]))\nstatus = (\"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\")\nprint(\"S49-T1-A\", status)\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-A-E1",
+        "Calcula",
+        "contrato",
+        "workflow",
+        "agente",
+        "sobre",
+        "CASO-AYA-049-1A",
+        "entrada"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-A-E1: desconfío del predicado del starter en «workflow vs agente»; valido missing antes de dominio. Predicado: `not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])`. Instrucción: S49-T1-A-E1 · Calcula el contrato de `workflow vs agente` sobre `CASO-AYA-049-1A`. La entrada es el dict completo del starter; la operación debe demostrar workflow preferido cuando pasos conocidos y b… Paquete: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida "
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'known_steps', 'branch_count', 'tool_choice_uncertain', 'baseline_success', 'agent_success'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\n    return \"PASS\" if ok else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = dict(valid)\nif \"agent_success\" in incomplete:\n    del incomplete[\"agent_success\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-A-E2",
+        "Modela",
+        "tres",
+        "rutas",
+        "workflow",
+        "agente",
+        "fixture",
+        "válido"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-A-E2: desconfío del predicado del starter en «workflow vs agente»; valido missing antes de dominio. Predicado: `not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])`. Instrucción: S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro sin `agent_success`. Entrada: dict con case_id, known_steps, branch_count, tool_choice_uncertain, ba… Paquete: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida "
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'known_steps', 'branch_count', 'tool_choice_uncertain', 'baseline_success', 'agent_success'}\n    if any(k not in record for k in required):\n        return \"RUN_AGENT_BASELINE\"\n    if not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"]):\n        return \"CONTINUE\"\n    return \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nfixture_ok = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nfixture_bad = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"agent_success\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-A-E3",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "workflow",
+        "agente",
+        "tres",
+        "fixtures"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-A-E3: desconfío del predicado del starter en «workflow vs agente»; valido missing antes de dominio. Predicado: `not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])`. Instrucción: S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-049-1A` debe continuar, el adverso debe devolver `KEEP_DETERMINISTIC_WORKFLOW` y la ausencia de `age… Paquete: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida "
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\":\"report\",\"plan_steps\":3,\"max_steps\":5,\"worker_outputs\":3,\"evaluator_pass\":True}}\nmeets_contract = bool(not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"]))\nstatus = (\"PASS\" if meets_contract else \"STOP_AGENT_LOOP\")\nprint(\"S49-T1-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-B-E1",
+        "Compara",
+        "contrato",
+        "routing",
+        "planner",
+        "worker",
+        "evaluator",
+        "optimizer"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-B-E1: desconfío del predicado del starter en «routing, planner/worker y evaluator–optimizer»; valido missing antes de dominio. Predicado: `not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])`. Instrucción: S49-T1-B-E1 · Compara el contrato de `routing, planner/worker y evaluator–optimizer` sobre `CASO-AYA-049-1B`. La entrada es el dict completo del starter; la operación debe demostrar ruta válida, plan … Paquete: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles. "
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'route', 'plan_steps', 'max_steps', 'worker_outputs', 'evaluator_pass'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\n    return \"PASS\" if ok else \"STOP_AGENT_LOOP\"\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 1000003, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = dict(valid)\nif \"evaluator_pass\" in incomplete:\n    del incomplete[\"evaluator_pass\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-B-E2",
+        "Verifica",
+        "tres",
+        "rutas",
+        "routing",
+        "planner",
+        "worker",
+        "evaluator"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-B-E2: desconfío del predicado del starter en «routing, planner/worker y evaluator–optimizer»; valido missing antes de dominio. Predicado: `not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])`. Instrucción: S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido, fixture adverso y registro sin `evaluator_pass`. Entrada: dict con case_id, route, plan_steps, max… Paquete: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles. "
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'route', 'plan_steps', 'max_steps', 'worker_outputs', 'evaluator_pass'}\n    if any(k not in record for k in required):\n        return \"REPLAN_WITH_BOUNDS\"\n    if not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"]):\n        return \"CONTINUE\"\n    return \"STOP_AGENT_LOOP\"\n\nfixture_ok = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nfixture_bad = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 1000003, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"evaluator_pass\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-B-E3",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "routing",
+        "planner",
+        "worker",
+        "evaluator"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-B-E3: desconfío del predicado del starter en «routing, planner/worker y evaluator–optimizer»; valido missing antes de dominio. Predicado: `not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])`. Instrucción: S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres fixtures distintos. `CASO-AYA-049-1B` debe continuar, el adverso debe devolver `STOP_AGENT_LOOP` y la… Paquete: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles. "
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\":\"get_case_status\",\"responsibilities\":1,\"schema_fields\":{\"case_id\"},\"side_effect\":False,\"typed_errors\":True}}\nmeets_contract = bool(not (record[\"responsibilities\"] > 1 or record[\"side_effect\"]))\nstatus = (\"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\")\nprint(\"S49-T2-A\", status)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-A-E1",
+        "Filtra",
+        "contrato",
+        "funciones",
+        "responsabilidad",
+        "única",
+        "sobre",
+        "CASO-AYA-049-2A"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-A-E1: desconfío del predicado del starter en «funciones de responsabilidad única»; valido missing antes de dominio. Predicado: `not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])`. Instrucción: S49-T2-A-E1 · Filtra el contrato de `funciones de responsabilidad única` sobre `CASO-AYA-049-2A`. La entrada es el dict completo del starter; la operación debe demostrar una responsabilidad, schema es… Paquete: Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad. C"
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'tool', 'responsibilities', 'schema_fields', 'side_effect', 'typed_errors'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\n    return \"PASS\" if ok else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1000001, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = dict(valid)\nif \"typed_errors\" in incomplete:\n    del incomplete[\"typed_errors\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-A-E2",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "funciones",
+        "responsabilidad",
+        "única",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-A-E2: desconfío del predicado del starter en «funciones de responsabilidad única»; valido missing antes de dominio. Predicado: `not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])`. Instrucción: S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture adverso y registro sin `typed_errors`. Entrada: dict con case_id, tool, responsibilities, schema_fie… Paquete: Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad. C"
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'tool', 'responsibilities', 'schema_fields', 'side_effect', 'typed_errors'}\n    if any(k not in record for k in required):\n        return \"SPLIT_TOOL_CONTRACT\"\n    if not (record[\"responsibilities\"] > 1 or record[\"side_effect\"]):\n        return \"CONTINUE\"\n    return \"DISABLE_OVERBROAD_TOOL\"\n\nfixture_ok = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nfixture_bad = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1000001, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"typed_errors\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-A-E3",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "funciones",
+        "responsabilidad",
+        "única",
+        "tres"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-A-E3: desconfío del predicado del starter en «funciones de responsabilidad única»; valido missing antes de dominio. Predicado: `not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])`. Instrucción: S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures distintos. `CASO-AYA-049-2A` debe continuar, el adverso debe devolver `DISABLE_OVERBROAD_TOOL` y la aus… Paquete: Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad. C"
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\":True,\"scope\":\"report:prepare\",\"granted\":{\"report:prepare\"},\"idempotency_key\":\"tool-1\",\"attempts\":2,\"effects\":1,\"error_kind\":\"retryable\"}}\nmeets_contract = bool(not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1))\nstatus = (\"PASS\" if meets_contract else \"DENY_TOOL_CALL\")\nprint(\"S49-T2-B\", status)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-B-E1",
+        "Modela",
+        "contrato",
+        "schema",
+        "permisos",
+        "idempotencia",
+        "errores",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-B-E1: desconfío del predicado del starter en «schema, permisos, idempotencia y errores»; valido missing antes de dominio. Predicado: `not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)`. Instrucción: S49-T2-B-E1 · Modela el contrato de `schema, permisos, idempotencia y errores` sobre `CASO-AYA-049-2B`. La entrada es el dict completo del starter; la operación debe demostrar schema/scope válidos y r… Paquete: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar sec"
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'schema_valid', 'scope', 'granted', 'idempotency_key', 'attempts', 'effects', 'error_kind'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\n    return \"PASS\" if ok else \"DENY_TOOL_CALL\"\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'INVALID', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nincomplete = dict(valid)\nif \"error_kind\" in incomplete:\n    del incomplete[\"error_kind\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-B-E2",
+        "Audita",
+        "tres",
+        "rutas",
+        "schema",
+        "permisos",
+        "idempotencia",
+        "errores"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-B-E2: desconfío del predicado del starter en «schema, permisos, idempotencia y errores»; valido missing antes de dominio. Predicado: `not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)`. Instrucción: S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixture adverso y registro sin `error_kind`. Entrada: dict con case_id, schema_valid, scope, granted, ide… Paquete: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar sec"
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'schema_valid', 'scope', 'granted', 'idempotency_key', 'attempts', 'effects', 'error_kind'}\n    if any(k not in record for k in required):\n        return \"CLASSIFY_TOOL_ERROR\"\n    if not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1):\n        return \"CONTINUE\"\n    return \"DENY_TOOL_CALL\"\n\nfixture_ok = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nfixture_bad = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'INVALID', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"error_kind\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-B-E3",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "schema",
+        "permisos",
+        "idempotencia",
+        "errores"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-B-E3: desconfío del predicado del starter en «schema, permisos, idempotencia y errores»; valido missing antes de dominio. Predicado: `not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)`. Instrucción: S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtures distintos. `CASO-AYA-049-2B` debe continuar, el adverso debe devolver `DENY_TOOL_CALL` y la ausen… Paquete: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar sec"
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\":1200,\"max_context_tokens\":2000,\"retrieved_just_in_time\":True,\"checkpoint_after_effect\":True,\"provenance\":True}}\nmeets_contract = bool(not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]))\nstatus = (\"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\")\nprint(\"S49-T3-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-A-E1",
+        "Verifica",
+        "contrato",
+        "contexto",
+        "mínimo",
+        "retrieval",
+        "JIT",
+        "checkpoints"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-A-E1: desconfío del predicado del starter en «contexto mínimo, retrieval JIT y checkpoints»; valido missing antes de dominio. Predicado: `not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])`. Instrucción: S49-T3-A-E1 · Verifica el contrato de `contexto mínimo, retrieval JIT y checkpoints` sobre `CASO-AYA-049-3A`. La entrada es el dict completo del starter; la operación debe demostrar contexto bajo pres… Paquete: Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos d"
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'context_tokens', 'max_context_tokens', 'retrieved_just_in_time', 'checkpoint_after_effect', 'provenance'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\n    return \"PASS\" if ok else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1001200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nincomplete = dict(valid)\nif \"provenance\" in incomplete:\n    del incomplete[\"provenance\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-A-E2",
+        "Decide",
+        "tres",
+        "rutas",
+        "contexto",
+        "mínimo",
+        "retrieval",
+        "JIT"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-A-E2: desconfío del predicado del starter en «contexto mínimo, retrieval JIT y checkpoints»; valido missing antes de dominio. Predicado: `not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])`. Instrucción: S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, fixture adverso y registro sin `provenance`. Entrada: dict con case_id, context_tokens, max_context_t… Paquete: Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos d"
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'context_tokens', 'max_context_tokens', 'retrieved_just_in_time', 'checkpoint_after_effect', 'provenance'}\n    if any(k not in record for k in required):\n        return \"RETRIEVE_MINIMUM_CONTEXT\"\n    if not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]):\n        return \"CONTINUE\"\n    return \"COMPACT_AND_CHECKPOINT\"\n\nfixture_ok = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nfixture_bad = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1001200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"provenance\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-A-E3",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "contexto",
+        "mínimo",
+        "retrieval",
+        "JIT"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-A-E3: desconfío del predicado del starter en «contexto mínimo, retrieval JIT y checkpoints»; valido missing antes de dominio. Predicado: `not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])`. Instrucción: S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres fixtures distintos. `CASO-AYA-049-3A` debe continuar, el adverso debe devolver `COMPACT_AND_CHECKPOIN… Paquete: Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos d"
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\":{\"case_id\",\"budget\",\"no_prod_write\"},\"facts_after\":{\"case_id\",\"budget\",\"no_prod_write\"},\"memory_retention_days\":7,\"last_known_good\":\"cp-7\"}}\nmeets_contract = bool(not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"]))\nstatus = (\"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\")\nprint(\"S49-T3-B\", status)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-B-E1",
+        "Clasifica",
+        "contrato",
+        "memoria",
+        "compaction",
+        "last-known-good",
+        "sobre",
+        "CASO-AYA-049-3B"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-B-E1: desconfío del predicado del starter en «memoria, compaction y last-known-good»; valido missing antes de dominio. Predicado: `not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])`. Instrucción: S49-T3-B-E1 · Clasifica el contrato de `memoria, compaction y last-known-good` sobre `CASO-AYA-049-3B`. La entrada es el dict completo del starter; la operación debe demostrar compaction conserva rest… Paquete: Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite vol"
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'facts_before', 'facts_after', 'memory_retention_days', 'last_known_good'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\n    return \"PASS\" if ok else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': set(), 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nincomplete = dict(valid)\nif \"last_known_good\" in incomplete:\n    del incomplete[\"last_known_good\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-B-E2",
+        "Calcula",
+        "tres",
+        "rutas",
+        "memoria",
+        "compaction",
+        "last-known-good",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-B-E2: desconfío del predicado del starter en «memoria, compaction y last-known-good»; valido missing antes de dominio. Predicado: `not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])`. Instrucción: S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture adverso y registro sin `last_known_good`. Entrada: dict con case_id, facts_before, facts_after, mem… Paquete: Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite vol"
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'facts_before', 'facts_after', 'memory_retention_days', 'last_known_good'}\n    if any(k not in record for k in required):\n        return \"REVIEW_COMPACTION_LOSS\"\n    if not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"]):\n        return \"CONTINUE\"\n    return \"RESTORE_LAST_KNOWN_GOOD\"\n\nfixture_ok = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nfixture_bad = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': set(), 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"last_known_good\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-B-E3",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "memoria",
+        "compaction",
+        "last-known-good",
+        "tres"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-B-E3: desconfío del predicado del starter en «memoria, compaction y last-known-good»; valido missing antes de dominio. Predicado: `not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])`. Instrucción: S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtures distintos. `CASO-AYA-049-3B` debe continuar, el adverso debe devolver `RESTORE_LAST_KNOWN_GOOD` y… Paquete: Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite vol"
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\":True,\"steps\":4,\"max_steps\":6,\"tokens\":3200,\"max_tokens\":5000,\"cost_pen\":0.04,\"max_cost_pen\":0.06}}\nmeets_contract = bool(not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]))\nstatus = (\"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\")\nprint(\"S49-T4-A\", status)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-A-E1",
+        "Audita",
+        "contrato",
+        "stopping",
+        "conditions",
+        "budgets",
+        "sobre",
+        "CASO-AYA-049-4A"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-A-E1: desconfío del predicado del starter en «stopping conditions y budgets»; valido missing antes de dominio. Predicado: `not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])`. Instrucción: S49-T4-A-E1 · Audita el contrato de `stopping conditions y budgets` sobre `CASO-AYA-049-4A`. La entrada es el dict completo del starter; la operación debe demostrar meta lograda dentro de pasos, token… Paquete: Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no con"
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'goal_met', 'steps', 'max_steps', 'tokens', 'max_tokens', 'cost_pen', 'max_cost_pen'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\n    return \"PASS\" if ok else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 1000004, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nincomplete = dict(valid)\nif \"max_cost_pen\" in incomplete:\n    del incomplete[\"max_cost_pen\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-A-E2",
+        "Compara",
+        "tres",
+        "rutas",
+        "stopping",
+        "conditions",
+        "budgets",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-A-E2: desconfío del predicado del starter en «stopping conditions y budgets»; valido missing antes de dominio. Predicado: `not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])`. Instrucción: S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso y registro sin `max_cost_pen`. Entrada: dict con case_id, goal_met, steps, max_steps, tokens, max_t… Paquete: Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no con"
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'goal_met', 'steps', 'max_steps', 'tokens', 'max_tokens', 'cost_pen', 'max_cost_pen'}\n    if any(k not in record for k in required):\n        return \"ASK_FOR_SCOPE_REDUCTION\"\n    if not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]):\n        return \"CONTINUE\"\n    return \"STOP_BUDGET_EXHAUSTED\"\n\nfixture_ok = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nfixture_bad = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 1000004, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"max_cost_pen\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-A-E3",
+        "Aísla",
+        "fallo",
+        "cerrado",
+        "stopping",
+        "conditions",
+        "budgets",
+        "tres"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-A-E3: desconfío del predicado del starter en «stopping conditions y budgets»; valido missing antes de dominio. Predicado: `not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])`. Instrucción: S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. `CASO-AYA-049-4A` debe continuar, el adverso debe devolver `STOP_BUDGET_EXHAUSTED` y la ausencia de … Paquete: Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no con"
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\":\"none\",\"filesystem\":\"workspace-read\",\"sensitive_action\":\"prepare-draft\",\"approval_required\":True,\"approval_present\":True,\"checkpoint\":\"cp-9\",\"replayed_effects\":0}}\nmeets_contract = bool(not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0))\nstatus = (\"PASS\" if meets_contract else \"SANDBOX_AND_STOP\")\nprint(\"S49-T4-B\", status)\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-B-E1",
+        "Decide",
+        "contrato",
+        "sandbox",
+        "human",
+        "approval",
+        "recuperación",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-B-E1: desconfío del predicado del starter en «sandbox, human approval y recuperación»; valido missing antes de dominio. Predicado: `not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)`. Instrucción: S49-T4-B-E1 · Decide el contrato de `sandbox, human approval y recuperación` sobre `CASO-AYA-049-4B`. La entrada es el dict completo del starter; la operación debe demostrar sandbox mínimo, aprobación… Paquete: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con "
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'network', 'filesystem', 'sensitive_action', 'approval_required', 'approval_present', 'checkpoint', 'replayed_effects'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\n    return \"PASS\" if ok else \"SANDBOX_AND_STOP\"\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': False, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = dict(valid)\nif \"replayed_effects\" in incomplete:\n    del incomplete[\"replayed_effects\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-B-E2",
+        "Filtra",
+        "tres",
+        "rutas",
+        "sandbox",
+        "human",
+        "approval",
+        "recuperación"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-B-E2: desconfío del predicado del starter en «sandbox, human approval y recuperación»; valido missing antes de dominio. Predicado: `not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)`. Instrucción: S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture adverso y registro sin `replayed_effects`. Entrada: dict con case_id, network, filesystem, sensitiv… Paquete: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con "
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'network', 'filesystem', 'sensitive_action', 'approval_required', 'approval_present', 'checkpoint', 'replayed_effects'}\n    if any(k not in record for k in required):\n        return \"REQUEST_HUMAN_APPROVAL\"\n    if not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0):\n        return \"CONTINUE\"\n    return \"SANDBOX_AND_STOP\"\n\nfixture_ok = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nfixture_bad = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': False, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"replayed_effects\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-B-E3",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "sandbox",
+        "human",
+        "approval",
+        "recuperación"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-B-E3: desconfío del predicado del starter en «sandbox, human approval y recuperación»; valido missing antes de dominio. Predicado: `not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)`. Instrucción: S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixtures distintos. `CASO-AYA-049-4B` debe continuar, el adverso debe devolver `SANDBOX_AND_STOP` y la ause… Paquete: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con "
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "ADR workflow/agente con baseline",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[0]: elijo «ADR workflow/agente con baseline» (fail-closed + evidencia medible). Pregunta: ¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049? Fragmento: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato operativo. Entrada: objetivo acotado, "
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "emitir STOP_AGENT y conservar evidencia",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[1]: elijo «emitir STOP_AGENT y conservar evidencia» (fail-closed + evidencia medible). Pregunta: Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad? Fragmento: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato operativo. Entrada: objetivo acotado, "
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[2]: elijo «cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible» (fail-closed + evidencia medible). Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`? Fragmento: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato operativo. Entrada: objetivo acotado, "
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[3]: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» (fail-closed + evidencia medible). Pregunta: ¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso? Fragmento: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Contrato operativo. Entrada: objetivo acotado, "
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ],
+    "note": "Skeptic rejects inverted predicates and missing-field continues."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T10:37:50+00:00",
+  "session_started_at": "2026-07-23T10:37:20+00:00",
+  "session_ended_at": "2026-07-23T10:37:50+00:00"
+}

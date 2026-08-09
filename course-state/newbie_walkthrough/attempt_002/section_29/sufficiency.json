@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.83,
+    "correct_preview": "Evitar duplicar el mismo par en orden invertido"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Nueva fila por cambio de decisión"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "Ser atómicas en la misma transacción lógica"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Encapsula acceso a datos y facilita tests con :memory:"
+  }
+]

@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 18,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s18-0833f99c58",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(\"n\", montos.size, \"|\", \"mean\", round(float(montos.mean()), 1), \"|\", \"median\", float(np.median(montos)))\n",
+      "justification_from_packet": "El subtema de centro y dispersión pide n, mean y median juntos: con el outlier 100, mean=30.4 se aleja de median=14.0. Reporto n 5 | mean 30.4 | median 14.0 para no vender solo la media."
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "code": "import numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nprint(\"Q1\", float(q1), \"|\", \"Q3\", float(q3), \"|\", \"IQR\", float(q3 - q1))\n",
+      "justification_from_packet": "Cuantiles e IQR resumen la dispersión robusta: Q1=8.5, Q3=12.5, IQR=4.0 con np.quantile. El paquete los usa antes de hablar de outliers Tukey."
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "code": "import numpy as np\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\n\nprint(resumen([1, 2, 3, 4, 5]))\n",
+      "justification_from_packet": "Una función resumen empaqueta n/mean/median/std(ddof=1) redondeados. Para [1..5] sale n=5, mean=median=3.0 y std≈1.5811, checklist mínimo del EDA descriptivo."
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "code": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nratio = round(m / med, 2)\nprint(\"mean\", round(m, 1), \"|\", \"median\", med, \"|\", \"ratio\", ratio)\n",
+      "justification_from_packet": "Con colas pesadas, mean/median (ratio≈2.43) alerta sesgo de la media. mean 29.2 vs median 12.0 es el mensaje de métricas robustas del subtema."
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "code": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\nprint(\"MAD\", mad)\n",
+      "justification_from_packet": "MAD = mediana de |x-mediana| es dispersión robusta: aquí MAD 1.0 pese al 100, a diferencia de std que se dispara. Métrica del subtema de escalas robustas."
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "code": "import numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint([round(float(v), 3) for v in np.log1p(x)])\n",
+      "justification_from_packet": "log1p comprime montos sesgados sin romper el 0: [0.0, 0.693, 2.303, 4.605]. Transformación de escala recomendada en el EDA de tickets."
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "code": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\nprint(\"share_Lima\", share_lima)\n",
+      "justification_from_packet": "Share muestral de Lima = 3/4 = 0.75. Compararlo después con la población es el primer paso del subtema población/muestra/sesgo."
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "code": "share = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(share - pob, 2))\n",
+      "justification_from_packet": "Bias en puntos proporcionales: share muestral 0.8 menos población 0.5 → 0.3. Cuantifica el sesgo de sobrerrepresentar Lima."
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "code": "def max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}), 2))\n",
+      "justification_from_packet": "max |share-pob| entre segmentos: con 9/10 Lima vs 0.5 poblacional el máximo bias es 0.4. Resume el peor desbalance del diseño muestral."
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "code": "import math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(\"margen\", round(margen, 2))\n",
+      "justification_from_packet": "Margen IC95 ≈ 1.96·s/√n = 0.98 con n=16. Intervalo básico del subtema de incertidumbre, no solo el punto media=10."
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "code": "d = (13 - 10) / 2\nprint(\"d\", round(d, 2))\n",
+      "justification_from_packet": "Cohen's d = (media1-media2)/s = 3/2 = 1.5. Tamaño de efecto además del p-valor o del IC, como pide el paquete."
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "code": "diff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(\"ic95\", ic)\n",
+      "justification_from_packet": "IC95 de una diferencia: diff±1.96·se → (1.06, 6.94). Comunica incertidumbre del contraste, no solo el punto 4."
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "code": "import numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nr = float(np.corrcoef(x, y)[0, 1])\nprint(\"r\", round(r, 1))\n",
+      "justification_from_packet": "Pearson entre y=2x es r=1.0 (asociación lineal perfecta). El subtema advierte que correlación ≠ causalidad aunque r sea alto."
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "code": "r = 0.82\nprint(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n",
+      "justification_from_packet": "Con |r|>0.5 etiqueto asociacion_observada y no 'causa'. El subtema de correlación y confusión evita verbos causales sin diseño experimental; r=0.82 solo documenta asociación."
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "code": "import numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nrx = x - (bx[0] * z + bx[1])\nry = y - (by[0] * z + by[1])\nmax_abs = float(max(np.max(np.abs(rx)), np.max(np.abs(ry))))\nprint(\"r_raw\", round(r_raw, 1), \"|\", \"max_abs_resid\", round(max_abs, 1))\n",
+      "justification_from_packet": "Tras residualizar x e y contra el confusor z, los residuales son ~0 y r_raw era 1.0 por el confusor compartido. Reporto r_raw 1.0 | max_abs_resid 0.0 como en el demo de confusión."
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "code": "import numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 1.5 * iqr\nn_hi = int((m > hi).sum())\nprint(\"n_hi\", n_hi)\n",
+      "justification_from_packet": "Tukey hi=Q3+1.5·IQR marca el 50 como outlier alto: n_hi=1. Segmentación/anomalías del EDA sin afirmar fraude."
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "code": "import numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"])\nflag = np.array([True, True, False])\ntasa = float(flag[region == \"Lima\"].mean())\nprint(\"tasa_Lima\", tasa)\n",
+      "justification_from_packet": "Tasa de anomalías por segmento: en Lima ambos flags True → tasa 1.0. Comparar tasas entre regiones evita generalizar un outlier global."
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "code": "import numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((m < lo) | (m > hi)).tolist())\n",
+      "justification_from_packet": "Flags booleanos Tukey por fila: solo 100 queda fuera → [False,False,False,False,True]. Útil para segmentar sin borrar aún."
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "code": "evidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana >= 5\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"pregunta\"])\n",
+      "justification_from_packet": "El bloque pregunta/hipótesis/resultado ancla el EDA: imprimo la pregunta del dict. El subtema exige evidencia estructurada, no solo un gráfico suelto."
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "code": "median = 12\nprint(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n",
+      "justification_from_packet": "Si la mediana no cruza el umbral de decisión (15), queda solo_hallazgo. Separa hallazgo descriptivo de acción operativa, como pide el paquete."
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "code": "def traza(pregunta, metrica, valor, limite):\n    print(\"P:\", pregunta, \"|\", \"M:\", metrica, \"|\", \"V:\", valor, \"|\", \"L:\", limite)\n\ntraza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")\n",
+      "justification_from_packet": "Traza P→M→V→L en una línea: pregunta, métrica, valor y límite de cobertura. Comunicar 'solo web' evita extrapolar a toda la población."
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "code": "note = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n",
+      "justification_from_packet": "Data note mínimo: n_raw, n_final y filtros aplicados. Reproduce el recorte del notebook y cumple el subtema de notas de datos."
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "code": "import hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n",
+      "justification_from_packet": "Hash corto del payload CSV (sha1[:8]=2aa26ec9) fija la versión de datos del notebook reproducible, junto al data note."
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n",
+      "justification_from_packet": "Tras filtrar monto>0, n_raw=3 y n_final=2 con seed=42 documentan el recorte reproducible del EDA. El note cierra el subtema de notebook + data notes."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Con outliers fuertes la mediana (e IQR) comunica mejor el ticket típico que la media, que se va con la cola. El subtema de centro lo ilustra con el 100 en montos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Correlación alta es asociación observada, no prueba causal ni ausencia de confusores. El paquete prohíbe saltar a 'X causa Y' solo por r."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Un data note mínimo incluye origen, filtros, n y límites de cobertura. No bastan el gráfico final ni secretos de acceso."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Sesgo de muestra = la muestra no representa la población de interés (p. ej. solo Lima web). No es simplemente 'std alta' ni n>30."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Con confusor de tamaño de ciudad, lo correcto es reportar asociación observada, explorar el confusor y evitar verbos causales. No recomendar campaña automática ni ocultar el r."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:52:12.148876+00:00",
+  "session_started_at": "2026-07-23T16:51:05+00:00",
+  "session_ended_at": "2026-07-23T16:51:36.500000+00:00",
+  "receipt_response_sha256": "8926abfa402647d40c58e146e2f8768b154c0c5e1dc674142f6438775bc6cfb7",
+  "receipt_exercises_sha256": "d08db13a2d464a3967bf8799e0208c042463132caed64b0b92006b2f4b19001b",
+  "receipt_selfcheck_sha256": "0fbb436251788959e7262f9f56c6c3f06f9a3994675e08d237abb37ee05d94fc"
+}

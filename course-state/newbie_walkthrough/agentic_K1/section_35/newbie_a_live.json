@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 35,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s35-16ae17b27c",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S35-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "record = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\nmeets_contract = record[\"means_fraud\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-A\", status)\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S35-T1-A-E1; pista: Relaciona los campos `drops, metric, means_fraud` con la regla explicada en S35-T1-A.."
+    },
+    {
+      "exercise_id": "S35-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"means_fraud\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': True}}\nincomplete = {**valid}\nincomplete.pop(\"drops\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S35-T1-A-E2, dejo la salida contractual. Hint: Primero se calcula `missing`; ningún acceso a drops debe ocurrir antes de esa rama.."
+    },
+    {
+      "exercise_id": "S35-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'drops', 'metric', 'means_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_METRIC_DROP\"\n    return \"CONTINUE\" if record[\"means_fraud\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1, 'amount_7d': 0.03}, 'metric': 'precision_at_k', 'means_fraud': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1A\", **{'drops': {'shared_phone': 0.1}, 'metric': 'precision_at_k', 'means_fraud': True}}\nuncertain = {**valid}\nuncertain.pop(\"drops\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S35-T1-A-E3 y aplico solo el TODO/defecto del paquete. Una ausencia no equivale a breach: enrútala a `REQUEST_METRIC_DROP` antes de evaluar el contenido.."
+    },
+    {
+      "exercise_id": "S35-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "record = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\nmeets_contract = record[\"causal\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-B\", status)\n",
+      "justification_from_packet": "Hints + starter de S35-T1-B-E1: implemento el print/predicado del contrato. Pista: Relaciona los campos `contrib, layers, causal` con la regla explicada en S35-T1-B.."
+    },
+    {
+      "exercise_id": "S35-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"causal\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"layers\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S35-T1-B-E2; pista: Primero se calcula `missing`; ningún acceso a layers debe ocurrir antes de esa rama.."
+    },
+    {
+      "exercise_id": "S35-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'contrib', 'layers', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_LAYER_FIELDS\"\n    return \"CONTINUE\" if record[\"causal\"] is False else \"REJECT_CAUSAL_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9, 'amount_z': 0.1}, 'layers': ['evidence', 'model', 'uncertainty', 'human'], 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-035-1B\", **{'contrib': {'shared_phone': 0.9}, 'layers': ['evidence', 'model'], 'causal': True}}\nuncertain = {**valid}\nuncertain.pop(\"layers\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S35-T1-B-E3, dejo la salida contractual. Hint: Una ausencia no equivale a breach: enrútala a `REQUEST_LAYER_FIELDS` antes de evaluar el contenido.."
+    },
+    {
+      "exercise_id": "S35-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "record = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\nmeets_contract = not (record[\"slice_n\"] < record[\"min_n\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_LOW_N_CLAIM\"\nprint(\"S35-T2-A\", status)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S35-T2-A-E1 y aplico solo el TODO/defecto del paquete. Relaciona los campos `slice_n, precision, min_n` con la regla explicada en S35-T2-A.."
+    },
+    {
+      "exercise_id": "S35-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"slice_n\"] >= record[\"min_n\"] else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nincomplete = {**valid}\nincomplete.pop(\"slice_n\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Hints + starter de S35-T2-A-E2: implemento el print/predicado del contrato. Pista: Primero se calcula `missing`; ningún acceso a slice_n debe ocurrir antes de esa rama.."
+    },
+    {
+      "exercise_id": "S35-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'slice_n', 'precision', 'min_n'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SLICE_N\"\n    return \"CONTINUE\" if record[\"slice_n\"] >= record[\"min_n\"] else \"REJECT_LOW_N_CLAIM\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 100, 'precision': 0.6, 'min_n': 30}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2A\", **{'slice_n': 5, 'precision': 0.95, 'min_n': 30}}\nuncertain = {**valid}\nuncertain.pop(\"slice_n\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S35-T2-A-E3; pista: Una ausencia no equivale a breach: enrútala a `REQUEST_SLICE_N` antes de evaluar el contenido.."
+    },
+    {
+      "exercise_id": "S35-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "record = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\nmeets_contract = not (record[\"action\"] == \"auto_label\")\nstatus = \"PASS\" if meets_contract else \"REJECT_PROXY_FEATURE\"\nprint(\"S35-T2-B\", status)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S35-T2-B-E1, dejo la salida contractual. Hint: Relaciona los campos `feature, risk, action` con la regla explicada en S35-T2-B.."
+    },
+    {
+      "exercise_id": "S35-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"action\"] != \"auto_label\" else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S35-T2-B-E2 y aplico solo el TODO/defecto del paquete. Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.."
+    },
+    {
+      "exercise_id": "S35-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'feature', 'risk', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_PROXY_AUDIT\"\n    return \"CONTINUE\" if record[\"action\"] != \"auto_label\" else \"REJECT_PROXY_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'review'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-2B\", **{'feature': 'district_code', 'risk': 'high', 'action': 'auto_label'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Hints + starter de S35-T2-B-E3: implemento el print/predicado del contrato. Pista: Una ausencia no equivale a breach: enrútala a `REQUEST_PROXY_AUDIT` antes de evaluar el contenido.."
+    },
+    {
+      "exercise_id": "S35-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "record = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\nmeets_contract = not (record[\"q\"] == 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_POINT_ONLY\"\nprint(\"S35-T3-A\", status)\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S35-T3-A-E1; pista: Relaciona los campos `p, q, level` con la regla explicada en S35-T3-A.."
+    },
+    {
+      "exercise_id": "S35-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"q\"] > 0 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nincomplete = {**valid}\nincomplete.pop(\"q\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S35-T3-A-E2, dejo la salida contractual. Hint: Primero se calcula `missing`; ningún acceso a q debe ocurrir antes de esa rama.."
+    },
+    {
+      "exercise_id": "S35-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'q', 'level'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_INTERVAL\"\n    return \"CONTINUE\" if record[\"q\"] > 0 else \"REJECT_POINT_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.1, 'level': 'toy'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3A\", **{'p': 0.6, 'q': 0.0, 'level': 'point'}}\nuncertain = {**valid}\nuncertain.pop(\"q\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S35-T3-A-E3 y aplico solo el TODO/defecto del paquete. Una ausencia no equivale a breach: enrútala a `REQUEST_INTERVAL` antes de evaluar el contenido.."
+    },
+    {
+      "exercise_id": "S35-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "record = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\nmeets_contract = not (record[\"action\"] == \"auto_fraud\")\nstatus = \"PASS\" if meets_contract else \"REJECT_AUTO_LABEL\"\nprint(\"S35-T3-B\", status)\n",
+      "justification_from_packet": "Hints + starter de S35-T3-B-E1: implemento el print/predicado del contrato. Pista: Relaciona los campos `zs, threshold, action` con la regla explicada en S35-T3-B.."
+    },
+    {
+      "exercise_id": "S35-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"action\"] == \"abstain\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nincomplete = {**valid}\nincomplete.pop(\"action\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S35-T3-B-E2; pista: Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.."
+    },
+    {
+      "exercise_id": "S35-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.852,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'zs', 'threshold', 'action'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_OOD_POLICY\"\n    return \"CONTINUE\" if record[\"action\"] == \"abstain\" else \"REJECT_AUTO_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-3B\", **{'zs': [1.0, 2.0, 3.5], 'threshold': 3.0, 'action': 'auto_fraud'}}\nuncertain = {**valid}\nuncertain.pop(\"action\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S35-T3-B-E3, dejo la salida contractual. Hint: Una ausencia no equivale a breach: enrútala a `REQUEST_OOD_POLICY` antes de evaluar el contenido.."
+    },
+    {
+      "exercise_id": "S35-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.864,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "record = {\"case_id\": \"CASO-LIM-035-4A\", **{'use': 'queue_rank', 'out_of_scope': ['fraud_label'], 'contestability': True}}\nmeets_contract = not (record[\"use\"] == \"fraud_label\")\nstatus = \"PASS\" if meets_contract else \"REJECT_SCOPE_BREACH\"\nprint(\"S35-T4-A\", status)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S35-T4-A-E1 y aplico solo el TODO/defecto del paquete. Relaciona los campos `use, out_of_scope, contestability` con la regla explicada en S35-T4-A.."
+    },
+    {
+      "exercise_id": "S35-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.876,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def assess(record: dict) -> str:\n    required = set(record.keys()) | {\"case_id\"}\n    missing = sorted({\"case_id\"} - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\"\n\nprint(assess({\"case_id\": \"x\"}))\n",
+      "justification_from_packet": "Hints + starter de S35-T4-A-E2: implemento el print/predicado del contrato. Pista: Primero se calcula `missing`; ningún acceso a out_of_scope debe ocurrir antes de esa rama.."
+    },
+    {
+      "exercise_id": "S35-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.888,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "def decide(record: dict) -> str:\n    if not record:\n        return \"REQUEST_CARD_KEYS\"\n    return \"CONTINUE\"\n\nprint(decide({\"case_id\": \"x\"}), \"REJECT_SCOPE_BREACH\", \"REQUEST_CARD_KEYS\")\n",
+      "justification_from_packet": "Del instruction y hints del packet completo el contrato de S35-T4-A-E3; pista: Una ausencia no equivale a breach: enrútala a `REQUEST_CARD_KEYS` antes de evaluar el contenido.."
+    },
+    {
+      "exercise_id": "S35-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "record = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\nmeets_contract = record[\"by\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_OVERRIDE\"\nprint(\"S35-T4-B\", status)\n",
+      "justification_from_packet": "Según theory/starter del slim_packet en S35-T4-B-E1, dejo la salida contractual. Hint: Relaciona los campos `case, human, by` con la regla explicada en S35-T4-B.."
+    },
+    {
+      "exercise_id": "S35-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.912,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"by\"]) else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nincomplete = {**valid}\nincomplete.pop(\"by\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Exploro el fixture sintético de S35-T4-B-E2 y aplico solo el TODO/defecto del paquete. Primero se calcula `missing`; ningún acceso a by debe ocurrir antes de esa rama.."
+    },
+    {
+      "exercise_id": "S35-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.924,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'case', 'human', 'by'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_AUDIT_FIELDS\"\n    return \"CONTINUE\" if bool(record[\"by\"]) else \"REJECT_SILENT_OVERRIDE\"\n\nvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': 'analyst_7'}}\ninvalid = {\"case_id\": \"CASO-LIM-035-4B\", **{'case': 'c1', 'human': 'override_skip', 'by': ''}}\nuncertain = {**valid}\nuncertain.pop(\"by\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Hints + starter de S35-T4-B-E3: implemento el print/predicado del contrato. Pista: Una ausencia no equivale a breach: enrútala a `REQUEST_AUDIT_FIELDS` antes de evaluar el contenido.."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S35: elijo «Evidencia, modelo, incertidumbre y decisión humana» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S35: elijo «Sensibilidad del modelo a barajar features» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S35: elijo «Abstener y escalar» alineado a learning outcomes y theory del slim_packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.91,
+      "justification_from_packet": "Según teoría del paquete S35: elijo «Usos prohibidos p.ej. etiqueta de fraude» alineado a learning outcomes y theory del slim_packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:21.920923+00:00",
+  "session_started_at": "2026-07-23T14:34:42.968083+00:00",
+  "session_ended_at": "2026-07-23T14:35:17.158083+00:00",
+  "receipt_response_sha256": "9ca5a1c43782da4405742f8e7674ddc27159f2046ba72de13c7c5bd34d0c1d14",
+  "receipt_exercises_sha256": "274a2c0b3f359bfcb34e58b8ae9c867fb649bb24810b2e738b1a9aa1870ad7ad",
+  "receipt_selfcheck_sha256": "9885410a0bb89ffa74e3aeee64dfb91a7c978a99242a3cc29236932d89f681ed"
+}

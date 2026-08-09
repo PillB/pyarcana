@@ -1,0 +1,28 @@
+{
+  "compared_at": "2026-07-23T04:50:00Z",
+  "baseline": "agentic_E1",
+  "candidate": "agentic_E2",
+  "scope": "all section_01..52 newbie_a_live + newbie_b_live exercises",
+  "total_exercise_pairs": 2496,
+  "same_codes_stripped_headers": 756,
+  "same_codes_pct": 30.3,
+  "same_justifications": 0,
+  "same_justifications_pct": 0.0,
+  "gate": {
+    "max_same_just_pct": 0.0,
+    "pass": true,
+    "note": "Shared curriculum codes ~30% expected; justifications must be 0% identical"
+  },
+  "e2_validator": {
+    "clean_52": true,
+    "a_pass": 52,
+    "b_pass": 52,
+    "open_gaps_n": 0
+  },
+  "e1_validator": {
+    "clean_52": true,
+    "a_pass": 52,
+    "b_pass": 52,
+    "open_gaps_n": 0
+  }
+}

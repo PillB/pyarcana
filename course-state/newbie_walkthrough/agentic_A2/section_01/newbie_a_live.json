@@ -1,0 +1,504 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A2",
+  "section_index": 1,
+  "packet_sha": "0eecd54411857a2a",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_01/packet.json",
+  "recorded_at": "2026-07-21T22:16:52.372159+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Completa las líneas marcadas con x\n# Esto NO se ejecuta como script: cópialo al REPL línea por línea.\n\n# >>> 2 + 2\n# 4\n\n# >>> type(\"Hola\")\n# <class 'str'>\n\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n\n# >>> quit()   # salir del REPL\n\n# From iDo demo in packet:\n# 1) Verificar qué intérprete responde (anota la versión)\npython --version\n# Si falla, prueba:\npython3 --version\n\n# 2) Entrar al REPL (modo interactivo)\npython\n# En el prompt >>> escribe exactamente:\n\n# >>> 2 + 2\n# 4\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.12.3'   # ejemplo; la tuya puede ser otra 3.x\n# >>> type(\"Hola Perú\")\n# <class 'str'>\n# >>> quit()\n\n# 3) Tras quit(), vuelves a la shell. El proceso Python ya terminó.\n# Crear carpeta del proyecto (siguiente paso del setup)\nmkdir python-ds-journey\ncd python-ds-journey\n\n# Preferir python -m pip para atar pip al mismo intérprete\npython -m pip --version",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Completa",
+        "marcadas",
+        "Esto",
+        "ejecuta",
+        "script",
+        "REPL",
+        "type",
+        "Hola"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T1-A-E1. Instruction del paquete: E1 (guiado) — Completa el transcript de una sesión REPL: suma, type() e import de sys. No crees un archivo .py; simula el diálogo en comentarios y luego pruébalo en tu terminal real.. Hints: En el REPL el prompt es >>>. Tras import sys, usa sys.version.split()[0] para la versión corta.; Para salir usa quit() o exit(). Eso no cierra la terminal: vuel. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"x\"  # usa un nombre sintético, no datos reales de terceros\n    version = sys.x.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\n# Completa el entrypoint profesional (no dejes el script sin if __name__)\nif x == \"x\":\n    quit()",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sys",
+        "def",
+        "main",
+        "None",
+        "nombre",
+        "usa",
+        "datos"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T1-A-E2. Instruction del paquete: E2 (independiente) — Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con sys. Debe usar `if __name__ == \"__main__\":` y salir con código 0 al correrse como script (no en el R. Hints: Importa sys. La versión corta es sys.version.split()[0]. Envuelve la lógica en main().; El bloque if __name__ == \"__main__\": llama a main(). Así el archivo es u. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. x\n2. x\n3. x\n4. x\n5. x (opcional)\n6. x (opcional)\n\n## Verificación final\n- Comando: x\n- Resultado esperado: Python 3.12+ (o 3.x del curso)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "encontrado",
+        "Contexto",
+        "Caso",
+        "Windows",
+        "python",
+        "version",
+        "reconoce",
+        "macOS"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T1-A-E3. Instruction del paquete: E3 (transferencia) — Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtiene \"no se reconoce como comando\". En macOS, `python` falla pero `python3 --version` muestra 3.12.1.. Hints: En Windows el culpable típico es el PATH o el alias de la Microsoft Store. En macOS/Linux suele bastar usar python3 de forma consistente.; Cierra y reabre la te. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Completa los x y ejecuta en tu shell\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(x)\"\necho \"codigo_ok=$x\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(x)\"\necho \"codigo_fail=$x\"\n\n# 3) Anota tu shell: bash | zsh | powershell\n# SHELL_USADA=x",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Completa",
+        "ejecuta",
+        "shell",
+        "python3",
+        "import",
+        "sys",
+        "print",
+        "exit"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T1-B-E1. Instruction del paquete: E1 (guiado) — Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1, y anota `$?` (bash/zsh) o `$LASTEXITCODE` (PowerShell). No subas secretos ni rutas de usuario reales en . Hints: Tras cada comando, imprime el código de salida. En bash: echo $?. En PowerShell: echo $LASTEXITCODE.; python3 -c \"import sys; sys.exit(0)\" debe dejar 0; sys.exi. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import sys\n\ndef main() -> None:\n    # sys.argv: [script, arg1, arg2, ...]\n    args = sys.argv[1:]\n    if x(args) != x:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.x)\n        sys.exit(x)\n    print(f\"OK:{args[0]}\")\n    sys.exit(x)\n\nif __name__ == \"__main__\":\n    main()",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sys",
+        "def",
+        "main",
+        "None",
+        "argv",
+        "script",
+        "arg1"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T1-B-E2. Instruction del paquete: E2 (independiente) — Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos, imprime `OK:<arg>` y termina con código 0; si no hay argumentos (o hay más de uno), imprime un men. Hints: sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1].; print(..., file=sys.stderr) para el mensaje de error. sys.exit(0) vs s. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# 1) Verificar qué intérprete responde (anota la versión)\npython --version\n# Si falla, prueba:\npython3 --version\n\n# 2) Entrar al REPL (modo interactivo)\npython\n# En el prompt >>> escribe exactamente:\n\n# >>> 2 + 2\n# 4\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.12.3'   # ejemplo; la tuya puede ser otra 3.x\n# >>> type(\"Hola Perú\")\n# <class 'str'>\n# >>> quit()\n\n# 3) Tras quit(), vuelves a la shell. El proceso Python ya terminó.\n# Crear carpeta del proyecto (siguiente paso del setup)\nmkdir python-ds-journey\ncd python-ds-journey\n\n# Preferir python -m pip para atar pip al mismo intérprete\npython -m pip --version\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Verificar",
+        "responde",
+        "anota",
+        "python",
+        "version",
+        "falla",
+        "prueba",
+        "python3"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T1-B-E3. Instruction del paquete: E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaje es \"pip no se reconoce como comando\"; en otro, pip corre pero `python -c \"import pandas\"` falla c. Hints: Pregunta siempre: ¿qué ejecutable falló? ¿qué python usa import? Preferir python -m pip para atar pip al mismo intérprete.; Escenario A: el shell no encuentra p. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv x\n\n# 2) Activar (Unix)\nsource x/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.x)\"\n\n# 4) Salir\nx",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "mkdir",
+        "lab_venv_t2a",
+        "Crear",
+        "python3",
+        "venv",
+        "Activar",
+        "Unix",
+        "source"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T2-A-E1. Instruction del paquete: E1 (guiado) — En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actívalo y verifica que `sys.prefix` apunta a esa carpeta. Luego ejecuta `deactivate`.. Hints: Comando de creación: python3 -m venv .venv. Activación Unix: source .venv/bin/activate. Windows: .venv\\Scripts\\Activate.ps1; Verifica con: python -c \"import sys. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Supón que ya tienes hello.py en el proyecto y un .venv roto.\n# Completa:\n\n# 0) Asegúrate de no estar usando el venv viejo\nx 2>/dev/null || true\n\n# 1) Eliminar entorno roto\nx .venv\n\n# 2) Recrear\npython3 -m venv x\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "tienes",
+        "hello",
+        "proyecto",
+        "venv",
+        "roto",
+        "Completa",
+        "estar",
+        "usando"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T2-A-E2. Instruction del paquete: E2 (independiente) — Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (o renómbrala) y recrea un `.venv` limpio sin tocar tu código fuente. Documenta los comandos en orden. Hints: El código (.py, README) vive fuera de .venv. Borrar .venv no borra tus scripts si están en la raíz del proyecto.; rm -rf .venv  (Unix) o Remove-Item -Recurse -F. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nx\n\n## Flujo recomendado (este curso)\n1. x\n2. x\n3. x\n\n## Nota sobre la herramienta\n- venv es x (stdlib / terceros)\n- Nombre canónico de carpeta: x",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "instalar",
+        "pandas",
+        "Python",
+        "global",
+        "Escenario",
+        "conflicto",
+        "Flujo",
+        "recomendado"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T2-A-E3. Instruction del paquete: E3 (transferencia) — Un colega propone instalar pandas con `pip install pandas` en el Python global “para no perder tiempo con venv”. Escribe un párrafo (5–8 oraciones) o un markdown corto que: (1) ex. Hints: Usa el escenario: Proyecto A necesita pandas 1.x; Proyecto B necesita 2.x. Un solo site-packages global no puede satisfacer ambos.; Cierra con el flujo: python . Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "source .venv/bin/activate   # o Activate.ps1 en Windows\n\npython -m pip install requests==x\npython -m x freeze > x.txt\n\n# Verifica:\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.x)\"",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "source",
+        "venv",
+        "bin",
+        "activate",
+        "Activate",
+        "ps1",
+        "Windows",
+        "python"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T2-B-E1. Instruction del paquete: E1 (guiado) — Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.32.3`), genera `requirements.txt` con freeze y verifica que el archivo contiene `paquete==versión`. No use. Hints: Siempre: python -m pip install ... y python -m pip freeze > requirements.txt; Si freeze lista paquetes del sistema y no del proyecto, no activaste el venv. Revi. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Parte de un requirements.txt existente en la raíz\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r x\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Parte",
+        "requirements",
+        "txt",
+        "existente",
+        "python3",
+        "venv",
+        "venv_replica",
+        "source"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T2-B-E2. Instruction del paquete: E2 (independiente) — Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo** entorno limpio (`.venv_replica` o borra y recrea `.venv`), actívalo e instala con `python -m pip . Hints: No copies site-packages a mano. El contrato es el archivo -r.; python3 -m venv .venv_replica && source .venv_replica/bin/activate && python -m pip install -r re. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nx\n\n## Hipótesis B — instalado en otro intérprete\nx\n\n## Protocolo (5 pasos)\n1. x\n2. x\n3. x\n4. x\n5. x\n\n## ¿stdlib o terceros?\n- requests: x\n- datetime: x",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Forense",
+        "ModuleNotFoundError",
+        "nunca",
+        "instalado",
+        "otro",
+        "Protocolo",
+        "pasos",
+        "stdlib"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T2-B-E3. Instruction del paquete: E3 (transferencia) — Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y falla. En un caso, nunca instaló el paquete; en otro, lo instaló con un `pip` de otro Python. Escribe. Hints: Primero identifica el intérprete; luego pregunta si el módulo es stdlib; luego instala con python -m pip en ese intérprete/venv.; requests es de terceros; sys/d. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit x README.md\ngit commit -m \"x: agregar README de practica\"\ngit log -1 --oneline",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "mkdir",
+        "lab_git_t3a",
+        "git",
+        "init",
+        "echo",
+        "lab",
+        "README",
+        "commit"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T3-A-E1. Instruction del paquete: E1 (guiado) — En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensaje Conventional Commits (`docs:` o `feat:`). Verifica con `git log -1`. No uses mensajes vacíos ni “wip”.. Hints: git add <archivo> && git commit -m \"docs: ...\" — el prefijo va en minúsculas seguido de dos puntos y espacio.; Si Git pide identidad: git config user.email y us. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Lectura de diff\n\n## Comandos usados\nx\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nx\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nx\n\n## 3) Resumen en una frase\nx",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Lectura",
+        "diff",
+        "Comandos",
+        "usados",
+        "aparecen",
+        "git",
+        "show",
+        "HEAD"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T3-A-E2. Instruction del paquete: E2 (independiente) — Modifica un README ya commiteado (agrega una línea), haz commit, y responde en un markdown corto: (1) qué muestra `git show HEAD` en líneas `+`; (2) diferencia entre archivo nuevo. Hints: Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD; Archivo nuevo: todo el contenido aparece con +. Modificado: solo las líneas tocada. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\nx\n\n## Justificación\nx\n\n## Reescritura de A (si fuera un commit temporal local que luego se limpia)\nx\n\n## Reescritura de C\nx",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Mejor",
+        "mensaje",
+        "commit",
+        "Candidatos",
+        "wip",
+        "feat",
+        "agregar",
+        "smoke"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T3-A-E3. Instruction del paquete: E3 (transferencia) — Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello_env.py` que imprime la versión de Python): (A) `wip`, (B) `feat: agregar smoke hello_env`, (C) `Ac. Hints: El mejor es claro, con prefijo de tipo y descripción imperativa del *porqué/qué* observable.; wip no es aceptable en main; “Actualicé cosas” no dice qué archivo. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "git switch main\ngit switch -c x/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"x: agregar nota de practica\"\ngit branch",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "git",
+        "switch",
+        "main",
+        "practica",
+        "s01",
+        "echo",
+        "nota",
+        "txt"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T3-B-E1. Instruction del paquete: E1 (guiado) — Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`, añade un archivo pequeño, commit con `feat:` y lista las ramas. No hagas force-push. Si no tienes remote. Hints: git switch -c feat/practica-s01  (equivalente moderno a checkout -b); git branch debe mostrar * feat/practica-s01. El commit debe vivir en esa rama, no solo en . Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Título del PR\nx\n\n## Resumen\n- x\n- x\n- x\n\n## Plan de prueba\n1. x\n2. x\n3. x\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] x",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Resumen",
+        "Plan",
+        "prueba",
+        "Seguridad",
+        "incluye",
+        "env",
+        "secretos",
+        "independiente"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T3-B-E2. Instruction del paquete: E2 (independiente) — Redacta la descripción de un Pull Request (markdown) para una rama que agrega `scripts/hello_env.py` y actualiza el README de instalación. Incluye: título, resumen (3 bullets), pl. Hints: Título al estilo Conventional Commits; cuerpo orientado al revisor, no a ti.; Plan de prueba: comandos concretos (venv, install -r, python scripts/hello_env.py). Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. x\n2. x\n\n## ¿Cuándo stash en su lugar?\nx\n\n## Por qué NO force-push a main\nx\n\n## Por qué no reset --hard como default\nx",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "destructiva",
+        "README",
+        "modificado",
+        "sin",
+        "commit",
+        "cambio",
+        "indeseado",
+        "Procedimiento"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T3-B-E3. Instruction del paquete: E3 (transferencia) — Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te dice “usa `reset --hard`” y otro “`push --force` a main”. Escribe el procedimiento correcto con `git . Hints: restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno reescribe main remoto.; reset --hard borra trabajo no commiteado sin re. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "[tool.x]\nline-length = x\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"x\", \"x\", \"x\"]",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "tool",
+        "line",
+        "length",
+        "target",
+        "version",
+        "py312",
+        "ruff",
+        "lint"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T4-A-E1. Instruction del paquete: E1 (guiado) — Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-version) y `[tool.ruff.lint] select = [\"E\", \"F\", \"I\"]`. No hace falta publicar en PyPI; solo config local.. Hints: TOML usa secciones entre corchetes y listas con corchetes para select.; target-version como \"py312\" (string). line-length es número sin comillas.. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import sys\nimport os\nfrom datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n\n# Tarea del estudiante: ruff check → quitar imports sin usar (sys, os)",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sys",
+        "from",
+        "datetime",
+        "def",
+        "main",
+        "None",
+        "print"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T4-A-E2. Instruction del paquete: E2 (independiente) — Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -m ruff check` y corrige hasta exit 0. Entrega el script limpio (sin imports muertos).. Hints: F401 = imported but unused. La corrección habitual es borrar el import.; python -m pip install ruff && python -m ruff check archivo.py. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [x]`\n\n## Por qué no ALL el día 1\nx\n\n## Qué cubren E, F, I\nx\n\n## Cuándo ampliar\nx",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Select",
+        "repo",
+        "datos",
+        "S01",
+        "Propuesta",
+        "select",
+        "ALL",
+        "cubren"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T4-A-E3. Instruction del paquete: E3 (transferencia) — Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebooks. Justifica por escrito un `select` mínimo (E/F/I u otro set pequeño) para S01: qué ganas, qué rui. Hints: ALL genera cientos de hallazgos; el equipo deja de mirar el linter. Empieza por errores reales (F) y estilo básico (E/I).; Ampliar cuando el check limpio en E/F. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Entornos\nx/\nx/\n\n# Bytecode\nx/\nx\n\n# Secretos\nx\n\n# Jupyter\n.ipynb_checkpoints/",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Entornos",
+        "Bytecode",
+        "Secretos",
+        "Jupyter",
+        "ipynb_checkpoints",
+        "guiado",
+        "Completa",
+        "gitignore"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T4-B-E1. Instruction del paquete: E1 (guiado) — Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env` e ipynb checkpoints. Verifica con `git check-ignore -v .env` en un repo de p. Hints: Una entrada por línea. Las barras finales marcan directorios.; Incluye AMBOS: .venv/ y venv/. Si .env ya estaba trackeado, git rm --cached .env tras el ignore.. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=\nDB_HOST=\nLOG_LEVEL=\nprint(\"hola\")",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Copia",
+        "env",
+        "completa",
+        "valores",
+        "locales",
+        "nunca",
+        "commitees",
+        "API_URL"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T4-B-E2. Instruction del paquete: E2 (independiente) — Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_URL`, `DB_HOST`, `LOG_LEVEL`) con valores vacíos o ficticios no sensibles. Confirma que `.env` real no. Hints: Clave=valor; el valor en example es placeholder. El .env local puede tener secretos pero queda ignorado.; Patrones prohibidos en example: sk-..., passwords real. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. x\n- [ ] 2. x\n- [ ] 3. x\n- [ ] 4. x\n- [ ] 5. x\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Checklist",
+        "limpia",
+        "esqueleto",
+        "Datos",
+        "data",
+        "clients_synthetic",
+        "csv",
+        "data_dictionary"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S01-T4-B-E3. Instruction del paquete: E3 (transferencia) — Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verificables (clon → venv → install -r → smoke → ignore de .env) que un revisor pueda tildar. Incluye menc. Hints: Cada ítem debe ser observable (comando + resultado esperado), no “que se vea bonito”.; Incluye: git check-ignore .env; python scripts/hello_env.py exit 0; exist. Teoría activa: Por qué el setup importa más de lo que crees | El intérprete Python y el REPL | El intérprete en la terminal (comandos de verificación) | Terminal, rutas y códigos de salida | cwd, PATH y códigos de s. iDo demos: S01-T1-B-DEMO | S01-T2-A-DEMO | S01-T2-A-DEMO | S01-T2-B-DEMO | S01-T3-A-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] La teoría define el entorno virtual como carpeta con su propio Python y paquetes 'para no mezclar dependencias entre proyectos' y la regla 'un proyecto = un entorno = un conjunto de dependencias' para evitar conflictos de versiones."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": ".venv/ (o venv/)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] La teoría de venv dice que `.venv` (y `venv`) 'deben ir en `.gitignore` — nunca subas el entorno a GitHub' porque pesa mucho y se regenera. requirements.txt y README sí van al repo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "\"feat: agregar cálculo de churn por segmento\"",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Conventional Commits usa prefijos como `feat:` en imperativo; el paquete da ejemplos `feat: agregar script hello_env` y dice evitar 'cambios', 'wip', 'arreglé algo'."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "pip install -r requirements.txt",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] El flujo del setup: el colega clona, crea venv y ejecuta `pip install -r requirements.txt` para instalar los paquetes listados y 'replicar' el entorno. freeze + install -r es el snapshot reproducible."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Teoría: '**.env** guarda secretos y variables locales (API keys, contraseñas). **Nunca** va al repo'. Por eso no se sube a GitHub: contiene credenciales."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "persona_seed": "fd6479f20fe0",
+  "run": "agentic_A2_second_consecutive"
+}

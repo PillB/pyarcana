@@ -1,0 +1,1364 @@
+{
+  "attempt_id": "agentic_K1",
+  "section_index": 50,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "78058f8237924509"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "databases-orm",
+      "title": "Visualización y comunicación accesible",
+      "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+      "learningOutcomes": [
+        "Elegir charts por pregunta y audiencia",
+        "Diseñar ejes, escalas y encodings honestos",
+        "Producir figuras Matplotlib (estilo Seaborn opcional)",
+        "Anotar y exportar de forma reproducible",
+        "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+        "Proveer alternativas accesibles y cuidar performance",
+        "Documentar unidades, fuente y limitaciones",
+        "Aplicar contraste, alt text y no sobreclaim"
+      ]
+    },
+    {
+      "index": 20,
+      "id": "rag",
+      "title": "Automatización robusta de Excel",
+      "tagline": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+      "learningOutcomes": [
+        "Manipular sheets, celdas, tablas y named ranges",
+        "Distinguir fórmulas de valores cacheados",
+        "Aplicar estilos, charts y plantillas",
+        "Manejar fechas, locales, merged cells y protección",
+        "Conciliar totales y trabajar con pivots lógicos",
+        "Preservar estructura y validaciones",
+        "Operar batch con corruptos y locks",
+        "Garantizar backups, idempotencia y tests estructurales"
+      ]
+    },
+    {
+      "index": 21,
+      "id": "fastapi",
+      "title": "Documentos, plantillas y reportes trazables",
+      "tagline": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+      "learningOutcomes": [
+        "Separar datos y presentación con Jinja",
+        "Renderizar condiciones/tablas con formato seguro",
+        "Generar, abrir, extraer y renderizar DOCX/PDF locales",
+        "Distinguir PDF digital de imagen/OCR",
+        "Estructurar informe ejecutivo con método y hallazgos",
+        "Embeber gráficos/tablas con fuentes y limitaciones",
+        "Revisar redacción, a11y y consistencia numérica",
+        "Documentar provenance y flujo de aprobación"
+      ]
+    },
+    {
+      "index": 22,
+      "id": "rapidfuzz-entity",
+      "title": "Email, identidad y aprobación humana",
+      "tagline": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+      "learningOutcomes": [
+        "Construir mensajes MIME con encoding y attachments",
+        "Sanitizar templates HTML de correo",
+        "Configurar OAuth/service account con scopes mínimos",
+        "Crear drafts vía adaptadores con expiración",
+        "Resolver y verificar destinatarios",
+        "Aplicar privacidad y mínima divulgación en listas",
+        "Implementar approval queue y state machine",
+        "Garantizar idempotencia, audit log y reintentos seguros"
+      ]
+    },
+    {
+      "index": 23,
+      "id": "computer-vision",
+      "title": "Browser RPA con Playwright",
+      "tagline": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente",
+      "learningOutcomes": [
+        "Usar locators orientados a usuario",
+        "Aplicar auto-waiting y assertions fiables",
+        "Automatizar formularios, uploads y downloads",
+        "Modelar auth y Page Objects",
+        "Diagnosticar con trace, screenshot y logs",
+        "Diseñar retries y recovery robustos",
+        "Priorizar API/export sobre RPA",
+        "Respetar ToS/CAPTCHA y handoff humano"
+      ]
+    },
+    {
+      "index": 24,
+      "id": "rpa-advanced",
+      "title": "OCR y Document AI",
+      "tagline": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
+      "learningOutcomes": [
+        "Preprocesar imágenes (DPI, deskew, crop, contraste)",
+        "Corregir ruido y orientación",
+        "Ejecutar OCR con idiomas, layout y confidence",
+        "Extraer texto, tablas y pares clave–valor",
+        "Normalizar a schema de extracción",
+        "Validar cross-field y encolar revisión",
+        "Evaluar exactitud por campo en golden set",
+        "Manejar privacidad, hostiles y fallback"
+      ]
+    },
+    {
+      "index": 25,
+      "id": "streamlit-dashboards",
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "tagline": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
+      "learningOutcomes": [
+        "Elegir regla vs modelo especializado vs LLM",
+        "Usar model cards, licencias y decidir local/cloud",
+        "Ejecutar pipelines/endpoints de Hugging Face",
+        "Operar batching, timeout, cache, costo y fallback",
+        "Diseñar prompts con salida estructurada",
+        "Usar thinking/tools/checkpoints de forma controlada",
+        "Evaluar con golden set, schema y revisión humana",
+        "Mitigar injection, exfiltración, sesgo y minimizar datos"
+      ]
+    },
+    {
+      "index": 26,
+      "id": "integrator-phase1",
+      "title": "Orquestación y VP RPA + AI Analyst",
+      "tagline": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas",
+      "learningOutcomes": [
+        "Modelar tasks/flows/DAG con estados",
+        "Configurar límites, metadata y schedules",
+        "Implementar checkpoints, retry/backoff y dead-letter",
+        "Garantizar idempotencia, concurrencia y rollback",
+        "Diseñar revisión humana de análisis/reporte/destinatario",
+        "Operar aprobación, rechazo, edición y auditoría",
+        "Definir SLO, alerts y runbook",
+        "Validar E2E, seguridad, costo y métricas de valor"
+      ]
+    },
+    {
+      "index": 27,
+      "id": "async-concurrency",
+      "title": "Estrategia de pruebas con pytest",
+      "tagline": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
+      "learningOutcomes": [
+        "Priorizar pruebas según riesgo y pirámide",
+        "Escribir tests AAA con oráculos confiables",
+        "Usar discovery y assertions de pytest",
+        "Aislar estado con fixtures y scopes",
+        "Cubrir excepciones, floats, fechas y tmp files",
+        "Diseñar casos negativos con mensajes útiles",
+        "Medir cobertura por rama y riesgo",
+        "Interpretar mutación conceptual y fallas útiles"
+      ]
+    },
+    {
+      "index": 28,
+      "id": "llm-agents",
+      "title": "Pruebas de datos, propiedades e integración",
+      "tagline": "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
+      "learningOutcomes": [
+        "Generar casos desde invariantes",
+        "Aplicar tests metamórficos y de simetría",
+        "Validar contratos de schema/calidad",
+        "Detectar drift y reconciliar goldens",
+        "Doblar HTTP/DB/reloj con control",
+        "Escribir contract tests sin sobre-mocking",
+        "Montar integración/E2E con containers (concepto)",
+        "Eliminar flakes y fijar determinismo en CI"
+      ]
+    },
+    {
+      "index": 29,
+      "id": "mlops",
+      "title": "SQL avanzado y modelado relacional",
+      "tagline": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia",
+      "learningOutcomes": [
+        "Modelar claves y constraints correctos",
+        "Preservar temporalidad y provenance",
+        "Escribir CTEs, windows y anti-joins",
+        "Razonar cardinalidad, NULL y planes",
+        "Elegir isolation y garantizar ACID",
+        "Implementar upserts y recuperación",
+        "Diseñar índices y migrations seguras",
+        "Aplicar repository, pooling y tests"
+      ]
+    },
+    {
+      "index": 30,
+      "id": "security-infra",
+      "title": "Entity resolution probabilístico",
+      "tagline": "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
+      "learningOutcomes": [
+        "Comparar exact/edit/token/fecha",
+        "Tratar missingness y frecuencia",
+        "Diseñar blocking con recall medido",
+        "Controlar costo y pares imposibles",
+        "Estimar pesos y umbrales",
+        "Operar review y consistencia de cluster",
+        "Partir datos por entidad sin leakage",
+        "Reportar métricas pairwise/cluster y slices"
+      ]
+    },
+    {
+      "index": 31,
+      "id": "streaming-data",
+      "title": "Grafos y evidencia relacional",
+      "tagline": "grafo temporal que responde cómo están conectados con camino reproducible y no convierte centralidad en culpabilidad",
+      "learningOutcomes": [
+        "Modelar nodos/aristas con peso y dirección",
+        "Representar multigrafo temporal con provenance",
+        "Construir grafo desde entidades y transacciones",
+        "Agregar sin borrar detalle fuente",
+        "Calcular grado, componentes y caminos",
+        "Interpretar centralidad con límites",
+        "Extraer subgrafos y probarlos",
+        "Visualizar con privacidad y evidencia por arista"
+      ]
+    },
+    {
+      "index": 32,
+      "id": "microservices",
+      "title": "Feature engineering y pipelines sin leakage",
+      "tagline": "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión",
+      "learningOutcomes": [
+        "Diseñar features numéricas/categóricas/texto",
+        "Aplicar missing indicators, scale y encoding",
+        "Crear features relacionales y de grafo",
+        "Calcular ventanas y frecuencias sin leakage",
+        "Componer transformers reutilizables",
+        "Persistir fit y reutilizar en inferencia",
+        "Partir por entidad/grupo/tiempo",
+        "Detectar leakage y versionar features"
+      ]
+    },
+    {
+      "index": 33,
+      "id": "advanced-models",
+      "title": "ML supervisado y baselines responsables",
+      "tagline": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor",
+      "learningOutcomes": [
+        "Definir unidad, target y horizonte",
+        "Fijar baseline de regla y dummy",
+        "Entrenar modelos lineales regularizados",
+        "Interpretar coeficientes y supuestos",
+        "Entrenar árboles y ensambles",
+        "Controlar overfit y reproducibilidad",
+        "Registrar experimentos mínimos",
+        "Hacer CV y análisis de errores"
+      ]
+    },
+    {
+      "index": 34,
+      "id": "cv-ai-integration",
+      "title": "Métricas, desbalance, calibración y umbrales",
+      "tagline": "Relationship Investigation Workbench: grafo + evidencia con ranking calibrado para revisión; no etiqueta fraude automáticamente",
+      "learningOutcomes": [
+        "Elegir métricas para desbalance",
+        "Dimensionar top-k y carga de revisión",
+        "Balancear clases sin leakage en CV",
+        "Evitar métricas engañosas por prevalencia",
+        "Evaluar calibración con Brier/reliability",
+        "Calibrar y evaluar fuera de muestra",
+        "Elegir umbral por costo y capacidad",
+        "Aplicar abstención y sensibilidad por slice"
+      ]
+    },
+    {
+      "index": 35,
+      "id": "system-design",
+      "title": "Explicabilidad, equidad e incertidumbre",
+      "tagline": "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
+      "learningOutcomes": [
+        "Explicar con coeficientes e importancia",
+        "Delimitar explicación local y correlación",
+        "Medir equidad por cohorte/slice",
+        "Detectar proxies y daño diferencial",
+        "Comunicar incertidumbre y conformal",
+        "Abstener ante OOD",
+        "Documentar model card y contestabilidad",
+        "Operar aprobación, override y retiro"
+      ]
+    },
+    {
+      "index": 36,
+      "id": "ai-apis-advanced",
+      "title": "Clustering, anomalías y validación temporal",
+      "tagline": "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida",
+      "learningOutcomes": [
+        "Aplicar clustering con escalamiento previo de features",
+        "Elegir k con estabilidad multi-seed y reportar límites de métricas internas",
+        "Proyectar con PCA (o pesos toy) solo para exploración visual",
+        "Interpretar proyecciones con prudencia y sin auto-etiquetar culpa",
+        "Detectar rareza con reglas σ e ideas IF/LOF sin veredicto de conducta",
+        "Distinguir novelty vs outlier y calibrar contamination a capacidad de review",
+        "Validar con backtests temporales y ventanas sin leakage",
+        "Evaluar con labels escasos vía precision@k y revisión humana obligatoria"
+      ]
+    },
+    {
+      "index": 37,
+      "id": "dbt-bigquery",
+      "title": "Profiling, algoritmos y rendimiento",
+      "tagline": "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada",
+      "learningOutcomes": [
+        "Profilear wall/CPU y memoria con n explícito",
+        "Benchmarkear con warmup, mediana y nota de variabilidad",
+        "Analizar complejidad O(n²) y medir reducción por blocking",
+        "Reducir candidatos con estructuras e índices invertidos",
+        "Aplicar dtypes, chunks y lectura columnar mínima",
+        "Diseñar cache con invalidación y estrategia out-of-core",
+        "Fijar performance budgets y tests de regresión en CI light",
+        "Priorizar costo total y claridad sobre microoptimización del 2%"
+      ]
+    },
+    {
+      "index": 38,
+      "id": "performance-extreme",
+      "title": "Concurrencia, observabilidad y workflows resilientes",
+      "tagline": "pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución",
+      "learningOutcomes": [
+        "Elegir threads, processes o async según bottleneck medido (I/O vs CPU)",
+        "Razonar GIL, costo de serialización e IPC con payloads compactos",
+        "Aplicar pools, backpressure (queue maxsize) y rate limits (token bucket)",
+        "Definir timeouts, cancelación y cierre de recursos en finally",
+        "Emitir logs estructurados, metrics de cola y traces con correlation_id",
+        "Redactar PII, definir SLI/SLO y consumir error budget con criterio",
+        "Implementar estados, checkpoint e idempotency keys sin side effects duplicados",
+        "Operar retry con backoff, DLQ, replay controlado y runbook de on-call"
+      ]
+    },
+    {
+      "index": 39,
+      "id": "integrator-phase2",
+      "title": "Responsible ML Case Triage y cierre de nivel",
+      "tagline": "Responsible ML Case Triage con baseline, calibración, abstención, monitoreo y revisión; promoción N3 con regresión S27–S39 y CF-3",
+      "learningOutcomes": [
+        "Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos versionados",
+        "Registrar ownership, semver y política de compatibilidad por artefacto del triage",
+        "Armar cola, evidence packet y explicación en capas sin exponer solo un número",
+        "Operar decisión automática, override humano, feedback y apelación con audit log",
+        "Aplicar checklist de privacidad, fairness por slices y seguridad de inputs del packet",
+        "Monitorear drift, activar human_only, rollback de modelo/umbral y abstención",
+        "Definir criterios de aceptación, demo e2e sintético y smoke de regresión S27–S39",
+        "Publicar model/data/system cards, métricas de valor operativo y postmortem blameless"
+      ]
+    },
+    {
+      "index": 40,
+      "id": "agentic-architecture",
+      "title": "Arquitectura, DDD y decisiones técnicas",
+      "tagline": "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos",
+      "learningOutcomes": [
+        "Captura FR y quality attributes",
+        "Documenta trade-offs y riesgos medibles",
+        "Diseña capas con baja coupling",
+        "Aplica ports/adapters hacia dominio",
+        "Delinea bounded contexts",
+        "Modela entities, VO y servicios",
+        "Documenta C4 y ADRs",
+        "Evoluciona APIs/eventos con compatibilidad"
+      ]
+    },
+    {
+      "index": 41,
+      "id": "llm-finetuning",
+      "title": "APIs con FastAPI y contratos HTTP",
+      "tagline": "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas",
+      "learningOutcomes": [
+        "Diseña recursos HTTP y status",
+        "Versiona, pagina e idempotiza",
+        "Estructura routing y dependencies",
+        "Valida, serializa y documenta",
+        "Separa sync/async y background",
+        "Maneja errores, timeouts y lifecycle",
+        "Prueba unit/contract/integration",
+        "Verifica compat, rate limit y obs"
+      ]
+    },
+    {
+      "index": 42,
+      "id": "graph-rag",
+      "title": "Schemas, seguridad y privacidad de servicios",
+      "tagline": "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted",
+      "learningOutcomes": [
+        "Define schemas Pydantic/JSON Schema",
+        "Evoluciona schemas con validación de negocio",
+        "Implementa authn/authz RBAC",
+        "Aplica scopes y deny-by-default",
+        "Mitiga injection/SSRF/path traversal",
+        "Gestiona secretos, cifrado y deps",
+        "Minimiza datos y fija retención",
+        "Audita, borra y seudonimiza accesos"
+      ]
+    },
+    {
+      "index": 43,
+      "id": "llmops",
+      "title": "Contenedores y reproducibilidad operativa",
+      "tagline": "Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas",
+      "learningOutcomes": [
+        "Optimiza Dockerfile y layers",
+        "Usa non-root y reduce tamaño",
+        "Inyecta config/secrets/volumes",
+        "Configura net, health y signals",
+        "Compone API/worker/DB/cache",
+        "Ordena deps, migrations y datos efímeros",
+        "Fija locks y multi-stage",
+        "Escanea, limita recursos y debugguea"
+      ]
+    },
+    {
+      "index": 44,
+      "id": "multimodal",
+      "title": "CI/CD y seguridad de la cadena de suministro",
+      "tagline": "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback",
+      "learningOutcomes": [
+        "Corre lint/types/tests en matrices",
+        "Usa caches, artifacts y condiciones",
+        "Minimiza permisos y escanea secretos",
+        "Genera SBOM, provenance y attestations",
+        "Configura environments y approvals",
+        "Despliega con canary y rollback",
+        "Aplica políticas de branch/review",
+        "Maneja fallos con evidencia auditable"
+      ]
+    },
+    {
+      "index": 45,
+      "id": "iac",
+      "title": "Cloud, almacenamiento, colas e infraestructura",
+      "tagline": "job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados",
+      "learningOutcomes": [
+        "Elige object/relacional/cache",
+        "Define consistencia, lifecycle y backups",
+        "Diseña colas y delivery semantics",
+        "Garantiza dedup, orden y DLQ",
+        "Dimensiona compute y red",
+        "Restringe IAM, paths privados y egress",
+        "Declara infra y environments",
+        "Presupuesta costo y recovery"
+      ]
+    },
+    {
+      "index": 46,
+      "id": "gpu-computing",
+      "title": "Ingeniería de datos y orquestación de producción",
+      "tagline": "pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto",
+      "learningOutcomes": [
+        "Maneja ventanas y watermarks",
+        "Trata late data y exactly-once compuesto",
+        "Modela DAG/assets y deps",
+        "Programa backfills y recupera estado",
+        "Valida contracts y freshness",
+        "Registra lineage y ownership",
+        "Carga incremental por particiones",
+        "Opera SLO e incidentes de datos"
+      ]
+    },
+    {
+      "index": 47,
+      "id": "opensource",
+      "title": "MLOps: experimentos, registro y serving",
+      "tagline": "Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4",
+      "learningOutcomes": [
+        "Trackea experimentos reproducibles",
+        "Compara runs con lineage completo",
+        "Registra con stages y approvals",
+        "Publica artefactos y compatibilidad",
+        "Sirve batch/online con features consistentes",
+        "Controla latency, batching y fallback",
+        "Despliega shadow/canary con monitoring",
+        "Revierte, retira y audita modelos"
+      ]
+    },
+    {
+      "index": 48,
+      "id": "ai-governance",
+      "title": "LLM applications y RAG con evidencia",
+      "tagline": "asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta",
+      "learningOutcomes": [
+        "Calcula embeddings y similarity",
+        "Versiona embeddings y evalúa límites",
+        "Chunking con metadata y dedup",
+        "Respeta ACL, deletion y provenance",
+        "Recupera hybrid y rerankea",
+        "Arma contexto con citas y permisos",
+        "Genera structured grounded output",
+        "Evalúa retrieval/answer y se abstiene"
+      ]
+    },
+    {
+      "index": 49,
+      "id": "data-contracts",
+      "title": "Agentes, herramientas y context engineering",
+      "tagline": "agente acotado consulta casos/reportes y prepara propuesta; no envía, no modifica prod ni decide riesgo sin aprobación",
+      "learningOutcomes": [
+        "Elige workflow vs agente",
+        "Diseña routing planner/evaluator",
+        "Define tools de responsabilidad única",
+        "Esquema, permisos e idempotencia de tools",
+        "Minimiza contexto con JIT y checkpoints",
+        "Compacta memoria y conserva LKG",
+        "Define stops y budgets",
+        "Sandbox, aprobación humana y recovery"
+      ]
+    }
+  ],
+  "active": {
+    "id": "tech-leadership",
+    "index": 50,
+    "title": "Evals, red teaming y fiabilidad de IA",
+    "tagline": "suite repetible compara baseline/candidato y bloquea regresiones P0/P1; incluye tool calls y reanudación",
+    "jobRelevance": "En equipos de plataforma y producto, evals, red teaming y fiabilidad de ia conecta decisiones técnicas con evidencia operativa. La práctica entrega resultados por severidad, trayectoria, tool calls y decisión promote/block y se promueve solo cuando evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.",
+    "learningOutcomes": [
+      "Arma dataset y rúbrica de tareas",
+      "Evalúa resultado, proceso y recovery",
+      "Combina graders det/humanos/LLM",
+      "Calibra jueces y evita order bias",
+      "Prueba injection, exfil y tool misuse",
+      "Mitiga injection indirecta y poisoning",
+      "Detecta hallucination y abstiene",
+      "Opera latency/cost e incidentes"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S50-T1-A",
+        "heading": "task dataset y rubric",
+        "paragraphs": [
+          "El task dataset representa trabajos y slices, separa train/dev/holdout y una rúbrica ancla 0–3 con ejemplos observables.",
+          "Contrato operativo. Entrada: dataset de tareas versionado, rúbrica, baseline y candidato. Salida de este subtema: dataset versionado y rúbrica calibrada. Error: regresión P0/P1, injection exitosa, exfiltración o grader sin calibrar bloquea release. Criterio de éxito: evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.",
+          "Aplicación de `task dataset y rubric` al caso peruano sintético `CASO-ICA-050`: un copiloto sintético de operaciones para una organización ficticia en Ica. La evidencia esperada es dataset versionado y rúbrica calibrada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S50-T1-B",
+        "heading": "resultado, proceso, trajectory y recovery",
+        "paragraphs": [
+          "Evalúa outcome, proceso, trayectoria y recovery: una respuesta correcta tras una tool prohibida sigue siendo fallo.",
+          "Contrato operativo. Entrada: dataset de tareas versionado, rúbrica, baseline y candidato. Salida de este subtema: tool calls y reanudación calificadas. Error: regresión P0/P1, injection exitosa, exfiltración o grader sin calibrar bloquea release. Criterio de éxito: evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.",
+          "Aplicación de `resultado, proceso, trajectory y recovery` al caso peruano sintético `CASO-ICA-050`: un copiloto sintético de operaciones para una organización ficticia en Ica. La evidencia esperada es tool calls y reanudación calificadas. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S50-T2-A",
+        "heading": "graders deterministas/humanos/LLM",
+        "paragraphs": [
+          "Graders deterministas cubren contratos, humanos juzgan matices y LLM judges escalan; ninguno es oráculo sin calibración.",
+          "Contrato operativo. Entrada: dataset de tareas versionado, rúbrica, baseline y candidato. Salida de este subtema: acuerdo y desacuerdos medidos. Error: regresión P0/P1, injection exitosa, exfiltración o grader sin calibrar bloquea release. Criterio de éxito: evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.",
+          "Aplicación de `graders deterministas/humanos/LLM` al caso peruano sintético `CASO-ICA-050`: un copiloto sintético de operaciones para una organización ficticia en Ica. La evidencia esperada es acuerdo y desacuerdos medidos. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S50-T2-B",
+        "heading": "calibración, order bias y conjunto retenido",
+        "paragraphs": [
+          "Calibra contra ejemplos ancla, alterna orden para medir bias y protege holdout para que la optimización no lo memorice.",
+          "Contrato operativo. Entrada: dataset de tareas versionado, rúbrica, baseline y candidato. Salida de este subtema: order bias bajo umbral y holdout intacto. Error: regresión P0/P1, injection exitosa, exfiltración o grader sin calibrar bloquea release. Criterio de éxito: evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.",
+          "Aplicación de `calibración, order bias y conjunto retenido` al caso peruano sintético `CASO-ICA-050`: un copiloto sintético de operaciones para una organización ficticia en Ica. La evidencia esperada es order bias bajo umbral y holdout intacto. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S50-T3-A",
+        "heading": "prompt injection, exfiltración y tool misuse",
+        "paragraphs": [
+          "Red team intenta injection, exfiltration y tool misuse en argumentos y resultados; éxito significa que el control contiene, no que el prompt «se porta bien».",
+          "Contrato operativo. Entrada: dataset de tareas versionado, rúbrica, baseline y candidato. Salida de este subtema: ataques críticos bloqueados por policy. Error: regresión P0/P1, injection exitosa, exfiltración o grader sin calibrar bloquea release. Criterio de éxito: evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.",
+          "Aplicación de `prompt injection, exfiltración y tool misuse` al caso peruano sintético `CASO-ICA-050`: un copiloto sintético de operaciones para una organización ficticia en Ica. La evidencia esperada es ataques críticos bloqueados por policy. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S50-T3-B",
+        "heading": "indirect injection, data poisoning y least privilege",
+        "paragraphs": [
+          "Indirect injection llega en documentos/tools; poisoning altera corpus y least privilege reduce radio aunque el modelo obedezca contenido hostil.",
+          "Contrato operativo. Entrada: dataset de tareas versionado, rúbrica, baseline y candidato. Salida de este subtema: contenido recuperado no eleva permisos. Error: regresión P0/P1, injection exitosa, exfiltración o grader sin calibrar bloquea release. Criterio de éxito: evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.",
+          "Aplicación de `indirect injection, data poisoning y least privilege` al caso peruano sintético `CASO-ICA-050`: un copiloto sintético de operaciones para una organización ficticia en Ica. La evidencia esperada es contenido recuperado no eleva permisos. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S50-T4-A",
+        "heading": "hallucination y abstención",
+        "paragraphs": [
+          "Mide unsupported claims y calidad de abstención por slice; ante evidencia insuficiente se cita límite y se deriva, no se inventa.",
+          "Contrato operativo. Entrada: dataset de tareas versionado, rúbrica, baseline y candidato. Salida de este subtema: hallucination crítica cero en holdout. Error: regresión P0/P1, injection exitosa, exfiltración o grader sin calibrar bloquea release. Criterio de éxito: evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.",
+          "Aplicación de `hallucination y abstención` al caso peruano sintético `CASO-ICA-050`: un copiloto sintético de operaciones para una organización ficticia en Ica. La evidencia esperada es hallucination crítica cero en holdout. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "subtopicId": "S50-T4-B",
+        "heading": "latency/cost/caching, incident response y rollback",
+        "paragraphs": [
+          "Latencia/costo/cache forman SLO; incident response congela versión, preserva traces redactados y rollback restaura baseline conocido.",
+          "Contrato operativo. Entrada: dataset de tareas versionado, rúbrica, baseline y candidato. Salida de este subtema: rollback dentro de RTO con evidencia. Error: regresión P0/P1, injection exitosa, exfiltración o grader sin calibrar bloquea release. Criterio de éxito: evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.",
+          "Aplicación de `latency/cost/caching, incident response y rollback` al caso peruano sintético `CASO-ICA-050`: un copiloto sintético de operaciones para una organización ficticia en Ica. La evidencia esperada es rollback dentro de RTO con evidencia. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+        ],
+        "code": null,
+        "code_output": null
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S50-T1-A-DEMO",
+          "subtopicId": "S50-T1-A",
+          "environment": "local-python",
+          "description": "Demo: task dataset y rubric",
+          "why": "Hace observable `task dataset y rubric` con un caso local pequeño y deja como evidencia dataset versionado y rúbrica calibrada; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S50-T1-B-DEMO",
+          "subtopicId": "S50-T1-B",
+          "environment": "local-python",
+          "description": "Demo: resultado, proceso, trajectory y recovery",
+          "why": "Hace observable `resultado, proceso, trajectory y recovery` con un caso local pequeño y deja como evidencia tool calls y reanudación calificadas; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S50-T2-A-DEMO",
+          "subtopicId": "S50-T2-A",
+          "environment": "local-python",
+          "description": "Demo: graders deterministas/humanos/LLM",
+          "why": "Hace observable `graders deterministas/humanos/LLM` con un caso local pequeño y deja como evidencia acuerdo y desacuerdos medidos; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S50-T2-B-DEMO",
+          "subtopicId": "S50-T2-B",
+          "environment": "local-python",
+          "description": "Demo: calibración, order bias y conjunto retenido",
+          "why": "Hace observable `calibración, order bias y conjunto retenido` con un caso local pequeño y deja como evidencia order bias bajo umbral y holdout intacto; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S50-T3-A-DEMO",
+          "subtopicId": "S50-T3-A",
+          "environment": "local-python",
+          "description": "Demo: prompt injection, exfiltración y tool misuse",
+          "why": "Hace observable `prompt injection, exfiltración y tool misuse` con un caso local pequeño y deja como evidencia ataques críticos bloqueados por policy; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S50-T3-B-DEMO",
+          "subtopicId": "S50-T3-B",
+          "environment": "local-python",
+          "description": "Demo: indirect injection, data poisoning y least privilege",
+          "why": "Hace observable `indirect injection, data poisoning y least privilege` con un caso local pequeño y deja como evidencia contenido recuperado no eleva permisos; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S50-T4-A-DEMO",
+          "subtopicId": "S50-T4-A",
+          "environment": "local-python",
+          "description": "Demo: hallucination y abstención",
+          "why": "Hace observable `hallucination y abstención` con un caso local pequeño y deja como evidencia hallucination crítica cero en holdout; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S50-T4-B-DEMO",
+          "subtopicId": "S50-T4-B",
+          "environment": "local-python",
+          "description": "Demo: latency/cost/caching, incident response y rollback",
+          "why": "Hace observable `latency/cost/caching, incident response y rollback` con un caso local pequeño y deja como evidencia rollback dentro de RTO con evidencia; el demo modela el contrato, no un servicio externo.",
+          "code": null,
+          "language": null,
+          "output": null
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S50-T1-A-E1",
+          "instruction": "S50-T1-A-E1 · Calcula el contrato de `task dataset y rubric` sobre `CASO-ICA-050-1A`. La entrada es el dict completo del starter; la operación debe demostrar slices suman tasks, rúbrica 0–3 y holdout. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S50-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REBUILD_EVAL_DATASET` en E2.",
+          "hints": [
+            "Relaciona los campos `tasks`, `slices`, `rubric_levels`, `holdout` con la regla explicada en S50-T1-A.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva dataset versionado y rúbrica calibrada; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ICA-050-1A` satisface un predicado de dominio real; imprime `S50-T1-A PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\nmeets_contract = sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\n"
+        },
+        {
+          "id": "S50-T1-A-E2",
+          "instruction": "S50-T1-A-E2 · Modela tres rutas de `task dataset y rubric`: fixture válido, fixture adverso y registro sin `holdout`. Entrada: dict con case_id, tasks, slices, rubric_levels, holdout. Salidas exactas: `PASS`, `REBUILD_EVAL_DATASET`, `MISSING:holdout`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S50-T1-A: slices suman tasks, rúbrica 0–3 y holdout. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `holdout` ausente y produce exactamente `PASS REBUILD_EVAL_DATASET MISSING:holdout`.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T1-A-E3",
+          "instruction": "S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos. `CASO-ICA-050-1A` debe continuar, el adverso debe devolver `REBUILD_EVAL_DATASET` y la ausencia de `holdout` debe devolver `CALIBRATE_RUBRIC`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró slices suman tasks, rúbrica 0–3 y holdout; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ICA-050-1A`, adverso y sin `holdout` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T1-B-E1",
+          "instruction": "S50-T1-B-E1 · Compara el contrato de `resultado, proceso, trajectory y recovery` sobre `CASO-ICA-050-1B`. La entrada es el dict completo del starter; la operación debe demostrar cuatro dimensiones sobre mínimo y ninguna tool prohibida. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S50-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `FAIL_UNSAFE_TRAJECTORY` en E2.",
+          "hints": [
+            "Relaciona los campos `outcome`, `process`, `trajectory`, `recovery`, `forbidden_tool_used`, `min_dimension` con la regla explicada en S50-T1-B.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva tool calls y reanudación calificadas; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ICA-050-1B` satisface un predicado de dominio real; imprime `S50-T1-B PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\nmeets_contract = record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\n"
+        },
+        {
+          "id": "S50-T1-B-E2",
+          "instruction": "S50-T1-B-E2 · Verifica tres rutas de `resultado, proceso, trajectory y recovery`: fixture válido, fixture adverso y registro sin `min_dimension`. Entrada: dict con case_id, outcome, process, trajectory, recovery, forbidden_tool_used, min_dimension. Salidas exactas: `PASS`, `FAIL_UNSAFE_TRAJECTORY`, `MISSING:min_dimension`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S50-T1-B: cuatro dimensiones sobre mínimo y ninguna tool prohibida. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `min_dimension` ausente y produce exactamente `PASS FAIL_UNSAFE_TRAJECTORY MISSING:min_dimension`.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T1-B-E3",
+          "instruction": "S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtures distintos. `CASO-ICA-050-1B` debe continuar, el adverso debe devolver `FAIL_UNSAFE_TRAJECTORY` y la ausencia de `min_dimension` debe devolver `HUMAN_REVIEW_PROCESS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró cuatro dimensiones sobre mínimo y ninguna tool prohibida; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ICA-050-1B`, adverso y sin `min_dimension` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T2-A-E1",
+          "instruction": "S50-T2-A-E1 · Filtra el contrato de `graders deterministas/humanos/LLM` sobre `CASO-ICA-050-2A`. La entrada es el dict completo del starter; la operación debe demostrar scores acotados y acuerdo humano-LLM sobre umbral. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S50-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `RECALIBRATE_GRADERS` en E2.",
+          "hints": [
+            "Relaciona los campos `deterministic`, `human`, `llm`, `human_llm_agreement`, `min_agreement` con la regla explicada en S50-T2-A.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva acuerdo y desacuerdos medidos; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ICA-050-2A` satisface un predicado de dominio real; imprime `S50-T2-A PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\nmeets_contract = record[\"human_llm_agreement\"] < record[\"min_agreement\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\n"
+        },
+        {
+          "id": "S50-T2-A-E2",
+          "instruction": "S50-T2-A-E2 · Clasifica tres rutas de `graders deterministas/humanos/LLM`: fixture válido, fixture adverso y registro sin `min_agreement`. Entrada: dict con case_id, deterministic, human, llm, human_llm_agreement, min_agreement. Salidas exactas: `PASS`, `RECALIBRATE_GRADERS`, `MISSING:min_agreement`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S50-T2-A: scores acotados y acuerdo humano-LLM sobre umbral. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `min_agreement` ausente y produce exactamente `PASS RECALIBRATE_GRADERS MISSING:min_agreement`.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T2-A-E3",
+          "instruction": "S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures distintos. `CASO-ICA-050-2A` debe continuar, el adverso debe devolver `RECALIBRATE_GRADERS` y la ausencia de `min_agreement` debe devolver `ADJUDICATE_DISAGREEMENT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró scores acotados y acuerdo humano-LLM sobre umbral; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ICA-050-2A`, adverso y sin `min_agreement` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T2-B-E1",
+          "instruction": "S50-T2-B-E1 · Modela el contrato de `calibración, order bias y conjunto retenido` sobre `CASO-ICA-050-2B`. La entrada es el dict completo del starter; la operación debe demostrar anclas calibradas, order bias bajo y holdout intacto. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S50-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `INVALIDATE_JUDGE` en E2.",
+          "hints": [
+            "Relaciona los campos `anchor_accuracy`, `min_anchor_accuracy`, `order_gap`, `max_order_gap`, `holdout_touched` con la regla explicada en S50-T2-B.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva order bias bajo umbral y holdout intacto; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ICA-050-2B` satisface un predicado de dominio real; imprime `S50-T2-B PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\nmeets_contract = record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"]\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\n"
+        },
+        {
+          "id": "S50-T2-B-E2",
+          "instruction": "S50-T2-B-E2 · Audita tres rutas de `calibración, order bias y conjunto retenido`: fixture válido, fixture adverso y registro sin `holdout_touched`. Entrada: dict con case_id, anchor_accuracy, min_anchor_accuracy, order_gap, max_order_gap, holdout_touched. Salidas exactas: `PASS`, `INVALIDATE_JUDGE`, `MISSING:holdout_touched`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S50-T2-B: anclas calibradas, order bias bajo y holdout intacto. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `holdout_touched` ausente y produce exactamente `PASS INVALIDATE_JUDGE MISSING:holdout_touched`.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T2-B-E3",
+          "instruction": "S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fixtures distintos. `CASO-ICA-050-2B` debe continuar, el adverso debe devolver `INVALIDATE_JUDGE` y la ausencia de `holdout_touched` debe devolver `SEAL_NEW_HOLDOUT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró anclas calibradas, order bias bajo y holdout intacto; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ICA-050-2B`, adverso y sin `holdout_touched` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T3-A-E1",
+          "instruction": "S50-T3-A-E1 · Verifica el contrato de `prompt injection, exfiltración y tool misuse` sobre `CASO-ICA-050-3A`. La entrada es el dict completo del starter; la operación debe demostrar injection contenida, cero exfil y tool read-only. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S50-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_SECURITY_P0` en E2.",
+          "hints": [
+            "Relaciona los campos `injection_blocked`, `exfiltration_bytes`, `tool_scope`, `tool_args_valid`, `severity` con la regla explicada en S50-T3-A.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva ataques críticos bloqueados por policy; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ICA-050-3A` satisface un predicado de dominio real; imprime `S50-T3-A PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\nmeets_contract = not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\n"
+        },
+        {
+          "id": "S50-T3-A-E2",
+          "instruction": "S50-T3-A-E2 · Decide tres rutas de `prompt injection, exfiltración y tool misuse`: fixture válido, fixture adverso y registro sin `severity`. Entrada: dict con case_id, injection_blocked, exfiltration_bytes, tool_scope, tool_args_valid, severity. Salidas exactas: `PASS`, `BLOCK_SECURITY_P0`, `MISSING:severity`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S50-T3-A: injection contenida, cero exfil y tool read-only. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `severity` ausente y produce exactamente `PASS BLOCK_SECURITY_P0 MISSING:severity`.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T3-A-E3",
+          "instruction": "S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres fixtures distintos. `CASO-ICA-050-3A` debe continuar, el adverso debe devolver `BLOCK_SECURITY_P0` y la ausencia de `severity` debe devolver `PRESERVE_ATTACK_TRACE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró injection contenida, cero exfil y tool read-only; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ICA-050-3A`, adverso y sin `severity` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T3-B-E1",
+          "instruction": "S50-T3-B-E1 · Clasifica el contrato de `indirect injection, data poisoning y least privilege` sobre `CASO-ICA-050-3B`. La entrada es el dict completo del starter; la operación debe demostrar indirect injection como datos, poisoning removido y permiso mínimo. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S50-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `QUARANTINE_POISONED_CORPUS` en E2.",
+          "hints": [
+            "Relaciona los campos `document_instruction_treated_as_data`, `poisoned_chunks_removed`, `tool_permissions`, `requested_permission` con la regla explicada en S50-T3-B.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva contenido recuperado no eleva permisos; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ICA-050-3B` satisface un predicado de dominio real; imprime `S50-T3-B PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\nmeets_contract = not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\n"
+        },
+        {
+          "id": "S50-T3-B-E2",
+          "instruction": "S50-T3-B-E2 · Calcula tres rutas de `indirect injection, data poisoning y least privilege`: fixture válido, fixture adverso y registro sin `requested_permission`. Entrada: dict con case_id, document_instruction_treated_as_data, poisoned_chunks_removed, tool_permissions, requested_permission. Salidas exactas: `PASS`, `QUARANTINE_POISONED_CORPUS`, `MISSING:requested_permission`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S50-T3-B: indirect injection como datos, poisoning removido y permiso mínimo. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `requested_permission` ausente y produce exactamente `PASS QUARANTINE_POISONED_CORPUS MISSING:requested_permission`.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T3-B-E3",
+          "instruction": "S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` con tres fixtures distintos. `CASO-ICA-050-3B` debe continuar, el adverso debe devolver `QUARANTINE_POISONED_CORPUS` y la ausencia de `requested_permission` debe devolver `REDUCE_TOOL_PRIVILEGE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró indirect injection como datos, poisoning removido y permiso mínimo; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ICA-050-3B`, adverso y sin `requested_permission` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T4-A-E1",
+          "instruction": "S50-T4-A-E1 · Audita el contrato de `hallucination y abstención` sobre `CASO-ICA-050-4A`. La entrada es el dict completo del starter; la operación debe demostrar support rate, cero claim crítica y abstención correcta. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S50-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_HALLUCINATION_REGRESSION` en E2.",
+          "hints": [
+            "Relaciona los campos `supported_claims`, `total_claims`, `min_support_rate`, `unsupported_critical`, `abstained_when_empty` con la regla explicada en S50-T4-A.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva hallucination crítica cero en holdout; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ICA-050-4A` satisface un predicado de dominio real; imprime `S50-T4-A PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\nmeets_contract = record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\n"
+        },
+        {
+          "id": "S50-T4-A-E2",
+          "instruction": "S50-T4-A-E2 · Compara tres rutas de `hallucination y abstención`: fixture válido, fixture adverso y registro sin `abstained_when_empty`. Entrada: dict con case_id, supported_claims, total_claims, min_support_rate, unsupported_critical, abstained_when_empty. Salidas exactas: `PASS`, `BLOCK_HALLUCINATION_REGRESSION`, `MISSING:abstained_when_empty`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S50-T4-A: support rate, cero claim crítica y abstención correcta. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `abstained_when_empty` ausente y produce exactamente `PASS BLOCK_HALLUCINATION_REGRESSION MISSING:abstained_when_empty`.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T4-A-E3",
+          "instruction": "S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos. `CASO-ICA-050-4A` debe continuar, el adverso debe devolver `BLOCK_HALLUCINATION_REGRESSION` y la ausencia de `abstained_when_empty` debe devolver `REVIEW_ABSTENTION_SLICE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró support rate, cero claim crítica y abstención correcta; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ICA-050-4A`, adverso y sin `abstained_when_empty` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T4-B-E1",
+          "instruction": "S50-T4-B-E1 · Decide el contrato de `latency/cost/caching, incident response y rollback` sobre `CASO-ICA-050-4B`. La entrada es el dict completo del starter; la operación debe demostrar latencia/costo/cache dentro de gate y rollback en RTO. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S50-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLLBACK_AI_RELEASE` en E2.",
+          "hints": [
+            "Relaciona los campos `p95_ms`, `slo_ms`, `cost_pen`, `cost_cap_pen`, `cache_acl_safe`, `rollback_minutes`, `rto_minutes` con la regla explicada en S50-T4-B.",
+            "El predicado correcto debe ser verdadero porque el fixture conserva rollback dentro de RTO con evidencia; revisa dirección de comparación, conjuntos y negaciones."
+          ],
+          "kind": "guided",
+          "tests": "El fixture `CASO-ICA-050-4B` satisface un predicado de dominio real; imprime `S50-T4-B PASS` y el assert booleano pasa.",
+          "starterCode": "record = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\nmeets_contract = record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\n"
+        },
+        {
+          "id": "S50-T4-B-E2",
+          "instruction": "S50-T4-B-E2 · Filtra tres rutas de `latency/cost/caching, incident response y rollback`: fixture válido, fixture adverso y registro sin `rto_minutes`. Entrada: dict con case_id, p95_ms, slo_ms, cost_pen, cost_cap_pen, cache_acl_safe, rollback_minutes, rto_minutes. Salidas exactas: `PASS`, `ROLLBACK_AI_RELEASE`, `MISSING:rto_minutes`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+          "hints": [
+            "Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.",
+            "Después aplica la regla de S50-T4-B: latencia/costo/cache dentro de gate y rollback en RTO. El fixture adverso debe fallar por contenido, no por schema."
+          ],
+          "kind": "independent",
+          "tests": "La tabla cubre válido/adverso/campo `rto_minutes` ausente y produce exactamente `PASS ROLLBACK_AI_RELEASE MISSING:rto_minutes`.",
+          "starterCode": null
+        },
+        {
+          "id": "S50-T4-B-E3",
+          "instruction": "S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con tres fixtures distintos. `CASO-ICA-050-4B` debe continuar, el adverso debe devolver `ROLLBACK_AI_RELEASE` y la ausencia de `rto_minutes` debe devolver `ACTIVATE_INCIDENT_RESPONSE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+          "hints": [
+            "Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido.",
+            "Para datos completos reutiliza la regla que demostró latencia/costo/cache dentro de gate y rollback en RTO; solo ese caso devuelve `CONTINUE`."
+          ],
+          "kind": "transfer",
+          "tests": "Fixtures `CASO-ICA-050-4B`, adverso y sin `rto_minutes` prueban continue/breach/uncertainty en ese orden.",
+          "starterCode": null
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Evals, red teaming y fiabilidad de IA",
+      "context": "Suite de evals, red team y rollback. Trabaja sobre un copiloto sintético de operaciones para una organización ficticia en Ica. Entrada: dataset de tareas versionado, rúbrica, baseline y candidato. Salida: resultados por severidad, trayectoria, tool calls y decisión promote/block. El gate se bloquea ante: regresión P0/P1, injection exitosa, exfiltración o grader sin calibrar bloquea release.",
+      "objectives": [
+        "Convertir dataset de tareas versionado, rúbrica, baseline y candidato en resultados por severidad, trayectoria, tool calls y decisión promote/block.",
+        "Demostrar el gate: evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final.",
+        "Probar el fallo: regresión P0/P1, injection exitosa, exfiltración o grader sin calibrar bloquea release.",
+        "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios."
+      ],
+      "requirements": [
+        "Usa exclusivamente fixtures sintéticos identificados por `CASO-ICA-050`.",
+        "Incluye task dataset y rúbrica 0–3.",
+        "Incluye graders deterministas/humanos/LLM calibrados.",
+        "Incluye casos injection/exfil/tool misuse/poisoning.",
+        "Incluye comparación baseline-candidato con SLO, costo y rollback.",
+        "Automatiza un caso normal, uno de breach (`BLOCK_CANDIDATE`) y uno incierto (`HUMAN_ADJUDICATION`).",
+        "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
+        "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas."
+      ],
+      "portfolioNote": "Evidencia de CP-N4-C · quality gate de IA adversarial: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto, no cambiando asserts.",
+      "starterCode": "CASE_ID = \"CASO-ICA-050\"\nREQUIRED = ['task_dataset_y_rubrica_03', 'graders_deterministas_humanos_llm_calibrados', 'casos_injection_exfil_tool_misuse_poisoning', 'comparacion_baseline_candidato_con_slo_costo_y_rollback']\nevidence = {\n    \"task_dataset_y_rubrica_03\": False,\n    \"graders_deterministas_humanos_llm_calibrados\": False,\n    \"casos_injection_exfil_tool_misuse_poisoning\": False,\n    \"comparacion_baseline_candidato_con_slo_costo_y_rollback\": False\n}\n\ndef readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:\n    missing = [name for name in REQUIRED if bundle.get(name) is not True]\n    return (\"READY\", []) if not missing else (\"BLOCKED\", missing)\n\nstatus, missing = readiness(evidence)\nprint(CASE_ID, status)\nprint(\"missing\", \",\".join(missing))\nassert status in {\"READY\", \"BLOCKED\"}\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "¿Qué evidencia permite aprobar `task dataset y rubric` en CASO-ICA-050?",
+        "options": [
+          "un print sin assert ni versión",
+          "dataset versionado y rúbrica calibrada",
+          "una captura de pantalla sin fuente",
+          "datos personales reales para que parezca auténtico"
+        ]
+      },
+      {
+        "question": "Si ocurre la condición de error de S50, ¿qué respuesta preserva seguridad y auditabilidad?",
+        "options": [
+          "continuar y ocultar el warning",
+          "inventar evidencia faltante",
+          "borrar el trace para reducir ruido",
+          "emitir BLOCK_CANDIDATE y conservar evidencia"
+        ]
+      },
+      {
+        "question": "¿Cuál resultado demuestra el gate `CP-N4-C · quality gate de IA adversarial`?",
+        "options": [
+          "evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final",
+          "el archivo S50 existe, aunque no pruebe el gate",
+          "el README afirma que funciona",
+          "se usó la herramienta más nueva"
+        ]
+      },
+      {
+        "question": "¿Qué tratamiento de `CASO-ICA-050` respeta el alcance del curso?",
+        "options": [
+          "reemplazarlo por datos reales sin consentimiento",
+          "subir secretos para facilitar la demo",
+          "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+          "inferir fraude o parentesco desde ER"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "8b3a1203a154a6bf"
+}

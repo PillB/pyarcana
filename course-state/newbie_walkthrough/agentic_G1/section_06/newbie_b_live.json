@@ -1,0 +1,326 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-skeptic-s06-4b63c307",
+  "production_note": "agentic_G1 dual-LLM Skeptic: packet-only; no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\nprint(ventana)\nprint(\"len\", len(ventana))\nprint(\"ventana=[]\", v0, \"len=0\", len(v0))\n",
+      "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\nprint(ventana)\nprint(\"len\", len(ventana))\nprint(\"ventana=[]\", v0, \"len=0\", len(v0))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S06-T1-A-E1: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\nprint('KEYS', KEYS)\nprint('more', more)\nprint('KEYS intacto', KEYS)\n",
+      "code": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\nprint('KEYS', KEYS)\nprint('more', more)\nprint('KEYS intacto', KEYS)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S06-T1-A-E2: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "# list mutable vs tuple inmutable\nxs = [1, 2]\nxs.append(3)\nprint(\"list ok\", xs)\nKEYS = (1, 2)\ntry:\n    KEYS.append(3)\nexcept AttributeError as e:\n    print(\"AttributeError\", type(e).__name__, e)\nprint(\"tuple sigue\", KEYS)\n",
+      "code": "# list mutable vs tuple inmutable\nxs = [1, 2]\nxs.append(3)\nprint(\"list ok\", xs)\nKEYS = (1, 2)\ntry:\n    KEYS.append(3)\nexcept AttributeError as e:\n    print(\"AttributeError\", type(e).__name__, e)\nprint(\"tuple sigue\", KEYS)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S06-T1-A-E3: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n",
+      "code": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S06-T1-B-E1: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint(\"xs tras alias\", xs)\nprint(\"copia\", copia)\ncopia.append(4)\nprint(\"xs tras mutar copia\", xs)\nprint(\"copia final\", copia)\n",
+      "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint(\"xs tras alias\", xs)\nprint(\"copia\", copia)\ncopia.append(4)\nprint(\"xs tras mutar copia\", xs)\nprint(\"copia final\", copia)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S06-T1-B-E2: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nshallow[0]['tags'].append('b')\nprint(\"shallow contamina\", rows)\n\nrows2 = [{'id': 'C1', 'tags': ['a']}]\ndeep = copy.deepcopy(rows2)\ndeep[0]['tags'].append('d')\nprint(\"original deep-safe\", rows2)\nprint(\"deep\", deep)\n",
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nshallow[0]['tags'].append('b')\nprint(\"shallow contamina\", rows)\n\nrows2 = [{'id': 'C1', 'tags': ['a']}]\ndeep = copy.deepcopy(rows2)\ndeep[0]['tags'].append('d')\nprint(\"original deep-safe\", rows2)\nprint(\"deep\", deep)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T1-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S06-T1-B-E3: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n",
+      "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S06-T2-A-E1: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "idx = {'C001': 'Ana'}\nprint(idx.get('C001'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n",
+      "code": "idx = {'C001': 'Ana'}\nprint(idx.get('C001'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S06-T2-A-E2: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint(merged)\nprint(\"defaults intacto\", defaults)\n# peligro de mutar defaults in-place:\n# defaults.update(override) mutaría el dict base si no copias antes\n",
+      "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint(merged)\nprint(\"defaults intacto\", defaults)\n# peligro de mutar defaults in-place:\n# defaults.update(override) mutaría el dict base si no copias antes\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S06-T2-A-E3: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nprint(sorted(set(emails)))\n",
+      "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nprint(sorted(set(emails)))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S06-T2-B-E1: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "lote_a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nlote_b = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(lote_a & lote_b))\nprint('symdiff', sorted(lote_a ^ lote_b))\n",
+      "code": "lote_a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nlote_b = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(lote_a & lote_b))\nprint('symdiff', sorted(lote_a ^ lote_b))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S06-T2-B-E2: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for row in rows:\n        k = row[key]\n        if k not in seen:\n            seen[k] = row\n            unique.append(row)\n        else:\n            if row != seen[k]:\n                conflicts.append({'key': k, 'prev': seen[k], 'new': row})\n    return {'unique': unique, 'conflicts': conflicts}\n\nrows = [\n    {'id': 'C001', 'payload': 1},\n    {'id': 'C002', 'payload': 2},\n    {'id': 'C001', 'payload': 9},\n]\nprint(dedup_report(rows))\n",
+      "code": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for row in rows:\n        k = row[key]\n        if k not in seen:\n            seen[k] = row\n            unique.append(row)\n        else:\n            if row != seen[k]:\n                conflicts.append({'key': k, 'prev': seen[k], 'new': row})\n    return {'unique': unique, 'conflicts': conflicts}\n\nrows = [\n    {'id': 'C001', 'payload': 1},\n    {'id': 'C002', 'payload': 2},\n    {'id': 'C001', 'payload': 9},\n]\nprint(dedup_report(rows))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T2-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S06-T2-B-E3: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "clients = [\n    {'id': 'C001', 'contacts': ['a', 'b']},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n",
+      "code": "clients = [\n    {'id': 'C001', 'contacts': ['a', 'b']},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S06-T3-A-E1: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "txs = [\n    {'client_id': 'C1', 'items': [{'tx_id': 'T1', 'monto': 10}, {'tx_id': 'T2', 'monto': 5}]},\n    {'client_id': 'C2', 'items': [{'tx_id': 'T3', 'monto': 7}]},\n]\nflat = []\nfor c in txs:\n    for it in c['items']:\n        flat.append({'client_id': c['client_id'], 'tx_id': it['tx_id'], 'monto': it['monto']})\nprint(flat)\n",
+      "code": "txs = [\n    {'client_id': 'C1', 'items': [{'tx_id': 'T1', 'monto': 10}, {'tx_id': 'T2', 'monto': 5}]},\n    {'client_id': 'C2', 'items': [{'tx_id': 'T3', 'monto': 7}]},\n]\nflat = []\nfor c in txs:\n    for it in c['items']:\n        flat.append({'client_id': c['client_id'], 'tx_id': it['tx_id'], 'monto': it['monto']})\nprint(flat)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S06-T3-A-E2: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "clients = [\n    {'id': 'C1', 'txs': [1, 2]},\n    {'id': 'C2'},  # falta txs\n    {'id': 'C3', 'txs': 'no-list'},\n]\nfor c in clients:\n    if not isinstance(c.get('txs'), list):\n        status = 'review'\n    else:\n        status = 'ok'\n    print(c['id'], status)\n",
+      "code": "clients = [\n    {'id': 'C1', 'txs': [1, 2]},\n    {'id': 'C2'},  # falta txs\n    {'id': 'C3', 'txs': 'no-list'},\n]\nfor c in clients:\n    if not isinstance(c.get('txs'), list):\n        status = 'review'\n    else:\n        status = 'ok'\n    print(c['id'], status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S06-T3-A-E3: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\n\nprofile = {'profile': {'phone': '999'}}\nprint(get_nested(profile, 'profile', 'phone'))\nprint(get_nested(profile, 'profile', 'email', default='N/A'))\n",
+      "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\n\nprofile = {'profile': {'phone': '999'}}\nprint(get_nested(profile, 'profile', 'phone'))\nprint(get_nested(profile, 'profile', 'email', default='N/A'))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S06-T3-B-E1: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "clients = [\n    {'id': 'C1', 'email': 'a@b.com'},\n    {'id': 'C2', 'email': None},\n    {'id': 'C3'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")\n",
+      "code": "clients = [\n    {'id': 'C1', 'email': 'a@b.com'},\n    {'id': 'C2', 'email': None},\n    {'id': 'C3'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S06-T3-B-E2: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "vals = [None, '', 0, []]\nfor x in vals:\n    print(repr(x), 'falsy=', not bool(x), 'missing_negocio=', x is None)\nprint('solo None missing=True según política del packet')\n",
+      "code": "vals = [None, '', 0, []]\nfor x in vals:\n    print(repr(x), 'falsy=', not bool(x), 'missing_negocio=', x is None)\nprint('solo None missing=True según política del packet')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T3-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S06-T3-B-E3: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "rows = [\n    {'id': 'T2', 'monto': 50},\n    {'id': 'T1', 'monto': 10},\n]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n",
+      "code": "rows = [\n    {'id': 'T2', 'monto': 50},\n    {'id': 'T1', 'monto': 10},\n]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S06-T4-A-E1: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "clients = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(clients, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n",
+      "code": "clients = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(clients, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S06-T4-A-E2: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "base = [3, 1, 2]\ncpy = list(base)\nret = cpy.sort()\nprint(type(ret).__name__, ret)\nprint('mutada', cpy)\nprint('base intacta', base)\nprint('sorted copy', sorted(base))\n",
+      "code": "base = [3, 1, 2]\ncpy = list(base)\nret = cpy.sort()\nprint(type(ret).__name__, ret)\nprint('mutada', cpy)\nprint('base intacta', base)\nprint('sorted copy', sorted(base))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S06-T4-A-E3: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "print('cola de llegada →', 'list')\nprint('lookup por id →', 'dict')\nprint('cohorte emails únicos →', 'set')\n",
+      "code": "print('cola de llegada →', 'list')\nprint('lookup por id →', 'dict')\nprint('cohorte emails únicos →', 'set')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S06-T4-B-E1: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\nprint(json.dumps(payload, sort_keys=True, ensure_ascii=False))\n",
+      "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\nprint(json.dumps(payload, sort_keys=True, ensure_ascii=False))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S06-T4-B-E2: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "ids_list = ['C1', 'C2', 'C3', 'C4', 'C5']\nids_set = set(ids_list)\nx = 'C3'\nprint('list membership ~ O(n); set ~ O(1) promedio')\nprint('in list', x in ids_list)\nprint('in set', x in ids_set)\nprint('Con n=1000 lookups repetidos, preferir set/dict indexado')\n",
+      "code": "ids_list = ['C1', 'C2', 'C3', 'C4', 'C5']\nids_set = set(ids_list)\nx = 'C3'\nprint('list membership ~ O(n); set ~ O(1) promedio')\nprint('in list', x in ids_list)\nprint('in set', x in ids_set)\nprint('Con n=1000 lookups repetidos, preferir set/dict indexado')\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S06-T4-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S06-T4-B-E3: contrasté con theory+tests del quiz_card S06; sin atajos fuera del packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "justification_from_packet": "No es [1,2] ni error: índices negativos desde el final están en la teoría de slicing.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "a también ve el append (alias)",
+      "justification_from_packet": "Si fuera copia, a no cambiaría; el packet contrasta alias vs copy explícitamente.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "justification_from_packet": "Quedarse con la última sin traza es anti-patrón de calidad; hay que reportar conflicto.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "None (muta in-place)",
+      "justification_from_packet": "sort no retorna la lista ordenada (eso es sorted); según S06-T4-A retorna None tras mutar la lista original.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "justification_from_packet": "json.dumps(..., sort_keys=True) no comprime ni valida schema: el packet lo usa para salidas deterministas.",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:59:28.776415+00:00",
+  "session_started_at": "2026-07-23T06:58:13.776415+00:00",
+  "session_ended_at": "2026-07-23T06:59:28.776415+00:00"
+}

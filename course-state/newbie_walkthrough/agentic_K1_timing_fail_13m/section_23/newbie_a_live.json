@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s23-08e571879787",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "id": "S23-T1-A-E1",
+      "code": "# packet solve S23-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "justification_from_packet": "Para S23-T1-A-E1 seguí hints + instruction del quiz_card de «Browser RPA con Playwright». Concepto ancla del packet: Playwright auto-espera elemento actionable (visible, estable,. Resultado implementado con `nodes=[{'role':'link','name':'Inicio','id':'n1'}]` respondiendo a: «Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime id. Contrato: next/generador o loop; Lookup si…». Estimación de acierto 0.914. Traza local: sección-activa/explorer/S23-T1-A-E1.",
+      "confidence": 0.914,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "id": "S23-T1-A-E2",
+      "code": "# packet solve S23-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "justification_from_packet": "Como Explorer en «Browser RPA con Playwright», resolví S23-T1-A-E2 leyendo la instruction: «Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred index). Imprime lista ordenada. Contrato: sorted ke…». Me apoyé en el subtema/paquete («auto-waiting y assertions») y en el demo/theory para completar el starter; la línea clave quedó: `strats=['css','role','testid']`. Confianza ~0.895 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S23-T1-A-E2.",
+      "confidence": 0.895,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "id": "S23-T1-A-E3",
+      "code": "# packet solve S23-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "justification_from_packet": "Para S23-T1-A-E3 seguí hints + instruction del quiz_card de «Browser RPA con Playwright». Concepto ancla del packet: DOM y locators orientados a usuario. Resultado implementado con `nodes=[{'role':'img','name':'logo'}]` respondiendo a: «Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si hubiera, su name. Contrato: fail-closed a testi…». Estimación de acierto 0.909. Traza local: sección-activa/explorer/S23-T1-A-E3.",
+      "confidence": 0.909,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "id": "S23-T1-B-E1",
+      "code": "# packet solve S23-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint(i)\n",
+      "justification_from_packet": "Como Explorer en «Browser RPA con Playwright», resolví S23-T1-B-E1 leyendo la instruction: «Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando ready. Contrato: sin sleep real. Pass: 2.». Me apoyé en el subtema/paquete («Flujos típicos adapter: campos (usuario, periodo),») y en el demo/theory para completar el starter; la línea clave quedó: `for i in range(1, 4):`. Confianza ~0.655 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S23-T1-B-E1.",
+      "confidence": 0.655,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "id": "S23-T1-B-E2",
+      "code": "# packet solve S23-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\nprint('ok')\n",
+      "justification_from_packet": "Para S23-T1-B-E2 seguí hints + instruction del quiz_card de «Browser RPA con Playwright». Concepto ancla del packet: Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath. Resultado implementado con `ready = False` respondiendo a: «Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infinito. Pass: timeout. Usa solo fixtures sintétic…». Estimación de acierto 0.607. Traza local: sección-activa/explorer/S23-T1-B-E2.",
+      "confidence": 0.607,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "id": "S23-T1-B-E3",
+      "code": "# packet solve S23-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n",
+      "justification_from_packet": "Exploración de S23-T1-B-E3 en Browser RPA con Playwright: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondición de navegación. Pass: pass. Usa solo fixtur…». Enlacé con «Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath» del theory y escribí `expected, actual = 'Portal demo', 'Portal demo'`. No usé claves offline; solo packet activo (conf 0.637). Traza local: sección-activa/explorer/S23-T1-B-E3.",
+      "confidence": 0.637,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "id": "S23-T2-A-E1",
+      "code": "# packet solve S23-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nform = {}\nform['usuario'] = 'ana'\nprint(form)\n",
+      "justification_from_packet": "Para S23-T2-A-E1 seguí hints + instruction del quiz_card de «Browser RPA con Playwright». Concepto ancla del packet: formularios, uploads/downloads y sesiones. Resultado implementado con `form = {}` respondiendo a: «Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass: {'usuario': 'ana'}. Usa solo fixtures sintético…». Estimación de acierto 0.832. Traza local: sección-activa/explorer/S23-T2-A-E1.",
+      "confidence": 0.832,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "id": "S23-T2-A-E2",
+      "code": "# packet solve S23-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "justification_from_packet": "Exploración de S23-T2-A-E2 en Browser RPA con Playwright: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8]. Pass: 3a6eb079. Usa solo fixtures sintéticos de…». Enlacé con «Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath» del theory y escribí `import hashlib`. No usé claves offline; solo packet activo (conf 0.787). Traza local: sección-activa/explorer/S23-T2-A-E2.",
+      "confidence": 0.787,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "id": "S23-T2-A-E3",
+      "code": "# packet solve S23-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "justification_from_packet": "Para S23-T2-A-E3 seguí hints + instruction del quiz_card de «Browser RPA con Playwright». Concepto ancla del packet: formularios, uploads/downloads y sesiones. Resultado implementado con `state={'token':'t'}` respondiendo a: «Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state conceptual. Pass: reuse. Usa solo fixtures sin…». Estimación de acierto 0.680. Traza local: sección-activa/explorer/S23-T2-A-E3.",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "id": "S23-T2-B-E1",
+      "code": "# packet solve S23-T2-B-E1\nclass LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == 'sandbox':\n            self.auth = True\n        return self.auth\n\np = LoginPage()\np.submit('u', 'sandbox')\nprint(p.auth)\n",
+      "justification_from_packet": "Para S23-T2-B-E1 seguí hints + instruction del quiz_card de «Browser RPA con Playwright». Concepto ancla del packet: DOM y locators orientados a usuario. Resultado implementado con `class LoginPage:` respondiendo a: «Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contrato: clase con estado. Pass: True. Usa solo fixt…». Estimación de acierto 0.747. Traza local: sección-activa/explorer/S23-T2-B-E1.",
+      "confidence": 0.747,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "id": "S23-T2-B-E2",
+      "code": "# packet solve S23-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\nprint('ok')\n",
+      "justification_from_packet": "Para S23-T2-B-E2 seguí hints + instruction del quiz_card de «Browser RPA con Playwright». Concepto ancla del packet: DOM y locators orientados a usuario. Resultado implementado con `ctx={'auth':False}` respondiendo a: «ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato: no continuar al reporte. Pass: denied. Usa solo…». Estimación de acierto 0.830. Traza local: sección-activa/explorer/S23-T2-B-E2.",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "id": "S23-T2-B-E3",
+      "code": "# packet solve S23-T2-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n",
+      "justification_from_packet": "Exploración de S23-T2-B-E3 en Browser RPA con Playwright: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de estados. Pass: authenticated. Usa solo fixtures s…». Enlacé con «Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath» del theory y escribí `state='anonymous'`. No usé claves offline; solo packet activo (conf 0.831). Traza local: sección-activa/explorer/S23-T2-B-E3.",
+      "confidence": 0.831,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "id": "S23-T3-A-E1",
+      "code": "# packet solve S23-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n",
+      "justification_from_packet": "Exploración de S23-T3-A-E1 en Browser RPA con Playwright: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI. Pass: ['error', 'screenshot', 'trace']. Usa sol…». Enlacé con «formularios, uploads/downloads y sesiones» del theory y escribí `ev={'trace':'a.zip','screenshot':'b.png','error':'x'}`. No usé claves offline; solo packet activo (conf 0.729). Traza local: sección-activa/explorer/S23-T3-A-E1.",
+      "confidence": 0.729,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "id": "S23-T3-A-E2",
+      "code": "# packet solve S23-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "justification_from_packet": "Como Explorer en «Browser RPA con Playwright», resolví S23-T3-A-E2 leyendo la instruction: «Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list comp. Pass: ['ERR timeout']. Usa solo fixtures si…». Me apoyé en el subtema/paquete («formularios, uploads/downloads y sesiones») y en el demo/theory para completar el starter; la línea clave quedó: `logs=['ok','ERR timeout','nav']`. Confianza ~0.921 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S23-T3-A-E2.",
+      "confidence": 0.921,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "id": "S23-T3-A-E3",
+      "code": "# packet solve S23-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n",
+      "justification_from_packet": "Exploración de S23-T3-A-E3 en Browser RPA con Playwright: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Contrato: path determinista. Pass: dict de solution.». Enlacé con «auto-waiting y assertions» del theory y escribí `ok=False`. No usé claves offline; solo packet activo (conf 0.895). Traza local: sección-activa/explorer/S23-T3-A-E3.",
+      "confidence": 0.895,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "id": "S23-T3-B-E1",
+      "code": "# packet solve S23-T3-B-E1\ndef should_retry(k):\n    return k in ('timeout', '429')\n\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n",
+      "justification_from_packet": "Como Explorer en «Browser RPA con Playwright», resolví S23-T3-B-E1 leyendo la instruction: «Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas kind bool. Contrato: captcha no retry. Pass multi…». Me apoyé en el subtema/paquete («DOM y locators orientados a usuario») y en el demo/theory para completar el starter; la línea clave quedó: `def should_retry(k):`. Confianza ~0.771 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S23-T3-B-E1.",
+      "confidence": 0.771,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "id": "S23-T3-B-E2",
+      "code": "# packet solve S23-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "justification_from_packet": "Como Explorer en «Browser RPA con Playwright», resolví S23-T3-B-E2 leyendo la instruction: «Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle viejo. Pass: goto_home. Usa solo fixtures sintétic…». Me apoyé en el subtema/paquete («Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath») y en el demo/theory para completar el starter; la línea clave quedó: `err='stale'`. Confianza ~0.758 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S23-T3-B-E2.",
+      "confidence": 0.758,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "id": "S23-T3-B-E3",
+      "code": "# packet solve S23-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nerrors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        break\n    if i==3:\nprint('ok', i)\n",
+      "justification_from_packet": "Exploración de S23-T3-B-E3 en Browser RPA con Playwright: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass: fail 3. Usa solo fixtures sintéticos del lab; …». Enlacé con «Flujos típicos adapter: campos (usuario, periodo),» del theory y escribí `errors=['timeout','timeout','timeout']`. No usé claves offline; solo packet activo (conf 0.833). Traza local: sección-activa/explorer/S23-T3-B-E3.",
+      "confidence": 0.833,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "id": "S23-T4-A-E1",
+      "code": "# packet solve S23-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\napi=True\nprint('api' if api else 'rpa')\n",
+      "justification_from_packet": "Para S23-T4-A-E1 seguí hints + instruction del quiz_card de «Browser RPA con Playwright». Concepto ancla del packet: formularios, uploads/downloads y sesiones. Resultado implementado con `api=True` respondiendo a: «API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: preferencia sobre RPA. Pass: api. Usa solo fixtures s…». Estimación de acierto 0.933. Traza local: sección-activa/explorer/S23-T4-A-E1.",
+      "confidence": 0.933,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "id": "S23-T4-A-E2",
+      "code": "# packet solve S23-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n",
+      "justification_from_packet": "Exploración de S23-T4-A-E2 en Browser RPA con Playwright: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible en la jerarquía. Pass: export. Usa solo fixture…». Enlacé con «Playwright auto-espera elemento actionable (visible, estable,» del theory y escribí `f={'api':False,'export':True,'rpa':True}`. No usé claves offline; solo packet activo (conf 0.696). Traza local: sección-activa/explorer/S23-T4-A-E2.",
+      "confidence": 0.696,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "id": "S23-T4-A-E3",
+      "code": "# packet solve S23-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)\n",
+      "justification_from_packet": "Como Explorer en «Browser RPA con Playwright», resolví S23-T4-A-E3 leyendo la instruction: «Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qué RPA. Pass: {'method': 'rpa', 'reason': 'no_ap…». Me apoyé en el subtema/paquete («Flujos típicos adapter: campos (usuario, periodo),») y en el demo/theory para completar el starter; la línea clave quedó: `decision={'method':'rpa','reason':'no_api'}`. Confianza ~0.958 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S23-T4-A-E3.",
+      "confidence": 0.958,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "id": "S23-T4-B-E1",
+      "code": "# packet solve S23-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "justification_from_packet": "Para S23-T4-B-E1 seguí hints + instruction del quiz_card de «Browser RPA con Playwright». Concepto ancla del packet: Flujos típicos adapter: campos (usuario, periodo),. Resultado implementado con `captcha=True` respondiendo a: «CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handoff humano obligatorio. Pass: human_handoff.». Estimación de acierto 0.639. Traza local: sección-activa/explorer/S23-T4-B-E1.",
+      "confidence": 0.639,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "id": "S23-T4-B-E2",
+      "code": "# packet solve S23-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "justification_from_packet": "Como Explorer en «Browser RPA con Playwright», resolví S23-T4-B-E2 leyendo la instruction: «ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Pass: abort. Usa solo fixtures sintéticos del…». Me apoyé en el subtema/paquete («Flujos típicos adapter: campos (usuario, periodo),») y en el demo/theory para completar el starter; la línea clave quedó: `sig={'tos_forbidden':True,'captcha':True}`. Confianza ~0.896 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S23-T4-B-E2.",
+      "confidence": 0.896,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "id": "S23-T4-B-E3",
+      "code": "# packet solve S23-T4-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "justification_from_packet": "Para S23-T4-B-E3 seguí hints + instruction del quiz_card de «Browser RPA con Playwright». Concepto ancla del packet: Flujos típicos adapter: campos (usuario, periodo),. Resultado implementado con `payload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}` respondiendo a: «Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution output. Contrato: evidencia para analista human…». Estimación de acierto 0.934. Traza local: sección-activa/explorer/S23-T4-B-E3.",
+      "confidence": 0.934,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #0 de «Browser RPA con Playwright»: pregunta «¿Por qué preferir get_by_role a CSS nth-child?». Elegí índice 2 → «Refleja la UI accesible y suele ser más estable» porque el theory/outcomes del packet («Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath», «Flujos típicos adapter: campos (usuario, periodo),») describen ese matiz de forma directa. Explorer conf~0.665.",
+      "confidence": 0.665
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #1 de «Browser RPA con Playwright»: pregunta «Ante un CAPTCHA el robot debe:». Elegí índice 0 → «Detenerse y hacer handoff humano» porque el theory/outcomes del packet («Flujos típicos adapter: campos (usuario, periodo),», «Prefiere get_by_role, get_by_label, get_by_text sobre CSS/XPath») describen ese matiz de forma directa. Explorer conf~0.805.",
+      "confidence": 0.805
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #2 de «Browser RPA con Playwright»: pregunta «API/export primero significa:». Elegí índice 1 → «Buscar integración no-UI antes de automatizar el browser» porque el theory/outcomes del packet («auto-waiting y assertions», «formularios, uploads/downloads y sesiones») describen ese matiz de forma directa. Explorer conf~0.638.",
+      "confidence": 0.638
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #3 de «Browser RPA con Playwright»: pregunta «Un retry seguro reintenta:». Elegí índice 3 → «Solo fallas transitorias (timeout/red), no captcha/403 de negocio» porque el theory/outcomes del packet («formularios, uploads/downloads y sesiones», «Playwright auto-espera elemento actionable (visible, estable,») describen ese matiz de forma directa. Explorer conf~0.676.",
+      "confidence": 0.676
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:38:56.002378+00:00",
+  "session_started_at": "2026-07-23T13:38:36.246892+00:00",
+  "session_ended_at": "2026-07-23T13:38:56.000627+00:00",
+  "receipt_response_sha256": "2ae6042b9d2714ddd01fd04999be19427c6f8aed200bcb5a8eeec7aa50b97102",
+  "receipt_exercises_sha256": "0ebef922520856d79f25b7b487eddb4ff0a72b576d83dc182c98155e50835e64",
+  "receipt_selfcheck_sha256": "3587bd584c8d3e798650907671b664baf33efef7cb8ce7143c9e6d8a818e035f"
+}

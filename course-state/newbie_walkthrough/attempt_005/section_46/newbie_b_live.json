@@ -1,0 +1,44 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 46,
+  "recorded_at": "2026-07-21T23:30:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "packet_sha": "6d4006f73c64375f",
+    "forbidden_ack": "Do not use knowledge outside this packet. Zero Python outside landing + prior_sections + active theory/demos/instructions/hints/starters.",
+    "symbol_verify": {"source": "active.jobRelevance + weDo instruction print-targets", "weDo_method": "FIX_001 Debes imprimir → print(expr)"},
+    "selfcheck": [
+      {"question_index": 0, "chosen_index": 0, "chosen_text": "gpu-computing", "confidence": 0.95, "blocked_on": [], "note": "platform id gpu-computing."},
+      {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-B (pipeline)", "confidence": 0.95, "blocked_on": [], "note": "jobRelevance gate."},
+      {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "note": "Datos sintéticos; sin PII real."},
+      {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.9, "blocked_on": [], "note": "ER no fraude/parentesco."}
+    ],
+    "exercises": [
+      {"exercise_id": "S46-T1-A-E1", "answer": "completed_from_packet", "code": "print(2)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `2`."},
+      {"exercise_id": "S46-T1-A-E2", "answer": "completed_from_packet", "code": "print('5min')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'5min'`."},
+      {"exercise_id": "S46-T1-A-E3", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S46-T1-B-E1", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S46-T1-B-E2", "answer": "completed_from_packet", "code": "print('side_output')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'side_output'`."},
+      {"exercise_id": "S46-T1-B-E3", "answer": "completed_from_packet", "code": "print('event_id')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'event_id'`."},
+      {"exercise_id": "S46-T2-A-E1", "answer": "completed_from_packet", "code": "print(['normalize'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `['normalize']`."},
+      {"exercise_id": "S46-T2-A-E2", "answer": "completed_from_packet", "code": "print(4)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `4`."},
+      {"exercise_id": "S46-T2-A-E3", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S46-T2-B-E1", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S46-T2-B-E2", "answer": "completed_from_packet", "code": "print('checkpoints')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'checkpoints'`."},
+      {"exercise_id": "S46-T2-B-E3", "answer": "completed_from_packet", "code": "print('0 * * * *')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'0 * * * *'`."},
+      {"exercise_id": "S46-T3-A-E1", "answer": "completed_from_packet", "code": "print(['case_id','status'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir columns."},
+      {"exercise_id": "S46-T3-A-E2", "answer": "completed_from_packet", "code": "print(60)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `60`."},
+      {"exercise_id": "S46-T3-A-E3", "answer": "completed_from_packet", "code": "print('alert')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'alert'`."},
+      {"exercise_id": "S46-T3-B-E1", "answer": "completed_from_packet", "code": "print(['er','cases'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir domains."},
+      {"exercise_id": "S46-T3-B-E2", "answer": "completed_from_packet", "code": "print('data-platform')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'data-platform'`."},
+      {"exercise_id": "S46-T3-B-E3", "answer": "completed_from_packet", "code": "print(['lag','rows','null_rate'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir metrics."},
+      {"exercise_id": "S46-T4-A-E1", "answer": "completed_from_packet", "code": "print([{'ts':3,'id':'b'}])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir window rows."},
+      {"exercise_id": "S46-T4-A-E2", "answer": "completed_from_packet", "code": "print('date')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'date'`."},
+      {"exercise_id": "S46-T4-A-E3", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S46-T4-B-E1", "answer": "completed_from_packet", "code": "print(0.99)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `0.99`."},
+      {"exercise_id": "S46-T4-B-E2", "answer": "completed_from_packet", "code": "print('replay_partition')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'replay_partition'`."},
+      {"exercise_id": "S46-T4-B-E3", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."}
+    ],
+    "summary": {"n_selfcheck": 4, "n_selfcheck_answered": 4, "n_selfcheck_blocked": 0, "n_exercises": 24, "n_exercises_answered": 24, "n_exercises_blocked": 0, "blocked_exercise_ids": [], "residual_gaps": []}
+  }
+}

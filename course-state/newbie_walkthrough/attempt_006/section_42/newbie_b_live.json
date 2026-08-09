@@ -1,0 +1,72 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 42,
+  "section_id": "graph-rag",
+  "recorded_at": "2026-07-21T22:14:00+00:00",
+  "persona": "skeptic",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "graph-rag",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "jobRelevance: platform id `graph-rag` conservado (retheme schemas/seguridad)."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "CP-N4-A (control plane)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Gate CP-N4-A (control plane): threat model y pruebas de permisos."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Datos sintéticos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Datos sintéticos; sin PII real — explicit in active packet."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "Misma entidad cuando aplique",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "note": "ER no implica fraude/parentesco → misma entidad cuando aplique."
+      }
+    ],
+    "exercises": [
+      {"exercise_id": "S42-T1-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "S42 active weDo: every starter is `# TODO: completa los print / lógica`; instruction is Debes imprimir target only. After FIX_001 still insufficient construction path."},
+      {"exercise_id": "S42-T1-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Independent E2 same stub; refuse invent from bare print-target."},
+      {"exercise_id": "S42-T1-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Transfer E3 same stub pattern."},
+      {"exercise_id": "S42-T1-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Schema/security demos multi-line; no E1 blanks."},
+      {"exercise_id": "S42-T1-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T1-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T2-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "RBAC/authn theory outcome text only; no runnable scaffold for E1."},
+      {"exercise_id": "S42-T2-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T2-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T2-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T2-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T2-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T3-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Injection/SSRF outcomes not scaffolded into fill-in starters."},
+      {"exercise_id": "S42-T3-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T3-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T3-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T3-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T3-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T4-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T4-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T4-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T4-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T4-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "Same."},
+      {"exercise_id": "S42-T4-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "UNTAUGHT_TASK:print_target_without_taught_construction", "UNTAUGHT_MAPPING:exercise_to_demo_line"], "confidence": 0.1, "concepts_used": [], "note": "S42 skeptic: refuse all 24 weDo until starters/hints teach construction, not only print targets."}
+    ]
+  }
+}

@@ -1,0 +1,258 @@
+{
+  "version": "3.2",
+  "section": "S04",
+  "section_id": "functions-modules",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada sección tiene exactamente 4 temas evaluables",
+        "status": "pass",
+        "evidence": "V3 S04 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "status": "blocked",
+        "evidence": "Contenido plataforma no estructurado 4×2 V3; blueprint lo planifica"
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "status": "blocked",
+        "evidence": "Plataforma: demos/ejercicios legacy insuficientes vs 8+24"
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes A/B/C",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada subtema tiene 3 variantes A/B/C",
+        "status": "blocked",
+        "evidence": "seed functions-modules: 4 conceptos × 3 = 12; target 24"
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Evaluación por tema + examen + proyecto",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Evaluación por tema + examen + proyecto",
+        "status": "partial",
+        "evidence": "selfCheck + youDo legacy; faltan 4 topic evals V3"
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma español peruano profesional",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Idioma español peruano profesional",
+        "status": "pass",
+        "evidence": "Contenido usa español profesional; V3 refuerza tono PE"
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/fraude",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "No equiparar coincidencia con parentesco/fraude",
+        "status": "pass",
+        "evidence": "S07 introduce similaridad textual — debe explicitar no-parentesco"
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Código ejecutable o UNVERIFIED",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Código ejecutable o UNVERIFIED",
+        "status": "partial",
+        "evidence": "Código legacy embebido; re-verificación PHASE 7"
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Datos sintéticos o legalmente reutilizables",
+        "status": "pass",
+        "evidence": "Preferir sintético; You Do legacy puede mencionar datasets públicos"
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S04-001",
+        "requirement": "S04 cubre Recorrido: for, range y secuencias; enumerate y zip",
+        "source": "V3 roadmap S04 T1",
+        "acceptance_test": "Contenido de S04 incluye subtemas de Recorrido",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s04-functions-modules.ts enseña 'Functions, Modules & Packaging', no V3 'Iteración y resúmenes transaccionales'."
+      },
+      {
+        "id": "REQ-S04-002",
+        "requirement": "S04 cubre Repetición: while, centinelas y terminación; break, continue y prevención de infinitos",
+        "source": "V3 roadmap S04 T2",
+        "acceptance_test": "Contenido de S04 incluye subtemas de Repetición",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s04-functions-modules.ts enseña 'Functions, Modules & Packaging', no V3 'Iteración y resúmenes transaccionales'."
+      },
+      {
+        "id": "REQ-S04-003",
+        "requirement": "S04 cubre Patrones: Contadores, acumuladores y búsqueda; Comprehensions legibles",
+        "source": "V3 roadmap S04 T3",
+        "acceptance_test": "Contenido de S04 incluye subtemas de Patrones",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s04-functions-modules.ts enseña 'Functions, Modules & Packaging', no V3 'Iteración y resúmenes transaccionales'."
+      },
+      {
+        "id": "REQ-S04-004",
+        "requirement": "S04 cubre Razonamiento: Trazado de estado; Costo lineal/cuadrático y off-by-one",
+        "source": "V3 roadmap S04 T4",
+        "acceptance_test": "Contenido de S04 incluye subtemas de Razonamiento",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s04-functions-modules.ts enseña 'Functions, Modules & Packaging', no V3 'Iteración y resúmenes transaccionales'."
+      },
+      {
+        "id": "REQ-S04-005",
+        "requirement": "Incremento/gate: Client Intake & Data Quality Script procesa múltiples registros por stdin/stdout, resume errores y tasas con denominadores correctos, conserva originales y pasa una demo reproducible. La CLI instalable llega en S10.",
+        "source": "V3 roadmap S04 Incremento/gate",
+        "acceptance_test": "You Do / project alinea con incremento V3",
+        "status": "fail",
+        "evidence": "You Do actual: File Organizer Automation Script — Tu primera herramienta de productividad"
+      },
+      {
+        "id": "REQ-S04-006",
+        "requirement": "Proyecto: cierre CP-N1-A (CP-N1-A)",
+        "source": "V3 + capstone_ledger CP-N1-A",
+        "acceptance_test": "Proyecto documentado hacia capstone activo",
+        "status": "fail",
+        "evidence": "Legacy project no es incremento V3"
+      },
+      {
+        "id": "REQ-S04-007",
+        "requirement": "Entorno: browser/local",
+        "source": "V3 roadmap S04",
+        "acceptance_test": "Demos declaran entorno",
+        "status": "pass",
+        "evidence": "Target entorno browser/local; plataforma actual es browser-friendly en general"
+      },
+      {
+        "id": "REQ-S04-008",
+        "requirement": "Prerrequisito: S3",
+        "source": "V3 roadmap S04",
+        "acceptance_test": "Sección asume S3 cerrado",
+        "status": "pass",
+        "evidence": "index 4 después de prerrequisito en catálogo"
+      },
+      {
+        "id": "REQ-S04-009",
+        "requirement": "Contenido legado no se elimina; se inventaría y reubica (Funciones → V3 S5; módulos/packaging → V3 S10; pathlib → V3 S8; decorators → nivel posterior)",
+        "source": "LANE-N1-FACTORY + course_requirements authority",
+        "acceptance_test": "src/lib/course/sections/s04-functions-modules.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Factory solo escribe course-state JSON"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S04 carga con id estable 'functions-modules'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "id 'functions-modules' en COURSE_SECTIONS",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s04-functions-modules.ts export section04; id: 'functions-modules'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "Exam bank seed para 'functions-modules'",
+        "source": "prisma/seed.ts",
+        "acceptance_test": "≥ conceptos seed",
+        "status": "partial",
+        "evidence": "4 conceptos: ['functools-wraps', 'pathlib-vs-os', 'name-main', 'keyword-only-args'] (12 variantes); target 24 V3"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz presentes",
+        "source": "CourseSection shape",
+        "acceptance_test": "Campos presentes en archivo",
+        "status": "pass",
+        "evidence": "650 líneas con shape completo legacy"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S04-001",
+      "issue": "V3 define S4 — Iteración y resúmenes transaccionales (T1–T4 pedagógicos). Plataforma src/lib/course/sections/s04-functions-modules.ts y learning_roadmap.md se titulan 'Functions, Modules & Packaging'.",
+      "resolution": "Mantener section_id 'functions-modules'. TARGET de producción: topics V3 4×2. Contenido legado inventariado → Funciones → V3 S5; módulos/packaging → V3 S10; pathlib → V3 S8; decorators → nivel posterior. NO eliminar en research/factory.",
+      "authority": "learning_roadmap.md = primary IDs; V3 = counting + topics target + capstone gates",
+      "impact": "No bloquea PHASE 0–3. Bloquea claim 'section passed'.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S04-002",
+      "issue": "You Do legacy 'File Organizer Automation Script — Tu primera herramienta de productividad' ≠ proyecto V3 'Client Intake & Data Quality Script (cierre CP-N1-A)'.",
+      "resolution": "Mapear legacy como inventario; TARGET = project_increment V3 en blueprint.",
+      "authority": "V3 Incremento/gate S04",
+      "impact": "You Do reescritura en PHASE 4",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S04-003",
+      "issue": "Exam seed 12 variantes (['functools-wraps', 'pathlib-vs-os', 'name-main', 'keyword-only-args']) vs 24 V3; skills no alinean con Iteración y resúmenes transaccionales.",
+      "resolution": "Banco provisional; PHASE 5 nuevas 8 familias A/B/C; legacy reasignado a sección destino.",
+      "authority": "V3 counting contract",
+      "impact": "0 cobertura de skills V3 en bank actual",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S04-004",
+      "issue": "User/lane label 'S04 functions-modules' vs V3 S4 'Iteración'. Funciones en V3 son S5; platform S04 es functions-modules.",
+      "resolution": "Factory usa V3 S4 topics (iteración) como TARGET pedagógico del slot index 4; id functions-modules se mantiene.",
+      "authority": "S03 factory precedent + course_requirements CONTRADICTION-001",
+      "impact": "Display title puede confundir hasta rename UI opcional",
+      "status": "recorded"
+    }
+  ],
+  "v3_section_snapshot": {
+    "v3_label": "S4 — Iteración y resúmenes transaccionales",
+    "prerequisite": "S3",
+    "environment": "browser/local",
+    "project": "cierre CP-N1-A",
+    "topics": {
+      "T1": "Recorrido: for, range y secuencias; enumerate y zip sin desalinear datos",
+      "T2": "Repetición: while, centinelas y terminación; break, continue y prevención de loops infinitos",
+      "T3": "Patrones: contadores, acumuladores y búsqueda; comprehensions legibles",
+      "T4": "Razonamiento: trazado de estado; costo lineal/cuadrático inicial y debugging de off-by-one"
+    },
+    "increment_gate": "Client Intake & Data Quality Script procesa múltiples registros por stdin/stdout, resume errores y tasas con denominadores correctos, conserva originales y pasa una demo reproducible. La CLI instalable llega en S10.",
+    "capstone_gate": "CP-N1-A"
+  },
+  "platform_section_snapshot": {
+    "section_id": "functions-modules",
+    "index": 4,
+    "title": "Functions, Modules & Packaging",
+    "shortTitle": "Funciones & Módulos",
+    "file": "src/lib/course/sections/s04-functions-modules.ts",
+    "lines": 650,
+    "youDo": "File Organizer Automation Script — Tu primera herramienta de productividad",
+    "exam_concepts_seed": [
+      "functools-wraps",
+      "pathlib-vs-os",
+      "name-main",
+      "keyword-only-args"
+    ],
+    "alt_files": []
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1"
+  }
+}

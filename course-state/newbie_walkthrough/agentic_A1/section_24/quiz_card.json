@@ -1,0 +1,210 @@
+{
+  "section_index": 24,
+  "title": "OCR y Document AI",
+  "outcomes": [
+    "Preprocesar imágenes (DPI, deskew, crop, contraste)",
+    "Corregir ruido y orientación",
+    "Ejecutar OCR con idiomas, layout y confidence",
+    "Extraer texto, tablas y pares clave–valor",
+    "Normalizar a schema de extracción",
+    "Validar cross-field y encolar revisión",
+    "Evaluar exactitud por campo en golden set",
+    "Manejar privacidad, hostiles y fallback"
+  ],
+  "theory": [
+    {
+      "heading": "De “RPA avanzado” a OCR Document AI (intake CP-N2-C)",
+      "paragraphs": [
+        "En V3, **S24 no es orquestación RPA genérica**. Aquí haces **document intake**: preprocesar imagen, OCR con confidence, schema, validación y golden set sintético.",
+        "Todo documento es **sintético** (facturas demo, IDs fake). Conservas **bounding boxes** y te **abstienes** si confidence < umbral.",
+        "Orden: **T1 Imagen** → **T2 OCR** → **T3 Extracción** → **T4 Evaluación**. Coincidir campos no prueba fraude."
+      ],
+      "code": "def preprocess_meta(img):\n    # img: dict sintético\n    out = dict(img)\n    out[\"dpi\"] = max(img.get(\"dpi\", 72), 200)\n    ang = img.get(\"skew_deg\", 0.0)\n    out[\"skew_deg\"] = 0.0 if abs(ang) < 0.5 else 0.0  # deskew simulado\n    out[\"deskew_applied\"] = abs(ang) >= 0.5\n    # crop 2% margins\n    w, h = img[\"w\"], img[\"h\"]\n    out[\"crop_box\"] = (int(0.02*w), int(0.02*h), int(0.98*w), int(0.98*h))\n    "
+    },
+    {
+      "heading": "DPI, deskew, crop y contraste",
+      "paragraphs": [
+        "**DPI** bajo degrada OCR. **Deskew** corrige inclinación; **crop** elimina márgenes; **contraste** ayuda a tinta débil.",
+        "Modelamos ops como transformaciones sobre metadatos de imagen sintética (ancho, ángulo, histograma).",
+        "Pipeline: load → dpi_check → deskew → crop → contrast → OCR."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ruido y orientación",
+      "paragraphs": [
+        "Ruido (sal/pimienta, compresión) y **orientación** (0/90/180/270) rompen el layout.",
+        "Detecta orientación por señales (cabecera arriba, densidad de texto) o modelo; corrige antes de OCR.",
+        "Simulamos score de orientación y filtro de ruido binario."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "idiomas, layout y confidence",
+      "paragraphs": [
+        "Configura **idiomas** (spa+eng). El **layout** (bloques, columnas) guía la lectura.",
+        "Cada token/campo trae **confidence** 0–1. Umbral de abstención por campo crítico.",
+        "No promedies confidence a ciegas: un campo clave bajo tumba el auto-aceptar."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "texto, tablas y pares clave–valor",
+      "paragraphs": [
+        "Extrae **texto corrido**, **tablas** (filas/cols) y **KV** (RUC→valor) con bbox de evidencia.",
+        "Heurística KV: label a la izquierda, valor a la derecha en misma línea.",
+        "Tablas sintéticas como listas de listas."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "schema y normalización",
+      "paragraphs": [
+        "Un **schema** define campos, tipos y required. Normaliza monedas, fechas ISO y RUC a dígitos.",
+        "Output canónico: `{field, value, conf, bbox, source_doc_id}`.",
+        "Versión del schema en metadata del run."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "validación cross-field y cola de revisión",
+      "paragraphs": [
+        "**Cross-field**: total ≈ suma de líneas; fecha ≤ hoy; RUC checksum sintético opcional.",
+        "Falla de regla → `needs_review` con razones. El humano corrige; el bot no “adivina”.",
+        "Matching de proveedor por nombre similar **no** es veredicto de fraude."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "golden set sintético, exactitud por campo y cobertura",
+      "paragraphs": [
+        "El **golden set** tiene documentos sintéticos con labels. Mide **exactitud por campo** y **cobertura** (cuántos auto vs review).",
+        "Campo crítico (RUC, total) tiene SLO propio.",
+        "Nunca evalúes solo accuracy global: oculta fallas en campos caros."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "privacidad, archivos hostiles y fallback",
+      "paragraphs": [
+        "**Privacidad**: no subas PII real a APIs públicas; usa sintéticos o entornos aprobados.",
+        "**Hostiles**: zip bombs, PDF con JS, imágenes enormes → límites de tamaño y tipo MIME.",
+        "**Fallback**: si OCR falla, encola humano o pide re-scan; no completes campos con LLM sin evidencia."
+      ],
+      "code": "MAX_BYTES = 5_000_000\nALLOWED = {\"application/pdf\", \"image/png\", \"image/jpeg\"}\n\ndef gate_file(meta):\n    if meta[\"mime\"] not in ALLOWED:\n        return \"reject\", \"mime\"\n    if meta[\"n_bytes\"] > MAX_BYTES:\n        return \"reject\", \"size\"\n    if meta.get(\"encrypted\"):\n        return \"review\", \"encrypted\"\n    return \"ok\", \"pass\"\n\nprint(gate_file({\"mime\": \"image/png\", \"n_bytes\": 120_000}))\nprint(gate_"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S24-T1-B-DEMO",
+      "description": "DPI/deskew/crop/contraste sobre meta sintética.",
+      "why": "Preproceso mejora OCR más que un modelo fancy.",
+      "code": "img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0}\nimg[\"dpi\"]=max(img[\"dpi\"],200)\nimg[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5\nprint(img[\"dpi\"], img[\"deskew\"])"
+    },
+    {
+      "demoId": "S24-T2-A-DEMO",
+      "description": "Corregir orientación por score máximo.",
+      "why": "Orientación incorrecta invalida el layout.",
+      "code": "scores={0:0.2,180:0.75,90:0.05}\nprint(max(scores, key=scores.get))"
+    },
+    {
+      "demoId": "S24-T2-B-DEMO",
+      "description": "OCR con confidence y filtro de bajos.",
+      "why": "Low conf → abstenerse.",
+      "code": "toks=[{\"t\":\"RUC\",\"c\":0.9},{\"t\":\"20X\",\"c\":0.55}]\nprint([t for t in toks if t[\"c\"]<0.85])"
+    },
+    {
+      "demoId": "S24-T3-A-DEMO",
+      "description": "Extraer KV desde líneas con dos puntos.",
+      "why": "KV con evidencia textual mínima.",
+      "code": "lines=[\"RUC: 20123456789\",\"Total: 10\"]\nkv={}\nfor ln in lines:\n    k,v=ln.split(\":\",1); kv[k.strip()]=v.strip()\nprint(kv)"
+    },
+    {
+      "demoId": "S24-T3-B-DEMO",
+      "description": "Normalizar RUC a 11 dígitos.",
+      "why": "Schema canónico evita basura aguas abajo.",
+      "code": "import re\ns=\"20.123456789\"\nd=re.sub(r\"\\D\",\"\",s)\nprint(d, len(d)==11)"
+    },
+    {
+      "demoId": "S24-T4-A-DEMO",
+      "description": "Validación total vs suma de líneas.",
+      "why": "Cross-field manda a revisión, no etiqueta fraude.",
+      "code": "total, lines=150.0,[100.0,50.0]\nprint(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")"
+    },
+    {
+      "demoId": "S24-T4-B-DEMO",
+      "description": "Exactitud por campo en golden sintético.",
+      "why": "Métricas por campo crítico.",
+      "code": "g=[{\"p\":\"A\",\"t\":\"A\"},{\"p\":\"B\",\"t\":\"A\"}]\nprint(sum(1 for r in g if r[\"p\"]==r[\"t\"])/len(g))"
+    },
+    {
+      "demoId": null,
+      "description": "Gate de mime/tamaño para archivos hostiles.",
+      "why": "Fallback y límites antes del OCR.",
+      "code": "meta={\"mime\":\"application/pdf\",\"n\":100}\nprint(\"ok\" if meta[\"mime\"]==\"application/pdf\" and meta[\"n\"]<5_000_000 else \"reject\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué haces si confidence de RUC es 0.6?",
+      "options": [
+        "Aceptar igual",
+        "Inventar dígitos",
+        "Abstener y encolar revisión",
+        "Etiquetar fraude"
+      ]
+    },
+    {
+      "question": "Un mismatch total vs líneas implica:",
+      "options": [
+        "Fraude probado",
+        "Cola de revisión / corrección",
+        "Borrar el doc",
+        "Subir DPI"
+      ]
+    },
+    {
+      "question": "¿Por qué medir accuracy por campo?",
+      "options": [
+        "Es más corto",
+        "Los campos críticos pueden fallar aunque el global se vea bien",
+        "OCR no tiene global",
+        "Solo para imágenes"
+      ]
+    },
+    {
+      "question": "Archivo application/zip en intake de facturas:",
+      "options": [
+        "Siempre OK",
+        "Gate reject/review por mime no permitido",
+        "OCR directo",
+        "Enviar por email"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright"
+  ]
+}

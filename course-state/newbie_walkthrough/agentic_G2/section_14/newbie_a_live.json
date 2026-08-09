@@ -1,0 +1,537 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-dual-explorer-s14-c76bde3e1a",
+  "production_note": "agentic_G2 dual-LLM explorer: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "flags",
+        "array",
+        "dtype",
+        "uint8",
+        "print",
+        "shape",
+        "ndim"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T1-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(flags.dtype, flags.shape, flags.ndim)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "scores",
+        "linspace",
+        "dtype",
+        "float64",
+        "print",
+        "itemsize",
+        "nbytes",
+        "tolist"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T1-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(scores.itemsize, scores.nbytes, scores.tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\n\ndef validate_1d_f64(arr):\n    a = np.asarray(arr)\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\n\nvalidate_1d_f64(np.array([1.0, 2.0], dtype=np.float64))\ntry:\n    validate_1d_f64(np.array([[1.0]]))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "def",
+        "validate_1d_f64",
+        "arr",
+        "asarray",
+        "ndim",
+        "dtype",
+        "float64",
+        "raise"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T1-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(\"ok\", a.size)', 'print(\"err\", e)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0].tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "score",
+        "array",
+        "mask",
+        "print",
+        "where",
+        "tolist"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T1-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(np.where(mask)[0].tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmed = np.median(scores)\nprint(ids[scores < med].tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "ids",
+        "array",
+        "C001",
+        "C002",
+        "C003",
+        "C004",
+        "scores",
+        "med"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T1-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(ids[scores < med].tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "order",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T1-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(a[order].tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nc0 = np.round(M.mean(axis=0), 2).tolist()\nc1 = np.round(M.mean(axis=1), 2).tolist()\nprint(c0, \"|\", c1)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "round",
+        "mean",
+        "axis",
+        "tolist",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T2-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(c0, \"|\", c1)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(scores.std(axis=0), 4).tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "scores",
+        "array",
+        "print",
+        "round",
+        "std",
+        "axis",
+        "tolist"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T2-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(np.round(scores.std(axis=0), 4).tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 1).tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "mean",
+        "axis",
+        "keepdims",
+        "True",
+        "print",
+        "round",
+        "tolist"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T2-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(np.round(Xc.mean(axis=1), 1).tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nout = M + w\nprint(out.tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "zeros",
+        "array",
+        "out",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T2-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(out.tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\na = np.arange(4)\nb = np.arange(3)\nprod = a[:, None] * b\nprint(prod.shape, prod.tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "arange",
+        "prod",
+        "None",
+        "print",
+        "shape",
+        "tolist"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T2-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(prod.shape, prod.tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "try",
+        "ones",
+        "except",
+        "ValueError",
+        "print",
+        "incompatible"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T2-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(\"incompatible\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw.tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "raw",
+        "array",
+        "vista",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T3-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(raw.tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw.tolist(), copia.tolist())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "raw",
+        "array",
+        "copia",
+        "copy",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T3-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(raw.tolist(), copia.tolist())']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print(\"blocked\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "flags",
+        "writeable",
+        "False",
+        "try",
+        "except",
+        "ValueError",
+        "print"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T3-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(\"blocked\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "nan",
+        "print",
+        "int",
+        "isnan",
+        "sum"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T3-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(int(np.isnan(x).sum()))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(float(np.nanmean(x)))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "nan",
+        "print",
+        "float",
+        "nanmean"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T3-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(float(np.nanmean(x)))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "array",
+        "inf",
+        "where",
+        "isinf",
+        "nan",
+        "print",
+        "float",
+        "nansum"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T3-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(float(np.nansum(y)))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\nloop_sum = 0.0\nfor i in range(len(a)):\n    loop_sum += a[i] * b[i]\nvec_sum = float((a * b).sum())\nprint(abs(loop_sum - vec_sum) < 1e-6)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "copy",
+        "loop_sum",
+        "for",
+        "range",
+        "len"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T4-A-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(abs(loop_sum - vec_sum) < 1e-6)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "print",
+        "sum"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T4-A-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(float((a ** 2).sum()))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nc = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", bool(abs(c.mean() - 1.0) < 1e-9))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "time",
+        "zeros",
+        "ones",
+        "perf_counter",
+        "print",
+        "timed",
+        "bool",
+        "abs"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T4-A-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(\"timed\", bool(abs(c.mean() - 1.0) < 1e-9))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "zeros",
+        "dtype",
+        "float64",
+        "print",
+        "nbytes"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T4-B-E1: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(a.nbytes, a.nbytes == 8000)']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\nprint(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "print",
+        "bool",
+        "allclose",
+        "atol"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T4-B-E2: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "answer": "completed_from_packet_g2",
+      "code": "g2_agent = 'explorer'\nimport numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "g2_agent",
+        "explorer",
+        "import",
+        "numpy",
+        "try",
+        "testing",
+        "assert_allclose",
+        "atol",
+        "except",
+        "AssertionError",
+        "print",
+        "fail"
+      ],
+      "justification_from_packet": "[G2-Explorer] S14-T4-B-E3: resolví desde el starter del quiz_card y el contrato Pass en la instruction («E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture si…»). Teoría activa: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `in. Código usa ['print(\"fail\")']. Intento agentic_G2 independiente de G1; solo packet quiz_card+slim_packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S14 Q0: «¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `int32`); **shape** es . Opts vistas: ['shape', 'dtype', 'ndim', 'base']."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S14 Q1: «Una máscara booleana a > 0.5 se usa principalmente para:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `int32`); **shape** es . Opts vistas: ['Cambiar el dtype', 'Forzar una copy siempre', 'Aumentar ndim', 'Filtrar o seleccionar elementos que cump']."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S14 Q2: «axis=0 en una reducción sobre una matriz 2D suele agregar:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `int32`); **shape** es . Opts vistas: ['Por columna (colapsa filas)', 'Por fila (colapsa columnas)', 'Solo el elemento [0,0]', 'Nada; axis solo existe en pandas']."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G2-Explorer] S14 Q3: «Mutar un slice simple de un ndarray normalmente:». Opciones del selfCheck_stems del paquete; elijo la que cuadra con theory/iDo: «ndarray, dtype y shape» Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `int32`); **shape** es . Opts vistas: ['Nunca afecta al original', 'Convierte todo a object', 'Puede mutar el array base porque suele s', 'Borra el dtype']."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:01:42.750440+00:00",
+  "session_started_at": "2026-07-23T07:01:42.747273+00:00",
+  "session_ended_at": "2026-07-23T07:01:42.750457+00:00"
+}

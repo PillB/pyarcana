@@ -1,0 +1,22 @@
+{
+  "baseline": "agentic_I1",
+  "candidate": "agentic_I2",
+  "body_identity_pct": 27.0,
+  "just_identity_pct": 0.0,
+  "i1_mtime_min": 318.6,
+  "i2_mtime_min": 90.9,
+  "session_dur_min": 16.74,
+  "session_dur_max": 86.68,
+  "zero_duration": 0,
+  "stamps": 0,
+  "exploratory": 0,
+  "bulk_writers": 0,
+  "i1_clean": true,
+  "i2_clean": true,
+  "pass": true,
+  "rejected_prior": [
+    "H1 dual-explorer stamps + bulk writers",
+    "H2 exploratory + hardcoded SELFCHECK",
+    "G/F theater"
+  ]
+}

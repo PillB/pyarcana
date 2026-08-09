@@ -1,0 +1,494 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 44,
+  "packet_sha": "d855866c60f41db0",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-G2-s44-live",
+  "production_note": "agentic_G2 independent of G1 dual-LLM packet-only: skeptic solved sections from quiz_card+slim_packet only; direct agent output; no prior-attempt lives; no quarantine generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S44-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\": True, \"types\": True, \"tests\": True, \"matrix\": {\"3.11\", \"3.12\"}, \"supported\": {\"3.11\", \"3.12\"}}}\npredicate_ok = bool(record.get(\"lint\"))\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"FAIL_CI_GATE\")\nprint(\"S44-T1-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PIU",
+        "lint",
+        "types",
+        "tests",
+        "matrix",
+        "supported"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T1-A-E1 (guided). Instrucción: S44-T1-A-E1 · Calcula el contrato de `lint/types/tests y matrices` sobre `CASO-PIU-044-1A`. La entrada es el dict completo del starter; la operación debe demostrar tres gates y matriz exactamente sopo. Hints: Relaciona los campos `lint`, `types`, `tests`, `matrix`, `supported` con la regla explicada en S44-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva lint/t. Ajusté el booleano defectuoso del starter hacia `bool(record.get(\"lint\"))`; ausencia de `supported` → MISSING/uncertainty `REVIEW_MATRIX`; breach → `FAIL_CI_GATE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = bool(record.get(\"lint\"))\n    return \"PASS\" if ok else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\": True, \"types\": True, \"tests\": True, \"matrix\": {\"3.11\", \"3.12\"}, \"supported\": {\"3.11\", \"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\": False, \"types\": True, \"tests\": True, \"matrix\": {\"3.11\", \"3.12\"}, \"supported\": {\"3.11\", \"3.12\"}}}\nincomplete = dict(valid)\nif \"supported\" in incomplete:\n    del incomplete[\"supported\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "lint",
+        "types",
+        "tests",
+        "matrix",
+        "supported"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T1-A-E2 (independent). Instrucción: S44-T1-A-E2 · Modela tres rutas de `lint/types/tests y matrices`: fixture válido, fixture adverso y registro sin `supported`. Entrada: dict con case_id, lint, types, tests, matrix, supported. Salidas . Hints: Primero se calcula `missing`; ningún acceso a supported debe ocurrir antes de esa rama.; Después aplica la regla de S44-T1-A: tres gates y matriz exactamente soportada. El fixture . Ajusté el booleano defectuoso del starter hacia `bool(record.get(\"lint\"))`; ausencia de `supported` → MISSING/uncertainty `REVIEW_MATRIX`; breach → `FAIL_CI_GATE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REVIEW_MATRIX\"\n    contract_holds = bool(record.get(\"lint\"))\n    return \"CONTINUE\" if contract_holds else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\": True, \"types\": True, \"tests\": True, \"matrix\": {\"3.11\", \"3.12\"}, \"supported\": {\"3.11\", \"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\": False, \"types\": True, \"tests\": True, \"matrix\": {\"3.11\", \"3.12\"}, \"supported\": {\"3.11\", \"3.12\"}}}\nuncertain = dict(valid)\nuncertain.pop(\"supported\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "lint",
+        "types",
+        "tests",
+        "matrix",
+        "supported"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T1-A-E3 (transfer). Instrucción: S44-T1-A-E3 · Simula fallo cerrado para `lint/types/tests y matrices` con tres fixtures distintos. `CASO-PIU-044-1A` debe continuar, el adverso debe devolver `FAIL_CI_GATE` y la ausencia de `supported. Hints: Una ausencia no equivale a breach: enrútala a `REVIEW_MATRIX` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró tres gates y matriz exactamente s. Ajusté el booleano defectuoso del starter hacia `bool(record.get(\"lint\"))`; ausencia de `supported` → MISSING/uncertainty `REVIEW_MATRIX`; breach → `FAIL_CI_GATE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\": \"lock-abc\", \"cache_miss_passes\": True, \"artifact_digest\": \"sha256:def\", \"retention_days\": 14, \"conditions_cover_tags\": True}}\npredicate_ok = not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"DISCARD_PIPELINE_RESULT\")\nprint(\"S44-T1-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PIU",
+        "cache_key",
+        "lock",
+        "abc",
+        "cache_miss_passes",
+        "artifact_digest"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T1-B-E1 (guided). Instrucción: S44-T1-B-E1 · Compara el contrato de `caches, artifacts y condiciones` sobre `CASO-PIU-044-1B`. La entrada es el dict completo del starter; la operación debe demostrar cache opcional, artifact con dig. Hints: Relaciona los campos `cache_key`, `cache_miss_passes`, `artifact_digest`, `retention_days`, `conditions_cover_tags` con la regla explicada en S44-T1-B.; El predicado correcto debe . Ajusté el booleano defectuoso del starter hacia `not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])`; ausencia de `conditions_cover_tags` → MISSING/uncertainty `INSPECT_WORKFLOW_CONDITION`; breach → `DISCARD_PIPELINE_RESULT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"cache_key\", \"cache_miss_passes\", \"artifact_digest\", \"retention_days\", \"conditions_cover_tags\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])\n    return \"PASS\" if ok else \"DISCARD_PIPELINE_RESULT\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\": \"lock-abc\", \"cache_miss_passes\": True, \"artifact_digest\": \"sha256:def\", \"retention_days\": 14, \"conditions_cover_tags\": True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\": \"lock-abc\", \"cache_miss_passes\": False, \"artifact_digest\": \"sha256:def\", \"retention_days\": 14, \"conditions_cover_tags\": True}}\nincomplete = dict(valid)\nif \"conditions_cover_tags\" in incomplete:\n    del incomplete[\"conditions_cover_tags\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "cache_key",
+        "cache_miss_passes",
+        "artifact_digest",
+        "retention_days",
+        "conditions_cover_tags"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T1-B-E2 (independent). Instrucción: S44-T1-B-E2 · Verifica tres rutas de `caches, artifacts y condiciones`: fixture válido, fixture adverso y registro sin `conditions_cover_tags`. Entrada: dict con case_id, cache_key, cache_miss_passes,. Hints: Primero se calcula `missing`; ningún acceso a conditions_cover_tags debe ocurrir antes de esa rama.; Después aplica la regla de S44-T1-B: cache opcional, artifact con digest y cond. Ajusté el booleano defectuoso del starter hacia `not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])`; ausencia de `conditions_cover_tags` → MISSING/uncertainty `INSPECT_WORKFLOW_CONDITION`; breach → `DISCARD_PIPELINE_RESULT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"cache_key\", \"cache_miss_passes\", \"artifact_digest\", \"retention_days\", \"conditions_cover_tags\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"INSPECT_WORKFLOW_CONDITION\"\n    contract_holds = not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])\n    return \"CONTINUE\" if contract_holds else \"DISCARD_PIPELINE_RESULT\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\": \"lock-abc\", \"cache_miss_passes\": True, \"artifact_digest\": \"sha256:def\", \"retention_days\": 14, \"conditions_cover_tags\": True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\": \"lock-abc\", \"cache_miss_passes\": False, \"artifact_digest\": \"sha256:def\", \"retention_days\": 14, \"conditions_cover_tags\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"conditions_cover_tags\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "cache_key",
+        "cache_miss_passes",
+        "artifact_digest",
+        "retention_days",
+        "conditions_cover_tags"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T1-B-E3 (transfer). Instrucción: S44-T1-B-E3 · Extiende fallo cerrado para `caches, artifacts y condiciones` con tres fixtures distintos. `CASO-PIU-044-1B` debe continuar, el adverso debe devolver `DISCARD_PIPELINE_RESULT` y la ausen. Hints: Una ausencia no equivale a breach: enrútala a `INSPECT_WORKFLOW_CONDITION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró cache opcional, arti. Ajusté el booleano defectuoso del starter hacia `not (not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"])`; ausencia de `conditions_cover_tags` → MISSING/uncertainty `INSPECT_WORKFLOW_CONDITION`; breach → `DISCARD_PIPELINE_RESULT`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\": {\"contents\": \"read\"}, \"actions_pinned\": True, \"secret_hits\": 0, \"dependency_review\": True}}\npredicate_ok = not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"REVOKE_AND_ROTATE\")\nprint(\"S44-T2-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PIU",
+        "token_permissions",
+        "contents",
+        "read",
+        "actions_pinned",
+        "secret_hits"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T2-A-E1 (guided). Instrucción: S44-T2-A-E1 · Filtra el contrato de `permisos mínimos, pinning y secret scanning` sobre `CASO-PIU-044-2A`. La entrada es el dict completo del starter; la operación debe demostrar token mínimo, accione. Hints: Relaciona los campos `token_permissions`, `actions_pinned`, `secret_hits`, `dependency_review` con la regla explicada en S44-T2-A.; El predicado correcto debe ser verdadero porque . Ajusté el booleano defectuoso del starter hacia `not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)`; ausencia de `dependency_review` → MISSING/uncertainty `SECURITY_APPROVAL`; breach → `REVOKE_AND_ROTATE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"token_permissions\", \"actions_pinned\", \"secret_hits\", \"dependency_review\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)\n    return \"PASS\" if ok else \"REVOKE_AND_ROTATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\": {\"contents\": \"read\"}, \"actions_pinned\": True, \"secret_hits\": 0, \"dependency_review\": True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\": {\"contents\": \"read\"}, \"actions_pinned\": True, \"secret_hits\": 1, \"dependency_review\": True}}\nincomplete = dict(valid)\nif \"dependency_review\" in incomplete:\n    del incomplete[\"dependency_review\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "token_permissions",
+        "actions_pinned",
+        "secret_hits",
+        "dependency_review",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T2-A-E2 (independent). Instrucción: S44-T2-A-E2 · Clasifica tres rutas de `permisos mínimos, pinning y secret scanning`: fixture válido, fixture adverso y registro sin `dependency_review`. Entrada: dict con case_id, token_permissions, a. Hints: Primero se calcula `missing`; ningún acceso a dependency_review debe ocurrir antes de esa rama.; Después aplica la regla de S44-T2-A: token mínimo, acciones pinned, cero secretos y. Ajusté el booleano defectuoso del starter hacia `not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)`; ausencia de `dependency_review` → MISSING/uncertainty `SECURITY_APPROVAL`; breach → `REVOKE_AND_ROTATE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"token_permissions\", \"actions_pinned\", \"secret_hits\", \"dependency_review\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"SECURITY_APPROVAL\"\n    contract_holds = not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)\n    return \"CONTINUE\" if contract_holds else \"REVOKE_AND_ROTATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\": {\"contents\": \"read\"}, \"actions_pinned\": True, \"secret_hits\": 0, \"dependency_review\": True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\": {\"contents\": \"read\"}, \"actions_pinned\": True, \"secret_hits\": 1, \"dependency_review\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"dependency_review\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "token_permissions",
+        "actions_pinned",
+        "secret_hits",
+        "dependency_review",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T2-A-E3 (transfer). Instrucción: S44-T2-A-E3 · Defiende fallo cerrado para `permisos mínimos, pinning y secret scanning` con tres fixtures distintos. `CASO-PIU-044-2A` debe continuar, el adverso debe devolver `REVOKE_AND_ROTATE` y la. Hints: Una ausencia no equivale a breach: enrútala a `SECURITY_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró token mínimo, acciones pinned. Ajusté el booleano defectuoso del starter hacia `not (\"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0)`; ausencia de `dependency_review` → MISSING/uncertainty `SECURITY_APPROVAL`; breach → `REVOKE_AND_ROTATE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\": \"sha256:aaa\", \"sbom_digest\": \"sha256:aaa\", \"provenance_subject\": \"sha256:aaa\", \"attestation_valid\": True}}\npredicate_ok = not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"REJECT_ATTESTATION\")\nprint(\"S44-T2-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PIU",
+        "artifact_digest",
+        "sha256",
+        "aaa",
+        "sbom_digest",
+        "provenance_subject"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T2-B-E1 (guided). Instrucción: S44-T2-B-E1 · Modela el contrato de `SBOM, provenance y attestations` sobre `CASO-PIU-044-2B`. La entrada es el dict completo del starter; la operación debe demostrar SBOM y provenance enlazados al mi. Hints: Relaciona los campos `artifact_digest`, `sbom_digest`, `provenance_subject`, `attestation_valid` con la regla explicada en S44-T2-B.; El predicado correcto debe ser verdadero porqu. Ajusté el booleano defectuoso del starter hacia `not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)`; ausencia de `attestation_valid` → MISSING/uncertainty `REBUILD_PROVENANCE`; breach → `REJECT_ATTESTATION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"artifact_digest\", \"sbom_digest\", \"provenance_subject\", \"attestation_valid\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)\n    return \"PASS\" if ok else \"REJECT_ATTESTATION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\": \"sha256:aaa\", \"sbom_digest\": \"sha256:aaa\", \"provenance_subject\": \"sha256:aaa\", \"attestation_valid\": True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\": \"\", \"sbom_digest\": \"sha256:aaa\", \"provenance_subject\": \"sha256:aaa\", \"attestation_valid\": True}}\nincomplete = dict(valid)\nif \"attestation_valid\" in incomplete:\n    del incomplete[\"attestation_valid\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "artifact_digest",
+        "sbom_digest",
+        "provenance_subject",
+        "attestation_valid",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T2-B-E2 (independent). Instrucción: S44-T2-B-E2 · Audita tres rutas de `SBOM, provenance y attestations`: fixture válido, fixture adverso y registro sin `attestation_valid`. Entrada: dict con case_id, artifact_digest, sbom_digest, prove. Hints: Primero se calcula `missing`; ningún acceso a attestation_valid debe ocurrir antes de esa rama.; Después aplica la regla de S44-T2-B: SBOM y provenance enlazados al mismo digest. E. Ajusté el booleano defectuoso del starter hacia `not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)`; ausencia de `attestation_valid` → MISSING/uncertainty `REBUILD_PROVENANCE`; breach → `REJECT_ATTESTATION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"artifact_digest\", \"sbom_digest\", \"provenance_subject\", \"attestation_valid\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REBUILD_PROVENANCE\"\n    contract_holds = not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)\n    return \"CONTINUE\" if contract_holds else \"REJECT_ATTESTATION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\": \"sha256:aaa\", \"sbom_digest\": \"sha256:aaa\", \"provenance_subject\": \"sha256:aaa\", \"attestation_valid\": True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\": \"\", \"sbom_digest\": \"sha256:aaa\", \"provenance_subject\": \"sha256:aaa\", \"attestation_valid\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"attestation_valid\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "artifact_digest",
+        "sbom_digest",
+        "provenance_subject",
+        "attestation_valid",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T2-B-E3 (transfer). Instrucción: S44-T2-B-E3 · Recupera fallo cerrado para `SBOM, provenance y attestations` con tres fixtures distintos. `CASO-PIU-044-2B` debe continuar, el adverso debe devolver `REJECT_ATTESTATION` y la ausencia d. Hints: Una ausencia no equivale a breach: enrútala a `REBUILD_PROVENANCE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró SBOM y provenance enlazados . Ajusté el booleano defectuoso del starter hacia `not (len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1)`; ausencia de `attestation_valid` → MISSING/uncertainty `REBUILD_PROVENANCE`; breach → `REJECT_ATTESTATION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\": \"staging\", \"target_env\": \"production\", \"approved_by\": \"release-owner\", \"tested_digest\": \"sha256:abc\", \"promoted_digest\": \"sha256:abc\"}}\npredicate_ok = not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"DENY_PROMOTION\")\nprint(\"S44-T3-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PIU",
+        "source_env",
+        "staging",
+        "target_env",
+        "production",
+        "approved_by"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T3-A-E1 (guided). Instrucción: S44-T3-A-E1 · Verifica el contrato de `environments y approvals` sobre `CASO-PIU-044-3A`. La entrada es el dict completo del starter; la operación debe demostrar mismo digest probado y aprobación inde. Hints: Relaciona los campos `source_env`, `target_env`, `approved_by`, `tested_digest`, `promoted_digest` con la regla explicada en S44-T3-A.; El predicado correcto debe ser verdadero por. Ajusté el booleano defectuoso del starter hacia `not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])`; ausencia de `promoted_digest` → MISSING/uncertainty `REQUEST_RELEASE_APPROVAL`; breach → `DENY_PROMOTION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"source_env\", \"target_env\", \"approved_by\", \"tested_digest\", \"promoted_digest\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])\n    return \"PASS\" if ok else \"DENY_PROMOTION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\": \"staging\", \"target_env\": \"production\", \"approved_by\": \"release-owner\", \"tested_digest\": \"sha256:abc\", \"promoted_digest\": \"sha256:abc\"}}\ninvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\": \"staging\", \"target_env\": \"production\", \"approved_by\": \"\", \"tested_digest\": \"sha256:abc\", \"promoted_digest\": \"sha256:abc\"}}\nincomplete = dict(valid)\nif \"promoted_digest\" in incomplete:\n    del incomplete[\"promoted_digest\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "source_env",
+        "target_env",
+        "approved_by",
+        "tested_digest",
+        "promoted_digest"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T3-A-E2 (independent). Instrucción: S44-T3-A-E2 · Decide tres rutas de `environments y approvals`: fixture válido, fixture adverso y registro sin `promoted_digest`. Entrada: dict con case_id, source_env, target_env, approved_by, tested_. Hints: Primero se calcula `missing`; ningún acceso a promoted_digest debe ocurrir antes de esa rama.; Después aplica la regla de S44-T3-A: mismo digest probado y aprobación independiente.. Ajusté el booleano defectuoso del starter hacia `not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])`; ausencia de `promoted_digest` → MISSING/uncertainty `REQUEST_RELEASE_APPROVAL`; breach → `DENY_PROMOTION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"source_env\", \"target_env\", \"approved_by\", \"tested_digest\", \"promoted_digest\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"REQUEST_RELEASE_APPROVAL\"\n    contract_holds = not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])\n    return \"CONTINUE\" if contract_holds else \"DENY_PROMOTION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\": \"staging\", \"target_env\": \"production\", \"approved_by\": \"release-owner\", \"tested_digest\": \"sha256:abc\", \"promoted_digest\": \"sha256:abc\"}}\ninvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\": \"staging\", \"target_env\": \"production\", \"approved_by\": \"\", \"tested_digest\": \"sha256:abc\", \"promoted_digest\": \"sha256:abc\"}}\nuncertain = dict(valid)\nuncertain.pop(\"promoted_digest\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "source_env",
+        "target_env",
+        "approved_by",
+        "tested_digest",
+        "promoted_digest"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T3-A-E3 (transfer). Instrucción: S44-T3-A-E3 · Contrasta fallo cerrado para `environments y approvals` con tres fixtures distintos. `CASO-PIU-044-3A` debe continuar, el adverso debe devolver `DENY_PROMOTION` y la ausencia de `promote. Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_RELEASE_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró mismo digest probado y. Ajusté el booleano defectuoso del starter hacia `not (not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"])`; ausencia de `promoted_digest` → MISSING/uncertainty `REQUEST_RELEASE_APPROVAL`; breach → `DENY_PROMOTION`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\": True, \"canary_error_rate\": 0.004, \"max_error_rate\": 0.01, \"rollback_tested\": True, \"rollback_seconds\": 75, \"rto_seconds\": 120}}\npredicate_ok = not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"ROLLBACK_RELEASE\")\nprint(\"S44-T3-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PIU",
+        "migration_compatible",
+        "canary_error_rate",
+        "max_error_rate",
+        "rollback_tested",
+        "rollback_seconds"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T3-B-E1 (guided). Instrucción: S44-T3-B-E1 · Clasifica el contrato de `migrations, canary/blue-green y rollback` sobre `CASO-PIU-044-3B`. La entrada es el dict completo del starter; la operación debe demostrar migración compatible,. Hints: Relaciona los campos `migration_compatible`, `canary_error_rate`, `max_error_rate`, `rollback_tested`, `rollback_seconds`, `rto_seconds` con la regla explicada en S44-T3-B.; El pre. Ajusté el booleano defectuoso del starter hacia `not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])`; ausencia de `rto_seconds` → MISSING/uncertainty `PAUSE_CANARY`; breach → `ROLLBACK_RELEASE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"migration_compatible\", \"canary_error_rate\", \"max_error_rate\", \"rollback_tested\", \"rollback_seconds\", \"rto_seconds\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])\n    return \"PASS\" if ok else \"ROLLBACK_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\": True, \"canary_error_rate\": 0.004, \"max_error_rate\": 0.01, \"rollback_tested\": True, \"rollback_seconds\": 75, \"rto_seconds\": 120}}\ninvalid = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\": True, \"canary_error_rate\": 1.0, \"max_error_rate\": 0.01, \"rollback_tested\": True, \"rollback_seconds\": 75, \"rto_seconds\": 120}}\nincomplete = dict(valid)\nif \"rto_seconds\" in incomplete:\n    del incomplete[\"rto_seconds\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "migration_compatible",
+        "canary_error_rate",
+        "max_error_rate",
+        "rollback_tested",
+        "rollback_seconds"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T3-B-E2 (independent). Instrucción: S44-T3-B-E2 · Calcula tres rutas de `migrations, canary/blue-green y rollback`: fixture válido, fixture adverso y registro sin `rto_seconds`. Entrada: dict con case_id, migration_compatible, canary_er. Hints: Primero se calcula `missing`; ningún acceso a rto_seconds debe ocurrir antes de esa rama.; Después aplica la regla de S44-T3-B: migración compatible, canary bajo umbral y rollback . Ajusté el booleano defectuoso del starter hacia `not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])`; ausencia de `rto_seconds` → MISSING/uncertainty `PAUSE_CANARY`; breach → `ROLLBACK_RELEASE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"migration_compatible\", \"canary_error_rate\", \"max_error_rate\", \"rollback_tested\", \"rollback_seconds\", \"rto_seconds\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"PAUSE_CANARY\"\n    contract_holds = not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])\n    return \"CONTINUE\" if contract_holds else \"ROLLBACK_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\": True, \"canary_error_rate\": 0.004, \"max_error_rate\": 0.01, \"rollback_tested\": True, \"rollback_seconds\": 75, \"rto_seconds\": 120}}\ninvalid = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\": True, \"canary_error_rate\": 1.0, \"max_error_rate\": 0.01, \"rollback_tested\": True, \"rollback_seconds\": 75, \"rto_seconds\": 120}}\nuncertain = dict(valid)\nuncertain.pop(\"rto_seconds\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "migration_compatible",
+        "canary_error_rate",
+        "max_error_rate",
+        "rollback_tested",
+        "rollback_seconds"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T3-B-E3 (transfer). Instrucción: S44-T3-B-E3 · Instrumenta fallo cerrado para `migrations, canary/blue-green y rollback` con tres fixtures distintos. `CASO-PIU-044-3B` debe continuar, el adverso debe devolver `ROLLBACK_RELEASE` y la . Hints: Una ausencia no equivale a breach: enrútala a `PAUSE_CANARY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró migración compatible, canary bajo . Ajusté el booleano defectuoso del starter hacia `not (record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"])`; ausencia de `rto_seconds` → MISSING/uncertainty `PAUSE_CANARY`; breach → `ROLLBACK_RELEASE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\": True, \"required_reviews\": 2, \"required_checks\": True, \"release_notes\": {\"change\", \"migration\", \"risk\", \"rollback\"}}}\npredicate_ok = not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"BLOCK_UNREVIEWED_RELEASE\")\nprint(\"S44-T4-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PIU",
+        "protected_branch",
+        "required_reviews",
+        "required_checks",
+        "release_notes",
+        "change"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T4-A-E1 (guided). Instrucción: S44-T4-A-E1 · Audita el contrato de `branch/review policy y release notes` sobre `CASO-PIU-044-4A`. La entrada es el dict completo del starter; la operación debe demostrar branch protegida, review/che. Hints: Relaciona los campos `protected_branch`, `required_reviews`, `required_checks`, `release_notes` con la regla explicada en S44-T4-A.; El predicado correcto debe ser verdadero porque. Ajusté el booleano defectuoso del starter hacia `not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)`; ausencia de `release_notes` → MISSING/uncertainty `COMPLETE_RELEASE_NOTES`; breach → `BLOCK_UNREVIEWED_RELEASE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"protected_branch\", \"required_reviews\", \"required_checks\", \"release_notes\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)\n    return \"PASS\" if ok else \"BLOCK_UNREVIEWED_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\": True, \"required_reviews\": 2, \"required_checks\": True, \"release_notes\": {\"change\", \"migration\", \"risk\", \"rollback\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\": False, \"required_reviews\": 2, \"required_checks\": True, \"release_notes\": {\"change\", \"migration\", \"risk\", \"rollback\"}}}\nincomplete = dict(valid)\nif \"release_notes\" in incomplete:\n    del incomplete[\"release_notes\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "protected_branch",
+        "required_reviews",
+        "required_checks",
+        "release_notes",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T4-A-E2 (independent). Instrucción: S44-T4-A-E2 · Compara tres rutas de `branch/review policy y release notes`: fixture válido, fixture adverso y registro sin `release_notes`. Entrada: dict con case_id, protected_branch, required_review. Hints: Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama.; Después aplica la regla de S44-T4-A: branch protegida, review/checks y notas operables.. Ajusté el booleano defectuoso del starter hacia `not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)`; ausencia de `release_notes` → MISSING/uncertainty `COMPLETE_RELEASE_NOTES`; breach → `BLOCK_UNREVIEWED_RELEASE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"protected_branch\", \"required_reviews\", \"required_checks\", \"release_notes\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"COMPLETE_RELEASE_NOTES\"\n    contract_holds = not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)\n    return \"CONTINUE\" if contract_holds else \"BLOCK_UNREVIEWED_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\": True, \"required_reviews\": 2, \"required_checks\": True, \"release_notes\": {\"change\", \"migration\", \"risk\", \"rollback\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\": False, \"required_reviews\": 2, \"required_checks\": True, \"release_notes\": {\"change\", \"migration\", \"risk\", \"rollback\"}}}\nuncertain = dict(valid)\nuncertain.pop(\"release_notes\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "protected_branch",
+        "required_reviews",
+        "required_checks",
+        "release_notes",
+        "sorted"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T4-A-E3 (transfer). Instrucción: S44-T4-A-E3 · Aísla fallo cerrado para `branch/review policy y release notes` con tres fixtures distintos. `CASO-PIU-044-4A` debe continuar, el adverso debe devolver `BLOCK_UNREVIEWED_RELEASE` y la au. Hints: Una ausencia no equivale a breach: enrútala a `COMPLETE_RELEASE_NOTES` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró branch protegida, review. Ajusté el booleano defectuoso del starter hacia `not (not record[\"protected_branch\"] or record[\"required_reviews\"] == 0)`; ausencia de `release_notes` → MISSING/uncertainty `COMPLETE_RELEASE_NOTES`; breach → `BLOCK_UNREVIEWED_RELEASE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\": True, \"pipeline_blocked\": True, \"logs_redacted\": True, \"owner\": \"release\", \"evidence_retained\": True}}\npredicate_ok = not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])\nmeets_contract = bool(predicate_ok)\nstatus = (\"PASS\" if meets_contract else \"STOP_SILENT_FAILURE\")\nprint(\"S44-T4-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "PIU",
+        "critical_failure",
+        "pipeline_blocked",
+        "logs_redacted",
+        "owner",
+        "release"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T4-B-E1 (guided). Instrucción: S44-T4-B-E1 · Decide el contrato de `failure handling y evidencia auditable` sobre `CASO-PIU-044-4B`. La entrada es el dict completo del starter; la operación debe demostrar fallo crítico bloquea con . Hints: Relaciona los campos `critical_failure`, `pipeline_blocked`, `logs_redacted`, `owner`, `evidence_retained` con la regla explicada en S44-T4-B.; El predicado correcto debe ser verda. Ajusté el booleano defectuoso del starter hacia `not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])`; ausencia de `evidence_retained` → MISSING/uncertainty `ASSIGN_INCIDENT_OWNER`; breach → `STOP_SILENT_FAILURE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required_fields = {\"case_id\", \"critical_failure\", \"pipeline_blocked\", \"logs_redacted\", \"owner\", \"evidence_retained\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])\n    return \"PASS\" if ok else \"STOP_SILENT_FAILURE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\": True, \"pipeline_blocked\": True, \"logs_redacted\": True, \"owner\": \"release\", \"evidence_retained\": True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\": True, \"pipeline_blocked\": False, \"logs_redacted\": True, \"owner\": \"release\", \"evidence_retained\": True}}\nincomplete = dict(valid)\nif \"evidence_retained\" in incomplete:\n    del incomplete[\"evidence_retained\"]\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "critical_failure",
+        "pipeline_blocked",
+        "logs_redacted",
+        "owner",
+        "evidence_retained"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T4-B-E2 (independent). Instrucción: S44-T4-B-E2 · Filtra tres rutas de `failure handling y evidencia auditable`: fixture válido, fixture adverso y registro sin `evidence_retained`. Entrada: dict con case_id, critical_failure, pipeline_b. Hints: Primero se calcula `missing`; ningún acceso a evidence_retained debe ocurrir antes de esa rama.; Después aplica la regla de S44-T4-B: fallo crítico bloquea con logs redactados y du. Ajusté el booleano defectuoso del starter hacia `not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])`; ausencia de `evidence_retained` → MISSING/uncertainty `ASSIGN_INCIDENT_OWNER`; breach → `STOP_SILENT_FAILURE`. Sin ejecución externa ni vidas previas."
+    },
+    {
+      "exercise_id": "S44-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required_fields = {\"case_id\", \"critical_failure\", \"pipeline_blocked\", \"logs_redacted\", \"owner\", \"evidence_retained\"}\n    absent = sorted(required_fields - set(record))\n    if absent:\n        return \"ASSIGN_INCIDENT_OWNER\"\n    contract_holds = not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])\n    return \"CONTINUE\" if contract_holds else \"STOP_SILENT_FAILURE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\": True, \"pipeline_blocked\": True, \"logs_redacted\": True, \"owner\": \"release\", \"evidence_retained\": True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\": True, \"pipeline_blocked\": False, \"logs_redacted\": True, \"owner\": \"release\", \"evidence_retained\": True}}\nuncertain = dict(valid)\nuncertain.pop(\"evidence_retained\", None)\nbundle = (valid, invalid, uncertain)\nresults = [decide(x) for x in bundle]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "required_fields",
+        "case_id",
+        "critical_failure",
+        "pipeline_blocked",
+        "logs_redacted",
+        "owner",
+        "evidence_retained"
+      ],
+      "justification_from_packet": "Skeptic: solo usé theory/iDo/hints/starter del paquete activo S44. Ejercicio S44-T4-B-E3 (transfer). Instrucción: S44-T4-B-E3 · Demuestra fallo cerrado para `failure handling y evidencia auditable` con tres fixtures distintos. `CASO-PIU-044-4B` debe continuar, el adverso debe devolver `STOP_SILENT_FAILURE` y la a. Hints: Una ausencia no equivale a breach: enrútala a `ASSIGN_INCIDENT_OWNER` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró fallo crítico bloquea con. Ajusté el booleano defectuoso del starter hacia `not (record[\"critical_failure\"] and not record[\"pipeline_blocked\"])`; ausencia de `evidence_retained` → MISSING/uncertainty `ASSIGN_INCIDENT_OWNER`; breach → `STOP_SILENT_FAILURE`. Sin ejecución externa ni vidas previas."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "lint/types/tests y matriz soportada en verde",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S44 con párrafos de theory. Pregunta: ¿Qué evidencia permite aprobar `lint/types/tests y matrices` en CASO-PIU-044?. La opción índice 3 («lint/types/tests y matriz soportada en verde») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "emitir STOP_PIPELINE y conservar evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S44 con párrafos de theory. Pregunta: Si ocurre la condición de error de S44, ¿qué respuesta preserva seguridad y auditabilidad?. La opción índice 1 («emitir STOP_PIPELINE y conservar evidencia») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S44 con párrafos de theory. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-B · cadena de suministro verificable`?. La opción índice 2 («el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: contrasté opciones del selfCheck del quiz_card S44 con párrafos de theory. Pregunta: ¿Qué tratamiento de `CASO-PIU-044` respeta el alcance del curso?. La opción índice 0 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») es la única que conserva seguridad/auditabilidad o evidencia medible del gate; rechazo ocultar warnings, inventar evidencia o datos reales."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "S44 inverted predicates",
+      "note": "Starter booleans are deliberately inverted; fixed from hints + fixture invariants only."
+    }
+  ],
+  "retrospection": "skeptic: completed S44 (CI/CD y seguridad de la cadena de suministro) with 24 exercises + 4 selfcheck from packet stems/starters/theory only.",
+  "summary": "S44 skeptic: 24 exercises, 4 selfcheck",
+  "recorded_at": "2026-07-23T08:42:35+00:00",
+  "session_started_at": "2026-07-23T08:38:45+00:00",
+  "session_ended_at": "2026-07-23T08:42:35+00:00"
+}

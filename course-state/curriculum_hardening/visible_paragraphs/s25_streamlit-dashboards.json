@@ -1,0 +1,495 @@
+{
+  "index": 25,
+  "id": "streamlit-dashboards",
+  "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+  "file": "s25-streamlit-dashboards.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "IA asistida evaluada para CP-N2-C",
+      "len": 33
+    },
+    {
+      "i": 1,
+      "text": "Aquí construyes AI assist: elegir regla/modelo/LLM, operar un adapter HTTP local o Hugging Face, exigir JSON schema y ejecutar evals de seguridad. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo.",
+      "len": 261
+    },
+    {
+      "i": 2,
+      "text": "Toda salida del generador debe traer evidencia (campos fuente, ids) y pasar schema + golden. No se acepta narrativa libre sin anclaje. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed).",
+      "len": 302
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Selección → T2 Inferencia → T3 Prompting → T4 Evals/seguridad. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 312
+    },
+    {
+      "i": 4,
+      "text": "regla vs modelo especializado vs LLM",
+      "len": 36
+    },
+    {
+      "i": 5,
+      "text": "Reglas (regex, umbrales) son baratas y auditables. Modelos especializados (clasificador fine-tuned) para categorías estables. LLM para narrativa y extracción flexible con schema. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo.",
+      "len": 293
+    },
+    {
+      "i": 6,
+      "text": "Árbol de decisión: ¿determinista? → regla; ¿label set fijo y volumen? → especializado; ¿lenguaje abierto con control? → LLM + validación. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed).",
+      "len": 305
+    },
+    {
+      "i": 7,
+      "text": "Clasificar “posible fraude” con LLM autónomo está prohibido en este curso: solo señales para humano. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 340
+    },
+    {
+      "i": 8,
+      "text": "model cards, licencias y local/cloud",
+      "len": 36
+    },
+    {
+      "i": 9,
+      "text": "Lee la model card: intended use, limitations, bias. Revisa licencia (comercial vs research). El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 316
+    },
+    {
+      "i": 10,
+      "text": "Local si hay PII/sintéticos sensibles o costo predecible; cloud con DPA y minimización. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed).",
+      "len": 255
+    },
+    {
+      "i": 11,
+      "text": "Registra decisión en metadata del run. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 278
+    },
+    {
+      "i": 12,
+      "text": "Hugging Face pipelines/endpoints",
+      "len": 32
+    },
+    {
+      "i": 13,
+      "text": "pipeline('text-classification') o Inference API. En el curso mockeamos el pipeline para ejecutar sin bajar pesos. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 337
+    },
+    {
+      "i": 14,
+      "text": "Contrato: input text → {label, score} o JSON schema. Log model_id y version. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed). En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 488
+    },
+    {
+      "i": 15,
+      "text": "Timeouts y errores de red se manejan en T2-B. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 285
+    },
+    {
+      "i": 16,
+      "text": "batching, timeout, cache, costo y fallback",
+      "len": 42
+    },
+    {
+      "i": 17,
+      "text": "Batch reduce overhead. Timeout evita colgar el flujo. Cache por hash de input+model. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 308
+    },
+    {
+      "i": 18,
+      "text": "Estima costo (tokens o requests). Fallback: regla o human si el endpoint cae. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed).",
+      "len": 245
+    },
+    {
+      "i": 19,
+      "text": "Circuit breaker simple tras N fallas. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 277
+    },
+    {
+      "i": 20,
+      "text": "objetivo, contexto, restricciones, ejemplos y salida estructurada",
+      "len": 65
+    },
+    {
+      "i": 21,
+      "text": "Prompt útil: Objetivo + Contexto + Restricciones + Ejemplos + Schema JSON. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 298
+    },
+    {
+      "i": 22,
+      "text": "Pide solo campos necesarios. Prohíbe inventar números no presentes en el contexto. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed). En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba.",
+      "len": 494
+    },
+    {
+      "i": 23,
+      "text": "Valida con json.loads + keys required. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 278
+    },
+    {
+      "i": 24,
+      "text": "thinking/tools/checkpoints controlados",
+      "len": 38
+    },
+    {
+      "i": 25,
+      "text": "Modos tipo thinking o tools (function calling) aumentan costo y superficie de ataque. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 309
+    },
+    {
+      "i": 26,
+      "text": "Usa checkpoints: pasos intermedios auditables (plan → tool → validar → narrar). Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed).",
+      "len": 247
+    },
+    {
+      "i": 27,
+      "text": "Tools permitidos en allowlist; sin shell libre en prod del curso. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 305
+    },
+    {
+      "i": 28,
+      "text": "golden set, schema y revisión humana",
+      "len": 36
+    },
+    {
+      "i": 29,
+      "text": "Evalúa el asistente contra golden (input→JSON esperado). Métricas: exact match, field F1, tasa de schema_fail. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 334
+    },
+    {
+      "i": 30,
+      "text": "Salidas borderline → human review obligatoria antes de informe final. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed). Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 346
+    },
+    {
+      "i": 31,
+      "text": "Baseline: reglas; el LLM debe ganar en utilidad sin perder anclaje. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 307
+    },
+    {
+      "i": 32,
+      "text": "prompt injection, exfiltración, sesgo y minimización",
+      "len": 52
+    },
+    {
+      "i": 33,
+      "text": "Injection: el documento no confiable puede intentar dar órdenes. Delimítalo como datos, separa system/user, deshabilita herramientas por defecto y nunca eleves su texto al rol system. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo.",
+      "len": 298
+    },
+    {
+      "i": 34,
+      "text": "Un regex solo sirve como señal de telemetría: variantes, encoding e instrucciones indirectas lo evaden. El control real combina privilegio mínimo, allowlists de acciones/salida, aprobación humana y logs. Exfil: nunca incluyas secretos en el contexto. Minimiza datos enviados. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed).",
+      "len": 443
+    },
+    {
+      "i": 35,
+      "text": "Matching o scoring no se convierte en veredicto de fraude. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto.",
+      "len": 298
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "IA asistida evaluada para CP-N2-C",
+      "text": "IA asistida evaluada para CP-N2-C"
+    },
+    {
+      "i": 1,
+      "len": 261,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aquí construyes AI assist: elegir regla/modelo/LLM, operar un adapter HTTP local o Hugging Face, exigir JSON schema y ejecutar evals de seguridad. El AI assist de CP-N2-C solo apor",
+      "text": "Aquí construyes AI assist: elegir regla/modelo/LLM, operar un adapter HTTP local o Hugging Face, exigir JSON schema y ejecutar evals de seguridad. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo."
+    },
+    {
+      "i": 2,
+      "len": 302,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Toda salida del generador debe traer evidencia (campos fuente, ids) y pasar schema + golden. No se acepta narrativa libre sin anclaje. Contrato operativo: entrada texto/contexto si",
+      "text": "Toda salida del generador debe traer evidencia (campos fuente, ids) y pasar schema + golden. No se acepta narrativa libre sin anclaje. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed)."
+    },
+    {
+      "i": 3,
+      "len": 312,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Selección → T2 Inferencia → T3 Prompting → T4 Evals/seguridad. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin",
+      "text": "Orden: T1 Selección → T2 Inferencia → T3 Prompting → T4 Evals/seguridad. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 4,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "regla vs modelo especializado vs LLM",
+      "text": "regla vs modelo especializado vs LLM"
+    },
+    {
+      "i": 5,
+      "len": 293,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Reglas (regex, umbrales) son baratas y auditables. Modelos especializados (clasificador fine-tuned) para categorías estables. LLM para narrativa y extracción flexible con schema. E",
+      "text": "Reglas (regex, umbrales) son baratas y auditables. Modelos especializados (clasificador fine-tuned) para categorías estables. LLM para narrativa y extracción flexible con schema. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo."
+    },
+    {
+      "i": 6,
+      "len": 305,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Árbol de decisión: ¿determinista? → regla; ¿label set fijo y volumen? → especializado; ¿lenguaje abierto con control? → LLM + validación. Contrato operativo: entrada texto/contexto",
+      "text": "Árbol de decisión: ¿determinista? → regla; ¿label set fijo y volumen? → especializado; ¿lenguaje abierto con control? → LLM + validación. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed)."
+    },
+    {
+      "i": 7,
+      "len": 340,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Clasificar “posible fraude” con LLM autónomo está prohibido en este curso: solo señales para humano. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mid",
+      "text": "Clasificar “posible fraude” con LLM autónomo está prohibido en este curso: solo señales para humano. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 8,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "model cards, licencias y local/cloud",
+      "text": "model cards, licencias y local/cloud"
+    },
+    {
+      "i": 9,
+      "len": 316,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Lee la model card: intended use, limitations, bias. Revisa licencia (comercial vs research). El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba ",
+      "text": "Lee la model card: intended use, limitations, bias. Revisa licencia (comercial vs research). El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 10,
+      "len": 255,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Local si hay PII/sintéticos sensibles o costo predecible; cloud con DPA y minimización. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON c",
+      "text": "Local si hay PII/sintéticos sensibles o costo predecible; cloud con DPA y minimización. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed)."
+    },
+    {
+      "i": 11,
+      "len": 278,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Registra decisión en metadata del run. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta ",
+      "text": "Registra decisión en metadata del run. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 12,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Hugging Face pipelines/endpoints",
+      "text": "Hugging Face pipelines/endpoints"
+    },
+    {
+      "i": 13,
+      "len": 337,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "pipeline('text-classification') o Inference API. En el curso mockeamos el pipeline para ejecutar sin bajar pesos. El AI assist de CP-N2-C solo aporta borradores anclados a evidenci",
+      "text": "pipeline('text-classification') o Inference API. En el curso mockeamos el pipeline para ejecutar sin bajar pesos. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 14,
+      "len": 488,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: input text → {label, score} o JSON schema. Log model_id y version. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema +",
+      "text": "Contrato: input text → {label, score} o JSON schema. Log model_id y version. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed). En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 15,
+      "len": 285,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Timeouts y errores de red se manejan en T2-B. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Doc",
+      "text": "Timeouts y errores de red se manejan en T2-B. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 16,
+      "len": 42,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "batching, timeout, cache, costo y fallback",
+      "text": "batching, timeout, cache, costo y fallback"
+    },
+    {
+      "i": 17,
+      "len": 308,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Batch reduce overhead. Timeout evita colgar el flujo. Cache por hash de input+model. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes de",
+      "text": "Batch reduce overhead. Timeout evita colgar el flujo. Cache por hash de input+model. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 18,
+      "len": 245,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Estima costo (tokens o requests). Fallback: regla o human si el endpoint cae. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema ",
+      "text": "Estima costo (tokens o requests). Fallback: regla o human si el endpoint cae. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed)."
+    },
+    {
+      "i": 19,
+      "len": 277,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Circuit breaker simple tras N fallas. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta e",
+      "text": "Circuit breaker simple tras N fallas. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 20,
+      "len": 65,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "objetivo, contexto, restricciones, ejemplos y salida estructurada",
+      "text": "objetivo, contexto, restricciones, ejemplos y salida estructurada"
+    },
+    {
+      "i": 21,
+      "len": 298,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prompt útil: Objetivo + Contexto + Restricciones + Ejemplos + Schema JSON. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe ",
+      "text": "Prompt útil: Objetivo + Contexto + Restricciones + Ejemplos + Schema JSON. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 22,
+      "len": 494,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Pide solo campos necesarios. Prohíbe inventar números no presentes en el contexto. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con sc",
+      "text": "Pide solo campos necesarios. Prohíbe inventar números no presentes en el contexto. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed). En el laboratorio sintético documentas contrato de entrada/salida, evidencia reproducible y límites: sin PII real, sin secretos, sin auto-etiqueta de fraude ni parentesco, y con fail-closed o handoff humano cuando falte dueño, schema o prueba."
+    },
+    {
+      "i": 23,
+      "len": 278,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Valida con json.loads + keys required. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta ",
+      "text": "Valida con json.loads + keys required. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 24,
+      "len": 38,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "thinking/tools/checkpoints controlados",
+      "text": "thinking/tools/checkpoints controlados"
+    },
+    {
+      "i": 25,
+      "len": 309,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Modos tipo thinking o tools (function calling) aumentan costo y superficie de ataque. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes d",
+      "text": "Modos tipo thinking o tools (function calling) aumentan costo y superficie de ataque. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 26,
+      "len": 247,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Usa checkpoints: pasos intermedios auditables (plan → tool → validar → narrar). Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schem",
+      "text": "Usa checkpoints: pasos intermedios auditables (plan → tool → validar → narrar). Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed)."
+    },
+    {
+      "i": 27,
+      "len": 305,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Tools permitidos en allowlist; sin shell libre en prod del curso. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-e",
+      "text": "Tools permitidos en allowlist; sin shell libre en prod del curso. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 28,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "golden set, schema y revisión humana",
+      "text": "golden set, schema y revisión humana"
+    },
+    {
+      "i": 29,
+      "len": 334,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Evalúa el asistente contra golden (input→JSON esperado). Métricas: exact match, field F1, tasa de schema_fail. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: ",
+      "text": "Evalúa el asistente contra golden (input→JSON esperado). Métricas: exact match, field F1, tasa de schema_fail. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 30,
+      "len": 346,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Salidas borderline → human review obligatoria antes de informe final. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_",
+      "text": "Salidas borderline → human review obligatoria antes de informe final. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed). Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 31,
+      "len": 307,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Baseline: reglas; el LLM debe ganar en utilidad sin perder anclaje. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto",
+      "text": "Baseline: reglas; el LLM debe ganar en utilidad sin perder anclaje. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    },
+    {
+      "i": 32,
+      "len": 52,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "prompt injection, exfiltración, sesgo y minimización",
+      "text": "prompt injection, exfiltración, sesgo y minimización"
+    },
+    {
+      "i": 33,
+      "len": 298,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Injection: el documento no confiable puede intentar dar órdenes. Delimítalo como datos, separa system/user, deshabilita herramientas por defecto y nunca eleves su texto al rol syst",
+      "text": "Injection: el documento no confiable puede intentar dar órdenes. Delimítalo como datos, separa system/user, deshabilita herramientas por defecto y nunca eleves su texto al rol system. El AI assist de CP-N2-C solo aporta borradores anclados a evidencia: el humano aprueba antes del informe o correo."
+    },
+    {
+      "i": 34,
+      "len": 443,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un regex solo sirve como señal de telemetría: variantes, encoding e instrucciones indirectas lo evaden. El control real combina privilegio mínimo, allowlists de acciones/salida, ap",
+      "text": "Un regex solo sirve como señal de telemetría: variantes, encoding e instrucciones indirectas lo evaden. El control real combina privilegio mínimo, allowlists de acciones/salida, aprobación humana y logs. Exfil: nunca incluyas secretos en el contexto. Minimiza datos enviados. Contrato operativo: entrada texto/contexto sintético CASO-LIM-025 (run_id=cpn2c-ai) → JSON con schema + model_id; schema_fail o injection → human_review (fail-closed)."
+    },
+    {
+      "i": 35,
+      "len": 298,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Matching o scoring no se convierte en veredicto de fraude. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiqueta",
+      "text": "Matching o scoring no se convierte en veredicto de fraude. Caso sintético PE: desk Lima mockea Hugging Face/local endpoint; golden set mide exact match y field F1 sin auto-etiquetar fraude. Documenta evidencia y límites del fixture CASO-LIM-025 (run_id=cpn2c-ai): sin PII real y sin auto-veredicto."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 15950
+}

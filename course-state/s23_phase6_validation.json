@@ -1,0 +1,222 @@
+{
+  "version": "3.2",
+  "section": "S23",
+  "section_id": "computer-vision",
+  "phase": "PHASE_6",
+  "lane": "LANE-S22-S26-CLOSE",
+  "role": "Isolated Validator (lightweight)",
+  "generated_at": "2026-07-20T23:30:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s23-computer-vision.ts",
+    "prisma/seed.ts (computer-vision)"
+  ],
+  "status": "passed",
+  "summary": "S23 sub=8 demos=8 ex=24 exam=24; fields=24/24; snippets=3; authorized_to_close_section=True",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S23-T1-A",
+        "S23-T1-B",
+        "S23-T2-A",
+        "S23-T2-B",
+        "S23-T3-A",
+        "S23-T3-B",
+        "S23-T4-A",
+        "S23-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S23-T1-A-DEMO",
+        "S23-T1-B-DEMO",
+        "S23-T2-A-DEMO",
+        "S23-T2-B-DEMO",
+        "S23-T3-A-DEMO",
+        "S23-T3-B-DEMO",
+        "S23-T4-A-DEMO",
+        "S23-T4-B-DEMO"
+      ]
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S23-T1-A-E1",
+        "S23-T1-A-E2",
+        "S23-T1-A-E3",
+        "S23-T1-B-E1",
+        "S23-T1-B-E2",
+        "S23-T1-B-E3",
+        "S23-T2-A-E1",
+        "S23-T2-A-E2",
+        "S23-T2-A-E3",
+        "S23-T2-B-E1",
+        "S23-T2-B-E2",
+        "S23-T2-B-E3",
+        "S23-T3-A-E1",
+        "S23-T3-A-E2",
+        "S23-T3-A-E3",
+        "S23-T3-B-E1",
+        "S23-T3-B-E2",
+        "S23-T3-B-E3",
+        "S23-T4-A-E1",
+        "S23-T4-A-E2",
+        "S23-T4-A-E3",
+        "S23-T4-B-E1",
+        "S23-T4-B-E2",
+        "S23-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "field_counts": {
+        "solutionCode": 24,
+        "starterCode": 25,
+        "hints": 24,
+        "edgeCases": 24,
+        "tests": 24,
+        "feedback": 24,
+        "per_exercise_complete": 24
+      },
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK['computer-vision']",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "dom-user-locators",
+        "auto-waiting-assertions",
+        "forms-upload-download-sessions",
+        "auth-states-page-objects",
+        "trace-screenshot-logs",
+        "robust-selectors-retries-recovery",
+        "api-export-first",
+        "tos-captcha-desktop-human"
+      ]
+    },
+    "youDo": {
+      "title_present": true,
+      "cp_mentions": 7,
+      "has_objectives": true,
+      "has_requirements": true,
+      "has_rubric": true,
+      "has_starterCode": true
+    },
+    "selfCheck_present": true
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "['S23-T1-A', 'S23-T1-B', 'S23-T2-A', 'S23-T2-B', 'S23-T3-A', 'S23-T3-B', 'S23-T4-A', 'S23-T4-B']"
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "['S23-T1-A-DEMO', 'S23-T1-B-DEMO', 'S23-T2-A-DEMO', 'S23-T2-B-DEMO', 'S23-T3-A-DEMO', 'S23-T3-B-DEMO', 'S23-T4-A-DEMO', 'S23-T4-B-DEMO']"
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "24; solutionCode=24"
+    },
+    {
+      "id": "FIELDS-COMPLETE",
+      "pass": true,
+      "evidence": "sol=24 starter=25 hints=24 edge=24 tests=24 feedback=24"
+    },
+    {
+      "id": "SEED-COMPUTER_VISION-8x3",
+      "pass": true,
+      "evidence": "24; ['dom-user-locators', 'auto-waiting-assertions', 'forms-upload-download-sessions', 'auth-states-page-objects', 'trace-screenshot-logs', 'robust-selectors-retries-recovery', 'api-export-first', 'tos-captcha-desktop-human']"
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "8×3 MCQ-4 es-PE"
+    },
+    {
+      "id": "SNIPPET-EXEC",
+      "pass": true,
+      "evidence": "3 snippets OK; failures=0"
+    },
+    {
+      "id": "YOUDO-PRESENT",
+      "pass": true,
+      "evidence": "{'title_present': True, 'cp_mentions': 7, 'has_objectives': True, 'has_requirements': True, 'has_rubric': True, 'has_starterCode': True}"
+    },
+    {
+      "id": "SELFCHECK-PRESENT",
+      "pass": true,
+      "evidence": "True"
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Synthetic data policy OK; matching ≠ fraud/parentesco"
+    },
+    {
+      "id": "PRIVACY-MATCHING-NOT-FRAUD",
+      "pass": true,
+      "evidence": "Exam + content: resolución/matching no implica fraude"
+    },
+    {
+      "id": "SNIPPET-OK-1",
+      "pass": true,
+      "evidence": "SOL-1: nodes=[{'role':'link','name':'Inicio','id':'n1'}] → 'n1\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-2",
+      "pass": true,
+      "evidence": "SOL-2: strats=['css','role','testid'] → \"['role', 'testid', 'css']\\n\""
+    },
+    {
+      "id": "SNIPPET-OK-3",
+      "pass": true,
+      "evidence": "SOL-3: nodes=[{'role':'img','name':'logo'}] → 'need_testid\\n'"
+    }
+  ],
+  "snippet_execution": {
+    "solutionCode_extracted": 24,
+    "successes": [
+      {
+        "label": "SOL-1",
+        "head": "nodes=[{'role':'link','name':'Inicio','id':'n1'}]",
+        "stdout_preview": "n1\n"
+      },
+      {
+        "label": "SOL-2",
+        "head": "strats=['css','role','testid']",
+        "stdout_preview": "['role', 'testid', 'css']\n"
+      },
+      {
+        "label": "SOL-3",
+        "head": "nodes=[{'role':'img','name':'logo'}]",
+        "stdout_preview": "need_testid\n"
+      }
+    ],
+    "failures_sample": []
+  },
+  "issues_found": [],
+  "authorized_to_close_section": true,
+  "notes_non_blocking": [
+    "Regex inventory supports double quotes in section TS.",
+    "Hints ≥2 counted via hints: [ blocks.",
+    "solutionCode is object with nested code template; executed first 3 solutions with python3.",
+    "Privacy: matching/resolución ≠ fraude/parentesco/colusión.",
+    "Does not edit checkpoint/section_ledger."
+  ]
+}

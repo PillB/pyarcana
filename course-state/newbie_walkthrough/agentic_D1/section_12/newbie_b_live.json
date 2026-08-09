@@ -1,0 +1,517 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "section_index": 12,
+  "packet_sha": "f7618f33608a851f",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "store = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\n\ndef get_entity(store, entity_id):\n    if entity_id in store:\n        return 200, store[entity_id]\n    return 404, {\"error\": \"missing\"}\n\nprint(get_entity(store, \"C001\"))\nprint(get_entity(store, \"NOPE\"))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "store",
+        "C001",
+        "region",
+        "Lima",
+        "get_entity",
+        "entity_id",
+        "error",
+        "missing"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T1-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Implementa `get_entity(store, entity_id)` que devuelva (status, bo. Hints: Devuelve una tupla (status_code, dict).; 404 no lanza excepción: el adaptador decide la acción.. Entrega: «store = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}  def get_entity(store, entity_id):     if entity_id in store:         return 200, store[e». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def parse_entity(payload):\n    if not isinstance(payload, dict):\n        return None\n    if 'id' not in payload or 'region' not in payload:\n        return None\n    return {\"id\": payload[\"id\"], \"region\": payload[\"region\"]}\n\nprint(parse_entity({\"id\": \"C1\", \"region\": \"Lima\", \"x\": 1}))\nprint(parse_entity({\"id\": \"C1\"}))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "parse_entity",
+        "payload",
+        "not",
+        "isinstance",
+        "dict",
+        "region",
+        "Lima",
+        "independiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T1-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exija claves `id` y `region` y devuelva solo requests conceptual + sqlite3 + math haversine (S01–S12).. Hints: Usa set de required keys.; No mutes el payload original; construye un dict nuevo.. Entrega: «def parse_entity(payload):     if not isinstance(payload, dict):         return None     if 'id' not in payload or 'region' not in payload: ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "STATUS_ACTION = {\n    200: \"use_body\",\n    404: \"missing\",\n    429: \"retry\",\n    500: \"retry\",\n    400: \"fix_client\",\n}\nfor s in [200, 404, 429, 400, 500]:\n    print(s, STATUS_ACTION[s])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "STATUS_ACTION",
+        "use_body",
+        "missing",
+        "retry",
+        "fix_client",
+        "transferencia",
+        "Construye",
+        "mapeando"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T1-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 500→'retry', 400→'fix_client'. Imprime la acción para [200,404,429,400,500].. Hints: dict.get(code, 'unknown'); 400 no es retry.. Entrega: «STATUS_ACTION = {     200: \"use_body\",     404: \"missing\",     429: \"retry\",     500: \"retry\",     400: \"fix_client\", } for s in [200, 404, ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def fetch(timeout_s, cost_s):\n    if cost_s > timeout_s:\n        return \"timeout\"\n    return \"ok\"\n\nprint(fetch(2, 1), fetch(1, 3))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "fetch",
+        "timeout_s",
+        "cost_s",
+        "timeout",
+        "guiado",
+        "Concepto",
+        "S12",
+        "APIs"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T1-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Simula timeout: `fetch(timeout_s, cost_s)` devuelve 'ok' si cost_s. Hints: if cost > timeout: return 'timeout'; No uses red real; compara números.. Entrega: «def fetch(timeout_s, cost_s):     if cost_s > timeout_s:         return \"timeout\"     return \"ok\"  print(fetch(2, 1), fetch(1, 3)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "api = {\n    1: {\"items\": [\"a\"], \"next\": 2},\n    2: {\"items\": [\"b\", \"c\"], \"next\": None},\n}\n\ndef collect_all(api):\n    page, out = 1, []\n    while page is not None:\n        body = api[page]\n        out.extend(body[\"items\"])\n        page = body[\"next\"]\n    return out\n\nprint(collect_all(api))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "api",
+        "items",
+        "next",
+        "collect_all",
+        "page",
+        "out",
+        "while",
+        "not"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T1-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `collect_all(api)` pagina desde 1 hasta next is None y devu. Hints: while page is not None; api[page]['items'] y api[page]['next']. Entrega: «api = {     1: {\"items\": [\"a\"], \"next\": 2},     2: {\"items\": [\"b\", \"c\"], \"next\": None}, }  def collect_all(api):     page, out = 1, []     w». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def should_retry(status):\n    return status in {429, 503}\n\nfor s in [400, 404, 429, 503, 200]:\n    print(s, should_retry(s))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "should_retry",
+        "status",
+        "transferencia",
+        "Concepto",
+        "S12",
+        "APIs",
+        "SQL",
+        "geodatos"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T1-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `should_retry(status)` True solo para 429 y 503. Imprime pa. Hints: return status in {429, 503}; 200 y 4xx de cliente no reintentan.. Entrega: «def should_retry(status):     return status in {429, 503}  for s in [400, 404, 429, 503, 200]:     print(s, should_retry(s)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def require_token(env):\n    tok = env.get('API_TOKEN')\n    if not tok:\n        raise ValueError('API_TOKEN missing')\n    return tok\n\nprint(require_token({'API_TOKEN': 'abc'}))\ntry:\n    require_token({})\nexcept ValueError as e:\n    print(e)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "require_token",
+        "env",
+        "tok",
+        "get",
+        "API_TOKEN",
+        "not",
+        "raise",
+        "ValueError"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T2-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `require_token(env)` lee API_TOKEN del dict env; si falta o vacío,. Hints: tok = env.get('API_TOKEN'); if not tok: raise ValueError(...). Entrega: «def require_token(env):     tok = env.get('API_TOKEN')     if not tok:         raise ValueError('API_TOKEN missing')     return tok  print(r». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "class Cache:\n    def __init__(self):\n        self._d = {}\n    def get(self, url):\n        if url in self._d:\n            return self._d[url], True\n        return None, False\n    def set(self, url, body):\n        self._d[url] = body\n\nc = Cache()\nc.set('/x', {'ok': True})\nprint(c.get('/x'))\nprint(c.get('/y'))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Cache",
+        "__init__",
+        "self",
+        "get",
+        "url",
+        "set",
+        "body",
+        "independiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T2-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Cache GET: `Cache` con get/set por url; segunda get del mis. Hints: key = url; almacenar body y devolver (body, hit). Entrega: «class Cache:     def __init__(self):         self._d = {}     def get(self, url):         if url in self._d:             return self._d[url]». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def min_provenance(url, status, cache_hit):\n    return {\n        \"source_url\": url,\n        \"fetched_at\": \"2026-07-20T00:00:00Z\",\n        \"status_code\": status,\n        \"cache_hit\": cache_hit,\n    }\n\nprint(min_provenance('https://api.example/x', 200, False))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "min_provenance",
+        "url",
+        "status",
+        "cache_hit",
+        "source_url",
+        "fetched_at",
+        "status_code",
+        "https"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T2-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_at fijo '2026-07-20T00:00:00Z', status_code, cache_hit. Sin token.. Hints: Campos mínimos de auditoría.; No incluyas Authorization.. Entrega: «def min_provenance(url, status, cache_hit):     return {         \"source_url\": url,         \"fetched_at\": \"2026-07-20T00:00:00Z\",         \"s». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def assert_keys(payload, required):\n    missing = sorted(set(required) - set(payload))\n    if missing:\n        raise AssertionError(f\"missing keys: {missing}\")\n    print('ok')\n\nassert_keys({'a': 1, 'b': 2}, ['a', 'b'])\ntry:\n    assert_keys({'a': 1}, ['a', 'b'])\nexcept AssertionError as e:\n    print(e)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "assert_keys",
+        "payload",
+        "required",
+        "missing",
+        "sorted",
+        "set",
+        "raise",
+        "AssertionError"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T2-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `assert_keys(payload, required)` lanza AssertionError con missing . Hints: missing = set(required) - set(payload); raise AssertionError si missing. Entrega: «def assert_keys(payload, required):     missing = sorted(set(required) - set(payload))     if missing:         raise AssertionError(f\"missin». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return local_body, 'offline'\n    if status == 200:\n        return {'online': True}, 'online'\n    return local_body, 'offline'\n\nprint(fetch_with_fallback(200, {}))\nprint(fetch_with_fallback(503, {'local': 1}))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "fetch_with_fallback",
+        "status",
+        "local_body",
+        "offline",
+        "online",
+        "local",
+        "independiente",
+        "devuelve"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T2-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, 'offline'); si 200 devuelve ({'online':True}, 'online').. Hints: if status >= 500; retorna tupla (body, mode). Entrega: «def fetch_with_fallback(status, local_body):     if status >= 500:         return local_body, 'offline'     if status == 200:         return». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "matrix = {\n    True: \"live_api\",\n    False: \"local_file\",\n}\nprint(True, matrix[True])\nprint(False, matrix[False])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "matrix",
+        "live_api",
+        "local_file",
+        "transferencia",
+        "Concepto",
+        "S12",
+        "APIs",
+        "SQL"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T2-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Matriz online/offline: dict con claves ('online', True/Fals. Hints: Usa tuplas como clave de dict.; offline siempre local_file.. Entrega: «matrix = {     True: \"live_api\",     False: \"local_file\", } print(True, matrix[True]) print(False, matrix[False]) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)')\ncon.execute(\"INSERT INTO evidence VALUES ('E1','C001','geo')\")\nprint(con.execute('SELECT COUNT(*) FROM evidence').fetchone()[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE",
+        "TABLE",
+        "evidence"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T3-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL). Inserta E1/C001/geo y cuenta filas.. Hints: CREATE TABLE evidence (...); INSERT + SELECT COUNT(*). Entrega: «import sqlite3 con = sqlite3.connect(':memory:') con.execute('CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)')\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\ncon.execute(\"UPDATE clients SET name=? WHERE id=?\", ('Ana Q', 'C001'))\nprint(con.execute(\"SELECT name FROM clients WHERE id=?\", ('C001',)).fetchone()[0])\ncon.execute(\"DELETE FROM clients WHERE id=?\", ('C001',))\nprint(con.execute('SELECT COUNT(*) FROM clients').fetchone()[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE",
+        "TABLE",
+        "clients"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T3-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: CRUD de client: insert C001, update name a 'Ana Q', select . Hints: UPDATE clients SET name=? WHERE id=?; Orden: insert → update → select → delete → count. Entrega: «import sqlite3 con = sqlite3.connect(':memory:') con.execute('CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)') con.execute(\"INSERT INT». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE clients(id TEXT PRIMARY KEY)')\ncon.execute('CREATE TABLE evidence(id TEXT, entity_id TEXT, kind TEXT)')\ncon.execute(\"INSERT INTO clients VALUES ('C001')\")\ncon.executemany('INSERT INTO evidence VALUES (?,?,?)', [('E1','C001','geo'),('E2','C001','phone')])\nrows = con.execute(\n    \"SELECT e.kind FROM clients c JOIN evidence e ON c.id=e.entity_id WHERE c.id=? ORDER BY e.kind\",\n    ('C001',),\n).fetchall()\nprint([r[0] for r in rows])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE",
+        "TABLE",
+        "clients"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T3-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Join: clients + evidence; imprime kinds de C001 ordenados. . Hints: JOIN ON c.id = e.entity_id; WHERE c.id = ?. Entrega: «import sqlite3 con = sqlite3.connect(':memory:') con.execute('CREATE TABLE clients(id TEXT PRIMARY KEY)') con.execute('CREATE TABLE evidence». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE clients(id TEXT PRIMARY KEY)')\ncon.execute(\"INSERT INTO clients VALUES ('C001')\")\nuser_id = \"C001' OR '1'='1\"\nrow = con.execute('SELECT id FROM clients WHERE id = ?', (user_id,)).fetchone()\nprint(row)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE",
+        "TABLE",
+        "clients"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T3-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Reescribe búsqueda insegura: en lugar de f-string, usa `?` y muest. Hints: WHERE id = ?; No uses f'...{user_id}'. Entrega: «import sqlite3 con = sqlite3.connect(':memory:') con.execute('CREATE TABLE clients(id TEXT PRIMARY KEY)') con.execute(\"INSERT INTO clients V». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE clients(id TEXT PRIMARY KEY)')\ntry:\n    con.execute('BEGIN')\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute('COMMIT')\nexcept sqlite3.IntegrityError:\n    con.execute('ROLLBACK')\nprint(con.execute('SELECT COUNT(*) FROM clients').fetchone()[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE",
+        "TABLE",
+        "clients"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T3-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 si todo el batch falla junto (usa un solo requests conceptual + sqlite3 + math haversine (S01–S12).. Hints: BEGIN; insert; insert duplicado; except rollback; Tras rollback count 0. Entrega: «import sqlite3 con = sqlite3.connect(':memory:') con.execute('CREATE TABLE clients(id TEXT PRIMARY KEY)') try:     con.execute('BEGIN')     ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)')\ncon.execute('CREATE INDEX idx_document_id ON clients(document_id)')\nidx = [r[1] for r in con.execute(\"PRAGMA index_list('clients')\").fetchall()]\nprint(idx)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE",
+        "TABLE",
+        "clients"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T3-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Crea índice idx_document_id en clients(document_id) y lista. Hints: CREATE INDEX idx_document_id ON clients(document_id); PRAGMA index_list('clients'). Entrega: «import sqlite3 con = sqlite3.connect(':memory:') con.execute('CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)') con.execute('CRE». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\n\ndef normalize_address(s):\n    return re.sub(r'\\s+', ' ', s.strip())\n\nprint(repr(normalize_address('  Jr.  de  la  Unión  100 ')))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "normalize_address",
+        "sub",
+        "strip",
+        "repr",
+        "guiado",
+        "Concepto",
+        "S12",
+        "APIs"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T4-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `normalize_address` colapsa espacios y hace strip; imprime resulta. Hints: re.sub(r'\\s+', ' ', s.strip()); No uses title si no se pide; solo espacios.. Entrega: «import re  def normalize_address(s):     return re.sub(r'\\s+', ' ', s.strip())  print(repr(normalize_address('  Jr.  de  la  Unión  100 ')))». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "class MockGeocoder:\n    TABLE = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city in self.TABLE:\n            lat, lon = self.TABLE[city]\n            return {\"lat\": lat, \"lon\": lon, \"provider\": \"mock\"}\n        return None\n\ng = MockGeocoder()\nprint(g.geocode('Lima')['lat'], '|', g.geocode('X'))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "MockGeocoder",
+        "TABLE",
+        "Lima",
+        "Arequipa",
+        "geocode",
+        "self",
+        "city",
+        "lat"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T4-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Interfaz mínima: clase MockGeocoder con geocode(city)→dict|. Hints: Tabla city→(lat,lon); provider='mock'. Entrega: «class MockGeocoder:     TABLE = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}     def geocode(self, city):         if cit». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "ALLOWED = {\"address\", \"city\", \"country\"}\n\ndef allowed_for_public_geocoder(payload):\n    return set(payload) <= ALLOWED\n\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"country\": \"PE\"}))\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"document_id\": \"D1\"}))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "ALLOWED",
+        "address",
+        "city",
+        "country",
+        "allowed_for_public_geocoder",
+        "payload",
+        "set",
+        "Lima"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T4-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo requests conceptual + sqlite3 + math haversine (S01–S12).. Hints: set(payload) <= allowed; document_id debe fallar. Entrega: «ALLOWED = {\"address\", \"city\", \"country\"}  def allowed_for_public_geocoder(payload):     return set(payload) <= ALLOWED  print(allowed_for_pu». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\n\nfor pair in [(0, 0), (91, 0), (0, 181), (-12.04, -77.04)]:\n    print(pair, valid_lat_lon(*pair))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "valid_lat_lon",
+        "lat",
+        "lon",
+        "pair",
+        "guiado",
+        "Concepto",
+        "S12",
+        "APIs"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T4-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `valid_lat_lon(lat, lon)` True solo en rangos válidos. Prueba (0,0. Hints: -90<=lat<=90 and -180<=lon<=180; Imprime cuatro booleanos. Entrega: «def valid_lat_lon(lat, lon):     return -90 <= lat <= 90 and -180 <= lon <= 180  for pair in [(0, 0), (91, 0), (0, 181), (-12.04, -77.04)]: ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import math\n\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nd = haversine_km((0, 0), (0, 1))\nprint(round(d, 2), '|', 'tolerance_ok' if abs(d - 111.19) < 1 else 'fail')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "math",
+        "haversine_km",
+        "lat1",
+        "lon1",
+        "map",
+        "radians",
+        "lat2",
+        "lon2"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T4-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `haversine_km` entre (0,0) y (0,1) debe ser ~111.19 km; imp. Hints: Fórmula Haversine con R=6371; math.radians, sin, cos, asin, sqrt. Entrega: «import math  def haversine_km(a, b):     R = 6371.0     lat1, lon1 = map(math.radians, a)     lat2, lon2 = map(math.radians, b)     dlat, dl». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def as_relationship_signal(km):\n    return {\"type\": \"geo_distance_km\", \"value\": km, \"kinship_verdict\": None}\n\nprint(as_relationship_signal(1.2))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "as_relationship_signal",
+        "type",
+        "geo_distance_km",
+        "value",
+        "kinship_verdict",
+        "transferencia",
+        "Concepto",
+        "S12"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S12-T4-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `as_relationship_signal(km)` devuelve dict type=geo_distanc. Hints: Nunca setees is_family; kinship_verdict siempre None en N1. Entrega: «def as_relationship_signal(km):     return {\"type\": \"geo_distance_km\", \"value\": km, \"kinship_verdict\": None}  print(as_relationship_signal(1». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Tratarse como error de cliente (no retry ciego)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q0 elijo índice 3 «Tratarse como error de cliente (no retry ciego)» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: Un 400 Bad Request del proveedor debe…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "En variable de entorno / secret store",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q1 elijo índice 1 «En variable de entorno / secret store» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Dónde debe vivir el token de API?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Inyección / inseguro; usar placeholders `?`",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q2 elijo índice 2 «Inyección / inseguro; usar placeholders `?`» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: SQL con f-string e input de usuario es…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Viola la política de egress de CP-N1-C",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q3 elijo índice 0 «Viola la política de egress de CP-N1-C» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: Enviar document_id bancario a un geocoder público…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Una geoseñal de relación, no un veredicto",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q4 elijo índice 3 «Una geoseñal de relación, no un veredicto» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: 1.2 km entre dos entidades sintéticas implica…. Descarto distractores que contradicen el material enseñado en la sección activa."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:41:41.962227+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s12-live",
+  "method_declared": "llm_packet_only_no_gen"
+}

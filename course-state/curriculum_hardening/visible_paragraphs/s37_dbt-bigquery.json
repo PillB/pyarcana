@@ -1,0 +1,599 @@
+{
+  "index": 37,
+  "id": "dbt-bigquery",
+  "title": "Profiling, algoritmos y rendimiento",
+  "file": "s37-dbt-bigquery.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Rendimiento del triage (CP-N3-C escala) — mapa S37",
+      "len": 50
+    },
+    {
+      "i": 1,
+      "text": "Diccionario de la sección (léelo antes de T1). Wall time: reloj de pared que percibe el batch o el usuario (time.perf_counter). CPU time: tiempo de procesador (puede ser < wall si hay I/O, o > wall con multi-core). Memory profiling: pico de RAM del path caliente. Warmup: corrida(s) descartadas para no publicar cold start. Blocking: particionar entidades por clave (ciudad, prefijo) para no generar todos los pares O(n²). Inverted index: mapa clave→lista de ids. Chunking / out-of-core: procesar por ventanas cuando n no cabe en RAM. Performance budget: umbral acordado (p95, memoria, pares) que puede fallar el PR. same_result: el resultado funcional del matching/features no cambió; sin esto no hay speedup válido.",
+      "len": 717
+    },
+    {
+      "i": 2,
+      "text": "Escalar el triage no es «hacer el código más clever»: es medir el path caliente, preservar el mismo resultado funcional y publicar un reporte antes/después con dataset, hardware y límites explícitos. Sin esa disciplina, la optimización es teatro y puede romper privacidad o tests del path N3.",
+      "len": 292
+    },
+    {
+      "i": 3,
+      "text": "Contrato de la sección. Entrada: fixture sintético CASO-LIM-037, métricas wall/CPU/memoria, conteo de pares candidatos y budgets acordados. Salida: reporte de escala con speedup y reducción de pares, más tests de regresión de performance. Error: cambiar el resultado semántico, omitir warmup o microoptimizar 2% sin medición bloquea el gate de escala.",
+      "len": 351
+    },
+    {
+      "i": 4,
+      "text": "Caso Red Andina (ficticio, Lima/Cusco): matching y features sobre registros sintéticos. El id de plataforma dbt-bigquery se conserva por legacy; aquí no hace falta BigQuery ni dbt cloud. Orden: T1 Medición → T2 Algos/blocking → T3 Memoria/I/O → T4 Budgets y costo total. Stack didáctico: stdlib (time, statistics, listas, dicts) para progressive disclosure.",
+      "len": 357
+    },
+    {
+      "i": 5,
+      "text": "wall/CPU y memory profiling",
+      "len": 27
+    },
+    {
+      "i": 6,
+      "text": "Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches didácticos usamos time.perf_counter (reloj monotónico de alta resolución). Un número de ms sin el tamaño n del input no sirve para decidir si un PR mejoró o empeoró el path.",
+      "len": 341
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: envuelve el trabajo en t0 = time.perf_counter() … wall = time.perf_counter() - t0 y, en el mismo run, verifica correctitud del resultado (p. ej. sum(range(n)) == n*(n-1)//2). Así el profile no es solo velocidad: es velocidad + verdad. En prod sumarías cProfile/tracemalloc; aquí el contrato se ve con stdlib.",
+      "len": 319
+    },
+    {
+      "i": 8,
+      "text": "Contrato operativo. Entrada: función del path caliente y n del fixture. Salida: wall_ms (o proxy), result_ok, n y metric='wall'. Error: reportar solo ms sin n, o optimizar un tramo frío. Criterio: el profile apunta al matching/grafo o features que dominan el batch sintético.",
+      "len": 275
+    },
+    {
+      "i": 9,
+      "text": "Aplicación a CASO-LIM-037-T1A: sumamos un rango sintético como proxy de trabajo, anotamos n y confirmamos result_ok. En el path real del triage se sustituye por el scorer; la disciplina de medir wall+n se mantiene. Sin PII ni datasets productivos en el laboratorio.",
+      "len": 265
+    },
+    {
+      "i": 10,
+      "text": "benchmark fixture, warmup y variabilidad",
+      "len": 40
+    },
+    {
+      "i": 11,
+      "text": "La primera corrida miente: caches de CPU, import y JIT de librerías distorsionan el cold start. El warmup descarta esa corrida. Luego se reporta mediana (robusta a un outlier) y, con más muestras, un proxy de p95. El fixture fija dataset sintético y una nota de hardware del laboratorio.",
+      "len": 287
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo: work() una vez (warmup); luego N runs midiendo cada uno con perf_counter; statistics.median(times). Con N pequeño, max(times) puede nombrarse como proxy pesimista p95_small_n — no lo vendas como p95 real de producción. Si la variabilidad es alta, subes N o aíslas ruido (otras apps, thermal).",
+      "len": 303
+    },
+    {
+      "i": 13,
+      "text": "Contrato operativo. Entrada: función work, N runs post-warmup. Salida: median_ms (o mediana de valores de lab), n_runs, warmup=True. Error: publicar un solo run sin warmup como «verdad». Criterio: no inventar speedup con un solo shot de medición. Por qué importa: si no fijas «función work, N runs post-warmup» → «median_ms (o mediana de valores de lab), n_runs, w», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «publicar un solo run sin warmup como «verdad»» para confirmar fail-closed.",
+      "len": 531
+    },
+    {
+      "i": 14,
+      "text": "Aplicación a CASO-LIM-037-T1B: work = sum de cuadrados en rango; warmup + 5 runs; mediana. El mismo fixture viaja a CI light más adelante. Datos inventados; reproducible en la laptop del estudiante sin credenciales externas.",
+      "len": 224
+    },
+    {
+      "i": 16,
+      "text": "Comparar todos los pares no ordenados es O(n²) (n*(n-1)//2) y mata el entity resolution y el grafo cuando n crece. El blocking particiona por clave (ciudad, prefijo, ventana) y solo genera candidatos dentro del bloque. La métrica de costo número uno es el conteo de pares antes y después del blocking.",
+      "len": 301
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo didáctico (bloques iguales): all_pairs = n(n-1)//2; con b bloques de tamaño n//b, blocked = b k*(k-1)//2 donde k=n//b; reduction = 1 - blocked/all_pairs. En producción las claves de blocking se validan por recall de pares útiles; aquí aprendemos a contar y a priorizar el algoritmo sobre micro-trucos de un porcentaje.",
+      "len": 328
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: n y número de bloques. Salida: all_pairs, blocked_pairs, reduction. Error: bajar 1% el inner loop y dejar n² intacto, o usar n*n en lugar de pares no ordenados. Criterio: la reducción se mide y se reporta junto al mismo resultado de matching sobre el fixture sintético.",
+      "len": 298
+    },
+    {
+      "i": 19,
+      "text": "Aplicación a CASO-LIM-037-T2A: n=100, 10 bloques iguales → all_pairs=4950, blocked=450, reduction≈0.909. En producción las claves se validan por recall de pares útiles; aquí solo contamos costo de candidatos del lab sintético. No afirma parentesco ni fraude a partir de la partición.",
+      "len": 283
+    },
+    {
+      "i": 20,
+      "text": "estructuras, vectorización y reducción de candidatos",
+      "len": 52
+    },
+    {
+      "i": 21,
+      "text": "dict/set e índices invertidos evitan scans O(n) repetidos. La vectorización ayuda cuando hay arrays densos, pero no sustituye reducir candidatos antes de features caras. El orden correcto del path de escala es bloquear → indexar → scorear con el modelo o reglas.",
+      "len": 262
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: construyes inv[city].append(entity_id) una vez; los candidatos del bloque Lima son solo las entidades de esa clave. Membership con set es O(1) amortizado frente a scan de lista. En NumPy/pandas vectorizarías el scorer; aquí el contrato de diseño se ve con defaultdict.",
+      "len": 279
+    },
+    {
+      "i": 23,
+      "text": "Contrato operativo. Entrada: filas (ciudad, entity_id) sintéticas. Salida: tamaños por bloque del inverted index y order=['block','score']. Error: scorear el producto cartesiano y luego «optimizar» el scorer. Criterio: el índice se construye una vez y los candidatos salen del bloque.",
+      "len": 284
+    },
+    {
+      "i": 24,
+      "text": "Aplicación a CASO-LIM-037-T2B: filas Lima/Lima/Cusco → bloques {Lima:2, Cusco:1}. Solo comparamos dentro de Lima. Sin afirmar parentesco ni fraude a partir de la ciudad; es solo clave de blocking sintética de laboratorio.",
+      "len": 221
+    },
+    {
+      "i": 25,
+      "text": "dtypes, chunking y columnar",
+      "len": 27
+    },
+    {
+      "i": 26,
+      "text": "Elegir dtypes más angostos (int32 vs int64, categorías) reduce memoria. El chunking procesa el dataset por ventanas para no OOM. El enfoque columnar lee solo las columnas usadas (id, amount) en lugar del registro ancho completo que arrastra blobs innecesarios.",
+      "len": 260
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: chunks(xs, size) hace yield de xs[i:i+size]; número de chunks = (n + size - 1) // size. Proxy de memoria: n * (bits//8) bytes; int32 vs int64 es ~50% de ahorro si el dominio cabe. Column subset = lista de nombres que el scorer realmente usa.",
+      "len": 252
+    },
+    {
+      "i": 28,
+      "text": "Contrato operativo. Entrada: lista o tabla sintética y size de chunk. Salida: chunk_sizes y col_subset. Error: cargar todo en RAM «porque en mi laptop cabe». Criterio: el job declara un bound de memoria y el tamaño de chunk es un tradeoff medido entre overhead de bucle y pico de RAM.",
+      "len": 284
+    },
+    {
+      "i": 29,
+      "text": "Aplicación a CASO-LIM-037-T3A: range(10) en chunks de 3 → [3,3,3,1]; subset ['id','amount']. Didáctica pura con listas; el mismo criterio aplica a formatos columnares cuando el stack del curso lo permita.",
+      "len": 204
+    },
+    {
+      "i": 30,
+      "text": "caching, invalidación y out-of-core",
+      "len": 35
+    },
+    {
+      "i": 31,
+      "text": "Cachear features o resultados de blocking acelera re-runs, pero un cache stale miente. La clave incluye versión del feature set y cutoff de datos. Out-of-core significa no asumir que todo cabe en RAM: chunk o spill a disco cuando n crece en el batch de triage.",
+      "len": 260
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: key = (feature_set_version, cutoff); hit solo si la key completa está en el dict y coincide con la versión actual. Al cambiar fs-v3→fs-v4 o el cutoff, el hit cae y se recomputa. Política ooc=chunk_if_needed documentada en el diseño del job.",
+      "len": 251
+    },
+    {
+      "i": 33,
+      "text": "Contrato operativo. Entrada: key (feature_set_version, cutoff) y política de invalidación. Salida: hit booleano y flags de invalidación. Error: cache infinito sin versión de schema. Criterio: invalidar es feature del diseño, no afterthought. Por qué importa: si no fijas «key (feature_set_version, cutoff) y política de invalidación» → «hit booleano y flags de invalidación», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «cache infinito sin versión de schema» para confirmar fail-closed.",
+      "len": 531
+    },
+    {
+      "i": 34,
+      "text": "Aplicación a CASO-LIM-037-T3B: key=('fs-v3','2026-01-01') almacena n_pairs; hit True con misma versión; miss si version_change. Solo estructuras en memoria didácticas; sin Redis ni servicios externos en el ejercicio del estudiante.",
+      "len": 231
+    },
+    {
+      "i": 35,
+      "text": "performance budget y tests",
+      "len": 26
+    },
+    {
+      "i": 36,
+      "text": "Un performance budget fija límites: p95 latency < X ms, memoria < Y, pares candidatos < Z. Un test de regresión de performance falla el PR si se rompe el budget sobre el mismo fixture. CI light corre un bench corto; nightly puede ser más largo y estricto.",
+      "len": 255
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: pass = measured_ms <= budget_ms (y análogos para memory/pairs). Un budget que siempre imprime True no es budget. Versiona el fixture de bench junto al umbral. Multi-métrica evita «mejoré p95 pero explotó la RAM».",
+      "len": 223
+    },
+    {
+      "i": 38,
+      "text": "Contrato operativo. Entrada: budget_ms y measured_ms del fixture. Salida: pass booleano y ambos números. Error: «en mi máquina pasa» sin umbral en CI, o assert True hardcodeado. Criterio: el budget se acuerda con el dueño del servicio de triage y se versiona junto al dataset de bench sintético.",
+      "len": 295
+    },
+    {
+      "i": 39,
+      "text": "Aplicación a CASO-LIM-037-T4A: budget 50ms, measured 12ms → pass True; measured 80ms → pass False. Si un cambio de scorer sube a 80ms, el test falla y se exige justificar o revertir. Sin red real; medición local del proxy de trabajo del laboratorio.",
+      "len": 249
+    },
+    {
+      "i": 40,
+      "text": "costo total, claridad y no microoptimización",
+      "len": 44
+    },
+    {
+      "i": 41,
+      "text": "El costo total incluye ingeniería humana, compute y riesgo de bugs. Una microoptimización del 2% que oscurece el código suele ser pérdida neta. El entregable de escala es el reporte antes/después con mismo resultado, dataset y límites — no un leaderboard de microbenchmarks vanidosos del autor.",
+      "len": 294
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: speedup = before_ms / after_ms (ratio, no resta); pair_reduction = before_pairs // after_pairs. Gate: si same_result es False, el reporte es inválido aunque el wall baje. micro_only=False cuando el ganador fue blocking/algoritmo, no un shave opaco del 2%.",
+      "len": 266
+    },
+    {
+      "i": 43,
+      "text": "Contrato operativo. Entrada: métricas before/after (ms, pairs) y flag same_result. Salida: speedup y pair_reduction solo si same_result; si no, reason=same_result_required. Error: shaving 2% sin medición ni reporte, o publicar speedup con resultado cambiado. Criterio: claridad y reducción algorítmica ganan a trucos opacos.",
+      "len": 324
+    },
+    {
+      "i": 44,
+      "text": "Aplicación a CASO-LIM-037-T4B: before 100ms/1e6 pares → after 20ms/5e4 pares: speedup 5×, pair_reduction 20×, same_result True. El equipo prefiere ese cambio al rewrite en C de un 2%. Datos sintéticos del path N3 de Red Andina ficticia.",
+      "len": 236
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 50,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Rendimiento del triage (CP-N3-C escala) — mapa S37",
+      "text": "Rendimiento del triage (CP-N3-C escala) — mapa S37"
+    },
+    {
+      "i": 1,
+      "len": 717,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario de la sección (léelo antes de T1). Wall time: reloj de pared que percibe el batch o el usuario (time.perf_counter). CPU time: tiempo de procesador (puede ser < wall si ",
+      "text": "Diccionario de la sección (léelo antes de T1). Wall time: reloj de pared que percibe el batch o el usuario (time.perf_counter). CPU time: tiempo de procesador (puede ser < wall si hay I/O, o > wall con multi-core). Memory profiling: pico de RAM del path caliente. Warmup: corrida(s) descartadas para no publicar cold start. Blocking: particionar entidades por clave (ciudad, prefijo) para no generar todos los pares O(n²). Inverted index: mapa clave→lista de ids. Chunking / out-of-core: procesar por ventanas cuando n no cabe en RAM. Performance budget: umbral acordado (p95, memoria, pares) que puede fallar el PR. same_result: el resultado funcional del matching/features no cambió; sin esto no hay speedup válido."
+    },
+    {
+      "i": 2,
+      "len": 292,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Escalar el triage no es «hacer el código más clever»: es medir el path caliente, preservar el mismo resultado funcional y publicar un reporte antes/después con dataset, hardware y ",
+      "text": "Escalar el triage no es «hacer el código más clever»: es medir el path caliente, preservar el mismo resultado funcional y publicar un reporte antes/después con dataset, hardware y límites explícitos. Sin esa disciplina, la optimización es teatro y puede romper privacidad o tests del path N3."
+    },
+    {
+      "i": 3,
+      "len": 351,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de la sección. Entrada: fixture sintético CASO-LIM-037, métricas wall/CPU/memoria, conteo de pares candidatos y budgets acordados. Salida: reporte de escala con speedup y ",
+      "text": "Contrato de la sección. Entrada: fixture sintético CASO-LIM-037, métricas wall/CPU/memoria, conteo de pares candidatos y budgets acordados. Salida: reporte de escala con speedup y reducción de pares, más tests de regresión de performance. Error: cambiar el resultado semántico, omitir warmup o microoptimizar 2% sin medición bloquea el gate de escala."
+    },
+    {
+      "i": 4,
+      "len": 357,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso Red Andina (ficticio, Lima/Cusco): matching y features sobre registros sintéticos. El id de plataforma dbt-bigquery se conserva por legacy; aquí no hace falta BigQuery ni dbt ",
+      "text": "Caso Red Andina (ficticio, Lima/Cusco): matching y features sobre registros sintéticos. El id de plataforma dbt-bigquery se conserva por legacy; aquí no hace falta BigQuery ni dbt cloud. Orden: T1 Medición → T2 Algos/blocking → T3 Memoria/I/O → T4 Budgets y costo total. Stack didáctico: stdlib (time, statistics, listas, dicts) para progressive disclosure."
+    },
+    {
+      "i": 5,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "wall/CPU y memory profiling",
+      "text": "wall/CPU y memory profiling"
+    },
+    {
+      "i": 6,
+      "len": 341,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches didácticos u",
+      "text": "Wall time es el reloj de pared que percibe el usuario o el batch; CPU time es el tiempo de procesador; la memoria pico limita si el job cabe en el worker. Para benches didácticos usamos time.perf_counter (reloj monotónico de alta resolución). Un número de ms sin el tamaño n del input no sirve para decidir si un PR mejoró o empeoró el path."
+    },
+    {
+      "i": 7,
+      "len": 319,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: envuelve el trabajo en t0 = time.perf_counter() … wall = time.perf_counter() - t0 y, en el mismo run, verifica correctitud del resultado (p. ej. sum(range(n)) == n*(n-1)",
+      "text": "Mecanismo: envuelve el trabajo en t0 = time.perf_counter() … wall = time.perf_counter() - t0 y, en el mismo run, verifica correctitud del resultado (p. ej. sum(range(n)) == n*(n-1)//2). Así el profile no es solo velocidad: es velocidad + verdad. En prod sumarías cProfile/tracemalloc; aquí el contrato se ve con stdlib."
+    },
+    {
+      "i": 8,
+      "len": 275,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: función del path caliente y n del fixture. Salida: wall_ms (o proxy), result_ok, n y metric='wall'. Error: reportar solo ms sin n, o optimizar un tramo",
+      "text": "Contrato operativo. Entrada: función del path caliente y n del fixture. Salida: wall_ms (o proxy), result_ok, n y metric='wall'. Error: reportar solo ms sin n, o optimizar un tramo frío. Criterio: el profile apunta al matching/grafo o features que dominan el batch sintético."
+    },
+    {
+      "i": 9,
+      "len": 265,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-037-T1A: sumamos un rango sintético como proxy de trabajo, anotamos n y confirmamos result_ok. En el path real del triage se sustituye por el scorer; la disci",
+      "text": "Aplicación a CASO-LIM-037-T1A: sumamos un rango sintético como proxy de trabajo, anotamos n y confirmamos result_ok. En el path real del triage se sustituye por el scorer; la disciplina de medir wall+n se mantiene. Sin PII ni datasets productivos en el laboratorio."
+    },
+    {
+      "i": 10,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "benchmark fixture, warmup y variabilidad",
+      "text": "benchmark fixture, warmup y variabilidad"
+    },
+    {
+      "i": 11,
+      "len": 287,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La primera corrida miente: caches de CPU, import y JIT de librerías distorsionan el cold start. El warmup descarta esa corrida. Luego se reporta mediana (robusta a un outlier) y, c",
+      "text": "La primera corrida miente: caches de CPU, import y JIT de librerías distorsionan el cold start. El warmup descarta esa corrida. Luego se reporta mediana (robusta a un outlier) y, con más muestras, un proxy de p95. El fixture fija dataset sintético y una nota de hardware del laboratorio."
+    },
+    {
+      "i": 12,
+      "len": 303,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: work() una vez (warmup); luego N runs midiendo cada uno con perf_counter; statistics.median(times). Con N pequeño, max(times) puede nombrarse como proxy pesimista p95_sm",
+      "text": "Mecanismo: work() una vez (warmup); luego N runs midiendo cada uno con perf_counter; statistics.median(times). Con N pequeño, max(times) puede nombrarse como proxy pesimista p95_small_n — no lo vendas como p95 real de producción. Si la variabilidad es alta, subes N o aíslas ruido (otras apps, thermal)."
+    },
+    {
+      "i": 13,
+      "len": 531,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: función work, N runs post-warmup. Salida: median_ms (o mediana de valores de lab), n_runs, warmup=True. Error: publicar un solo run sin warmup como «ve",
+      "text": "Contrato operativo. Entrada: función work, N runs post-warmup. Salida: median_ms (o mediana de valores de lab), n_runs, warmup=True. Error: publicar un solo run sin warmup como «verdad». Criterio: no inventar speedup con un solo shot de medición. Por qué importa: si no fijas «función work, N runs post-warmup» → «median_ms (o mediana de valores de lab), n_runs, w», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «publicar un solo run sin warmup como «verdad»» para confirmar fail-closed."
+    },
+    {
+      "i": 14,
+      "len": 224,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-037-T1B: work = sum de cuadrados en rango; warmup + 5 runs; mediana. El mismo fixture viaja a CI light más adelante. Datos inventados; reproducible en la lapt",
+      "text": "Aplicación a CASO-LIM-037-T1B: work = sum de cuadrados en rango; warmup + 5 runs; mediana. El mismo fixture viaja a CI light más adelante. Datos inventados; reproducible en la laptop del estudiante sin credenciales externas."
+    },
+    {
+      "i": 16,
+      "len": 301,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Comparar todos los pares no ordenados es O(n²) (n*(n-1)//2) y mata el entity resolution y el grafo cuando n crece. El blocking particiona por clave (ciudad, prefijo, ventana) y sol",
+      "text": "Comparar todos los pares no ordenados es O(n²) (n*(n-1)//2) y mata el entity resolution y el grafo cuando n crece. El blocking particiona por clave (ciudad, prefijo, ventana) y solo genera candidatos dentro del bloque. La métrica de costo número uno es el conteo de pares antes y después del blocking."
+    },
+    {
+      "i": 17,
+      "len": 328,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo didáctico (bloques iguales): all_pairs = n(n-1)//2; con b bloques de tamaño n//b, blocked = b k*(k-1)//2 donde k=n//b; reduction = 1 - blocked/all_pairs. En producción la",
+      "text": "Mecanismo didáctico (bloques iguales): all_pairs = n(n-1)//2; con b bloques de tamaño n//b, blocked = b k*(k-1)//2 donde k=n//b; reduction = 1 - blocked/all_pairs. En producción las claves de blocking se validan por recall de pares útiles; aquí aprendemos a contar y a priorizar el algoritmo sobre micro-trucos de un porcentaje."
+    },
+    {
+      "i": 18,
+      "len": 298,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: n y número de bloques. Salida: all_pairs, blocked_pairs, reduction. Error: bajar 1% el inner loop y dejar n² intacto, o usar n*n en lugar de pares no o",
+      "text": "Contrato operativo. Entrada: n y número de bloques. Salida: all_pairs, blocked_pairs, reduction. Error: bajar 1% el inner loop y dejar n² intacto, o usar n*n en lugar de pares no ordenados. Criterio: la reducción se mide y se reporta junto al mismo resultado de matching sobre el fixture sintético."
+    },
+    {
+      "i": 19,
+      "len": 283,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-037-T2A: n=100, 10 bloques iguales → all_pairs=4950, blocked=450, reduction≈0.909. En producción las claves se validan por recall de pares útiles; aquí solo c",
+      "text": "Aplicación a CASO-LIM-037-T2A: n=100, 10 bloques iguales → all_pairs=4950, blocked=450, reduction≈0.909. En producción las claves se validan por recall de pares útiles; aquí solo contamos costo de candidatos del lab sintético. No afirma parentesco ni fraude a partir de la partición."
+    },
+    {
+      "i": 20,
+      "len": 52,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "estructuras, vectorización y reducción de candidatos",
+      "text": "estructuras, vectorización y reducción de candidatos"
+    },
+    {
+      "i": 21,
+      "len": 262,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "dict/set e índices invertidos evitan scans O(n) repetidos. La vectorización ayuda cuando hay arrays densos, pero no sustituye reducir candidatos antes de features caras. El orden c",
+      "text": "dict/set e índices invertidos evitan scans O(n) repetidos. La vectorización ayuda cuando hay arrays densos, pero no sustituye reducir candidatos antes de features caras. El orden correcto del path de escala es bloquear → indexar → scorear con el modelo o reglas."
+    },
+    {
+      "i": 22,
+      "len": 279,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: construyes inv[city].append(entity_id) una vez; los candidatos del bloque Lima son solo las entidades de esa clave. Membership con set es O(1) amortizado frente a scan d",
+      "text": "Mecanismo: construyes inv[city].append(entity_id) una vez; los candidatos del bloque Lima son solo las entidades de esa clave. Membership con set es O(1) amortizado frente a scan de lista. En NumPy/pandas vectorizarías el scorer; aquí el contrato de diseño se ve con defaultdict."
+    },
+    {
+      "i": 23,
+      "len": 284,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: filas (ciudad, entity_id) sintéticas. Salida: tamaños por bloque del inverted index y order=['block','score']. Error: scorear el producto cartesiano y ",
+      "text": "Contrato operativo. Entrada: filas (ciudad, entity_id) sintéticas. Salida: tamaños por bloque del inverted index y order=['block','score']. Error: scorear el producto cartesiano y luego «optimizar» el scorer. Criterio: el índice se construye una vez y los candidatos salen del bloque."
+    },
+    {
+      "i": 24,
+      "len": 221,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-037-T2B: filas Lima/Lima/Cusco → bloques {Lima:2, Cusco:1}. Solo comparamos dentro de Lima. Sin afirmar parentesco ni fraude a partir de la ciudad; es solo cl",
+      "text": "Aplicación a CASO-LIM-037-T2B: filas Lima/Lima/Cusco → bloques {Lima:2, Cusco:1}. Solo comparamos dentro de Lima. Sin afirmar parentesco ni fraude a partir de la ciudad; es solo clave de blocking sintética de laboratorio."
+    },
+    {
+      "i": 25,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "dtypes, chunking y columnar",
+      "text": "dtypes, chunking y columnar"
+    },
+    {
+      "i": 26,
+      "len": 260,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Elegir dtypes más angostos (int32 vs int64, categorías) reduce memoria. El chunking procesa el dataset por ventanas para no OOM. El enfoque columnar lee solo las columnas usadas (i",
+      "text": "Elegir dtypes más angostos (int32 vs int64, categorías) reduce memoria. El chunking procesa el dataset por ventanas para no OOM. El enfoque columnar lee solo las columnas usadas (id, amount) en lugar del registro ancho completo que arrastra blobs innecesarios."
+    },
+    {
+      "i": 27,
+      "len": 252,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: chunks(xs, size) hace yield de xs[i:i+size]; número de chunks = (n + size - 1) // size. Proxy de memoria: n * (bits//8) bytes; int32 vs int64 es ~50% de ahorro si el dom",
+      "text": "Mecanismo: chunks(xs, size) hace yield de xs[i:i+size]; número de chunks = (n + size - 1) // size. Proxy de memoria: n * (bits//8) bytes; int32 vs int64 es ~50% de ahorro si el dominio cabe. Column subset = lista de nombres que el scorer realmente usa."
+    },
+    {
+      "i": 28,
+      "len": 284,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: lista o tabla sintética y size de chunk. Salida: chunk_sizes y col_subset. Error: cargar todo en RAM «porque en mi laptop cabe». Criterio: el job decla",
+      "text": "Contrato operativo. Entrada: lista o tabla sintética y size de chunk. Salida: chunk_sizes y col_subset. Error: cargar todo en RAM «porque en mi laptop cabe». Criterio: el job declara un bound de memoria y el tamaño de chunk es un tradeoff medido entre overhead de bucle y pico de RAM."
+    },
+    {
+      "i": 29,
+      "len": 204,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-037-T3A: range(10) en chunks de 3 → [3,3,3,1]; subset ['id','amount']. Didáctica pura con listas; el mismo criterio aplica a formatos columnares cuando el sta",
+      "text": "Aplicación a CASO-LIM-037-T3A: range(10) en chunks de 3 → [3,3,3,1]; subset ['id','amount']. Didáctica pura con listas; el mismo criterio aplica a formatos columnares cuando el stack del curso lo permita."
+    },
+    {
+      "i": 30,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "caching, invalidación y out-of-core",
+      "text": "caching, invalidación y out-of-core"
+    },
+    {
+      "i": 31,
+      "len": 260,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cachear features o resultados de blocking acelera re-runs, pero un cache stale miente. La clave incluye versión del feature set y cutoff de datos. Out-of-core significa no asumir q",
+      "text": "Cachear features o resultados de blocking acelera re-runs, pero un cache stale miente. La clave incluye versión del feature set y cutoff de datos. Out-of-core significa no asumir que todo cabe en RAM: chunk o spill a disco cuando n crece en el batch de triage."
+    },
+    {
+      "i": 32,
+      "len": 251,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: key = (feature_set_version, cutoff); hit solo si la key completa está en el dict y coincide con la versión actual. Al cambiar fs-v3→fs-v4 o el cutoff, el hit cae y se re",
+      "text": "Mecanismo: key = (feature_set_version, cutoff); hit solo si la key completa está en el dict y coincide con la versión actual. Al cambiar fs-v3→fs-v4 o el cutoff, el hit cae y se recomputa. Política ooc=chunk_if_needed documentada en el diseño del job."
+    },
+    {
+      "i": 33,
+      "len": 531,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: key (feature_set_version, cutoff) y política de invalidación. Salida: hit booleano y flags de invalidación. Error: cache infinito sin versión de schema",
+      "text": "Contrato operativo. Entrada: key (feature_set_version, cutoff) y política de invalidación. Salida: hit booleano y flags de invalidación. Error: cache infinito sin versión de schema. Criterio: invalidar es feature del diseño, no afterthought. Por qué importa: si no fijas «key (feature_set_version, cutoff) y política de invalidación» → «hit booleano y flags de invalidación», el demo y el weDo no son comparables. Cómo verificarlo: reproduce el happy path y fuerza «cache infinito sin versión de schema» para confirmar fail-closed."
+    },
+    {
+      "i": 34,
+      "len": 231,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-037-T3B: key=('fs-v3','2026-01-01') almacena n_pairs; hit True con misma versión; miss si version_change. Solo estructuras en memoria didácticas; sin Redis ni",
+      "text": "Aplicación a CASO-LIM-037-T3B: key=('fs-v3','2026-01-01') almacena n_pairs; hit True con misma versión; miss si version_change. Solo estructuras en memoria didácticas; sin Redis ni servicios externos en el ejercicio del estudiante."
+    },
+    {
+      "i": 35,
+      "len": 26,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "performance budget y tests",
+      "text": "performance budget y tests"
+    },
+    {
+      "i": 36,
+      "len": 255,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un performance budget fija límites: p95 latency < X ms, memoria < Y, pares candidatos < Z. Un test de regresión de performance falla el PR si se rompe el budget sobre el mismo fixt",
+      "text": "Un performance budget fija límites: p95 latency < X ms, memoria < Y, pares candidatos < Z. Un test de regresión de performance falla el PR si se rompe el budget sobre el mismo fixture. CI light corre un bench corto; nightly puede ser más largo y estricto."
+    },
+    {
+      "i": 37,
+      "len": 223,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: pass = measured_ms <= budget_ms (y análogos para memory/pairs). Un budget que siempre imprime True no es budget. Versiona el fixture de bench junto al umbral. Multi-métr",
+      "text": "Mecanismo: pass = measured_ms <= budget_ms (y análogos para memory/pairs). Un budget que siempre imprime True no es budget. Versiona el fixture de bench junto al umbral. Multi-métrica evita «mejoré p95 pero explotó la RAM»."
+    },
+    {
+      "i": 38,
+      "len": 295,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: budget_ms y measured_ms del fixture. Salida: pass booleano y ambos números. Error: «en mi máquina pasa» sin umbral en CI, o assert True hardcodeado. Cr",
+      "text": "Contrato operativo. Entrada: budget_ms y measured_ms del fixture. Salida: pass booleano y ambos números. Error: «en mi máquina pasa» sin umbral en CI, o assert True hardcodeado. Criterio: el budget se acuerda con el dueño del servicio de triage y se versiona junto al dataset de bench sintético."
+    },
+    {
+      "i": 39,
+      "len": 249,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-037-T4A: budget 50ms, measured 12ms → pass True; measured 80ms → pass False. Si un cambio de scorer sube a 80ms, el test falla y se exige justificar o reverti",
+      "text": "Aplicación a CASO-LIM-037-T4A: budget 50ms, measured 12ms → pass True; measured 80ms → pass False. Si un cambio de scorer sube a 80ms, el test falla y se exige justificar o revertir. Sin red real; medición local del proxy de trabajo del laboratorio."
+    },
+    {
+      "i": 40,
+      "len": 44,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "costo total, claridad y no microoptimización",
+      "text": "costo total, claridad y no microoptimización"
+    },
+    {
+      "i": 41,
+      "len": 294,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El costo total incluye ingeniería humana, compute y riesgo de bugs. Una microoptimización del 2% que oscurece el código suele ser pérdida neta. El entregable de escala es el report",
+      "text": "El costo total incluye ingeniería humana, compute y riesgo de bugs. Una microoptimización del 2% que oscurece el código suele ser pérdida neta. El entregable de escala es el reporte antes/después con mismo resultado, dataset y límites — no un leaderboard de microbenchmarks vanidosos del autor."
+    },
+    {
+      "i": 42,
+      "len": 266,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: speedup = before_ms / after_ms (ratio, no resta); pair_reduction = before_pairs // after_pairs. Gate: si same_result es False, el reporte es inválido aunque el wall baje",
+      "text": "Mecanismo: speedup = before_ms / after_ms (ratio, no resta); pair_reduction = before_pairs // after_pairs. Gate: si same_result es False, el reporte es inválido aunque el wall baje. micro_only=False cuando el ganador fue blocking/algoritmo, no un shave opaco del 2%."
+    },
+    {
+      "i": 43,
+      "len": 324,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: métricas before/after (ms, pairs) y flag same_result. Salida: speedup y pair_reduction solo si same_result; si no, reason=same_result_required. Error: ",
+      "text": "Contrato operativo. Entrada: métricas before/after (ms, pairs) y flag same_result. Salida: speedup y pair_reduction solo si same_result; si no, reason=same_result_required. Error: shaving 2% sin medición ni reporte, o publicar speedup con resultado cambiado. Criterio: claridad y reducción algorítmica ganan a trucos opacos."
+    },
+    {
+      "i": 44,
+      "len": 236,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación a CASO-LIM-037-T4B: before 100ms/1e6 pares → after 20ms/5e4 pares: speedup 5×, pair_reduction 20×, same_result True. El equipo prefiere ese cambio al rewrite en C de un ",
+      "text": "Aplicación a CASO-LIM-037-T4B: before 100ms/1e6 pares → after 20ms/5e4 pares: speedup 5×, pair_reduction 20×, same_result True. El equipo prefiere ese cambio al rewrite en C de un 2%. Datos sintéticos del path N3 de Red Andina ficticia."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 17447
+}

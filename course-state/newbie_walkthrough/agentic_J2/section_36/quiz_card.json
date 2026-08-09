@@ -1,0 +1,503 @@
+{
+  "section_index": 36,
+  "title": "Clustering, anomalías y validación temporal",
+  "outcomes": [
+    "Aplicar clustering con escalamiento previo de features",
+    "Elegir k con estabilidad multi-seed y reportar límites de métricas internas",
+    "Proyectar con PCA (o pesos toy) solo para exploración visual",
+    "Interpretar proyecciones con prudencia y sin auto-etiquetar culpa",
+    "Detectar rareza con reglas σ e ideas IF/LOF sin veredicto de conducta",
+    "Distinguir novelty vs outlier y calibrar contamination a capacidad de review",
+    "Validar con backtests temporales y ventanas sin leakage",
+    "Evaluar con labels escasos vía precision@k y revisión humana obligatoria"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S36-T1-A",
+      "heading": "escalamiento y k-means/density",
+      "paragraphs": [
+        "Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan regiones densas; aquí usamos un toy 1D de centroides. Los centroides son resúmenes geométricos, no etiquetas morales ni de fraude.",
+        "Contrato operativo. Entrada: vector de features sintéticas y decisión de escalado. Salida: centroides y flags scaled=True, verdict=False. Error: clusterizar montos crudos contra conteos sin normalizar, o publicar el cluster como veredicto. Criterio: el pipeline documenta scale-first y prohíbe usar el id de cluster como sanción.",
+        "Aplicación a `CASO-LIM-036-T1A`: xs=[1.0,1.2,5.0,5.2,5.1] → c1≈1.1, c2≈5.1. Dos grupos de «bajo/alto» sintético del laboratorio; scaled True; verdict False siempre. Útil para segmentar la cola de review, nunca para culpar ni inferir parentesco o fraude a partir del centroide."
+      ],
+      "code": "xs = [1.0, 1.2, 5.0, 5.2, 5.1]\nc1 = sum(xs[:2])/2; c2 = sum(xs[2:])/3\nprint(\"c1\", round(c1, 2), \"c2\", round(c2, 2))\nprint(\"scaled\", True)\nprint(\"verdict\", False)",
+      "code_output": "c1 1.1 c2 5.1\nscaled True\nverdict False"
+    },
+    {
+      "subtopicId": "S36-T1-B",
+      "heading": "elección, estabilidad y métricas limitadas",
+      "paragraphs": [
+        "Elige k con estabilidad multi-seed y sentido de negocio (capacidad de cola), no solo maximizando silhouette. Las métricas internas fallan con formas raras, solapamiento y desbalance. Reporta sensibilidad a seed en el notebook de señales del triage sintético.",
+        "Contrato operativo. Entrada: mapa k→score interno sintético. Salida: k elegido, score y stable_check=multi_seed. Error: k que fragmenta de más la cola o que no se sostiene entre seeds. Criterio: silhouette alto no legitima sanción; la decisión de k se documenta con límites explícitos de la métrica interna.",
+        "Aplicación a `CASO-LIM-036-T1B`: scores {2:0.4, 3:0.55, 4:0.52} → k=3 con score 0.55. Se exige multi_seed en el checklist del PR de señales. Datos inventados del laboratorio; no existen labels de «culpable» ni de parentesco en este fixture."
+      ],
+      "code": "scores = {2: 0.4, 3: 0.55, 4: 0.52}\nbest = max(scores, key=scores.get)\nprint(\"k\", best)\nprint(\"score\", scores[best])\nprint(\"stable_check\", \"multi_seed\")",
+      "code_output": "k 3\nscore 0.55\nstable_check multi_seed"
+    },
+    {
+      "subtopicId": "S36-T2-A",
+      "heading": "PCA y visualización",
+      "paragraphs": [
+        "PCA proyecta a 1–2D para explorar; no es el modelo de decisión final del triage. La varianza explicada informa compresión, no causalidad. Didáctica: proyección manual por pesos fijos sobre features sintéticas del caso Red Andina ficticio.",
+        "Contrato operativo. Entrada: puntos y pesos de proyección. Salida: coordenadas pc y decision_model=False. Error: clasificar culpa en el scatter o tratar el eje como «eje de fraude». Criterio: el artefacto se etiqueta exploratory y no alimenta un auto-rechazo ni una sanción automática.",
+        "Aplicación a `CASO-LIM-036-T2A`: w=(0.8,0.2) sobre puntos toy → lista pc; var_idea weighted; decision_model False. Solo exploración visual del space de features sintéticas; el revisor humano sigue mandando en la cola de triage."
+      ],
+      "code": "w = (0.8, 0.2)\npts = [(1, 2), (2, 1), (8, 9)]\npc = [w[0]*x + w[1]*y for x, y in pts]\nprint(\"pc\", [round(v, 2) for v in pc])\nprint(\"var_idea\", \"weighted\")\nprint(\"decision_model\", False)",
+      "code_output": "pc [1.2, 1.8, 8.2]\nvar_idea weighted\ndecision_model False"
+    },
+    {
+      "subtopicId": "S36-T2-B",
+      "heading": "interpretación prudente de proyecciones",
+      "paragraphs": [
+        "Los ejes PC no traen nombre de negocio automático: no inventes «PC2 = riesgo moral». Un outlier visual puede ser escala mal hecha o un error de datos, no un villano. Documenta el uso como exploratorio en el dossier de señales del pipeline sintético.",
+        "Contrato operativo. Entrada: proyección y checklist de interpretación. Salida: axis_named_by_business=False, use=exploratory, auto_label=False. Error: auto-etiquetar clusters en el plot como «sospechosos». Criterio: cualquier historia de negocio sobre un eje se valida con features originales y un humano revisor.",
+        "Aplicación a `CASO-LIM-036-T2B`: flags de prudencia en el reporte de laboratorio. Si un punto se aleja en el scatter, primero revisa scale y missingness sintéticos antes de encolar review; nunca auto-label de conducta indebida."
+      ],
+      "code": "print(\"axis_named_by_business\", False)\nprint(\"use\", \"exploratory\")\nprint(\"auto_label\", False)",
+      "code_output": "axis_named_by_business False\nuse exploratory\nauto_label False"
+    },
+    {
+      "subtopicId": "S36-T3-A",
+      "heading": "Isolation Forest/LOF y reglas",
+      "paragraphs": [
+        "Isolation Forest y LOF (conceptual) generan scores de rareza; las reglas legibles (monto > μ+3σ) ayudan al revisor a entender el flag. Score alto ⇒ candidato a review, no culpa. Combina modelo y regla cuando puedas explicar el caso sintético en una frase clara.",
+        "Contrato operativo. Entrada: serie sintética de montos. Salida: flags binarios, method y misconduct=False. Error: pipe del flag a un despido o bloqueo automático. Criterio: todo flag de rareza conserva ruta humana y disclaimer explícito de no-conducta en el workbench de triage.",
+        "Aplicación a `CASO-LIM-036-T3A`: xs=[10,11,10,12,50]; μ sobre los «normales» del lab → flag en 50. method rule_sigma; misconduct False. El valor 50 es raro respecto al resto, no «culpable» ni prueba de fraude o parentesco."
+      ],
+      "code": "import statistics\nxs = [10, 11, 10, 12, 50]\nmu = statistics.mean(xs[:-1]); sd = statistics.pstdev(xs[:-1]) or 1\nrule = [1 if x > mu + 3 * sd else 0 for x in xs]\nprint(\"mu\", mu, \"flags\", rule)\nprint(\"method\", \"rule_sigma\")\nprint(\"misconduct\", False)",
+      "code_output": "mu 10.75 flags [0, 0, 0, 0, 1]\nmethod rule_sigma\nmisconduct False"
+    },
+    {
+      "subtopicId": "S36-T3-B",
+      "heading": "novelty vs outlier y contamination",
+      "paragraphs": [
+        "Outlier: punto raro respecto al train. Novelty: punto nuevo comparado con un modelo de normalidad ya fijado. contamination es una hipótesis de fracción a flaggear, no la prevalencia de fraude del negocio. Ajústala a la capacidad real de la cola de review sintética del lab.",
+        "Contrato operativo. Entrada: contamination y n del batch sintético. Salida: expected_flags e is_fraud_rate=False. Error: vender contamination=0.05 como «5% de fraude». Criterio: expected_flags ≤ capacidad de review; si no, bajas contamination o priorizas con otra señal auxiliar documentada.",
+        "Aplicación a `CASO-LIM-036-T3B`: contamination=0.05, n=200 → expected_flags=10. use=capacity_tuning. Sin afirmar tasas reales de ilícitos ni parentesco; solo control de rareza y de carga de la cola de analistas del caso ficticio."
+      ],
+      "code": "contamination = 0.05\nn = 200\nprint(\"expected_flags\", int(n * contamination))\nprint(\"contamination_is_fraud_rate\", False)\nprint(\"use\", \"capacity_tuning\")",
+      "code_output": "expected_flags 10\ncontamination_is_fraud_rate False\nuse capacity_tuning"
+    },
+    {
+      "subtopicId": "S36-T4-A",
+      "heading": "splits/backtests y ventanas",
+      "paragraphs": [
+        "Valida señales con backtest temporal: fit de normalidad en el pasado, score en el futuro. Ventanas deslizantes miden estabilidad de la flag rate. Sin labels densos, usa un proxy de utilidad (click de review sintético), nunca leakage de datos futuros en el fit del modelo de normalidad.",
+        "Contrato operativo. Entrada: ventanas (mes, flag_rate). Salida: mean_flag_rate, backtest=True, leakage=False. Error: entrenar con todo el histórico incluyendo el mes evaluado. Criterio: el split es temporal y se documenta; un spike de flags se investiga antes de ampliar la cola de review.",
+        "Aplicación a `CASO-LIM-036-T4A`: rates 0.1, 0.12, 0.09 → mean≈0.103. backtest True, leakage False. Solo series sintéticas de laboratorio Red Andina; el reloj del caso manda sobre cualquier shuffle aleatorio."
+      ],
+      "code": "windows = [(\"2026-01\", 0.1), (\"2026-02\", 0.12), (\"2026-03\", 0.09)]\nprint(\"mean_flag_rate\", round(sum(r for _, r in windows)/3, 3))\nprint(\"backtest\", True)\nprint(\"leakage\", False)",
+      "code_output": "mean_flag_rate 0.103\nbacktest True\nleakage False"
+    },
+    {
+      "subtopicId": "S36-T4-B",
+      "heading": "labels escasos, precision@k y revisión humana",
+      "paragraphs": [
+        "Con pocas etiquetas, precision@k y el acuerdo humano importan más que un ROC fantasma. El revisor valida si la señal ahorra tiempo en la cola. Nunca: anomalía → conducta indebida automática. El HITL es parte del contrato operativo, no un adorno del dashboard.",
+        "Contrato operativo. Entrada: ranking binario de utilidad sintética y k. Salida: precision_at_k, human_in_loop=True, auto_guilt=False. Error: optimizar solo accuracy global con labels ralos. Criterio: se reporta P@k y se mantiene la ruta humana obligatoria para acciones que afectan personas detrás de los ids sintéticos.",
+        "Aplicación a `CASO-LIM-036-T4B`: ranked=[1,0,1,0,0], k=3 → P@k≈0.67. human_in_loop True; auto_guilt False. La métrica de negocio del lab es «¿ayudó a la cola sintética de review?», no un veredicto moral sobre el titular del registro."
+      ],
+      "code": "ranked = [1, 0, 1, 0, 0]\nk = 3\nprint(\"precision_at_k\", sum(ranked[:k])/k)\nprint(\"human_in_loop\", True)\nprint(\"auto_guilt\", False)",
+      "code_output": "precision_at_k 0.6666666666666666\nhuman_in_loop True\nauto_guilt False"
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S36-T1-A-DEMO",
+        "subtopicId": "S36-T1-A",
+        "environment": "local-python",
+        "description": "Demo: centroides 1D de dos grupos sintéticos.",
+        "why": "Centroides toy con scale-first; no hay veredicto de conducta.",
+        "code": "print('c1', 1.0)\nprint('c2', 5.0)\nprint('scaled', True)",
+        "language": "python",
+        "output": "c1 1.0\nc2 5.0\nscaled True"
+      },
+      {
+        "demoId": "S36-T1-B-DEMO",
+        "subtopicId": "S36-T1-B",
+        "environment": "local-python",
+        "description": "Demo: elegir k por score interno.",
+        "why": "Argmax de score + recordatorio de multi-seed en teoría.",
+        "code": "s={2:0.3,3:0.5}; print('k', max(s,key=s.get))\nprint('score', 0.5)\nprint('ok', True)",
+        "language": "python",
+        "output": "k 3\nscore 0.5\nok True"
+      },
+      {
+        "demoId": "S36-T2-A-DEMO",
+        "subtopicId": "S36-T2-A",
+        "environment": "local-python",
+        "description": "Demo: proyección ponderada exploratoria.",
+        "why": "PCA toy como lupa; decision_model fuera del demo.",
+        "code": "print(round(0.8*2+0.2*4,2))\nprint('exploratory', True)\nprint('ok', True)",
+        "language": "python",
+        "output": "2.4\nexploratory True\nok True"
+      },
+      {
+        "demoId": "S36-T2-B-DEMO",
+        "subtopicId": "S36-T2-B",
+        "environment": "local-python",
+        "description": "Demo: límites de interpretación de ejes.",
+        "why": "Prohíbe auto-nombrar ejes y auto-etiquetar culpa.",
+        "code": "print('business_axis', False)\nprint('use', 'explore')\nprint('ok', True)",
+        "language": "python",
+        "output": "business_axis False\nuse explore\nok True"
+      },
+      {
+        "demoId": "S36-T3-A-DEMO",
+        "subtopicId": "S36-T3-A",
+        "environment": "local-python",
+        "description": "Demo: flags de regla sigma sintéticos.",
+        "why": "Rareza encola review; misconduct False es política.",
+        "code": "print('flags', [0,0,1])\nprint('misconduct', False)\nprint('ok', True)",
+        "language": "python",
+        "output": "flags [0, 0, 1]\nmisconduct False\nok True"
+      },
+      {
+        "demoId": "S36-T3-B-DEMO",
+        "subtopicId": "S36-T3-B",
+        "environment": "local-python",
+        "description": "Demo: expected flags por contamination.",
+        "why": "contamination calibra carga; no es tasa de fraude.",
+        "code": "print(int(100*0.05))\nprint('is_fraud_rate', False)\nprint('ok', True)",
+        "language": "python",
+        "output": "5\nis_fraud_rate False\nok True"
+      },
+      {
+        "demoId": "S36-T4-A-DEMO",
+        "subtopicId": "S36-T4-A",
+        "environment": "local-python",
+        "description": "Demo: media de flag rates en backtest.",
+        "why": "Backtest temporal con leakage=False en el contrato de teoría.",
+        "code": "print(round((0.1+0.2)/2,2))\nprint('backtest', True)\nprint('ok', True)",
+        "language": "python",
+        "output": "0.15\nbacktest True\nok True"
+      },
+      {
+        "demoId": "S36-T4-B-DEMO",
+        "subtopicId": "S36-T4-B",
+        "environment": "local-python",
+        "description": "Demo: precision@k y veto de auto_guilt.",
+        "why": "P@k + HITL miden utilidad de cola con labels escasos.",
+        "code": "print(0.5)\nprint('human', True)\nprint('auto_guilt', False)",
+        "language": "python",
+        "output": "0.5\nhuman True\nauto_guilt False"
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "Una anomalía en el triage significa:",
+      "options": [
+        "Fraude probado",
+        "Parentesco",
+        "Despido",
+        "Señal de rareza a revisar"
+      ]
+    },
+    {
+      "question": "contamination representa:",
+      "options": [
+        "Tasa de fraude real",
+        "Hipótesis de fracción rara a flaggear",
+        "Accuracy",
+        "Kafka lag"
+      ]
+    },
+    {
+      "question": "PCA en este curso se usa para:",
+      "options": [
+        "Etiquetar culpa",
+        "Reemplazar el workbench",
+        "Exploración/visualización prudente",
+        "Borrar features"
+      ]
+    },
+    {
+      "question": "Con labels escasos prioriza:",
+      "options": [
+        "precision@k y feedback humano",
+        "Solo accuracy global",
+        "Aumentar contamination a 0.9",
+        "Eliminar reglas"
+      ]
+    },
+    {
+      "question": "Un fit de normalidad que incluye el mes evaluado comete:",
+      "options": [
+        "Warmup",
+        "Blocking",
+        "Backpressure",
+        "Leakage temporal"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S36-T1-A-E1",
+      "instruction": "S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clustering sintético CASO-LIM-036-1A; no es veredicto de conducta.",
+      "hints": [
+        "Centroide 1D = media del grupo.",
+        "No uses la suma cruda como centroide."
+      ],
+      "kind": "guided",
+      "tests": "Salida alinea con solution output de S36-T1-A-E1; fixture sintético.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sum(xs)/len(xs))\n"
+    },
+    {
+      "id": "S36-T1-A-E2",
+      "instruction": "S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Escala antes de k-means en el path sintético.",
+      "hints": [
+        "z = (x-mu)/sd.",
+        "Sin scale, gana la magnitud."
+      ],
+      "kind": "independent",
+      "tests": "Salida alinea con solution output de S36-T1-A-E2; fixture sintético.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print((x - mu) / sd)\n"
+    },
+    {
+      "id": "S36-T1-A-E3",
+      "instruction": "S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en culpa). Transferencia ética del triage CP-N3-C señales.",
+      "hints": [
+        "Centroides no son sanciones.",
+        "verdict False es fail-closed de conducta."
+      ],
+      "kind": "transfer",
+      "tests": "Salida alinea con solution output de S36-T1-A-E3; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"verdict\", False)\n"
+    },
+    {
+      "id": "S36-T1-B-E1",
+      "instruction": "S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Starter elige min (defect). Fixture sintético multi-k CASO-LIM-036.",
+      "hints": [
+        "max por score interno del lab.",
+        "Luego valida estabilidad multi-seed."
+      ],
+      "kind": "guided",
+      "tests": "Salida alinea con solution output de S36-T1-B-E1; fixture sintético.",
+      "starterCode": "scores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = min(scores, key=scores.get)  # TODO max\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n"
+    },
+    {
+      "id": "S36-T1-B-E2",
+      "instruction": "S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a seed en CASO-LIM-036.",
+      "hints": [
+        "Varias seeds antes de fijar k.",
+        "stable check documenta el rito."
+      ],
+      "kind": "independent",
+      "tests": "Salida alinea con solution output de S36-T1-B-E2; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"seeds\", [0, 1, 2])\n"
+    },
+    {
+      "id": "S36-T1-B-E3",
+      "instruction": "S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). Transferencia de humildad métrica del path de señales.",
+      "hints": [
+        "Métricas internas fallan con formas raras.",
+        "limit True = reporta el caveat."
+      ],
+      "kind": "transfer",
+      "tests": "Salida alinea con solution output de S36-T1-B-E3; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"limit\", True)\n"
+    },
+    {
+      "id": "S36-T2-A-E1",
+      "instruction": "S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CASO-LIM-036, no modelo de decisión final.",
+      "hints": [
+        "pc = w0*x + w1*y.",
+        "Solo exploración visual."
+      ],
+      "kind": "guided",
+      "tests": "Salida alinea con solution output de S36-T2-A-E1; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(round(0.5*2 + 0.5*4, 1))\n"
+    },
+    {
+      "id": "S36-T2-A-E2",
+      "instruction": "S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrato del dossier de señales CASO-LIM-036.",
+      "hints": [
+        "Prohibido auto-decidir con PC.",
+        "use viz nombra el rol."
+      ],
+      "kind": "independent",
+      "tests": "Salida alinea con solution output de S36-T2-A-E2; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"decision_model\", False)\n"
+    },
+    {
+      "id": "S36-T2-A-E3",
+      "instruction": "S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia de n_components del lab sintético.",
+      "hints": [
+        "2D es el default de exploración visual.",
+        "explore True en el reporte."
+      ],
+      "kind": "transfer",
+      "tests": "Salida alinea con solution output de S36-T2-A-E3; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(2)\n"
+    },
+    {
+      "id": "S36-T2-B-E1",
+      "instruction": "S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudencia de interpretación en CASO-LIM-036.",
+      "hints": [
+        "axis_named_by_business = False.",
+        "Valida historias en features originales."
+      ],
+      "kind": "guided",
+      "tests": "Salida alinea con solution output de S36-T2-B-E1; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(False)\n"
+    },
+    {
+      "id": "S36-T2-B-E2",
+      "instruction": "S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes de encolar, revisa scale del fixture sintético.",
+      "hints": [
+        "Primero scale/missingness.",
+        "No auto-etiquetes sospechosos en el plot."
+      ],
+      "kind": "independent",
+      "tests": "Salida alinea con solution output de S36-T2-B-E2; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"check_scale\", True)\n"
+    },
+    {
+      "id": "S36-T2-B-E3",
+      "instruction": "S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Transferencia de etiqueta del artefacto PCA en el dossier sintético.",
+      "hints": [
+        "Marca exploratory en el reporte.",
+        "No promociones PCA a juez de prod."
+      ],
+      "kind": "transfer",
+      "tests": "Salida alinea con solution output de S36-T2-B-E3; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"exploratory\")\n"
+    },
+    {
+      "id": "S36-T3-A-E1",
+      "instruction": "S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ conducta indebida en CASO-LIM-036-3A.",
+      "hints": [
+        "sum(flags) cuenta raros.",
+        "misconduct siempre False aquí."
+      ],
+      "kind": "guided",
+      "tests": "Salida alinea con solution output de S36-T3-A-E1; fixture sintético.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sum(flags))\n"
+    },
+    {
+      "id": "S36-T3-A-E2",
+      "instruction": "S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor humano del path de señales sintéticas.",
+      "hints": [
+        "Regla legible + score de rareza.",
+        "El humano necesita la frase de la regla."
+      ],
+      "kind": "independent",
+      "tests": "Salida alinea con solution output de S36-T3-A-E2; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([\"rule\", \"score\"])\n"
+    },
+    {
+      "id": "S36-T3-A-E3",
+      "instruction": "S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-closed de conducta en el triage sintético.",
+      "hints": [
+        "Ruta humana obligatoria.",
+        "auto_ban está fuera de política."
+      ],
+      "kind": "transfer",
+      "tests": "Salida alinea con solution output de S36-T3-A-E3; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"guilt\", False)\n"
+    },
+    {
+      "id": "S36-T3-B-E1",
+      "instruction": "S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en train vs punto nuevo en CASO-LIM-036.",
+      "hints": [
+        "Outlier en train; novelty vs modelo fijado.",
+        "Nombra ambos en el glosario de señales."
+      ],
+      "kind": "guided",
+      "tests": "Salida alinea con solution output de S36-T3-B-E1; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([\"outlier\", \"novelty\"])\n"
+    },
+    {
+      "id": "S36-T3-B-E2",
+      "instruction": "S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Contamination no es prevalencia de fraude.",
+      "hints": [
+        "expected_flags = int(n*contamination).",
+        "Nunca lo vendas como fraude rate."
+      ],
+      "kind": "independent",
+      "tests": "Salida alinea con solution output de S36-T3-B-E2; fixture sintético.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(int(n * c))\n"
+    },
+    {
+      "id": "S36-T3-B-E3",
+      "instruction": "S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags debe caber en la cola sintética de analistas.",
+      "hints": [
+        "Baja contamination si la cola no da abasto.",
+        "capacity_link True en el diseño."
+      ],
+      "kind": "transfer",
+      "tests": "Salida alinea con solution output de S36-T3-B-E3; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"capacity_link\", True)\n"
+    },
+    {
+      "id": "S36-T4-A-E1",
+      "instruction": "S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintéticas del backtest temporal CASO-LIM-036.",
+      "hints": [
+        "mean de rates por ventana.",
+        "backtest True documenta el protocolo."
+      ],
+      "kind": "guided",
+      "tests": "Salida alinea con solution output de S36-T4-A-E1; fixture sintético.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sum(rates)/len(rates))\n"
+    },
+    {
+      "id": "S36-T4-A-E2",
+      "instruction": "S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato temporal del path de señales sintéticas.",
+      "hints": [
+        "Fit en pasado, score en futuro.",
+        "split time, no random shuffle ciego."
+      ],
+      "kind": "independent",
+      "tests": "Salida alinea con solution output de S36-T4-A-E2; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"leakage\", False)\n"
+    },
+    {
+      "id": "S36-T4-A-E3",
+      "instruction": "S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizantes sintéticas CASO-LIM-036.",
+      "hints": [
+        "Varias ventanas para ver estabilidad.",
+        "temporal True en el reporte."
+      ],
+      "kind": "transfer",
+      "tests": "Salida alinea con solution output de S36-T4-A-E3; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(3)\n"
+    },
+    {
+      "id": "S36-T4-B-E1",
+      "instruction": "S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de utilidad de review, no de culpa.",
+      "hints": [
+        "P@k = media de los top-k labels de utilidad.",
+        "auto_guilt False siempre."
+      ],
+      "kind": "guided",
+      "tests": "Salida alinea con solution output de S36-T4-B-E1; fixture sintético.",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sum(ranked[:k])/k)\n"
+    },
+    {
+      "id": "S36-T4-B-E2",
+      "instruction": "S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana con labels escasos en el triage sintético.",
+      "hints": [
+        "HITL obligatorio con labels ralos.",
+        "labels scarce nombra el régimen."
+      ],
+      "kind": "independent",
+      "tests": "Salida alinea con solution output de S36-T4-B-E2; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(True)\n"
+    },
+    {
+      "id": "S36-T4-B-E3",
+      "instruction": "S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect). Transferencia: con labels escasos prioriza P@k en CASO-LIM-036.",
+      "hints": [
+        "P@k alinea con capacidad de cola.",
+        "global_accuracy engaña con labels ralos."
+      ],
+      "kind": "transfer",
+      "tests": "Salida alinea con solution output de S36-T4-B-E3; fixture sintético.",
+      "starterCode": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"precision_at_k\")\n"
+    }
+  ],
+  "packet_sha": "39d119976f07d841",
+  "attempt_id": "agentic_J2"
+}

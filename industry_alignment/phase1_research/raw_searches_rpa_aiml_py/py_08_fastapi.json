@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://fastapi.tiangolo.com/advanced/async-tests",
+    "name": "Async Tests",
+    "snippet": "The TestClient does some magic inside to call the asynchronous FastAPI application in your normal def test functions, using standard pytest .\nImagine you want to test sending requests to your FastAPI application and then verify that your backend successfully wrote the correct data in the database, while using an async database library.",
+    "host_name": "fastapi.tiangolo.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/FastAPI/comments/1k1cbnc/fastapi_with_async_tests",
+    "name": "FastAPI with Async Tests",
+    "snippet": "When testing your app itself through the endpoints, it's not mandatory since you basically test it as a « client » and your clients can be sync ...",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@philipokiokio/product-engineering-fastapi-test-series-unit-test-part-i-0a3348284400",
+    "name": "Product Engineering: FastAPI Test Series, Unit-Test (Part I)",
+    "snippet": "This is particularly useful when you need a single event loop for the whole test session, such as when testing asynchronous code with pytest and ... Read more",
+    "host_name": "medium.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.getorchestra.io/guides/tutorial-on-fastapi-async-tests",
+    "name": "Tutorial on FastAPI Async Tests",
+    "snippet": "Jan 5, 2024 — By understanding the basics of writing async tests and using tools like pytest and httpx, you can ensure your FastAPI app performs as expected ... Read more",
+    "host_name": "www.getorchestra.io",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://weirdsheeplabs.com/blog/fast-and-furious-async-testing-with-fastapi-and-pytest",
+    "name": "Fast and furious: async testing with FastAPI and pytest",
+    "snippet": "Nov 22, 2024 — In this post, we'll explore how to use pytest and pytest-asyncio to write effective async tests for your application.\nIn this post, we have shown how a FastAPI application can be set up with asynchronous tests using pytest and pytest-asyncio, allowing for faster iteration and development velocity.",
+    "host_name": "weirdsheeplabs.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/fastapi/fastapi/discussions/11280",
+    "name": "Async testing documentation is missing details on selecting",
+    "snippet": "A possible solution as described here and in the anyio docs is to add a conftest.py to select just the asyncio backend. Read more",
+    "host_name": "github.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://testdriven.io/blog/fastapi-crud",
+    "name": "Developing and Testing an Asynchronous API with FastAPI",
+    "snippet": "Dec 1, 2022 — This tutorial looks at how to develop and test an asynchronous API with FastAPI, Postgres, pytest and Docker using Test-driven Development (TDD). Read more",
+    "host_name": "testdriven.io",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://fastapi.tiangolo.com/tutorial/testing",
+    "name": "Testing - FastAPI",
+    "snippet": "If you want to call async functions in your tests apart from sending requests to your FastAPI application (e.g. asynchronous database functions), have a look at the Async Tests in the advanced tutorial.",
+    "host_name": "fastapi.tiangolo.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

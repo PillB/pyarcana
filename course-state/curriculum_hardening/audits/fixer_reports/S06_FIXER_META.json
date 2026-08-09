@@ -1,0 +1,51 @@
+{
+  "section": 6,
+  "section_id": "numpy",
+  "file": "src/lib/course/sections/s06-numpy.ts",
+  "edited_path": "/Users/pabloillescas/Projects/PyArcana/src/lib/course/sections/s06-numpy.ts",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S06_EXPLORER_REPORT.md",
+  "fixer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/S06_FIXER_REPORT.md",
+  "score_before": 7.6,
+  "score_after_estimate": 9.55,
+  "fleet_min_target": 9.5,
+  "pass": "residual95",
+  "issues_fixed": [
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-17",
+    "ISSUE-18",
+    "ISSUE-19",
+    "ISSUE-21",
+    "ISSUE-22"
+  ],
+  "issues_deferred": [
+    "ISSUE-01",
+    "ISSUE-20"
+  ],
+  "residual_edits_this_pass": [
+    "T4-B-E3 remove bare # TODO starter cue",
+    "T3-A/T4-B demote gate jargon to entrega/criterio de entrega",
+    "T2-B-E3 identical-vs-conflict policy in fixture+instruction"
+  ],
+  "anti_aberration_ok": true,
+  "status": "fixed_validated",
+  "notes": "Explorer-guided residual95 Fixer 2026-07-24. Sole authority: S06_EXPLORER_REPORT.md. High/medium learner issues closed; residual polish inside TS only. Deferred: platform id/hash/filename migration. Oracle 40/40; theory 28/28 ≥250; 9 MCQ; meta-leak grep clean. No bulk generators.",
+  "oracle_pass": "40/40",
+  "meta_leak_grep_clean": true,
+  "theory_paras_ge_250": "28/28",
+  "self_check_count": 9,
+  "fleet_bar_met": true
+}

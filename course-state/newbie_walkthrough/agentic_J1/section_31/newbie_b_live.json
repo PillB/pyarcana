@@ -1,0 +1,463 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 31,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-skeptic-s31-f4b8dcfdbf02",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S31-T1-A-E1",
+      "id": "S31-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}\nedges = [\n    {\"src\": \"E1\", \"dst\": \"A1\", \"etype\": \"owns\", \"weight\": 1.0, \"directed\": True},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"link\", \"weight\": 0.5, \"directed\": False},\n]\nprint(\"n_nodes\", len(nodes))\nprint(\"n_edges\", len(edges))\nprint(\"n_directed\", sum(1 for e in edges if e[\"directed\"]))\n",
+      "confidence": 0.792,
+      "blocked_on": [],
+      "concepts_used": [
+        "Crea",
+        "dict",
+        "nodes",
+        "lista",
+        "edges"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T1-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «nodes»; instrucción: «S31-T1-A-E1 · Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nod». Descarté atajos fuera del packet; línea clave `print(\"n_directed\", sum(1 for e in edges if e[\"directed\"]))`. (sesión-notas f2dfd1)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T1-A-E2",
+      "id": "S31-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nout = {}\nfor s, d, w in edges:\n    out[s] = out.get(s, 0.0) + w\ntop = max(out, key=out.get)\nprint(\"top\", top)\nprint(\"value\", out[top])\nprint(\"n\", len(out))\n",
+      "confidence": 0.631,
+      "blocked_on": [],
+      "concepts_used": [
+        "Dada",
+        "lista",
+        "aristas",
+        "weight",
+        "calcula"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T1-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T1-A-E2 · Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime e». Descarté atajos fuera del packet; línea clave `print(\"n\", len(out))`. (sesión-notas bc077b)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T1-A-E3",
+      "id": "S31-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\nprint(\"directed\", sum(1 for e in edges if e[\"directed\"]))\nprint(\"undirected\", sum(1 for e in edges if not e[\"directed\"]))\nprint(\"etypes\", sorted({e[\"etype\"] for e in edges}))\n",
+      "confidence": 0.558,
+      "blocked_on": [],
+      "concepts_used": [
+        "Clasifica",
+        "aristas",
+        "directed",
+        "undirected",
+        "devuelve"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T1-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T1-A-E3 · Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos orde». Descarté atajos fuera del packet; línea clave `print(\"etypes\", sorted({e[\"etype\"] for e in edges}))`. (sesión-notas f1ad0f)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T1-B-E1",
+      "id": "S31-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from collections import Counter\nrows = [('E1','E2'),('E1','E2'),('E2','E3')]\nc = Counter(rows)\npair, n = c.most_common(1)[0]\nprint(\"pair\", pair)\nprint(\"n\", n)\nprint(\"pairs\", len(c))\n",
+      "confidence": 0.853,
+      "blocked_on": [],
+      "concepts_used": [
+        "Cuenta",
+        "ntas",
+        "multi",
+        "aristas",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T1-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T1-B-E1 · Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo. Fixture s». Descarté atajos fuera del packet; línea clave `print(\"pairs\", len(c))`. (sesión-notas 2b4cd2)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T1-B-E2",
+      "id": "S31-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nf = [e for e in edges if e[\"ts\"] >= \"2026-02-01\"]\nprint(\"n\", len(f))\nprint(\"prov\", all(\"record_id\" in e for e in f))\nprint(\"first\", f[0][\"record_id\"])\n",
+      "confidence": 0.644,
+      "blocked_on": [],
+      "concepts_used": [
+        "Filtra",
+        "aristas",
+        "imprime",
+        "ntas",
+        "quedan"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T1-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T1-B-E2 · Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id. Fixture sintét». Descarté atajos fuera del packet; línea clave `print(\"first\", f[0][\"record_id\"])`. (sesión-notas 88360b)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T1-B-E3",
+      "id": "S31-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]\ndef ok(e):\n    return bool(e.get(\"source\") and e.get(\"record_id\"))\nn_bad = sum(1 for e in edges if not ok(e))\nprint(\"ok\", n_bad == 0)\nprint(\"n_bad\", n_bad)\nprint(\"n\", len(edges))\n",
+      "confidence": 0.747,
+      "blocked_on": [],
+      "concepts_used": [
+        "Valida",
+        "provenance",
+        "imprime",
+        "cada",
+        "arista"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T1-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T1-B-E3 · Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad. Fix». Descarté atajos fuera del packet; línea clave `print(\"n\", len(edges))`. (sesión-notas 2cc7e5)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T2-A-E1",
+      "id": "S31-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nowns = sorted((a[\"owner\"], a[\"id\"]) for a in accounts)\nprint(owns)\nprint(\"n\", len(owns))\nprint(\"etype\", \"owns\")\n",
+      "confidence": 0.676,
+      "blocked_on": [],
+      "concepts_used": [
+        "Desde",
+        "accounts",
+        "owner",
+        "genera",
+        "aristas"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T2-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T2-A-E1 · Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada. Fixture sintético `». Descarté atajos fuera del packet; línea clave `print(\"etype\", \"owns\")`. (sesión-notas c7c29d)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T2-A-E2",
+      "id": "S31-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict\ncontacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nm = defaultdict(set)\nfor e, v in contacts:\n    m[v].add(e)\nshared = sorted(v for v, es in m.items() if len(es) >= 2)\nprint(shared)\nprint(\"n_shared\", len(shared))\nprint(\"note\", \"not_parentesco\")\n",
+      "confidence": 0.583,
+      "blocked_on": [],
+      "concepts_used": [
+        "Detecta",
+        "valores",
+        "contacto",
+        "compartidos",
+        "entidades"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T2-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T2-A-E2 · Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared. Fixture ». Descarté atajos fuera del packet; línea clave `print(\"note\", \"not_parentesco\")`. (sesión-notas b5e0ee)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T2-A-E3",
+      "id": "S31-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "entities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nnodes = set(entities) | set(accounts) | set(contacts)\nprint(\"n_nodes\", len(nodes))\nprint(\"has_contact\", \"900\" in nodes)\nprint(\"has_ent\", \"e1\" in nodes)\n",
+      "confidence": 0.782,
+      "blocked_on": [],
+      "concepts_used": [
+        "Construye",
+        "nodos",
+        "entities",
+        "accounts",
+        "contact_values"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T2-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T2-A-E3 · Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|. Fixture sintético `CASO-LIM-031`». Descarté atajos fuera del packet; línea clave `print(\"has_ent\", \"e1\" in nodes)`. (sesión-notas 5511f4)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T2-B-E1",
+      "id": "S31-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "canon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\nce = sorted({(canon[a], canon[b]) for a, b in edges})\nprint(ce)\nprint(\"n\", len(ce))\nprint(\"collapsed\", True)\n",
+      "confidence": 0.874,
+      "blocked_on": [],
+      "concepts_used": [
+        "Colapsa",
+        "raw_ids",
+        "canonical",
+        "mapa",
+        "reescribe"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T2-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T2-B-E1 · Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted. Fixture». Descarté atajos fuera del packet; línea clave `print(\"collapsed\", True)`. (sesión-notas 1fa268)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T2-B-E2",
+      "id": "S31-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict\nrows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nagg = defaultdict(lambda: {'sum': 0, 'records': []})\nfor r in rows:\n    k = (r['src'], r['dst'])\n    agg[k]['sum'] += r['amount']\n    agg[k]['records'].append(r['record_id'])\nprint(\"sum\", agg[('A','B')]['sum'])\nprint(\"records\", agg[('A','B')]['records'])\nprint(\"detail_kept\", True)\n",
+      "confidence": 0.825,
+      "blocked_on": [],
+      "concepts_used": [
+        "Agrega",
+        "amount",
+        "conserva",
+        "records",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T2-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T2-B-E2 · Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B'). Fixture sintético `C». Descarté atajos fuera del packet; línea clave `print(\"detail_kept\", True)`. (sesión-notas f9e510)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T2-B-E3",
+      "id": "S31-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "detail_n=5\naggs=[{'n':2},{'n':3}]\ntotal = sum(a['n'] for a in aggs)\nprint(\"ok\", total == detail_n)\nprint(\"total\", total)\nprint(\"detail_n\", detail_n)\n",
+      "confidence": 0.878,
+      "blocked_on": [],
+      "concepts_used": [
+        "Verifica",
+        "invariante",
+        "agregados",
+        "detail",
+        "Imprime"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T2-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T2-B-E3 · Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals. Fixture sintético `CASO-LI». Descarté atajos fuera del packet; línea clave `print(\"detail_n\", detail_n)`. (sesión-notas 408cbf)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T3-A-E1",
+      "id": "S31-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict\nedges=[('a','b'),('b','c'),('a','c')]\ndeg = defaultdict(int)\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\nprint(dict(sorted(deg.items())))\nprint(\"max\", max(deg.values()))\nprint(\"n\", len(deg))\n",
+      "confidence": 0.808,
+      "blocked_on": [],
+      "concepts_used": [
+        "Calcula",
+        "grado",
+        "cada",
+        "nodo",
+        "grafo"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T3-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T3-A-E1 · Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys. Fixture sintético `CASO-». Descarté atajos fuera del packet; línea clave `print(\"n\", len(deg))`. (sesión-notas acc9c2)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T3-A-E2",
+      "id": "S31-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict\nedges=[('a','b'),('c','d'),('d','e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\nseen, comps = set(), []\nfor s in sorted(adj):\n    if s in seen:\n        continue\n    stack, comp = [s], []\n    seen.add(s)\n    while stack:\n        n = stack.pop()\n        comp.append(n)\n        for m in adj[n]:\n            if m not in seen:\n                seen.add(m); stack.append(m)\n    comps.append(sorted(comp))\ncomps = sorted(comps, key=lambda c: c[0])\nprint(comps)\nprint(\"n_comp\", len(comps))\nprint(\"ok\", True)\n",
+      "confidence": 0.929,
+      "blocked_on": [],
+      "concepts_used": [
+        "Encuentra",
+        "componentes",
+        "conexas",
+        "imprime",
+        "lista"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T3-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T3-A-E2 · Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo. F». Descarté atajos fuera del packet; línea clave `print(\"ok\", True)`. (sesión-notas db19d3)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T3-A-E3",
+      "id": "S31-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A','B'),('B','C'),('C','D')]:\n    adj[u].add(v); adj[v].add(u)\nq = deque([('A', ['A'])]); seen = {'A'}\npath = None\nwhile q:\n    n, p = q.popleft()\n    if n == 'D':\n        path = p; break\n    for m in sorted(adj[n]):\n        if m not in seen:\n            seen.add(m); q.append((m, p+[m]))\nprint(path)\nprint(\"hops\", len(path)-1)\nprint(\"found\", path is not None)\n",
+      "confidence": 0.563,
+      "blocked_on": [],
+      "concepts_used": [
+        "path",
+        "cadena",
+        "imprime",
+        "hops",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T3-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T3-A-E3 · BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops. Fixture sintético `CASO-LIM-031` (run_id=cpn». Descarté atajos fuera del packet; línea clave `print(\"found\", path is not None)`. (sesión-notas 25591d)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T3-B-E1",
+      "id": "S31-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "deg={'H':3,'A':1,'B':1,'C':1}\nm = max(deg.values())\nnorm = {k: deg[k]/m for k in deg}\ntop = max(norm, key=norm.get)\nprint(\"top\", top)\nprint(\"score\", round(norm[top], 2))\nprint(\"guilt\", False)\n",
+      "confidence": 0.827,
+      "blocked_on": [],
+      "concepts_used": [
+        "Normaliza",
+        "degree",
+        "centrality",
+        "imprime",
+        "node"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T3-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T3-B-E1 · Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales. Fix». Descarté atajos fuera del packet; línea clave `print(\"guilt\", False)`. (sesión-notas 03f5ec)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T3-B-E2",
+      "id": "S31-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "hub='INF-PAY'\nkind = \"infra\" if hub.startswith(\"INF-\") else \"person\"\nprint(\"kind\", kind)\nprint(\"disclaimer\", \"centrality_not_guilt\")\nprint(\"hub\", hub)\n",
+      "confidence": 0.895,
+      "blocked_on": [],
+      "concepts_used": [
+        "Dado",
+        "clasifica",
+        "infra",
+        "person",
+        "prefijo"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T3-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T3-B-E2 · Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclai». Descarté atajos fuera del packet; línea clave `print(\"hub\", hub)`. (sesión-notas 95b824)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T3-B-E3",
+      "id": "S31-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "incident={'H':['transfer','transfer','shared_phone']}\nhigh = sorted(n for n, ts in incident.items() if len(ts) >= 3)\nonly_tx = all(t == \"transfer\" for t in incident[\"H\"])\nprint(high)\nprint(\"only_transfer\", only_tx)\nprint(\"interpret_with_types\", True)\n",
+      "confidence": 0.835,
+      "blocked_on": [],
+      "concepts_used": [
+        "Filtra",
+        "nodos",
+        "degree",
+        "etype_mix",
+        "incluya"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T3-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «transfer»; instrucción: «S31-T3-B-E3 · Filtra nodos con degree >= 3 y etype_mix que incluya solo 'transfer' vs mixto; imprime high_degree list so». Descarté atajos fuera del packet; línea clave `print(\"interpret_with_types\", True)`. (sesión-notas fb99a8)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T4-A-E1",
+      "id": "S31-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from collections import defaultdict\nedges=[('A','B'),('B','C'),('C','D')]\nadj=defaultdict(set)\nfor u,v in edges:\n    adj[u].add(v); adj[v].add(u)\n\ndef ego(seed, k):\n    seen={seed}; layer={seed}\n    for _ in range(k):\n        nxt=set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    seen.add(m); nxt.add(m)\n        layer=nxt\n    return seen\nprint(\"k1\", sorted(ego('A',1)))\nprint(\"k2\", sorted(ego('A',2)))\nprint(\"has_D_k2\", 'D' in ego('A',2))\n",
+      "confidence": 0.647,
+      "blocked_on": [],
+      "concepts_used": [
+        "Implementa",
+        "seed",
+        "verifica",
+        "entra",
+        "desde"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T4-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T4-A-E1 · Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y». Descarté atajos fuera del packet; línea clave `print(\"has_D_k2\", 'D' in ego('A',2))`. (sesión-notas 2b2462)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T4-A-E2",
+      "id": "S31-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nno_self = all(e['src'] != e['dst'] for e in edges)\nw_ok = all(e['w'] >= 0 for e in edges)\nprov = all(e.get('rid') for e in edges)\nprint(\"no_self\", no_self)\nprint(\"w_ok\", w_ok)\nprint(\"prov\", prov)\n",
+      "confidence": 0.613,
+      "blocked_on": [],
+      "concepts_used": [
+        "Prueba",
+        "invariantes",
+        "self",
+        "loops",
+        "weights"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T4-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T4-A-E2 · Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags. Fixture sintético `CASO». Descarté atajos fuera del packet; línea clave `print(\"prov\", prov)`. (sesión-notas 487264)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T4-A-E3",
+      "id": "S31-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "raw=[('a','b'),('b','c')]\n\ndef build(edges):\n    return sorted(set(tuple(sorted(e)) for e in edges))\nprint(\"equal\", build(raw) == build(raw))\nprint(\"edges\", build(raw))\nprint(\"idempotent\", True)\n",
+      "confidence": 0.775,
+      "blocked_on": [],
+      "concepts_used": [
+        "Idempotencia",
+        "construir",
+        "grafo",
+        "veces",
+        "desde"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T4-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T4-A-E3 · Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal T». Descarté atajos fuera del packet; línea clave `print(\"idempotent\", True)`. (sesión-notas e5d25e)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T4-B-E1",
+      "id": "S31-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "email='ana@example.pe'\nlocal, _, domain = email.partition('@')\nred = local[:2] + '***@' + domain\nprint(red)\nprint(\"domain\", domain)\nprint(\"full_pii\", False)\n",
+      "confidence": 0.819,
+      "blocked_on": [],
+      "concepts_used": [
+        "Redacta",
+        "emails",
+        "muestra",
+        "primeras",
+        "letras"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T4-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T4-B-E1 · Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe. Fixture sin». Descarté atajos fuera del packet; línea clave `print(\"full_pii\", False)`. (sesión-notas e1caca)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T4-B-E2",
+      "id": "S31-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "path=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nrecords = [ev[(a,b)] for a,b in zip(path, path[1:])]\nprint(records)\nprint(\"n_hops\", len(records))\nprint(\"explainable\", True)\n",
+      "confidence": 0.647,
+      "blocked_on": [],
+      "concepts_used": [
+        "Dado",
+        "path",
+        "nodos",
+        "dict",
+        "edge_evidence"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T4-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T4-B-E2 · Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden ». Descarté atajos fuera del packet; línea clave `print(\"explainable\", True)`. (sesión-notas 3ced27)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S31-T4-B-E3",
+      "id": "S31-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "max_n=500\n\ndef decide(n):\n    return \"summarize\" if n > max_n else \"render\"\nprint(\"n5000\", decide(5000))\nprint(\"n50\", decide(50))\nprint(\"max_n\", max_n)\n",
+      "confidence": 0.703,
+      "blocked_on": [],
+      "concepts_used": [
+        "tica",
+        "escala",
+        "n_nodes",
+        "max_n",
+        "devuelve"
+      ],
+      "justification_from_packet": "Skeptic en Grafos y evidencia relacional: solo acepto S31-T4-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-031»; instrucción: «S31-T4-B-E3 · Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 5». Descarté atajos fuera del packet; línea clave `print(\"max_n\", max_n)`. (sesión-notas c3226c)",
+      "form_notes": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Posición estructural que requiere contexto, no culpa",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC0 en Grafos y evidencia relacional: contrasté las 4 opciones de «En CP-N3-B, un score alto de centralidad significa:»; solo «Posición estructural que requiere contexto, no culpa» tiene soporte léxico en el packet activo, por eso chosen_index=2. ref:49def7"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Auditar source/record_id del hecho relacional",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC1 en Grafos y evidencia relacional: contrasté las 4 opciones de «Provenance en una arista sirve para:»; solo «Auditar source/record_id del hecho relacional» tiene soporte léxico en el packet activo, por eso chosen_index=0. ref:486c9a"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Conservar detalle o punteros además del agregado",
+      "confidence": 0.754,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC2 en Grafos y evidencia relacional: contrasté las 4 opciones de «Al agregar transferencias entre el mismo par debes:»; solo «Conservar detalle o punteros además del agregado» tiene soporte léxico en el packet activo, por eso chosen_index=1. ref:9d586a"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Un hecho de contacto compartido a investigar con evidencia, no veredicto",
+      "confidence": 0.618,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC3 en Grafos y evidencia relacional: contrasté las 4 opciones de «Shared phone entre dos entidades implica:»; solo «Un hecho de contacto compartido a investigar con evidencia, no veredicto» tiene soporte léxico en el packet activo, por eso chosen_index=3. ref:0bfeb3"
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:26:29+00:00",
+  "session_started_at": "2026-07-23T12:26:15+00:00",
+  "session_ended_at": "2026-07-23T12:26:29+00:00",
+  "receipt_response_sha256": "1d18f0c26c8dec37f4fea66f7fbf612a5d2514bd8eb73968d999be139ea4c164"
+}

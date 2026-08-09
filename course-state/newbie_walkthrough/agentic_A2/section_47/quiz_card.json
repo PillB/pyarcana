@@ -1,0 +1,233 @@
+{
+  "section_index": 47,
+  "title": "MLOps: experimentos, registro y serving",
+  "outcomes": [
+    "Trackea experimentos reproducibles",
+    "Compara runs con lineage completo",
+    "Registra con stages y approvals",
+    "Publica artefactos y compatibilidad",
+    "Sirve batch/online con features consistentes",
+    "Controla latency, batching y fallback",
+    "Despliega shadow/canary con monitoring",
+    "Revierte, retira y audita modelos"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S47: MLOps: experimentos, registro y serving",
+      "paragraphs": [
+        "En V3, **S47** retematiza el archivo de plataforma `opensource` hacia **MLOps: experimentos, registro y serving**. **FINAL/CLOSE gate** (CLOSE + CF-4).",
+        "Incremento: Production Data/ML Platform promueve un modelo desde experimento hasta servicio solo tras gates, conserva lineage y revierte sin perder decisiones. CF-4 valida la ruta desplegable de los capstones previos.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "tracking y reproducibilidad",
+      "paragraphs": [
+        "**tracking y reproducibilidad** — outcome del blueprint phase3 para `tracking-reproducibility`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "data/code/env lineage y comparación",
+      "paragraphs": [
+        "**data/code/env lineage y comparación** — outcome del blueprint phase3 para `data-code-env-lineage-compare`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"stage\":\"Staging\",\"approvals\":[\"ml-lead\"]}); print(\"signature\", \"required\"); print(\"prod_gate\", True)"
+    },
+    {
+      "heading": "firmas, stages y approvals",
+      "paragraphs": [
+        "**firmas, stages y approvals** — outcome del blueprint phase3 para `signatures-stages-approvals`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"model\":\"er-ranker\",\"version\":\"1.2.0\"}); print(\"artifact\", \"model.pkl\"); print(\"card_required\", True)"
+    },
+    {
+      "heading": "artefactos, model card y compatibilidad",
+      "paragraphs": [
+        "**artefactos, model card y compatibilidad** — outcome del blueprint phase3 para `artifacts-card-compat`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"consistent\", True); print(\"modes\", [\"batch\",\"online\"]); print(\"skew_risk\", \"watch\")"
+    },
+    {
+      "heading": "batch/online y feature consistency",
+      "paragraphs": [
+        "**batch/online y feature consistency** — outcome del blueprint phase3 para `batch-online-feature-consistency`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "latency, batching y fallback",
+      "paragraphs": [
+        "**latency, batching y fallback** — outcome del blueprint phase3 para `latency-batching-fallback`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "shadow/canary y monitoring hooks",
+      "paragraphs": [
+        "**shadow/canary y monitoring hooks** — outcome del blueprint phase3 para `shadow-canary-monitoring`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"action\":\"rollback\",\"to\":\"1.1.0\"}); print(\"decisions_kept\", True); print(\"cf4\", \"deployable_path\")"
+    },
+    {
+      "heading": "rollback, retirement y audit",
+      "paragraphs": [
+        "**rollback, retirement y audit** — outcome del blueprint phase3 para `rollback-retire-audit`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S47-T1-B-DEMO",
+      "description": "Demo: tracking y reproducibilidad",
+      "why": "Demuestra el outcome de S47-T1-A con Python verificable.",
+      "code": "print(\"tracking\", \"mlflow_like\"); print(\"params\", True); print(\"seed\", 42)"
+    },
+    {
+      "demoId": "S47-T2-A-DEMO",
+      "description": "Demo: data/code/env lineage y comparación",
+      "why": "Demuestra el outcome de S47-T1-B con Python verificable.",
+      "code": "print(\"data\", \"ds-v3\"); print(\"code\", \"git:abc\"); print(\"env\", \"locked\")"
+    },
+    {
+      "demoId": "S47-T2-B-DEMO",
+      "description": "Demo: firmas, stages y approvals",
+      "why": "Demuestra el outcome de S47-T2-A con Python verificable.",
+      "code": "print(\"stage\", \"Staging\"); print(\"approve\", True); print(\"signature\", True)"
+    },
+    {
+      "demoId": "S47-T3-A-DEMO",
+      "description": "Demo: artefactos, model card y compatibilidad",
+      "why": "Demuestra el outcome de S47-T2-B con Python verificable.",
+      "code": "print(\"compat\", \"features_v3\"); print(\"version\", \"1.2.0\"); print(\"artifact_hash\", True)"
+    },
+    {
+      "demoId": "S47-T3-B-DEMO",
+      "description": "Demo: batch/online y feature consistency",
+      "why": "Demuestra el outcome de S47-T3-A con Python verificable.",
+      "code": "print(\"batch\", True); print(\"online\", True); print(\"same_codepath\", True)"
+    },
+    {
+      "demoId": "S47-T4-A-DEMO",
+      "description": "Demo: latency, batching y fallback",
+      "why": "Demuestra el outcome de S47-T3-B con Python verificable.",
+      "code": "print(\"latency_ok\", True); print(\"fallback\", \"rules\"); print(\"batch\", 32)"
+    },
+    {
+      "demoId": "S47-T4-B-DEMO",
+      "description": "Demo: shadow/canary y monitoring hooks",
+      "why": "Demuestra el outcome de S47-T4-A con Python verificable.",
+      "code": "print(\"shadow\", True); print(\"hooks\", True); print(\"promote_if\", \"gates_green\")"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: rollback, retirement y audit",
+      "why": "Demuestra el outcome de S47-T4-B con Python verificable.",
+      "code": "print(\"rollback\", \"1.1.0\"); print(\"retire\", \"1.0.0\"); print(\"audit\", True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S47 que se preserva es:",
+      "options": [
+        "opensource",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S47 pertenece a:",
+      "options": [
+        "CP-N4-B (cierre) + CF-4",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP",
+    "Schemas, seguridad y privacidad de servicios",
+    "Contenedores y reproducibilidad operativa",
+    "CI/CD y seguridad de la cadena de suministro",
+    "Cloud, almacenamiento, colas e infraestructura",
+    "Ingeniería de datos y orquestación de producción"
+  ]
+}

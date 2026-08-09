@@ -1,0 +1,359 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 1,
+  "packet_sha": "acffd96ca937a8e8",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s01-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "answer": "completed S01-T1-A-E1",
+      "code": "# Transcript REPL (copiar línea a línea; no es un script)\n\n# >>> 2 + 2\n# 4\n\n# >>> type(\"hola\")\n# <class 'str'>\n\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n\n# >>> quit()   # salir del REPL\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "REPL",
+        "sys.version",
+        "type",
+        "intérprete"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T1-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Completa el transcript de una sesión REPL: suma, type() e import de sys. No crees un archivo .py; simula el diálogo en comentarios y luego pruébalo en tu te». Delivered code centers on `# Transcript REPL (copiar línea a línea; no es un script)` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: REPL, sys.version, type, intérprete."
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "answer": "import sys",
+      "code": "import sys\n\ndef main() -> None:\n    nombre = \"Ada_Sintetica\"\n    version = sys.version.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "sys",
+        "if __name__",
+        "main"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T1-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con sys. Debe usar `if __name__ == \"__main__\":` y salir con código 0 al co». Delivered code centers on `import sys` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: sys, if __name__, main."
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "answer": "- Caso A (Windows): `python --version` → no se reconoce",
+      "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. Verificar comandos existentes: `python3 --version` y en Windows `py --version` (launcher).\n2. Windows: instalar desde https://www.python.org/downloads/ con \"Add python.exe to PATH\"; desactivar alias Store si molesta.\n3. macOS/Linux: usar `python3` de forma consistente; no depender del alias `python` si no existe.\n4. Cerrar y reabrir la terminal tras PATH; confirmar con `python3 --version` y `which python3`.\n5. (opcional) `python3 -m venv .venv` de prueba y activar.\n6. (opcional) Documentar el comando canónico del equipo en el README.\n\n## Verificación final\n- Comando: `python3 --version`\n- Resultado esperado: Python 3.12+ (o 3.x del curso)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "PATH",
+        "python3",
+        "python.org"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T1-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtiene \"no se reconoce como comando\". En macOS, `python` falla pero `pyth». Delivered code centers on `- Caso A (Windows): `python --version` → no se reconoce` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: PATH, python3, python.org."
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "answer": "python3 -c \"import sys; print('ok'); sys.exit(0)\"",
+      "code": "# Transcript de códigos de salida (bash/zsh)\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# 3) Shell usada\n# SHELL_USADA=zsh\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "sys.exit",
+        "exit code",
+        "shell"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T1-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1, y anota `$?` (bash/zsh) o `$LASTEXITCODE` (PowerShell). No subas secretos ». Delivered code centers on `python3 -c \"import sys; print('ok'); sys.exit(0)\"` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: sys.exit, exit code, shell."
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "answer": "import sys",
+      "code": "import sys\n\ndef main() -> None:\n    args = sys.argv[1:]\n    if len(args) != 1:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.stderr)\n        sys.exit(1)\n    print(f\"OK:{args[0]}\")\n    sys.exit(0)\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "sys.argv",
+        "stderr",
+        "sys.exit"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T1-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos, imprime `OK:<arg>` y termina con código 0; si no hay argumentos (o h». Delivered code centers on `import sys` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: sys.argv, stderr, sys.exit."
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "answer": "- Clasificación: PATH / ejecutable ausente.",
+      "code": "# Diagnóstico: pip vs import\n\n## Escenario A — `pip` no se reconoce\n- Clasificación: PATH / ejecutable ausente.\n- Pasos: (1) `python3 -c \"import sys; print(sys.executable)\"` (2) `python3 -m pip --version` (3) activar `.venv` o ajustar PATH del Python oficial.\n\n## Escenario B — pip corre pero import falla\n- Clasificación: pip e intérprete distintos / venv no activado.\n- Pasos: (1) comparar rutas de `python` y `pip -V` (2) `source .venv/bin/activate` y `python -m pip install ...` (3) verificar `sys.prefix` termina en `.venv`.\n\n## Regla\nPreferir siempre `python -m pip` para atar instalador e intérprete.\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "python -m pip",
+        "ModuleNotFoundError",
+        "venv"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T1-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaje es \"pip no se reconoce como comando\"; en otro, pip corre pero `pyth». Delivered code centers on `- Clasificación: PATH / ejecutable ausente.` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: python -m pip, ModuleNotFoundError, venv."
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "answer": "mkdir -p lab_venv_t2a && cd lab_venv_t2a",
+      "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\npython3 -m venv .venv\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\ndeactivate\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "venv",
+        "sys.prefix",
+        "activate"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T2-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actívalo y verifica que `sys.prefix` apunta a esa carpeta. Luego ejecuta `deactiva». Delivered code centers on `mkdir -p lab_venv_t2a && cd lab_venv_t2a` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: venv, sys.prefix, activate."
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "answer": "deactivate 2>/dev/null || true",
+      "code": "deactivate 2>/dev/null || true\nrm -rf .venv\npython3 -m venv .venv\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py y otros .py de la raíz no se borran\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "recrear venv",
+        "código fuera de .venv"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T2-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (o renómbrala) y recrea un `.venv` limpio sin tocar tu código fuente. D». Delivered code centers on `deactivate 2>/dev/null || true` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: recrear venv, código fuera de .venv."
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "answer": "Proyecto A necesita pandas 1.x y Proyecto B pandas 2.x. Un site-packages global no puede servir ambas versiones; al actualizar se rompe el otro proyecto y CI deja de ser reproducible.",
+      "code": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nProyecto A necesita pandas 1.x y Proyecto B pandas 2.x. Un site-packages global no puede servir ambas versiones; al actualizar se rompe el otro proyecto y CI deja de ser reproducible.\n\n## Flujo recomendado (este curso)\n1. `python3 -m venv .venv` por proyecto\n2. Activar el entorno (source o Activate.ps1)\n3. `python -m pip install ...` y `python -m pip freeze > requirements.txt`\n\n## Nota sobre la herramienta\n- venv es stdlib\n- Nombre canónico de carpeta: `.venv`\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "venv stdlib",
+        "dependencias por proyecto"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T2-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Un colega propone instalar pandas con `pip install pandas` en el Python global “para no perder tiempo con venv”. Escribe un párrafo (5–8 oraciones) o». Delivered code centers on `Proyecto A necesita pandas 1.x y Proyecto B pandas 2.x. Un site-packages global no puede s` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: venv stdlib, dependencias por proyecto."
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "answer": "source .venv/bin/activate",
+      "code": "source .venv/bin/activate\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pip freeze",
+        "requirements.txt"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T2-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.32.3`), genera `requirements.txt` con freeze y verifica que el archivo conti». Delivered code centers on `source .venv/bin/activate` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: pip freeze, requirements.txt."
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "answer": "python3 -m venv .venv_replica",
+      "code": "python3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pip install -r",
+        "réplica"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T2-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo** entorno limpio (`.venv_replica` o borra y recrea `.venv`), actívalo». Delivered code centers on `python3 -m venv .venv_replica` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: pip install -r, réplica."
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "answer": "El paquete no aparece en `python -m pip list` del intérprete actual.",
+      "code": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\nEl paquete no aparece en `python -m pip list` del intérprete actual.\n\n## Hipótesis B — instalado en otro intérprete\nOtro `pip` escribió en un `sys.prefix` distinto al de `import`.\n\n## Protocolo (5 pasos)\n1. `python -c \"import sys; print(sys.executable, sys.prefix)\"`\n2. ¿stdlib o terceros? (requests=terceros)\n3. `python -m pip list | grep -i requests`\n4. Si falta: `python -m pip install requests` con venv activo\n5. Reimportar; si list muestra y import falla → dos Pythons\n\n## ¿stdlib o terceros?\n- requests: terceros\n- datetime: stdlib\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "sys.executable",
+        "terceros vs stdlib"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T2-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y falla. En un caso, nunca instaló el paquete; en otro, lo instaló con un». Delivered code centers on `El paquete no aparece en `python -m pip list` del intérprete actual.` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: sys.executable, terceros vs stdlib."
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "answer": "mkdir -p lab_git_t3a && cd lab_git_t3a",
+      "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "git init",
+        "Conventional Commits"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T3-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensaje Conventional Commits (`docs:` o `feat:`). Verifica con `git log -1`. No u». Delivered code centers on `mkdir -p lab_git_t3a && cd lab_git_t3a` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: git init, Conventional Commits."
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "answer": "echo \"Esqueleto CP-N1-A.\" >> README.md",
+      "code": "# Lectura de diff\n\n## Comandos usados\necho \"Esqueleto CP-N1-A.\" >> README.md\ngit add README.md\ngit commit -m \"docs: mencionar esqueleto en README\"\nGIT_PAGER=cat git show HEAD\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLa línea nueva del README con prefijo + (inserción).\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: solo el hunk tocado con +/-; un archivo nuevo mostraría todo el contenido con +.\n\n## 3) Resumen en una frase\nEl commit documenta una línea extra sobre el esqueleto CP-N1-A en el README.\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "git show",
+        "diff"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T3-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Modifica un README ya commiteado (agrega una línea), haz commit, y responde en un markdown corto: (1) qué muestra `git show HEAD` en líneas `+`; (2) ». Delivered code centers on `echo \"Esqueleto CP-N1-A.\" >> README.md` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: git show, diff."
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "answer": "Candidatos:",
+      "code": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\nB: `feat: agregar smoke hello_env`\n\n## Justificación\nB usa Conventional Commits con tipo feat y describe el valor observable del smoke.\nwip no es aceptable en main; no explica el cambio.\n\"Actualicé cosas\" es vago para un revisor.\n\n## Reescritura de A\n`chore: wip local hello_env (squash antes de PR)`\n\n## Reescritura de C\n`docs: aclarar pasos de setup en README`\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "feat:",
+        "mensajes claros"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T3-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello_env.py` que imprime la versión de Python): (A) `wip`, (B) `feat: agr». Delivered code centers on `Candidatos:` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: feat:, mensajes claros."
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "answer": "git switch main",
+      "code": "git switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "git switch -c",
+        "feature branch"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T3-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`, añade un archivo pequeño, commit con `feat:` y lista las ramas. No hagas f». Delivered code centers on `git switch main` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: git switch -c, feature branch."
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "answer": "feat: agregar smoke hello_env y docs de instalación",
+      "code": "# Título del PR\nfeat: agregar smoke hello_env y docs de instalación\n\n## Resumen\n- Añade scripts/hello_env.py para verificar intérprete\n- Actualiza README con flujo venv + install -r\n- Onboarding sin secretos en el repo\n\n## Plan de prueba\n1. python3 -m venv .venv && source .venv/bin/activate\n2. python -m pip install -r requirements.txt\n3. python scripts/hello_env.py → exit 0\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] `.gitignore` cubre `.venv/` y `.env`\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "Pull Request",
+        "plan de prueba"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T3-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Redacta la descripción de un Pull Request (markdown) para una rama que agrega `scripts/hello_env.py` y actualiza el README de instalación. Incluye: t». Delivered code centers on `feat: agregar smoke hello_env y docs de instalación` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: Pull Request, plan de prueba."
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "answer": "README.md modificado, sin commit, cambio indeseado.",
+      "code": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. git status y git diff README.md\n2. git restore README.md\n\n## ¿Cuándo stash en su lugar?\nCuando quieres guardar el cambio a medias: git stash push -m \"wip readme\" y luego stash pop.\n\n## Por qué NO force-push a main\nReescribe historial compartido y no arregla un working tree local.\n\n## Por qué no reset --hard como default\nBorra sin red de seguridad; el curso prefiere restore/stash primero.\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "git restore",
+        "no force-push"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T3-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te dice “usa `reset --hard`” y otro “`push --force` a main”. Escribe el pr». Delivered code centers on `README.md modificado, sin commit, cambio indeseado.` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: git restore, no force-push."
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "answer": "[tool.ruff]",
+      "code": "[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pyproject.toml",
+        "ruff",
+        "E F I"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T4-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-version) y `[tool.ruff.lint] select = [\"E\", \"F\", \"I\"]`. No hace falta publicar». Delivered code centers on `[tool.ruff]` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: pyproject.toml, ruff, E F I."
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "answer": "from datetime import datetime",
+      "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "F401",
+        "imports sin usar"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T4-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -m ruff check` y corrige hasta exit 0. Entrega el script limpio (sin im». Delivered code centers on `from datetime import datetime` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: F401, imports sin usar."
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "answer": "`select = [\"E\", \"F\", \"I\"]`",
+      "code": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]`\n\n## Por qué no ALL el día 1\nALL genera cientos de hallazgos; el equipo deja de mirar el linter.\n\n## Qué cubren E, F, I\nE estilo básico, F errores reales (imports muertos), I orden de imports.\n\n## Cuándo ampliar\nCuando E/F/I ya es hábito limpio y hay acuerdo de equipo.\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "select mínimo",
+        "ruido ALL"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T4-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebooks. Justifica por escrito un `select` mínimo (E/F/I u otro set pequeño». Delivered code centers on ``select = [\"E\", \"F\", \"I\"]`` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: select mínimo, ruido ALL."
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "answer": ".venv/",
+      "code": "# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        ".gitignore",
+        ".venv",
+        ".env"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T4-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env` e ipynb checkpoints. Verifica con `git check-i». Delivered code centers on `.venv/` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: .gitignore, .venv, .env."
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "answer": "API_URL=https://api.example.local",
+      "code": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=https://api.example.local\nDB_HOST=localhost\nLOG_LEVEL=INFO\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        ".env.example",
+        "placeholders"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T4-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_URL`, `DB_HOST`, `LOG_LEVEL`) con valores vacíos o ficticios no sensible». Delivered code centers on `API_URL=https://api.example.local` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: .env.example, placeholders."
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "answer": "- [ ] 1. git clone y cd al proyecto; git status limpio en main",
+      "code": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. git clone y cd al proyecto; git status limpio en main\n- [ ] 2. python3 -m venv .venv + activar; sys.prefix termina en .venv\n- [ ] 3. python -m pip install -r requirements.txt exit 0\n- [ ] 4. python scripts/hello_env.py exit 0\n- [ ] 5. git check-ignore -v .env confirma ignore\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "checklist",
+        "hello_env",
+        "data dictionary"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S01-T4-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verificables (clon → venv → install -r → smoke → ignore de .env) que un revi». Delivered code centers on `- [ ] 1. git clone y cd al proyecto; git status limpio en main` matching theory/iDo («El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Pyth»). Concepts: checklist, hello_env, data dictionary."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q0 «¿Para qué sirve un entorno virtual (venv) en Python?» — choose «Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones» because packet theory says «El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Python, lo que realmente». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": ".venv/ (o venv/)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q1 «¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?» — choose «.venv/ (o venv/)» because packet theory says «El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Python, lo que realmente». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "\"feat: agregar cálculo de churn por segmento\"",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q2 «¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?» — choose «\"feat: agregar cálculo de churn por segmento\"» because packet theory says «El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Python, lo que realmente». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "pip install -r requirements.txt",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q3 «¿Qué comando te permite replicar el entorno de otro desarrollador?» — choose «pip install -r requirements.txt» because packet theory says «El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Python, lo que realmente». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q4 «¿Por qué NO debes subir el archivo .env a GitHub?» — choose «Porque suele contener credenciales (API keys, passwords, tokens) que son secretos» because packet theory says «El intérprete Python y el REPL · El intérprete en la terminal (comandos de verificación): Cuando instalas Python, lo que realmente». Other options invent speed/compile/legal myths not present in the slim packet."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:11:52.723806+00:00"
+}

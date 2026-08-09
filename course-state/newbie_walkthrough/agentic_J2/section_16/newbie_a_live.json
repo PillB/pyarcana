@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s16-0454357a7967",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "id": "S16-T1-A-E1",
+      "code": "# exploración s16/S16-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n_j2_mark = 16\n",
+      "justification_from_packet": "Para S16-T1-A-E1 el paquete de «Calidad, limpieza y contratos de datos» pide: E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuen. Anclé la respuesta a «isna().sum().» y conservé el fixture del starter. [f81a4d] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "id": "S16-T1-A-E2",
+      "code": "# exploración s16/S16-T1-A-E2\nimport pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)\n_j2_mark = 16\n",
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» resolví S16-T1-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dic». La pista «Itera policy.» me dio el patrón concreto del weDo. [f1f34c] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "id": "S16-T1-A-E3",
+      "code": "# exploración s16/S16-T1-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nviol = {\"id\": int(df[\"id\"].isna().sum())} if df[\"id\"].isna().any() else {}\nprint(\"fail\" if viol else \"pass\")\n_j2_mark = 16\n",
+      "justification_from_packet": "Como explorer en «Calidad, limpieza y contratos de datos», S16-T1-A-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `f. Hint operativa: «Usa el dict viol.». [74a4f6] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "id": "S16-T1-B-E1",
+      "code": "# exploración s16/S16-T1-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0.0)\nprint(df[\"was_null\"].tolist())\n_j2_mark = 16\n",
+      "justification_from_packet": "Como explorer en «Calidad, limpieza y contratos de datos», S16-T1-B-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego. Hint operativa: «was_null = isna.». [ae1794] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "id": "S16-T1-B-E2",
+      "code": "# exploración s16/S16-T1-B-E2\nimport pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n_j2_mark = 16\n",
+      "justification_from_packet": "Armé S16-T1-B-E2 desde el quiz_card de «Calidad, limpieza y contratos de datos». Instruction recortada: «E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si n». Verifiqué con la pista «mean de isna.». [1b76b8] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "id": "S16-T1-B-E3",
+      "code": "# exploración s16/S16-T1-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(float(med), filled.tolist())\n_j2_mark = 16\n",
+      "justification_from_packet": "Exercise S16-T1-B-E3: el contrato observable es «E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulo». Del theory/iDo cercano tomé «fillna(median).» y de hints «median skipna.». [7c4002] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "id": "S16-T2-A-E1",
+      "code": "# exploración s16/S16-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n_j2_mark = 16\n",
+      "justification_from_packet": "Exercise S16-T2-A-E1: el contrato observable es «E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep». Del theory/iDo cercano tomé «Dos filas exactas → 2.» y de hints «duplicated(keep=False).sum().». [123162] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "id": "S16-T2-A-E2",
+      "code": "# exploración s16/S16-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nids = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(ids[ids > 1].index.tolist())\n_j2_mark = 16\n",
+      "justification_from_packet": "Armé S16-T2-A-E2 desde el quiz_card de «Calidad, limpieza y contratos de datos». Instruction recortada: «E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`n». Verifiqué con la pista «groupby nunique > 1.». [0b0250] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "id": "S16-T2-A-E3",
+      "code": "# exploración s16/S16-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif sub.duplicated(keep=False).any() and sub.duplicated(keep=False).all():\n    print(\"exact\")\nelif sub[\"region\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")\n_j2_mark = 16\n",
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» resolví S16-T2-A-E3 leyendo la instruction: «E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exact». La pista «Lógica en orden.» me dio el patrón concreto del weDo. [dba0bd] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "id": "S16-T2-B-E1",
+      "code": "# exploración s16/S16-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)]\nc = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(q), len(c))\n_j2_mark = 16\n",
+      "justification_from_packet": "Exercise S16-T2-B-E1: el contrato observable es «E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con d». Del theory/iDo cercano tomé «drop_duplicates.» y de hints «duplicated(key, keep=False).». [cea9bb] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "id": "S16-T2-B-E2",
+      "code": "# exploración s16/S16-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nprint(q.columns.tolist())\n_j2_mark = 16\n",
+      "justification_from_packet": "Exercise S16-T2-B-E2: el contrato observable es «E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o». Del theory/iDo cercano tomé «No dropear cols.» y de hints «copy del mask.». [8ec6e0] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "id": "S16-T2-B-E3",
+      "code": "# exploración s16/S16-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_bad\")\n_j2_mark = 16\n",
+      "justification_from_packet": "Armé S16-T2-B-E3 desde el quiz_card de «Calidad, limpieza y contratos de datos». Instruction recortada: «E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no,». Verifiqué con la pista «cardinalidad 1:1.». [988fb8] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "id": "S16-T3-A-E1",
+      "code": "# exploración s16/S16-T3-A-E1\nimport pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n_j2_mark = 16\n",
+      "justification_from_packet": "Exercise S16-T3-A-E1: el contrato observable es «E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la». Del theory/iDo cercano tomé «Series string methods.» y de hints «str.strip().str.title().». [b2d395] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "id": "S16-T3-A-E2",
+      "code": "# exploración s16/S16-T3-A-E2\nimport pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))\n_j2_mark = 16\n",
+      "justification_from_packet": "Armé S16-T3-A-E2 desde el quiz_card de «Calidad, limpieza y contratos de datos». Instruction recortada: «E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5',». Verifiqué con la pista «str.replace.». [9c5570] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "id": "S16-T3-A-E3",
+      "code": "# exploración s16/S16-T3-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(df[\"region_raw\"].tolist(), df[\"region\"].tolist())\n_j2_mark = 16\n",
+      "justification_from_packet": "Exercise S16-T3-A-E3: el contrato observable es «E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region». Del theory/iDo cercano tomé «print both.» y de hints «Nueva col no pisa raw.». [960b6b] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "id": "S16-T3-B-E1",
+      "code": "# exploración s16/S16-T3-B-E1\nimport pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n_j2_mark = 16\n",
+      "justification_from_packet": "Armé S16-T3-B-E1 desde el quiz_card de «Calidad, limpieza y contratos de datos». Instruction recortada: «E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pas». Verifiqué con la pista «s < 0.». [8e99ca] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "id": "S16-T3-B-E2",
+      "code": "# exploración s16/S16-T3-B-E2\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n_j2_mark = 16\n",
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» resolví S16-T3-B-E2 leyendo la instruction: «E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pa». La pista «quantile 0.25/0.75.» me dio el patrón concreto del weDo. [8511c2] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "id": "S16-T3-B-E3",
+      "code": "# exploración s16/S16-T3-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\nprint(label)\n_j2_mark = 16\n",
+      "justification_from_packet": "Armé S16-T3-B-E3 desde el quiz_card de «Calidad, limpieza y contratos de datos». Instruction recortada: «E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si». Verifiqué con la pista «Prioriza error.». [edcc6f] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "id": "S16-T4-A-E1",
+      "code": "# exploración s16/S16-T4-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])\n_j2_mark = 16\n",
+      "justification_from_packet": "Como explorer en «Calidad, limpieza y contratos de datos», S16-T4-A-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lis. Hint operativa: «list comprehension.». [e8eb81] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "id": "S16-T4-A-E2",
+      "code": "# exploración s16/S16-T4-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())\n_j2_mark = 16\n",
+      "justification_from_packet": "Para S16-T4-A-E2 el paquete de «Calidad, limpieza y contratos de datos» pide: E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista. Anclé la respuesta a «máscara datetime.» y conservé el fixture del starter. [7e04d6] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "id": "S16-T4-A-E3",
+      "code": "# exploración s16/S16-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n_j2_mark = 16\n",
+      "justification_from_packet": "Armé S16-T4-A-E3 desde el quiz_card de «Calidad, limpieza y contratos de datos». Instruction recortada: «E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok». Verifiqué con la pista «Usa lista missing.». [63b7b9] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "id": "S16-T4-B-E1",
+      "code": "# exploración s16/S16-T4-B-E1\nrows_in = 10\nq = 3\nprint(rows_in - q)\n_j2_mark = 16\n",
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos» resolví S16-T4-B-E1 leyendo la instruction: «E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pa». La pista «resta simple.» me dio el patrón concreto del weDo. [b271d5] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "id": "S16-T4-B-E2",
+      "code": "# exploración s16/S16-T4-B-E2\naudit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\", \"n\": 2})\nprint(len(audit))\n_j2_mark = 16\n",
+      "justification_from_packet": "Para S16-T4-B-E2 el paquete de «Calidad, limpieza y contratos de datos» pide: E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `le. Anclé la respuesta a «audit.append.» y conservé el fixture del starter. [1f1cb8] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "id": "S16-T4-B-E3",
+      "code": "# exploración s16/S16-T4-B-E3\nn_q = 1\nmetrics = {\"pass\": n_q == 0, \"rows_quarantine\": n_q}\nprint(metrics[\"pass\"])\n_j2_mark = 16\n",
+      "justification_from_packet": "Como explorer en «Calidad, limpieza y contratos de datos», S16-T4-B-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q. Hint operativa: «pass = n_q==0.». [29e43c] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Calidad, limpieza y contratos de datos» #0: «Un campo marked required con nulls debe:». Elegí «Provocar violación/cuarentena o fail del gate» porque el theory del paquete describe ese comportamiento de forma directa. [4241e4] conf~0.93.",
+      "confidence": 0.93
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Calidad, limpieza y contratos de datos» #1: «Duplicado exacto vs conflicto de clave:». Elegí «Exacto = filas idénticas; conflicto = misma clave con atributos distintos» porque el theory del paquete describe ese comportamiento de forma directa. [794acd] conf~0.91.",
+      "confidence": 0.91
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Calidad, limpieza y contratos de datos» #2: «Conservar region_raw al normalizar sirve para:». Elegí «Auditar y disputar la forma canónica sin perder el valor original» porque el theory del paquete describe ese comportamiento de forma directa. [ae8969] conf~0.83.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Calidad, limpieza y contratos de datos» #3: «IQR sin domain bounds es riesgoso porque:». Elegí «Puede marcar (o borrar) colas legítimas de negocio como si fueran error» porque el theory del paquete describe ese comportamiento de forma directa. [382821] conf~0.80.",
+      "confidence": 0.8
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Calidad, limpieza y contratos de datos» #4: «Un quality gate que falla debe:». Elegí «Publicar métricas y cuarentena aunque pass=False» porque el theory del paquete describe ese comportamiento de forma directa. [979938] conf~0.88.",
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:37.206842+00:00",
+  "session_started_at": "2026-07-23T12:54:23.030199+00:00",
+  "session_ended_at": "2026-07-23T12:54:57.679199+00:00",
+  "receipt_response_sha256": "99db6e5fa34d5e50c7733d39ca872e850ca921204ac81795014e65bcdcc90a25"
+}

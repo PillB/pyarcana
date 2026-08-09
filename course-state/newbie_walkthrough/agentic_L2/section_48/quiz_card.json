@@ -1,0 +1,494 @@
+{
+  "section_index": 48,
+  "title": "LLM applications y RAG con evidencia",
+  "outcomes": [
+    "Calcula embeddings y similarity",
+    "Versiona embeddings y evalúa límites",
+    "Chunking con metadata y dedup",
+    "Respeta ACL, deletion y provenance",
+    "Recupera hybrid y rerankea",
+    "Arma contexto con citas y permisos",
+    "Genera structured grounded output",
+    "Evalúa retrieval/answer y se abstiene"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S48-T1-A",
+      "heading": "embeddings y similarity",
+      "paragraphs": [
+        "Embeddings aproximan relaciones en un espacio y similarity ordena, no prueba verdad; versión, normalización y métrica forman parte del índice.",
+        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: ranking reproducible con versión de embedding. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder. Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+        "Aplicación de `embeddings y similarity` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es ranking reproducible con versión de embedding. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S48-T1-B",
+      "heading": "límites, versiones y evaluación",
+      "paragraphs": [
+        "Evalúa recall/precision en tareas reales y slicea errores; cambiar embedding exige baseline, costo y reindexación, no intuición.",
+        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: comparación retenida baseline/candidato. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder. Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+        "Aplicación de `límites, versiones y evaluación` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es comparación retenida baseline/candidato. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S48-T2-A",
+      "heading": "chunking, metadata y dedup",
+      "paragraphs": [
+        "Chunking sigue unidades semánticas y conserva metadata; dedup por hash/identidad evita evidencia repetida y fuga entre versiones.",
+        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: chunks trazables y sin duplicados. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder. Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+        "Aplicación de `chunking, metadata y dedup` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es chunks trazables y sin duplicados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S48-T2-B",
+      "heading": "ACL, deletion y provenance",
+      "paragraphs": [
+        "ACL se filtra antes de retrieval/rerank; deletion invalida índice/cache y provenance enlaza cada chunk a documento y versión.",
+        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: usuario sin permiso recupera cero fragmentos. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder. Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+        "Aplicación de `ACL, deletion y provenance` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es usuario sin permiso recupera cero fragmentos. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S48-T3-A",
+      "heading": "lexical/vector/hybrid y reranking",
+      "paragraphs": [
+        "Lexical captura términos exactos, vector semántica y hybrid combina scores calibrados; rerank opera solo sobre candidatos permitidos.",
+        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: recall mejora sin romper ACL. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder. Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+        "Aplicación de `lexical/vector/hybrid y reranking` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es recall mejora sin romper ACL. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S48-T3-B",
+      "heading": "contexto, citas y permisos",
+      "paragraphs": [
+        "Contexto incluye fragmentos mínimos, citas y límites; una cita debe resolver a texto/ver­sión accesible por el solicitante.",
+        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: cada afirmación material tiene cita autorizada. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder. Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+        "Aplicación de `contexto, citas y permisos` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es cada afirmación material tiene cita autorizada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S48-T4-A",
+      "heading": "structured output y grounding",
+      "paragraphs": [
+        "Structured output se valida contra schema; grounding limita afirmaciones a evidencia y separa instrucciones del usuario del contenido recuperado.",
+        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: schema válido y evidence ids presentes. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder. Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+        "Aplicación de `structured output y grounding` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es schema válido y evidence ids presentes. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S48-T4-B",
+      "heading": "retrieval/answer eval, costo y abstención",
+      "paragraphs": [
+        "Retrieval eval y answer eval son gates separados; costo/latencia tienen presupuesto y la abstención es éxito cuando falta soporte.",
+        "Contrato operativo. Entrada: documentos versionados con ACL, provenance, metadata y solicitud del usuario. Salida de este subtema: respuesta no soportada se abstiene. Error: fragmento sin permiso, evidencia insuficiente, versión borrada o costo excedido impide responder. Criterio de éxito: retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido.",
+        "Aplicación de `retrieval/answer eval, costo y abstención` al caso peruano sintético `CASO-PUN-048`: documentación sintética autorizada de una cooperativa ficticia en Puno. La evidencia esperada es respuesta no soportada se abstiene. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": null,
+      "code_output": null
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S48-T1-A-DEMO",
+        "subtopicId": "S48-T1-A",
+        "environment": "local-python",
+        "description": "Demo: embeddings y similarity",
+        "why": "Hace observable `embeddings y similarity` con un caso local pequeño y deja como evidencia ranking reproducible con versión de embedding; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S48-T1-B-DEMO",
+        "subtopicId": "S48-T1-B",
+        "environment": "local-python",
+        "description": "Demo: límites, versiones y evaluación",
+        "why": "Hace observable `límites, versiones y evaluación` con un caso local pequeño y deja como evidencia comparación retenida baseline/candidato; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S48-T2-A-DEMO",
+        "subtopicId": "S48-T2-A",
+        "environment": "local-python",
+        "description": "Demo: chunking, metadata y dedup",
+        "why": "Hace observable `chunking, metadata y dedup` con un caso local pequeño y deja como evidencia chunks trazables y sin duplicados; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S48-T2-B-DEMO",
+        "subtopicId": "S48-T2-B",
+        "environment": "local-python",
+        "description": "Demo: ACL, deletion y provenance",
+        "why": "Hace observable `ACL, deletion y provenance` con un caso local pequeño y deja como evidencia usuario sin permiso recupera cero fragmentos; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S48-T3-A-DEMO",
+        "subtopicId": "S48-T3-A",
+        "environment": "local-python",
+        "description": "Demo: lexical/vector/hybrid y reranking",
+        "why": "Hace observable `lexical/vector/hybrid y reranking` con un caso local pequeño y deja como evidencia recall mejora sin romper ACL; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S48-T3-B-DEMO",
+        "subtopicId": "S48-T3-B",
+        "environment": "local-python",
+        "description": "Demo: contexto, citas y permisos",
+        "why": "Hace observable `contexto, citas y permisos` con un caso local pequeño y deja como evidencia cada afirmación material tiene cita autorizada; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S48-T4-A-DEMO",
+        "subtopicId": "S48-T4-A",
+        "environment": "local-python",
+        "description": "Demo: structured output y grounding",
+        "why": "Hace observable `structured output y grounding` con un caso local pequeño y deja como evidencia schema válido y evidence ids presentes; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      },
+      {
+        "demoId": "S48-T4-B-DEMO",
+        "subtopicId": "S48-T4-B",
+        "environment": "local-python",
+        "description": "Demo: retrieval/answer eval, costo y abstención",
+        "why": "Hace observable `retrieval/answer eval, costo y abstención` con un caso local pequeño y deja como evidencia respuesta no soportada se abstiene; el demo modela el contrato, no un servicio externo.",
+        "code": null,
+        "language": null,
+        "output": null
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué evidencia permite aprobar `embeddings y similarity` en CASO-PUN-048?",
+      "options": [
+        "un print sin assert ni versión",
+        "una captura de pantalla sin fuente",
+        "datos personales reales para que parezca auténtico",
+        "ranking reproducible con versión de embedding"
+      ]
+    },
+    {
+      "question": "Si ocurre la condición de error de S48, ¿qué respuesta preserva seguridad y auditabilidad?",
+      "options": [
+        "continuar y ocultar el warning",
+        "emitir ABSTAIN y conservar evidencia",
+        "inventar evidencia faltante",
+        "borrar el trace para reducir ruido"
+      ]
+    },
+    {
+      "question": "¿Cuál resultado demuestra el gate `CP-N4-C · RAG con evidencia y abstención`?",
+      "options": [
+        "el archivo S48 existe, aunque no pruebe el gate",
+        "el README afirma que funciona",
+        "retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido",
+        "se usó la herramienta más nueva"
+      ]
+    },
+    {
+      "question": "¿Qué tratamiento de `CASO-PUN-048` respeta el alcance del curso?",
+      "options": [
+        "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+        "reemplazarlo por datos reales sin consentimiento",
+        "subir secretos para facilitar la demo",
+        "inferir fraude o parentesco desde ER"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S48-T1-A-E1",
+      "instruction": "S48-T1-A-E1 · Calcula el contrato de `embeddings y similarity` sobre `CASO-PUN-048-1A`. La entrada es el dict completo del starter; la operación debe demostrar top por dot product y versión embedding explícita. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S48-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_EMBEDDING_RANK` en E2.",
+      "hints": [
+        "Relaciona los campos `query`, `docs`, `metric`, `version`, `expected_top` con la regla explicada en S48-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva ranking reproducible con versión de embedding; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-PUN-048-1A` satisface un predicado de dominio real; imprime `S48-T1-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\nmeets_contract = min(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\n"
+    },
+    {
+      "id": "S48-T1-A-E2",
+      "instruction": "S48-T1-A-E2 · Modela tres rutas de `embeddings y similarity`: fixture válido, fixture adverso y registro sin `expected_top`. Entrada: dict con case_id, query, docs, metric, version, expected_top. Salidas exactas: `PASS`, `REJECT_EMBEDDING_RANK`, `MISSING:expected_top`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S48-T1-A: top por dot product y versión embedding explícita. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `expected_top` ausente y produce exactamente `PASS REJECT_EMBEDDING_RANK MISSING:expected_top`.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T1-A-E3",
+      "instruction": "S48-T1-A-E3 · Simula fallo cerrado para `embeddings y similarity` con tres fixtures distintos. `CASO-PUN-048-1A` debe continuar, el adverso debe devolver `REJECT_EMBEDDING_RANK` y la ausencia de `expected_top` debe devolver `REVIEW_METRIC_VERSION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_METRIC_VERSION` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró top por dot product y versión embedding explícita; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-PUN-048-1A`, adverso y sin `expected_top` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T1-B-E1",
+      "instruction": "S48-T1-B-E1 · Compara el contrato de `límites, versiones y evaluación` sobre `CASO-PUN-048-1B`. La entrada es el dict completo del starter; la operación debe demostrar recall holdout mejora y costo de reindexación acotado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S48-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `KEEP_EMBEDDING_BASELINE` en E2.",
+      "hints": [
+        "Relaciona los campos `baseline_recall`, `candidate_recall`, `min_recall`, `holdout`, `reindex_cost_pen` con la regla explicada en S48-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva comparación retenida baseline/candidato; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-PUN-048-1B` satisface un predicado de dominio real; imprime `S48-T1-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\nmeets_contract = record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"]\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\n"
+    },
+    {
+      "id": "S48-T1-B-E2",
+      "instruction": "S48-T1-B-E2 · Verifica tres rutas de `límites, versiones y evaluación`: fixture válido, fixture adverso y registro sin `reindex_cost_pen`. Entrada: dict con case_id, baseline_recall, candidate_recall, min_recall, holdout, reindex_cost_pen. Salidas exactas: `PASS`, `KEEP_EMBEDDING_BASELINE`, `MISSING:reindex_cost_pen`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a reindex_cost_pen debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S48-T1-B: recall holdout mejora y costo de reindexación acotado. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `reindex_cost_pen` ausente y produce exactamente `PASS KEEP_EMBEDDING_BASELINE MISSING:reindex_cost_pen`.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T1-B-E3",
+      "instruction": "S48-T1-B-E3 · Extiende fallo cerrado para `límites, versiones y evaluación` con tres fixtures distintos. `CASO-PUN-048-1B` debe continuar, el adverso debe devolver `KEEP_EMBEDDING_BASELINE` y la ausencia de `reindex_cost_pen` debe devolver `EVALUATE_ERROR_SLICES`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `EVALUATE_ERROR_SLICES` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró recall holdout mejora y costo de reindexación acotado; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-PUN-048-1B`, adverso y sin `reindex_cost_pen` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T2-A-E1",
+      "instruction": "S48-T2-A-E1 · Filtra el contrato de `chunking, metadata y dedup` sobre `CASO-PUN-048-2A`. La entrada es el dict completo del starter; la operación debe demostrar hashes únicos, metadata y source version. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S48-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `DEDUP_AND_RECHUNK` en E2.",
+      "hints": [
+        "Relaciona los campos `chunks`, `unique_hashes`, `source_version` con la regla explicada en S48-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva chunks trazables y sin duplicados; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-PUN-048-2A` satisface un predicado de dominio real; imprime `S48-T2-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\nmeets_contract = len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"])\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\n"
+    },
+    {
+      "id": "S48-T2-A-E2",
+      "instruction": "S48-T2-A-E2 · Clasifica tres rutas de `chunking, metadata y dedup`: fixture válido, fixture adverso y registro sin `source_version`. Entrada: dict con case_id, chunks, unique_hashes, source_version. Salidas exactas: `PASS`, `DEDUP_AND_RECHUNK`, `MISSING:source_version`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a source_version debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S48-T2-A: hashes únicos, metadata y source version. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `source_version` ausente y produce exactamente `PASS DEDUP_AND_RECHUNK MISSING:source_version`.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T2-A-E3",
+      "instruction": "S48-T2-A-E3 · Defiende fallo cerrado para `chunking, metadata y dedup` con tres fixtures distintos. `CASO-PUN-048-2A` debe continuar, el adverso debe devolver `DEDUP_AND_RECHUNK` y la ausencia de `source_version` debe devolver `RESTORE_CHUNK_METADATA`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `RESTORE_CHUNK_METADATA` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró hashes únicos, metadata y source version; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-PUN-048-2A`, adverso y sin `source_version` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T2-B-E1",
+      "instruction": "S48-T2-B-E1 · Modela el contrato de `ACL, deletion y provenance` sobre `CASO-PUN-048-2B`. La entrada es el dict completo del starter; la operación debe demostrar ACL intersecta, documento activo y cache coherente. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S48-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `FILTER_OR_DELETE_CHUNK` en E2.",
+      "hints": [
+        "Relaciona los campos `user_acl`, `chunk_acl`, `deleted`, `provenance`, `cache_invalidated` con la regla explicada en S48-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva usuario sin permiso recupera cero fragmentos; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-PUN-048-2B` satisface un predicado de dominio real; imprime `S48-T2-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\nmeets_contract = not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"]\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\n"
+    },
+    {
+      "id": "S48-T2-B-E2",
+      "instruction": "S48-T2-B-E2 · Audita tres rutas de `ACL, deletion y provenance`: fixture válido, fixture adverso y registro sin `cache_invalidated`. Entrada: dict con case_id, user_acl, chunk_acl, deleted, provenance, cache_invalidated. Salidas exactas: `PASS`, `FILTER_OR_DELETE_CHUNK`, `MISSING:cache_invalidated`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a cache_invalidated debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S48-T2-B: ACL intersecta, documento activo y cache coherente. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `cache_invalidated` ausente y produce exactamente `PASS FILTER_OR_DELETE_CHUNK MISSING:cache_invalidated`.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T2-B-E3",
+      "instruction": "S48-T2-B-E3 · Recupera fallo cerrado para `ACL, deletion y provenance` con tres fixtures distintos. `CASO-PUN-048-2B` debe continuar, el adverso debe devolver `FILTER_OR_DELETE_CHUNK` y la ausencia de `cache_invalidated` debe devolver `VERIFY_ACL_PROVENANCE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `VERIFY_ACL_PROVENANCE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró ACL intersecta, documento activo y cache coherente; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-PUN-048-2B`, adverso y sin `cache_invalidated` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T3-A-E1",
+      "instruction": "S48-T3-A-E1 · Verifica el contrato de `lexical/vector/hybrid y reranking` sobre `CASO-PUN-048-3A`. La entrada es el dict completo del starter; la operación debe demostrar weighted hybrid score produce top esperado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S48-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `RECALIBRATE_HYBRID_RANK` en E2.",
+      "hints": [
+        "Relaciona los campos `lexical`, `vector`, `weights`, `expected_top` con la regla explicada en S48-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva recall mejora sin romper ACL; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-PUN-048-3A` satisface un predicado de dominio real; imprime `S48-T3-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nmeets_contract = max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\n"
+    },
+    {
+      "id": "S48-T3-A-E2",
+      "instruction": "S48-T3-A-E2 · Decide tres rutas de `lexical/vector/hybrid y reranking`: fixture válido, fixture adverso y registro sin `expected_top`. Entrada: dict con case_id, lexical, vector, weights, expected_top. Salidas exactas: `PASS`, `RECALIBRATE_HYBRID_RANK`, `MISSING:expected_top`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a expected_top debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S48-T3-A: weighted hybrid score produce top esperado. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `expected_top` ausente y produce exactamente `PASS RECALIBRATE_HYBRID_RANK MISSING:expected_top`.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T3-A-E3",
+      "instruction": "S48-T3-A-E3 · Contrasta fallo cerrado para `lexical/vector/hybrid y reranking` con tres fixtures distintos. `CASO-PUN-048-3A` debe continuar, el adverso debe devolver `RECALIBRATE_HYBRID_RANK` y la ausencia de `expected_top` debe devolver `REVIEW_RERANK_CANDIDATES`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_RERANK_CANDIDATES` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró weighted hybrid score produce top esperado; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-PUN-048-3A`, adverso y sin `expected_top` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T3-B-E1",
+      "instruction": "S48-T3-B-E1 · Clasifica el contrato de `contexto, citas y permisos` sobre `CASO-PUN-048-3B`. La entrada es el dict completo del starter; la operación debe demostrar todas las claims citadas, ACL y contexto bajo límite. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S48-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ABSTAIN_UNCITED` en E2.",
+      "hints": [
+        "Relaciona los campos `claims`, `cited_claims`, `citation_acl`, `context_tokens`, `max_context_tokens` con la regla explicada en S48-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva cada afirmación material tiene cita autorizada; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-PUN-048-3B` satisface un predicado de dominio real; imprime `S48-T3-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\nmeets_contract = not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\n"
+    },
+    {
+      "id": "S48-T3-B-E2",
+      "instruction": "S48-T3-B-E2 · Calcula tres rutas de `contexto, citas y permisos`: fixture válido, fixture adverso y registro sin `max_context_tokens`. Entrada: dict con case_id, claims, cited_claims, citation_acl, context_tokens, max_context_tokens. Salidas exactas: `PASS`, `ABSTAIN_UNCITED`, `MISSING:max_context_tokens`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a max_context_tokens debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S48-T3-B: todas las claims citadas, ACL y contexto bajo límite. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `max_context_tokens` ausente y produce exactamente `PASS ABSTAIN_UNCITED MISSING:max_context_tokens`.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T3-B-E3",
+      "instruction": "S48-T3-B-E3 · Instrumenta fallo cerrado para `contexto, citas y permisos` con tres fixtures distintos. `CASO-PUN-048-3B` debe continuar, el adverso debe devolver `ABSTAIN_UNCITED` y la ausencia de `max_context_tokens` debe devolver `REQUEST_AUTHORIZED_CONTEXT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_AUTHORIZED_CONTEXT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró todas las claims citadas, ACL y contexto bajo límite; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-PUN-048-3B`, adverso y sin `max_context_tokens` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T4-A-E1",
+      "instruction": "S48-T4-A-E1 · Audita el contrato de `structured output y grounding` sobre `CASO-PUN-048-4A`. La entrada es el dict completo del starter; la operación debe demostrar schema exacto, evidence IDs permitidos e injection ignorada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S48-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNGROUNDED_OUTPUT` en E2.",
+      "hints": [
+        "Relaciona los campos `output`, `schema_keys`, `allowed_evidence`, `injected_instruction_ignored` con la regla explicada en S48-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva schema válido y evidence ids presentes; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-PUN-048-4A` satisface un predicado de dominio real; imprime `S48-T4-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\nmeets_contract = not set(record[\"output\"][\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n"
+    },
+    {
+      "id": "S48-T4-A-E2",
+      "instruction": "S48-T4-A-E2 · Compara tres rutas de `structured output y grounding`: fixture válido, fixture adverso y registro sin `injected_instruction_ignored`. Entrada: dict con case_id, output, schema_keys, allowed_evidence, injected_instruction_ignored. Salidas exactas: `PASS`, `REJECT_UNGROUNDED_OUTPUT`, `MISSING:injected_instruction_ignored`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a injected_instruction_ignored debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S48-T4-A: schema exacto, evidence IDs permitidos e injection ignorada. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `injected_instruction_ignored` ausente y produce exactamente `PASS REJECT_UNGROUNDED_OUTPUT MISSING:injected_instruction_ignored`.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T4-A-E3",
+      "instruction": "S48-T4-A-E3 · Aísla fallo cerrado para `structured output y grounding` con tres fixtures distintos. `CASO-PUN-048-4A` debe continuar, el adverso debe devolver `REJECT_UNGROUNDED_OUTPUT` y la ausencia de `injected_instruction_ignored` debe devolver `VALIDATE_OUTPUT_SCHEMA`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `VALIDATE_OUTPUT_SCHEMA` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró schema exacto, evidence IDs permitidos e injection ignorada; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-PUN-048-4A`, adverso y sin `injected_instruction_ignored` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T4-B-E1",
+      "instruction": "S48-T4-B-E1 · Decide el contrato de `retrieval/answer eval, costo y abstención` sobre `CASO-PUN-048-4B`. La entrada es el dict completo del starter; la operación debe demostrar retrieval/answer gates, costo y soporte. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S48-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `ABSTAIN_WITH_REASON` en E2.",
+      "hints": [
+        "Relaciona los campos `retrieval_recall`, `min_recall`, `faithfulness`, `min_faithfulness`, `cost_pen`, `cost_cap_pen`, `support` con la regla explicada en S48-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva respuesta no soportada se abstiene; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-PUN-048-4B` satisface un predicado de dominio real; imprime `S48-T4-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\nmeets_contract = record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\n"
+    },
+    {
+      "id": "S48-T4-B-E2",
+      "instruction": "S48-T4-B-E2 · Filtra tres rutas de `retrieval/answer eval, costo y abstención`: fixture válido, fixture adverso y registro sin `support`. Entrada: dict con case_id, retrieval_recall, min_recall, faithfulness, min_faithfulness, cost_pen, cost_cap_pen, support. Salidas exactas: `PASS`, `ABSTAIN_WITH_REASON`, `MISSING:support`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a support debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S48-T4-B: retrieval/answer gates, costo y soporte. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `support` ausente y produce exactamente `PASS ABSTAIN_WITH_REASON MISSING:support`.",
+      "starterCode": null
+    },
+    {
+      "id": "S48-T4-B-E3",
+      "instruction": "S48-T4-B-E3 · Demuestra fallo cerrado para `retrieval/answer eval, costo y abstención` con tres fixtures distintos. `CASO-PUN-048-4B` debe continuar, el adverso debe devolver `ABSTAIN_WITH_REASON` y la ausencia de `support` debe devolver `TUNE_RETRIEVAL_OR_BUDGET`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `TUNE_RETRIEVAL_OR_BUDGET` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró retrieval/answer gates, costo y soporte; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-PUN-048-4B`, adverso y sin `support` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    }
+  ],
+  "packet_sha": "48b0f46b7b1a57cd",
+  "attempt_id": "agentic_L2"
+}

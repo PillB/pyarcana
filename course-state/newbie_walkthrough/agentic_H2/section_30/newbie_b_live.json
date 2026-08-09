@@ -1,0 +1,318 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-skeptic-s30-1784797855",
+  "production_note": "agentic_H2 dual-LLM Skeptic: solved from quiz_card+slim_packet only; independent of H1; packet-only; no stamps; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S30-T1-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `a=b='a'`. Soporte: «S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S30-T1-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `ta,tb=set('a b'.split()),set('b c'.split())`. Soporte: «S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fix». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S30-T1-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `from datetime import date`. Soporte: «S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LI». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S30-T1-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `a,b='', 'x'`. Soporte: «S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er,». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S30-T1-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `freq=10`. Soporte: «S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @ex». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S30-T1-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phon». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S30-T2-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `last,city='lopez','lima'`. Soporte: «S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-L». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S30-T2-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `found,gold_n=1,2`. Soporte: «S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S30-T2-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `n=4`. Soporte: «S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-03». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S30-T2-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `sizes=[3,5]`. Soporte: «S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S30-T2-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `ta,tb='person','org'`. Soporte: «S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S30-T2-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S30-T3-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-03». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S30-T3-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `s,t_high,t_low=0.7,0.9,0.5`. Soporte: «S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_i». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S30-T3-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (r». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\np={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nprint('ok')\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S30-T3-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `p={1:1,2:2,3:3}`. Soporte: «S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple.». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S30-T3-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S30-T3-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S30-T4-A-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `a,b='e1','e2'`. Soporte: «S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S30-T4-A-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `matches,n=1,5`. Soporte: «S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_i». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S30-T4-A-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (r». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S30-T4-B-E1: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `tp,fp=2,1`. Soporte: «S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-0». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S30-T4-B-E2: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `tp,fn=2,2`. Soporte: «S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe». Intento agentic_H2 independiente de H1."
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S30-T4-B-E3: contrasté starter vs instruction del quiz_card/slim_packet. Defectos invertidos o TODO resueltos; ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture ». Intento agentic_H2 independiente de H1."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_option": "Si dos registros son la misma entidad",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q0: contrasté opciones del quiz_card; me quedo con «Si dos registros son la misma entidad» (idx 1) por soporte lexical en theory del paquete (motor, debe, decidir, registros, misma). Independiente de H1; solo H2 packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_option": "Fracción de verdaderos matches que sobreviven al blocking",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q1: contrasté opciones del quiz_card; me quedo con «Fracción de verdaderos matches que sobreviven al blocking» (idx 3) por soporte lexical en theory del paquete (Candidate, recall, blocking, mide, Fracción). Independiente de H1; solo H2 packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_option": "clerical review",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q2: contrasté opciones del quiz_card; me quedo con «clerical review» (idx 0) por soporte lexical en theory del paquete (Scores, entre, t_low, t_high, clerical). Independiente de H1; solo H2 packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_option": "Review",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q3: contrasté opciones del quiz_card; me quedo con «Review» (idx 3) por soporte lexical en theory del paquete (Split, entidad, evita, Review). Independiente de H1; solo H2 packet."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:11:22.949486+00:00",
+  "session_started_at": "2026-07-23T09:10:55.231300+00:00",
+  "session_ended_at": "2026-07-23T09:11:22.949486+00:00"
+}

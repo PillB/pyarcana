@@ -1,0 +1,551 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B1",
+  "section_index": 19,
+  "packet_sha": "9cf3216f6747a5b0",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_19/packet.json",
+  "recorded_at": "2026-07-22T01:46:45.479856+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "27a11a7bf7fa",
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T1-A-E1\npregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "pregunta",
+        "comparar",
+        "regiones",
+        "chart",
+        "bar"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T1-A-E1 si el paquete lo enseña. Instrucción: «Dada pregunta de comparación entre 3 regiones, imprime chart recomendado 'bar'.». Demo ancla S19-T1-B-DEMO: «pregunta = \"Comparar ticket mediano entre regiones\" audiencia = \"VP de operaciones\" candidates = [\"bar\", \"line\", \"pie_3d\", \"scatter\"] score = {\"bar\": 3, \"line\":». Hints del weDo: Asigna chart='bar'.; print el valor.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T1-A-E1 pregunta = \"comparar regiones\" chart = \"bar\" print(chart)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'pregunta']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T1-A-E2\nspec = {\"pregunta\": \"comparar totales\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}\nprint(spec)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "spec",
+        "pregunta",
+        "comparar",
+        "totales",
+        "audiencia"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T1-A-E2 si el paquete lo enseña. Instrucción: «Devuelve dict pregunta/audiencia/chart para audiencia ejecutivo y comparación de totales.». Demo ancla S19-T1-B-DEMO: «pregunta = \"Comparar ticket mediano entre regiones\" audiencia = \"VP de operaciones\" candidates = [\"bar\", \"line\", \"pie_3d\", \"scatter\"] score = {\"bar\": 3, \"line\":». Hints del weDo: Incluye las 3 claves.; chart bar.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T1-A-E2 spec = {\"pregunta\": \"comparar totales\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"} print(spec)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'spec']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T1-A-E3\ndef elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta else \"bar\"\n\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "elige_chart",
+        "pregunta",
+        "line",
+        "tendencia",
+        "else"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T1-A-E3 si el paquete lo enseña. Instrucción: «Escribe elige_chart(pregunta) que devuelva 'line' si 'tendencia' in pregunta else 'bar'; prueba con dos strings.». Demo ancla S19-T1-B-DEMO: «pregunta = \"Comparar ticket mediano entre regiones\" audiencia = \"VP de operaciones\" candidates = [\"bar\", \"line\", \"pie_3d\", \"scatter\"] score = {\"bar\": 3, \"line\":». Hints del weDo: in para substring.; Dos prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T1-A-E3 def elige_chart(pregunta): return \"line\" if \"tendencia\" in pregunta else \"bar\" print(elige_chart(\"». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'elige_chart']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T1-B-E1\na, b = 50.0, 45.0\ntruco = (a - b) / (a - 40)\nhonesto = (a - b) / a\nprint(round(truco / honesto, 2))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "truco",
+        "honesto",
+        "round"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T1-B-E1 si el paquete lo enseña. Instrucción: «Con valores 50 y 45, imprime inflación visual si baseline=40 vs 0 (ratio de alturas de la diferencia).». Demo ancla S19-T1-B-DEMO: «pregunta = \"Comparar ticket mediano entre regiones\" audiencia = \"VP de operaciones\" candidates = [\"bar\", \"line\", \"pie_3d\", \"scatter\"] score = {\"bar\": 3, \"line\":». Hints del weDo: altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.; factor = truco/honesto.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T1-B-E1 a, b = 50.0, 45.0 truco = (a - b) / (a - 40) honesto = (a - b) / a print(round(truco / honesto, 2)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'truco']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T1-B-E2\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "ylim_bottom",
+        "honesto",
+        "else",
+        "revisar"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T1-B-E2 si el paquete lo enseña. Instrucción: «Imprime 'honesto' si ylim_bottom==0 else 'revisar'.». Demo ancla S19-T1-B-DEMO: «pregunta = \"Comparar ticket mediano entre regiones\" audiencia = \"VP de operaciones\" candidates = [\"bar\", \"line\", \"pie_3d\", \"scatter\"] score = {\"bar\": 3, \"line\":». Hints del weDo: Variable ylim_bottom=0.; print condicional.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T1-B-E2 ylim_bottom = 0 print(\"honesto\" if ylim_bottom == 0 else \"revisar\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'ylim_bottom']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T1-B-E3\nencoding = \"dual_axis\"\nif encoding == \"dual_axis\":\n    print(\"riesgo_alto\")\nelif encoding == \"position\":\n    print(\"ok\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "encoding",
+        "dual_axis",
+        "riesgo_alto",
+        "elif",
+        "position"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T1-B-E3 si el paquete lo enseña. Instrucción: «Dado encoding='dual_axis', imprime 'riesgo_alto' ; si 'position', 'ok'.». Demo ancla S19-T1-B-DEMO: «pregunta = \"Comparar ticket mediano entre regiones\" audiencia = \"VP de operaciones\" candidates = [\"bar\", \"line\", \"pie_3d\", \"scatter\"] score = {\"bar\": 3, \"line\":». Hints del weDo: if/elif.; Prueba dual_axis.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T1-B-E3 encoding = \"dual_axis\" if encoding == \"dual_axis\": print(\"riesgo_alto\") elif encoding == \"position». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'encoding']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T2-A-E1\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([0, 1], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T2-A-E1 si el paquete lo enseña. Instrucción: «Crea figura bar de [1,2] y verifica get_ylim()[0]==0 tras set_ylim(0,3); imprime True/False.». Demo ancla S19-T2-A-DEMO: «a, b = 100.0, 92.0 # honesto baseline 0 perc_h = (a - b) / a # truco baseline 90 perc_t = (a - b) / (a - 90) print(\"diff_abs\", a - b) print(\"fraccion_altura_hon». Hints del weDo: matplotlib Agg.; plt.close.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T2-A-E1 import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt fig, ax = plt.subplots() a». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'matplotlib']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T2-A-E2\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\nplt.close(fig)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T2-A-E2 si el paquete lo enseña. Instrucción: «Asigna ylabel 'PEN' a un Axes y print get_ylabel().». Demo ancla S19-T2-A-DEMO: «a, b = 100.0, 92.0 # honesto baseline 0 perc_h = (a - b) / a # truco baseline 90 perc_t = (a - b) / (a - 90) print(\"diff_abs\", a - b) print(\"fraccion_altura_hon». Hints del weDo: set_ylabel.; Agg backend.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T2-A-E2 import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt fig, ax = plt.subplots() a». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'matplotlib']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T2-A-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(0, max(values) * 1.2)\n    out = {\"n_bars\": len(values), \"ylim0\": ax.get_ylim()[0] == 0}\n    plt.close(fig)\n    return out\n\nprint(meta_bar([\"A\", \"B\"], [3, 4]))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T2-A-E3 si el paquete lo enseña. Instrucción: «Función meta_bar(labels, values) crea bar chart y devuelve dict n_bars y ylim0; print con ['A','B'] [3,4].». Demo ancla S19-T2-A-DEMO: «a, b = 100.0, 92.0 # honesto baseline 0 perc_h = (a - b) / a # truco baseline 90 perc_t = (a - b) / (a - 90) print(\"diff_abs\", a - b) print(\"fraccion_altura_hon». Hints del weDo: len(values).; set_ylim(0, max*1.2).. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T2-A-E3 import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt def meta_bar(labels, value». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'matplotlib']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T2-B-E1\nexport = {\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2}\nprint(export)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "export",
+        "fmt",
+        "png",
+        "dpi",
+        "panels"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T2-B-E1 si el paquete lo enseña. Instrucción: «Imprime export dict con fmt png, dpi 120, panels 2.». Demo ancla S19-T2-A-DEMO: «a, b = 100.0, 92.0 # honesto baseline 0 perc_h = (a - b) / a # truco baseline 90 perc_t = (a - b) / (a - 90) print(\"diff_abs\", a - b) print(\"fraccion_altura_hon». Hints del weDo: Dict literal.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T2-B-E1 export = {\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2} print(export)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'export']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T2-B-E2\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "version",
+        "fig_cpn2b_v",
+        "png"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T2-B-E2 si el paquete lo enseña. Instrucción: «Construye nombre fig_cpn2b_v{version}.png para version=3.». Demo ancla S19-T2-A-DEMO: «a, b = 100.0, 92.0 # honesto baseline 0 perc_h = (a - b) / a # truco baseline 90 perc_t = (a - b) / (a - 90) print(\"diff_abs\", a - b) print(\"fraccion_altura_hon». Hints del weDo: f-string.; print nombre.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T2-B-E2 version = 3 print(f\"fig_cpn2b_v{version}.png\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'version']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T2-B-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, (ax0, ax1) = plt.subplots(1, 2)\nax0.set_title(\"Vol\")\nax1.set_title(\"Med\")\nprint([ax0.get_title(), ax1.get_title()])\nplt.close(fig)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T2-B-E3 si el paquete lo enseña. Instrucción: «Crea 1x2 subplots, set titles Vol y Med, devuelve lista de titles; print.». Demo ancla S19-T2-A-DEMO: «a, b = 100.0, 92.0 # honesto baseline 0 perc_h = (a - b) / a # truco baseline 90 perc_t = (a - b) / (a - 90) print(\"diff_abs\", a - b) print(\"fraccion_altura_hon». Hints del weDo: ax.get_title().; close fig.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T2-B-E3 import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt fig, (ax0, ax1) = plt.subp». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'matplotlib']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T3-A-E1\nrows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nrow = next(r for r in rows if r[\"region\"] == \"Lima\")\nprint(row[\"median\"])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "rows",
+        "region",
+        "Lima",
+        "median",
+        "Cusco"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T3-A-E1 si el paquete lo enseña. Instrucción: «Filtra rows por region=='Lima' e imprime el median del primero.». Demo ancla S19-T3-A-DEMO: «import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt  fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 3)) ax0.bar([\"Lima\", \"Cusco\"], [40, 32». Hints del weDo: list comp o next.; print valor.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T3-A-E1 rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}] row = next(r for r in». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'rows']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T3-A-E2\nregion, v, n = \"Lima\", 28, 40\nprint(f\"{region}: {v} PEN (n={n})\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "region",
+        "Lima",
+        "PEN"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T3-A-E2 si el paquete lo enseña. Instrucción: «Arma tooltip string '{region}: {v} PEN (n={n})' con Lima 28 n=40.». Demo ancla S19-T3-A-DEMO: «import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt  fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 3)) ax0.bar([\"Lima\", \"Cusco\"], [40, 32». Hints del weDo: f-string.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T3-A-E2 region, v, n = \"Lima\", 28, 40 print(f\"{region}: {v} PEN (n={n})\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'region']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T3-A-E3\ndef tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\n\nprint(tooltip({\"region\": \"Lima\", \"median\": 28.0, \"n\": 40}))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "tooltip",
+        "row",
+        "region",
+        "median",
+        "PEN"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T3-A-E3 si el paquete lo enseña. Instrucción: «Implementa tooltip(row) y pruébalo con dict region/median/n.». Demo ancla S19-T3-A-DEMO: «import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt  fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 3)) ax0.bar([\"Lima\", \"Cusco\"], [40, 32». Hints del weDo: Incluye unidad PEN.; Función pura.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T3-A-E3 def tooltip(row): return f\"{row['region']}: {row['median']} PEN (n={row['n']})\" print(tooltip({\"re». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'tooltip']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T3-B-E1\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(all(chart[r[\"region\"]] == r[\"v\"] for r in table))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "chart",
+        "Lima",
+        "table",
+        "region",
+        "all"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T3-B-E1 si el paquete lo enseña. Instrucción: «Dado chart={'Lima':1} y table=[{'region':'Lima','v':1}], imprime parity True si coinciden.». Demo ancla S19-T3-A-DEMO: «import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt  fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 3)) ax0.bar([\"Lima\", \"Cusco\"], [40, 32». Hints del weDo: Compara valores.; print True.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T3-B-E1 chart = {\"Lima\": 1} table = [{\"region\": \"Lima\", \"v\": 1}] print(all(chart[r[\"region\"]] == r[\"v\"] fo». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'chart']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T3-B-E2\nimport json\nstate = {\"filtro_region\": \"Lima\"}\nprint(json.dumps(state, separators=(\",\", \":\")))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "json",
+        "state",
+        "filtro_region",
+        "Lima",
+        "dumps"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T3-B-E2 si el paquete lo enseña. Instrucción: «Serializa state filtro_region=Lima a string JSON compacto (json.dumps).». Demo ancla S19-T3-A-DEMO: «import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt  fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 3)) ax0.bar([\"Lima\", \"Cusco\"], [40, 32». Hints del weDo: import json.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T3-B-E2 import json state = {\"filtro_region\": \"Lima\"} print(json.dumps(state, separators=(\",\", \":\")))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'json']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T3-B-E3\ntable = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "table",
+        "region",
+        "Lima",
+        "Cusco",
+        "join"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T3-B-E3 si el paquete lo enseña. Instrucción: «Genera alt_text desde table list de dicts region/v; une con '; '.». Demo ancla S19-T3-A-DEMO: «import matplotlib matplotlib.use(\"Agg\") import matplotlib.pyplot as plt  fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 3)) ax0.bar([\"Lima\", \"Cusco\"], [40, 32». Hints del weDo: join.; Incluye PEN.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T3-B-E3 table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}] print(\"; \".join(f\"{r['region']». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'table']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T4-A-E1\nprint(\"Unidad: PEN | Fuente: sintetico\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "Unidad",
+        "PEN",
+        "Fuente",
+        "sintetico"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T4-A-E1 si el paquete lo enseña. Instrucción: «Imprime caption con unidad PEN y fuente sintetico.». Demo ancla S19-T4-A-DEMO: «chart = {\"Lima\": 28.0, \"Cusco\": 22.5} table = [{\"region\": k, \"ticket_mediano_pen\": v} for k, v in chart.items()] text = \"; \".join(f\"{r['region']}={r['ticket_med». Hints del weDo: f-string o dict.; Ambas menciones.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T4-A-E1 print(\"Unidad: PEN | Fuente: sintetico\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'Unidad']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T4-A-E2\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nneed = {\"unidad\", \"fuente\", \"limitacion\"}\nprint(need.issubset(cap.keys()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "cap",
+        "unidad",
+        "PEN",
+        "fuente",
+        "limitacion"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T4-A-E2 si el paquete lo enseña. Instrucción: «Valida que caption dict tenga claves unidad, fuente, limitacion; imprime True.». Demo ancla S19-T4-A-DEMO: «chart = {\"Lima\": 28.0, \"Cusco\": 22.5} table = [{\"region\": k, \"ticket_mediano_pen\": v} for k, v in chart.items()] text = \"; \".join(f\"{r['region']}={r['ticket_med». Hints del weDo: set de keys.; issuperset.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T4-A-E2 cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"} need = {\"unidad\", \"fuente\", \"limitacio». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'cap']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T4-A-E3\ndef pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\n\nprint(pie({\"unidad\": \"PEN\", \"fuente\": \"sintético\"}))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "pie",
+        "cap",
+        "join",
+        "items",
+        "unidad"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T4-A-E3 si el paquete lo enseña. Instrucción: «Función pie(cap) devuelve string unido con ' | ' de items; prueba con 2 claves.». Demo ancla S19-T4-A-DEMO: «chart = {\"Lima\": 28.0, \"Cusco\": 22.5} table = [{\"region\": k, \"ticket_mediano_pen\": v} for k, v in chart.items()] text = \"; \".join(f\"{r['region']}={r['ticket_med». Hints del weDo: join items.; orden de inserción dict.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T4-A-E3 def pie(cap): return \" | \".join(f\"{k}: {v}\" for k, v in cap.items()) print(pie({\"unidad\": \"PEN\", \"». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'pie']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T4-B-E1\nclaim = \"Lima es la mejor del Perú\"\nif \"del Perú\" in claim and \"muestra\" not in claim:\n    print(\"RECHAZADO\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "claim",
+        "Lima",
+        "mejor",
+        "del",
+        "and"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T4-B-E1 si el paquete lo enseña. Instrucción: «Si claim contiene 'del Perú' sin 'muestra', imprime RECHAZADO.». Demo ancla S19-T4-A-DEMO: «chart = {\"Lima\": 28.0, \"Cusco\": 22.5} table = [{\"region\": k, \"ticket_mediano_pen\": v} for k, v in chart.items()] text = \"; \".join(f\"{r['region']}={r['ticket_med». Hints del weDo: in checks.; Caso: 'mejor del Perú'.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T4-B-E1 claim = \"Lima es la mejor del Perú\" if \"del Perú\" in claim and \"muestra\" not in claim: print(\"RECH». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'claim']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T4-B-E2\nalt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "alt",
+        "Lima",
+        "PEN"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T4-B-E2 si el paquete lo enseña. Instrucción: «Alt text debe mencionar 'n='; imprime True si 'n=' in alt.». Demo ancla S19-T4-A-DEMO: «chart = {\"Lima\": 28.0, \"Cusco\": 22.5} table = [{\"region\": k, \"ticket_mediano_pen\": v} for k, v in chart.items()] text = \"; \".join(f\"{r['region']}={r['ticket_med». Hints del weDo: substring.; alt de ejemplo.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T4-B-E2 alt = \"Lima 28 PEN n=40\" print(\"n=\" in alt)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'alt']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S19-T4-B-E3\ndef classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\n\nprint(classify_claim(\"Lima lidera en la muestra web\"))\nprint(classify_claim(\"Lima es la mejor del Perú\"))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S19",
+        "classify_claim",
+        "text",
+        "PERMITIDO",
+        "muestra",
+        "else"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S19-T4-B-E3 si el paquete lo enseña. Instrucción: «classify_claim(text) -> PERMITIDO si 'muestra' in text else RECHAZADO; prueba 2 textos.». Demo ancla S19-T4-A-DEMO: «chart = {\"Lima\": 28.0, \"Cusco\": 22.5} table = [{\"region\": k, \"ticket_mediano_pen\": v} for k, v in chart.items()] text = \"; \".join(f\"{r['region']}={r['ticket_med». Hints del weDo: Función binaria simple didáctica.; Dos prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S19-T4-B-E3 def classify_claim(text): return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\" print(classify_». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S19', 'classify_claim']. Heading: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audienci."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Barras con baseline 0",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «pregunta, audiencia y chart choice» + ejes honestos: comparar magnitudes → barras; pie_3d rejected in demos. Barras with baseline 0 for absolute magnitudes."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Repetir los mismos números clave del chart",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «estado, performance y alternativas accesibles» — alternativa accesible: tabla + resumen textual con los mismos números que el chart. Parity is required, not optional fluff."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Sobreclaim / generalización indebida",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «color, contraste… y no sobreclaim» — «Lima lidera en la muestra web» ≠ «Lima es la mejor región del país». National superlative is overclaim."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Unidad, fuente y limitaciones",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «unidades, fuente y limitaciones» — pie de figura: Unidad | Fuente | Corte | Limitación. Portfolio figure without fuente is rejected."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "section": 34,
+  "section_id": "cv-ai-integration",
+  "file": "src/lib/course/sections/s34-cv-ai-integration.ts",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S34_EXPLORER_REPORT.md",
+  "score_before": 4.6,
+  "score_after_estimate": 9.55,
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-17",
+    "ISSUE-19",
+    "ISSUE-20",
+    "ISSUE-21",
+    "ISSUE-22",
+    "ISSUE-23"
+  ],
+  "issues_deferred": [
+    "ISSUE-18"
+  ],
+  "anti_aberration_ok": true,
+  "status": "complete",
+  "notes": "Residual/fleet-floor Fixer for S34 only. Revalidated full metric pipeline (Theory/I Do/We Do E1/You Do). This pass: estimatedHours 18→12 (ISSUE-17); T1-A-E1 forces TN count with y=[1,0,0] pred=[1,1,0] tn=1 (ISSUE-03 residual); domain situating on T1-B/T2-B/T4-A E2 fixtures (ISSUE-15 residual); I Do reliability_bin empty-guard (ISSUE-05 polish). Meta-leaks clean. Platform id cv-ai-integration deferred (ISSUE-18). Hand-crafted edits only; no bulk generators.",
+  "date": "2026-07-24",
+  "pass": "residual_min95"
+}

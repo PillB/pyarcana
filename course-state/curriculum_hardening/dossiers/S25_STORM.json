@@ -1,0 +1,722 @@
+{
+  "section": 25,
+  "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+  "file": "s25-streamlit-dashboards.ts",
+  "n_required": 25,
+  "n_logged": 25,
+  "generated_at": "2026-07-24T04:27:49.332+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "theory_iDo": "theory present",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "no auto-fraud; schema fail-closed; injection=data; human approve; no PII real",
+    "v3_retarget": "AI endpoints/HF/prompting not Streamlit dashboards",
+    "expert_pass_at": "2026-07-24T04:27:49.332+00:00"
+  },
+  "unique_foci": 25,
+  "source_url_count": 14,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "rules vs specialized vs LLM",
+      "research": [
+        {
+          "family": "Hugging Face",
+          "title": "Pipeline tutorial",
+          "url": "https://huggingface.co/docs/transformers/pipeline_tutorial",
+          "note": "pipelines"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Model cards",
+          "url": "https://huggingface.co/docs/hub/model-cards",
+          "note": "cards"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Inference Endpoints",
+          "url": "https://huggingface.co/docs/inference-endpoints/index",
+          "note": "endpoints"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 1/25: «rules vs specialized vs LLM» via Hugging Face (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «rules vs specialized vs LLM».",
+      "expand_scope": "E1/E2/E3 + docs for «rules vs specialized vs LLM»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 1/25: «rules vs specialized vs LLM» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "no autonomous fraud labels",
+      "research": [
+        {
+          "family": "Hugging Face",
+          "title": "Model cards",
+          "url": "https://huggingface.co/docs/hub/model-cards",
+          "note": "cards"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Inference Endpoints",
+          "url": "https://huggingface.co/docs/inference-endpoints/index",
+          "note": "endpoints"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Learn",
+          "url": "https://huggingface.co/learn",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 2/25: «no autonomous fraud labels» via Hugging Face (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no autonomous fraud labels».",
+      "expand_scope": "E1/E2/E3 + docs for «no autonomous fraud labels»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 2/25: «no autonomous fraud labels» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "model cards licenses local cloud",
+      "research": [
+        {
+          "family": "Hugging Face",
+          "title": "Inference Endpoints",
+          "url": "https://huggingface.co/docs/inference-endpoints/index",
+          "note": "endpoints"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Learn",
+          "url": "https://huggingface.co/learn",
+          "note": "course"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 3/25: «model cards licenses local cloud» via Hugging Face, OWASP (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «model cards licenses local cloud».",
+      "expand_scope": "E1/E2/E3 + docs for «model cards licenses local cloud»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 3/25: «model cards licenses local cloud» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "HF pipeline same contract mock",
+      "research": [
+        {
+          "family": "Hugging Face",
+          "title": "Learn",
+          "url": "https://huggingface.co/learn",
+          "note": "course"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 4/25: «HF pipeline same contract mock» via Hugging Face, OWASP (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «HF pipeline same contract mock».",
+      "expand_scope": "E1/E2/E3 + docs for «HF pipeline same contract mock»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 4/25: «HF pipeline same contract mock» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "label score model_id log",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "Getting started",
+          "url": "https://json-schema.org/learn/getting-started-step-by-step",
+          "note": "schema"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 5/25: «label score model_id log» via JSON Schema, OWASP (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «label score model_id log».",
+      "expand_scope": "E1/E2/E3 + docs for «label score model_id log»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 5/25: «label score model_id log» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "batch timeout cache hash",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "Getting started",
+          "url": "https://json-schema.org/learn/getting-started-step-by-step",
+          "note": "schema"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Structured outputs",
+          "url": "https://platform.openai.com/docs/guides/structured-outputs",
+          "note": "structured"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 6/25: «batch timeout cache hash» via JSON Schema, OWASP, OpenAI (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «batch timeout cache hash».",
+      "expand_scope": "E1/E2/E3 + docs for «batch timeout cache hash»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 6/25: «batch timeout cache hash» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "cost estimate fallback circuit",
+      "research": [
+        {
+          "family": "JSON Schema",
+          "title": "Getting started",
+          "url": "https://json-schema.org/learn/getting-started-step-by-step",
+          "note": "schema"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Structured outputs",
+          "url": "https://platform.openai.com/docs/guides/structured-outputs",
+          "note": "structured"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "prompting evals"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 7/25: «cost estimate fallback circuit» via JSON Schema, OpenAI, deeplearning.ai (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cost estimate fallback circuit».",
+      "expand_scope": "E1/E2/E3 + docs for «cost estimate fallback circuit»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 7/25: «cost estimate fallback circuit» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "prompt objective context constraints examples schema",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Structured outputs",
+          "url": "https://platform.openai.com/docs/guides/structured-outputs",
+          "note": "structured"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "prompting evals"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 8/25: «prompt objective context constraints examples schema» via MIT, OpenAI, deeplearning.ai (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «prompt objective context constraints examples schema».",
+      "expand_scope": "E1/E2/E3 + docs for «prompt objective context constraints examples schema»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 8/25: «prompt objective context constraints examples schema» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "forbid invent numbers not in context",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "prompting evals"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 9/25: «forbid invent numbers not in context» via Harvard, MIT, deeplearning.ai (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «forbid invent numbers not in context».",
+      "expand_scope": "E1/E2/E3 + docs for «forbid invent numbers not in context»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 9/25: «forbid invent numbers not in context» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "json.loads required keys",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 10/25: «json.loads required keys» via Harvard, MIT, NIST (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «json.loads required keys».",
+      "expand_scope": "E1/E2/E3 + docs for «json.loads required keys»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 10/25: «json.loads required keys» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "thinking tools allowlist",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 11/25: «thinking tools allowlist» via Harvard, NIST, Py4E (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «thinking tools allowlist».",
+      "expand_scope": "E1/E2/E3 + docs for «thinking tools allowlist»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 11/25: «thinking tools allowlist» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "checkpoints plan tool validate narrate",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 12/25: «checkpoints plan tool validate narrate» via Live, NIST, Py4E (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «checkpoints plan tool validate narrate».",
+      "expand_scope": "E1/E2/E3 + docs for «checkpoints plan tool validate narrate»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 12/25: «checkpoints plan tool validate narrate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "tool_denied shell free banned",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Pipeline tutorial",
+          "url": "https://huggingface.co/docs/transformers/pipeline_tutorial",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 13/25: «tool_denied shell free banned» via Hugging Face, Live, Py4E (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «tool_denied shell free banned».",
+      "expand_scope": "E1/E2/E3 + docs for «tool_denied shell free banned»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 13/25: «tool_denied shell free banned» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "golden exact field F1 schema_fail",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Pipeline tutorial",
+          "url": "https://huggingface.co/docs/transformers/pipeline_tutorial",
+          "note": "pipelines"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Model cards",
+          "url": "https://huggingface.co/docs/hub/model-cards",
+          "note": "cards"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 14/25: «golden exact field F1 schema_fail» via Hugging Face, Live (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «golden exact field F1 schema_fail».",
+      "expand_scope": "E1/E2/E3 + docs for «golden exact field F1 schema_fail»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 14/25: «golden exact field F1 schema_fail» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "human review borderline",
+      "research": [
+        {
+          "family": "Hugging Face",
+          "title": "Pipeline tutorial",
+          "url": "https://huggingface.co/docs/transformers/pipeline_tutorial",
+          "note": "pipelines"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Model cards",
+          "url": "https://huggingface.co/docs/hub/model-cards",
+          "note": "cards"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Inference Endpoints",
+          "url": "https://huggingface.co/docs/inference-endpoints/index",
+          "note": "endpoints"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 15/25: «human review borderline» via Hugging Face (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «human review borderline».",
+      "expand_scope": "E1/E2/E3 + docs for «human review borderline»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 15/25: «human review borderline» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "baseline rules LLM utility with grounding",
+      "research": [
+        {
+          "family": "Hugging Face",
+          "title": "Model cards",
+          "url": "https://huggingface.co/docs/hub/model-cards",
+          "note": "cards"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Inference Endpoints",
+          "url": "https://huggingface.co/docs/inference-endpoints/index",
+          "note": "endpoints"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Learn",
+          "url": "https://huggingface.co/learn",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 16/25: «baseline rules LLM utility with grounding» via Hugging Face (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «baseline rules LLM utility with grounding».",
+      "expand_scope": "E1/E2/E3 + docs for «baseline rules LLM utility with grounding»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 16/25: «baseline rules LLM utility with grounding» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "prompt injection delimit data",
+      "research": [
+        {
+          "family": "Hugging Face",
+          "title": "Inference Endpoints",
+          "url": "https://huggingface.co/docs/inference-endpoints/index",
+          "note": "endpoints"
+        },
+        {
+          "family": "Hugging Face",
+          "title": "Learn",
+          "url": "https://huggingface.co/learn",
+          "note": "course"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 17/25: «prompt injection delimit data» via Hugging Face, OWASP (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «prompt injection delimit data».",
+      "expand_scope": "E1/E2/E3 + docs for «prompt injection delimit data»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 17/25: «prompt injection delimit data» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "regex telemetry not control",
+      "research": [
+        {
+          "family": "Hugging Face",
+          "title": "Learn",
+          "url": "https://huggingface.co/learn",
+          "note": "course"
+        },
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 18/25: «regex telemetry not control» via Hugging Face, OWASP (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «regex telemetry not control».",
+      "expand_scope": "E1/E2/E3 + docs for «regex telemetry not control»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 18/25: «regex telemetry not control» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "exfil no secrets minimize",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "LLM Top 10",
+          "url": "https://genai.owasp.org/llm-top-10/",
+          "note": "threats"
+        },
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "Getting started",
+          "url": "https://json-schema.org/learn/getting-started-step-by-step",
+          "note": "schema"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 19/25: «exfil no secrets minimize» via JSON Schema, OWASP (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «exfil no secrets minimize».",
+      "expand_scope": "E1/E2/E3 + docs for «exfil no secrets minimize»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 19/25: «exfil no secrets minimize» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "score not fraud verdict",
+      "research": [
+        {
+          "family": "OWASP",
+          "title": "Injection Prevention",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+          "note": "injection"
+        },
+        {
+          "family": "JSON Schema",
+          "title": "Getting started",
+          "url": "https://json-schema.org/learn/getting-started-step-by-step",
+          "note": "schema"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Structured outputs",
+          "url": "https://platform.openai.com/docs/guides/structured-outputs",
+          "note": "structured"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 20/25: «score not fraud verdict» via JSON Schema, OWASP, OpenAI (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «score not fraud verdict».",
+      "expand_scope": "E1/E2/E3 + docs for «score not fraud verdict»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 20/25: «score not fraud verdict» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "CP-N2-C AI assist gate",
+      "research": [
+        {
+          "family": "JSON Schema",
+          "title": "Getting started",
+          "url": "https://json-schema.org/learn/getting-started-step-by-step",
+          "note": "schema"
+        },
+        {
+          "family": "OpenAI",
+          "title": "Structured outputs",
+          "url": "https://platform.openai.com/docs/guides/structured-outputs",
+          "note": "structured"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "prompting evals"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 21/25: «CP-N2-C AI assist gate» via JSON Schema, OpenAI, deeplearning.ai (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N2-C AI assist gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N2-C AI assist gate»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 21/25: «CP-N2-C AI assist gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "V3 not Streamlit",
+      "research": [
+        {
+          "family": "OpenAI",
+          "title": "Structured outputs",
+          "url": "https://platform.openai.com/docs/guides/structured-outputs",
+          "note": "structured"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "prompting evals"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 22/25: «V3 not Streamlit» via MIT, OpenAI, deeplearning.ai (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not Streamlit».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not Streamlit»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 22/25: «V3 not Streamlit» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "pair bridge S24 OCR to S26 VP",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "LLM courses",
+          "url": "https://www.deeplearning.ai/",
+          "note": "prompting evals"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 23/25: «pair bridge S24 OCR to S26 VP» via Harvard, MIT, deeplearning.ai (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair bridge S24 OCR to S26 VP».",
+      "expand_scope": "E1/E2/E3 + docs for «pair bridge S24 OCR to S26 VP»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 23/25: «pair bridge S24 OCR to S26 VP» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "CASO-LIM-025 synthetic Lima",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 24/25: «CASO-LIM-025 synthetic Lima» via Harvard, MIT, NIST (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-LIM-025 synthetic Lima».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-LIM-025 synthetic Lima»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 24/25: «CASO-LIM-025 synthetic Lima» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "fail-closed schema_fail injection",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S25 «Endpoints de IA, Hugging Face y prompting evaluado» cycle 25/25: «fail-closed schema_fail injection» via Harvard, NIST, Py4E (CASO-LIM-025 / CP-N2-C AI assist).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fail-closed schema_fail injection».",
+      "expand_scope": "E1/E2/E3 + docs for «fail-closed schema_fail injection»; V3 roadmap; pair S25 AI assist → S26 VP orchestration.",
+      "re_synthesize": "Decision 25/25: «fail-closed schema_fail injection» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

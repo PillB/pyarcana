@@ -1,0 +1,1116 @@
+{
+  "section_index": 43,
+  "section_id": "llmops",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S43-T1-A-E1",
+          "code": "print(\"pip_before_app\", True); print(\"n_steps\", 5); print(\"cache\", \"stable_layers_first\")\n",
+          "note": "",
+          "concepts_used": [
+            "dockerfile",
+            "layers",
+            "iDo_S43-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T1-A-E2",
+          "code": "print(\"pip_before_app\", True); print(\"n_steps\", 5); print(\"cache\", \"stable_layers_first\")\n",
+          "note": "",
+          "concepts_used": [
+            "dockerfile",
+            "layers",
+            "iDo_S43-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T1-A-E3",
+          "code": "print(\"pip_before_app\", True); print(\"n_steps\", 5); print(\"cache\", \"stable_layers_first\")\n",
+          "note": "",
+          "concepts_used": [
+            "dockerfile",
+            "layers",
+            "iDo_S43-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T1-B-E1",
+          "code": "print(\"smaller\", \"distroless\"); print(\"mb\", 40); print(\"base\", \"slim\")\n",
+          "note": "",
+          "concepts_used": [
+            "nonroot",
+            "size",
+            "iDo_S43-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T1-B-E2",
+          "code": "print(\"smaller\", \"distroless\"); print(\"mb\", 40); print(\"base\", \"slim\")\n",
+          "note": "",
+          "concepts_used": [
+            "nonroot",
+            "size",
+            "iDo_S43-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T1-B-E3",
+          "code": "print(\"smaller\", \"distroless\"); print(\"mb\", 40); print(\"base\", \"slim\")\n",
+          "note": "",
+          "concepts_used": [
+            "nonroot",
+            "size",
+            "iDo_S43-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-A-E1",
+          "code": "print(\"no_hardcoded\", True); print(\"mount\", \"readonly_config\"); print(\"ok\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "config",
+            "secrets",
+            "iDo_S43-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-A-E2",
+          "code": "print(\"no_hardcoded\", True); print(\"mount\", \"readonly_config\"); print(\"ok\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "config",
+            "secrets",
+            "iDo_S43-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-A-E3",
+          "code": "print(\"no_hardcoded\", True); print(\"mount\", \"readonly_config\"); print(\"ok\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "config",
+            "secrets",
+            "iDo_S43-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-B-E1",
+          "code": "print(200); print(503); print(\"graceful\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "health",
+            "signals",
+            "iDo_S43-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-B-E2",
+          "code": "print(200); print(503); print(\"graceful\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "health",
+            "signals",
+            "iDo_S43-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-B-E3",
+          "code": "print(200); print(503); print(\"graceful\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "health",
+            "signals",
+            "iDo_S43-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-A-E1",
+          "code": "print(\"api_deps\", [\"db\",\"cache\"]); print(\"worker_deps\", [\"db\",\"cache\"]); print(\"split\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "compose",
+            "api_worker",
+            "iDo_S43-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-A-E2",
+          "code": "print(\"api_deps\", [\"db\",\"cache\"]); print(\"worker_deps\", [\"db\",\"cache\"]); print(\"split\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "compose",
+            "api_worker",
+            "iDo_S43-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-A-E3",
+          "code": "print(\"api_deps\", [\"db\",\"cache\"]); print(\"worker_deps\", [\"db\",\"cache\"]); print(\"split\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "compose",
+            "api_worker",
+            "iDo_S43-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-B-E1",
+          "code": "print(\"migrations\", \"expand_contract\"); print(\"data\", \"ephemeral_ok\"); print(\"order\", \"migrate_first\")\n",
+          "note": "",
+          "concepts_used": [
+            "migrations",
+            "ephemeral",
+            "iDo_S43-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-B-E2",
+          "code": "print(\"migrations\", \"expand_contract\"); print(\"data\", \"ephemeral_ok\"); print(\"order\", \"migrate_first\")\n",
+          "note": "",
+          "concepts_used": [
+            "migrations",
+            "ephemeral",
+            "iDo_S43-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-B-E3",
+          "code": "print(\"migrations\", \"expand_contract\"); print(\"data\", \"ephemeral_ok\"); print(\"order\", \"migrate_first\")\n",
+          "note": "",
+          "concepts_used": [
+            "migrations",
+            "ephemeral",
+            "iDo_S43-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-A-E1",
+          "code": "print(\"builder_has_compilers\", True); print(\"runtime_slim\", True); print(\"lock\", \"pinned\")\n",
+          "note": "",
+          "concepts_used": [
+            "multistage",
+            "locks",
+            "iDo_S43-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-A-E2",
+          "code": "print(\"builder_has_compilers\", True); print(\"runtime_slim\", True); print(\"lock\", \"pinned\")\n",
+          "note": "",
+          "concepts_used": [
+            "multistage",
+            "locks",
+            "iDo_S43-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-A-E3",
+          "code": "print(\"builder_has_compilers\", True); print(\"runtime_slim\", True); print(\"lock\", \"pinned\")\n",
+          "note": "",
+          "concepts_used": [
+            "multistage",
+            "locks",
+            "iDo_S43-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-B-E1",
+          "code": "print(\"block_deploy\", False); print(\"mem\", \"512Mi\"); print(\"scan\", \"ci_gate\")\n",
+          "note": "",
+          "concepts_used": [
+            "scan",
+            "limits",
+            "iDo_S43-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-B-E2",
+          "code": "print(\"block_deploy\", False); print(\"mem\", \"512Mi\"); print(\"scan\", \"ci_gate\")\n",
+          "note": "",
+          "concepts_used": [
+            "scan",
+            "limits",
+            "iDo_S43-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-B-E3",
+          "code": "print(\"block_deploy\", False); print(\"mem\", \"512Mi\"); print(\"scan\", \"ci_gate\")\n",
+          "note": "",
+          "concepts_used": [
+            "scan",
+            "limits",
+            "iDo_S43-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S43-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first\n",
+          "expected_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first\n",
+          "expected_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first\n",
+          "expected_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "smaller distroless\nmb 40\nbase slim\n",
+          "expected_head": "smaller distroless\nmb 40\nbase slim",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "smaller distroless\nmb 40\nbase slim\n",
+          "expected_head": "smaller distroless\nmb 40\nbase slim",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "smaller distroless\nmb 40\nbase slim\n",
+          "expected_head": "smaller distroless\nmb 40\nbase slim",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_hardcoded True\nmount readonly_config\nok True\n",
+          "expected_head": "no_hardcoded True\nmount readonly_config\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_hardcoded True\nmount readonly_config\nok True\n",
+          "expected_head": "no_hardcoded True\nmount readonly_config\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_hardcoded True\nmount readonly_config\nok True\n",
+          "expected_head": "no_hardcoded True\nmount readonly_config\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "200\n503\ngraceful True\n",
+          "expected_head": "200\n503\ngraceful True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "200\n503\ngraceful True\n",
+          "expected_head": "200\n503\ngraceful True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "200\n503\ngraceful True\n",
+          "expected_head": "200\n503\ngraceful True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True\n",
+          "expected_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True\n",
+          "expected_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True\n",
+          "expected_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first\n",
+          "expected_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first\n",
+          "expected_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first\n",
+          "expected_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "builder_has_compilers True\nruntime_slim True\nlock pinned\n",
+          "expected_head": "builder_has_compilers True\nruntime_slim True\nlock pinned",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "builder_has_compilers True\nruntime_slim True\nlock pinned\n",
+          "expected_head": "builder_has_compilers True\nruntime_slim True\nlock pinned",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "builder_has_compilers True\nruntime_slim True\nlock pinned\n",
+          "expected_head": "builder_has_compilers True\nruntime_slim True\nlock pinned",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "block_deploy False\nmem 512Mi\nscan ci_gate\n",
+          "expected_head": "block_deploy False\nmem 512Mi\nscan ci_gate",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "block_deploy False\nmem 512Mi\nscan ci_gate\n",
+          "expected_head": "block_deploy False\nmem 512Mi\nscan ci_gate",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "block_deploy False\nmem 512Mi\nscan ci_gate\n",
+          "expected_head": "block_deploy False\nmem 512Mi\nscan ci_gate",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S43-T1-A-E1",
+          "code": "print(\"pip_before_app\", True); print(\"n_steps\", 5); print(\"cache\", \"stable_layers_first\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T1-A-E2",
+          "code": "print(\"pip_before_app\", True); print(\"n_steps\", 5); print(\"cache\", \"stable_layers_first\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T1-A-E3",
+          "code": "print(\"pip_before_app\", True); print(\"n_steps\", 5); print(\"cache\", \"stable_layers_first\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T1-B-E1",
+          "code": "print(\"smaller\", \"distroless\"); print(\"mb\", 40); print(\"base\", \"slim\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T1-B-E2",
+          "code": "print(\"smaller\", \"distroless\"); print(\"mb\", 40); print(\"base\", \"slim\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T1-B-E3",
+          "code": "print(\"smaller\", \"distroless\"); print(\"mb\", 40); print(\"base\", \"slim\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-A-E1",
+          "code": "print(\"no_hardcoded\", True); print(\"mount\", \"readonly_config\"); print(\"ok\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-A-E2",
+          "code": "print(\"no_hardcoded\", True); print(\"mount\", \"readonly_config\"); print(\"ok\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-A-E3",
+          "code": "print(\"no_hardcoded\", True); print(\"mount\", \"readonly_config\"); print(\"ok\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-B-E1",
+          "code": "print(200); print(503); print(\"graceful\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-B-E2",
+          "code": "print(200); print(503); print(\"graceful\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T2-B-E3",
+          "code": "print(200); print(503); print(\"graceful\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-A-E1",
+          "code": "print(\"api_deps\", [\"db\",\"cache\"]); print(\"worker_deps\", [\"db\",\"cache\"]); print(\"split\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-A-E2",
+          "code": "print(\"api_deps\", [\"db\",\"cache\"]); print(\"worker_deps\", [\"db\",\"cache\"]); print(\"split\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-A-E3",
+          "code": "print(\"api_deps\", [\"db\",\"cache\"]); print(\"worker_deps\", [\"db\",\"cache\"]); print(\"split\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-B-E1",
+          "code": "print(\"migrations\", \"expand_contract\"); print(\"data\", \"ephemeral_ok\"); print(\"order\", \"migrate_first\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-B-E2",
+          "code": "print(\"migrations\", \"expand_contract\"); print(\"data\", \"ephemeral_ok\"); print(\"order\", \"migrate_first\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T3-B-E3",
+          "code": "print(\"migrations\", \"expand_contract\"); print(\"data\", \"ephemeral_ok\"); print(\"order\", \"migrate_first\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-A-E1",
+          "code": "print(\"builder_has_compilers\", True); print(\"runtime_slim\", True); print(\"lock\", \"pinned\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-A-E2",
+          "code": "print(\"builder_has_compilers\", True); print(\"runtime_slim\", True); print(\"lock\", \"pinned\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-A-E3",
+          "code": "print(\"builder_has_compilers\", True); print(\"runtime_slim\", True); print(\"lock\", \"pinned\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-B-E1",
+          "code": "print(\"block_deploy\", False); print(\"mem\", \"512Mi\"); print(\"scan\", \"ci_gate\")\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-B-E2",
+          "code": "print(\"block_deploy\", False); print(\"mem\", \"512Mi\"); print(\"scan\", \"ci_gate\")\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S43-T4-B-E3",
+          "code": "print(\"block_deploy\", False); print(\"mem\", \"512Mi\"); print(\"scan\", \"ci_gate\")\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S43-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S43-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first\n",
+          "expected_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first\n",
+          "expected_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first\n",
+          "expected_head": "pip_before_app True\nn_steps 5\ncache stable_layers_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "smaller distroless\nmb 40\nbase slim\n",
+          "expected_head": "smaller distroless\nmb 40\nbase slim",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "smaller distroless\nmb 40\nbase slim\n",
+          "expected_head": "smaller distroless\nmb 40\nbase slim",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "smaller distroless\nmb 40\nbase slim\n",
+          "expected_head": "smaller distroless\nmb 40\nbase slim",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_hardcoded True\nmount readonly_config\nok True\n",
+          "expected_head": "no_hardcoded True\nmount readonly_config\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_hardcoded True\nmount readonly_config\nok True\n",
+          "expected_head": "no_hardcoded True\nmount readonly_config\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_hardcoded True\nmount readonly_config\nok True\n",
+          "expected_head": "no_hardcoded True\nmount readonly_config\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "200\n503\ngraceful True\n",
+          "expected_head": "200\n503\ngraceful True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "200\n503\ngraceful True\n",
+          "expected_head": "200\n503\ngraceful True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "200\n503\ngraceful True\n",
+          "expected_head": "200\n503\ngraceful True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True\n",
+          "expected_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True\n",
+          "expected_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True\n",
+          "expected_head": "api_deps ['db', 'cache']\nworker_deps ['db', 'cache']\nsplit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first\n",
+          "expected_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first\n",
+          "expected_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first\n",
+          "expected_head": "migrations expand_contract\ndata ephemeral_ok\norder migrate_first",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "builder_has_compilers True\nruntime_slim True\nlock pinned\n",
+          "expected_head": "builder_has_compilers True\nruntime_slim True\nlock pinned",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "builder_has_compilers True\nruntime_slim True\nlock pinned\n",
+          "expected_head": "builder_has_compilers True\nruntime_slim True\nlock pinned",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "builder_has_compilers True\nruntime_slim True\nlock pinned\n",
+          "expected_head": "builder_has_compilers True\nruntime_slim True\nlock pinned",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "block_deploy False\nmem 512Mi\nscan ci_gate\n",
+          "expected_head": "block_deploy False\nmem 512Mi\nscan ci_gate",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "block_deploy False\nmem 512Mi\nscan ci_gate\n",
+          "expected_head": "block_deploy False\nmem 512Mi\nscan ci_gate",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S43-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "block_deploy False\nmem 512Mi\nscan ci_gate\n",
+          "expected_head": "block_deploy False\nmem 512Mi\nscan ci_gate",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

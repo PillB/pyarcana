@@ -1,0 +1,348 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_K1",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s36-76d800c8cf6b",
+  "production_note": "agentic_K1 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "id": "S36-T1-A-E1",
+      "code": "# Cruzado Skeptic del fixture S36-T1-A-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nprint(sum(xs)/len(xs))",
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» resolví S36-T1-A-E1 (guided) leyendo la instruction del quiz_card: «S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clusteri…». La pista «Centroide 1D = media del grupo.» fijó el patrón observable; conf~0.56.",
+      "confidence": 0.56,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "id": "S36-T1-A-E2",
+      "code": "# Cruzado Skeptic del fixture S36-T1-A-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)",
+      "justification_from_packet": "Skeptic-B: el weDo S36-T1-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['z = (x-mu)/sd.', 'Sin scale, gana la magnitud.'] y en el tramo «S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok Tr» sin inventar APIs fuera del card.",
+      "confidence": 0.66,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "id": "S36-T1-A-E3",
+      "code": "# Cruzado Skeptic del fixture S36-T1-A-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)",
+      "justification_from_packet": "Skeptic-B: el weDo S36-T1-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Centroides no son sanciones.', 'verdict False es fail-closed de conducta.'] y en el tramo «S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Sta» sin inventar APIs fuera del card.",
+      "confidence": 0.68,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "id": "S36-T1-B-E1",
+      "code": "# Cruzado Skeptic del fixture S36-T1-B-E1 (packet-only) · revisión dual\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)",
+      "justification_from_packet": "Cruce theory/iDo de S36 con el starter de S36-T1-B-E1: la salida contractual sigue «S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, sco». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.68.",
+      "confidence": 0.68,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "id": "S36-T1-B-E2",
+      "code": "# Cruzado Skeptic del fixture S36-T1-B-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])",
+      "justification_from_packet": "Para S36-T1-B-E2 del paquete «Clustering, anomalías y validación temporal» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defec». Hint usado: «Varias seeds antes de fijar k.». [Ske-36-E2]",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "id": "S36-T1-B-E3",
+      "code": "# Cruzado Skeptic del fixture S36-T1-B-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)",
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» resolví S36-T1-B-E3 (transfer) leyendo la instruction del quiz_card: «S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). …». La pista «Métricas internas fallan con formas raras.» fijó el patrón observable; conf~0.57.",
+      "confidence": 0.57,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "id": "S36-T2-A-E1",
+      "code": "# Cruzado Skeptic del fixture S36-T2-A-E1 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))",
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» resolví S36-T2-A-E1 (guided) leyendo la instruction del quiz_card: «S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CA…». La pista «pc = w0*x + w1*y.» fijó el patrón observable; conf~0.68.",
+      "confidence": 0.68,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "id": "S36-T2-A-E2",
+      "code": "# Cruzado Skeptic del fixture S36-T2-A-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)",
+      "justification_from_packet": "Skeptic-B: el weDo S36-T2-A-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Prohibido auto-decidir con PC.', 'use viz nombra el rol.'] y en el tramo «S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. » sin inventar APIs fuera del card.",
+      "confidence": 0.67,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "id": "S36-T2-A-E3",
+      "code": "# Cruzado Skeptic del fixture S36-T2-A-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)",
+      "justification_from_packet": "Para S36-T2-A-E3 del paquete «Clustering, anomalías y validación temporal» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-pro». Hint usado: «2D es el default de exploración visual.». [Ske-36-E3]",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "id": "S36-T2-B-E1",
+      "code": "# Cruzado Skeptic del fixture S36-T2-B-E1 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)",
+      "justification_from_packet": "Para S36-T2-B-E1 del paquete «Clustering, anomalías y validación temporal» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect:». Hint usado: «axis_named_by_business = False.». [Ske-36-E1]",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "id": "S36-T2-B-E2",
+      "code": "# Cruzado Skeptic del fixture S36-T2-B-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)",
+      "justification_from_packet": "Para S36-T2-B-E2 del paquete «Clustering, anomalías y validación temporal» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter au». Hint usado: «Primero scale/missingness.». [Ske-36-E2]",
+      "confidence": 0.63,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "id": "S36-T2-B-E3",
+      "code": "# Cruzado Skeptic del fixture S36-T2-B-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")",
+      "justification_from_packet": "Cruce theory/iDo de S36 con el starter de S36-T2-B-E3: la salida contractual sigue «S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_j». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.65.",
+      "confidence": 0.65,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "id": "S36-T3-A-E1",
+      "code": "# Cruzado Skeptic del fixture S36-T3-A-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nprint(sum(flags))",
+      "justification_from_packet": "Para S36-T3-A-E1 del paquete «Clustering, anomalías y validación temporal» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta ». Hint usado: «sum(flags) cuenta raros.». [Ske-36-E1]",
+      "confidence": 0.64,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "id": "S36-T3-A-E2",
+      "code": "# Cruzado Skeptic del fixture S36-T3-A-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])",
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» resolví S36-T3-A-E2 (independent) leyendo la instruction del quiz_card: «S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor…». La pista «Regla legible + score de rareza.» fijó el patrón observable; conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "id": "S36-T3-A-E3",
+      "code": "# Cruzado Skeptic del fixture S36-T3-A-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)",
+      "justification_from_packet": "Para S36-T3-A-E3 del paquete «Clustering, anomalías y validación temporal» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y rout». Hint usado: «Ruta humana obligatoria.». [Ske-36-E3]",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "id": "S36-T3-B-E1",
+      "code": "# Cruzado Skeptic del fixture S36-T3-B-E1 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])",
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» resolví S36-T3-B-E1 (guided) leyendo la instruction del quiz_card: «S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en tr…». La pista «Outlier en train; novelty vs modelo fijado.» fijó el patrón observable; conf~0.65.",
+      "confidence": 0.65,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "id": "S36-T3-B-E2",
+      "code": "# Cruzado Skeptic del fixture S36-T3-B-E2 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nprint(int(n * c))",
+      "justification_from_packet": "Cruce theory/iDo de S36 con el starter de S36-T3-B-E2: la salida contractual sigue «S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starte». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.65.",
+      "confidence": 0.65,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "id": "S36-T3-B-E3",
+      "code": "# Cruzado Skeptic del fixture S36-T3-B-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)",
+      "justification_from_packet": "Cruce theory/iDo de S36 con el starter de S36-T3-B-E3: la salida contractual sigue «S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (d». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "id": "S36-T4-A-E1",
+      "code": "# Cruzado Skeptic del fixture S36-T4-A-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))",
+      "justification_from_packet": "Skeptic-B: el weDo S36-T4-A-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['mean de rates por ventana.', 'backtest True documenta el protocolo.'] y en el tramo «S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. » sin inventar APIs fuera del card.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "id": "S36-T4-A-E2",
+      "code": "# Cruzado Skeptic del fixture S36-T4-A-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)",
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» resolví S36-T4-A-E2 (independent) leyendo la instruction del quiz_card: «S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato t…». La pista «Fit en pasado, score en futuro.» fijó el patrón observable; conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "id": "S36-T4-A-E3",
+      "code": "# Cruzado Skeptic del fixture S36-T4-A-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)",
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» resolví S36-T4-A-E3 (transfer) leyendo la instruction del quiz_card: «S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizant…». La pista «Varias ventanas para ver estabilidad.» fijó el patrón observable; conf~0.63.",
+      "confidence": 0.63,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "id": "S36-T4-B-E1",
+      "code": "# Cruzado Skeptic del fixture S36-T4-B-E1 (packet-only) · revisión dual\n# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)",
+      "justification_from_packet": "Cruce theory/iDo de S36 con el starter de S36-T4-B-E1: la salida contractual sigue «S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starte». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.65.",
+      "confidence": 0.65,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "id": "S36-T4-B-E2",
+      "code": "# Cruzado Skeptic del fixture S36-T4-B-E2 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)",
+      "justification_from_packet": "En «Clustering, anomalías y validación temporal» resolví S36-T4-B-E2 (independent) leyendo la instruction del quiz_card: «S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana…». La pista «HITL obligatorio con labels ralos.» fijó el patrón observable; conf~0.68.",
+      "confidence": 0.68,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "id": "S36-T4-B-E3",
+      "code": "# Cruzado Skeptic del fixture S36-T4-B-E3 (packet-only) · revisión dual\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")",
+      "justification_from_packet": "Para S36-T4-B-E3 del paquete «Clustering, anomalías y validación temporal» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy'». Hint usado: «P@k alinea con capacidad de cola.». [Ske-36-E3]",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Clustering, anomalías y validación temporal"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic-B en S36 Q0: elijo «Señal de rareza a revisar» porque el stem «Una anomalía en el triage significa:» del quiz_card de «Clustering, anomalías y validación temporal» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.65.",
+      "confidence": 0.65,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Selfcheck Q1 de «Clustering, anomalías y validación temporal»: la opción índice 1 («Hipótesis de fracción rara a flaggear») es la que el paquete sostiene frente a «contamination representa:». Las demás contradicen outcomes de la sección. [Skeptic-B-36-q1]",
+      "confidence": 0.67,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Desde el packet S36, para «PCA en este curso se usa para:» la lectura de outcomes/theory apunta a «Exploración/visualización prudente». Justificación packet-only sin claves offline. conf=0.64.",
+      "confidence": 0.64,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic-B en S36 Q3: elijo «precision@k y feedback humano» porque el stem «Con labels escasos prioriza:» del quiz_card de «Clustering, anomalías y validación temporal» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.74.",
+      "confidence": 0.74,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Selfcheck Q4 de «Clustering, anomalías y validación temporal»: la opción índice 3 («Leakage temporal») es la que el paquete sostiene frente a «Un fit de normalidad que incluye el mes evaluado comete:». Las demás contradicen outcomes de la sección. [Skeptic-B-36-q4]",
+      "confidence": 0.73,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:34:09.014606+00:00",
+  "session_started_at": "2026-07-23T13:33:52.640068Z",
+  "session_ended_at": "2026-07-23T13:34:09.012640Z",
+  "receipt_response_sha256": "a55f4c481ff6ad053432ad1097b6461e0aa1886871e06d9bba43f2892d1934d4",
+  "receipt_exercises_sha256": "27124f08c5a90d6f3167cdadf55709a8141fefff596a18b5a330f10ea85b216e",
+  "receipt_selfcheck_sha256": "34eef9ea9fbea75d98a5aba8ff142570b34e04de8b2359f82848ebc62bccd0bf"
+}

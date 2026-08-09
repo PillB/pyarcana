@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-07-27T20:45:43.831415+00:00",
+  "sections": 2,
+  "totals": {
+    "pass": 128,
+    "fail": 0,
+    "skip": 0,
+    "artifacts": 128
+  },
+  "fail_count": 0,
+  "p0_count": 0,
+  "p1_count": 0,
+  "ok": true,
+  "sections_detail": [
+    {
+      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "section_id": "wxpython-gui",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s32-microservices.ts",
+      "section_id": "microservices",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    }
+  ],
+  "failures": []
+}

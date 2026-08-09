@@ -1,0 +1,421 @@
+{
+  "section_index": 40,
+  "title": "Arquitectura, DDD y decisiones técnicas",
+  "tagline": "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos",
+  "outcomes": [
+    "Captura FR y quality attributes",
+    "Documenta trade-offs y riesgos medibles",
+    "Diseña capas con baja coupling",
+    "Aplica ports/adapters hacia dominio",
+    "Delinea bounded contexts",
+    "Modela entities, VO y servicios",
+    "Documenta C4 y ADRs",
+    "Evoluciona APIs/eventos con compatibilidad"
+  ],
+  "theory": [
+    {
+      "heading": "requisitos funcionales y quality attributes",
+      "paragraphs": [
+        "Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímulo, entorno, respuesta y medida — para evitar palabras vacías como «rápido».",
+        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: escenario QA completo con umbral y dueño. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+        "Aplicación de `requisitos funcionales y quality attributes` al caso sintético `CASO-LIM-040`: la evidencia es un escenario QA completo con umbral y dueño. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "trade-offs, riesgos y criterios medibles",
+      "paragraphs": [
+        "Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitigación; la arquitectura no tiene una opción universalmente mejor.",
+        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: tabla de decisión y riesgo residual aceptado. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+        "Aplicación de `trade-offs, riesgos y criterios medibles` a `CASO-LIM-040`: la evidencia es una tabla de decisión y riesgo residual aceptado por un dueño explícito; no una preferencia sin medición."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "cohesión/coupling y capas",
+      "paragraphs": [
+        "Alta cohesión mantiene juntas reglas que cambian por la misma razón; bajo acoplamiento evita que presentación e infraestructura dicten el dominio.",
+        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: diagrama de dependencias sin salto de capa. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+        "Aplicación de `cohesión/coupling y capas` a `CASO-LIM-040`: la evidencia es un diagrama donde presentación no salta al repositorio y dominio no importa infraestructura."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ports/adapters y dependencia hacia dominio",
+      "paragraphs": [
+        "Un port define lo que necesita el dominio y un adapter traduce HTTP, SQL o colas; las flechas de código apuntan hacia políticas estables.",
+        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: test del dominio con adapter en memoria. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+        "Aplicación de `ports/adapters` a `CASO-LIM-040`: un adapter en memoria prueba el dominio sin HTTP, SQL ni red; el contrato puede sustituirse sin cambiar la regla."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "bounded contexts y lenguaje ubicuo",
+      "paragraphs": [
+        "Un bounded context da significado local a términos; el context map declara traducciones para que «caso» de intake no se confunda con un record de ER.",
+        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: glosario ubicuo y context map revisado. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+        "Aplicación de `bounded contexts y lenguaje ubicuo` a `CASO-LIM-040`: el context map traduce términos entre intake, ER, relación, triage y reporting sin fusionar significados."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "entities, value objects y servicios",
+      "paragraphs": [
+        "Una entity conserva identidad, un value object se compara por valor y un servicio de dominio contiene una regla que no pertenece naturalmente a una entidad.",
+        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: invariantes de entity/VO probadas. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+        "Aplicación de `entities, value objects y servicios` a `CASO-LIM-040`: fixtures sintéticas prueban identidad, igualdad por valor e invariantes; ER no implica fraude ni parentesco."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "diagramas C4/flujo y ADRs",
+      "paragraphs": [
+        "C4 explica personas, sistemas y contenedores; un ADR conserva contexto, decisión, alternativas, estado y consecuencias, no solo un dibujo final.",
+        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: C4 enlazado a ADR aceptado y reversible. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+        "Aplicación de `diagramas C4/flujo y ADRs` a `CASO-LIM-040`: C4 localiza el flujo y el ADR conserva alternativa rechazada, consecuencia y señal de reversión."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "APIs, eventos, deuda y evolución compatible",
+      "paragraphs": [
+        "Los cambios compatibles son aditivos, preservan consumidores y versionan eventos; deuda técnica lleva dueño, fecha y criterio de retiro.",
+        "Contrato operativo. Entrada: requisitos, escenarios de calidad, vocabulario de dominio y restricciones. Salida de este subtema: consumer contract de versión previa en verde. Error: una frontera ambigua, una dependencia hacia infraestructura o una decisión sin medida bloquea el gate. Criterio de éxito: cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia.",
+        "Aplicación de `APIs, eventos, deuda y evolución compatible` a `CASO-LIM-040`: un consumer contract anterior permanece verde y la deuda tiene dueño y criterio de retiro."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S40-T1-A-DEMO",
+      "description": "Demo: requisitos funcionales y quality attributes",
+      "why": "Hace observable `requisitos funcionales y quality attributes` con un caso local pequeño y deja como evidencia escenario QA completo con umbral y dueño; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S40-T1-B-DEMO",
+      "description": "Demo: trade-offs, riesgos y criterios medibles",
+      "why": "Hace observable `trade-offs, riesgos y criterios medibles` con un caso local pequeño y deja como evidencia tabla de decisión y riesgo residual aceptado; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S40-T2-A-DEMO",
+      "description": "Demo: cohesión/coupling y capas",
+      "why": "Hace observable `cohesión/coupling y capas` con un caso local pequeño y deja como evidencia diagrama de dependencias sin salto de capa; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S40-T2-B-DEMO",
+      "description": "Demo: ports/adapters y dependencia hacia dominio",
+      "why": "Hace observable `ports/adapters y dependencia hacia dominio` con un caso local pequeño y deja como evidencia test del dominio con adapter en memoria; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S40-T3-A-DEMO",
+      "description": "Demo: bounded contexts y lenguaje ubicuo",
+      "why": "Hace observable `bounded contexts y lenguaje ubicuo` con un caso local pequeño y deja como evidencia glosario ubicuo y context map revisado; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S40-T3-B-DEMO",
+      "description": "Demo: entities, value objects y servicios",
+      "why": "Hace observable `entities, value objects y servicios` con un caso local pequeño y deja como evidencia invariantes de entity/VO probadas; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S40-T4-A-DEMO",
+      "description": "Demo: diagramas C4/flujo y ADRs",
+      "why": "Hace observable `diagramas C4/flujo y ADRs` con un caso local pequeño y deja como evidencia C4 enlazado a ADR aceptado y reversible; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S40-T4-B-DEMO",
+      "description": "Demo: APIs, eventos, deuda y evolución compatible",
+      "why": "Hace observable `APIs, eventos, deuda y evolución compatible` con un caso local pequeño y deja como evidencia consumer contract de versión previa en verde; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué evidencia permite aprobar `requisitos funcionales y quality attributes` en CASO-LIM-040?",
+      "options": [
+        "un print sin assert ni versión",
+        "una captura de pantalla sin fuente",
+        "datos personales reales para que parezca auténtico",
+        "escenario QA completo con umbral y dueño"
+      ]
+    },
+    {
+      "question": "Si ocurre la condición de error de S40, ¿qué respuesta preserva seguridad y auditabilidad?",
+      "options": [
+        "continuar y ocultar el warning",
+        "emitir BLOCK_ARCHITECTURE y conservar evidencia",
+        "inventar evidencia faltante",
+        "borrar el trace para reducir ruido"
+      ]
+    },
+    {
+      "question": "¿Cuál resultado demuestra el gate `CP-N4-A · mapa de arquitectura gobernado`?",
+      "options": [
+        "el archivo S40 existe, aunque no pruebe el gate",
+        "el README afirma que funciona",
+        "cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia",
+        "se usó la herramienta más nueva"
+      ]
+    },
+    {
+      "question": "¿Qué tratamiento de `CASO-LIM-040` respeta el alcance del curso?",
+      "options": [
+        "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+        "reemplazarlo por datos reales sin consentimiento",
+        "subir secretos para facilitar la demo",
+        "inferir fraude o parentesco desde ER"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S40-T1-A-E1",
+      "instruction": "S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-040-1A`. La entrada es el dict completo del starter; la operación debe demostrar latencia observada contra umbral y dueño. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_QA_SCENARIO` en E2.",
+      "hints": [
+        "Relaciona los campos `source`, `stimulus`, `environment`, `response`, `observed_ms`, `target_ms`, `owner` con la regla explicada en S40-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva escenario QA completo con umbral y dueño; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nmeets_contract = record[\"observed_ms\"] >= record[\"target_ms\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n"
+    },
+    {
+      "id": "S40-T1-A-E2",
+      "instruction": "S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, source, stimulus, environment, response, observed_ms, target_ms, owner. Salidas exactas: `PASS`, `REJECT_QA_SCENARIO`, `MISSING:owner`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S40-T1-A: latencia observada contra umbral y dueño. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T1-A-E3",
+      "instruction": "S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos. `CASO-LIM-040-1A` debe continuar, el adverso debe devolver `REJECT_QA_SCENARIO` y la ausencia de `owner` debe devolver `REQUEST_QA_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró latencia observada contra umbral y dueño; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T1-B-E1",
+      "instruction": "S40-T1-B-E1 · Compara el contrato de `trade-offs, riesgos y criterios medibles` sobre `CASO-LIM-040-1B`. La entrada es el dict completo del starter; la operación debe demostrar alternativa con menor score y riesgo residual aceptable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `REOPEN_TRADEOFF` en E2.",
+      "hints": [
+        "Relaciona los campos `scores`, `selected`, `risk_owner`, `residual_risk` con la regla explicada en S40-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva tabla de decisión y riesgo residual aceptado; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nmeets_contract = record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get)\nstatus = \"PASS\" if meets_contract else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n"
+    },
+    {
+      "id": "S40-T1-B-E2",
+      "instruction": "S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fixture adverso y registro sin `residual_risk`. Entrada: dict con case_id, scores, selected, risk_owner, residual_risk. Salidas exactas: `PASS`, `REOPEN_TRADEOFF`, `MISSING:residual_risk`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S40-T1-B: alternativa con menor score y riesgo residual aceptable. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T1-B-E3",
+      "instruction": "S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos. `CASO-LIM-040-1B` debe continuar, el adverso debe devolver `REOPEN_TRADEOFF` y la ausencia de `residual_risk` debe devolver `ESCALATE_RESIDUAL_RISK`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró alternativa con menor score y riesgo residual aceptable; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T2-A-E1",
+      "instruction": "S40-T2-A-E1 · Filtra el contrato de `cohesión/coupling y capas` sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar grafo de dependencias sin dominio hacia infraestructura. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `REDRAW_BOUNDARY` en E2.",
+      "hints": [
+        "Relaciona los campos `layers`, `dependencies` con la regla explicada en S40-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva diagrama de dependencias sin salto de capa; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nmeets_contract = all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"])\nstatus = \"PASS\" if meets_contract else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n"
+    },
+    {
+      "id": "S40-T2-A-E2",
+      "instruction": "S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y registro sin `dependencies`. Entrada: dict con case_id, layers, dependencies. Salidas exactas: `PASS`, `REDRAW_BOUNDARY`, `MISSING:dependencies`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S40-T2-A: grafo de dependencias sin dominio hacia infraestructura. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T2-A-E3",
+      "instruction": "S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `CASO-LIM-040-2A` debe continuar, el adverso debe devolver `REDRAW_BOUNDARY` y la ausencia de `dependencies` debe devolver `REVIEW_LAYER_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró grafo de dependencias sin dominio hacia infraestructura; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T2-B-E1",
+      "instruction": "S40-T2-B-E1 · Modela el contrato de `ports/adapters y dependencia hacia dominio` sobre `CASO-LIM-040-2B`. La entrada es el dict completo del starter; la operación debe demostrar adapter sustituible y dominio sin imports externos. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `INVERT_DEPENDENCY` en E2.",
+      "hints": [
+        "Relaciona los campos `port`, `adapter`, `domain_imports`, `contract_tests` con la regla explicada en S40-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva test del dominio con adapter en memoria; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nmeets_contract = record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"])\nstatus = \"PASS\" if meets_contract else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)\n"
+    },
+    {
+      "id": "S40-T2-B-E2",
+      "instruction": "S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, port, adapter, domain_imports, contract_tests. Salidas exactas: `PASS`, `INVERT_DEPENDENCY`, `MISSING:contract_tests`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S40-T2-B: adapter sustituible y dominio sin imports externos. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T2-B-E3",
+      "instruction": "S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures distintos. `CASO-LIM-040-2B` debe continuar, el adverso debe devolver `INVERT_DEPENDENCY` y la ausencia de `contract_tests` debe devolver `DEFINE_PORT_CONTRACT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró adapter sustituible y dominio sin imports externos; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T3-A-E1",
+      "instruction": "S40-T3-A-E1 · Verifica el contrato de `bounded contexts y lenguaje ubicuo` sobre `CASO-LIM-040-3A`. La entrada es el dict completo del starter; la operación debe demostrar términos locales disjuntos y traducción declarada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `SPLIT_CONTEXTS` en E2.",
+      "hints": [
+        "Relaciona los campos `contexts`, `translations` con la regla explicada en S40-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva glosario ubicuo y context map revisado; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\nmeets_contract = bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])\nstatus = \"PASS\" if meets_contract else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n"
+    },
+    {
+      "id": "S40-T3-A-E2",
+      "instruction": "S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adverso y registro sin `translations`. Entrada: dict con case_id, contexts, translations. Salidas exactas: `PASS`, `SPLIT_CONTEXTS`, `MISSING:translations`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S40-T3-A: términos locales disjuntos y traducción declarada. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]) else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"case\",\"score\"}},\"translations\":{}}}\nincomplete = {**valid}\nincomplete.pop(\"translations\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S40-T3-A-E3",
+      "instruction": "S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos. `CASO-LIM-040-3A` debe continuar, el adverso debe devolver `SPLIT_CONTEXTS` y la ausencia de `translations` debe devolver `WORKSHOP_UBIQUITOUS_LANGUAGE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró términos locales disjuntos y traducción declarada; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T3-B-E1",
+      "instruction": "S40-T3-B-E1 · Clasifica el contrato de `entities, value objects y servicios` sobre `CASO-LIM-040-3B`. La entrada es el dict completo del starter; la operación debe demostrar identidad estable, VO en PEN e invariantes inmutables. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_DOMAIN_MODEL` en E2.",
+      "hints": [
+        "Relaciona los campos `entity_id`, `vo`, `vo_frozen`, `service_stateless` con la regla explicada en S40-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva invariantes de entity/VO probadas; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nmeets_contract = record[\"vo\"][\"currency\"] == record[\"entity_id\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n"
+    },
+    {
+      "id": "S40-T3-B-E2",
+      "instruction": "S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture adverso y registro sin `service_stateless`. Entrada: dict con case_id, entity_id, vo, vo_frozen, service_stateless. Salidas exactas: `PASS`, `REJECT_DOMAIN_MODEL`, `MISSING:service_stateless`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S40-T3-B: identidad estable, VO en PEN e invariantes inmutables. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T3-B-E3",
+      "instruction": "S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos. `CASO-LIM-040-3B` debe continuar, el adverso debe devolver `REJECT_DOMAIN_MODEL` y la ausencia de `service_stateless` debe devolver `CLARIFY_INVARIANT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró identidad estable, VO en PEN e invariantes inmutables; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T4-A-E1",
+      "instruction": "S40-T4-A-E1 · Audita el contrato de `diagramas C4/flujo y ADRs` sobre `CASO-LIM-040-4A`. La entrada es el dict completo del starter; la operación debe demostrar C4 mínimo y ADR con alternativas, consecuencias y rollback. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `RETURN_ADR_TO_DRAFT` en E2.",
+      "hints": [
+        "Relaciona los campos `c4_levels`, `adr_fields`, `adr_status` con la regla explicada en S40-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva C4 enlazado a ADR aceptado y reversible; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nmeets_contract = record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3\nstatus = \"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)\n"
+    },
+    {
+      "id": "S40-T4-A-E2",
+      "instruction": "S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y registro sin `adr_status`. Entrada: dict con case_id, c4_levels, adr_fields, adr_status. Salidas exactas: `PASS`, `RETURN_ADR_TO_DRAFT`, `MISSING:adr_status`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S40-T4-A: C4 mínimo y ADR con alternativas, consecuencias y rollback. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T4-A-E3",
+      "instruction": "S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CASO-LIM-040-4A` debe continuar, el adverso debe devolver `RETURN_ADR_TO_DRAFT` y la ausencia de `adr_status` debe devolver `REQUEST_ARCH_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró C4 mínimo y ADR con alternativas, consecuencias y rollback; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T4-B-E1",
+      "instruction": "S40-T4-B-E1 · Decide el contrato de `APIs, eventos, deuda y evolución compatible` sobre `CASO-LIM-040-4B`. La entrada es el dict completo del starter; la operación debe demostrar campos v1 preservados y deuda con owner/fecha. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S40-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_BREAKING_CHANGE` en E2.",
+      "hints": [
+        "Relaciona los campos `v1_fields`, `v11_fields`, `debt_owner`, `retire_on` con la regla explicada en S40-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva consumer contract de versión previa en verde; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nmeets_contract = record[\"v11_fields\"] < record[\"v1_fields\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n"
+    },
+    {
+      "id": "S40-T4-B-E2",
+      "instruction": "S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fixture adverso y registro sin `retire_on`. Entrada: dict con case_id, v1_fields, v11_fields, debt_owner, retire_on. Salidas exactas: `PASS`, `BLOCK_BREAKING_CHANGE`, `MISSING:retire_on`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S40-T4-B: campos v1 preservados y deuda con owner/fecha. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S40-T4-B-E3",
+      "instruction": "S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos. `CASO-LIM-040-4B` debe continuar, el adverso debe devolver `BLOCK_BREAKING_CHANGE` y la ausencia de `retire_on` debe devolver `NEGOTIATE_VERSION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró campos v1 preservados y deuda con owner/fecha; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    }
+  ],
+  "packet_sha": "ed5e6493245bb7f8",
+  "attempt_id": "agentic_D2"
+}

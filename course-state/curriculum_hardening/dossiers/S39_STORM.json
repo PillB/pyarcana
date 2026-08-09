@@ -1,0 +1,1115 @@
+{
+  "section": 39,
+  "title": "Responsible ML Case Triage y cierre de nivel",
+  "file": "s39-integrator-phase2.ts",
+  "n_required": 39,
+  "n_logged": 39,
+  "generated_at": "2026-07-24T03:55:52.585606+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO-LIM-039 DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ HEAD",
+    "ethics": "auto_fraud=False; CF-3 separate lane; HITL",
+    "v3_retarget": "Responsible ML Case Triage N3 close",
+    "expert_pass_at": "2026-07-24T03:55:52.585606+00:00"
+  },
+  "unique_foci": 39,
+  "source_url_count": 20,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "Responsible ML Case Triage system demo",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        },
+        {
+          "family": "SRE",
+          "title": "Embracing Risk",
+          "url": "https://sre.google/sre-book/embracing-risk/",
+          "note": "error budget"
+        },
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "reliability"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 1/39: «Responsible ML Case Triage system demo» via Google, SRE, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «Responsible ML Case Triage system demo».",
+      "expand_scope": "E1/E2/E3 + docs for «Responsible ML Case Triage system demo»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 1/39: «Responsible ML Case Triage system demo» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "CP-N3-C gate bundle not ledger PASS",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "SRE",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "audit"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 2/39: «CP-N3-C gate bundle not ledger PASS» via Docs, NIST, SRE (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «CP-N3-C gate bundle not ledger PASS».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N3-C gate bundle not ledger PASS»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 2/39: «CP-N3-C gate bundle not ledger PASS» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "regression smoke S27–S39",
+      "research": [
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "fairness"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        },
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "baselines"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 3/39: «regression smoke S27–S39» via Coursera, TF, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «regression smoke S27–S39».",
+      "expand_scope": "E1/E2/E3 + docs for «regression smoke S27–S39»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 3/39: «regression smoke S27–S39» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "CF-3 separate qualification lane",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Embracing Risk",
+          "url": "https://sre.google/sre-book/embracing-risk/",
+          "note": "error budget"
+        },
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "reliability"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "AI For Everyone",
+          "url": "https://www.deeplearning.ai/courses/ai-for-everyone/",
+          "note": "responsible AI"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 4/39: «CF-3 separate qualification lane» via SRE, deeplearning.ai, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «CF-3 separate qualification lane».",
+      "expand_scope": "E1/E2/E3 + docs for «CF-3 separate qualification lane»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 4/39: «CF-3 separate qualification lane» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "canonical pipeline intake ER graph features score queue",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "audit"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 5/39: «canonical pipeline intake ER graph features score queue» via Docs, MIT, SRE (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «canonical pipeline intake ER graph features score queue».",
+      "expand_scope": "E1/E2/E3 + docs for «canonical pipeline intake ER graph features score queue»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 5/39: «canonical pipeline intake ER graph features score queue» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "label_space needs_review only",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        },
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "baselines"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "ML theory"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 6/39: «label_space needs_review only» via Coursera, Stanford, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «label_space needs_review only».",
+      "expand_scope": "E1/E2/E3 + docs for «label_space needs_review only»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 6/39: «label_space needs_review only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "auto_fraud always False",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "reliability"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "AI For Everyone",
+          "url": "https://www.deeplearning.ai/courses/ai-for-everyone/",
+          "note": "responsible AI"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 7/39: «auto_fraud always False» via Harvard, deeplearning.ai, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «auto_fraud always False».",
+      "expand_scope": "E1/E2/E3 + docs for «auto_fraud always False»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 7/39: «auto_fraud always False» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "artifact registry owner semver",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "audit"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 8/39: «artifact registry owner semver» via Docs, MIT, Py4E (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «artifact registry owner semver».",
+      "expand_scope": "E1/E2/E3 + docs for «artifact registry owner semver»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 8/39: «artifact registry owner semver» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "evidence packet not lone score",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "baselines"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "ML theory"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops contracts"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 9/39: «evidence packet not lone score» via 12factor, Coursera, Stanford (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «evidence packet not lone score».",
+      "expand_scope": "E1/E2/E3 + docs for «evidence packet not lone score»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 9/39: «evidence packet not lone score» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "graph path in packet when relational",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "AI For Everyone",
+          "url": "https://www.deeplearning.ai/courses/ai-for-everyone/",
+          "note": "responsible AI"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 10/39: «graph path in packet when relational» via Harvard, Live, deeplearning.ai (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «graph path in packet when relational».",
+      "expand_scope": "E1/E2/E3 + docs for «graph path in packet when relational»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 10/39: «graph path in packet when relational» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "layered explanation for reviewer",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "GitHub",
+          "title": "Responsible AI toolbox",
+          "url": "https://github.com/microsoft/responsible-ai-toolbox",
+          "note": "fairness tools"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 11/39: «layered explanation for reviewer» via GitHub, MIT, Py4E (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «layered explanation for reviewer».",
+      "expand_scope": "E1/E2/E3 + docs for «layered explanation for reviewer»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 11/39: «layered explanation for reviewer» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "decision override feedback appeal",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "ML theory"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops contracts"
+        },
+        {
+          "family": "EU",
+          "title": "Trustworthy AI",
+          "url": "https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai",
+          "note": "human agency"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 12/39: «decision override feedback appeal» via 12factor, EU, Stanford (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «decision override feedback appeal».",
+      "expand_scope": "E1/E2/E3 + docs for «decision override feedback appeal»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 12/39: «decision override feedback appeal» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "audit log immutable synthetic",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Docs",
+          "title": "dataclasses",
+          "url": "https://docs.python.org/3/library/dataclasses.html",
+          "note": "packet structs"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 13/39: «audit log immutable synthetic» via Docs, Harvard, Live (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «audit log immutable synthetic».",
+      "expand_scope": "E1/E2/E3 + docs for «audit log immutable synthetic»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 13/39: «audit log immutable synthetic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "privacy minimize PII synthetic",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "GitHub",
+          "title": "Responsible AI toolbox",
+          "url": "https://github.com/microsoft/responsible-ai-toolbox",
+          "note": "fairness tools"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "ops dashboards"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 14/39: «privacy minimize PII synthetic» via GitHub, Py4E, SRE (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «privacy minimize PII synthetic».",
+      "expand_scope": "E1/E2/E3 + docs for «privacy minimize PII synthetic»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 14/39: «privacy minimize PII synthetic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "fairness slice metrics",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops contracts"
+        },
+        {
+          "family": "EU",
+          "title": "Trustworthy AI",
+          "url": "https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai",
+          "note": "human agency"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 15/39: «fairness slice metrics» via 12factor, EU, Google (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «fairness slice metrics».",
+      "expand_scope": "E1/E2/E3 + docs for «fairness slice metrics»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 15/39: «fairness slice metrics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "RBAC and secrets not in repo",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Docs",
+          "title": "dataclasses",
+          "url": "https://docs.python.org/3/library/dataclasses.html",
+          "note": "packet structs"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 16/39: «RBAC and secrets not in repo» via Docs, Live, NIST (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «RBAC and secrets not in repo».",
+      "expand_scope": "E1/E2/E3 + docs for «RBAC and secrets not in repo»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 16/39: «RBAC and secrets not in repo» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "drift as signal not moral verdict",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Responsible AI toolbox",
+          "url": "https://github.com/microsoft/responsible-ai-toolbox",
+          "note": "fairness tools"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "ops dashboards"
+        },
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "fairness"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 17/39: «drift as signal not moral verdict» via GitHub, SRE, TF (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «drift as signal not moral verdict».",
+      "expand_scope": "E1/E2/E3 + docs for «drift as signal not moral verdict»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 17/39: «drift as signal not moral verdict» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "human_only interruptor",
+      "research": [
+        {
+          "family": "EU",
+          "title": "Trustworthy AI",
+          "url": "https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai",
+          "note": "human agency"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        },
+        {
+          "family": "SRE",
+          "title": "Embracing Risk",
+          "url": "https://sre.google/sre-book/embracing-risk/",
+          "note": "error budget"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 18/39: «human_only interruptor» via EU, Google, SRE (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «human_only interruptor».",
+      "expand_scope": "E1/E2/E3 + docs for «human_only interruptor»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 18/39: «human_only interruptor» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "abstain_more under calibration risk",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "dataclasses",
+          "url": "https://docs.python.org/3/library/dataclasses.html",
+          "note": "packet structs"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "SRE",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 19/39: «abstain_more under calibration risk» via Docs, NIST, SRE (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «abstain_more under calibration risk».",
+      "expand_scope": "E1/E2/E3 + docs for «abstain_more under calibration risk»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 19/39: «abstain_more under calibration risk» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "rollback model and threshold",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "ops dashboards"
+        },
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "fairness"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 20/39: «rollback model and threshold» via SRE, TF, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «rollback model and threshold».",
+      "expand_scope": "E1/E2/E3 + docs for «rollback model and threshold»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 20/39: «rollback model and threshold» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "acceptance criteria executable",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        },
+        {
+          "family": "SRE",
+          "title": "Embracing Risk",
+          "url": "https://sre.google/sre-book/embracing-risk/",
+          "note": "error budget"
+        },
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "reliability"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 21/39: «acceptance criteria executable» via Google, SRE, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «acceptance criteria executable».",
+      "expand_scope": "E1/E2/E3 + docs for «acceptance criteria executable»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 21/39: «acceptance criteria executable» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "demo paths happy override ood_abstain",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "SRE",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "audit"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 22/39: «demo paths happy override ood_abstain» via Docs, NIST, SRE (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «demo paths happy override ood_abstain».",
+      "expand_scope": "E1/E2/E3 + docs for «demo paths happy override ood_abstain»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 22/39: «demo paths happy override ood_abstain» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "model card limits and intended use",
+      "research": [
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "fairness"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        },
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "baselines"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 23/39: «model card limits and intended use» via Coursera, TF, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «model card limits and intended use».",
+      "expand_scope": "E1/E2/E3 + docs for «model card limits and intended use»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 23/39: «model card limits and intended use» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "data card lineage synthetic",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Embracing Risk",
+          "url": "https://sre.google/sre-book/embracing-risk/",
+          "note": "error budget"
+        },
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "reliability"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "AI For Everyone",
+          "url": "https://www.deeplearning.ai/courses/ai-for-everyone/",
+          "note": "responsible AI"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 24/39: «data card lineage synthetic» via SRE, deeplearning.ai, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «data card lineage synthetic».",
+      "expand_scope": "E1/E2/E3 + docs for «data card lineage synthetic»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 24/39: «data card lineage synthetic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "system card ops ownership",
+      "research": [
+        {
+          "family": "SRE",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        },
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "audit"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 25/39: «system card ops ownership» via Docs, MIT, SRE (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «system card ops ownership».",
+      "expand_scope": "E1/E2/E3 + docs for «system card ops ownership»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 25/39: «system card ops ownership» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "value metrics review utility",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Model evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "note": "metrics"
+        },
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "baselines"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "ML theory"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 26/39: «value metrics review utility» via Coursera, Stanford, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «value metrics review utility».",
+      "expand_scope": "E1/E2/E3 + docs for «value metrics review utility»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 26/39: «value metrics review utility» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "blameless postmortem",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html",
+          "note": "reliability"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "AI For Everyone",
+          "url": "https://www.deeplearning.ai/courses/ai-for-everyone/",
+          "note": "responsible AI"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 27/39: «blameless postmortem» via Harvard, deeplearning.ai, sklearn (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «blameless postmortem».",
+      "expand_scope": "E1/E2/E3 + docs for «blameless postmortem»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 27/39: «blameless postmortem» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "CASO-LIM-039 fintech Lima synthetic",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "logging",
+          "url": "https://docs.python.org/3/library/logging.html",
+          "note": "audit"
+        },
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 28/39: «CASO-LIM-039 fintech Lima synthetic» via Docs, MIT, Py4E (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «CASO-LIM-039 fintech Lima synthetic».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-LIM-039 fintech Lima synthetic»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 28/39: «CASO-LIM-039 fintech Lima synthetic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "no real PII no guilt labels",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Machine Learning",
+          "url": "https://www.coursera.org/learn/machine-learning",
+          "note": "baselines"
+        },
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "ML theory"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops contracts"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 29/39: «no real PII no guilt labels» via 12factor, Coursera, Stanford (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «no real PII no guilt labels».",
+      "expand_scope": "E1/E2/E3 + docs for «no real PII no guilt labels»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 29/39: «no real PII no guilt labels» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "NIST AI RMF human oversight",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "AI For Everyone",
+          "url": "https://www.deeplearning.ai/courses/ai-for-everyone/",
+          "note": "responsible AI"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 30/39: «NIST AI RMF human oversight» via Harvard, Live, deeplearning.ai (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «NIST AI RMF human oversight».",
+      "expand_scope": "E1/E2/E3 + docs for «NIST AI RMF human oversight»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 30/39: «NIST AI RMF human oversight» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "Google Model Cards practice",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "MIT 6.036",
+          "url": "https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/",
+          "note": "ML"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "GitHub",
+          "title": "Responsible AI toolbox",
+          "url": "https://github.com/microsoft/responsible-ai-toolbox",
+          "note": "fairness tools"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 31/39: «Google Model Cards practice» via GitHub, MIT, Py4E (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «Google Model Cards practice».",
+      "expand_scope": "E1/E2/E3 + docs for «Google Model Cards practice»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 31/39: «Google Model Cards practice» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "E1 guided pipeline DEFECT",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "CS229",
+          "url": "https://cs229.stanford.edu/",
+          "note": "ML theory"
+        },
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops contracts"
+        },
+        {
+          "family": "EU",
+          "title": "Trustworthy AI",
+          "url": "https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai",
+          "note": "human agency"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 32/39: «E1 guided pipeline DEFECT» via 12factor, EU, Stanford (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «E1 guided pipeline DEFECT».",
+      "expand_scope": "E1/E2/E3 + docs for «E1 guided pipeline DEFECT»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 32/39: «E1 guided pipeline DEFECT» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "E2 independent packet policy",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python",
+          "note": "pedagogy"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Docs",
+          "title": "dataclasses",
+          "url": "https://docs.python.org/3/library/dataclasses.html",
+          "note": "packet structs"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 33/39: «E2 independent packet policy» via Docs, Harvard, Live (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «E2 independent packet policy».",
+      "expand_scope": "E1/E2/E3 + docs for «E2 independent packet policy»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 33/39: «E2 independent packet policy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "E3 transfer ops mode human_only",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "stdlib"
+        },
+        {
+          "family": "GitHub",
+          "title": "Responsible AI toolbox",
+          "url": "https://github.com/microsoft/responsible-ai-toolbox",
+          "note": "fairness tools"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "ops dashboards"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 34/39: «E3 transfer ops mode human_only» via GitHub, Py4E, SRE (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «E3 transfer ops mode human_only».",
+      "expand_scope": "E1/E2/E3 + docs for «E3 transfer ops mode human_only»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 34/39: «E3 transfer ops mode human_only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "pair consistency with S38 resilience",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12-Factor",
+          "url": "https://12factor.net/",
+          "note": "ops contracts"
+        },
+        {
+          "family": "EU",
+          "title": "Trustworthy AI",
+          "url": "https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai",
+          "note": "human agency"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 35/39: «pair consistency with S38 resilience» via 12factor, EU, Google (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «pair consistency with S38 resilience».",
+      "expand_scope": "E1/E2/E3 + docs for «pair consistency with S38 resilience»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 35/39: «pair consistency with S38 resilience» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "selfCheck ≥5 ethical MCQ",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "learner surface"
+        },
+        {
+          "family": "Docs",
+          "title": "dataclasses",
+          "url": "https://docs.python.org/3/library/dataclasses.html",
+          "note": "packet structs"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 36/39: «selfCheck ≥5 ethical MCQ» via Docs, Live, NIST (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «selfCheck ≥5 ethical MCQ».",
+      "expand_scope": "E1/E2/E3 + docs for «selfCheck ≥5 ethical MCQ»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 36/39: «selfCheck ≥5 ethical MCQ» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "promotion evidence without seed write",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Responsible AI toolbox",
+          "url": "https://github.com/microsoft/responsible-ai-toolbox",
+          "note": "fairness tools"
+        },
+        {
+          "family": "SRE",
+          "title": "Monitoring",
+          "url": "https://sre.google/workbook/monitoring/",
+          "note": "ops dashboards"
+        },
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "fairness"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 37/39: «promotion evidence without seed write» via GitHub, SRE, TF (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «promotion evidence without seed write».",
+      "expand_scope": "E1/E2/E3 + docs for «promotion evidence without seed write»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 37/39: «promotion evidence without seed write» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "section_passed_written_here False",
+      "research": [
+        {
+          "family": "EU",
+          "title": "Trustworthy AI",
+          "url": "https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai",
+          "note": "human agency"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "limits"
+        },
+        {
+          "family": "SRE",
+          "title": "Embracing Risk",
+          "url": "https://sre.google/sre-book/embracing-risk/",
+          "note": "error budget"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 38/39: «section_passed_written_here False» via EU, Google, SRE (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «section_passed_written_here False».",
+      "expand_scope": "E1/E2/E3 + docs for «section_passed_written_here False»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 38/39: «section_passed_written_here False» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "score never legal verdict",
+      "research": [
+        {
+          "family": "Docs",
+          "title": "dataclasses",
+          "url": "https://docs.python.org/3/library/dataclasses.html",
+          "note": "packet structs"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "governance"
+        },
+        {
+          "family": "SRE",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "blameless"
+        }
+      ],
+      "synthesize": "S39 «Responsible ML Case Triage y cierre de nivel» cycle 39/39: «score never legal verdict» via Docs, NIST, SRE (CASO-LIM-039).",
+      "critique": "Reject theater/TODO/score→guilt; require DEFECT+defs gold for «score never legal verdict».",
+      "expand_scope": "E1/E2/E3 + docs for «score never legal verdict»; V3 roadmap; pair S38↔S39.",
+      "re_synthesize": "Decision 39/39: «score never legal verdict» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "updated_at": "2026-07-24T03:55:52.585606+00:00"
+}

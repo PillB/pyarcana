@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "head": "51db8b286259fc09f8a8c5fabbfa3a57991956d1",
+  "base": "51db8b286259fc09f8a8c5fabbfa3a57991956d1",
+  "unauthorized_deletes": [],
+  "authorized_deletes": [],
+  "curriculum": {
+    "before_count": 52,
+    "after_count": 52,
+    "removed_section_ids": [],
+    "removed_exercise_ids": []
+  },
+  "failure_count": 0,
+  "failures": [],
+  "warnings": [],
+  "checked_at": "2026-08-07T20:58:05.748Z"
+}

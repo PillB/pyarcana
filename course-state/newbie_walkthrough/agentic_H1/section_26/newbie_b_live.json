@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 26,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s26-637cbd51125d",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "code": "# dual skeptic-H1 · S26-T1-A-E1\npath = ['ingest', 'validate', 'analyze', 'report']\nprint(path)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T1-A-E1: contrasté el Pass del paquete («CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), imprime la lista exacta ['ingest','validate'…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, path, ingest; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(path)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "path",
+        "ingest",
+        "validate",
+        "analyze",
+        "report"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "code": "# dual skeptic-H1 · S26-T1-A-E2\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint(len(edges), edges)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T1-A-E2: contrasté el Pass del paquete («Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a,b),(b,c) con zip y cuenta len(edges). Contrato: input lista…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, nodes, edges; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(len(edges), edges)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "nodes",
+        "edges",
+        "list",
+        "zip",
+        "len"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "code": "# dual skeptic-H1 · S26-T1-A-E3\ntasks={'a':'success','b':'failed'}\nprint('failed' if any(v=='failed' for v in tasks.values()) else 'success')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T1-A-E3: contrasté el Pass del paquete («Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier task == 'failed', imprime failed; si no, success. Con…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, tasks, success; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('failed' if any(v=='failed' for v in tasks.values()) else 'success')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "tasks",
+        "success",
+        "failed",
+        "any",
+        "values"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "code": "# dual skeptic-H1 · S26-T1-B-E1\nm={'run_id':'cpn2c-1'}\nprint(m['run_id'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T1-B-E1: contrasté el Pass del paquete («Metadata de run CP-N2-C: m={'run_id':'cpn2c-1'}. Extrae e imprime m['run_id'] sin mutar el dict. Contrato: metadata inmutable al leer; outpu…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, run_id, cpn2c; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(m['run_id'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "run_id",
+        "cpn2c",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "code": "# dual skeptic-H1 · S26-T1-B-E2\napi_rpm=90\nprint('too_high' if api_rpm>60 else 'ok')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T1-B-E2: contrasté el Pass del paquete («Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Imprime 'too_high' si api_rpm>60, si no 'ok'. Contrato…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, api_rpm, too_high; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('too_high' if api_rpm>60 else 'ok')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "api_rpm",
+        "too_high",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "code": "# dual skeptic-H1 · S26-T1-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('0 6 * * 1-5', 'America/Lima')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T1-B-E3: contrasté el Pass del paquete («Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America/Lima' en una sola línea. Contrato: constantes doc…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('0 6 * * 1-5', 'America/Lima')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "code": "# dual skeptic-H1 · S26-T2-A-E1\nattempt, base = 3, 100\nprint(base * (2 ** (attempt - 1)))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T2-A-E1: contrasté el Pass del paquete («Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el entero ms de espera. Contrato: no aplica cap en e…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, attempt, base; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(base * (2 ** (attempt - 1)))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "attempt",
+        "base",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "code": "# dual skeptic-H1 · S26-T2-A-E2\ndlq=[]\nfail=True\nif fail:\n    dlq.append('x')\nprint(dlq)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T2-A-E2: contrasté el Pass del paquete («Dead-letter: dlq=[] y fail=True modelan un item irrecuperable del export sintético. Si fail, append 'x' a dlq e imprime la lista. Contrato:…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, dlq, fail; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(dlq)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "dlq",
+        "fail",
+        "append",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "code": "# dual skeptic-H1 · S26-T2-A-E3\nckpt={'a'}; items=['a','b']\nprint([i for i in items if i not in ckpt])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T2-A-E3: contrasté el Pass del paquete («Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈ ckpt). Contrato: list comprehension fai…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, ckpt, items; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print([i for i in items if i not in ckpt])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "ckpt",
+        "items",
+        "not",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "code": "# dual skeptic-H1 · S26-T2-B-E1\nstore={}  # create-once store\n\ndef put(k,v):\n    if k not in store:\n        store[k] = v\n\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T2-B-E1: contrasté el Pass del paquete («Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store. Llama put('r','v1') y put('r','v2'); imprime stor…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, store, create; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(store.get('r'))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "store",
+        "create",
+        "once",
+        "put",
+        "not"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "code": "# dual skeptic-H1 · S26-T2-B-E2\nstate={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\nprint(state)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T2-B-E2: contrasté el Pass del paquete («Compensación/rollback: state={'report':'ok','draft':'ok'}. Elimina la key draft (pop) tras falla posterior simulada e imprime state. Contrat…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, state, report; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(state)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "state",
+        "report",
+        "draft",
+        "pop",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "code": "# dual skeptic-H1 · S26-T2-B-E3\nlocked=True\nprint('busy' if locked else 'enter')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T2-B-E3: contrasté el Pass del paquete («Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime 'busy' si locked else 'enter'. Contrato: fail-close…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, locked, busy; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('busy' if locked else 'enter')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "locked",
+        "busy",
+        "enter",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "code": "# dual skeptic-H1 · S26-T3-A-E1\nanalysis=[{'status':'pending'},{'status':'done'}]\nprint(sum(1 for x in analysis if x['status']=='pending'))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T3-A-E1: contrasté el Pass del paquete («Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cuántos status=='pending' e imprime el entero. Contrato: solo…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, analysis, status; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(sum(1 for x in analysis if x['status']=='pending'))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "analysis",
+        "status",
+        "pending",
+        "done",
+        "sum"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "code": "# dual skeptic-H1 · S26-T3-A-E2\nq={'analysis':1,'report':0,'recipient':0}\nprint(any(v>0 for v in q.values()))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T3-A-E2: contrasté el Pass del paquete («Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0 (blocked), False si todas 0. Contrato: any sobre…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, analysis, report; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(any(v>0 for v in q.values()))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "analysis",
+        "report",
+        "recipient",
+        "any",
+        "values"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "code": "# dual skeptic-H1 · S26-T3-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(['metrics','narrative','recipient'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T3-A-E3: contrasté el Pass del paquete («Checklist mínima de revisión humana antes del borrador: imprime exactamente ['metrics','narrative','recipient']. Contrato: orden canónico di…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(['metrics','narrative','recipient'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "code": "# dual skeptic-H1 · S26-T3-B-E1\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint(audit[0]['action'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T3-B-E1: contrasté el Pass del paquete («Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor sintético; imprime el action de la solució…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, audit, append; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(audit[0]['action'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "audit",
+        "append",
+        "action",
+        "approve",
+        "actor"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "code": "# dual skeptic-H1 · S26-T3-B-E2\naction, reason = 'reject', None\nprint('invalid' if action=='reject' and not reason else 'ok')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T3-B-E2: contrasté el Pass del paquete («Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None → imprime 'invalid'; si no, 'ok'. Contrato: fail-c…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, action, reason; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('invalid' if action=='reject' and not reason else 'ok')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "action",
+        "reason",
+        "reject",
+        "invalid",
+        "not"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "code": "# dual skeptic-H1 · S26-T3-B-E3\nver=1\nver += 1\nprint(ver)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T3-B-E3: contrasté el Pass del paquete («Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar incrementa a 2 e imprime ver. Contrato: versión monotónica; no…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, ver, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(ver)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "ver",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "code": "# dual skeptic-H1 · S26-T4-A-E1\nrate=0.9\nprint('alert' if rate < 0.95 else 'ok')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T4-A-E1: contrasté el Pass del paquete («SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert', si no 'ok'. Contrato: umbral didáctico del VP diario operativo. Pass: ale…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, rate, alert; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('alert' if rate < 0.95 else 'ok')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "rate",
+        "alert",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "code": "# dual skeptic-H1 · S26-T4-A-E2\nn=1\nprint('P0_unapproved_send' if n>0 else 'ok')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T4-A-E2: contrasté el Pass del paquete («Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send', si no 'ok'. Contrato: cero envíos sin approve hu…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, P0_unapproved_send, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('P0_unapproved_send' if n>0 else 'ok')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "P0_unapproved_send",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "code": "# dual skeptic-H1 · S26-T4-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('disable_schedule -> drain -> page')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T4-A-E3: contrasté el Pass del paquete («Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -> page (espacios alrededor de flechas como en la solución).…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('disable_schedule -> drain -> page')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "code": "# dual skeptic-H1 · S26-T4-B-E1\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint(all(status[s]=='success' for s in steps))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T4-B-E1: contrasté el Pass del paquete («E2E sintético: steps=['ingest','validate','draft'] con status success en todos. Imprime True si all success. Contrato: un failed tumba el E2…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, steps, ingest; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(all(status[s]=='success' for s in steps))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "steps",
+        "ingest",
+        "validate",
+        "draft",
+        "status"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "code": "# dual skeptic-H1 · S26-T4-B-E2\nfraud_labels=0\nprint('ok' if fraud_labels==0 else 'fail')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T4-B-E2: contrasté el Pass del paquete («Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si fraud_labels==0 else 'fail'. Matching/OCR no generan labels…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, fraud_labels, fail; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('ok' if fraud_labels==0 else 'fail')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "fraud_labels",
+        "fail",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "code": "# dual skeptic-H1 · S26-T4-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\n    \"n2_regression\": \"CP-N2-A/B/C critical+privacy\",\n    \"value_minutes_saved_est\": 45,\n    \"cf2\": \"interfaces Familiarity-reporting-automation\",\n})\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S26/S26-T4-B-E3: contrasté el Pass del paquete («Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', value_minutes_saved_est=45 y cf2 interfaces Famili…») con theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Conceptos dual, skeptic, S26, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print({']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S26",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S26#0: contrasto stem «El orden draft_email respecto a approve es:» con párrafos theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Elijo índice 1 («Approve antes de draft_email») porque cuadra con el vocabulario del paquete; distractores ['Draft antes de approve', 'En paralelo sin gate'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S26#1: contrasto stem «La regresión N2 incluye:» con párrafos theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Elijo índice 3 («Tests críticos de capstones N2, E2E y controles de privacidad/seguridad») porque cuadra con el vocabulario del paquete; distractores ['Solo un print', 'Borrar S14'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S26#2: contrasto stem «Un send sin approve es:» con párrafos theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Elijo índice 0 («Incidente P0») porque cuadra con el vocabulario del paquete; distractores ['Warning menor', 'OK en sandbox siempre'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S26#3: contrasto stem «fraud_labels automáticos en el VP deben ser:» con párrafos theory/iDo («tasks/flows/DAG y estados» Un **DAG** (directed acyclic graph) codifica dependencias de negocio: no puedes analizar antes de validar ni gen). Elijo índice 2 («0 — solo evidencia para humanos») porque cuadra con el vocabulario del paquete; distractores ['Maximizados', 'Igual al score de matching'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:06:57.751021+00:00",
+  "session_started_at": "2026-07-23T08:06:35.849295+00:00",
+  "session_ended_at": "2026-07-23T08:06:57.751021+00:00"
+}

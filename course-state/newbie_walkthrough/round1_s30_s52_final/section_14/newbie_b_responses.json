@@ -1,0 +1,564 @@
+{
+  "agent": "b",
+  "section_index": 14,
+  "recorded_at": "2026-08-01T15:19:32.917718+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          3.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "Filtrar o seleccionar elementos que cumplen la condición",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          1.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "chosen_text": "Nada; axis solo existe en pandas",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          2.0,
+          5.15
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "Puede mutar el array base porque suele ser un view",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          8.15,
+          2.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          5.45,
+          5.45,
+          2.0,
+          4.15
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "chosen_text": "Sí, de derecha a izquierda: cada dimensión es igual, o una es 1, o está ausente",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          3.0,
+          7.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 0,
+        "chosen_text": "Comparar floats con tolerancia (p. ej. loop vs vectorizado)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          3.0,
+          2.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 2,
+        "chosen_text": "Mismo input/dtype, timing y verificación de equivalencia numérica",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.15,
+          5.0,
+          7.0,
+          5.15
+        ]
+      },
+      {
+        "question_index": 8,
+        "chosen_index": 3,
+        "chosen_text": "Depende solo de la forma, no del dtype",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          4.15
+        ]
+      },
+      {
+        "question_index": 9,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          4.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 10,
+        "chosen_index": 0,
+        "chosen_text": "np.unique(ids).size / ids.size",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          3.15,
+          2.15,
+          3.15
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S14-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · ndarray meta\n# Bug a corregir: imprime shape invertida y dtype equivocado\nimport numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape[::-1], flags.ndim)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "pero",
+          "matriz",
+          "abre",
+          "sin",
+          "ese",
+          "está",
+          "bien"
+        ]
+      },
+      {
+        "exercise_id": "S14-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · linspace nbytes\n# Bug a corregir: arange no linspace; no imprime itemsize\nimport numpy as np\nscores = np.arange(5, dtype=np.float64)\nprint(scores.tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "enteros",
+          "starter",
+          "consecutivos",
+          "sustituye",
+          "usa",
+          "puntos",
+          "línea",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S14-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · validate 1d float64\n# Bug a corregir: no valida ndim/dtype\nimport numpy as np\n\ndef validate(a):\n    print(\"ok\", a.size)\n\nvalidate(np.array([0.1, 0.2], dtype=np.float64))\ntry:\n    validate(np.array([1, 2]))  # 1D pero no float64\nexcept ValueError as e:\n    print(\"err\", e)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "expected",
+          "pasa",
+          "defect",
+          "imprime",
+          "lanza",
+          "sin",
+          "válido",
+          "DEFECT"
+        ]
+      },
+      {
+        "exercise_id": "S14-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · boolean mask where\n# Bug a corregir: umbral invertido < 0.5\nimport numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nidx = np.where(score < 0.5)[0]\nprint(idx.tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "usa",
+          "lista",
+          "pásalo",
+          "complemento",
+          "solo",
+          "toma"
+        ]
+      },
+      {
+        "exercise_id": "S14-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · mask by median\n# Bug a corregir: scores > med (debería < med)\nimport numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmed = np.median(scores)\nprint(ids[scores > med].tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "bajo",
+          "máscara",
+          "uses",
+          "umbral",
+          "calcula",
+          "starter",
+          "fijo",
+          "orden"
+        ]
+      },
+      {
+        "exercise_id": "S14-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · fancy index order\n# Bug a corregir: order mal aplicado (ordena valores en vez de posiciones)\nimport numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(sorted(a.tolist()))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "comprueba",
+          "starter",
+          "índice",
+          "imprime",
+          "primer",
+          "usa",
+          "posición",
+          "vector"
+        ]
+      },
+      {
+        "exercise_id": "S14-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · media por eje\n# Bug a corregir: axis confuso; no redondea\nimport numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(M.mean(axis=1).tolist())\nprint(M.mean(axis=0).tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "columnas",
+          "calcula",
+          "starter",
+          "filas",
+          "pasa",
+          "imprime",
+          "sin",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S14-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · unicidad de ids\n# Bug a corregir: usa len(ids) como si todos fueran únicos\nimport numpy as np\nids = np.array([\"C001\", \"C002\", \"C001\", \"C003\", \"C002\"])\nunicidad = len(ids) / len(ids)  # siempre 1.0 — incorrecto\nprint(round(unicidad, 4))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "valores",
+          "número",
+          "entre",
+          "obtén",
+          "ese",
+          "distintos",
+          "divide"
+        ]
+      },
+      {
+        "exercise_id": "S14-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · centrar filas\n# Bug a corregir: centra por columnas (axis=0)\nimport numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=0, keepdims=True)\nprint(np.round(Xc.mean(axis=0), 10).tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cada",
+          "redondeo",
+          "resta",
+          "ser",
+          "luego",
+          "colapsado",
+          "starter",
+          "redondeada"
+        ]
+      },
+      {
+        "exercise_id": "S14-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · broadcast add\n# Bug a corregir: multiplica en vez de sumar\nimport numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nprint((M * w).tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "matriz",
+          "hace",
+          "imprime",
+          "filas",
+          "producto",
+          "ambas",
+          "iguales"
+        ]
+      },
+      {
+        "exercise_id": "S14-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · outer product broadcast\n# Bug a corregir: a * b sin reshape (falla o resultado incorrecto)\nimport numpy as np\na = np.arange(4)\nb = np.arange(3)\ntry:\n    out = a * b\n    print(out.shape, out.tolist())\nexcept ValueError:\n    print(\"fail\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "multiplica",
+          "inserta",
+          "fila",
+          "opcionalmente",
+          "wrong",
+          "eje"
+        ]
+      },
+      {
+        "exercise_id": "S14-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · incompatible broadcast\n# Bug a corregir: shapes compatibles (2,3)+(2,3) y sin try/except\nimport numpy as np\nprint(np.ones((2, 3)) + np.ones((2, 3)))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dos",
+          "starter",
+          "imprime",
+          "pon",
+          "captura",
+          "operando",
+          "valueerror",
+          "ValueError"
+        ]
+      },
+      {
+        "exercise_id": "S14-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · vista muta\n# Bug a corregir: copy() silencia el bug de view\nimport numpy as np\nraw = np.array([1, 2, 3])\nv = raw[:2].copy()\nv[0] = 9\nprint(raw.tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "valor",
+          "hace",
+          "imprime",
+          "primer",
+          "asigna",
+          "quita",
+          "confirma"
+        ]
+      },
+      {
+        "exercise_id": "S14-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · aislar con copy\n# Bug a corregir: view sin copy; raw muta\nimport numpy as np\nraw = np.array([1, 2, 3])\nc = raw[:2]\nc[0] = 9\nprint(raw.tolist(), c.tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "asigna",
+          "sobre",
+          "corrompe",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S14-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · writeable False\n# Bug a corregir: no activa writeable=False; muta\nimport numpy as np\na = np.array([1.0, 2.0])\na[0] = 3.0\nprint(a.tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "flags",
+          "asigna",
+          "pon",
+          "try",
+          "except",
+          "envuelve"
+        ]
+      },
+      {
+        "exercise_id": "S14-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · count nan\n# Bug a corregir: usa sum de nan == nan (incorrecto)\nimport numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int((x == np.nan).sum()))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dos",
+          "starter",
+          "entero",
+          "obtiene",
+          "posiciones",
+          "suma",
+          "verifica",
+          "mentalmente"
+        ]
+      },
+      {
+        "exercise_id": "S14-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · nanmean\n# Bug a corregir: mean propaga nan\nimport numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(float(np.mean(x)))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "usa",
+          "esperado",
+          "redondeado",
+          "decimales",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S14-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · inf → nan then nansum\n# Bug a corregir: suma con inf\nimport numpy as np\nx = np.array([1.0, np.inf, 2.0])\nprint(float(np.sum(x)))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dominar",
+          "omitiendo",
+          "starter",
+          "NaN",
+          "imprime",
+          "obtiene",
+          "dejes",
+          "hace"
+        ]
+      },
+      {
+        "exercise_id": "S14-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · vectorized vs loop\n# Bug a corregir: no compara; imprime False\nimport numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\ns1 = float((a * b).sum())\nprint(False)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "starter",
+          "booleano",
+          "for",
+          "acumula",
+          "ese",
+          "vectorizado",
+          "abs"
+        ]
+      },
+      {
+        "exercise_id": "S14-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · sum squares\n# Bug a corregir: suma lineal no cuadrados\nimport numpy as np\na = np.arange(5, dtype=float)\nprint(float(a.sum()))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "hace",
+          "imprime",
+          "eleva",
+          "cuadrado",
+          "verifica",
+          "square"
+        ]
+      },
+      {
+        "exercise_id": "S14-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · suma vectorizada cronometrada\n# Bug a corregir: loop lento sin verificar la media\nimport numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nc = np.empty(n)\nfor i in range(n):\n    c[i] = a[i] + b[i]\nprint(\"timed\", float(c[0]) == 1.0)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dos",
+          "starter",
+          "imprime",
+          "llena",
+          "chequea",
+          "sustituye",
+          "entre",
+          "cuerpo"
+        ]
+      },
+      {
+        "exercise_id": "S14-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · nbytes float64\n# Bug a corregir: compara nbytes con 4000 (como si fuera float32)\nimport numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 4000)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "starter",
+          "imprime",
+          "sin",
+          "texto",
+          "extra",
+          "recuerda"
+        ]
+      },
+      {
+        "exercise_id": "S14-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · allclose con atol\n# Bug a corregir: comparación exacta (==) en floats\nimport numpy as np\na = np.array([1.0, 2.0])\nb = np.array([1.0 + 1e-9, 2.0])\n# Exacta elemento a elemento: no es el booleano de equivalencia con tolerancia\nprint(bool((a == b).all()))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dos",
+          "starter",
+          "hace",
+          "imprime",
+          "vectores",
+          "obtiene",
+          "false",
+          "solo"
+        ]
+      },
+      {
+        "exercise_id": "S14-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-014 · assert_allclose debe fallar\n# Bug a corregir: el assert pasa (valores iguales) y no imprime fail\nimport numpy as np\ntry:\n    # Valores idénticos: el assert no falla (hay que forzar la diferencia)\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.0], atol=1e-3)\n    print(\"ok\")\nexcept AssertionError:\n    print(\"fail\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "llama",
+          "incluir",
+          "compara",
+          "consigo",
+          "cae",
+          "segundo",
+          "vector"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "8cc414e2e03b13a8"
+  }
+}

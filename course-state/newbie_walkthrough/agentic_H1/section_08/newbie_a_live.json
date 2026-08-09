@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 8,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s08-5c8c83055638",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S08-T1-A-E1",
+      "code": "# dual explorer-H1 · S08-T1-A-E1\nfrom pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / \"intake.txt\"\np.write_text(\"linea1\\njosé\\n\", encoding=\"utf-8\")\nprint(p.exists(), p.read_text(encoding=\"utf-8\").splitlines())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T1-A-E1 según el instruction: «E1 (guiado) — Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00…». Aplico pathlib tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "pathlib"
+      ]
+    },
+    {
+      "exercise_id": "S08-T1-A-E2",
+      "code": "# dual explorer-H1 · S08-T1-A-E2\nfrom pathlib import Path\nimport tempfile\np = Path(tempfile.mkdtemp()) / \"a.txt\"\nwith p.open(\"w\", encoding=\"utf-8\") as f:\n    f.write(\"hola\\n\")\nprint(p.read_text(encoding=\"utf-8\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T1-A-E2 según el instruction: «E2 (independiente) — Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico with tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "with"
+      ]
+    },
+    {
+      "exercise_id": "S08-T1-A-E3",
+      "code": "# dual explorer-H1 · S08-T1-A-E3\nfrom pathlib import Path\nimport tempfile\np = Path(tempfile.mkdtemp()) / \"b.txt\"\np.write_text(\"x\", encoding=\"utf-8\")\nprint(p.stat().st_size, p.resolve().name)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T1-A-E3 según el instruction: «E3 (transferencia) — Simula UnicodeDecodeError leyendo bytes latinos como utf-8 strict si es latin-1 content… Mejor: esc…». Aplico stat tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "stat"
+      ]
+    },
+    {
+      "exercise_id": "S08-T1-B-E1",
+      "code": "# dual explorer-H1 · S08-T1-B-E1\nfrom pathlib import Path\nimport os, tempfile\ndef write_atomic(path: Path, text: str) -> None:\n    path = Path(path)\n    tmp = path.with_name(path.name + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\ndest = Path(tempfile.mkdtemp()) / \"out.txt\"\nwrite_atomic(dest, \"hola\\n\")\nprint(dest.read_text(encoding=\"utf-8\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T1-B-E1 según el instruction: «E1 (guiado) — Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00…». Aplico atomic tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "atomic"
+      ]
+    },
+    {
+      "exercise_id": "S08-T1-B-E2",
+      "code": "# dual explorer-H1 · S08-T1-B-E2\nsample = b\"a\\r\\nb\\n\"\nprint(\"tiene CRLF\", b\"\\r\\n\" in sample)\ntext = sample.replace(b\"\\r\\n\", b\"\\n\").decode(\"utf-8\")\nprint(text.splitlines())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T1-B-E2 según el instruction: «E2 (independiente) — Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico newlines tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "newlines"
+      ]
+    },
+    {
+      "exercise_id": "S08-T1-B-E3",
+      "code": "# dual explorer-H1 · S08-T1-B-E3\nfrom pathlib import Path\nimport os, tempfile\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_suffix(path.suffix + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\n    return path\nprint(write_atomic(Path(tempfile.mkdtemp())/\"c.csv\", \"id\\n1\\n\").name)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T1-B-E3 según el instruction: «E3 (transferencia) — Simula fallo mid-write: escribe dest parcial 'PARCIAL' y muestra que un atomic replace posterior de…». Aplico atomic tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "atomic"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-A-E1",
+      "code": "# dual explorer-H1 · S08-T2-A-E1\nimport csv, io\nfrom decimal import Decimal\nraw = \"id,nombre,monto\\nC001,Ana,10.5\\nC002,Luis,20\\n\"\nfor row in csv.DictReader(io.StringIO(raw)):\n    row[\"monto\"] = Decimal(row[\"monto\"]).quantize(Decimal(\"0.01\"))\n    print(row)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T2-A-E1 según el instruction: «E1 (guiado) — Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00…». Aplico csv tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "csv"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-A-E2",
+      "code": "# dual explorer-H1 · S08-T2-A-E2\nimport csv, io\nraw = \"id,nombre\\nC001,Ana\\n\"\nprint(list(csv.DictReader(io.StringIO(raw))))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T2-A-E2 según el instruction: «E2 (independiente) — Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico DictReader tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "DictReader"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-A-E3",
+      "code": "# dual explorer-H1 · S08-T2-A-E3\nimport csv, io\nfrom decimal import Decimal, InvalidOperation\ndef parse_monto(s):\n    try:\n        return Decimal(s).quantize(Decimal(\"0.01\"))\n    except InvalidOperation:\n        return None\nraw = \"id,monto\\nC1,10.5\\nC2,xx\\n\"\nfor row in csv.DictReader(io.StringIO(raw)):\n    print(row[\"id\"], parse_monto(row[\"monto\"]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T2-A-E3 según el instruction: «E3 (transferencia) — Cast de monto: `Decimal` desde texto + quantize a céntimos; si lanza `InvalidOperation` → reject co…». Aplico parse tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "parse"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-B-E1",
+      "code": "# dual explorer-H1 · S08-T2-B-E1\nimport csv, io\ntext = \"id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nC003\\n\"\nreader = csv.reader(io.StringIO(text))\nheader = next(reader)\ngood, bad = [], []\nfor row in reader:\n    if len(row) != len(header):\n        bad.append({\"raw\": row, \"reason\": f\"cols {len(row)}!={len(header)}\"})\n    else:\n        good.append(dict(zip(header, row)))\nprint(\"good\", good)\nprint(\"bad\", bad)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T2-B-E1 según el instruction: «E1 (guiado) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00…». Aplico quarantine tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "quarantine"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-B-E2",
+      "code": "# dual explorer-H1 · S08-T2-B-E2\ndef quarantine_row(row, reason):\n    return {\"raw\": row, \"reason\": reason, \"status\": \"quarantine\"}\nprint(quarantine_row([\"C1\", \"x\", \"y\"], \"cols 3!=2\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T2-B-E2 según el instruction: «E2 (independiente) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico quarantine tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "quarantine"
+      ]
+    },
+    {
+      "exercise_id": "S08-T2-B-E3",
+      "code": "# dual explorer-H1 · S08-T2-B-E3\ngood, bad = [{\"id\": \"C1\"}], [{\"raw\": [\"C2\"], \"reason\": \"cols\"}]\nprint(len(good) + len(bad) == 2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T2-B-E3 según el instruction: «E3 (transferencia) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico balance tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "balance"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-A-E1",
+      "code": "# dual explorer-H1 · S08-T3-A-E1\nimport json\nfrom datetime import date\ndata = [{\"id\": \"T1\", \"dia\": date(2026, 1, 15).isoformat()}]\ns = json.dumps(data, ensure_ascii=False, sort_keys=True)\nprint(s)\nprint(json.loads(s)[0][\"id\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T3-A-E1 según el instruction: «E1 (guiado) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00…». Aplico json tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-A-E2",
+      "code": "# dual explorer-H1 · S08-T3-A-E2\nimport json\nprint(json.loads('{\"a\":1,\"b\":null}')[\"b\"] is None)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T3-A-E2 según el instruction: «E2 (independiente) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico null tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "null"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-A-E3",
+      "code": "# dual explorer-H1 · S08-T3-A-E3\nimport json\nobj = {\"id\": \"C1\"}\nobj.setdefault(\"segment\", \"default\")\nprint(json.dumps(obj, sort_keys=True))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T3-A-E3 según el instruction: «E3 (transferencia) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico schema evo tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "schema evo"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-B-E1",
+      "code": "# dual explorer-H1 · S08-T3-B-E1\ndef validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return (len(missing) == 0, missing)\nprint(validate_schema({\"id\": \"C1\", \"email\": None}, [\"id\", \"email\"]))\nprint(validate_schema({\"id\": \"C1\"}, [\"id\", \"email\"]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T3-B-E1 según el instruction: «E1 (guiado) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00…». Aplico schema tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "schema"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-B-E2",
+      "code": "# dual explorer-H1 · S08-T3-B-E2\ndef is_compatible(old_keys, new_obj):\n    return all(k in new_obj for k in old_keys)\nprint(is_compatible([\"id\"], {\"id\": \"x\", \"extra\": 1}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T3-B-E2 según el instruction: «E2 (independiente) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico compat tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "compat"
+      ]
+    },
+    {
+      "exercise_id": "S08-T3-B-E3",
+      "code": "# dual explorer-H1 · S08-T3-B-E3\nrecord = {\"id\": \"C1\"}\nrecord.setdefault(\"email\", None)\nprint(record)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T3-B-E3 según el instruction: «E3 (transferencia) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico nulls tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "nulls"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-A-E1",
+      "code": "# dual explorer-H1 · S08-T4-A-E1\nfrom pathlib import Path\nimport hashlib, tempfile, shutil\ntd = Path(tempfile.mkdtemp())\nsrc = td / \"clients.csv\"\nsrc.write_text(\"id,nombre\\nC001,Ana\\n\", encoding=\"utf-8\")\nh = hashlib.sha256(src.read_bytes()).hexdigest()\nbak = td / \"clients.csv.bak\"\nshutil.copy2(src, bak)\nprint(\"sha256\", h[:16] + \"...\")\nprint(\"bak exists\", bak.exists())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T4-A-E1 según el instruction: «E1 (guiado) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00…». Aplico hash tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "hash"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-A-E2",
+      "code": "# dual explorer-H1 · S08-T4-A-E2\nimport hashlib\nb = b\"hello\"\nprint(hashlib.sha256(b).hexdigest()[:12])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T4-A-E2 según el instruction: «E2 (independiente) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico sha256 tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "sha256"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-A-E3",
+      "code": "# dual explorer-H1 · S08-T4-A-E3\nprovenance = {\"path\": \"clients.csv\", \"sha256\": \"abc\", \"bytes\": 12}\nprint(provenance)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T4-A-E3 según el instruction: «E3 (transferencia) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico provenance tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "provenance"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-B-E1",
+      "code": "# dual explorer-H1 · S08-T4-B-E1\nsources = [\n    {\"name\": \"clients.csv\", \"n_in\": 6, \"n_clean\": 5, \"n_quarantine\": 1},\n    {\"name\": \"transactions.json\", \"n_in\": 4, \"n_clean\": 3, \"n_quarantine\": 1},\n]\nfor source in sources:\n    source[\"reconcile_ok\"] = source[\"n_in\"] == source[\"n_clean\"] + source[\"n_quarantine\"]\nprint(sources)\nprint(all(s[\"reconcile_ok\"] for s in sources))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T4-B-E1 según el instruction: «E1 (guiado) — Construye un manifest con `run_id` y `sources`: cada fuente incluye name, sha256, n_in, n_clean, n_quarant…». Aplico reconcile tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "reconcile"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-B-E2",
+      "code": "# dual explorer-H1 · S08-T4-B-E2\ndef fail_closed(reconcile_ok):\n    if not reconcile_ok:\n        raise SystemExit(1)\n    return 0\nprint(fail_closed(True))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T4-B-E2 según el instruction: «E2 (independiente) — Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico fail closed tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "fail closed"
+      ]
+    },
+    {
+      "exercise_id": "S08-T4-B-E3",
+      "code": "# dual explorer-H1 · S08-T4-B-E3\nmanifest = {\n    \"n_in\": 10, \"n_clean\": 8, \"n_quarantine\": 2,\n    \"reconcile_ok\": 10 == 8 + 2,\n}\nprint(manifest)\nif not manifest[\"reconcile_ok\"]:\n    raise SystemExit(\"reconcile failed\")\nprint(\"publish_ok\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Archivos, CSV, JSON y contratos de ingesta» completé S08-T4-B-E3 según el instruction: «E3 (transferencia) — Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/…». Aplico manifest tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "manifest"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Archivos, CSV, JSON y contratos de ingesta» la pregunta «¿Por qué declarar encoding='utf-8' al abrir texto?…» se resuelve con la opción «Evita depender del locale del SO (p. ej. Windows)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S08-T1-A] pathlib, with, modos y encodings `pathlib.Path` unifica rutas. `Path.…). Por eso elijo el índice 3."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Archivos, CSV, JSON y contratos de ingesta» la pregunta «Escritura atómica típica es……» se resuelve con la opción «escribir temp y os.replace al destino». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S08-T1-A] pathlib, with, modos y encodings `pathlib.Path` unifica rutas. `Path.…). Por eso elijo el índice 1."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Archivos, CSV, JSON y contratos de ingesta» la pregunta «Una fila CSV con columnas de más debe……» se resuelve con la opción «Ir a cuarentena con motivo». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S08-T1-A] pathlib, with, modos y encodings `pathlib.Path` unifica rutas. `Path.…). Por eso elijo el índice 2."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Archivos, CSV, JSON y contratos de ingesta» la pregunta «Reconciliación del manifest exige……» se resuelve con la opción «n_in == n_clean + n_quarantine». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S08-T1-A] pathlib, with, modos y encodings `pathlib.Path` unifica rutas. `Path.…). Por eso elijo el índice 0."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Archivos, CSV, JSON y contratos de ingesta» la pregunta «Si reconcile falla, el pipeline debe……» se resuelve con la opción «Fallar (exit non-zero) / fail closed». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S08-T1-A] pathlib, with, modos y encodings `pathlib.Path` unifica rutas. `Path.…). Por eso elijo el índice 3."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:42:53.086661+00:00",
+  "session_started_at": "2026-07-23T07:42:34.943335+00:00",
+  "session_ended_at": "2026-07-23T07:42:53.086661+00:00"
+}

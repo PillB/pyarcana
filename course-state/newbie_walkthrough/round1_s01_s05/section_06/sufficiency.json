@@ -1,0 +1,56 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.5,
+    "correct_preview": "3,4 (ultimos dos)"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "a también ve el append (alias)"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Listar conflicto en conflicts sin silenciar"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "None (muta in-place)"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.33,
+    "correct_preview": "salidas deterministas/reproducibles"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 0.6,
+    "correct_preview": "No: la copia es superficial; los dicts internos se comparten"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "set de emails"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "get devuelve N/A; d x lanza KeyError"
+  },
+  {
+    "i": 8,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "client_id (denormalizado) junto a tx_id y monto"
+  }
+]

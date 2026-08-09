@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S09",
+  "section_id": "visualization",
+  "phase": "PHASE_5",
+  "lane": "LANE-N1-FINISH",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "visualization"
+  },
+  "retired_from_bank": [
+    "matplotlib-oo-api",
+    "tight-layout",
+    "seaborn-use-case",
+    "plotly-export"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S09.",
+  "families": [
+    {
+      "family_id": "S09-T1-A-EX",
+      "concept": "exception-types-raise-chaining",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S09-T1-B-EX",
+      "concept": "recovery-boundaries-cleanup",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S09-T2-A-EX",
+      "concept": "traceback-debugger",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S09-T2-B-EX",
+      "concept": "minimal-repro-hypothesis-rootcause",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S09-T3-A-EX",
+      "concept": "log-levels-structure",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S09-T3-B-EX",
+      "concept": "correlation-ids-pii-redaction",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S09-T4-A-EX",
+      "concept": "failfast-vs-continue",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S09-T4-B-EX",
+      "concept": "idempotency-retries-quarantine",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (visualization key)",
+    "course-state/s09_phase5_exam_bank.json"
+  ]
+}

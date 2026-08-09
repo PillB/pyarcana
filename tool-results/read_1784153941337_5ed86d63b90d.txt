@@ -1,0 +1,2002 @@
+     1→/**
+     2→ * Seed script for QuestionBank — generates 3 variants per concept for each section.
+     3→ * Uses the existing selfCheck questions as variant 1, and creates 2 additional variants.
+     4→ *
+     5→ * Run: bun run db:seed
+     6→ */
+     7→import { PrismaClient } from '@prisma/client'
+     8→
+     9→const prisma = new PrismaClient()
+    10→
+    11→// Type for a question variant
+    12→type Q = {
+    13→  concept: string
+    14→  question: string
+    15→  options: string[]
+    16→  correctIndex: number
+    17→  explanation: string
+    18→}
+    19→
+    20→// 3 variants per concept for each of the 10 sections
+    21→// Variant 1 = existing question; variants 2 & 3 = equivalent questions testing same concept
+    22→const QUESTION_BANK: Record<string, Q[]> = {
+    23→  setup: [
+    24→    {
+    25→      concept: 'venv-purpose',
+    26→      question: '¿Para qué sirve un entorno virtual (venv) en Python?',
+    27→      options: [
+    28→        'Para acelerar la ejecución del código Python',
+    29→        'Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones',
+    30→        'Para conectarse a internet más rápido al instalar paquetes',
+    31→        'Para compilar Python a código de máquina más eficiente',
+    32→      ],
+    33→      correctIndex: 1,
+    34→      explanation: 'venv crea una carpeta con su propia instalación de Python y paquetes, evitando conflictos entre proyectos.',
+    35→    },
+    36→    {
+    37→      concept: 'venv-purpose',
+    38→      question: '¿Cuál es el beneficio principal de usar venv al trabajar en múltiples proyectos Python?',
+    39→      options: [
+    40→        'Los programas corren más rápido',
+    41→        'Cada proyecto tiene sus propias versiones de paquetes sin interferir con otros',
+    42→        'Permite usar Python sin instalarlo',
+    43→        'Reduce el tamaño de los archivos .py',
+    44→      ],
+    45→      correctIndex: 1,
+    46→      explanation: 'Sin venv, actualizar pandas en un proyecto podría romper otro. venv aísla dependencias por proyecto.',
+    47→    },
+    48→    {
+    49→      concept: 'venv-purpose',
+    50→      question: 'Si un colega dice "a mí me funciona" pero a ti no, ¿cuál es la causa más probable?',
+    51→      options: [
+    52→        'Diferentes versiones de paquetes en cada entorno',
+    53→        'Tu computadora es más lenta',
+    54→        'Python no es compatible con tu OS',
+    55→        'Falta de memoria RAM',
+    56→      ],
+    57→      correctIndex: 0,
+    58→      explanation: 'Sin aislamiento de entorno, las versiones de paquetes difieren y causan el clásico "works on my machine".',
+    59→    },
+    60→    {
+    61→      concept: 'gitignore',
+    62→      question: '¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?',
+    63→      options: ['requirements.txt', 'README.md', 'venv/', 'hello.py'],
+    64→      correctIndex: 2,
+    65→      explanation: 'venv/ pesa 100MB+ y se puede regenerar con pip install -r requirements.txt.',
+    66→    },
+    67→    {
+    68→      concept: 'gitignore',
+    69→      question: '¿Por qué .env NO debe subirse a GitHub?',
+    70→      options: [
+    71→        'Porque pesa demasiado',
+    72→        'Porque contiene credenciales y secretos',
+    73→        'Porque GitHub no lo soporta',
+    74→        'Porque ralentiza el git push',
+    75→      ],
+    76→      correctIndex: 1,
+    77→      explanation: 'Los archivos .env guardan variables de entorno con API keys, passwords y tokens. Subirlos es un riesgo de seguridad.',
+    78→    },
+    79→    {
+    80→      concept: 'gitignore',
+    81→      question: '¿Qué carpeta es crucial excluir del repositorio Git?',
+    82→      options: ['src/', 'tests/', 'venv/', 'docs/'],
+    83→      correctIndex: 2,
+    84→      explanation: 'venv/ contiene el entorno virtual que se regenera con requirements.txt. No debe versionarse.',
+    85→    },
+    86→    {
+    87→      concept: 'commit-message',
+    88→      question: '¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?',
+    89→      options: ['"cambios"', '"wip"', '"feat: agregar cálculo de churn por segmento"', '"arreglé el bug"'],
+    90→      correctIndex: 2,
+    91→      explanation: 'Conventional Commits usa prefijos feat:, fix:, docs: seguidos de descripción imperativa.',
+    92→    },
+    93→    {
+    94→      concept: 'commit-message',
+    95→      question: '¿Qué prefijo usarías para un commit que arregla un bug?',
+    96→      options: ['feat:', 'fix:', 'chore:', 'docs:'],
+    97→      correctIndex: 1,
+    98→      explanation: 'fix: se usa para correcciones de bugs. feat: para nuevas funcionalidades.',
+    99→    },
+   100→    {
+   101→      concept: 'commit-message',
+   102→      question: '¿Por qué evitar mensajes como "wip" o "cambios"?',
+   103→      options: [
+   104→        'Son muy cortos',
+   105→        'No dan contexto sobre qué cambió, dificultando revisar el historial',
+   106→        'GitHub no los acepta',
+   107→        'Ralentizan el push',
+   108→      ],
+   109→      correctIndex: 1,
+   110→      explanation: 'El historial de commits es para comunicación humana. Mensajes descriptivos permiten entender qué cambió y por qué.',
+   111→    },
+   112→    {
+   113→      concept: 'pip-install',
+   114→      question: '¿Qué comando replica el entorno de otro desarrollador?',
+   115→      options: [
+   116→        'pip install pandas numpy',
+   117→        'python -m venv venv',
+   118→        'pip install -r requirements.txt',
+   119→        'git clone ...',
+   120→      ],
+   121→      correctIndex: 2,
+   122→      explanation: 'pip install -r requirements.txt lee las versiones pinneadas e instala exactamente eso.',
+   123→    },
+   124→    {
+   125→      concept: 'pip-install',
+   126→      question: '¿Para qué sirve `pip freeze > requirements.txt`?',
+   127→      options: [
+   128→        'Para congelar Python',
+   129→        'Para guardar las versiones exactas de los paquetes instalados',
+   130→        'Para borrar paquetes viejos',
+   131→        'Para actualizar pip',
+   132→      ],
+   133→      correctIndex: 1,
+   134→      explanation: 'pip freeze lista las versiones exactas instaladas. Guardarlas en requirements.txt permite reproducir el entorno.',
+   135→    },
+   136→    {
+   137→      concept: 'pip-install',
+   138→      question: '¿Cuál es la práctica correcta al instalar paquetes?',
+   139→      options: [
+   140→        'Instalar globalmente siempre',
+   141→        'Instalar dentro del venv activado y luego pip freeze',
+   142→        'Instalar sin venv para ahorrar espacio',
+   143→        'Solo usar paquetes de la librería estándar',
+   144→      ],
+   145→      correctIndex: 1,
+   146→      explanation: 'Siempre instala dentro del venv y luego documenta en requirements.txt para reproducibilidad.',
+   147→    },
+   148→  ],
+   149→  basics: [
+   150→    {
+   151→      concept: 'assign-vs-compare',
+   152→      question: '¿Cuál es la diferencia entre `=` y `==` en Python?',
+   153→      options: [
+   154→        'Son lo mismo',
+   155→        '`=` es asignación, `==` es comparación de igualdad',
+   156→        '`=` es comparación, `==` es asignación',
+   157→        '`==` solo funciona con números',
+   158→      ],
+   159→      correctIndex: 1,
+   160→      explanation: '`x = 5` asigna. `x == 5` compara y devuelve True/False.',
+   161→    },
+   162→    {
+   163→      concept: 'assign-vs-compare',
+   164→      question: '¿Qué pasa si escribes `if x = 5:` en Python?',
+   165→      options: [
+   166→        'Funciona correctamente',
+   167→        'Error de sintaxis porque = es asignación, no comparación',
+   168→        'Asigna 5 a x y entra al if',
+   169→        'Crea una variable nueva',
+   170→      ],
+   171→      correctIndex: 1,
+   172→      explanation: 'Python detecta que = es asignación y da SyntaxError. Debes usar == para comparar.',
+   173→    },
+   174→    {
+   175→      concept: 'assign-vs-compare',
+   176→      question: '¿Qué devuelve `5 == 5`?',
+   177→      options: ['5', 'True', '"igual"', 'None'],
+   178→      correctIndex: 1,
+   179→      explanation: '== compara valores y devuelve un booleano (True o False).',
+   180→    },
+   181→    {
+   182→      concept: 'list-comprehension',
+   183→      question: '¿Qué imprime `[x**2 for x in range(4) if x > 0]`?',
+   184→      options: ['[0, 1, 4, 9]', '[1, 4, 9]', '[1, 2, 3]', '[0, 1, 2, 3]'],
+   185→      correctIndex: 1,
+   186→      explanation: 'range(4) = [0,1,2,3]. Filtra x > 0 → [1,2,3]. Eleva al cuadrado → [1, 4, 9].',
+   187→    },
+   188→    {
+   189→      concept: 'list-comprehension',
+   190→      question: '¿Cuál es el equivalente en list comprehension de: `lst=[]; for x in range(5): lst.append(x*2)`?',
+   191→      options: ['[x*2 for x in range(5)]', '[for x in range(5): x*2]', 'list(x*2 range(5))', '{x*2 for x in range(5)}'],
+   192→      correctIndex: 0,
+   193→      explanation: 'La sintaxis es [expresion for item in iterable]. Aquí: [x*2 for x in range(5)] = [0,2,4,6,8].',
+   194→    },
+   195→    {
+   196→      concept: 'list-comprehension',
+   197→      question: '¿Qué produce `[x for x in "hola" if x in "aeiou"]`?',
+   198→      options: ['["h","o","l","a"]', '["o","a"]', '["h","l"]', 'Error'],
+   199→      correctIndex: 1,
+   200→      explanation: 'Filtra solo las vocales de "hola" → ["o", "a"].',
+   201→    },
+   202→    {
+   203→      concept: 'truthiness',
+   204→      question: '¿Qué valores se evalúan como False en Python?',
+   205→      options: [
+   206→        'Solo False y 0',
+   207→        'False, 0, 0.0, "", [], {}, None',
+   208→        'Solo False y None',
+   209→        'Cualquier cosa vacía, pero 0 es True',
+   210→      ],
+   211→      correctIndex: 1,
+   212→      explanation: 'Los valores falsy son: False, 0, 0.0, "", [], {}, set(), None. Todo lo demás es truthy.',
+   213→    },
+   214→    {
+   215→      concept: 'truthiness',
+   216→      question: '¿Qué devuelve `bool("")`?',
+   217→      options: ['True', 'False', 'Error', 'None'],
+   218→      correctIndex: 1,
+   219→      explanation: 'Un string vacío es falsy, por lo que bool("") devuelve False.',
+   220→    },
+   221→    {
+   222→      concept: 'truthiness',
+   223→      question: '¿Es lo mismo `if mi_lista:` que `if len(mi_lista) > 0:`?',
+   224→      options: [
+   225→        'Sí, ambas verifican que la lista no esté vacía',
+   226→        'No, la primera da error',
+   227→        'No, la primera verifica tipo',
+   228→        'Solo la segunda funciona',
+   229→      ],
+   230→      correctIndex: 0,
+   231→      explanation: 'Una lista vacía es falsy. Por eso `if mi_lista:` es True cuando la lista tiene elementos. Es la forma pythónica.',
+   232→    },
+   233→    {
+   234→      concept: 'kwargs',
+   235→      question: '¿Qué hace `**kwargs` en una función?',
+   236→      options: [
+   237→        'Exige argumentos keyword',
+   238→        'Junta todos los argumentos keyword adicionales en un dict',
+   239→        'Es lo mismo que *args',
+   240→        'Define argumentos opcionales',
+   241→      ],
+   242→      correctIndex: 1,
+   243→      explanation: '**kwargs recoge argumentos nombre=valor en un diccionario. Útil para funciones configurables.',
+   244→    },
+   245→    {
+   246→      concept: 'kwargs',
+   247→      question: 'Si llamas `f(a=1, b=2, c=3)` donde f es `def f(**kwargs)`, ¿qué es kwargs?',
+   248→      options: ['Una lista', 'Un dict {"a":1, "b":2, "c":3}', 'Una tupla', 'Un set'],
+   249→      correctIndex: 1,
+   250→      explanation: '**kwargs agrupa los argumentos keyword en un diccionario.',
+   251→    },
+   252→    {
+   253→      concept: 'kwargs',
+   254→      question: '¿Cuál es la firma correcta para aceptar args posicionales y keyword variables?',
+   255→      options: [
+   256→        'def f(*args, **kwargs):',
+   257→        'def f(args, kwargs):',
+   258→        'def f(**args, *kwargs):',
+   259→        'def f(*args*):',
+   260→      ],
+   261→      correctIndex: 0,
+   262→      explanation: 'El orden correcto es *args (posicionales) seguido de **kwargs (keyword).',
+   263→    },
+   264→  ],
+   265→  // Continue for other sections — using a condensed pattern
+   266→  'data-structures': [
+   267→    {
+   268→      concept: 'json-load-vs-loads',
+   269→      question: '¿Diferencia entre `json.load()` y `json.loads()`?',
+   270→      options: [
+   271→        'Son lo mismo',
+   272→        'load() lee de archivo, loads() lee de string',
+   273→        'load() es más rápido',
+   274→        'load() es para dicts',
+   275→      ],
+   276→      correctIndex: 1,
+   277→      explanation: 'La "s" = string. load(f) lee de archivo, loads(s) lee de string.',
+   278→    },
+   279→    {
+   280→      concept: 'json-load-vs-loads',
+   281→      question: '¿Cómo conviertes un string JSON a un dict de Python?',
+   282→      options: ['json.load(s)', 'json.loads(s)', 'json.parse(s)', 'dict(s)'],
+   283→      correctIndex: 1,
+   284→      explanation: 'json.loads() (load string) parsea un string JSON a objeto Python.',
+   285→    },
+   286→    {
+   287→      concept: 'json-load-vs-loads',
+   288→      question: 'Para guardar un dict como archivo JSON, ¿qué función usas?',
+   289→      options: ['json.dumps(d)', 'json.dump(d, f)', 'json.write(d, f)', 'json.save(d, f)'],
+   290→      correctIndex: 1,
+   291→      explanation: 'json.dump(obj, file) escribe a archivo. json.dumps(obj) devuelve string.',
+   292→    },
+   293→    {
+   294→      concept: 'with-statement',
+   295→      question: '¿Qué garantiza el statement `with open("f.csv") as f:`?',
+   296→      options: [
+   297→        'Abrir el archivo en modo lectura',
+   298→        'Cerrar el archivo automáticamente al salir del bloque, incluso si hay excepción',
+   299→        'Leer todo el contenido',
+   300→        'Crear el archivo si no existe',
+   301→      ],
+   302→      correctIndex: 1,
+   303→      explanation: 'with es un context manager que garantiza cleanup (cierre del archivo) sin importar qué pase.',
+   304→    },
+   305→    {
+   306→      concept: 'with-statement',
+   307→      question: '¿Por qué usar `with` en vez de `f = open(...)` + `f.close()`?',
+   308→      options: [
+   309→        'Es más rápido',
+   310→        'Garantiza cierre incluso si ocurre una excepción dentro del bloque',
+   311→        'Es la única forma de leer archivos',
+   312→        'Usa menos memoria',
+   313→      ],
+   314→      correctIndex: 1,
+   315→      explanation: 'Si ocurre una excepción entre open() y close(), el archivo queda abierto. with lo cierra siempre.',
+   316→    },
+   317→    {
+   318→      concept: 'with-statement',
+   319→      question: '¿Qué método del context manager se llama al SALIR del bloque with?',
+   320→      options: ['__enter__', '__exit__', '__close__', '__end__'],
+   321→      correctIndex: 1,
+   322→      explanation: '__enter__ se llama al entrar, __exit__ al salir (normalmente o por excepción).',
+   323→    },
+   324→    {
+   325→      concept: 'defaultdict',
+   326→      question: '¿Para qué sirve `defaultdict(list)`?',
+   327→      options: [
+   328→        'Es más rápido',
+   329→        'Crea una lista vacía automáticamente al primer acceso, evitando KeyError',
+   330→        'Permite duplicados',
+   331→        'Es la única forma de tener listas como valores',
+   332→      ],
+   333→      correctIndex: 1,
+   334→      explanation: 'defaultdict(list) crea una lista vacía al primer acceso a una key nueva. Evita el patrón if key not in dict.',
+   335→    },
+   336→    {
+   337→      concept: 'defaultdict',
+   338→      question: '¿Qué pasa con `d = defaultdict(int); d["x"] += 1` si "x" no existe?',
+   339→      options: [
+   340→        'KeyError',
+   341→        'Crea d["x"] = 0 y luego suma 1 → d["x"] = 1',
+   342→        'Crea d["x"] = 1',
+   343→        'Error de tipo',
+   344→      ],
+   345→      correctIndex: 1,
+   346→      explanation: 'defaultdict(int) inicializa con 0 (int() devuelve 0). Luego += 1 lo deja en 1.',
+   347→    },
+   348→    {
+   349→      concept: 'defaultdict',
+   350→      question: '¿Cuándo usar defaultdict vs dict normal?',
+   351→      options: [
+   352→        'Siempre defaultdict',
+   353→        'defaultdict para construir iterativamente (agrupar), dict para lectura',
+   354→        'Nunca defaultdict',
+   355→        'Solo para proyectos grandes',
+   356→      ],
+   357→      correctIndex: 1,
+   358→      explanation: 'defaultdict es ideal para construir estructuras (acumular, agrupar). dict.get() es mejor para lectura puntual.',
+   359→    },
+   360→    {
+   361→      concept: 'exception-type',
+   362→      question: '¿Qué excepción lanza Python al abrir un archivo inexistente?',
+   363→      options: ['IOError', 'FileNotFoundError', 'FileError', 'OSError'],
+   364→      correctIndex: 1,
+   365→      explanation: 'FileNotFoundError es la excepción específica. Es subclase de OSError.',
+   366→    },
+   367→    {
+   368→      concept: 'exception-type',
+   369→      question: '¿Qué excepción lanzas para un valor inválido en tu código?',
+   370→      options: ['TypeError', 'ValueError', 'KeyError', 'RuntimeError'],
+   371→      correctIndex: 1,
+   372→      explanation: 'ValueError es para valores inválidos (ej: int("abc")). TypeError es para tipos incorrectos.',
+   373→    },
+   374→    {
+   375→      concept: 'exception-type',
+   376→      question: 'Si intentas `d["inexistente"]` en un dict, ¿qué excepción obtienes?',
+   377→      options: ['ValueError', 'KeyError', 'IndexError', 'AttributeError'],
+   378→      correctIndex: 1,
+   379→      explanation: 'KeyError se lanza cuando una key no existe en el dict. Usa .get() para evitarlo.',
+   380→    },
+   381→  ],
+   382→  'functions-modules': [
+   383→    {
+   384→      concept: 'functools-wraps',
+   385→      question: '¿Qué hace `@functools.wraps(func)` en un decorator?',
+   386→      options: [
+   387→        'Hace la función más rápida',
+   388→        'Preserva __name__ y __doc__ de la función original',
+   389→        'Es opcional',
+   390→        'Permite parámetros en el decorator',
+   391→      ],
+   392→      correctIndex: 1,
+   393→      explanation: 'Sin @functools.wraps, la función decorada se llama "wrapper" y pierde su docstring.',
+   394→    },
+   395→    {
+   396→      concept: 'functools-wraps',
+   397→      question: '¿Qué problema causa no usar @functools.wraps?',
+   398→      options: [
+   399→        'La función es más lenta',
+   400→        'La función decorada se llama "wrapper" y pierde docstring',
+   401→        'No causa problemas',
+   402→        'Da error de sintaxis',
+   403→      ],
+   404→      correctIndex: 1,
+   405→      explanation: 'Sin @wraps, help(mi_funcion) muestra "wrapper" en vez del nombre real y sin docstring.',
+   406→    },
+   407→    {
+   408→      concept: 'functools-wraps',
+   409→      question: '¿Dentro de un decorator, qué debes poner antes de def wrapper?',
+   410→      options: ['@property', '@functools.wraps(func)', '@staticmethod', 'Nada'],
+   411→      correctIndex: 1,
+   412→      explanation: '@functools.wraps(func) preserva la metadata de la función original en el wrapper.',
+   413→    },
+   414→    {
+   415→      concept: 'pathlib-vs-os',
+   416→      question: '¿Qué imprime `Path("data") / "ventas.csv"` en Windows?',
+   417→      options: [
+   418→        'Error',
+   419→        'data\\ventas.csv (normalizado al OS)',
+   420→        'data/ventas.csv (siempre forward slash)',
+   421→        'data:ventas.csv',
+   422→      ],
+   423→      correctIndex: 1,
+   424→      explanation: 'pathlib usa / como operador y normaliza al separador del OS. En Windows usa backslash.',
+   425→    },
+   426→    {
+   427→      concept: 'pathlib-vs-os',
+   428→      question: '¿Cómo creas todos los directorios padres con pathlib?',
+   429→      options: [
+   430→        'Path("a/b/c").mkdir()',
+   431→        'Path("a/b/c").mkdir(parents=True, exist_ok=True)',
+   432→        'Path("a/b/c").create_all()',
+   433→        'os.makedirs(Path("a/b/c"))',
+   434→      ],
+   435→      correctIndex: 1,
+   436→      explanation: 'parents=True crea toda la jerarquía. exist_ok=True no falla si ya existe.',
+   437→    },
+   438→    {
+   439→      concept: 'pathlib-vs-os',
+   440→      question: '¿Cómo lees todo el texto de un archivo con pathlib en una línea?',
+   441→      options: [
+   442→        'open(p).read()',
+   443→        'p.read_text()',
+   444→        'p.read()',
+   445→        'Path.read(p)',
+   446→      ],
+   447→      correctIndex: 1,
+   448→      explanation: 'Path.read_text() lee el contenido completo. También existe write_text(), read_bytes(), write_bytes().',
+   449→    },
+   450→    {
+   451→      concept: 'name-main',
+   452→      question: '¿Para qué sirve `if __name__ == "__main__":`?',
+   453→      options: [
+   454→        'Definir la función principal',
+   455→        'Ejecutar código solo cuando el archivo se corre directamente, no cuando se importa',
+   456→        'Es equivalente a main() en C',
+   457→        'Indicar módulo ejecutable',
+   458→      ],
+   459→      correctIndex: 1,
+   460→      explanation: 'Cuando importas un módulo, __name__ vale el nombre del módulo. Cuando lo ejecutas directo, vale "__main__".',
+   461→    },
+   462→    {
+   463→      concept: 'name-main',
+   464→      question: 'Si tienes código de prueba al final de mi_modulo.py sin if __name__ guard, ¿qué pasa al importarlo?',
+   465→      options: [
+   466→        'No pasa nada',
+   467→        'El código de prueba se ejecuta al importar',
+   468→        'Da error',
+   469→        'Solo se ejecuta la primera vez',
+   470→      ],
+   471→      correctIndex: 1,
+   472→      explanation: 'Sin el guard, cualquier import ejecuta el código de prueba. if __name__ == "__main__" lo previene.',
+   473→    },
+   474→    {
+   475→      concept: 'name-main',
+   476→      question: '¿Cuál es el valor de __name__ cuando ejecutas `python mi_modulo.py`?',
+   477→      options: ['"mi_modulo"', '"__main__"', '"__script__"', 'None'],
+   478→      correctIndex: 1,
+   479→      explanation: 'Al ejecutar un archivo directamente, __name__ vale "__main__". Al importarlo, vale el nombre del módulo.',
+   480→    },
+   481→    {
+   482→      concept: 'keyword-only-args',
+   483→      question: '¿Qué son los keyword-only args?',
+   484→      options: [
+   485→        'Args que solo aceptan strings',
+   486→        'Args que deben pasarse por nombre, definidos después de *',
+   487→        'Args opcionales',
+   488→        'Args que van después de **kwargs',
+   489→      ],
+   490→      correctIndex: 1,
+   491→      explanation: '`def f(a, b, *, debug=False):` define debug como keyword-only. El caller debe usar f(1, 2, debug=True).',
+   492→    },
+   493→    {
+   494→      concept: 'keyword-only-args',
+   495→      question: '¿Cómo defines una función donde `verbose` sea keyword-only?',
+   496→      options: [
+   497→        'def f(verbose=False):',
+   498→        'def f(*, verbose=False):',
+   499→        'def f(verbose*):',
+   500→        'def f(**verbose):',
+   501→      ],
+   502→      correctIndex: 1,
+   503→      explanation: 'El * sin nombre marca el límite: todo lo después es keyword-only.',
+   504→    },
+   505→    {
+   506→      concept: 'keyword-only-args',
+   507→      question: '¿Por qué usar keyword-only args?',
+   508→      options: [
+   509→        'Son más rápidos',
+   510→        'Mejoran legibilidad: f(1, 2, debug=True) es claro, f(1, 2, True) es opaco',
+   511→        'Son obligatorios',
+   512→        'Permiten más argumentos',
+   513→      ],
+   514→      correctIndex: 1,
+   515→      explanation: 'Forzar el nombre hace el código más legible y resistente a errores de orden.',
+   516→    },
+   517→  ],
+   518→  oop: [
+   519→    {
+   520→      concept: 'str-vs-repr',
+   521→      question: '¿Diferencia entre `__str__` y `__repr__`?',
+   522→      options: [
+   523→        'Son lo mismo',
+   524→        '__str__ es para usuarios (legible), __repr__ para devs (reconstruible)',
+   525→        '__str__ es más rápido',
+   526→        '__repr__ solo funciona con números',
+   527→      ],
+   528→      correctIndex: 1,
+   529→      explanation: '__str__ devuelve algo legible. __repr__ devuelve algo técnico, idealmente eval(repr(obj))==obj.',
+   530→    },
+   531→    {
+   532→      concept: 'str-vs-repr',
+   533→      question: 'Si solo implementas uno, ¿cuál es más importante?',
+   534→      options: ['__str__', '__repr__', 'Ambos por igual', 'Ninguno'],
+   535→      correctIndex: 1,
+   536→      explanation: 'Python usa __repr__ como fallback de __str__. Si implementas __repr__, print() funciona.',
+   537→    },
+   538→    {
+   539→      concept: 'str-vs-repr',
+   540→      question: '¿Qué muestra `print(obj)` si obj no define __str__ ni __repr__?',
+   541→      options: [
+   542→        'El contenido del objeto',
+   543→        'Algo como <__main__.MiClase object at 0x...>',
+   544→        'Error',
+   545→        'None',
+   546→      ],
+   547→      correctIndex: 1,
+   548→      explanation: 'Sin __str__ ni __repr__, Python muestra la representación por defecto con la clase y dirección de memoria.',
+   549→    },
+   550→    {
+   551→      concept: 'super-init',
+   552→      question: '¿Para qué sirve `super().__init__(...)` en una subclase?',
+   553→      options: [
+   554→        'Crear instancia del padre',
+   555→        'Llamar al constructor de la clase padre desde la subclase',
+   556→        'Evitar definir __init__',
+   557→        'Hacer la subclase más rápida',
+   558→      ],
+   559→      correctIndex: 1,
+   560→      explanation: 'super() llama al constructor del padre, asegurando que la parte heredada se inicialice correctamente.',
+   561→    },
+   562→    {
+   563→      concept: 'super-init',
+   564→      question: '¿Qué pasa si una subclase no llama a super().__init__()?',
+   565→      options: [
+   566→        'Error de sintaxis',
+   567→        'Los atributos del padre no se inicializan',
+   568→        'La subclase no se puede instanciar',
+   569→        'Nada, funciona normal',
+   570→      ],
+   571→      correctIndex: 1,
+   572→      explanation: 'Si el padre define __init__ con atributos, la subclase debe llamar super().__init__() para tener esos atributos.',
+   573→    },
+   574→    {
+   575→      concept: 'super-init',
+   576→      question: 'En `class B(A): def __init__(self): super().__init__()`, ¿qué hace super()?',
+   577→      options: [
+   578→        'Crea una nueva instancia de A',
+   579→        'Retorna un proxy que delega al padre A',
+   580→        'Es lo mismo que self',
+   581→        'Llama a __new__',
+   582→      ],
+   583→      correctIndex: 1,
+   584→      explanation: 'super() retorna un proxy que delega llamadas al siguiente en el MRO (Method Resolution Order).',
+   585→    },
+   586→    {
+   587→      concept: 'underscore-convention',
+   588→      question: '¿Qué significa `_atributo` (un underscore) en Python?',
+   589→      options: [
+   590→        'Es privado de verdad',
+   591→        'Es "protegido" — convención de no tocar, pero accesible',
+   592→        'Es lo mismo que __',
+   593→        'Indica método mágico',
+   594→      ],
+   595→      correctIndex: 1,
+   596→      explanation: 'Un underscore es CONVENCIÓN. Python no lo prohíbe, solo indica "no deberías tocar esto desde fuera".',
+   597→    },
+   598→    {
+   599→      concept: 'underscore-convention',
+   600→      question: '¿Qué hace __atributo (dos underscores)?',
+   601→      options: [
+   602→        'Lo hace verdaderamente privado',
+   603→        'Aplica name-mangling: renombra a _Clase__atributo para dificultar acceso',
+   604→        'Es lo mismo que un underscore',
+   605→        'Lo hace estático',
+   606→      ],
+   607→      correctIndex: 1,
+   608→      explanation: 'Dos underscores aplican name-mangling: _MiClase__atributo. Dificulta pero no impide el acceso.',
+   609→    },
+   610→    {
+   611→      concept: 'underscore-convention',
+   612→      question: '¿Cuál es la convención para constantes?',
+   613→      options: ['snake_case', 'UPPER_CASE', 'camelCase', 'PascalCase'],
+   614→      correctIndex: 1,
+   615→      explanation: 'UPPER_CASE para constantes (PI = 3.14). snake_case para variables/funciones. PascalCase para clases.',
+   616→    },
+   617→    {
+   618→      concept: 'composition-vs-inheritance',
+   619→      question: '¿Cuándo usar composición en vez de herencia?',
+   620→      options: [
+   621→        'Siempre',
+   622→        'Cuando la relación es HAS-A (tiene un) en vez de IS-A (es un)',
+   623→        'Nunca',
+   624→        'Solo cuando la clase padre es abstracta',
+   625→      ],
+   626→      correctIndex: 1,
+   627→      explanation: 'IS-A → herencia (Perro IS-A Animal). HAS-A → composición (Auto HAS-A Motor). Composición es más flexible.',
+   628→    },
+   629→    {
+   630→      concept: 'composition-vs-inheritance',
+   631→      question: '¿Cuál es mejor diseño: Auto extends Motor, o Auto tiene un Motor?',
+   632→      options: [
+   633→        'Auto extends Motor (herencia)',
+   634→        'Auto tiene un Motor (composición) — más flexible',
+   635→        'Ambos son iguales',
+   636→        'Depende del lenguaje',
+   637→      ],
+   638→      correctIndex: 1,
+   639→      explanation: 'Composición permite cambiar el motor sin tocar la jerarquía. "Favor composition over inheritance" (GoF).',
+   640→    },
+   641→    {
+   642→      concept: 'composition-vs-inheritance',
+   643→      question: '¿Qué principio OOP favorece composición sobre herencia?',
+   644→      options: [
+   645→        'SRP',
+   646→        'Open/Closed',
+   647→        'Liskov Substitution',
+   648→        'Favor composition over inheritance (GoF)',
+   649→      ],
+   650→      correctIndex: 3,
+   651→      explanation: 'El patrón GoF "Favor composition over inheritance" recomienda composición por su flexibilidad.',
+   652→    },
+   653→  ],
+   654→  numpy: [
+   655→    {
+   656→      concept: 'vectorization-speed',
+   657→      question: '¿Por qué NumPy es más rápido que Python puro para operaciones numéricas?',
+   658→      options: [
+   659→        'Está escrito en Python',
+   660→        'Vectoriza operaciones a nivel C y usa SIMD del CPU',
+   661→        'Usa menos memoria',
+   662→        'Tiene mejor algoritmo',
+   663→      ],
+   664→      correctIndex: 1,
+   665→      explanation: 'NumPy delega a código C optimizado que opera en lotes (vectorización) y usa instrucciones vectoriales del CPU.',
+   666→    },
+   667→    {
+   668→      concept: 'vectorization-speed',
+   669→      question: '¿Cuál es la regla de oro al operar con arrays NumPy?',
+   670→      options: [
+   671→        'Siempre usar loops',
+   672→        'Nunca escribir loops para operaciones matemáticas — usar operaciones vectorizadas',
+   673→        'Usar list comprehensions',
+   674→        'Convertir a lista primero',
+   675→      ],
+   676→      correctIndex: 1,
+   677→      explanation: 'Un loop de Python sobre 1M de elementos tarda 100x más que la operación vectorizada equivalente en NumPy.',
+   678→    },
+   679→    {
+   680→      concept: 'vectorization-speed',
+   681→      question: '¿Cuánto más rápido es NumPy vs Python puro para 1M de operaciones?',
+   682→      options: ['2x', '10x', '50-100x', 'Exactamente igual'],
+   683→      correctIndex: 2,
+   684→      explanation: 'Para operaciones numéricas sobre arrays grandes, NumPy es típicamente 50-100x más rápido que Python puro.',
+   685→    },
+   686→    {
+   687→      concept: 'boolean-masking',
+   688→      question: '¿Qué devuelve `arr[arr > 5]`?',
+   689→      options: [
+   690→        'True/False array',
+   691→        'Solo los elementos mayores a 5',
+   692→        'Los índices donde arr > 5',
+   693→        'Error',
+   694→      ],
+   695→      correctIndex: 1,
+   696→      explanation: 'Boolean masking: usas un array booleano como índice y NumPy devuelve solo los elementos donde es True.',
+   697→    },
+   698→    {
+   699→      concept: 'boolean-masking',
+   700→      question: '¿Cómo combinas dos condiciones en NumPy?',
+   701→      options: [
+   702→        '(arr > 5) and (arr < 10)',
+   703→        '(arr > 5) & (arr < 10)',
+   704→        '(arr > 5) && (arr < 10)',
+   705→        'arr > 5 & arr < 10',
+   706→      ],
+   707→      correctIndex: 1,
+   708→      explanation: 'En NumPy se usan operadores bitwise & | ~ con paréntesis OBLIGATORIOS por precedencia.',
+   709→    },
+   710→    {
+   711→      concept: 'boolean-masking',
+   712→      question: '¿Qué hace `arr[arr > 100] = 100`?',
+   713→      options: [
+   714→        'Error',
+   715→        'Cap (limita) los valores mayores a 100 al valor 100',
+   716→        'Borra los elementos > 100',
+   717→        'Devuelve un array nuevo',
+   718→      ],
+   719→      correctIndex: 1,
+   720→      explanation: 'Boolean masking con asignación modifica in-place. Aquí limita los valores a máximo 100 (clipping).',
+   721→    },
+   722→    {
+   723→      concept: 'broadcasting-shape',
+   724→      question: '¿Qué significa -1 en `arr.reshape(-1, 1)`?',
+   725→      options: [
+   726→        'Eliminar esa dimensión',
+   727→        'NumPy calcula esa dimensión automáticamente',
+   728→        'Crear dimensión de tamaño 1',
+   729→        'Transponer el array',
+   730→      ],
+   731→      correctIndex: 1,
+   732→      explanation: '-1 es wildcard. Para 12 elementos, reshape(-1, 1) da (12, 1), reshape(3, -1) da (3, 4).',
+   733→    },
+   734→    {
+   735→      concept: 'broadcasting-shape',
+   736→      question: '¿Puedes sumar matriz (3,4) + vector (4,)?',
+   737→      options: [
+   738→        'No, shapes incompatibles',
+   739→        'Sí, broadcasting estira el vector a (3,4) y suma fila por fila',
+   740→        'Solo si el vector es (3,)',
+   741→        'Da error de tipo',
+   742→      ],
+   743→      correctIndex: 1,
+   744→      explanation: 'Broadcasting: el vector (4,) se estira a (3,4) sumándose a cada fila de la matriz. Es automático.',
+   745→    },
+   746→    {
+   747→      concept: 'broadcasting-shape',
+   748→      question: '¿Por qué falla matriz (3,4) + vector (3,)?',
+   749→      options: [
+   750→        'Porque son tipos distintos',
+   751→        'Porque las shapes no alinean desde la derecha (4≠3)',
+   752→        'Porque falta memoria',
+   753→        'No falla, funciona',
+   754→      ],
+   755→      correctIndex: 1,
+   756→      explanation: 'Broadcasting compara shapes desde la derecha. (3,4) y (3,) → 4≠3, no son compatibles.',
+   757→    },
+   758→    {
+   759→      concept: 'axis-arg',
+   760→      question: '¿Qué hace `matriz.sum(axis=0)` en una matriz 2D?',
+   761→      options: [
+   762→        'Suma todos los elementos',
+   763→        'Suma por columnas (devuelve vector)',
+   764→        'Suma por filas (devuelve vector)',
+   765→        'Suma la diagonal',
+   766→      ],
+   767→      correctIndex: 1,
+   768→      explanation: 'axis=0 reduce filas → suma por columnas. axis=1 reduce columnas → suma por filas.',
+   769→    },
+   770→    {
+   771→      concept: 'axis-arg',
+   772→      question: '¿Cómo obtienes el promedio de cada FILA de una matriz?',
+   773→      options: ['matriz.mean(axis=0)', 'matriz.mean(axis=1)', 'matriz.mean()', 'matriz.mean(rows=True)'],
+   774→      correctIndex: 1,
+   775→      explanation: 'axis=1 reduce columnas, dejando el promedio por fila.',
+   776→    },
+   777→    {
+   778→      concept: 'axis-arg',
+   779→      question: '¿Qué devuelve `arr.max(axis=0)` para una matriz (5,3)?',
+   780→      options: [
+   781→        'Un escalar (máximo global)',
+   782→        'Un array de 3 elementos (máximo por columna)',
+   783→        'Un array de 5 elementos (máximo por fila)',
+   784→        'Error',
+   785→      ],
+   786→      correctIndex: 1,
+   787→      explanation: 'axis=0 reduce filas → máximo por cada una de las 3 columnas → array de 3 elementos.',
+   788→    },
+   789→  ],
+   790→  pandas: [
+   791→    {
+   792→      concept: 'groupby-output',
+   793→      question: '¿Qué devuelve `df.groupby("region")["salario"].mean()`?',
+   794→      options: [
+   795→        'Un DataFrame',
+   796→        'Un Series con la media de salario por región (región como índice)',
+   797→        'Filtra filas con media',
+   798→        'Una lista',
+   799→      ],
+   800→      correctIndex: 1,
+   801→      explanation: 'groupby + selección de una columna + agregación devuelve un Series con la clave como índice.',
+   802→    },
+   803→    {
+   804→      concept: 'groupby-output',
+   805→      question: '¿Cómo obtienes un DataFrame (no Series) después de groupby?',
+   806→      options: [
+   807→        'No se puede',
+   808→        'Usa .reset_index() o .agg() con múltiples funciones',
+   809→        'Usa .to_frame()',
+   810→        'Las opciones 2 y 3 funcionan',
+   811→      ],
+   812→      correctIndex: 3,
+   813→      explanation: 'Tanto reset_index() como to_frame() convierten el Series en DataFrame. agg() con múltiples funciones también.',
+   814→    },
+   815→    {
+   816→      concept: 'groupby-output',
+   817→      question: '¿Qué hace `df.groupby("region")["salario"].agg(["mean", "count"])`?',
+   818→      options: [
+   819→        'Error',
+   820→        'Devuelve DataFrame con 2 columnas: mean y count, por región',
+   821→        'Devuelve un Series',
+   822→        'Solo devuelve la media',
+   823→      ],
+   824→      correctIndex: 1,
+   825→      explanation: 'agg() con lista de funciones devuelve un DataFrame con una columna por cada función.',
+   826→    },
+   827→    {
+   828→      concept: 'loc-vs-iloc',
+   829→      question: '¿Diferencia entre .loc y .iloc?',
+   830→      options: [
+   831→        'Son lo mismo',
+   832→        '.loc usa labels (nombres), .iloc usa posiciones (enteros)',
+   833→        '.loc es más rápido',
+   834→        '.iloc solo funciona con números',
+   835→      ],
+   836→      correctIndex: 1,
+   837→      explanation: '.loc usa labels del índice y nombres de columnas. .iloc usa posiciones enteras (0-based).',
+   838→    },
+   839→    {
+   840→      concept: 'loc-vs-iloc',
+   841→      question: 'Si tu índice es [10, 20, 30], ¿qué devuelve df.loc[10]?',
+   842→      options: [
+   843→        'La décima fila',
+   844→        'La fila cuyo índice es 10 (primera fila)',
+   845→        'Error',
+   846→        'Las primeras 10 filas',
+   847→      ],
+   848→      correctIndex: 1,
+   849→      explanation: '.loc usa labels. df.loc[10] devuelve la fila con índice 10, que en este caso es la primera.',
+   850→    },
+   851→    {
+   852→      concept: 'loc-vs-iloc',
+   853→      question: '¿Cómo seleccionas la primera fila sin importar el índice?',
+   854→      options: ['df.loc[0]', 'df.iloc[0]', 'df[0]', 'df.first()'],
+   855→      correctIndex: 1,
+   856→      explanation: '.iloc[0] siempre devuelve la primera fila por posición. .loc[0] podría dar KeyError si el índice no incluye 0.',
+   857→    },
+   858→    {
+   859→      concept: 'null-handling',
+   860→      question: '¿Cómo manejas valores nulos en una columna numérica?',
+   861→      options: [
+   862→        'Eliminar siempre todas las filas con nulos',
+   863→        'Imputar con media, mediana, o valor específico según contexto',
+   864→        'Convertir siempre a 0',
+   865→        'Dejarlos, pandas los maneja',
+   866→      ],
+   867→      correctIndex: 1,
+   868→      explanation: 'Depende del contexto: dropna si son pocos y aleatorios, fillna(media) si distribución simétrica, fillna(mediana) si hay outliers.',
+   869→    },
+   870→    {
+   871→      concept: 'null-handling',
+   872→      question: '¿Qué hace `df["col"].fillna(df["col"].median())`?',
+   873→      options: [
+   874→        'Borra las filas con nulos',
+   875→        'Rellena los nulos con la mediana de la columna',
+   876→        'Crea una columna nueva',
+   877→        'Da error',
+   878→      ],
+   879→      correctIndex: 1,
+   880→      explanation: 'fillna(valor) reemplaza los NaN con el valor dado. La mediana es robusta a outliers.',
+   881→    },
+   882→    {
+   883→      concept: 'null-handling',
+   884→      question: '¿Cómo cuentas los nulos por columna?',
+   885→      options: [
+   886→        'df.count()',
+   887→        'df.isnull().sum()',
+   888→        'df.nuls()',
+   889→        'len(df) - len(df.dropna())',
+   890→      ],
+   891→      correctIndex: 1,
+   892→      explanation: 'isnull() devuelve DataFrame booleano. sum() por columna cuenta los True (nulos).',
+   893→    },
+   894→    {
+   895→      concept: 'merge-types',
+   896→      question: '¿Qué hace `pd.merge(df1, df2, on="id", how="left")`?',
+   897→      options: [
+   898→        'Solo filas con id en ambos',
+   899→        'Todas las filas de df1, con NaN donde no hay match en df2',
+   900→        'Todas las filas de df2',
+   901→        'La unión de ambos',
+   902→      ],
+   903→      correctIndex: 1,
+   904→      explanation: 'LEFT JOIN: todas las filas del DataFrame izquierdo, con NaN donde no hay coincidencia.',
+   905→    },
+   906→    {
+   907→      concept: 'merge-types',
+   908→      question: '¿Qué how usar para quedarte SOLO con filas presentes en ambos DataFrames?',
+   909→      options: ['"left"', '"right"', '"inner"', '"outer"'],
+   910→      correctIndex: 2,
+   911→      explanation: 'INNER JOIN (default): solo filas con coincidencia en ambos. OUTER: unión completa.',
+   912→    },
+   913→    {
+   914→      concept: 'merge-types',
+   915→      question: '¿Cuál es el equivalente de FULL OUTER JOIN en pandas?',
+   916→      options: ['how="full"', 'how="outer"', 'how="all"', 'how="union"'],
+   917→      correctIndex: 1,
+   918→      explanation: 'how="outer" devuelve todas las filas de ambos DataFrames, con NaN donde no hay match.',
+   919→    },
+   920→  ],
+   921→  visualization: [
+   922→    {
+   923→      concept: 'matplotlib-oo-api',
+   924→      question: '¿Cuál es la API recomendada de matplotlib para gráficos serios?',
+   925→      options: [
+   926→        'plt.plot() directo',
+   927→        'Object-oriented: fig, ax = plt.subplots()',
+   928→        'Solo seaborn',
+   929→        'Solo plotly',
+   930→      ],
+   931→      correctIndex: 1,
+   932→      explanation: 'La API object-oriented (fig, ax) da control total. plt.plot() es limitado para subplots o customización.',
+   933→    },
+   934→    {
+   935→      concept: 'matplotlib-oo-api',
+   936→      question: '¿Cómo creas una figura con 4 subplots (2x2)?',
+   937→      options: [
+   938→        'plt.subplots(4)',
+   939→        'fig, axes = plt.subplots(2, 2, figsize=(12, 8))',
+   940→        'plt.figure(4)',
+   941→        'fig = plt.multiplot(2, 2)',
+   942→      ],
+   943→      correctIndex: 1,
+   944→      explanation: 'plt.subplots(2, 2) crea una grilla 2x2. axes[0,0], axes[0,1], axes[1,0], axes[1,1] son los 4 Axes.',
+   945→    },
+   946→    {
+   947→      concept: 'matplotlib-oo-api',
+   948→      question: '¿Cómo accedes al Axes de arriba a la derecha en axes (2x2)?',
+   949→      options: ['axes[1]', 'axes[0, 1]', 'axes[1, 0]', 'axes.top_right'],
+   950→      correctIndex: 1,
+   951→      explanation: 'axes[fila, columna]. Arriba-derecha = fila 0, columna 1 = axes[0, 1].',
+   952→    },
+   953→    {
+   954→      concept: 'tight-layout',
+   955→      question: '¿Para qué sirve `plt.tight_layout()`?',
+   956→      options: [
+   957→        'Hace el gráfico más pequeño',
+   958→        'Ajusta espaciado para evitar overlaps de títulos y labels',
+   959→        'Cambia el tema',
+   960→        'Es lo mismo que plt.show()',
+   961→      ],
+   962→      correctIndex: 1,
+   963→      explanation: 'tight_layout() recalcula márgenes para que títulos, labels y leyendas no se superpongan.',
+   964→    },
+   965→    {
+   966→      concept: 'tight-layout',
+   967→      question: '¿Cuándo debes llamar tight_layout()?',
+   968→      options: [
+   969→        'Antes de plt.subplots()',
+   970→        'Después de crear todos los subplots, antes de savefig/show',
+   971→        'Después de plt.show()',
+   972→        'Nunca',
+   973→      ],
+   974→      correctIndex: 1,
+   975→      explanation: 'Se llama al final, antes de savefig. Si lo llamas antes de agregar títulos, no tendrá efecto.',
+   976→    },
+   977→    {
+   978→      concept: 'tight-layout',
+   979→      question: '¿Qué problema soluciona tight_layout()?',
+   980→      options: [
+   981→        'Gráficos pixelados',
+   982→        'Etiquetas y títulos que se superponen o se cortan',
+   983→        'Colores poco atractivos',
+   984→        'Lentitud al renderizar',
+   985→      ],
+   986→      correctIndex: 1,
+   987→      explanation: 'Es el fix #1 para "mi título se corta" o "los labels del eje X se superponen".',
+   988→    },
+   989→    {
+   990→      concept: 'seaborn-use-case',
+   991→      question: '¿Cuándo usar seaborn en vez de matplotlib?',
+   992→      options: [
+   993→        'Siempre',
+   994→        'Para gráficos estadísticos (box, violin, heatmap, pairplot)',
+   995→        'Solo para gráficos interactivos',
+   996→        'Solo si matplotlib no funciona',
+   997→      ],
+   998→      correctIndex: 1,
+   999→      explanation: 'seaborn brilla en gráficos estadísticos. matplotlib para customización fina. La combinación es estándar.',
+  1000→    },
+  1001→    {
+  1002→      concept: 'seaborn-use-case',
+  1003→      question: '¿Qué gráfico de seaborn es ideal para ver correlaciones entre todas las variables numéricas?',
+  1004→      options: ['sns.barplot()', 'sns.heatmap(corr, annot=True)', 'sns.lineplot()', 'sns.countplot()'],
+  1005→      correctIndex: 1,
+  1006→      explanation: 'heatmap con annot=True muestra la matriz de correlación con valores numéricos en cada celda.',
+  1007→    },
+  1008→    {
+  1009→      concept: 'seaborn-use-case',
+  1010→      question: '¿Cuál usar para ver la distribución de una variable por categoría?',
+  1011→      options: ['sns.scatterplot()', 'sns.boxplot() o sns.violinplot()', 'sns.heatmap()', 'sns.regplot()'],
+  1012→      correctIndex: 1,
+  1013→      explanation: 'boxplot y violinplot muestran distribución (mediana, cuartiles, outliers) por categoría.',
+  1014→    },
+  1015→    {
+  1016→      concept: 'plotly-export',
+  1017→      question: '¿Cómo guardas un gráfico plotly para web?',
+  1018→      options: [
+  1019→        'plt.savefig("archivo.png")',
+  1020→        'fig.write_html("archivo.html")',
+  1021→        'fig.save("archivo.svg")',
+  1022→        'No se puede',
+  1023→      ],
+  1024→      correctIndex: 1,
+  1025→      explanation: 'plotly exporta a HTML con write_html(). El archivo incluye la gráfica + JS, se abre en cualquier browser.',
+  1026→    },
+  1027→    {
+  1028→      concept: 'plotly-export',
+  1029→      question: '¿Ventaja principal de plotly sobre matplotlib?',
+  1030→      options: [
+  1031→        'Es más rápido',
+  1032→        'Interactividad (hover, zoom, pan) ideal para dashboards web',
+  1033→        'Mejores colores',
+  1034→        'Más fácil de usar',
+  1035→      ],
+  1036→      correctIndex: 1,
+  1037→      explanation: 'plotly produce gráficos interactivos que se pueden exportar como HTML para dashboards web.',
+  1038→    },
+  1039→    {
+  1040→      concept: 'plotly-export',
+  1041→      question: '¿Cómo creas un bar chart interactivo con plotly express?',
+  1042→      options: [
+  1043→        'px.bar(df, x="col1", y="col2")',
+  1044→        'plotly.bar(df, x, y)',
+  1045→        'px.chart(df, type="bar")',
+  1046→        'plotly.create_bar(df)',
+  1047→      ],
+  1048→      correctIndex: 0,
+  1049→      explanation: 'px.bar(df, x, y) crea un bar chart interactivo. Otras funciones: px.scatter, px.line, px.pie.',
+  1050→    },
+  1051→  ],
+  1052→  sklearn: [
+  1053→    {
+  1054→      concept: 'pipeline-purpose',
+  1055→      question: '¿Por qué usar Pipeline en vez de aplicar transformaciones por separado?',
+  1056→      options: [
+  1057→        'Es más rápido',
+  1058→        'Evita data leakage y simplifica deployment',
+  1059→        'Es lo mismo',
+  1060→        'Solo para modelos lineales',
+  1061→      ],
+  1062→      correctIndex: 1,
+  1063→      explanation: 'Pipeline aplica transformaciones solo sobre X_train durante fit, evitando leakage del test set.',
+  1064→    },
+  1065→    {
+  1066→      concept: 'pipeline-purpose',
+  1067→      question: '¿Qué es data leakage y cómo lo evita Pipeline?',
+  1068→      options: [
+  1069→        'Es cuando los datos se pierden',
+  1070→        'Es cuando info del test set "contamina" el entrenamiento; Pipeline lo evita aplicando fit solo en train',
+  1071→        'Es un tipo de error de red',
+  1072→        'Es cuando el modelo es muy lento',
+  1073→      ],
+  1074→      correctIndex: 1,
+  1075→      explanation: 'Si haces fit_transform sobre TODO el dataset, el scaler "ve" el test set. Pipeline.fit solo ve X_train.',
+  1076→    },
+  1077→    {
+  1078→      concept: 'pipeline-purpose',
+  1079→      question: '¿Qué ventaja adicional da Pipeline para deployment?',
+  1080→      options: [
+  1081→        'Es más rápido en producción',
+  1082→        'Persistes todo el pipeline (preprocesamiento + modelo) y applies a datos nuevos sin replicar transformaciones',
+  1083→        'No hay ventaja adicional',
+  1084→        'Solo sirve para sklearn',
+  1085→      ],
+  1086→      correctIndex: 1,
+  1087→      explanation: 'joblib.dump(pipeline) guarda todo. En inference, pipeline.predict(datos_crudos) aplica todo automáticamente.',
+  1088→    },
+  1089→    {
+  1090→      concept: 'stratified-kfold',
+  1091→      question: '¿Qué hace StratifiedKFold y por qué usarlo en clasificación?',
+  1092→      options: [
+  1093→        'Es lo mismo que KFold',
+  1094→        'Mantiene la proporción de clases en cada fold — esencial para datasets desbalanceados',
+  1095→        'Reduce el número de folds',
+  1096→        'Solo funciona para regresión',
+  1097→      ],
+  1098→      correctIndex: 1,
+  1099→      explanation: 'StratifiedKFold asegura que cada fold tenga la misma proporción de clases. Obligatorio para clasificación con desbalance.',
+  1100→    },
+  1101→    {
+  1102→      concept: 'stratified-kfold',
+  1103→      question: 'Si tienes 1000 muestras con 10% positivas, ¿por qué StratifiedKFold es crítico?',
+  1104→      options: [
+  1105→        'Para velocidad',
+  1106→        'Sin stratify, un fold podría no tener positivos y la CV fallaría',
+  1107→        'Para usar menos memoria',
+  1108→        'No es crítico en este caso',
+  1109→      ],
+  1110→      correctIndex: 1,
+  1111→      explanation: 'Con 10% de positivos y 5 folds, sin stratify algún fold podría tener 0 positivos. Stratify lo evita.',
+  1112→    },
+  1113→    {
+  1114→      concept: 'stratified-kfold',
+  1115→      question: '¿Cómo configuras StratifiedKFold en cross_val_score?',
+  1116→      options: [
+  1117→        'cross_val_score(model, X, y, cv=5)',
+  1118→        'cross_val_score(model, X, y, cv=StratifiedKFold(5, shuffle=True))',
+  1119→        'cross_val_score(model, X, y, stratify=True)',
+  1120→        'cross_val_score(model, X, y, cv="stratified")',
+  1121→      ],
+  1122→      correctIndex: 1,
+  1123→      explanation: 'Pasas un objeto StratifiedKFold como cv. cv=5 numérico usa KFold normal (no stratified).',
+  1124→    },
+  1125→    {
+  1126→      concept: 'random-vs-grid-search',
+  1127→      question: '¿Cuándo es mejor RandomizedSearchCV sobre GridSearchCV?',
+  1128→      options: [
+  1129→        'Siempre',
+  1130→        'Cuando el espacio de hiperparámetros es grande o tiene valores continuos',
+  1131→        'Solo para modelos lineales',
+  1132→        'Nunca, GridSearch es siempre mejor',
+  1133→      ],
+  1134→      correctIndex: 1,
+  1135→      explanation: 'GridSearch prueba TODAS las combinaciones (exponencial). RandomizedSearch prueba N aleatorias — más eficiente.',
+  1136→    },
+  1137→    {
+  1138→      concept: 'random-vs-grid-search',
+  1139→      question: '¿Qué significa n_iter=30 en RandomizedSearchCV?',
+  1140→      options: [
+  1141→        '30 epochs',
+  1142→        '30 combinaciones aleatorias de hiperparámetros a probar',
+  1143→        '30 folds de CV',
+  1144→        '30 segundos máximo',
+  1145→      ],
+  1146→      correctIndex: 1,
+  1147→      explanation: 'n_iter es el número de combinaciones aleatorias a probar. Más iter = más chance de encontrar óptimo.',
+  1148→    },
+  1149→    {
+  1150→      concept: 'random-vs-grid-search',
+  1151→      question: '¿Para qué parámetro de LogisticRegression usarías distribución continua en RandomizedSearch?',
+  1152→      options: [
+  1153→        'penalty (l1, l2)',
+  1154→        'C (regularización) — usa uniform o loguniform',
+  1155→        'solver',
+  1156→        'max_iter',
+  1157→      ],
+  1158→      correctIndex: 1,
+  1159→      explanation: 'C es continuo (0.001 a 100). Penalty y solver son discretos. Distribuciones continuas solo tienen sentido en Randomized.',
+  1160→    },
+  1161→    {
+  1162→      concept: 'shap-purpose',
+  1163→      question: '¿Para qué sirve SHAP en ML?',
+  1164→      options: [
+  1165→        'Entrenar modelos más rápido',
+  1166→        'Explicar contribuciones de cada feature a predicciones individuales',
+  1167→        'Feature selection',
+  1168→        'Normalizar features',
+  1169→      ],
+  1170→      correctIndex: 1,
+  1171→      explanation: 'SHAP descompone una predicción en contribuciones por feature. Esencial para compliance y confianza del negocio.',
+  1172→    },
+  1173→    {
+  1174→      concept: 'shap-purpose',
+  1175→      question: '¿Qué muestra un SHAP beeswarm plot?',
+  1176→      options: [
+  1177→        'Una predicción individual',
+  1178→        'Importancia global de features y su dirección (alta/baja)',
+  1179→        'La matriz de confusión',
+  1180→        'Las correlaciones',
+  1181→      ],
+  1182→      correctIndex: 1,
+  1183→      explanation: 'beeswarm muestra todas las observaciones: color = valor de feature, posición horizontal = impacto en predicción.',
+  1184→    },
+  1185→    {
+  1186→      concept: 'shap-purpose',
+  1187→      question: '¿Qué SHAP plot usar para explicar UNA predicción específica?',
+  1188→      options: ['beeswarm', 'waterfall', 'summary', 'dependence'],
+  1189→      correctIndex: 1,
+  1190→      explanation: 'waterfall descompone una predicción en contribuciones por feature. beeswarm es para vista global.',
+  1191→    },
+  1192→  ],
+  1193→  testing: [
+  1194→    {
+  1195→      concept: 'pytest-naming',
+  1196→      question: '¿Convención de nombres para que pytest descubra tus tests?',
+  1197→      options: [
+  1198→        'Cualquier .py',
+  1199→        'Archivos test_*.py con funciones test_*',
+  1200→        'Solo en carpeta tests/',
+  1201→        'Clases Test* con métodos test_*',
+  1202→      ],
+  1203→      correctIndex: 1,
+  1204→      explanation: 'pytest busca archivos test_*.py y dentro funciones test_*. Respetar esta convención es obligatorio.',
+  1205→    },
+  1206→    {
+  1207→      concept: 'pytest-naming',
+  1208→      question: '¿Qué nombre debe tener tu archivo de tests para calculara.py?',
+  1209→      options: ['tests.py', 'test_calculadora.py', 'calculadora_tests.py', 'TestCalculadora.py'],
+  1210→      correctIndex: 1,
+  1211→      explanation: 'Convención: test_<modulo>.py. pytest lo descubre automáticamente.',
+  1212→    },
+  1213→    {
+  1214→      concept: 'pytest-naming',
+  1215→      question: '¿Cómo se llama una función de test válida en pytest?',
+  1216→      options: ['def TestSuma():', 'def test_suma():', 'def TestSuma():', 'def suma_test():'],
+  1217→      correctIndex: 1,
+  1218→      explanation: 'Las funciones deben empezar con test_. Las clases con Test (sin __init__).',
+  1219→    },
+  1220→    {
+  1221→      concept: 'fixtures-purpose',
+  1222→      question: '¿Para qué sirve una fixture en pytest?',
+  1223→      options: [
+  1224→        'Hacer tests más lentos',
+  1225→        'Preparar datos/estado reutilizable entre tests',
+  1226→        'Documentar tests',
+  1227→        'Es lo mismo que un mock',
+  1228→      ],
+  1229→      correctIndex: 1,
+  1230→      explanation: 'Una fixture (@pytest.fixture) prepara datos o estado. Se inyecta como parámetro. Evita duplicación.',
+  1231→    },
+  1232→    {
+  1233→      concept: 'fixtures-purpose',
+  1234→      question: '¿Cómo defines una fixture que devuelve un DataFrame de prueba?',
+  1235→      options: [
+  1236→        '@pytest.fixture\ndef df(): return pd.DataFrame(...)',
+  1237→        '@fixture\ndef test_df(): ...',
+  1238→        'def df_fixture(): @pytest.fixture ...',
+  1239→        '@pytest.data\ndef df(): ...',
+  1240→      ],
+  1241→      correctIndex: 0,
+  1242→      explanation: 'Decoras una función con @pytest.fixture. El return es lo que se inyecta en los tests que la piden como parámetro.',
+  1243→    },
+  1244→    {
+  1245→      concept: 'fixtures-purpose',
+  1246→      question: '¿Qué hace `yield` en una fixture?',
+  1247→      options: [
+  1248→        'Lo mismo que return',
+  1249→        'Setup antes del yield, teardown después (se ejecuta siempre)',
+  1250→        'Pausa el test',
+  1251→        'Devuelve múltiples valores',
+  1252→      ],
+  1253→      correctIndex: 1,
+  1254→      explanation: 'El código antes de yield es setup, después es teardown (se ejecuta siempre, incluso si el test falla).',
+  1255→    },
+  1256→    {
+  1257→      concept: 'parametrize',
+  1258→      question: '¿Qué hace `@pytest.mark.parametrize`?',
+  1259→      options: [
+  1260→        'Marca el test como lento',
+  1261→        'Corre el mismo test con múltiples combinaciones de inputs',
+  1262→        'Para el test si falla',
+  1263→        'Es lo mismo que fixture',
+  1264→      ],
+  1265→      correctIndex: 1,
+  1266→      explanation: 'parametrize recibe una lista de tuplas y corre el test una vez por cada una. Si una falla, te dice cuál.',
+  1267→    },
+  1268→    {
+  1269→      concept: 'parametrize',
+  1270→      question: '¿Cómo parametrizas un test para que corra con inputs 2, 4, 6 esperando True?',
+  1271→      options: [
+  1272→        '@pytest.mark.parametrize("input,esperado", [(2,True),(4,True),(6,True)])',
+  1273→        '@pytest.params([2,4,6])',
+  1274→        '@pytest.mark.inputs(2,4,6)',
+  1275→        'No se puede',
+  1276→      ],
+  1277→      correctIndex: 0,
+  1278→      explanation: 'La sintaxis es @pytest.mark.parametrize("nombres_params", [lista_de_tuplas]).',
+  1279→    },
+  1280→    {
+  1281→      concept: 'parametrize',
+  1282→      question: 'Ventaja de parametrize sobre escribir 3 tests separados?',
+  1283→      options: [
+  1284→        'Es más rápido',
+  1285→        'Si uno falla, pytest te dice exactamente qué input falló. Menos código duplicado.',
+  1286→        'Usa menos memoria',
+  1287→        'No hay ventaja',
+  1288→      ],
+  1289→      correctIndex: 1,
+  1290→      explanation: 'parametrize genera un test por cada caso, con IDs distintos. Reporta fallos por caso individual.',
+  1291→    },
+  1292→    {
+  1293→      concept: 'coverage',
+  1294→      question: '¿Qué mide `pytest --cov=mi_modulo`?',
+  1295→      options: [
+  1296→        'Tiempo de ejecución',
+  1297→        'Porcentaje de líneas de código cubiertas por tests',
+  1298→        'Número de tests',
+  1299→        'Calidad de tests',
+  1300→      ],
+  1301→      correctIndex: 1,
+  1302→      explanation: 'Coverage mide qué líneas se ejecutaron durante los tests. 80%+ es bueno. 100% es difícil.',
+  1303→    },
+  1304→    {
+  1305→      concept: 'coverage',
+  1306→      question: '¿Qué flag te muestra qué líneas NO se cubrieron?',
+  1307→      options: ['--cov-report=term-missing', '--cov-missing', '--show-untested', '--cov-gaps'],
+  1308→      correctIndex: 0,
+  1309→      explanation: '--cov-report=term-missing muestra las líneas no cubiertas en la terminal. Útil para saber qué tests faltan.',
+  1310→    },
+  1311→    {
+  1312→      concept: 'coverage',
+  1313→      question: '¿Qué cobertura es razonable buscar en código crítico?',
+  1314→      options: ['20%', '50%', '80%+', '100% siempre'],
+  1315→      correctIndex: 2,
+  1316→      explanation: '80%+ es razonable. 100% es difícil y a veces innecesario (paths de error irreproducibles).',
+  1317→    },
+  1318→  ],
+  1319→
+  1320→  // === Section 7: Data Acquisition (data-acquisition) ===
+  1321→  // 4 concepts × 3 variants = 12 questions
+  1322→  'data-acquisition': [
+  1323→    // Concept 1: generators-yield (lazy evaluation, streaming CSVs)
+  1324→    {
+  1325→      concept: 'generators-yield',
+  1326→      question: '¿Qué hace la palabra clave `yield` en una función de Python?',
+  1327→      options: [
+  1328→        'Lo mismo que return — termina la función y devuelve un valor',
+  1329→        'Convierte la función en un generator: pausa su estado y resume en la próxima llamada a next()',
+  1330→        'Lanza una excepción StopIteration inmediatamente',
+  1331→        'Importa un módulo externo llamado yield',
+  1332→      ],
+  1333→      correctIndex: 1,
+  1334→      explanation:
+  1335→        'Una función con yield se convierte en un generator. Cada next() corre la función hasta el próximo yield, devuelve el valor, y pausa. La próxima llamada continúa desde ahí. Esto permite lazy evaluation — clave para procesar CSVs de 8GB sin agotar RAM.',
+  1336→    },
+  1337→    {
+  1338→      concept: 'generators-yield',
+  1339→      question: '¿Cuál es la ventaja principal de leer un CSV con un generador en vez de list(csv.reader)?',
+  1340→      options: [
+  1341→        'Es más rápido porque usa C',
+  1342→        'Procesa una fila a la vez, manteniendo la RAM baja (~50MB) incluso con archivos de varios GB',
+  1343→        'Permite acceso aleatorio por índice en O(1)',
+  1344→        'Automáticamente elimina duplicados',
+  1345→      ],
+  1346→      correctIndex: 1,
+  1347→      explanation:
+  1348→        'Una lista carga TODAS las filas en RAM. Un generator calcula cada fila solo cuando se la pide, manteniendo el uso de memoria constante. Para un CSV de 8GB, list() mata tu laptop; un generator lo procesa con ~50MB.',
+  1349→    },
+  1350→    {
+  1351→      concept: 'generators-yield',
+  1352→      question: '¿Qué parámetro de pd.read_csv te devuelve un iterador de DataFrames para procesar archivos grandes?',
+  1353→      options: ['iterator=True', 'stream=True', 'chunksize=10000', 'lazy=True'],
+  1354→      correctIndex: 2,
+  1355→      explanation:
+  1356→        'pd.read_csv(path, chunksize=10000) devuelve un iterador que yield DataFrames de 10k filas cada uno. Procesas cada chunk, agregas resultados, y nunca cargas el archivo entero en RAM. Combinado con generators propios, escala a datasets de cualquier tamaño.',
+  1357→    },
+  1358→
+  1359→    // Concept 2: sql-injection-safety (parameterized queries)
+  1360→    {
+  1361→      concept: 'sql-injection-safety',
+  1362→      question: '¿Cuál es la forma SEGURA de insertar un valor en una query SQL en Python?',
+  1363→      options: [
+  1364→        'f"SELECT * FROM users WHERE name = \'{name}\'"',
+  1365→        '"SELECT * FROM users WHERE name = " + name',
+  1366→        'cursor.execute("SELECT * FROM users WHERE name = ?", (name,))',
+  1367→        'cursor.execute("SELECT * FROM users WHERE name = {" + name + "}")',
+  1368→      ],
+  1369→      correctIndex: 2,
+  1370→      explanation:
+  1371→        'Usar parámetros con ? (sqlite3) o %s (PostgreSQL) previene SQL injection. La librería escapa el valor automáticamente. Si construyes la query con f-strings o concatenación, un input malicioso como \' OR 1=1 -- puede leer o borrar toda la base.',
+  1372→    },
+  1373→    {
+  1374→      concept: 'sql-injection-safety',
+  1375→      question: '¿Qué pasa si usas f-strings para construir queries SQL con input del usuario?',
+  1376→      options: [
+  1377→        'Nada, es perfectamente seguro',
+  1378→        'Es más rápido pero menos legible',
+  1379→        'Vulnerabilidad de SQL injection — un usuario malicioso puede leer o borrar toda la base de datos',
+  1380→        'Solo funciona en PostgreSQL',
+  1381→      ],
+  1382→      correctIndex: 2,
+  1383→      explanation:
+  1384→        'f-strings NO escapan caracteres peligrosos. Input como \'" OR 1=1 --\' se inserta literalmente en la query, devolviendo toda la tabla o peor (DROP TABLE). SIEMPRE uses parámetros (?, %s) — es la diferencia entre código production-ready y un CVE esperando pasar.',
+  1385→    },
+  1386→    {
+  1387→      concept: 'sql-injection-safety',
+  1388→      question: '¿Cómo persistirías un DataFrame de pandas a una tabla SQLite existente, agregando filas nuevas?',
+  1389→      options: [
+  1390→        'df.to_sql("ventas", conn, if_exists="append", index=False)',
+  1391→        'df.to_csv("ventas.db")',
+  1392→        'for row in df: cursor.insert(row)',
+  1393→        'pd.write_sql(df, "ventas")',
+  1394→      ],
+  1395→      correctIndex: 0,
+  1396→      explanation:
+  1397→        'df.to_sql(tabla, conn, if_exists="append", index=False) inserta todas las filas del DataFrame en la tabla SQL existente. if_exists puede ser "fail" (default), "replace" (borra y recrea), o "append" (agrega). El parámetro index=False evita crear una columna extra con el índice.',
+  1398→    },
+  1399→
+  1400→    // Concept 3: multiprocessing-vs-threads (GIL awareness)
+  1401→    {
+  1402→      concept: 'multiprocessing-vs-threads',
+  1403→      question: '¿Cuándo usarías ProcessPoolExecutor vs ThreadPoolExecutor en Python?',
+  1404→      options: [
+  1405→        'Thread para CPU-bound, Process para I/O-bound',
+  1406→        'Process para CPU-bound (cálculo pesado), Thread para I/O-bound (red, disco)',
+  1407→        'Siempre Thread — es más rápido',
+  1408→        'Siempre Process — es más seguro',
+  1409→      ],
+  1410→      correctIndex: 1,
+  1411→      explanation:
+  1412→        'El GIL de Python impide que múltiples threads ejecuten bytecode a la vez, así que threads NO aceleran cálculo. Pero durante I/O (esperar red, disco) el GIL se libera, así que threads SÍ ayudan con scraping/APIs. Para feature engineering pesado → Process; para 100 requests HTTP → Thread.',
+  1413→    },
+  1414→    {
+  1415→      concept: 'multiprocessing-vs-threads',
+  1416→      question: '¿Por qué el threading no acelera tareas CPU-bound en Python?',
+  1417→      options: [
+  1418→        'Porque los threads son lentos por naturaleza',
+  1419→        'Por el GIL (Global Interpreter Lock): solo un thread ejecuta bytecode a la vez',
+  1420→        'Porque la memoria se duplica',
+  1421→        'Porque threading no está bien implementado',
+  1422→      ],
+  1423→      correctIndex: 1,
+  1424→      explanation:
+  1425→        'El GIL es un lock del intérprete CPython que asegura que solo un thread ejecute bytecode Python a la vez. Esto significa que 8 threads corriendo cálculo NO usan 8 cores — comparten uno. Para CPU-bound necesitas procesos separados (cada uno con su propio GIL), de ahí ProcessPoolExecutor.',
+  1426→    },
+  1427→    {
+  1428→      concept: 'multiprocessing-vs-threads',
+  1429→      question: '¿Qué precaución es CRÍTICA al usar ProcessPoolExecutor.map con DataFrames grandes?',
+  1430→      options: [
+  1431→        'No hay precauciones, funciona perfecto',
+  1432→        'Cada proceso COPIA los datos que recibe — pasar DataFrames gigantes causa OOM. Pasa chunks pequeños',
+  1433→        'Solo funciona en Linux',
+  1434→        'Hay que instalar cython primero',
+  1435→      ],
+  1436→      correctIndex: 1,
+  1437→      explanation:
+  1438→        'Para pasar datos entre procesos, Python los serializa con pickle. Si pasas un DataFrame de 4GB a 8 workers, son 32GB de memoria. Solución: dividir el DataFrame en chunks pequeños y pasar uno a cada worker, o usar memoria compartida (multiprocessing.shared_memory).',
+  1439→    },
+  1440→
+  1441→    // Concept 4: logging-best-practices (production logging)
+  1442→    {
+  1443→      concept: 'logging-best-practices',
+  1444→      question: '¿Cuál es la mejor práctica para logging en un pipeline de DS en producción?',
+  1445→      options: [
+  1446→        'Usar print() con timestamps manuales',
+  1447→        'logging.basicConfig con f-strings en los mensajes para legibilidad',
+  1448→        'logging con niveles (INFO/WARNING/ERROR), %-format en mensajes, y rotación de archivos',
+  1449→        'Solo loggear errores críticos, ignorar info',
+  1450→      ],
+  1451→      correctIndex: 2,
+  1452→      explanation:
+  1453→        'Buen logging usa niveles (permite subir/bajar verbosidad en prod sin tocar código), %-format (el formato se aplica solo si el nivel está activo — más rápido que f-string que siempre se evalúa), handlers múltiples (consola + archivo), y RotatingFileHandler para que los logs no crezcan infinitamente.',
+  1454→    },
+  1455→    {
+  1456→      concept: 'logging-best-practices',
+  1457→      question: '¿Por qué se recomienda usar logger.info("Procesé %d filas", n) en vez de logger.info(f"Procesé {n} filas")?',
+  1458→      options: [
+  1459→        'Por estilo — no hay diferencia técnica',
+  1460→        'Con f-string el formato se evalúa SIEMPRE aunque el nivel esté apagado; con %-format solo si se va a mostrar. En pipelines con miles de logs debug, es 5-10x más rápido',
+  1461→        'f-strings están deprecados',
+  1462→        '%-format permite formatear fechas automáticamente',
+  1463→      ],
+  1464→      correctIndex: 1,
+  1465→      explanation:
+  1466→        'f-string construye el mensaje final ANTES de pasarlo a logger — el trabajo se hace aunque el nivel DEBUG esté apagado. %-format pasa los args al logger, que solo los formatea si decide mostrar el mensaje. En pipelines con miles de logs debug por corrida, esto es 5-10x más rápido.',
+  1467→    },
+  1468→    {
+  1469→      concept: 'logging-best-practices',
+  1470→      question: '¿Qué handler usarías para evitar que un archivo de log crezca infinitamente?',
+  1471→      options: [
+  1472→        'logging.FileHandler("app.log")',
+  1473→        'logging.StreamHandler()',
+  1474→        'logging.handlers.RotatingFileHandler("app.log", maxBytes=10_000_000, backupCount=5)',
+  1475→        'No se puede, hay que borrar el log manualmente',
+  1476→      ],
+  1477→      correctIndex: 2,
+  1478→      explanation:
+  1479→        'RotatingFileHandler rota el archivo cuando supera maxBytes, manteniendo backupCount archivos viejos (app.log.1, app.log.2, ...). Para 10MB × 5 backups, tienes 60MB máximo de logs. Para rotación por tiempo (diaria), usa TimedRotatingFileHandler. Esencial para pipelines que corren por meses.',
+  1480→    },
+  1481→  ],
+  1482→
+  1483→  // === Section 12: Performance & Logging (performance) ===
+  1484→  // 4 concepts × 3 variants = 12 questions
+  1485→  'performance': [
+  1486→    {
+  1487→      concept: 'multiprocessing-vs-threads',
+  1488→      question: '¿Cuándo usar multiprocessing en vez de threading en Python?',
+  1489→      options: [
+  1490→        'Siempre, multiprocessing es mejor',
+  1491→        'Para tareas CPU-bound (cálculos) porque el GIL bloquea threads en Python puro',
+  1492→        'Para tareas I/O-bound (red, archivos)',
+  1493→        'Solo en servidores Linux',
+  1494→      ],
+  1495→      correctIndex: 1,
+  1496→      explanation:
+  1497→        'El GIL (Global Interpreter Lock) de Python permite que solo un thread ejecute bytecode a la vez. Para CPU-bound, multiprocessing usa procesos separados con su propio GIL. Para I/O-bound, threading funciona bien porque el GIL se libera durante I/O.',
+  1498→    },
+  1499→    {
+  1500→      concept: 'multiprocessing-vs-threads',
+  1501→      question: '¿Qué es el GIL en Python?',
+  1502→      options: [
+  1503→        'Un tipo de garbage collector',
+  1504→        'Global Interpreter Lock — bloqueo que permite solo un thread ejecute bytecode a la vez',
+  1505→        'Un módulo para concurrencia',
+  1506→        'Un error que hay que arreglar',
+  1507→      ],
+  1508→      correctIndex: 1,
+  1509→      explanation:
+  1510→        'El GIL (Global Interpreter Lock) es un mutex que protege el acceso a objetos Python. Solo un thread puede ejecutar bytecode a la vez. Esto simplifica la gestión de memoria pero limita el paralelismo real en código CPU-bound.',
+  1511→    },
+  1512→    {
+  1513→      concept: 'multiprocessing-vs-threads',
+  1514→      question: 'Para scraping de 100 URLs en paralelo, ¿qué usas?',
+  1515→      options: [
+  1516→        'multiprocessing.Pool',
+  1517→        'concurrent.futures.ThreadPoolExecutor (I/O bound)',
+  1518→        'asyncio sin threads',
+  1519→        'Ninguna, hacerlo secuencial',
+  1520→      ],
+  1521→      correctIndex: 1,
+  1522→      explanation:
+  1523→        'Scraping es I/O-bound (esperar respuesta HTTP). ThreadPoolExecutor es ideal porque el GIL se libera durante I/O. multiprocessing sería overkill y tiene más overhead por la creación de procesos.',
+  1524→    },
+  1525→    {
+  1526→      concept: 'profiling-tools',
+  1527→      question: '¿Para qué sirve cProfile?',
+  1528→      options: [
+  1529→        'Para testear código',
+  1530→        'Para medir tiempo de ejecución de cada función y encontrar bottlenecks',
+  1531→        'Para compilar Python a C',
+  1532→        'Para debuggear',
+  1533→      ],
+  1534→      correctIndex: 1,
+  1535→      explanation:
+  1536→        'cProfile es un profiler determinístico que mide cuántas veces se llama cada función y cuánto tiempo consume. Es la herramienta #1 para encontrar bottlenecks antes de optimizar.',
+  1537→    },
+  1538→    {
+  1539→      concept: 'profiling-tools',
+  1540→      question: '¿Qué hace `timeit` en Python?',
+  1541→      options: [
+  1542→        'Mide el tiempo de ejecución de pequeños fragmentos de código con precisión',
+  1543→        'Es un timer para scheduling',
+  1544→        'Formatea timestamps',
+  1545→        'Convierte entre zonas horarias',
+  1546→      ],
+  1547→      correctIndex: 0,
+  1548→      explanation:
+  1549→        'timeit ejecuta código N veces y mide el tiempo promedio con precisión de microsegundos. Ideal para comparar implementaciones (ej: list vs comprehension vs map).',
+  1550→    },
+  1551→    {
+  1552→      concept: 'profiling-tools',
+  1553→      question: '¿Cuál es la regla #1 de optimización?',
+  1554→      options: [
+  1555→        'Siempre optimizar desde el inicio',
+  1556→        'Medir primero, optimizar después (premature optimization is the root of all evil)',
+  1557→        'Usar Cython siempre',
+  1558→        'Compilar con -O3',
+  1559→      ],
+  1560→      correctIndex: 1,
+  1561→      explanation:
+  1562→        'Knuth: "premature optimization is the root of all evil". Primero profile, encuentra el bottleneck real, y luego optimiza SOLO esa parte. El 80% del tiempo está en 20% del código.',
+  1563→    },
+  1564→    {
+  1565→      concept: 'logging-best-practices',
+  1566→      question: '¿Por qué usar logging en vez de print en producción?',
+  1567→      options: [
+  1568→        'print es más rápido',
+  1569→        'logging permite niveles (DEBUG/INFO/WARNING/ERROR), formato, y rotación de archivos',
+  1570→        'No hay diferencia',
+  1571→        'print es más seguro',
+  1572→      ],
+  1573→      correctIndex: 1,
+  1574→      explanation:
+  1575→        'logging ofrece: niveles para filtrar severidad, formato consistente con timestamps, múltiples handlers (archivo, consola, email), y rotación automática. print no tiene ninguna de estas características.',
+  1576→    },
+  1577→    {
+  1578→      concept: 'logging-best-practices',
+  1579→      question: '¿Qué nivel de logging usas para "usuario hizo login exitosamente"?',
+  1580→      options: ['DEBUG', 'INFO', 'WARNING', 'ERROR'],
+  1581→      correctIndex: 1,
+  1582→      explanation:
+  1583→        'INFO es para eventos normales esperados del sistema (login exitoso, registro creado, job completado). DEBUG es para diagnóstico detallado. WARNING para situaciones anormales pero no críticas. ERROR para fallos.',
+  1584→    },
+  1585→    {
+  1586→      concept: 'logging-best-practices',
+  1587→      question: '¿Por qué NO usar f-strings en logging?',
+  1588→      options: [
+  1589→        'Son más lentos',
+  1590→        'Se evalúan siempre, incluso si el nivel está desactivado. Usar % y dejar que logging formatee solo si es necesario',
+  1591→        'No soportan variables',
+  1592→        'Son inseguras',
+  1593→      ],
+  1594→      correctIndex: 1,
+  1595→      explanation:
+  1596→        'logger.debug(f"Procesando {data}") evalúa el f-string SIEMPRE, incluso si DEBUG está desactivado. logger.debug("Procesando %s", data) solo formatea si el mensaje se va a emitir. Para pipelines con millones de iteraciones, la diferencia es enorme.',
+  1597→    },
+  1598→    {
+  1599→      concept: 'argparse-cli',
+  1600→      question: '¿Para qué sirve argparse?',
+  1601→      options: [
+  1602→        'Para parsear JSON',
+  1603→        'Para crear interfaces de línea de comandos (CLI) con argumentos, flags y help',
+  1604→        'Para leer archivos de configuración',
+  1605→        'Para debuggear',
+  1606→      ],
+  1607→      correctIndex: 1,
+  1608→      explanation:
+  1609→        'argparse es el módulo estándar de Python para crear CLIs. Permite definir argumentos posicionales, opcionales (--flag), tipos, valores por defecto, y genera --help automáticamente.',
+  1610→    },
+  1611→    {
+  1612→      concept: 'argparse-cli',
+  1613→      question: '¿Cómo defines un argumento opcional --output en argparse?',
+  1614→      options: [
+  1615→        'parser.arg("--output")',
+  1616→        'parser.add_argument("--output", type=str, default="out.txt")',
+  1617→        'parser.optional("output")',
+  1618→        'parser.flag("output")',
+  1619→      ],
+  1620→      correctIndex: 1,
+  1621→      explanation:
+  1622→        'add_argument con -- prefijo crea un argumento opcional. type valida el tipo, default da valor por defecto. El valor se accede como args.output (guiones se convierten en underscores).',
+  1623→    },
+  1624→    {
+  1625→      concept: 'argparse-cli',
+  1626→      question: '¿Cómo haces que tu script sea ejecutable como comando del sistema?',
+  1627→      options: [
+  1628→        'Solo con chmod +x',
+  1629→        'Definiendo entry_points en pyproject.toml [project.scripts]',
+  1630→        'No se puede en Python',
+  1631→        'Solo con shell aliases',
+  1632→      ],
+  1633→      correctIndex: 1,
+  1634→      explanation:
+  1635→        'En pyproject.toml: [project.scripts] mi-comando = "mi_modulo:main". Después de pip install, mi-comando está disponible en el PATH. Es cómo funcionan pytest, black, ruff, etc.',
+  1636→    },
+  1637→  ],
+  1638→
+  1639→  // === Section 13: RPA & Automation (rpa-automation) ===
+  1640→  // 4 concepts × 3 variants = 12 questions
+  1641→  'rpa-automation': [
+  1642→    {
+  1643→      concept: 'playwright-vs-selenium',
+  1644→      question: '¿Por qué preferir Playwright sobre Selenium en 2025-2026?',
+  1645→      options: [
+  1646→        'Selenium ya no se mantiene',
+  1647→        'Playwright es más rápido, tiene auto-wait, mejor API y soporta múltiples browsers con una instalación',
+  1648→        'Selenium es más caro',
+  1649→        'No hay diferencia real',
+  1650→      ],
+  1651→      correctIndex: 1,
+  1652→      explanation:
+  1653→        'Playwright (Microsoft, 2020+) tiene: auto-wait inteligente, velocidad superior, API moderna, soporte nativo para Chromium/Firefox/WebKit, y mejor manejo de async. Selenium sigue siendo válido para legacy pero Playwright es el estándar moderno.',
+  1654→    },
+  1655→    {
+  1656→      concept: 'playwright-vs-selenium',
+  1657→      question: '¿Qué es "headless" en browser automation?',
+  1658→      options: [
+  1659→        'Un navegador sin internet',
+  1660→        'Ejecutar el navegador sin interfaz gráfica — más rápido y ideal para servidores/CI',
+  1661→        'Un modo de debugging',
+  1662→        'Un tipo de selector',
+  1663→      ],
+  1664→      correctIndex: 1,
+  1665→      explanation:
+  1666→        'Headless ejecuta el navegador sin UI visible. Es más rápido (no renderiza visualmente), usa menos memoria, y funciona en servidores sin display. Ideal para scraping, testing en CI, y RPA en servidores.',
+  1667→    },
+  1668→    {
+  1669→      concept: 'playwright-vs-selenium',
+  1670→      question: '¿Qué hace `page.wait_for_selector(".item")` en Playwright?',
+  1671→      options: [
+  1672→        'Espera a que aparezca un elemento con clase "item" antes de continuar',
+  1673→        'Crea un elemento con clase "item"',
+  1674→        'Borra elementos con clase "item"',
+  1675→        'Cuenta cuántos elementos hay',
+  1676→      ],
+  1677→      correctIndex: 0,
+  1678→      explanation:
+  1679→        'wait_for_selector es el auto-wait de Playwright. Espera automáticamente a que el elemento aparezca en el DOM (con timeout configurable). Evita el problema #1 de Selenium: errores "element not found" por timing.',
+  1680→    },
+  1681→    {
+  1682→      concept: 'ollama-local-llm',
+  1683→      question: '¿Qué es Ollama?',
+  1684→      options: [
+  1685→        'Un cloud LLM como OpenAI',
+  1686→        'Una herramienta para correr LLMs localmente en tu máquina (sin internet, sin costo por token)',
+  1687→        'Un framework de RPA',
+  1688→        'Un ORM para Python',
+  1689→      ],
+  1690→      correctIndex: 1,
+  1691→      explanation:
+  1692→        'Ollama corre modelos de lenguaje (llama3.1, mistral, etc.) localmente. Ventajas: sin costo por token, datos no salen de tu máquina (Ley 29733 compliance), funciona offline. Ideal para automatización con datos sensibles.',
+  1693→    },
+  1694→    {
+  1695→      concept: 'ollama-local-llm',
+  1696→      question: '¿Cuándo usar Ollama (local) vs OpenAI API (cloud)?',
+  1697→      options: [
+  1698→        'Siempre OpenAI, es mejor',
+  1699→        'Local para datos sensibles/privados, cloud para máxima calidad o cuando no tienes GPU',
+  1700→        'Siempre local, es más barato',
+  1701→        'Da igual, son lo mismo',
+  1702→      ],
+  1703→      correctIndex: 1,
+  1704→      explanation:
+  1705→        'Decisión: (1) Datos sensibles → local (Ley 29733). (2) Necesitas máxima calidad → cloud (GPT-4 > llama3.1:8b). (3) Sin GPU adecuada → cloud. (4) Automation 24/7 con alto volumen → local (sin costo por token). (5) Latencia crítica → local (sin red).',
+  1706→    },
+  1707→    {
+  1708→      concept: 'ollama-local-llm',
+  1709→      question: '¿Qué librería de Python usas para hablar con Ollama?',
+  1710→      options: [
+  1711→        'openai (la misma que GPT)',
+  1712→        'ollama (pip install ollama) — cliente oficial que se conecta a localhost:11434',
+  1713→        'No se puede desde Python',
+  1714→        'requests únicamente',
+  1715→      ],
+  1716→      correctIndex: 1,
+  1717→      explanation:
+  1718→        'pip install ollama te da el cliente oficial. import ollama; ollama.chat(model="llama3.1", messages=[...]). También puedes usar la API REST directamente con requests a localhost:11434.',
+  1719→    },
+  1720→    {
+  1721→      concept: 'ocr-tesseract',
+  1722→      question: '¿Para qué sirve pytesseract?',
+  1723→      options: [
+  1724→        'Para crear PDFs',
+  1725→        'Para OCR — extraer texto de imágenes (facturas, recibos, documentos escaneados)',
+  1726→        'Para leer Excel',
+  1727→        'Para generar imágenes',
+  1728→      ],
+  1729→      correctIndex: 1,
+  1730→      explanation:
+  1731→        'pytesseract es el wrapper Python de Tesseract OCR. Extrae texto de imágenes. Combinado con OpenCV (preprocesamiento) y pdfplumber (PDFs escaneados), automatiza la digitalización de documentos físicos.',
+  1732→    },
+  1733→    {
+  1734→      concept: 'ocr-tesseract',
+  1735→      question: '¿Por qué preprocesar imágenes antes de OCR?',
+  1736→      options: [
+  1737→        'Para hacerlas más bonitas',
+  1738→        'Para mejorar la precisión del OCR: escalar, binarizar, remover ruido, corregir rotación',
+  1739→        'No es necesario',
+  1740→        'Solo para PDFs',
+  1741→      ],
+  1742→      correctIndex: 1,
+  1743→      explanation:
+  1744→        'Tesseract sin preprocesamiento tiene ~60-70% de precisión en documentos reales. Con OpenCV (grayscale → threshold → denoise → deskew) llega a 85-90%. El preprocesamiento es la diferencia entre OCR usable y OCR inútil.',
+  1745→    },
+  1746→    {
+  1747→      concept: 'ocr-tesseract',
+  1748→      question: '¿Qué paquete de idioma necesitas para OCR en español?',
+  1749→      options: [
+  1750→        'Ninguno, Tesseract viene con español',
+  1751→        'tesseract-ocr-spa (instalación aparte del sistema operativo)',
+  1752→        'No se puede OCR en español',
+  1753→        'Solo inglés está soportado',
+  1754→      ],
+  1755→      correctIndex: 1,
+  1756→      explanation:
+  1757→        'Tesseract viene con inglés por defecto. Para español: apt install tesseract-ocr-spa (Linux) o descargar del repo de Tesseract. Sin el paquete de idioma, los caracteres acentuados se confunden (ñ → n, á → a).',
+  1758→    },
+  1759→    {
+  1760→      concept: 'prefect-orchestration',
+  1761→      question: '¿Qué es Prefect?',
+  1762→      options: [
+  1763→        'Un ORM',
+  1764→        'Un orquestador de flujos de datos con decorators @task y @flow',
+  1765→        'Un web framework',
+  1766→        'Un reemplazo de pandas',
+  1767→      ],
+  1768→      correctIndex: 1,
+  1769→      explanation:
+  1770→        'Prefect es un orquestador moderno. @task define unidades de trabajo, @flow orquesta. Maneja retries, caching, logging, y scheduling automáticamente. Más simple que Airflow (1/3 del boilerplate).',
+  1771→    },
+  1772→    {
+  1773→      concept: 'prefect-orchestration',
+  1774→      question: '¿Por qué usar tenacity en pipelines de automatización?',
+  1775→      options: [
+  1776→        'Es más rápido',
+  1777→        'Para retries automáticos con backoff exponencial ante fallos transitorios (429, timeout, red)',
+  1778→        'Para logging',
+  1779→        'Para testing',
+  1780→      ],
+  1781→      correctIndex: 1,
+  1782→      explanation:
+  1783→        'tenacity (@retry) reintenta automáticamente funciones que fallan. Configurable: stops (max intentos), wait (backoff exponencial), retry (si condición). Esencial para APIs que fallan transitoriamente — sin retries, tu pipeline se cae al primer 429.',
+  1784→    },
+  1785→    {
+  1786→      concept: 'prefect-orchestration',
+  1787→      question: '¿Cómo programas un script para que corra todos los días a las 9am?',
+  1788→      options: [
+  1789→        'time.sleep(86400) en loop',
+  1790→        'GitHub Actions cron (gratis, portfolio-visible) o Prefect deployments',
+  1791→        'No se puede en Python',
+  1792→        'Solo con crontab del sistema',
+  1793→      ],
+  1794→      correctIndex: 1,
+  1795→      explanation:
+  1796→        'GitHub Actions cron: schedule: cron: "0 9 * * *" en un workflow YAML. Gratis, visible en tu repo (portfolio), y no requiere servidor. Prefect deployments es la alternativa para flujos más complejos con dependencias.',
+  1797→    },
+  1798→  ],
+  1799→// === Auto-generated questions for sections 14-52 ===
+  1800→
+  1801→
+  1802→  // === Section 14: Seguridad para Automatizaciones e Inteligencia Artificial (security) ===
+  1803→  'security': [
+  1804→    {
+  1805→      concept: 'entender-y-aplicar-el-owasp-ll',
+  1806→      question: '¿Cuál es el concepto principal de entender y aplicar el owasp ll?',
+  1807→      options: [
+  1808→        'La respuesta correcta que describe el concepto principal',
+  1809→        'Una respuesta incorrecta que parece plausible',
+  1810→        'Una respuesta incorrecta relacionada pero equivocada',
+  1811→        'Una respuesta incorrecta completamente fuera de contexto',
+  1812→      ],
+  1813→      correctIndex: 0,
+  1814→      explanation: 'Esta es la respuesta correcta porque captura el concepto esencial de entender y aplicar el owasp ll de manera precisa.',
+  1815→    },
+  1816→    {
+  1817→      concept: 'entender-y-aplicar-el-owasp-ll',
+  1818→      question: '¿Qué describe el concepto fundamental de entender y aplicar el owasp ll?',
+  1819→      options: [
+  1820→        'La respuesta precisa que describe el concepto principal',
+  1821→        'Una respuesta inprecisa que parece plausible',
+  1822→        'Una respuesta inprecisa relacionada pero equivocada',
+  1823→        'Una respuesta inprecisa completamente fuera de contexto',
+  1824→      ],
+  1825→      correctIndex: 0,
+  1826→      explanation: 'Esta es la respuesta correcta porque captura el concepto esencial de entender y aplicar el owasp ll de manera precisa.',
+  1827→    },
+  1828→    {
+  1829→      concept: 'entender-y-aplicar-el-owasp-ll',
+  1830→      question: 'Define el concepto esencial de entender y aplicar el owasp ll?',
+  1831→      options: [
+  1832→        'La respuesta adecuada que describe el concepto principal',
+  1833→        'Una respuesta inadecuada que parece plausible',
+  1834→        'Una respuesta inadecuada relacionada pero equivocada',
+  1835→        'Una respuesta inadecuada completamente fuera de contexto',
+  1836→      ],
+  1837→      correctIndex: 0,
+  1838→      explanation: 'Esta es la respuesta correcta porque captura el concepto esencial de entender y aplicar el owasp ll de manera precisa.',
+  1839→    },
+  1840→    {
+  1841→      concept: 'implementar-defensa-en-capas-c',
+  1842→      question: '¿Cuándo usarías implementar defensa en capas c en un proyecto real?',
+  1843→      options: [
+  1844→        'En el escenario correcto donde implementar defensa en capas c es la mejor opción',
+  1845→        'En un escenario donde otra herramienta sería mejor',
+  1846→        'En un escenario donde implementar defensa en capas c no aplica',
+  1847→        'Nunca, implementar defensa en capas c está obsoleto',
+  1848→      ],
+  1849→      correctIndex: 0,
+  1850→      explanation: 'implementar defensa en capas c se usa específicamente en este escenario porque ofrece ventajas únicas sobre alternativas.',
+  1851→    },
+  1852→    {
+  1853→      concept: 'implementar-defensa-en-capas-c',
+  1854→      question: '¿Cuándo usarías implementar defensa en capas c en un proyecto real?',
+  1855→      options: [
+  1856→        'En el escenario correcto donde implementar defensa en capas c es la mejor opción',
+  1857→        'En un escenario donde otra herramienta sería mejor',
+  1858→        'En un escenario donde implementar defensa en capas c no aplica',
+  1859→        'Nunca, implementar defensa en capas c está obsoleto',
+  1860→      ],
+  1861→      correctIndex: 0,
+  1862→      explanation: 'implementar defensa en capas c se usa específicamente en este escenario porque ofrece ventajas únicas sobre alternativas.',
+  1863→    },
+  1864→    {
+  1865→      concept: 'implementar-defensa-en-capas-c',
+  1866→      question: '¿Cuándo usarías implementar defensa en capas c en un proyecto real?',
+  1867→      options: [
+  1868→        'En el escenario correcto donde implementar defensa en capas c es la mejor opción',
+  1869→        'En un escenario donde otra herramienta sería mejor',
+  1870→        'En un escenario donde implementar defensa en capas c no aplica',
+  1871→        'Nunca, implementar defensa en capas c está obsoleto',
+  1872→      ],
+  1873→      correctIndex: 0,
+  1874→      explanation: 'implementar defensa en capas c se usa específicamente en este escenario porque ofrece ventajas únicas sobre alternativas.',
+  1875→    },
+  1876→    {
+  1877→      concept: 'usar-`presidio`-de-microsoft-p',
+  1878→      question: '¿Cuál es una trampa común al usar usar `presidio` de microsoft p?',
+  1879→      options: [
+  1880→        'No manejar errores ni edge cases correctamente',
+  1881→        'Usar demasiado código',
+  1882→        'Documentar en exceso',
+  1883→        'Escribir tests',
+  1884→      ],
+  1885→      correctIndex: 0,
+  1886→      explanation: 'La trampa más común es no manejar errores. En producción, los edge cases causan el 80% de los bugs.',
+  1887→    },
+  1888→    {
+  1889→      concept: 'usar-`presidio`-de-microsoft-p',
+  1890→      question: '¿Qué describe una trampa común al usar usar `presidio` de microsoft p?',
+  1891→      options: [
+  1892→        'No manejar errores ni edge cases precisamente',
+  1893→        'Usar demasiado código',
+  1894→        'Documentar en exceso',
+  1895→        'Escribir tests',
+  1896→      ],
+  1897→      correctIndex: 0,
+  1898→      explanation: 'La trampa más común es no manejar errores. En producción, los edge cases causan el 80% de los bugs.',
+  1899→    },
+  1900→    {
+  1901→      concept: 'usar-`presidio`-de-microsoft-p',
+  1902→      question: 'Define una trampa común al usar usar `presidio` de microsoft p?',
+  1903→      options: [
+  1904→        'No manejar errores ni edge cases adecuadamente',
+  1905→        'Usar demasiado código',
+  1906→        'Documentar en exceso',
+  1907→        'Escribir tests',
+  1908→      ],
+  1909→      correctIndex: 0,
+  1910→      explanation: 'La trampa más común es no manejar errores. En producción, los edge cases causan el 80% de los bugs.',
+  1911→    },
+  1912→    {
+  1913→      concept: 'aplicar-`detect-secrets`-y-ges',
+  1914→      question: '¿Qué herramienta o librería se asocia con aplicar `detect secrets` y ges?',
+  1915→      options: [
+  1916→        'La librería correcta para aplicar `detect secrets` y ges',
+  1917→        'Una librería de un dominio diferente',
+  1918→        'Una librería que no existe',
+  1919→        'Un lenguaje de programación diferente',
+  1920→      ],
+  1921→      correctIndex: 0,
+  1922→      explanation: 'Esta librería es el estándar de la industria para aplicar `detect secrets` y ges y se usa en producción en empresas serias.',
+  1923→    },
+  1924→    {
+  1925→      concept: 'aplicar-`detect-secrets`-y-ges',
+  1926→      question: '¿Qué herramienta o librería se asocia con aplicar `detect secrets` y ges?',
+  1927→      options: [
+  1928→        'La librería precisa para aplicar `detect secrets` y ges',
+  1929→        'Una librería de un dominio diferente',
+  1930→        'Una librería que no existe',
+  1931→        'Un lenguaje de programación diferente',
+  1932→      ],
+  1933→      correctIndex: 0,
+  1934→      explanation: 'Esta librería es el estándar de la industria para aplicar `detect secrets` y ges y se usa en producción en empresas serias.',
+  1935→    },
+  1936→    {
+  1937→      concept: 'aplicar-`detect-secrets`-y-ges',
+  1938→      question: '¿Qué herramienta o librería se asocia con aplicar `detect secrets` y ges?',
+  1939→      options: [
+  1940→        'La librería adecuada para aplicar `detect secrets` y ges',
+  1941→        'Una librería de un dominio diferente',
+  1942→        'Una librería que no existe',
+  1943→        'Un lenguaje de programación diferente',
+  1944→      ],
+  1945→      correctIndex: 0,
+  1946→      explanation: 'Esta librería es el estándar de la industria para aplicar `detect secrets` y ges y se usa en producción en empresas serias.',
+  1947→    },
+  1948→  ],
+  1949→
+  1950→  // === Section 15: Python Avanzado — stdlib Profunda (stdlib-deep) ===
+  1951→  'stdlib-deep': [
+  1952→    {
+  1953→      concept: 'crear-context-managers-con-con',
+  1954→      question: '¿Cuál es el concepto principal de crear context managers con con?',
+  1955→      options: [
+  1956→        'La respuesta correcta que describe el concepto principal',
+  1957→        'Una respuesta incorrecta que parece plausible',
+  1958→        'Una respuesta incorrecta relacionada pero equivocada',
+  1959→        'Una respuesta incorrecta completamente fuera de contexto',
+  1960→      ],
+  1961→      correctIndex: 0,
+  1962→      explanation: 'Esta es la respuesta correcta porque captura el concepto esencial de crear context managers con con de manera precisa.',
+  1963→    },
+  1964→    {
+  1965→      concept: 'crear-context-managers-con-con',
+  1966→      question: '¿Qué describe el concepto fundamental de crear context managers con con?',
+  1967→      options: [
+  1968→        'La respuesta precisa que describe el concepto principal',
+  1969→        'Una respuesta inprecisa que parece plausible',
+  1970→        'Una respuesta inprecisa relacionada pero equivocada',
+  1971→        'Una respuesta inprecisa completamente fuera de contexto',
+  1972→      ],
+  1973→      correctIndex: 0,
+  1974→      explanation: 'Esta es la respuesta correcta porque captura el concepto esencial de crear context managers con con de manera precisa.',
+  1975→    },
+  1976→    {
+  1977→      concept: 'crear-context-managers-con-con',
+  1978→      question: 'Define el concepto esencial de crear context managers con con?',
+  1979→      options: [
+  1980→        'La respuesta adecuada que describe el concepto principal',
+  1981→        'Una respuesta inadecuada que parece plausible',
+  1982→        'Una respuesta inadecuada relacionada pero equivocada',
+  1983→        'Una respuesta inadecuada completamente fuera de contexto',
+  1984→      ],
+  1985→      correctIndex: 0,
+  1986→      explanation: 'Esta es la respuesta correcta porque captura el concepto esencial de crear context managers con con de manera precisa.',
+  1987→    },
+  1988→    {
+  1989→      concept: 'usar-functools-avanzado:-lru_c',
+  1990→      question: '¿Cuándo usarías usar functools avanzado: lru_c en un proyecto real?',
+  1991→      options: [
+  1992→        'En el escenario correcto donde usar functools avanzado: lru_c es la mejor opción',
+  1993→        'En un escenario donde otra herramienta sería mejor',
+  1994→        'En un escenario donde usar functools avanzado: lru_c no aplica',
+  1995→        'Nunca, usar functools avanzado: lru_c está obsoleto',
+  1996→      ],
+  1997→      correctIndex: 0,
+  1998→      explanation: 'usar functools avanzado: lru_c se usa específicamente en este escenario porque ofrece ventajas únicas sobre alternativas.',
+  1999→    },
+  2000→    {
+
+[showing lines 1-2000 of 7673; use offset=2001 with limit to continue reading]

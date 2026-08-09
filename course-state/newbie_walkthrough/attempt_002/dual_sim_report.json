@@ -1,0 +1,531 @@
+{
+  "attempt_id": "attempt_002",
+  "finished_at": "2026-07-21T16:58:40.310742+00:00",
+  "sections_run": 52,
+  "all_sufficiency_ok": false,
+  "first_sufficiency_fail": 2,
+  "a_pass_count": 18,
+  "b_pass_count": 12,
+  "results": [
+    {
+      "section_index": 1,
+      "id": "setup",
+      "sufficiency_ok": true,
+      "n_gaps": 1,
+      "a_sc": 60.0,
+      "b_sc": 40.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 2,
+      "id": "basics",
+      "sufficiency_ok": false,
+      "n_gaps": 3,
+      "a_sc": 40.0,
+      "b_sc": 40.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 3,
+      "id": "data-structures",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 60.0,
+      "b_sc": 20.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 4,
+      "id": "functions-modules",
+      "sufficiency_ok": false,
+      "n_gaps": 1,
+      "a_sc": 60.0,
+      "b_sc": 60.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 5,
+      "id": "oop",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 40.0,
+      "b_sc": 20.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 6,
+      "id": "numpy",
+      "sufficiency_ok": false,
+      "n_gaps": 1,
+      "a_sc": 60.0,
+      "b_sc": 60.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 7,
+      "id": "data-acquisition",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 60.0,
+      "b_sc": 40.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 8,
+      "id": "pandas",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 40.0,
+      "b_sc": 40.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 9,
+      "id": "visualization",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 33.3,
+      "b_sc": 33.3,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 10,
+      "id": "sklearn",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 16.7,
+      "b_sc": 16.7,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 11,
+      "id": "testing",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 83.3,
+      "b_sc": 66.7,
+      "a_pass": true,
+      "b_pass": false
+    },
+    {
+      "section_index": 12,
+      "id": "performance",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 60.0,
+      "b_sc": 40.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 13,
+      "id": "rpa-automation",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 60.0,
+      "b_sc": 60.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 14,
+      "id": "security",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 15,
+      "id": "stdlib-deep",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 75.0,
+      "b_sc": 75.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 16,
+      "id": "wxpython-gui",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 100.0,
+      "b_sc": 100.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 17,
+      "id": "packaging",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 75.0,
+      "b_sc": 75.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 18,
+      "id": "data-engineering",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 100.0,
+      "b_sc": 100.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 19,
+      "id": "databases-orm",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 25.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 20,
+      "id": "rag",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 75.0,
+      "b_sc": 75.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 21,
+      "id": "fastapi",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 75.0,
+      "b_sc": 75.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 22,
+      "id": "rapidfuzz-entity",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 100.0,
+      "b_sc": 100.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 23,
+      "id": "computer-vision",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 100.0,
+      "b_sc": 100.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 24,
+      "id": "rpa-advanced",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 75.0,
+      "b_sc": 50.0,
+      "a_pass": true,
+      "b_pass": false
+    },
+    {
+      "section_index": 25,
+      "id": "streamlit-dashboards",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 100.0,
+      "b_sc": 75.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 26,
+      "id": "integrator-phase1",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 75.0,
+      "b_sc": 25.0,
+      "a_pass": true,
+      "b_pass": false
+    },
+    {
+      "section_index": 27,
+      "id": "async-concurrency",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 75.0,
+      "b_sc": 50.0,
+      "a_pass": true,
+      "b_pass": false
+    },
+    {
+      "section_index": 28,
+      "id": "llm-agents",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 75.0,
+      "b_sc": 75.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 29,
+      "id": "mlops",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 30,
+      "id": "security-infra",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 31,
+      "id": "streaming-data",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 100.0,
+      "b_sc": 100.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 32,
+      "id": "microservices",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 25.0,
+      "b_sc": 0.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 33,
+      "id": "advanced-models",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 100.0,
+      "b_sc": 50.0,
+      "a_pass": true,
+      "b_pass": false
+    },
+    {
+      "section_index": 34,
+      "id": "cv-ai-integration",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 100.0,
+      "b_sc": 100.0,
+      "a_pass": true,
+      "b_pass": true
+    },
+    {
+      "section_index": 35,
+      "id": "system-design",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 36,
+      "id": "ai-apis-advanced",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 25.0,
+      "b_sc": 0.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 37,
+      "id": "dbt-bigquery",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 25.0,
+      "b_sc": 25.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 38,
+      "id": "performance-extreme",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 25.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 39,
+      "id": "integrator-phase2",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 100.0,
+      "b_sc": 50.0,
+      "a_pass": true,
+      "b_pass": false
+    },
+    {
+      "section_index": 40,
+      "id": "agentic-architecture",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 41,
+      "id": "llm-finetuning",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 42,
+      "id": "graph-rag",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 43,
+      "id": "llmops",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 25.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 44,
+      "id": "multimodal",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 25.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 45,
+      "id": "iac",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 25.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 46,
+      "id": "gpu-computing",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 47,
+      "id": "opensource",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 25.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 48,
+      "id": "ai-governance",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 25.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 49,
+      "id": "data-contracts",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 50,
+      "id": "tech-leadership",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 51,
+      "id": "integrator-final",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    },
+    {
+      "section_index": 52,
+      "id": "career-strategy",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 50.0,
+      "b_sc": 50.0,
+      "a_pass": false,
+      "b_pass": false
+    }
+  ]
+}

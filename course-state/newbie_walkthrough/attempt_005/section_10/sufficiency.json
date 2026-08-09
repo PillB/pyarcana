@@ -1,0 +1,38 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Ejecutar el CLI/demo solo al correr el módulo, no al importar"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "flags > env > file > defaults"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Error de uso/parseo de argumentos"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "stderr"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "minor"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": ".env con API_TOKEN"
+  }
+]

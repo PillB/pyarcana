@@ -1,0 +1,8 @@
+{
+  "attempt_id": "attempt_007",
+  "started_at": "2026-07-21T20:34:19.271180+00:00",
+  "git_sha": "d213882",
+  "reason": "RESTART after FIX_002: phase3 demo-scaffold starters; real dual-LLM only",
+  "preamble": "Dual-newbie walkthrough: agents may only use landing + S01..SN. Solutions/correctIndex stripped. Restart after any content fix.",
+  "brand": "PyArcana"
+}

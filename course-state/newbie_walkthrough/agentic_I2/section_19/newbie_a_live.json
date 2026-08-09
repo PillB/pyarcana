@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:29:21.570000+00:00",
+  "session_ended_at": "2026-07-23T12:30:26.780000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T1-A-E1\npregunta = \"comparar zonas\"\nchart = \"bar\"\nprint(chart)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "chart",
+        "choice",
+        "para",
+        "comparaci",
+        "regional",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S19-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: pregunta = \"comparar regiones\"; ch…». Completé el contrato Pass con código ancla `pregunta = \"comparar zonas\"`. Pista del paquete: «Asigna chart='bar'.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T1-A-E2\nprint({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "metadata",
+        "pregunta",
+        "audiencia",
+        "chart",
+        "fixture",
+        "s19"
+      ],
+      "justification_from_packet": "Explorer S19-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: print({\"pregunta\": \"totales por …». Completé el contrato Pass con código ancla `print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})`. Pista del paquete: «Incluye las 3 claves.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecu`."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T1-A-E3\ndef elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar zonas\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "elige_chart",
+        "por",
+        "keyword",
+        "tendencia",
+        "fixture",
+        "s19"
+      ],
+      "justification_from_packet": "Explorer S19-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: def elige_chart(pregunta):; retu…». Completé el contrato Pass con código ancla `def elige_chart(pregunta):`. Pista del paquete: «in para substring.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T1-B-E1\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "inflaci",
+        "visual",
+        "por",
+        "baseline",
+        "recortado",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S19-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: truco = (50 - 45) / (50 - 40); ho…». Completé el contrato Pass con código ancla `truco = (50 - 45) / (50 - 40)`. Pista del paquete: «altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `truco = (50 - 45) / (50 - 40)`."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T1-B-E2\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "gate",
+        "ylim_bottom",
+        "honesto",
+        "revisar",
+        "fixture",
+        "s19"
+      ],
+      "justification_from_packet": "Explorer S19-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos: ylim_bottom = 0; print(\"hone…». Completé el contrato Pass con código ancla `ylim_bottom = 0`. Pista del paquete: «Variable ylim_bottom=0.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `ylim_bottom = 0`."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T1-B-E3\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "riesgo",
+        "dual_axis",
+        "position",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: encoding = \"dual_axis\"; print(\"rie…». Completé el contrato Pass con código ancla `encoding = \"dual_axis\"`. Pista del paquete: «if/elif.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `encoding = \"dual_axis\"`."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T2-A-E1\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "bar",
+        "chart",
+        "con",
+        "ylim",
+        "desde",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S19-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(…». Completé el contrato Pass con código ancla `import matplotlib`. Pista del paquete: «matplotlib Agg.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import matplotlib`."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T2-A-E2\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\nplt.close(fig)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "ylabel",
+        "unidades",
+        "pen",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplo…». Completé el contrato Pass con código ancla `import matplotlib`. Pista del paquete: «set_ylabel.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import matplotlib`."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T2-A-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(0, max(values) * 1.2)\n    out = {\"n_bars\": len(values), \"ylim0\": ax.get_ylim()[0]}\n    plt.close(fig)\n    return out\nprint(meta_bar([\"A\", \"B\"], [3, 4]))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "meta_bar",
+        "n_bars",
+        "ylim0",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.use(\"Agg\"); def meta_bar(labels…». Completé el contrato Pass con código ancla `import matplotlib`. Pista del paquete: «len(values).». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import matplotlib`."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T2-B-E1\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "export",
+        "dict",
+        "fmt",
+        "dpi",
+        "panels",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer S19-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})…». Completé el contrato Pass con código ancla `print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})`. Pista del paquete: «Dict literal.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})`."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T2-B-E2\npy_ver = 3\nprint(f\"fig_cpn2b_v{py_ver}.png\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "nombre",
+        "versionado",
+        "figura",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version = 3; print(f\"fig_cpn2b_v{versi…». Completé el contrato Pass con código ancla `py_ver = 3`. Pista del paquete: «f-string.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T2-B-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([ax.get_title() for ax in axes])\nplt.close(fig)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "subplots",
+        "con",
+        "tulos",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.use(\"Agg\"); fig, axes = plt.su…». Completé el contrato Pass con código ancla `import matplotlib`. Pista del paquete: «ax.get_title().». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import matplotlib`."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T3-A-E1\nrows = [{\"dept\": \"Lima\", \"median\": 28}, {\"dept\": \"Cusco\", \"median\": 22}]\nprint(next(dept for dept in rows if dept[\"dept\"] == \"Lima\")[\"median\"])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "filtro",
+        "rows",
+        "por",
+        "regi",
+        "fixture",
+        "s19"
+      ],
+      "justification_from_packet": "Explorer S19-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\": \"Lima\", \"median\": 28}, {\"reg…». Completé el contrato Pass con código ancla `rows = [{\"dept\": \"Lima\", \"median\": 28}, {\"dept\": \"Cusco\", \"median\": 22}]`. Pista del paquete: «list comp o next.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T3-A-E2\nprint(f\"Lima: {28} PEN (valor={40})\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "tooltip",
+        "con",
+        "unidad",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima: {28} PEN (n={40})\"). Completa…». Completé el contrato Pass con código ancla `print(f\"Lima: {28} PEN (valor={40})\")`. Pista del paquete: «f-string.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T3-A-E3\ndef tooltip(row):\n    return f\"{row['dept']}: {row['median']} PEN (valor={row['valor']})\"\nprint(tooltip({\"dept\": \"Cusco\", \"median\": 22.5, \"valor\": 32}))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "funci",
+        "tooltip",
+        "row",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row):; return f\"{row['region']}: …». Completé el contrato Pass con código ancla `def tooltip(row):`. Pista del paquete: «Incluye unidad PEN.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T3-B-E1\nchart = {\"Lima\": 1}\ntable = [{\"dept\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "parity",
+        "chart",
+        "tabla",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; table = [{\"region\": \"Lima\", \"v\": …». Completé el contrato Pass con código ancla `chart = {\"Lima\": 1}`. Pista del paquete: «Compara valores.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T3-B-E2\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "state",
+        "filtros",
+        "serializado",
+        "json",
+        "fixture",
+        "s19"
+      ],
+      "justification_from_packet": "Explorer S19-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: print(json.dumps({\"filtro_region…». Completé el contrato Pass con código ancla `import json`. Pista del paquete: «import json.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `import json`."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T3-B-E3\ntable = [{\"dept\": \"Lima\", \"v\": 28}, {\"dept\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{dept['dept']}={dept['v']} PEN\" for dept in table))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "alt_text",
+        "desde",
+        "tabla",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"region\": \"Lima\", \"v\": 28}, {\"regio…». Completé el contrato Pass con código ancla `table = [{\"dept\": \"Lima\", \"v\": 28}, {\"dept\": \"Cusco\", \"v\": 22}]`. Pista del paquete: «join.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T4-A-E1\nprint(\"unidad=PEN | fuente=sintetico\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "caption",
+        "con",
+        "unidad",
+        "fuente",
+        "fixture",
+        "s19"
+      ],
+      "justification_from_packet": "Explorer S19-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=PEN | fuente=sintetico\"). Compl…». Completé el contrato Pass con código ancla `print(\"unidad=PEN | fuente=sintetico\")`. Pista del paquete: «f-string o dict.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `print(\"unidad=PEN | fuente=sintetico\")`."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T4-A-E2\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"})",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "validaci",
+        "claves",
+        "caption",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap = {\"unidad\": \"PEN\", \"fuente\": …». Completé el contrato Pass con código ancla `cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}`. Pista del paquete: «set de keys.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}`."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T4-A-E3\ndef pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"valor\": 10}))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "pie",
+        "figura",
+        "unido",
+        "con",
+        "fixture",
+        "s19"
+      ],
+      "justification_from_packet": "Explorer S19-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(cap):; return \" | \".join(f\"{k}: …». Completé el contrato Pass con código ancla `def pie(cap):`. Pista del paquete: «join items.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T4-B-E1\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "concepto",
+        "rechazo",
+        "claim",
+        "sin",
+        "muestra",
+        "fixture",
+        "s19"
+      ],
+      "justification_from_packet": "Explorer S19-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lima es la mejor del Perú\"; print…». Completé el contrato Pass con código ancla `claim = \"Lima es la mejor del Perú\"`. Pista del paquete: «in checks.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `claim = \"Lima es la mejor del Perú\"`."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T4-B-E2\nalt = \"Lima 28 PEN valor=40\"\nprint(\"valor=\" in alt or \"valor=\" in alt.replace(\"valor=\", \"valor=\"))\nprint(\"valor=\" in \"Lima 28 PEN valor=40\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "concepto",
+        "alt",
+        "text",
+        "debe",
+        "mencionar",
+        "fixture",
+        "s19"
+      ],
+      "justification_from_packet": "Explorer S19-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Lima 28 PEN n=40\"; print(\"n=\" in…». Completé el contrato Pass con código ancla `alt = \"Lima 28 PEN valor=40\"`. Pista del paquete: «substring.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S19-T4-B-E3\ndef classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "concepto",
+        "classify_claim",
+        "permitido",
+        "rechazado",
+        "fixture",
+        "s19",
+        "datos"
+      ],
+      "justification_from_packet": "Explorer S19-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: def classify_claim(text):; retu…». Completé el contrato Pass con código ancla `def classify_claim(text):`. Pista del paquete: «Función binaria simple didáctica.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def classify_claim(text):`."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Barras con baseline 0",
+      "justification_from_packet": "Explorer S19 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S19-T1-A\", \"heading\": \"pregunta, audiencia y chart choice\", \"paragraphs\": [\"El **chart choice** responde…») y la pregunta «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?». La opción [2] «Barras con baseline 0» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Repetir los mismos números clave del chart",
+      "justification_from_packet": "Explorer S19 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S19-T1-A\", \"heading\": \"pregunta, audiencia y chart choice\", \"paragraphs\": [\"El **chart choice** responde…») y la pregunta «Una alternativa accesible debe:». La opción [0] «Repetir los mismos números clave del chart» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Sobreclaim / generalización indebida",
+      "justification_from_packet": "Explorer S19 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S19-T1-A\", \"heading\": \"pregunta, audiencia y chart choice\", \"paragraphs\": [\"El **chart choice** responde…») y la pregunta «“Lima es la mejor región del Perú” a partir de una muestra web es:». La opción [1] «Sobreclaim / generalización indebida» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Unidad, fuente y limitaciones",
+      "justification_from_packet": "Explorer S19 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S19-T1-A\", \"heading\": \"pregunta, audiencia y chart choice\", \"paragraphs\": [\"El **chart choice** responde…») y la pregunta «El caption de un gráfico de portfolio debe incluir:». La opción [3] «Unidad, fuente y limitaciones» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita",
+      "justification_from_packet": "Explorer S19 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S19-T1-A\", \"heading\": \"pregunta, audiencia y chart choice\", \"paragraphs\": [\"El **chart choice** responde…») y la pregunta «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hace». La opción [2] «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:30:26.780000+00:00"
+}

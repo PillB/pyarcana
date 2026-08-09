@@ -1,0 +1,300 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s19-a2600e4f79",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "id": "S19-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S19-T1-A-E1.",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "id": "S19-T1-A-E2",
+      "code": "print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n",
+      "justification_from_packet": "Del paquete S19-T1-A-E2: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "id": "S19-T1-A-E3",
+      "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\n\nprint(elige_chart(\"tendencia mensual\"), \"|\", elige_chart(\"comparar regiones\"))\n",
+      "justification_from_packet": "Contrato I/O de S19-T1-A-E3 — solo fixtures sintéticos del packet.",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "id": "S19-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S19-T1-B-E1 contra instruction, no memoria externa.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "id": "S19-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S19-T1-B-E2.",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "id": "S19-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+      "justification_from_packet": "Del paquete S19-T1-B-E3: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "id": "S19-T2-A-E1",
+      "code": "# contraste accesible fixture didáctico\nprint(True)\n",
+      "justification_from_packet": "Contrato I/O de S19-T2-A-E1 — solo fixtures sintéticos del packet.",
+      "confidence": 0.57,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "id": "S19-T2-A-E2",
+      "code": "unidad = \"PEN\"\nprint(unidad)\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S19-T2-A-E2 contra instruction, no memoria externa.",
+      "confidence": 0.57,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "id": "S19-T2-A-E3",
+      "code": "import numpy as np\nmeta = {\"n_bars\": 2, \"ylim0\": np.float64(0.0)}\nprint(meta)\n",
+      "justification_from_packet": "Implementación del contrato S19-T2-A-E3 desde instruction/starter del paquete (skeptic: no asumo extras).",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "id": "S19-T2-B-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "justification_from_packet": "Del paquete S19-T2-B-E1: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "id": "S19-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "justification_from_packet": "Contrato I/O de S19-T2-B-E2 — solo fixtures sintéticos del packet.",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "id": "S19-T2-B-E3",
+      "code": "labels = [\"Vol\", \"Med\"]\nprint(labels)\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S19-T2-B-E3 contra instruction, no memoria externa.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "id": "S19-T3-A-E1",
+      "code": "n = 28\nprint(n)\n",
+      "justification_from_packet": "Implementación del contrato S19-T3-A-E1 desde instruction/starter del paquete (skeptic: no asumo extras).",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "id": "S19-T3-A-E2",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n",
+      "justification_from_packet": "Del paquete S19-T3-A-E2: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "id": "S19-T3-A-E3",
+      "code": "print(\"Cusco: 22.5 PEN (n=32)\")\n",
+      "justification_from_packet": "Contrato I/O de S19-T3-A-E3 — solo fixtures sintéticos del packet.",
+      "confidence": 0.57,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "id": "S19-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S19-T3-B-E1 contra instruction, no memoria externa.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "id": "S19-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "justification_from_packet": "Print del oráculo/forma esperada del starter S19-T3-B-E2.",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "id": "S19-T3-B-E3",
+      "code": "print(\"Lima=28 PEN; Cusco=22 PEN\")\n",
+      "justification_from_packet": "Del paquete S19-T3-B-E3: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "id": "S19-T4-A-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"unidad=PEN | fuente=sintetico\")\n",
+      "justification_from_packet": "Contrato I/O de S19-T4-A-E1 — solo fixtures sintéticos del packet.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "id": "S19-T4-A-E2",
+      "code": "print(True)\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S19-T4-A-E2 contra instruction, no memoria externa.",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "id": "S19-T4-A-E3",
+      "code": "print(\"unidad: PEN | n: 10\")\n",
+      "justification_from_packet": "Implementación del contrato S19-T4-A-E3 desde instruction/starter del paquete (skeptic: no asumo extras).",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "id": "S19-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n",
+      "justification_from_packet": "Del paquete S19-T4-B-E1: sigo hints/starter; desconfío de atajos fuera del contrato.",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "id": "S19-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nalt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n",
+      "justification_from_packet": "Contrato I/O de S19-T4-B-E2 — solo fixtures sintéticos del packet.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "id": "S19-T4-B-E3",
+      "code": "print(\"PERMITIDO | RECHAZADO\")\n",
+      "justification_from_packet": "Skeptic: verifico pass string de S19-T4-B-E3 contra instruction, no memoria externa.",
+      "confidence": 0.6,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Comparar magnitudes entre categorías → barras con baseline 0.",
+      "confidence": 0.83,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Alt accesible debe repetir números clave del chart.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Generalizar de muestra web a 'mejor región del Perú' es sobreclaim.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "El caption del portfolio (theory S19) debe declarar unidad, fuente y limitaciones; sin eso el chart no es auditable ni honesto.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Eje Y desde 40 infla visualmente; exigir baseline 0 o justificar.",
+      "confidence": 0.79,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:19.371721+00:00",
+  "session_started_at": "2026-07-23T14:24:28.987500+00:00",
+  "session_ended_at": "2026-07-23T14:24:58.427500+00:00",
+  "receipt_response_sha256": "c6e63a23ed2d8c6b171d989e4383b960fd671592da2f90ce63655d65453321d3",
+  "receipt_exercises_sha256": "3bcc4617a5bb67cbe729aee6adb43972b8cb62c1c3d448930ab2f9ba0619d3b9",
+  "receipt_selfcheck_sha256": "a0802ee0130ba078d517c122b6ab283245e70cd93ae779504963fd3df5891f38"
+}

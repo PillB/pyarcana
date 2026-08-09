@@ -1,0 +1,42 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 39,
+  "persona": "skeptic",
+  "recorded_at": "2026-07-21T22:00:00+00:00",
+  "packet_only": true,
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "chosen_text": "needs_review / prioridad de cola", "confidence": 0.93, "blocked_on": [], "note": "label_space needs_review."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Se documentan; PASS lo califica otra lane", "confidence": 0.93, "blocked_on": [], "note": "This lane does not mark PASS."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Evidencia y path además del score", "confidence": 0.93, "blocked_on": [], "note": "Evidence packet includes path."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "human_only / rollback", "confidence": 0.93, "blocked_on": [], "note": "Incident → human_only."}
+  ],
+  "exercises": [
+    {"exercise_id": "S39-T1-A-E1", "answer": "completed_from_packet", "code": "print(['intake','er','relation_graph','features','model_score','queue'])\nprint('pipeline', True)\nprint('auto_fraud', False)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["pipeline stages"], "note": "Stages list."},
+    {"exercise_id": "S39-T1-A-E2", "answer": "completed_from_packet", "code": "print('needs_review')\nprint('label_space', 'needs_review')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["label_space"], "note": "needs_review."},
+    {"exercise_id": "S39-T1-A-E3", "answer": "completed_from_packet", "code": "print(False)\nprint('parentesco', False)\nprint('auto_fraud', False)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["ER not kinship"], "note": "No parentesco/fraud."},
+    {"exercise_id": "S39-T1-B-E1", "answer": "completed_from_packet", "code": "print('2.0.0')\nprint('bump', 'major')\nprint('compat', 'semver')\n", "blocked_on": [], "confidence": 0.88, "concepts_used": ["semver"], "note": "Breaking → major."},
+    {"exercise_id": "S39-T1-B-E2", "answer": "completed_from_packet", "code": "print(True)\nprint('owner_required', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["owner"], "note": "Owner required."},
+    {"exercise_id": "S39-T1-B-E3", "answer": "completed_from_packet", "code": "print(4)\nprint('registry_n', 4)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["registry"], "note": "4 artifacts."},
+    {"exercise_id": "S39-T2-A-E1", "answer": "completed_from_packet", "code": "packet={'score':0.8,'graph_path':['E1','E2'],'evidence':['x']}\nprint('graph_path' in packet)\nprint('required', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["graph_path"], "note": "graph_path required."},
+    {"exercise_id": "S39-T2-A-E2", "answer": "completed_from_packet", "code": "print(False)\nprint('score_alone', False)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["score insufficient"], "note": "Score alone False."},
+    {"exercise_id": "S39-T2-A-E3", "answer": "completed_from_packet", "code": "print(4)\nprint('layers', 4)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["4 layers"], "note": "4 explanation layers."},
+    {"exercise_id": "S39-T2-B-E1", "answer": "completed_from_packet", "code": "print('skip')\nprint('override', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["override"], "note": "Human override skip."},
+    {"exercise_id": "S39-T2-B-E2", "answer": "completed_from_packet", "code": "print(True)\nprint('appeal_reopens', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["appeal"], "note": "Appeal reopens."},
+    {"exercise_id": "S39-T2-B-E3", "answer": "completed_from_packet", "code": "print(True)\nprint('feedback_logged', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["feedback log"], "note": "Feedback logged."},
+    {"exercise_id": "S39-T3-A-E1", "answer": "completed_from_packet", "code": "print(False)\nprint('secrets_in_repo', False)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["no secrets"], "note": "secrets_in_repo False."},
+    {"exercise_id": "S39-T3-A-E2", "answer": "completed_from_packet", "code": "print(True)\nprint('rbac', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["rbac"], "note": "rbac True."},
+    {"exercise_id": "S39-T3-A-E3", "answer": "completed_from_packet", "code": "print(True)\nprint('slice_metrics', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["slice metrics"], "note": "slice_metrics True."},
+    {"exercise_id": "S39-T3-B-E1", "answer": "completed_from_packet", "code": "print('human_only')\nprint('mode', 'human_only')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["human_only"], "note": "Incident mode."},
+    {"exercise_id": "S39-T3-B-E2", "answer": "completed_from_packet", "code": "print('abstain_more')\nprint('mode', 'abstain_more')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["abstain_more"], "note": "Drift mode."},
+    {"exercise_id": "S39-T3-B-E3", "answer": "completed_from_packet", "code": "print('model_previous')\nprint('rollback', 'model_previous')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["rollback"], "note": "Rollback previous."},
+    {"exercise_id": "S39-T4-A-E1", "answer": "completed_from_packet", "code": "print(True)\nprint('no_auto_fraud', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["acceptance"], "note": "no_auto_fraud."},
+    {"exercise_id": "S39-T4-A-E2", "answer": "completed_from_packet", "code": "print('S27-S39')\nprint('regression', 'S27-S39')\nprint('cf3_pass_lane', 'separate')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["regression"], "note": "Regression S27-S39."},
+    {"exercise_id": "S39-T4-A-E3", "answer": "completed_from_packet", "code": "print(3)\nprint('demo_paths', 3)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.85, "concepts_used": ["demo paths"], "note": "3 demo paths."},
+    {"exercise_id": "S39-T4-B-E1", "answer": "completed_from_packet", "code": "print(sorted(['model','data','system']))\nprint('cards', 3)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["3 cards"], "note": "Three cards."},
+    {"exercise_id": "S39-T4-B-E2", "answer": "completed_from_packet", "code": "print('override_rate')\nprint('value_metrics', ['precision_at_k','override_rate','median_review_s'])\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["override_rate"], "note": "Value metrics."},
+    {"exercise_id": "S39-T4-B-E3", "answer": "completed_from_packet", "code": "print(True)\nprint('postmortem', True)\nprint('blameless', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["postmortem"], "note": "Blameless postmortem."}
+  ],
+  "summary": {"n_exercises": 24, "n_answered": 24, "n_blocked_exercises": 0, "blocked_exercise_ids": [], "n_selfcheck": 4, "n_selfcheck_answered": 4, "n_selfcheck_blocked": 0}
+}

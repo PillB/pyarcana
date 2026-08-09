@@ -1,0 +1,370 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 13,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-exp-s13-3ec074cf6b",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\n\ndef norm_name(n):\n    return re.sub(r\"\\s+\", \" \", n.casefold().strip())\n\nprint(norm_name(\"  Ana  QUISPE \"))\nprint(norm_name(\"José\"))",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T1-A («Normalización, blocking y entity resolution»), armé la entrega guiado leyendo la teoría del paquete sobre document_id, Blocking. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Normaliza nombres y `document_id` (casefold, quitar espacios/guiones) antes de comparar. **Blocking** reduce pares candidatos (p. ej. apellido+región). En entit…»."
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import re\n\ndef norm_name(n):\n    return re.sub(r\"\\s+\", \" \", n.casefold().strip())\n\ndef blocking_key(rec):\n    ap = norm_name(rec[\"name\"]).split()[-1]\n    return f\"{ap}|{rec['region'].casefold()}\"\n\nprint(blocking_key({\"name\": \"Ana Quispe\", \"region\": \"Lima\"}))\nprint(blocking_key({\"name\": \"Luis Quispe\", \"region\": \"Lima\"}))",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T1-A («Normalización, blocking y entity resolution»), armé la entrega independiente leyendo la teoría del paquete sobre document_id, Blocking. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Normaliza nombres y `document_id` (casefold, quitar espacios/guiones) antes de comparar. **Blocking** reduce pares candidatos (p. ej. apellido+región). En entit…»."
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\n\ndef norm_doc(d):\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\ndef blocking_key(rec):\n    ap = rec[\"name\"].casefold().strip().split()[-1]\n    return f\"{ap}|{rec['region'].casefold()}\"\n\ndef er_score(a, b):\n    if norm_doc(a[\"doc\"]) == norm_doc(b[\"doc\"]) and blocking_key(a) == blocking_key(b):\n        return 1.0\n    if blocking_key(a) == blocking_key(b):\n        return 0.5\n    return 0.0\n\na = {\"name\": \"Ana Quispe\", \"region\": \"Lima\", \"doc\": \"12.345.678\"}\nb = {\"name\": \"Ana  Quispe\", \"region\": \"Lima\", \"doc\": \"12345678\"}\nprint(norm_doc(a[\"doc\"]), norm_doc(b[\"doc\"]))\nprint(er_score(a, b))",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T1-A («Normalización, blocking y entity resolution»), armé la entrega transferencia leyendo la teoría del paquete sobre document_id, Blocking. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Normaliza nombres y `document_id` (casefold, quitar espacios/guiones) antes de comparar. **Blocking** reduce pares candidatos (p. ej. apellido+región). En entit…»."
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "tp, fp, fn = 8, 2, 2",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T1-B («Verdad etiquetada, precision/recall y revisión clerical»), armé la entrega guiado leyendo la teoría del paquete sobre TP/FP/FN. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Con pares etiquetados sintéticos calculas **TP/FP/FN** → precision/recall simples. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad…»."
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "pairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.7},\n    {\"id\": \"P4\", \"score\": 0.9},\n]\ndef clerical_queue(pairs, low=0.4, high=0.7):",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T1-B («Verdad etiquetada, precision/recall y revisión clerical»), armé la entrega independiente leyendo la teoría del paquete sobre TP/FP/FN. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Con pares etiquetados sintéticos calculas **TP/FP/FN** → precision/recall simples. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad…»."
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer s13\n# fixture",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T1-B («Verdad etiquetada, precision/recall y revisión clerical»), armé la entrega transferencia leyendo la teoría del paquete sobre TP/FP/FN. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Con pares etiquetados sintéticos calculas **TP/FP/FN** → precision/recall simples. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad…»."
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def shared_email(a, b):\n    return bool(a) and bool(b) and a.casefold() == b.casefold()\n\nprint(shared_email(\"a@ex.com\", \"A@ex.com\"))\nprint(shared_email(\"\", \"a@ex.com\"))\nprint(shared_email(\"a@ex.com\", \"b@ex.com\"))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T2-A («Email/teléfono/dirección compartidos, distancia y apellidos»), armé la entrega guiado leyendo la teoría del paquete sobre Email/teléfono/dirección compartidos, distancia y apellidos. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido. En entity resolution y evidencia, el *porqu…»."
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def rel_score(km, surname_jaccard):\n    geo = 0.6 if km is not None and km <= 2.0 else 0.0\n    return min(1.0, geo + 0.4 * surname_jaccard)\n\nprint(rel_score(1.2, 0.5))\nprint(rel_score(10.0, 0.5))",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T2-A («Email/teléfono/dirección compartidos, distancia y apellidos»), armé la entrega independiente leyendo la teoría del paquete sobre Email/teléfono/dirección compartidos, distancia y apellidos. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido. En entity resolution y evidencia, el *porqu…»."
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "pass  # fixture vacío — usa solution contract",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T2-A («Email/teléfono/dirección compartidos, distancia y apellidos»), armé la entrega transferencia leyendo la teoría del paquete sobre Email/teléfono/dirección compartidos, distancia y apellidos. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido. En entity resolution y evidencia, el *porqu…»."
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "txs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(txs, a, b):\n    return [amt for x, y, amt in txs if {x, y} == {a, b}]\n\nprint(direct_txs(txs, \"A\", \"B\"))",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T2-B («Transacciones directas y contrapartes comunes»), armé la entrega guiado leyendo la teoría del paquete sobre evidencia de relación operativa. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Txs directas A↔B y contrapartes comunes (A y C pagan a D) son **evidencia de relación operativa**, no de colusión. En entity resolution y evidencia, el *porqué*…»."
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "txs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(txs, node):\n    s = set()\n    for a, b, _ in txs:\n        if a == node:\n            s.add(b)\n        if b == node:\n            s.add(a)\n    return s\n\ndef common_counterparties(txs, a, c):\n    return sorted(neighbors(txs, a) & neighbors(txs, c))\n\nprint(common_counterparties(txs, \"A\", \"C\"))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T2-B («Transacciones directas y contrapartes comunes»), armé la entrega independiente leyendo la teoría del paquete sobre evidencia de relación operativa. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Txs directas A↔B y contrapartes comunes (A y C pagan a D) son **evidencia de relación operativa**, no de colusión. En entity resolution y evidencia, el *porqué*…»."
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer s13\n# fixture",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T2-B («Transacciones directas y contrapartes comunes»), armé la entrega transferencia leyendo la teoría del paquete sobre evidencia de relación operativa. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Txs directas A↔B y contrapartes comunes (A y C pagan a D) son **evidencia de relación operativa**, no de colusión. En entity resolution y evidencia, el *porqué*…»."
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def explanation_bullets(er, rel, missing):\n    return [\n        f\"ER score={er:.2f}\",\n        f\"relationship_signal_score={rel:.2f}\",\n        f\"missing={missing}\",\n    ]\n\nprint(explanation_bullets(0.88, 0.45, [\"email\"]))\nprint(len(explanation_bullets(0.88, 0.45, [\"email\"])))",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T3-A («Score de evidencia, incertidumbre y explicación»), armé la entrega guiado leyendo la teoría del paquete sobre evidence_score, incertidumbre, bullets. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Agrega ER + señales de relación con pesos y produce `evidence_score`, banda de **incertidumbre** (low/med/high) y **bullets** legibles. En entity resolution y e…»."
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return \"high\"\n    if missing:\n        return \"med\"\n    return \"low\"\n\nprint(uncertainty_band([], False))\nprint(uncertainty_band([\"email\"], False))\nprint(uncertainty_band([\"email\", \"phone\"], False))\nprint(uncertainty_band([], True))",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T3-A («Score de evidencia, incertidumbre y explicación»), armé la entrega independiente leyendo la teoría del paquete sobre evidence_score, incertidumbre, bullets. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Agrega ER + señales de relación con pesos y produce `evidence_score`, banda de **incertidumbre** (low/med/high) y **bullets** legibles. En entity resolution y e…»."
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "er, rel = 0.9, 0.1",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T3-A («Score de evidencia, incertidumbre y explicación»), armé la entrega transferencia leyendo la teoría del paquete sobre evidence_score, incertidumbre, bullets. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Agrega ER + señales de relación con pesos y produce `evidence_score`, banda de **incertidumbre** (low/med/high) y **bullets** legibles. En entity resolution y e…»."
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "thresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n}",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T3-B («Umbral de revisión, abstención y no inferencia automática»), armé la entrega guiado leyendo la teoría del paquete sobre invalid_input, needs_review, abstain, needs_review. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → `invalid_input`; uncertainty high → `needs_review`; score < 0.40 → `abstain`; 0.…»."
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from math import isfinite\n\nth = {\"accept_min\": 0.8, \"review_low\": 0.4}\n\ndef decide_ops_status(score, unc, th):\n    if isinstance(score, bool) or not isinstance(score, (int, float)):\n        return \"invalid_input\"\n    if not isfinite(score) or not 0.0 <= score <= 1.0:\n        return \"invalid_input\"\n    if unc not in {\"low\", \"med\", \"high\"}:\n        return \"invalid_input\"\n    if unc == \"high\":\n        return \"needs_review\"\n    if score < th[\"review_low\"]:\n        return \"abstain\"\n    if score < th[\"accept_min\"]:\n        return \"needs_review\"\n    return \"accept_pair\"\n\ncases = [\n    (-0.1, \"low\"),\n    (0.399, \"low\"),\n    (0.4, \"low\"),\n    (0.799, \"low\"),\n    (0.8, \"low\"),\n    (1.0, \"low\"),\n    (0.9, \"high\"),\n    (float(\"nan\"), \"low\"),\n    (0.5, \"?\"),\n]\nfor s, u in cases:\n    print(s, u, \"→\", decide_ops_status(s, u, th))",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T3-B («Umbral de revisión, abstención y no inferencia automática»), armé la entrega independiente leyendo la teoría del paquete sobre invalid_input, needs_review, abstain, needs_review. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → `invalid_input`; uncertainty high → `needs_review`; score < 0.40 → `abstain`; 0.…»."
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer s13\n# fixture",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T3-B («Umbral de revisión, abstención y no inferencia automática»), armé la entrega transferencia leyendo la teoría del paquete sobre invalid_input, needs_review, abstain, needs_review. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → `invalid_input`; uncertainty high → `needs_review`; score < 0.40 → `abstain`; 0.…»."
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def pseudonymize(name):\n    return \" \".join(p[0] + \"***\" for p in name.split() if p)\n\nprint(pseudonymize(\"Ana Quispe Rojas\"))",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T4-A («Dashboard/mapa pseudonimizado y ficha de caso»), armé la entrega guiado leyendo la teoría del paquete sobre Dashboard/mapa pseudonimizado y ficha de caso. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable. En entity resolution y evidencia…»."
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def case_sheet(er, rel):\n    return {\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n    }\n\nprint(case_sheet(0.9, 0.4))",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T4-A («Dashboard/mapa pseudonimizado y ficha de caso»), armé la entrega independiente leyendo la teoría del paquete sobre Dashboard/mapa pseudonimizado y ficha de caso. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable. En entity resolution y evidencia…»."
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def map_tooltip(lat, lon, km, source):\n    return f\"lat={lat}, lon={lon}, km={km}, source={source}\"\n\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T4-A («Dashboard/mapa pseudonimizado y ficha de caso»), armé la entrega transferencia leyendo la teoría del paquete sobre Dashboard/mapa pseudonimizado y ficha de caso. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable. En entity resolution y evidencia…»."
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T4-B («Privacidad, acceso, pruebas, demo y runbook»), armé la entrega guiado leyendo la teoría del paquete sobre Privacy sheet. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**Privacy sheet**: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer). En entity resolution y evidencia, el *porqu…»."
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def demo_command():\n    return \"python -m familiarity_core.dashboard --demo\"\n\nprint(demo_command())",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T4-B («Privacidad, acceso, pruebas, demo y runbook»), armé la entrega independiente leyendo la teoría del paquete sobre Privacy sheet. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**Privacy sheet**: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer). En entity resolution y evidencia, el *porqu…»."
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S13-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S13-T4-B («Privacidad, acceso, pruebas, demo y runbook»), armé la entrega transferencia leyendo la teoría del paquete sobre Privacy sheet. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**Privacy sheet**: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer). En entity resolution y evidencia, el *porqu…»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "blocked_on": [],
+      "justification_from_packet": "Para «entity_resolution_score y relationship_signal_score deben…» elegí la opción 0: «Mantenerse separados en la ficha de caso». En la teoría de la sección aparecen términos alineados (separados, ficha, caso), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.91,
+      "blocked_on": [],
+      "justification_from_packet": "Para «Un false positive de ER implica…» elegí la opción 2: «Error de matching; no es veredicto legal de fraude». En la teoría de la sección aparecen términos alineados (Error, matching, veredicto, legal, fraude), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Para «En zona gris de score el sistema debe…» elegí la opción 3: «Encolar needs_review / abstenerse según política». En la teoría de la sección aparecen términos alineados (needs_review), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Para «CF-1 en S13 incluye…» elegí la opción 1: «Privacy sheet, acceso, tests, demo y runbook». En la teoría de la sección aparecen términos alineados (Privacy, sheet, acceso, tests, demo), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "confidence": 0.81,
+      "blocked_on": [],
+      "justification_from_packet": "Para «Level-1 regression notes en el You Do exigen…» elegí la opción 0: «Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)». En la teoría de la sección aparecen términos alineados (runbook, aquí), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:14:07+00:00",
+  "session_started_at": "2026-07-23T12:13:55+00:00",
+  "session_ended_at": "2026-07-23T12:14:07+00:00",
+  "receipt_response_sha256": "96f8816ab8c3004f4cf1e130bed133628f43130d169f418b8546f67b10fc5d0b"
+}

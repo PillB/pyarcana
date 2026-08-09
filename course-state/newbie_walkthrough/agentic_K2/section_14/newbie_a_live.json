@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-exp-s14-bd1e4f7b89c6",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "id": "S14-T1-A-E1",
+      "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)",
+      "justification_from_packet": "Como explorador en S14-T1-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Aplico el hint «Usa np.array(...,.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "id": "S14-T1-A-E2",
+      "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())",
+      "justification_from_packet": "Como explorador en S14-T1-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «linspace con.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "id": "S14-T1-A-E3",
+      "code": "import numpy as np\n\ndef validate(a):\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\n\nvalidate(np.array([0.1, 0.2], dtype=np.float64))\ntry:\n    validate(np.array([1, 2]))\nexcept ValueError as e:\n    print(\"err\", e)",
+      "justification_from_packet": "Como explorador en S14-T1-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «Comprueba ndim y.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "id": "S14-T1-B-E1",
+      "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nidx = np.where(score >= 0.5)[0]\nprint(idx.tolist())",
+      "justification_from_packet": "Como explorador en S14-T1-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Aplico el hint «mask = score >= 0.5.» y.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "id": "S14-T1-B-E2",
+      "code": "import numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmed = np.median(scores)\nprint(ids[scores < med].tolist())",
+      "justification_from_packet": "Como explorador en S14-T1-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «np.median(scores).» y.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "id": "S14-T1-B-E3",
+      "code": "import numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())",
+      "justification_from_packet": "Como explorador en S14-T1-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «a[order] con lista de.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "id": "S14-T2-A-E1",
+      "code": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(np.round(M.mean(axis=0), 2).tolist())\nprint(np.round(M.mean(axis=1), 2).tolist())",
+      "justification_from_packet": "Como explorador en S14-T2-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Aplico el hint «M.mean(axis=0) y.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "id": "S14-T2-A-E2",
+      "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(scores.std(axis=0), 4).tolist())",
+      "justification_from_packet": "Como explorador en S14-T2-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «np.std(axis=0).» y dejo.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "id": "S14-T2-A-E3",
+      "code": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 10).tolist())",
+      "justification_from_packet": "Como explorador en S14-T2-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «row - row.mean(axis=1,.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "id": "S14-T2-B-E1",
+      "code": "import numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nprint((M + w).tolist())",
+      "justification_from_packet": "Como explorador en S14-T2-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Aplico el hint «zeros + pesos (shape.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "id": "S14-T2-B-E2",
+      "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\nout = a[:, None] * b[None, :]\nprint(out.shape, out.tolist())",
+      "justification_from_packet": "Como explorador en S14-T2-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «a[:, None] * b[None, :].",
+      "confidence": 0.81,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "id": "S14-T2-B-E3",
+      "code": "import numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print(\"incompatible\")",
+      "justification_from_packet": "Como explorador en S14-T2-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «try/except ValueError.».",
+      "confidence": 0.84,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "id": "S14-T3-A-E1",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\nv = raw[:2]\nv[0] = 9\nprint(raw.tolist())",
+      "justification_from_packet": "Como explorador en S14-T3-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Aplico el hint «raw[:2] es view.» y.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "id": "S14-T3-A-E2",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\nc = raw[:2].copy()\nc[0] = 9\nprint(raw.tolist(), c.tolist())",
+      "justification_from_packet": "Como explorador en S14-T3-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «raw[:2].copy().» y dejo.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "id": "S14-T3-A-E3",
+      "code": "import numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print(\"blocked\")",
+      "justification_from_packet": "Como explorador en S14-T3-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «a.flags.writeable =.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "id": "S14-T3-B-E1",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))",
+      "justification_from_packet": "Como explorador en S14-T3-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Aplico el hint «np.isnan(x).sum().» y.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "id": "S14-T3-B-E2",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(round(float(np.nanmean(x)), 2))",
+      "justification_from_packet": "Como explorador en S14-T3-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «np.nanmean.» y dejo el.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "id": "S14-T3-B-E3",
+      "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))",
+      "justification_from_packet": "Como explorador en S14-T3-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «np.where(np.isinf(x),.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "id": "S14-T4-A-E1",
+      "code": "import numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\ns1 = 0.0\nfor i in range(len(a)):\n    s1 += a[i] * b[i]\ns2 = float((a * b).sum())\nprint(abs(s1 - s2) < 1e-6)",
+      "justification_from_packet": "Como explorador en S14-T4-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Aplico el hint «np.arange(1000,.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "id": "S14-T4-A-E2",
+      "code": "import numpy as np\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))",
+      "justification_from_packet": "Como explorador en S14-T4-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «(a**2).sum() o.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "id": "S14-T4-A-E3",
+      "code": "import numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nc = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", float(c.mean()) == 1.0)",
+      "justification_from_packet": "Como explorador en S14-T4-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «time.perf_counter.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "id": "S14-T4-B-E1",
+      "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)",
+      "justification_from_packet": "Como explorador en S14-T4-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Aplico el hint «float64 = 8 bytes.» y.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "id": "S14-T4-B-E2",
+      "code": "import numpy as np\nprint(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))",
+      "justification_from_packet": "Como explorador en S14-T4-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint «np.allclose(...,.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "id": "S14-T4-B-E3",
+      "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")",
+      "justification_from_packet": "Como explorador en S14-T4-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter . Aplico el hint.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "vectorizado",
+        "Entrada",
+        "fixture",
+        "del",
+        "starter"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q0 elijo «dtype» porque la teoría «ndarray, dtype y shape» del paquete dice: Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `int32`);.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q1 elijo «Filtrar o seleccionar elementos que cumplen la condición» porque la teoría «creación, indexación y máscaras» del paquete dice: `np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q2 elijo «Por columna (colapsa filas)» porque la teoría «ufuncs y reducciones» del paquete dice: Las **ufuncs** (`np.add`, `np.sqrt`, operadores `+`, `*`) aplican elemento a elemento en C. Las.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q3 elijo «Puede mutar el array base porque suele ser un view» porque la teoría «broadcasting y compatibilidad de shapes» del paquete dice: El **broadcasting** alinea shapes de derecha a izquierda:.",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:17:06.801460+00:00",
+  "session_started_at": "2026-07-23T15:16:48.390884Z",
+  "session_ended_at": "2026-07-23T15:17:06.800317Z",
+  "receipt_response_sha256": "a0dded179a4870712f7c19b1f40f991d8e8a4afda9095881baabcc3d282356b9",
+  "receipt_exercises_sha256": "12f6be920c9e9a23e5bfd9ade61f09e94fb82b7efd59fb02860943cf2b8b636e",
+  "receipt_selfcheck_sha256": "82f593159e5c26b1f08da325a0ba8bd89177774cf75cf470df770b36ff8658a6"
+}

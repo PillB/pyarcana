@@ -1,0 +1,278 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 9,
+  "packet_sha": "3247f8c2a2673b20",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "status": "answered",
+      "code": "def parse_monto(raw: str) -> int:\n    try:\n        return int(raw.strip())\n    except ValueError as e:\n        raise ValueError(f\"monto inválido: {raw!r}\") from e\nfor v in ['10', 'x']:\n    try:\n        print(v, parse_monto(v))\n    except ValueError as e:\n        print('err', e, 'cause', e.__cause__)\n# D2-Explorer: packet-only re-walk S09 S09-T1-A-E1\n",
+      "answer": "def parse_monto(raw: str) -> int:\n    try:\n        return int(raw.strip())\n    except ValueError as e:\n        raise ValueError(f\"monto inválido: {raw!r}\") from e\nfor v in ['10', 'x']:\n    try:\n        print(v, parse_monto(v))\n    except ValueError as e:\n        print('err', e, 'cause', e.__cause__)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] raise ... from e encadena la causa en __cause__ sin perder contexto. ValueError de int se reenvuelve con mensaje accionable.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "status": "answered",
+      "code": "class ConfigError(Exception):\n    pass\nclass DataError(Exception):\n    pass\ndef load_cfg(path):\n    if not path:\n        raise ConfigError(\"schema_path vacío\")\ndef parse_row(row):\n    if 'id' not in row:\n        raise DataError(\"missing id\")\ntry:\n    load_cfg('')\nexcept ConfigError as e:\n    print('config', e)\ntry:\n    parse_row({})\nexcept DataError as e:\n    print('data', e)\n# D2-Explorer: packet-only re-walk S09 S09-T1-A-E2\n",
+      "answer": "class ConfigError(Exception):\n    pass\nclass DataError(Exception):\n    pass\ndef load_cfg(path):\n    if not path:\n        raise ConfigError(\"schema_path vacío\")\ndef parse_row(row):\n    if 'id' not in row:\n        raise DataError(\"missing id\")\ntry:\n    load_cfg('')\nexcept ConfigError as e:\n    print('config', e)\ntry:\n    parse_row({})\nexcept DataError as e:\n    print('data', e)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] ConfigError vs DataError separan fallos de arranque y de fila. Taxonomía de excepciones del paquete S09.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "status": "answered",
+      "code": "def read_rows(path):\n    f = open(path, encoding='utf-8')\n    try:\n        return f.read()\n    finally:\n        f.close()\n        print('closed')\ntry:\n    read_rows('/tmp/no_such_s09.txt')\nexcept FileNotFoundError as e:\n    print('raised', type(e).__name__)\n# D2-Explorer: packet-only re-walk S09 S09-T1-A-E3\n",
+      "answer": "def read_rows(path):\n    f = open(path, encoding='utf-8')\n    try:\n        return f.read()\n    finally:\n        f.close()\n        print('closed')\ntry:\n    read_rows('/tmp/no_such_s09.txt')\nexcept FileNotFoundError as e:\n    print('raised', type(e).__name__)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] try/finally cierra el recurso aunque falle; no trago la excepción en finally. Cleanup del paquete de errores.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "status": "answered",
+      "code": "delimiter = \"\"\nif not delimiter:\n    raise SystemExit(\"fail-fast: delimiter vacío en config del job\")\n# D2-Explorer: packet-only re-walk S09 S09-T1-B-E1\n",
+      "answer": "delimiter = \"\"\nif not delimiter:\n    raise SystemExit(\"fail-fast: delimiter vacío en config del job\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Delimiter vacío en config debe fail-fast abortando el job. No cuarentena de una sola fila.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "status": "answered",
+      "code": "errores = [\n    \"delimiter vacío en config\",\n    \"monto no numérico en fila\",\n    \"schema_path no existe\",\n    \"email mal formado en fila\",\n    \"API_TOKEN ausente\",\n    \"timeout leyendo un record remoto\",\n]\npolicy = {\n    \"delimiter vacío en config\": \"fail-fast\",\n    \"monto no numérico en fila\": \"recover\",\n    \"schema_path no existe\": \"fail-fast\",\n    \"email mal formado en fila\": \"recover\",\n    \"API_TOKEN ausente\": \"fail-fast\",\n    \"timeout leyendo un record remoto\": \"recover\",\n}\nfor e in errores:\n    print(f\"{e}: {policy[e]}\")\n# D2-Explorer: packet-only re-walk S09 S09-T1-B-E2\n",
+      "answer": "errores = [\n    \"delimiter vacío en config\",\n    \"monto no numérico en fila\",\n    \"schema_path no existe\",\n    \"email mal formado en fila\",\n    \"API_TOKEN ausente\",\n    \"timeout leyendo un record remoto\",\n]\npolicy = {\n    \"delimiter vacío en config\": \"fail-fast\",\n    \"monto no numérico en fila\": \"recover\",\n    \"schema_path no existe\": \"fail-fast\",\n    \"email mal formado en fila\": \"recover\",\n    \"API_TOKEN ausente\": \"fail-fast\",\n    \"timeout leyendo un record remoto\": \"recover\",\n}\nfor e in errores:\n    print(f\"{e}: {policy[e]}\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Config/secretos → fail-fast; fila mala o timeout de record → recover. Clasificación recover vs fail-fast.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "status": "answered",
+      "code": "def bad_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except Exception:\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except ValueError as e:\n        return (\"quarantine\", str(e))\n\ndef v():\n    raise ValueError(\"fila\")\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)\n# D2-Explorer: packet-only re-walk S09 S09-T1-B-E3\n",
+      "answer": "def bad_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except Exception:\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except ValueError as e:\n        return (\"quarantine\", str(e))\n\ndef v():\n    raise ValueError(\"fila\")\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Sin bare except: ValueError a cuarentena; RuntimeError de config propaga. Handler específico del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "status": "answered",
+      "code": "tb = 'Traceback (most recent call last):\\n  File \"cli.py\", line 10, in main\\n    run()\\n  File \"pipeline.py\", line 4, in run\\n    normalize(row)\\n  File \"normalize.py\", line 2, in normalize\\n    return row[\"email\"]\\nKeyError: \\'email\\'\\n'\nframes = []\nfor line in tb.splitlines():\n    if line.strip().startswith('File') and ' in ' in line:\n        frames.append(line.rsplit(' in ', 1)[-1].strip())\nprint('frame1', frames[0])\nprint('frame2', frames[1])\nprint('frame3', frames[2])\n# D2-Explorer: packet-only re-walk S09 S09-T2-A-E1\n",
+      "answer": "tb = 'Traceback (most recent call last):\\n  File \"cli.py\", line 10, in main\\n    run()\\n  File \"pipeline.py\", line 4, in run\\n    normalize(row)\\n  File \"normalize.py\", line 2, in normalize\\n    return row[\"email\"]\\nKeyError: \\'email\\'\\n'\nframes = []\nfor line in tb.splitlines():\n    if line.strip().startswith('File') and ' in ' in line:\n        frames.append(line.rsplit(' in ', 1)[-1].strip())\nprint('frame1', frames[0])\nprint('frame2', frames[1])\nprint('frame3', frames[2])\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Traceback de afuera hacia adentro: main, run, normalize. Tres frames del stack sintético.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "status": "answered",
+      "code": "DEBUG = True\n\ndef normalize(row: dict) -> str:\n    if \"email\" not in row:\n        if DEBUG:\n            print(\"locals_seguros id=\", row.get(\"id\"))\n        raise KeyError(\"email\")\n    return row[\"email\"]\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)\n# D2-Explorer: packet-only re-walk S09 S09-T2-A-E2\n",
+      "answer": "DEBUG = True\n\ndef normalize(row: dict) -> str:\n    if \"email\" not in row:\n        if DEBUG:\n            print(\"locals_seguros id=\", row.get(\"id\"))\n        raise KeyError(\"email\")\n    return row[\"email\"]\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Breakpoint simulado: solo id en locals, sin volcar PII del row. DEBUG y KeyError de email.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "status": "answered",
+      "code": "tb = 'Traceback (most recent call last):\\n  File \"app.py\", line 1, in <module>\\n    normalize({\"id\": 1})\\n  File \"app.py\", line 1, in normalize\\n    return row[\"email\"].lower()\\nKeyError: \\'email\\'\\n'\nprint(\"causa_raiz=normalize falta clave email\")\n# D2-Explorer: packet-only re-walk S09 S09-T2-A-E3\n",
+      "answer": "tb = 'Traceback (most recent call last):\\n  File \"app.py\", line 1, in <module>\\n    normalize({\"id\": 1})\\n  File \"app.py\", line 1, in normalize\\n    return row[\"email\"].lower()\\nKeyError: \\'email\\'\\n'\nprint(\"causa_raiz=normalize falta clave email\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Causa raíz desde el traceback: normalize falta clave email. Sin re-ejecutar el código original.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "status": "answered",
+      "code": "def parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\nminimal = None\nfor d in fixture:\n    try:\n        parse_dni(d)\n    except ValueError:\n        minimal = d\n        break\nprint(\"minimal=\", minimal)\n# D2-Explorer: packet-only re-walk S09 S09-T2-B-E1\n",
+      "answer": "def parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\nminimal = None\nfor d in fixture:\n    try:\n        parse_dni(d)\n    except ValueError:\n        minimal = d\n        break\nprint(\"minimal=\", minimal)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Minimal repro: entrada más pequeña que falla (primer DNI corto). No todo el CSV de producción.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "status": "answered",
+      "code": "def normalize_phone(p: str) -> str:\n    return \"\".join(c for c in p if c.isdigit())\n\nprint(\"H1: se pierde + pero deben quedar dígitos 51\")\nprint(\"H2: se pierde todo el prefijo 51\")\nprint(\"exp1\", normalize_phone(\"+51 999 111 222\"))\nprint(\"exp2\", normalize_phone(\"999 111 222\"))\n# D2-Explorer: packet-only re-walk S09 S09-T2-B-E2\n",
+      "answer": "def normalize_phone(p: str) -> str:\n    return \"\".join(c for c in p if c.isdigit())\n\nprint(\"H1: se pierde + pero deben quedar dígitos 51\")\nprint(\"H2: se pierde todo el prefijo 51\")\nprint(\"exp1\", normalize_phone(\"+51 999 111 222\"))\nprint(\"exp2\", normalize_phone(\"999 111 222\"))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Hipótesis + vs 51; experimento con y sin prefijo país. Contrato solo dígitos conserva 51.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "status": "answered",
+      "code": "def bad_title(s: str) -> str:\n    return s.title()\n\ndef good_title(s: str) -> str:\n    parts = s.split()\n    small = {\"de\", \"del\", \"la\", \"los\", \"las\", \"y\"}\n    out = []\n    for i, p in enumerate(parts):\n        if i > 0 and p.casefold() in small:\n            out.append(p.casefold())\n        else:\n            out.append(p[:1].upper() + p[1:].lower() if p else p)\n    return \" \".join(out)\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n\ntry:\n    test(bad_title)\nexcept AssertionError:\n    print(\"RED\")\nprint(test(good_title))\nprint(\"GREEN\")\n# D2-Explorer: packet-only re-walk S09 S09-T2-B-E3\n",
+      "answer": "def bad_title(s: str) -> str:\n    return s.title()\n\ndef good_title(s: str) -> str:\n    parts = s.split()\n    small = {\"de\", \"del\", \"la\", \"los\", \"las\", \"y\"}\n    out = []\n    for i, p in enumerate(parts):\n        if i > 0 and p.casefold() in small:\n            out.append(p.casefold())\n        else:\n            out.append(p[:1].upper() + p[1:].lower() if p else p)\n    return \" \".join(out)\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n\ntry:\n    test(bad_title)\nexcept AssertionError:\n    print(\"RED\")\nprint(test(good_title))\nprint(\"GREEN\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Regresión title vs partículas de/la; RED luego GREEN. Suite de debugging del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "status": "answered",
+      "code": "eventos = [\n    \"job iniciado\",\n    \"valor de variable i en loop\",\n    \"fila sin email opcional\",\n    \"no se pudo parsear monto\",\n    \"archivo de config ilegible\",\n    \"lote terminado con conteos\",\n]\nnivel = {\n    \"job iniciado\": \"INFO\",\n    \"valor de variable i en loop\": \"DEBUG\",\n    \"fila sin email opcional\": \"WARNING\",\n    \"no se pudo parsear monto\": \"ERROR\",\n    \"archivo de config ilegible\": \"ERROR\",\n    \"lote terminado con conteos\": \"INFO\",\n}\nfor e in eventos:\n    print(f\"{e}: {nivel[e]}\")\n# D2-Explorer: packet-only re-walk S09 S09-T3-A-E1\n",
+      "answer": "eventos = [\n    \"job iniciado\",\n    \"valor de variable i en loop\",\n    \"fila sin email opcional\",\n    \"no se pudo parsear monto\",\n    \"archivo de config ilegible\",\n    \"lote terminado con conteos\",\n]\nnivel = {\n    \"job iniciado\": \"INFO\",\n    \"valor de variable i en loop\": \"DEBUG\",\n    \"fila sin email opcional\": \"WARNING\",\n    \"no se pudo parsear monto\": \"ERROR\",\n    \"archivo de config ilegible\": \"ERROR\",\n    \"lote terminado con conteos\": \"INFO\",\n}\nfor e in eventos:\n    print(f\"{e}: {nivel[e]}\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] INFO progreso, DEBUG detalle, WARNING fila rara, ERROR fallo/config. Niveles de logging S09.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "status": "answered",
+      "code": "import logging, io\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.ingest\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\nlog.info(\"stage=ingest event=start\")\nprint(buf.getvalue().strip())\n# D2-Explorer: packet-only re-walk S09 S09-T3-A-E2\n",
+      "answer": "import logging, io\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.ingest\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\nlog.info(\"stage=ingest event=start\")\nprint(buf.getvalue().strip())\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Logger de módulo a StringIO con mensaje stage=ingest event=start. propagate=False y formatter simple.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "status": "answered",
+      "code": "import logging, sys\n\ndef cli_stub_good(n):\n    log = logging.getLogger(\"cli\")\n    log.handlers.clear()\n    log.setLevel(logging.INFO)\n    h = logging.StreamHandler(sys.stderr)\n    log.addHandler(h)\n    log.propagate = False\n    log.info(\"stage=cli event=start\")\n    print(f\"RESULT={n + 1}\")\n\ncli_stub_good(2)\n# D2-Explorer: packet-only re-walk S09 S09-T3-A-E3\n",
+      "answer": "import logging, sys\n\ndef cli_stub_good(n):\n    log = logging.getLogger(\"cli\")\n    log.handlers.clear()\n    log.setLevel(logging.INFO)\n    h = logging.StreamHandler(sys.stderr)\n    log.addHandler(h)\n    log.propagate = False\n    log.info(\"stage=cli event=start\")\n    print(f\"RESULT={n + 1}\")\n\ncli_stub_good(2)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Progreso a logger/stderr; RESULT a stdout limpio. Solo datos a stdout en CLI. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "status": "answered",
+      "code": "def mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    if not local or not domain:\n        return \"***\"\n    return f\"{local[0]}***@{domain}\"\n\ndef mask_phone(phone: str) -> str:\n    digits = \"\".join(c for c in phone if c.isdigit())\n    return \"***\" + digits[-4:] if len(digits) >= 4 else \"***\"\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))\n# D2-Explorer: packet-only re-walk S09 S09-T3-B-E1\n",
+      "answer": "def mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    if not local or not domain:\n        return \"***\"\n    return f\"{local[0]}***@{domain}\"\n\ndef mask_phone(phone: str) -> str:\n    digits = \"\".join(c for c in phone if c.isdigit())\n    return \"***\" + digits[-4:] if len(digits) >= 4 else \"***\"\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] mask_email c***@dominio y phone ***+últimos4 con datos sintéticos .pe. Logging seguro sin PII completa.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "status": "answered",
+      "code": "def repo_save(corr, item):\n    print(\"repo\", corr, item[\"id\"])\n\ndef service_upsert(corr, item):\n    print(\"service\", corr)\n    repo_save(corr, item)\n\ndef cli_main(corr, item):\n    print(\"cli\", corr)\n    service_upsert(corr, item)\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})\n# D2-Explorer: packet-only re-walk S09 S09-T3-B-E2\n",
+      "answer": "def repo_save(corr, item):\n    print(\"repo\", corr, item[\"id\"])\n\ndef service_upsert(corr, item):\n    print(\"service\", corr)\n    repo_save(corr, item)\n\ndef cli_main(corr, item):\n    print(\"cli\", corr)\n    service_upsert(corr, item)\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] correlation_id se pasa cli→service→repo sin global. Mismo corr-42 en tres capas.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "status": "answered",
+      "code": "print(\"detected_unsafe\", True)\nprint(\"SAFE: error en a***@ejemplo.pe tel=***1222\")\n# D2-Explorer: packet-only re-walk S09 S09-T3-B-E3\n",
+      "answer": "print(\"detected_unsafe\", True)\nprint(\"SAFE: error en a***@ejemplo.pe tel=***1222\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] No ejecuto helper inseguro con PII; emito log SAFE redactado. Auditoría estática del mensaje.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "status": "answered",
+      "code": "fallos = [\n    \"monto NaN en CSV\",\n    \"YAML de config corrupto\",\n    \"timeout S3\",\n    \"email vacío en fila\",\n    \"required_fields no definido\",\n    \"HTTP 503 del proveedor\",\n    \"dni con letras\",\n    \"variable de entorno ROOT_PATH vacía\",\n]\nclase = {\n    \"monto NaN en CSV\": \"data\",\n    \"YAML de config corrupto\": \"config\",\n    \"timeout S3\": \"provider\",\n    \"email vacío en fila\": \"data\",\n    \"required_fields no definido\": \"config\",\n    \"HTTP 503 del proveedor\": \"provider\",\n    \"dni con letras\": \"data\",\n    \"variable de entorno ROOT_PATH vacía\": \"config\",\n}\nfor f in fallos:\n    print(f\"{f}: {clase[f]}\")\n# D2-Explorer: packet-only re-walk S09 S09-T4-A-E1\n",
+      "answer": "fallos = [\n    \"monto NaN en CSV\",\n    \"YAML de config corrupto\",\n    \"timeout S3\",\n    \"email vacío en fila\",\n    \"required_fields no definido\",\n    \"HTTP 503 del proveedor\",\n    \"dni con letras\",\n    \"variable de entorno ROOT_PATH vacía\",\n]\nclase = {\n    \"monto NaN en CSV\": \"data\",\n    \"YAML de config corrupto\": \"config\",\n    \"timeout S3\": \"provider\",\n    \"email vacío en fila\": \"data\",\n    \"required_fields no definido\": \"config\",\n    \"HTTP 503 del proveedor\": \"provider\",\n    \"dni con letras\": \"data\",\n    \"variable de entorno ROOT_PATH vacía\": \"config\",\n}\nfor f in fallos:\n    print(f\"{f}: {clase[f]}\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Taxonomía data|config|provider para fallos de fila, arranque y red. Ocho casos del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "status": "answered",
+      "code": "def process_batch(rows):\n    ok, q = [], []\n    for r in rows:\n        if not r.get(\"id\"):\n            q.append({\"row\": r, \"reason\": \"data:missing_id\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nr = process_batch(rows)\nassert r[\"in\"] == len(r[\"ok\"]) + len(r[\"quarantined\"])\nprint(r)\n# D2-Explorer: packet-only re-walk S09 S09-T4-A-E2\n",
+      "answer": "def process_batch(rows):\n    ok, q = [], []\n    for r in rows:\n        if not r.get(\"id\"):\n            q.append({\"row\": r, \"reason\": \"data:missing_id\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nr = process_batch(rows)\nassert r[\"in\"] == len(r[\"ok\"]) + len(r[\"quarantined\"])\nprint(r)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] process_batch cuarentena sin id y reconcilia in=ok+quarantined. Conteos del batch.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "status": "answered",
+      "code": "rules = [\n    \"POLICY: abortar si falta config crítica (schema, delimiter, paths)\",\n    \"POLICY: abortar si quarantined/in > 0.5 en el lote\",\n    \"POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data\",\n]\nfor r in rules:\n    print(r)\n# D2-Explorer: packet-only re-walk S09 S09-T4-A-E3\n",
+      "answer": "rules = [\n    \"POLICY: abortar si falta config crítica (schema, delimiter, paths)\",\n    \"POLICY: abortar si quarantined/in > 0.5 en el lote\",\n    \"POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data\",\n]\nfor r in rules:\n    print(r)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Política abort: config, umbral cuarentena, provider down. No abortar por una fila data.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "status": "answered",
+      "code": "retry = {\n    \"TimeoutError\": \"yes\",\n    \"ValueError\": \"no\",\n    \"ConnectionError\": \"yes\",\n    \"KeyError\": \"no\",\n    \"PermissionError\": \"no\",\n}\nfor e, r in retry.items():\n    print(f\"{e}: {r}\")\n# D2-Explorer: packet-only re-walk S09 S09-T4-B-E1\n",
+      "answer": "retry = {\n    \"TimeoutError\": \"yes\",\n    \"ValueError\": \"no\",\n    \"ConnectionError\": \"yes\",\n    \"KeyError\": \"no\",\n    \"PermissionError\": \"no\",\n}\nfor e, r in retry.items():\n    print(f\"{e}: {r}\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Timeout/Connection reintentan; ValueError/KeyError no. Retry solo transitorios. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "status": "answered",
+      "code": "def retry_call(fn, max_attempts=3):\n    last = None\n    for _ in range(max_attempts):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last = e\n    raise last\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])\n# D2-Explorer: packet-only re-walk S09 S09-T4-B-E2\n",
+      "answer": "def retry_call(fn, max_attempts=3):\n    last = None\n    for _ in range(max_attempts):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last = e\n    raise last\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] retry_call reintenta solo TimeoutError hasta max_attempts. flaky → done en 3 calls.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "status": "answered",
+      "code": "import hashlib, json\nrecord = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\npayload_hash = hashlib.sha256(\n    json.dumps(record[\"payload\"], sort_keys=True).encode()\n).hexdigest()[:12]\nkey = f\"{record['source']}:{record['id']}:v{record['version']}:{payload_hash}\"\nprint(\"idem_key=\" + key)\n# D2-Explorer: packet-only re-walk S09 S09-T4-B-E3\n",
+      "answer": "import hashlib, json\nrecord = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\npayload_hash = hashlib.sha256(\n    json.dumps(record[\"payload\"], sort_keys=True).encode()\n).hexdigest()[:12]\nkey = f\"{record['source']}:{record['id']}:v{record['version']}:{payload_hash}\"\nprint(\"idem_key=\" + key)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] idem_key source:id:version:hash para re-ingesta segura. Idempotencia del pipeline.",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Encadenar la causa en __cause__ sin perder contexto",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] raise NewError from e encadena la causa en __cause__ sin perder contexto. No silencia el traceback original.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Fail-fast (abortar el job)",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Delimiter vacío en config debe fail-fast abortando el job. No es recover de una fila.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Solo datos; diagnóstico a stderr",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] CLI: solo datos a stdout; diagnóstico a stderr/logs. No mezclar DEBUG con JSON de salida.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "a***@ejemplo.pe",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] mask_email seguro: primer char + ***@dominio (a***@ejemplo.pe). No loguear email completo.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Puede reintentarse con backoff; ValueError de datos no",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] TimeoutError puede reintentarse; ValueError de datos no. Tabla retry del paquete.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 2,
+      "chosen_text": "La entrada más pequeña que reproduce el bug",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Minimal repro es la entrada más pequeña que reproduce el bug. No el CSV completo de producción.",
+      "blocked_on": []
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.028217+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s09-live"
+}

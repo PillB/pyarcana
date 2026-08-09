@@ -1,0 +1,21 @@
+{
+  "storage_key": "python-ds-progress",
+  "envelope": {
+    "state": "object",
+    "version": "number (default 0)"
+  },
+  "fields": {
+    "completedSections": "string[]",
+    "completedSubSteps": "Record<string, string[]>",
+    "quizScores": "Record<string, number>",
+    "lastVisited": "string | null",
+    "bookmarks": "string[]",
+    "startDate": "string | null",
+    "isHydratedFromServer": "boolean"
+  },
+  "validation_module": "src/lib/progress-sanitize.ts",
+  "store_module": "src/lib/progress-store.ts",
+  "invalid_behavior": "drop invalid fields; never invent domain values; corrupt JSON → empty hydrate",
+  "server_hydrate": "mergeServerProgress union; empty server must not wipe local completed work",
+  "migration": "migrateProgressState idempotent; v0→v1 identity-preserving"
+}

@@ -1,0 +1,140 @@
+{
+  "version": "3.2",
+  "section": "S08",
+  "section_id": "pandas",
+  "phase": "PHASE_5",
+  "lane": "LANE-N1-CLOSE",
+  "generated_at": "2026-07-20T14:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "pandas"
+  },
+  "parallelism_rules": {
+    "same_skill_per_family": true,
+    "same_format": "MCQ 4 options",
+    "cognitive_demand": "A/B/C matched within family (not cosmetic rewording)",
+    "one_best_answer": true,
+    "explanation": "key rationale only"
+  },
+  "retired_from_bank": [
+    "groupby-output",
+    "loc-vs-iloc",
+    "null-handling",
+    "merge-types"
+  ],
+  "retired_note": "Legacy pandas EDA bank replaced with V3 file/CSV/JSON/manifest slugs for CP-N1-B.",
+  "families": [
+    {
+      "family_id": "S08-T1-A-EX",
+      "concept": "pathlib-with-modes",
+      "skill": "pathlib, modos y utf-8",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: utf-8; B: w vs x; C: pathlib.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S08-T1-B-EX",
+      "concept": "newlines-atomic-write",
+      "skill": "Newlines y atomic write",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: newline csv; B: replace; C: truncado.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S08-T2-A-EX",
+      "concept": "csv-dialects-headers",
+      "skill": "CSV headers y dialectos",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: DictReader; B: casts; C: delimiter.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S08-T2-B-EX",
+      "concept": "irregular-rows-quarantine",
+      "skill": "Cuarentena de filas",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: quarantine; B: motivo; C: reconciliaci\u00f3n.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S08-T3-A-EX",
+      "concept": "json-serialize",
+      "skill": "JSON array/JSONL",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: formatos; B: TypeError; C: determinismo.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S08-T3-B-EX",
+      "concept": "schema-nulls-evolution",
+      "skill": "Schema y evoluci\u00f3n",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: m\u00ednimo; B: keys nuevas; C: null vs omit.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S08-T4-A-EX",
+      "concept": "backups-hashes-provenance",
+      "skill": "Hashes y provenance",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: hash; B: fields; C: copy.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S08-T4-B-EX",
+      "concept": "reconciliation-manifest",
+      "skill": "Manifest de corrida",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: contenido; B: descuadre; C: target V3.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase4_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (pandas key)",
+    "course-state/s08_phase5_exam_bank.json"
+  ]
+}

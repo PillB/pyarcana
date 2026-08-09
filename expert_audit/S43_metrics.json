@@ -1,0 +1,119 @@
+{
+  "n_records": 175,
+  "n_sentences_total": 285,
+  "n_words_total": 3700,
+  "avg_fh": 55.5,
+  "avg_inflesz": 50.4,
+  "avg_wps": 12.74,
+  "avg_spw": 2.31,
+  "findings_count": {
+    "missing_terminal": 62,
+    "run_on": 1,
+    "long_sentence": 2,
+    "high_comma_density": 5,
+    "single_sentence_paragraph": 1,
+    "missing_inverted_question": 1
+  },
+  "worst_sentences": [
+    {
+      "wc": 73,
+      "text": "**Mapa de ideas (luego T1 las aterriza con un Dockerfile real).** **Layer cache:** deps/lock antes de app para no invalidar en cada commit. **Non-root:** UID ≥1000 sin capabilities extras. **Secret injection:** solo en runtime, nunca en capas. **Health/readiness:** el proceso solo se declara listo cuando puede servir. **Compose:** API/worker/DB/cache con redes y health. **Multi-stage:** toolchain fuera de la imagen final. **Resource limits:** CPU/memoria acotados y > 0. **SBOM/scan:** inventario y CVEs antes de promover."
+    },
+    {
+      "wc": 42,
+      "text": "Esta sección empaqueta el servicio seguro de S42 en **contenedores reproducibles** sin exigir un cluster: aprendes los contratos de Dockerfile y Compose (referencia Docker oficial) y los verificas primero con modelos en Python/stdlib que puedes correr en el navegador o en local."
+    },
+    {
+      "wc": 34,
+      "text": "Los **secretos** (API keys, contraseñas DB) se inyectan en runtime vía secret store, env del orquestador o mounts de solo lectura; **nunca** van en `ENV KEY=valor` del Dockerfile ni en capas de build."
+    },
+    {
+      "wc": 31,
+      "text": "En equipos de plataforma y producto, **contenedores y reproducibilidad operativa** empaquetan el servicio de S41–S42 en algo que se levanta con un comando: imagen mínima, non-root, health/readiness y shutdown limpio."
+    },
+    {
+      "wc": 28,
+      "text": "La entrada es el dict completo del starter; la operación debe demostrar scan limpio, **límites estrictamente positivos** (0 < mem ≤ 512, 0 < cpu ≤ 1.0) y debugging sin shell root."
+    },
+    {
+      "wc": 27,
+      "text": "Se promociona solo cuando el build es repetible en un entorno nuevo, no hay secretos horneados y los límites de recursos y CVE críticos están bajo control."
+    },
+    {
+      "wc": 27,
+      "text": "E1 repara el predicado de dominio, E2 separa válido/adverso/missing y E3 audita un artefacto de texto (Dockerfile, Compose, log de probes, runbook, scan) con CONTINUE | breach | incertidumbre."
+    },
+    {
+      "wc": 26,
+      "text": "Cero CVE críticos (o excepciones firmadas). **Límites** de memoria y CPU deben estar definidos y ser **> 0** (cero o ausente = unlimited disfrazado; no pasa el gate)."
+    },
+    {
+      "wc": 26,
+      "text": "S43-T4-B-E2: explica qué campo cambió la decisión (CVE, límite 0, shell o logs), por qué el adverso activa QUARANTINE_IMAGE y por qué faltar logs_redacted exige TRIAGE_SCAN_FINDING."
+    },
+    {
+      "wc": 25,
+      "text": "El predicado correcto debe ser verdadero porque el fixture modela dos builds que producen el mismo digest lógico; revisa dirección de comparación, conjuntos y negaciones."
+    },
+    {
+      "wc": 25,
+      "text": "La teoría exige que dos builds con el mismo lock produzcan el mismo digest lógico de deps; evidencia decorativa o PII no satisface el contrato."
+    },
+    {
+      "wc": 24,
+      "text": "En `CASO-TRU-043-T1B` (API de la plataforma ficticia en Trujillo) eliges `python:3.12-slim` (o distroless en runtime multi-stage) con digest, creas `appuser` 10001 y verificas non-root."
+    },
+    {
+      "wc": 24,
+      "text": "Partiendo de una imagen non-root (T1-B), la config **no secreta** (ENV de feature flags, puertos, log level) puede declararse en Compose o archivos montados."
+    },
+    {
+      "wc": 24,
+      "text": "Salida: deploy permitido solo si scan limpio, límites en rango (0 < mem ≤ 512, 0 < cpu ≤ 1.0), sin shell de debug y logs sin secretos/PII."
+    },
+    {
+      "wc": 24,
+      "text": "S43-T1-A-E3: explica en qué líneas del texto falló el orden, por qué REORDER_DOCKERFILE y por qué la ausencia exige INSPECT_CACHE_INVALIDATION sin rellenar el Dockerfile."
+    },
+    {
+      "wc": 23,
+      "text": "Audita base fijada, UID ≥1000, capabilities vacías y techo de MB: evidencia real de proceso non-root, no solo elección de imagen por tamaño."
+    },
+    {
+      "wc": 23,
+      "text": "S43-T2-B-E3: explica qué línea del log (network, /readyz o SIGTERM) activó DRAIN_AND_ISOLATE y por qué la ausencia exige DIAGNOSE_HEALTH_SIGNAL sin rellenar el log."
+    },
+    {
+      "wc": 23,
+      "text": "S43-T3-B-E3: explica qué línea del runbook (strategy, compat o restore) activó ROLL_BACK_MIGRATION y por qué la ausencia exige RUN_RESTORE_DRILL sin rellenar el archivo."
+    },
+    {
+      "wc": 23,
+      "text": "El predicado correcto debe ser verdadero porque el fixture conserva lock verificado e imagen runtime reducida; revisa dirección de comparación, conjuntos y negaciones."
+    },
+    {
+      "wc": 23,
+      "text": "S43-T4-B-E3: explica qué línea del reporte (CRITICAL, límites o debug_shell) activó QUARANTINE_IMAGE y por qué la ausencia exige TRIAGE_SCAN_FINDING sin rellenar el scan."
+    },
+    {
+      "wc": 23,
+      "text": "Convertir código fijado, locks, configuración no secreta y secretos inyectados en runtime en imágenes mínimas, servicios sanos y recuperación documentada con un comando."
+    },
+    {
+      "wc": 23,
+      "text": "El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales (Dockerfile, compose.yaml, runbook), no cambiando asserts a True sin archivo."
+    },
+    {
+      "wc": 22,
+      "text": "Orden de aprendizaje: T1 Dockerfile y non-root → T2 config, secretos y señales → T3 Compose y migraciones → T4 locks, multi-stage, scan y límites."
+    },
+    {
+      "wc": 22,
+      "text": "En cada bloque verás el contrato, una demo que lo calcula y ejercicios que fallan cerrado si el build no es reproducible."
+    },
+    {
+      "wc": 22,
+      "text": "Stack de práctica: **stdlib** para modelar el contrato; en el youDo documentas los artefactos reales (Dockerfile/Compose) listos para un entorno con Docker."
+    }
+  ]
+}

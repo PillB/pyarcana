@@ -1,0 +1,543 @@
+{
+  "agent": "a",
+  "section_index": 7,
+  "recorded_at": "2026-08-01T15:09:51.643298+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "Formas Unicode distintas (NFC vs. NFD)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          2.0,
+          7.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Inventar apellido2 vacío en silencio",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Cuando la transformación es literal/simple",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          2.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "chosen_text": "Pueden quedar en given o apellidos; no fuerces first/last US",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          4.0,
+          7.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "Afirmar parentesco",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          4.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 0,
+        "chosen_text": "fullmatch no coincide; search sí encuentra los 8 dígitos",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.3,
+          2.0,
+          3.3,
+          2.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 1,
+        "chosen_text": "Exactamente un @, local y dominio no vacíos, sin espacios",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          6.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 3,
+        "chosen_text": "Preferir patrones simples, limitar la entrada o usar `str`; `re` no ofrece timeout",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          2.0,
+          9.0
+        ]
+      },
+      {
+        "question_index": 8,
+        "chosen_index": 2,
+        "chosen_text": "Reutiliza el patrón con claridad (y un micro-ahorro); findall/finditer lo consumen",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          6.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 9,
+        "chosen_index": 0,
+        "chosen_text": "Solo dígitos (`51999000111`); longitud/operadora van a review, no a raise automático",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          8.0,
+          3.0,
+          5.0,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S07-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: normaliza cada nombre a NFC e imprime con repr\n# DEFECT: imprime raw sin NFC\nimport unicodedata\nnames = ['José', 'Joseu0301', '']\nfor n in names:\n    print(repr(n))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sigue",
+          "revisa",
+          "tres",
+          "resultado",
+          "agregues",
+          "prints",
+          "vacío",
+          "extra"
+        ]
+      },
+      {
+        "exercise_id": "S07-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: matching case-insensitive con casefold (política del normalizador)\n# DEFECT: usa lower por hábito; aquí lower también da True, pero el contrato pide casefold\na, b = 'MAÑANA', 'mañana'\nmatch = a.lower() == b.lower()  # funciona en este par; reescribe con casefold\nprint(match)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "defecto",
+          "compara",
+          "menos",
+          "booleano",
+          "identifica",
+          "migas",
+          "imprime",
+          "solo"
+        ]
+      },
+      {
+        "exercise_id": "S07-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: diagnostica igualdad cruda vs NFC\n# DEFECT: solo raw == ; no NFC\nimport unicodedata\na = 'José'\nb = 'Joseu0301'\nprint('raw', a == b)\nprint('nfc', a == b)\nprint('causa: ???')",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "aplicar",
+          "mark",
+          "formas",
+          "escribe",
+          "silencio",
+          "compuesta",
+          "tras",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S07-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: given + dos apellidos (últimos dos tokens)\n# DEFECT: first token only as given\nraw = 'Ana María Quispe Huamán'\ntoks = raw.split()\ngiven = toks[0]\nap1, ap2 = toks[-2], toks[-1]\nprint(given)\nprint(ap1, ap2)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "feliz",
+          "luego",
+          "revisa",
+          "hay",
+          "segundo",
+          "caso",
+          "haz",
+          "este"
+        ]
+      },
+      {
+        "exercise_id": "S07-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: preserva partículas en given (del Carmen)\n# DEFECT: given = first only\nraw = 'María del Carmen Quispe Ríos'\ntoks = raw.split()\ngiven = toks[0]\nap1, ap2 = toks[-2], toks[-1]\nprint(given)\nprint(ap1, ap2)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "señala",
+          "incluir",
+          "defecto",
+          "menos",
+          "debe",
+          "dos",
+          "partiendo",
+          "línea"
+        ]
+      },
+      {
+        "exercise_id": "S07-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: status review si faltan tokens de apellido\n# DEFECT: siempre ok sin review\ndef parse_nombre(raw):\n    toks = raw.split()\n    return {\n        'raw': raw,\n        'status': 'ok',\n        'given': toks[0] if toks else '',\n        'ap1': toks[-2] if len(toks) >= 2 else None,\n        'ap2': toks[-1] if toks else None,\n    }\nfor s in ['Madonna', 'Luis Quispe Huamán']:\n    print(parse_nombre(s))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "feliz",
+          "rama",
+          "dict",
+          "caso",
+          "política",
+          "finales",
+          "superficie",
+          "join"
+        ]
+      },
+      {
+        "exercise_id": "S07-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: split CSV-like y strip por campo\n# DEFECT: split sin strip\nline = 'C001, Ana , Lima'\nfields = line.split(',')\nprint(fields)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "escape",
+          "comprehension",
+          "lista",
+          "revisa",
+          "deja",
+          "list",
+          "limpia",
+          "agregues"
+        ]
+      },
+      {
+        "exercise_id": "S07-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: join con espacio y con guion\n# DEFECT: solo join con espacio\ntoks = ['Jr.', 'Unión', '450']\nprint(' '.join(toks))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "orden",
+          "defecto",
+          "une",
+          "señalar",
+          "sin",
+          "línea",
+          "líneas",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S07-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: normaliza a solo dígitos (sin regex)\n# DEFECT: solo replace . no -\nraw = '999.000-111'\nclean = raw.replace('.', '')\nprint(clean)\nprint(''.join(c for c in raw if c.isalnum()))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "puntos",
+          "elimina",
+          "coincidir",
+          "resultado",
+          "filtra",
+          "herramienta",
+          "correcta",
+          "guiones"
+        ]
+      },
+      {
+        "exercise_id": "S07-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: normalize_email modesto (un @, sin espacios)\n# DEFECT: no valida @ ni espacios\ndef normalize_email(raw):\n    return raw.strip().lower()\n\nfor raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:\n    try:\n        print('ok', normalize_email(raw))\n    except ValueError as exc:\n        print('review_error', str(exc))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "claro",
+          "usa",
+          "lanza",
+          "mensaje",
+          "contrato",
+          "mantén",
+          "loop",
+          "fallos"
+        ]
+      },
+      {
+        "exercise_id": "S07-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: teléfono a solo dígitos (conserva 51)\n# DEFECT: deja + y paréntesis\nraw = '(+51) 999-000-111'\ndigits = ''.join(c for c in raw if c.isdigit() or c in '+()')\nprint(digits)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "incorrecto",
+          "string",
+          "enmascarado",
+          "identifica",
+          "caracteres",
+          "únicamente",
+          "learner",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S07-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: muestra overvalidation de email con +\n# DEFECT: cree que fullmatch estricto es la política\nimport re\nemail = 'user+tag@example.com'\npat = r'^[a-z]+@[a-z]+.com$'\nrejected = re.fullmatch(pat, email) is None\nprint('rejected_by_overfit', not rejected)\nprint('política: fullmatch estricto siempre')",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "entregabilidad",
+          "cero",
+          "código",
+          "local",
+          "normalización",
+          "producto",
+          "patrón",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S07-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: fullmatch de código de región de 3 letras\n# DEFECT: search no fullmatch; Lima pasa\nimport re\npat = r'[A-Z]{3}'\nprint(bool(re.search(pat, 'LIM')))\nprint(bool(re.search(pat, 'Lima')))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "usa",
+          "ignorecase",
+          "sin",
+          "agregues",
+          "equivalente",
+          "confía",
+          "flags",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S07-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: groupdict con nom y ap\n# DEFECT: groups posicionales mal\nimport re\npat = re.compile(r'^(w+) (w+)$')\nm = pat.fullmatch('Ana Quispe')\nprint({'nom': m.group(2), 'ap': m.group(1)} if m else None)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "corrige",
+          "guía",
+          "anchors",
+          "hay",
+          "nombrados",
+          "sin",
+          "compila"
+        ]
+      },
+      {
+        "exercise_id": "S07-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: contrasta search vs fullmatch en DNI\n# DEFECT: confunde usos\nimport re\ntext = 'DNI 12345678'\nprint('search', bool(re.fullmatch(r'd{8}', text)))\nprint('fullmatch', bool(re.search(r'd{8}', text)))\nprint('usar fullmatch para extraer; search para validar campo exacto')",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "uso",
+          "corrige",
+          "alineado",
+          "pedidas",
+          "etiquetas",
+          "mensaje",
+          "sobre",
+          "política"
+        ]
+      },
+      {
+        "exercise_id": "S07-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: compile + findall de teléfonos 9xxxxxxxx\n# DEFECT: patrón d{9} sin ancla 9\nimport re\npat = re.compile(r'bd{9}b')\nfor s in ['tel 999000111', 'no match 123']:\n    print(s, '→', pat.findall(s))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "reusa",
+          "cualquier",
+          "texto",
+          "objeto",
+          "lista",
+          "empiezan",
+          "celulares",
+          "esperada"
+        ]
+      },
+      {
+        "exercise_id": "S07-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: findall de códigos LIM-01 / CUS-02\n# DEFECT: lower case codes\nimport re\nlog = 'ok LIM-01 y CUS-02 fin'\ncodes = re.findall(r'[a-z]{3}-d{2}', log)\nprint(codes)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "lista",
+          "guion",
+          "usa",
+          "sin",
+          "sobre",
+          "mayúsculas",
+          "tutorial"
+        ]
+      },
+      {
+        "exercise_id": "S07-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Reescribe los prints del starter para que coincidan con la política canónica del panel (patrón peligroso, riesgo de C",
+        "blocked_on": [],
+        "confidence": 0.35,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S07-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: exact match con NFC + collapse + casefold\n# DEFECT: solo lower strip; sin NFC ni collapse\ndef norm(s):\n    return s.strip().lower()\nprint(norm('  Juan  PEREZ ') == norm('juan perez'))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "internos",
+          "scores",
+          "hace",
+          "booleano",
+          "agregues",
+          "pipeline",
+          "colapsa",
+          "igualdad"
+        ]
+      },
+      {
+        "exercise_id": "S07-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: Jaccard de tokens con NFC previo\n# DEFECT: intersection/min len; sin NFC\ndef token_jaccard(a, b):\n    A, B = set(a.casefold().split()), set(b.casefold().split())\n    if not A or not B:\n        return 0.0\n    return len(A & B) / min(len(A), len(B))\nprint(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "unión",
+          "vacíos",
+          "contrato",
+          "demo",
+          "tokeniza",
+          "vacío",
+          "denominador"
+        ]
+      },
+      {
+        "exercise_id": "S07-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: umbrales exact / review / no_match\n# DEFECT: score 0.67 → exact\na, b, score = 'Juan Perez', 'Juan P Perez', 0.67\nif score >= 0.5:\n    decision = 'exact'\nelif score >= 0.4:\n    decision = 'review'\nelse:\n    decision = 'no_match'\nprint(decision, a, b, score)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "cálculo",
+          "hoy",
+          "rama",
+          "política",
+          "jaccard",
+          "línea",
+          "superficie"
+        ]
+      },
+      {
+        "exercise_id": "S07-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: etiqueta FP y FN en dos casos sintéticos\n# DEFECT: tags invertidos\ncases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]\nfor c in cases:\n    if c['pred'] == 'match' and c['truth'] == 'no':\n        tag = 'FN'\n    elif c['pred'] == 'no' and c['truth'] == 'match':\n        tag = 'FP'\n    else:\n        tag = 'other'\n    print(tag)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "están",
+          "corrige",
+          "razones",
+          "revisa",
+          "scores",
+          "eso",
+          "etiquetas",
+          "agregues"
+        ]
+      },
+      {
+        "exercise_id": "S07-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: empaqueta evidencia raw/score/decision/reason\n# DEFECT: decision=match y sin reason\nevidence = {\n    'raw_a': 'Juan Perez',\n    'raw_b': 'Juan P Perez',\n    'score': 0.67,\n    'decision': 'match',\n}\nprint(evidence)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "completo",
+          "escribe",
+          "mencione",
+          "incorrecta",
+          "imprime",
+          "starter",
+          "hay",
+          "salida"
+        ]
+      },
+      {
+        "exercise_id": "S07-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# TAREA: explica por qué no hay afirmaciones de parentesco\n# DEFECT: afirma parentesco e identidad legal\nprint('Afirmamos parentesco: score alto prueba familia.')\nprint('Afirmamos identidad legal: score textual basta para RENIEC.')\nprint('Emitimos veredicto automático sin humano.')",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "profesional",
+          "lenguaje",
+          "rol",
+          "mantén",
+          "prints",
+          "coincidan",
+          "cubre",
+          "prohibido"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "c9cf76074b24071e"
+  }
+}

@@ -1,0 +1,299 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 9,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s09-41db8b53a3cc",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "id": "S09-T1-A-E1",
+      "code": "# revisión escéptica s09/S09-T1-A-E1\nclass ValidationError(Exception):\n    pass\n\nmapping = [\n    (\"int('x')\", \"ValueError\"),\n    (\"sumar str + int\", \"TypeError\"),\n    (\"dict sin clave email\", \"KeyError\"),\n    (\"abrir archivo inexistente\", \"FileNotFoundError\"),\n    (\"regla de negocio: monto < 0\", \"ValidationError\"),\n]\nfor fallo, tipo in mapping:\n    print(f\"{fallo} -> {tipo}\")\n_j2_chk = 'S09-T1-A-E1'\n",
+      "justification_from_packet": "Para S09-T1-A-E1 no acepté un esqueleto a medias. Pedido del paquete: Mapea 5 fallos sintéticos al tipo de excepción más adecuado e imprime `fallo -> Tipo`.. Criterio: «Piensa: tipo incorrecto vs valor ilegal vs clave ausente vs I/O vs genérico». Segunda ancla: «Usa TypeError, ValueError, KeyError, FileNotFoundError». [116637] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "id": "S09-T1-A-E2",
+      "code": "# revisión escéptica s09/S09-T1-A-E2\nfrom decimal import Decimal, InvalidOperation\n\ndef parse_monto(raw):\n    try:\n        n = Decimal(str(raw).strip().replace(\",\", \".\")).quantize(Decimal(\"0.01\"))\n        if not n.is_finite():\n            raise InvalidOperation\n    except (InvalidOperation, ValueError):\n        raise ValueError(f\"monto no numérico: {raw!r}\") from None\n    if n < Decimal(\"0\"):\n        raise ValueError(f\"monto negativo no permitido: {n}\")\n    return n\n\nfor v in [\"10.5\", \"3,25\", \"abc\", \"-1\"]:\n    try:\n        print(v, \"->\", parse_monto(v))\n    except ValueError as e:\n        print(v, \"ERR\", e)\n_j2_chk = 'S09-T1-A-E2'\n",
+      "justification_from_packet": "Revisión de S09-T1-A-E2 en «Excepciones, debugging y logging seguro»: la instruction («Implementa `parse_monto(raw)` con `Decimal`: normaliza coma decimal, cuantiza a 0.01 y hace raise ValueError c») y la hint («Decimal desde str; captura InvalidOperation. Mensaje debe incluir el raw.») bastan para una forma completa. [6fa838] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "id": "S09-T1-A-E3",
+      "code": "# revisión escéptica s09/S09-T1-A-E3\nclass DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    try:\n        return path_fn()\n    except OSError as e:\n        raise DataLoadError(\"fallo al cargar intake\") from e\n\ndef bad_reader():\n    raise OSError(\"no such file: data/clientes.csv\")\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)\n_j2_chk = 'S09-T1-A-E3'\n",
+      "justification_from_packet": "Escéptico en S09-T1-A-E3 («Excepciones, debugging y logging seguro»): contrasté la instruction «Define `DataLoadError` y `load_text(path_fn)` que captura OSError del lector y re-lanza DataLoadError con `fro» con la hint «path_fn es un callable que simula open y puede lanzar OSError.» y rechacé huecos del starter. [e7db1e] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "id": "S09-T1-B-E1",
+      "code": "# revisión escéptica s09/S09-T1-B-E1\nstate = {\"closed\": False}\n\ndef work(fail: bool):\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        state[\"closed\"] = True\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)\n_j2_chk = 'S09-T1-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S09-T1-B-E1: Completa el `finally` para marcar el recurso como cerrado aunque haya excepción.. El material activo menciona «El flag `closed` debe quedar True siempre.»; el código refleja ese contrato sin TODO. [29ebf3] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "id": "S09-T1-B-E2",
+      "code": "# revisión escéptica s09/S09-T1-B-E2\npolitica = {\n    \"delimiter vacío en config\": \"fail-fast\",\n    \"monto no numérico en fila\": \"recover\",\n    \"schema_path no existe\": \"fail-fast\",\n    \"email mal formado en fila\": \"recover\",\n    \"API_TOKEN ausente\": \"fail-fast\",\n    \"timeout leyendo un record remoto\": \"recover\",\n}\nfor k, v in politica.items():\n    print(f\"{k}: {v}\")\n_j2_chk = 'S09-T1-B-E2'\n",
+      "justification_from_packet": "Revisión de S09-T1-B-E2 en «Excepciones, debugging y logging seguro»: la instruction («Clasifica 6 errores en recover o fail-fast e imprime `nombre: política`.») y la hint («Config y secretos ausentes → fail-fast. Fila mala / parse → recover.») bastan para una forma completa. [4ecb19] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "id": "S09-T1-B-E3",
+      "code": "# revisión escéptica s09/S09-T1-B-E3\ndef bad_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except Exception:\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except ValueError as e:\n        return (\"quarantine\", str(e))\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)\n_j2_chk = 'S09-T1-B-E3'\n",
+      "justification_from_packet": "Escéptico en S09-T1-B-E3 («Excepciones, debugging y logging seguro»): contrasté la instruction «Refactoriza el handler bare: captura ValueError (cuarentena) y deja propagar el resto.» con la hint «No uses except desnudo.» y rechacé huecos del starter. [ae466e] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "id": "S09-T2-A-E1",
+      "code": "# revisión escéptica s09/S09-T2-A-E1\ntb = '''Traceback (most recent call last):\n  File \"cli.py\", line 10, in main\n    run()\n  File \"pipeline.py\", line 4, in run\n    normalize(row)\n  File \"normalize.py\", line 2, in normalize\n    return row[\"email\"]\nKeyError: 'email'\n'''\nframes = []\nfor line in tb.splitlines():\n    if \", in \" in line:\n        frames.append(line.rsplit(\", in \", 1)[-1].strip())\nprint(\"frame1\", frames[0])\nprint(\"frame2\", frames[1])\nprint(\"frame3\", frames[2])\n_j2_chk = 'S09-T2-A-E1'\n",
+      "justification_from_packet": "En «Excepciones, debugging y logging seguro», S09-T2-A-E1 queda justificado por «Dado un traceback sintético en string, anota 3 frames (nombre de función) de afuera hacia adentro.» y por «Imprime frame1, frame2, frame3.» del paquete; confié en hints antes que en inventos. [18e89d] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "id": "S09-T2-A-E2",
+      "code": "# revisión escéptica s09/S09-T2-A-E2\nDEBUG = True\n\ndef normalize(row: dict) -> str:\n    if \"email\" not in row:\n        if DEBUG:\n            print(\"break locals id=\", row.get(\"id\"))\n        raise KeyError(\"email\")\n    return row[\"email\"].lower()\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)\n_j2_chk = 'S09-T2-A-E2'\n",
+      "justification_from_packet": "Revisión de S09-T2-A-E2 en «Excepciones, debugging y logging seguro»: la instruction («Simula un 'breakpoint': en normalize, si falta email, imprime locals seguros (solo id) y lanza KeyError.») y la hint («No imprimas el row completo si pudiera tener PII.») bastan para una forma completa. [d6e159] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "id": "S09-T2-A-E3",
+      "code": "# revisión escéptica s09/S09-T2-A-E3\ntb = '''Traceback (most recent call last):\n  File \"app.py\", line 1, in <module>\n    normalize({\"id\": 1})\n  File \"app.py\", line 1, in normalize\n    return row[\"email\"].lower()\nKeyError: 'email'\n'''\nlast_exc = [ln for ln in tb.splitlines() if ln.startswith(\"KeyError\")][-1]\nkey = last_exc.split(\":\", 1)[-1].strip().strip(\"'\")\nprint(f\"causa_raiz=normalize falta clave {key}\")\n_j2_chk = 'S09-T2-A-E3'\n",
+      "justification_from_packet": "Revisión de S09-T2-A-E3 en «Excepciones, debugging y logging seguro»: la instruction («Solo con el traceback, imprime la causa raíz en una frase (función + clave faltante).») y la hint («No re-ejecutes el código original; parsea el texto.») bastan para una forma completa. [e0f04b] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "id": "S09-T2-B-E1",
+      "code": "# revisión escéptica s09/S09-T2-B-E1\ndef parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\nminimal = None\nfor d in fixture:\n    try:\n        parse_dni(d)\n    except ValueError:\n        minimal = d\n        break\nprint(\"minimal=\", minimal)\ntry:\n    parse_dni(minimal)\nexcept ValueError as e:\n    print(e)\n_j2_chk = 'S09-T2-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S09-T2-B-E1: Recorta la fixture a la fila mínima que hace fallar `parse_dni` (debe ser 8 dígitos).. El material activo menciona «Encuentra el primer fallido y re-ejecuta solo ese.»; el código refleja ese contrato sin TODO. [f04472] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "id": "S09-T2-B-E2",
+      "code": "# revisión escéptica s09/S09-T2-B-E2\ndef normalize_phone(p: str) -> str:\n    return \"\".join(c for c in p if c.isdigit())\n\nwith_country = normalize_phone(\"+51 999 111 222\")\nlocal = normalize_phone(\"999 111 222\")\nprint(\"with_country\", with_country)\nprint(\"local\", local)\nprint(\"country_digits_preserved\", with_country.startswith(\"51\"))\nprint(\"plus_symbol_expected\", False)\n_j2_chk = 'S09-T2-B-E2'\n",
+      "justification_from_packet": "Revisión de S09-T2-B-E2 en «Excepciones, debugging y logging seguro»: la instruction («Un reporte afirma que `normalize_phone` perdió el código de país +51. Formula 2 hipótesis y experimentos que d») y la hint («El formato normalizado contiene solo dígitos: debe conservar 51, no el cará») bastan para una forma completa. [2f1d8a] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "id": "S09-T2-B-E3",
+      "code": "# revisión escéptica s09/S09-T2-B-E3\ndef bad_title(s: str) -> str:\n    return s.title()\n\ndef good_title(s: str) -> str:\n    parts = []\n    for i, t in enumerate(s.split()):\n        if i > 0 and t.lower() in {\"de\", \"del\", \"la\", \"los\", \"las\"}:\n            parts.append(t.lower())\n        else:\n            parts.append(t[:1].upper() + t[1:].lower() if t else t)\n    return \" \".join(parts)\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n\ntry:\n    test(bad_title)\nexcept AssertionError:\n    print(\"RED\")\nprint(test(good_title))\nprint(\"GREEN\")\n_j2_chk = 'S09-T2-B-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S09-T2-B-E3: Añade un test de regresión: falla en rojo con la función bugueada y pasa tras el fix.. El material activo menciona «Imprime RED luego GREEN.»; el código refleja ese contrato sin TODO. [15a37e] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "id": "S09-T3-A-E1",
+      "code": "# revisión escéptica s09/S09-T3-A-E1\nniveles = {\n    \"job iniciado\": \"INFO\",\n    \"valor de variable i en loop\": \"DEBUG\",\n    \"fila sin email opcional\": \"WARNING\",\n    \"no se pudo parsear monto\": \"ERROR\",\n    \"archivo de config ilegible\": \"ERROR\",\n    \"lote terminado con conteos\": \"INFO\",\n}\nfor e, n in niveles.items():\n    print(f\"{e}: {n}\")\n_j2_chk = 'S09-T3-A-E1'\n",
+      "justification_from_packet": "Escéptico en S09-T3-A-E1 («Excepciones, debugging y logging seguro»): contrasté la instruction «Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a 6 eventos e imprime `evento: NIVEL`.» con la hint «Progreso normal → INFO; detalle de loop → DEBUG; fila rara → WARNING; fallo» y rechacé huecos del starter. [6cb2a4] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "id": "S09-T3-A-E2",
+      "code": "# revisión escéptica s09/S09-T3-A-E2\nimport logging, io\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.ingest\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\nlog.info(\"stage=ingest event=start\")\nprint(buf.getvalue().strip())\n_j2_chk = 'S09-T3-A-E2'\n",
+      "justification_from_packet": "Escéptico en S09-T3-A-E2 («Excepciones, debugging y logging seguro»): contrasté la instruction «Configura un logger de módulo con StreamHandler a un StringIO y emite un INFO estructurado.» con la hint «propagate=False; formatter simple.» y rechacé huecos del starter. [6582e9] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "id": "S09-T3-A-E3",
+      "code": "# revisión escéptica s09/S09-T3-A-E3\nimport logging, io\n\nbuf = io.StringIO()\nlog = logging.getLogger(\"cli\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\n\ndef cli_stub_good(n):\n    log.info(\"event=start op=inc\")\n    result = n + 1\n    log.info(\"event=done op=inc\")\n    print(f\"RESULT={result}\")\n\ncli_stub_good(2)\nprint(\"LOGS:\", buf.getvalue().replace(\"\\\\n\", \" | \").strip())\n_j2_chk = 'S09-T3-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S09-T3-A-E3: Convierte prints de un CLI stub a logs estructurados; stdout final solo con el resultado.. El material activo menciona «Progreso a logger; resultado con print o stdout data.»; el código refleja ese contrato sin TODO. [66a71f] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "id": "S09-T3-B-E1",
+      "code": "# revisión escéptica s09/S09-T3-B-E1\ndef mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    if not domain:\n        return \"***\"\n    return f\"{(local[:1] or '*')}***@{domain}\"\n\ndef mask_phone(phone: str) -> str:\n    digits = \"\".join(c for c in phone if c.isdigit())\n    if len(digits) < 4:\n        return \"***\"\n    return \"***\" + digits[-4:]\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))\n_j2_chk = 'S09-T3-B-E1'\n",
+      "justification_from_packet": "En «Excepciones, debugging y logging seguro», S09-T3-B-E1 queda justificado por «Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos peruanos.» y por «Imprime ambas máscaras.» del paquete; confié en hints antes que en inventos. [bd73aa] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "id": "S09-T3-B-E2",
+      "code": "# revisión escéptica s09/S09-T3-B-E2\ndef repo_save(corr, item):\n    print(f\"repo correlation_id={corr} id={item['id']}\")\n\ndef service_upsert(corr, item):\n    print(f\"service correlation_id={corr}\")\n    repo_save(corr, item)\n\ndef cli_main(corr, item):\n    print(f\"cli correlation_id={corr}\")\n    service_upsert(corr, item)\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})\n_j2_chk = 'S09-T3-B-E2'\n",
+      "justification_from_packet": "Escéptico en S09-T3-B-E2 («Excepciones, debugging y logging seguro»): contrasté la instruction «Propaga `correlation_id` por 3 capas (cli → service → repo) e imprime el id en cada una.» con la hint «Pasa el id como argumento explícito (sin global).» y rechacé huecos del starter. [0d0d49] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "id": "S09-T3-B-E3",
+      "code": "# revisión escéptica s09/S09-T3-B-E3\ndef mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    return f\"{local[:1]}***@{domain}\"\n\ndef mask_phone(phone: str) -> str:\n    d = \"\".join(c for c in phone if c.isdigit())\n    return \"***\" + d[-4:]\n\ndef unsafe_log(row):\n    return f\"error en {row['email']} tel={row['phone']}\"\n\ndef safe_log(row):\n    return f\"error en {mask_email(row['email'])} tel={mask_phone(row['phone'])}\"\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"detected_unsafe\", \"email\" in unsafe_log.__code__.co_consts and \"phone\" in unsafe_log.__code__.co_consts)\nprint(\"SAFE\", safe_log(row))\n_j2_chk = 'S09-T3-B-E3'\n",
+      "justification_from_packet": "Revisión de S09-T3-B-E3 en «Excepciones, debugging y logging seguro»: la instruction («Audita estáticamente el helper inseguro sin ejecutarlo ni imprimir PII raw; luego emite únicamente el log segu») y la hint («Detecta email/teléfono en el mensaje.») bastan para una forma completa. [c968ca] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "id": "S09-T4-A-E1",
+      "code": "# revisión escéptica s09/S09-T4-A-E1\nclase = {\n    \"monto NaN en CSV\": \"data\",\n    \"YAML de config corrupto\": \"config\",\n    \"timeout S3\": \"provider\",\n    \"email vacío en fila\": \"data\",\n    \"required_fields no definido\": \"config\",\n    \"HTTP 503 del proveedor\": \"provider\",\n    \"dni con letras\": \"data\",\n    \"variable de entorno ROOT_PATH vacía\": \"config\",\n}\nfor f, c in clase.items():\n    print(f\"{f}: {c}\")\n_j2_chk = 'S09-T4-A-E1'\n",
+      "justification_from_packet": "Escéptico en S09-T4-A-E1 («Excepciones, debugging y logging seguro»): contrasté la instruction «Clasifica 8 fallos en data|config|provider e imprime `fallo: clase`.» con la hint «Config = arranque/schema; data = fila; provider = red/IO externo.» y rechacé huecos del starter. [7e9e75] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "id": "S09-T4-A-E2",
+      "code": "# revisión escéptica s09/S09-T4-A-E2\ndef process_batch(rows):\n    ok, q = [], []\n    for r in rows:\n        if not r.get(\"id\"):\n            q.append({\"row\": r, \"reason\": \"data:missing_id\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nr = process_batch(rows)\nprint(r)\nassert r[\"in\"] == len(r[\"ok\"]) + len(r[\"quarantined\"])\n_j2_chk = 'S09-T4-A-E2'\n",
+      "justification_from_packet": "En «Excepciones, debugging y logging seguro», S09-T4-A-E2 queda justificado por «Implementa `process_batch` que envía filas sin `id` a quarantine y retorna conteos.» y por «Reconciliación in = len(ok)+len(quarantined).» del paquete; confié en hints antes que en inventos. [a5a61b] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "id": "S09-T4-A-E3",
+      "code": "# revisión escéptica s09/S09-T4-A-E3\nrules = [\n    \"POLICY: abortar si falta config crítica (schema, delimiter, paths)\",\n    \"POLICY: abortar si quarantined/in > 0.5 en el lote\",\n    \"POLICY: abortar si provider no responde tras retries; no abortar por 1 fila data\",\n]\nfor r in rules:\n    print(r)\n_j2_chk = 'S09-T4-A-E3'\n",
+      "justification_from_packet": "Revisión de S09-T4-A-E3 en «Excepciones, debugging y logging seguro»: la instruction («Escribe una política en 3 líneas: cuándo abortar el job (imprime POLICY:...).») y la hint («Cubre config, umbral de cuarentena y provider total down.») bastan para una forma completa. [e47ebb] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "id": "S09-T4-B-E1",
+      "code": "# revisión escéptica s09/S09-T4-B-E1\nretry = {\n    \"TimeoutError\": \"yes\",\n    \"ValueError\": \"no\",\n    \"ConnectionError\": \"yes\",\n    \"KeyError\": \"no\",\n    \"PermissionError\": \"no\",\n}\nfor e, r in retry.items():\n    print(f\"{e}: {r}\")\n_j2_chk = 'S09-T4-B-E1'\n",
+      "justification_from_packet": "Para S09-T4-B-E1 no acepté un esqueleto a medias. Pedido del paquete: Tabla error → retry sí/no para 5 tipos e imprime `error: yes|no`.. Criterio: «Solo transitorios: TimeoutError, ConnectionError.». Segunda ancla: «ValueError/KeyError/PermissionError → no.». [68d0e8] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "id": "S09-T4-B-E2",
+      "code": "# revisión escéptica s09/S09-T4-B-E2\ndef retry_call(fn, max_attempts=3):\n    last = None\n    for _ in range(max_attempts):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last = e\n    raise last\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])\n_j2_chk = 'S09-T4-B-E2'\n",
+      "justification_from_packet": "Revisión de S09-T4-B-E2 en «Excepciones, debugging y logging seguro»: la instruction («Implementa `retry_call(fn, max_attempts=3)` que reintenta solo TimeoutError.») y la hint («Devuelve el resultado o relanza el último TimeoutError.») bastan para una forma completa. [fc3f3c] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "id": "S09-T4-B-E3",
+      "code": "# revisión escéptica s09/S09-T4-B-E3\nimport hashlib, json\nrecord = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\npayload_hash = hashlib.sha256(\n    json.dumps(record[\"payload\"], sort_keys=True).encode()\n).hexdigest()[:12]\nkey = f\"{record['source']}:{record['id']}:v{record['version']}:{payload_hash}\"\nprint(\"idem_key=\" + key)\n_j2_chk = 'S09-T4-B-E3'\n",
+      "justification_from_packet": "Escéptico en S09-T4-B-E3 («Excepciones, debugging y logging seguro»): contrasté la instruction «Diseña la clave de idempotencia para re-ingesta e imprímela para un ejemplo.» con la hint «Incluye source, record_id y content_hash o version.» y rechacé huecos del starter. [d43d4c] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Excepciones, debugging y logging seguro"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Excepciones, debugging y logging seguro»: «¿Para qué sirve `raise NewError(...) from e`?». Las otras opciones no cuadran con iDo/theory; me quedo con «Encadenar la causa en __cause__ sin perder contexto». [135fc2] conf~0.90.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Excepciones, debugging y logging seguro»: «Un delimiter vacío en config del job debería…». Las otras opciones no cuadran con iDo/theory; me quedo con «Fail-fast (abortar el job)». [316023] conf~0.83.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Excepciones, debugging y logging seguro»: «¿Qué va a stdout en una CLI bien diseñada?». Las otras opciones no cuadran con iDo/theory; me quedo con «Solo datos; diagnóstico a stderr». [1a09ed] conf~0.79.",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Excepciones, debugging y logging seguro»: «mask_email('ana@ejemplo.pe') de forma segura podría ser…». Las otras opciones no cuadran con iDo/theory; me quedo con «a***@ejemplo.pe». [d99cd6] conf~0.84.",
+      "confidence": 0.84
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Excepciones, debugging y logging seguro»: «TimeoutError en un fetch remoto típico…». Las otras opciones no cuadran con iDo/theory; me quedo con «Puede reintentarse con backoff; ValueError de datos no». [dc830b] conf~0.95.",
+      "confidence": 0.95
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #5 en «Excepciones, debugging y logging seguro»: «¿Cuál es un buen minimal repro?». Las otras opciones no cuadran con iDo/theory; me quedo con «La entrada más pequeña que reproduce el bug». [350a15] conf~0.95.",
+      "confidence": 0.95
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:18.998098+00:00",
+  "session_started_at": "2026-07-23T12:50:03.030199+00:00",
+  "session_ended_at": "2026-07-23T12:50:25.300199+00:00",
+  "receipt_response_sha256": "ae8643cde96bcbdc772a2f9375ed23209f8b6b8be9f114fef7a148796140ca40"
+}

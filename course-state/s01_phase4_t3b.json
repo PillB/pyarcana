@@ -1,0 +1,24 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "block": "S01-T3-B",
+  "block_status": "COMPLETE",
+  "generated_at": "2026-07-20T06:15:00Z",
+  "artifacts_authored": {
+    "theory": { "heading": "Ramas, Pull Requests y recuperación segura", "subtopicId": "S01-T3-B" },
+    "demo": { "demoId": "S01-T3-B-DEMO", "environment": "local-python", "executed": true },
+    "exercises": ["S01-T3-B-E1", "S01-T3-B-E2", "S01-T3-B-E3"]
+  },
+  "execution_evidence": {
+    "workdir": "/tmp/s01_t3b_verify",
+    "status": "PASS",
+    "notes": "feat branch, restore, stash; force-push intentionally not demonstrated",
+    "unverified": [
+      {
+        "item": "GitHub PR create via network",
+        "cause": "No remote credentials in agent environment; PR steps documented in iDo/weDo"
+      }
+    ]
+  },
+  "authorized_to_proceed": "S01-T4-A"
+}

@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S05",
+  "section_id": "oop",
+  "phase": "PHASE_5",
+  "lane": "LANE-S04-S05-P5",
+  "generated_at": "2026-07-20T12:05:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "oop"
+  },
+  "parallelism_rules": {
+    "same_skill_per_family": true,
+    "same_format": "MCQ 4 options",
+    "cognitive_demand": "A/B/C matched within family (not cosmetic rewording)",
+    "one_best_answer": true,
+    "explanation": "key rationale only"
+  },
+  "retired_from_s05_bank": [
+    "str-vs-repr",
+    "super-init",
+    "underscore-convention",
+    "composition-vs-inheritance"
+  ],
+  "retired_note": "Legacy S05 bank covered OOP classes/dunders/inheritance (V3 S11 territory). Replaced with V3 function/contract slugs for CP-N1-B normalizers.",
+  "families": [
+    {
+      "family_id": "S05-T1-A-EX",
+      "concept": "def-call-return",
+      "skill": "Definir, llamar y retornar (evitar None accidental / print-only)",
+      "bloom": "Comprender/Aplicar",
+      "equivalence_note": "A: return implícito None; B: naming normalize_*; C: return vs print. Misma skill def/return.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S05-T1-B-EX",
+      "concept": "params-safe-defaults",
+      "skill": "Defaults seguros y keyword-only sin mutables compartidos",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: bug bucket=[]; B: None + lista local; C: * keyword-only. Misma skill de params.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S05-T2-A-EX",
+      "concept": "prepost-docstrings",
+      "skill": "Pre/postcondiciones y docstrings alineados al código",
+      "bloom": "Comprender",
+      "equivalence_note": "A: precondición; B: contenido docstring; C: desalineación raise/return. Misma skill de contrato.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S05-T2-B-EX",
+      "concept": "type-hints-domain-errors",
+      "skill": "Hints graduales y modelar errores de dominio",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: hints no castean; B: error de dominio; C: Optional/str|None. Misma skill hints/errores.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S05-T3-A-EX",
+      "concept": "small-functions-compose",
+      "skill": "Funciones pequeñas y orquestador delgado",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: normalize_record delega; B: señal de extracción; C: beneficio tests/reuso. Misma skill composición.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S05-T3-B-EX",
+      "concept": "purity-io-injection",
+      "skill": "Pureza, idempotencia e I/O al borde",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: definición pureza; B: f(f(x))==f(x); C: inyección reader. Misma skill pureza.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S05-T4-A-EX",
+      "concept": "legb-closures",
+      "skill": "LEGB y closures/factories sin global",
+      "bloom": "Comprender",
+      "equivalence_note": "A: orden LEGB; B: qué es closure; C: evitar global. Misma skill de alcance.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S05-T4-B-EX",
+      "concept": "examples-refactor",
+      "skill": "Ejemplos/asserts y refactor sin cambiar conducta",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: asserts antes; B: verdes = conducta preservada; C: fronteras Unicode/idempotencia. Misma skill refactor.",
+      "variants": ["A", "B", "C"]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase4_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (oop key)",
+    "course-state/s05_phase5_exam_bank.json",
+    "course-state/lanes/LANE-S04-S05-P5.status.json"
+  ]
+}

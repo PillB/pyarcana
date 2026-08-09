@@ -1,0 +1,1080 @@
+{
+  "version": "3.2",
+  "section": "S15",
+  "section_id": "stdlib-deep",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S15 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S15 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s15-stdlib-deep.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "stdlib-deep",
+    "index": 15,
+    "title_platform": "Python Avanzado — stdlib Profunda",
+    "title_v3": "Pandas: ingesta, selección y tipos",
+    "title_decision": "KEEP platform id 'stdlib-deep' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+    "estimatedHours": 12,
+    "level": "Principiante avanzado a competente",
+    "phase": 1,
+    "prerequisites": [
+      "S14"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N2-A (dataset)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "stdlib-deep",
+    "platform_title": "Python Avanzado — stdlib Profunda",
+    "v3_title": "Pandas: ingesta, selección y tipos",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante modela Series/DataFrame con Index estable.",
+    "El estudiante lee CSV/Excel con parser y dtypes controlados.",
+    "El estudiante selecciona con loc/iloc y assign de forma idiomática.",
+    "El estudiante evita chained assignment y controla copias.",
+    "El estudiante tipa strings, nullable, fechas y categorías.",
+    "El estudiante aplica coerción explícita con schema y reporte.",
+    "El estudiante exporta a CSV/Parquet/Excel de forma reproducible.",
+    "El estudiante documenta índices, provenance y uso de memoria."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S15-T1-A",
+      "slug": "series-dataframe-index",
+      "title": "Series/DataFrame/index"
+    },
+    {
+      "subtopic_id": "S15-T1-B",
+      "slug": "read-csv-excel-parser",
+      "title": "lectura CSV/Excel y opciones de parser"
+    },
+    {
+      "subtopic_id": "S15-T2-A",
+      "slug": "loc-iloc-filters-assign",
+      "title": "loc/iloc, filtros y assign"
+    },
+    {
+      "subtopic_id": "S15-T2-B",
+      "slug": "chained-assignment-copy",
+      "title": "chained assignment y copy semantics"
+    },
+    {
+      "subtopic_id": "S15-T3-A",
+      "slug": "strings-nullable-dates-cats",
+      "title": "strings, nullable, fechas y categorías"
+    },
+    {
+      "subtopic_id": "S15-T3-B",
+      "slug": "explicit-coercion-schema",
+      "title": "coerción explícita y schema"
+    },
+    {
+      "subtopic_id": "S15-T4-A",
+      "slug": "csv-parquet-excel-export",
+      "title": "CSV/Parquet/Excel"
+    },
+    {
+      "subtopic_id": "S15-T4-B",
+      "slug": "index-format-provenance-memory",
+      "title": "índices, formatos, provenance y memoria"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S15-T1",
+      "title": "Modelo",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S15-T1-A",
+          "slug": "series-dataframe-index",
+          "title": "Series/DataFrame/index",
+          "outcome": "El estudiante modela Series/DataFrame con Index estable.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Series/DataFrame/index",
+              "must_cover": [
+                "Series",
+                "DataFrame",
+                "Index",
+                "MultiIndex intro"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S15-T1-A-DEMO",
+              "title": "Construir DF con Index estable y dtypes",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S15-T1-A-E1",
+                "kind": "guided",
+                "title": "Series/DataFrame/index — guided",
+                "skill": "series",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T1-A-E2",
+                "kind": "independent",
+                "title": "Series/DataFrame/index — independent",
+                "skill": "series",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T1-A-E3",
+                "kind": "transfer",
+                "title": "Series/DataFrame/index — transfer",
+                "skill": "series",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S15-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S15-T1-B",
+          "slug": "read-csv-excel-parser",
+          "title": "lectura CSV/Excel y opciones de parser",
+          "outcome": "El estudiante lee CSV/Excel con parser y dtypes controlados.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "lectura CSV/Excel y opciones de parser",
+              "must_cover": [
+                "read_csv",
+                "read_excel",
+                "dtype/parse_dates",
+                "na_values"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S15-T1-B-DEMO",
+              "title": "Ingerir CSV/Excel con opciones de parser explícitas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S15-T1-B-E1",
+                "kind": "guided",
+                "title": "lectura CSV/Excel y opciones de parser — guided",
+                "skill": "read",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T1-B-E2",
+                "kind": "independent",
+                "title": "lectura CSV/Excel y opciones de parser — independent",
+                "skill": "read",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T1-B-E3",
+                "kind": "transfer",
+                "title": "lectura CSV/Excel y opciones de parser — transfer",
+                "skill": "read",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S15-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S15-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S15-T1-EVAL-1",
+            "title": "Series/DataFrame/index — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S15-T1-EVAL-2",
+            "title": "lectura CSV/Excel y opciones de parser — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S15-T2",
+      "title": "Selección",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S15-T2-A",
+          "slug": "loc-iloc-filters-assign",
+          "title": "loc/iloc, filtros y assign",
+          "outcome": "El estudiante selecciona con loc/iloc y assign de forma idiomática.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "loc/iloc, filtros y assign",
+              "must_cover": [
+                "loc",
+                "iloc",
+                "query/boolean",
+                "assign"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S15-T2-A-DEMO",
+              "title": "Seleccionar filas/columnas y asignar columnas derivadas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S15-T2-A-E1",
+                "kind": "guided",
+                "title": "loc/iloc, filtros y assign — guided",
+                "skill": "loc",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T2-A-E2",
+                "kind": "independent",
+                "title": "loc/iloc, filtros y assign — independent",
+                "skill": "loc",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T2-A-E3",
+                "kind": "transfer",
+                "title": "loc/iloc, filtros y assign — transfer",
+                "skill": "loc",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S15-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S15-T2-B",
+          "slug": "chained-assignment-copy",
+          "title": "chained assignment y copy semantics",
+          "outcome": "El estudiante evita chained assignment y controla copias.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "chained assignment y copy semantics",
+              "must_cover": [
+                "SettingWithCopy",
+                "copy()",
+                "views"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S15-T2-B-DEMO",
+              "title": "Evitar chained assignment; documentar copy semantics",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S15-T2-B-E1",
+                "kind": "guided",
+                "title": "chained assignment y copy semantics — guided",
+                "skill": "chained",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T2-B-E2",
+                "kind": "independent",
+                "title": "chained assignment y copy semantics — independent",
+                "skill": "chained",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T2-B-E3",
+                "kind": "transfer",
+                "title": "chained assignment y copy semantics — transfer",
+                "skill": "chained",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S15-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S15-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S15-T2-EVAL-1",
+            "title": "loc/iloc, filtros y assign — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S15-T2-EVAL-2",
+            "title": "chained assignment y copy semantics — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S15-T3",
+      "title": "Tipos",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S15-T3-A",
+          "slug": "strings-nullable-dates-cats",
+          "title": "strings, nullable, fechas y categorías",
+          "outcome": "El estudiante tipa strings, nullable, fechas y categorías.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "strings, nullable, fechas y categorías",
+              "must_cover": [
+                "string dtype",
+                "Int64/boolean",
+                "datetime",
+                "category"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S15-T3-A-DEMO",
+              "title": "Coaccionar tipos nullable y fechas con reporte",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S15-T3-A-E1",
+                "kind": "guided",
+                "title": "strings, nullable, fechas y categorías — guided",
+                "skill": "strings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T3-A-E2",
+                "kind": "independent",
+                "title": "strings, nullable, fechas y categorías — independent",
+                "skill": "strings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T3-A-E3",
+                "kind": "transfer",
+                "title": "strings, nullable, fechas y categorías — transfer",
+                "skill": "strings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S15-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S15-T3-B",
+          "slug": "explicit-coercion-schema",
+          "title": "coerción explícita y schema",
+          "outcome": "El estudiante aplica coerción explícita con schema y reporte.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "coerción explícita y schema",
+              "must_cover": [
+                "astype",
+                "to_numeric errors",
+                "schema dict"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S15-T3-B-DEMO",
+              "title": "Aplicar schema y listar coerciones fallidas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S15-T3-B-E1",
+                "kind": "guided",
+                "title": "coerción explícita y schema — guided",
+                "skill": "explicit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T3-B-E2",
+                "kind": "independent",
+                "title": "coerción explícita y schema — independent",
+                "skill": "explicit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T3-B-E3",
+                "kind": "transfer",
+                "title": "coerción explícita y schema — transfer",
+                "skill": "explicit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S15-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S15-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S15-T3-EVAL-1",
+            "title": "strings, nullable, fechas y categorías — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S15-T3-EVAL-2",
+            "title": "coerción explícita y schema — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S15-T4",
+      "title": "Exportación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S15-T4-A",
+          "slug": "csv-parquet-excel-export",
+          "title": "CSV/Parquet/Excel",
+          "outcome": "El estudiante exporta a CSV/Parquet/Excel de forma reproducible.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "CSV/Parquet/Excel",
+              "must_cover": [
+                "to_csv",
+                "to_parquet",
+                "to_excel",
+                "engine"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S15-T4-A-DEMO",
+              "title": "Exportar a 3 formatos sin perder columnas críticas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S15-T4-A-E1",
+                "kind": "guided",
+                "title": "CSV/Parquet/Excel — guided",
+                "skill": "csv",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T4-A-E2",
+                "kind": "independent",
+                "title": "CSV/Parquet/Excel — independent",
+                "skill": "csv",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T4-A-E3",
+                "kind": "transfer",
+                "title": "CSV/Parquet/Excel — transfer",
+                "skill": "csv",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S15-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S15-T4-B",
+          "slug": "index-format-provenance-memory",
+          "title": "índices, formatos, provenance y memoria",
+          "outcome": "El estudiante documenta índices, provenance y uso de memoria.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "índices, formatos, provenance y memoria",
+              "must_cover": [
+                "index=False",
+                "memory_usage",
+                "manifest"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S15-T4-B-DEMO",
+              "title": "Emitir manifest de filas/columnas y provenance",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S15-T4-B-E1",
+                "kind": "guided",
+                "title": "índices, formatos, provenance y memoria — guided",
+                "skill": "index",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T4-B-E2",
+                "kind": "independent",
+                "title": "índices, formatos, provenance y memoria — independent",
+                "skill": "index",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S15-T4-B-E3",
+                "kind": "transfer",
+                "title": "índices, formatos, provenance y memoria — transfer",
+                "skill": "index",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S15-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S15-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S15-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S15-T4-EVAL-1",
+            "title": "CSV/Parquet/Excel — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S15-T4-EVAL-2",
+            "title": "índices, formatos, provenance y memoria — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S15-PROJ",
+    "title": "Ingesta tipada clientes/transacciones con reconciliación",
+    "replaces_legacy": "Legacy You Do de 'Python Avanzado — stdlib Profunda' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Ingerir datasets sintéticos de clientes y transacciones",
+      "Aplicar schema tipado y reportar coerciones",
+      "Reconciliar filas/columnas entrada vs salida",
+      "Exportar dataset analítico + manifest"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-A (dataset)",
+    "increment_gate": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'stdlib-deep' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s15-stdlib-deep.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Python Avanzado — stdlib Profunda' vs 'Pandas: ingesta, selección y tipos'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-A (dataset)",
+    "increment_gate": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+    "project_id": "S15-PROJ",
+    "section_passed": false,
+    "notes": "S15 contributes to CP-N2-A (dataset). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'Python Avanzado — stdlib Profunda' until product rename; large topic mismatch vs V3 'Pandas: ingesta, selección y tipos'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S15-T1-A first"
+  }
+}

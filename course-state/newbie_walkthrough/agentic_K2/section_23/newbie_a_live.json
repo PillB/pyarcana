@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-exp-s23-7ab47ce0455d",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "id": "S23-T1-A-E1",
+      "code": "nodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))",
+      "justification_from_packet": "Como explorador en S23-T1-A-E1, sigo la instrucción del quiz_card: Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime. Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Locator",
+        "por",
+        "rol",
+        "nodes",
+        "role",
+        "link",
+        "name",
+        "Inicio"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "id": "S23-T1-A-E2",
+      "code": "strats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))",
+      "justification_from_packet": "Como explorador en S23-T1-A-E2, sigo la instrucción del quiz_card: Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred inde. Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Prioridad",
+        "estrategias",
+        "strats",
+        "css",
+        "role",
+        "testid",
+        "Ordena",
+        "priorizando"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "id": "S23-T1-A-E3",
+      "code": "nodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')",
+      "justification_from_packet": "Como explorador en S23-T1-A-E3, sigo la instrucción del quiz_card: Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si . Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Sin",
+        "control",
+        "button",
+        "nodes",
+        "solo",
+        "img",
+        "logo",
+        "buscar"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "id": "S23-T1-B-E1",
+      "code": "for i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        print(i)\n        break",
+      "justification_from_packet": "Como explorador en S23-T1-B-E1, sigo la instrucción del quiz_card: Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando . Aplico el hint «contrato I/O en.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Auto",
+        "wait",
+        "simulado",
+        "ready",
+        "vuelve",
+        "True",
+        "intento",
+        "loop"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "id": "S23-T1-B-E2",
+      "code": "ready = False\nfor i in range(3):\n    if ready:\n        print('ok')\n        break\nelse:\n    print('timeout')",
+      "justification_from_packet": "Como explorador en S23-T1-B-E2, sigo la instrucción del quiz_card: Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infi. Aplico el hint «contrato I/O en.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Timeout",
+        "espera",
+        "ready",
+        "False",
+        "fijo",
+        "tras",
+        "intentos",
+        "sin"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "id": "S23-T1-B-E3",
+      "code": "expected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')",
+      "justification_from_packet": "Como explorador en S23-T1-B-E3, sigo la instrucción del quiz_card: Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondi. Aplico el hint «contrato I/O en.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Assertion",
+        "expected",
+        "actual",
+        "Portal",
+        "demo",
+        "Imprime",
+        "pass",
+        "iguales"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "id": "S23-T2-A-E1",
+      "code": "form = {}\nform['usuario'] = 'ana'\nprint(form)",
+      "justification_from_packet": "Como explorador en S23-T2-A-E1, sigo la instrucción del quiz_card: Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass: . Aplico el hint «contrato I/O en.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Fill",
+        "formulario",
+        "form",
+        "asigna",
+        "usuario",
+        "ana",
+        "imprime",
+        "form"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "id": "S23-T2-A-E2",
+      "code": "import hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])",
+      "justification_from_packet": "Como explorador en S23-T2-A-E2, sigo la instrucción del quiz_card: Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8]. . Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "download",
+        "hex",
+        "data",
+        "primeros",
+        "chars",
+        "import",
+        "hashlib",
+        "Contrato"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "id": "S23-T2-A-E3",
+      "code": "state={'token':'t'}\nprint('reuse' if state.get('token') else 'login')",
+      "justification_from_packet": "Como explorador en S23-T2-A-E3, sigo la instrucción del quiz_card: Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state. Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Reuso",
+        "state",
+        "token",
+        "token",
+        "presente",
+        "imprime",
+        "reuse",
+        "login"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "id": "S23-T2-B-E1",
+      "code": "class LoginPage:\n    def submit(self, ctx, password):\n        ctx['auth'] = password == 'sandbox'\nctx={}\nLoginPage().submit(ctx, 'sandbox')\nprint(ctx['auth'])",
+      "justification_from_packet": "Como explorador en S23-T2-B-E1, sigo la instrucción del quiz_card: Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contra. Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Page",
+        "Object",
+        "LoginPage",
+        "password",
+        "sandbox",
+        "autentica",
+        "Implementa",
+        "submit"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "id": "S23-T2-B-E2",
+      "code": "ctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\n    print('ok')\nexcept PermissionError:\n    print('denied')",
+      "justification_from_packet": "Como explorador en S23-T2-B-E2, sigo la instrucción del quiz_card: ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato: . Aplico el hint «contrato I/O en.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "ReportPage",
+        "sin",
+        "auth",
+        "ctx",
+        "auth",
+        "False",
+        "open",
+        "debe"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "id": "S23-T2-B-E3",
+      "code": "state='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)",
+      "justification_from_packet": "Como explorador en S23-T2-B-E3, sigo la instrucción del quiz_card: Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de es. Aplico el hint «contrato I/O en.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "estado",
+        "state",
+        "anonymous",
+        "tras",
+        "login",
+        "imprime",
+        "authenticated",
+        "Contrato"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "id": "S23-T3-A-E1",
+      "code": "ev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))",
+      "justification_from_packet": "Como explorador en S23-T3-A-E1, sigo la instrucción del quiz_card: Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI. . Aplico el hint «contrato I/O en.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Paquete",
+        "evidencia",
+        "con",
+        "trace",
+        "screenshot",
+        "error",
+        "Imprime",
+        "sorted"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "id": "S23-T3-A-E2",
+      "code": "logs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])",
+      "justification_from_packet": "Como explorador en S23-T3-A-E2, sigo la instrucción del quiz_card: Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list co. Aplico el hint «contrato I/O en.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Filtro",
+        "console",
+        "logs",
+        "ERR",
+        "timeout",
+        "nav",
+        "imprime",
+        "solo"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "id": "S23-T3-A-E3",
+      "code": "ok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)",
+      "justification_from_packet": "Como explorador en S23-T3-A-E3, sigo la instrucción del quiz_card: Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Cont. Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Adjuntar",
+        "trace",
+        "falla",
+        "False",
+        "pkg",
+        "step",
+        "not",
+        "trace"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "id": "S23-T3-B-E1",
+      "code": "def should_retry(k):\n    return k in {'timeout', '429'}\nfor k in ('timeout','captcha','429'):\n    print(k, should_retry(k))",
+      "justification_from_packet": "Como explorador en S23-T3-B-E1, sigo la instrucción del quiz_card: Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas ki. Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "should_retry",
+        "True",
+        "solo",
+        "para",
+        "timeout",
+        "Prueba",
+        "timeout",
+        "captcha"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "id": "S23-T3-B-E2",
+      "code": "err='stale'\nprint('goto_home' if err=='stale' else 'continue')",
+      "justification_from_packet": "Como explorador en S23-T3-B-E2, sigo la instrucción del quiz_card: Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle vie. Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Recovery",
+        "stale",
+        "DOM",
+        "err",
+        "stale",
+        "action",
+        "goto_home",
+        "Imprime"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "id": "S23-T3-B-E3",
+      "code": "errors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        print('ok', i)\n        break\n    if i==3:\n        print('fail', i)",
+      "justification_from_packet": "Como explorador en S23-T3-B-E3, sigo la instrucción del quiz_card: Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass:. Aplico el hint «contrato I/O en.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "timeouts",
+        "errors",
+        "lista",
+        "tres",
+        "timeout",
+        "imprime",
+        "fail",
+        "con"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "id": "S23-T4-A-E1",
+      "code": "api=True\nprint('api' if api else 'rpa')",
+      "justification_from_packet": "Como explorador en S23-T4-A-E1, sigo la instrucción del quiz_card: API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: prefer. Aplico el hint «contrato I/O en.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "API",
+        "first",
+        "gate",
+        "api",
+        "True",
+        "elige",
+        "api",
+        "Imprime"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "id": "S23-T4-A-E2",
+      "code": "f={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)",
+      "justification_from_packet": "Como explorador en S23-T4-A-E2, sigo la instrucción del quiz_card: Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible . Aplico el hint «contrato I/O en.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Orden",
+        "api",
+        "export",
+        "rpa",
+        "flags",
+        "api",
+        "False",
+        "export"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "id": "S23-T4-A-E3",
+      "code": "decision={'method':'rpa','reason':'no_api'}\nprint(decision)",
+      "justification_from_packet": "Como explorador en S23-T4-A-E3, sigo la instrucción del quiz_card: Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qu. Aplico el hint «contrato I/O en.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "documentada",
+        "cae",
+        "rpa",
+        "con",
+        "reason",
+        "no_api",
+        "Imprime",
+        "dict"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "id": "S23-T4-B-E1",
+      "code": "captcha=True\nprint('human_handoff' if captcha else 'continue')",
+      "justification_from_packet": "Como explorador en S23-T4-B-E1, sigo la instrucción del quiz_card: CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handof. Aplico el hint «contrato I/O en.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "CAPTCHA",
+        "portal",
+        "demo",
+        "captcha",
+        "True",
+        "imprime",
+        "human_handoff",
+        "sin"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "id": "S23-T4-B-E2",
+      "code": "sig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')",
+      "justification_from_packet": "Como explorador en S23-T4-B-E2, sigo la instrucción del quiz_card: ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Aplico el hint «contrato I/O en.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "ToS",
+        "gana",
+        "sig",
+        "con",
+        "tos_forbidden",
+        "True",
+        "captcha",
+        "True"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "id": "S23-T4-B-E3",
+      "code": "payload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])",
+      "justification_from_packet": "Como explorador en S23-T4-B-E3, sigo la instrucción del quiz_card: Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution . Aplico el hint «contrato I/O en.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Payload",
+        "handoff",
+        "arma",
+        "estructura",
+        "con",
+        "url",
+        "step",
+        "screenshot"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q0 elijo «Refleja la UI accesible y suele ser más estable» porque la teoría «DOM y locators orientados a usuario» del paquete dice: Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q1 elijo «Detenerse y hacer handoff humano» porque la teoría «auto-waiting y assertions» del paquete dice: Playwright **auto-espera** a que el elemento sea actionable (visible, estable, enabled). Evita.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q2 elijo «Buscar integración no-UI antes de automatizar el browser» porque la teoría «formularios, uploads/downloads y sesiones» del paquete dice: Flujos típicos del adapter: **fill** campos (usuario,.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q3 elijo «Solo fallas transitorias (timeout/red), no captcha/403 de negocio» porque la teoría «auth, estados y Page Objects» del paquete dice: Un **Page Object** encapsula selectores y acciones de una.",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:23:41.069989+00:00",
+  "session_started_at": "2026-07-23T15:23:24.363874Z",
+  "session_ended_at": "2026-07-23T15:23:41.068909Z",
+  "receipt_response_sha256": "7a49a0d1d410c6070c2e7137f80e3ee503a05ad35e519554ac5801ebb9e11afe",
+  "receipt_exercises_sha256": "381021119a44addf7ce0ec36a784cd3aca5af64c1bb35dbc451933c198e1992e",
+  "receipt_selfcheck_sha256": "4c29596c0582f599de1132a09f672c04239e94cd3d6fbfde2398df4a8876ab84"
+}

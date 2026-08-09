@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://aws.amazon.com/certification/certified-ai-practitioner",
+    "name": "AWS Certified AI Practitioner",
+    "snippet": "AWS Certified AI Practitioner covers the breadth of AI frameworks, concepts, and associated AWS technologies, with an emphasis on generative AI.",
+    "host_name": "aws.amazon.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/pulse/guide-ai-machine-learning-certifications-from-aws-ahamed-ojwse",
+    "name": "A Guide to AI and Machine Learning Certifications from",
+    "snippet": "Microsoft Certified: Azure AI Engineer Associate (AI-102 ) exam, lasting 120 minutes, and costs $165.\nHere's an overview of the AI certifications available across AWS, Azure, and GCP, as well as how to choose the right certification based on your career goals.",
+    "host_name": "www.linkedin.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://cloud.google.com/learn/certification/machine-learning-engineer",
+    "name": "Professional ML Engineer Certification | Learn",
+    "snippet": "Engineer builds, evaluates, productionizes, and optimizes AI solutions using Google Cloud capabilities and knowledge of conventional ML approaches.",
+    "host_name": "cloud.google.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ucertify.com/blog/best-cloud-ai-platform-aws-vs-azure-vs-google/?srsltid=AfmBOoo9agE4KZpbgE5dRVLvyBtbiJ4ARRSZptqV7PWVB2fE6AfJmClx",
+    "name": "AI on AWS vs Google AI vs Azure AI: Which to Learn",
+    "snippet": "Feb 8, 2026 — Practice with certifications: AWS Certified ML, Google Professional ML, Azure AI Engineer Hands-on learning not only boosts skills — it builds ...",
+    "host_name": "www.ucertify.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/careerguidance/comments/1gf35i3/which_platform_is_good_to_do_ai_engineering",
+    "name": "Which platform is good to do AI Engineering course. AWS",
+    "snippet": "I would recommend AWS , AWS is more widely accepted in the industry and having AWS skill or certification helps in resume.",
+    "host_name": "www.reddit.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.pertamapartners.com/insights/aws-google-ai-certifications",
+    "name": "AWS vs Google AI Certifications 2026",
+    "snippet": "Feb 8, 2026 — Complete framework for assessing AI competencies and implementing certification programs. Learn how to measure AI literacy, evaluate training ...",
+    "host_name": "www.pertamapartners.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aws.amazon.com/certification/certified-generative-ai-developer-professional",
+    "name": "AWS Certified Generative AI Developer - Professional",
+    "snippet": "AWS Certified Generative AI Developer - Professional showcases advanced technical expertise in building and deploying production-ready AI solutions using ...",
+    "host_name": "aws.amazon.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.skillsoft.com/blog/top-machine-learning-certifications",
+    "name": "5 Certifications to Validate Your Machine Learning Skills",
+    "snippet": "Sep 12, 2024 — The Azure AI Engineer certification validates a professional's ability to build and implement AI solutions on the platform, doing so securely ...",
+    "host_name": "www.skillsoft.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 4,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-s04-div-38396298",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(\"total\", len(regiones))\n",
+      "justification_from_packet": "Revisé la teoría «Un **contador** suma 1 por evento (`n_reject += 1`). Un **ac» del paquete: El bucle **`for x in secuencia:`** recorre cada elemento **una vez**, en orden. . En S04-T1-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "code": "edades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(\"mayores_o_igual_18\", n)\n",
+      "justification_from_packet": "El heading «for, range y secuencias» dice en sustancia: **`enumerate(seq, start=0)`** te da `(índice, valor)` sin armar el índice a mano. Por eso en S04-T1-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "code": "lote = [\n    {\"id\": \"T1\", \"monto\": 10},\n    {\"id\": \"T2\", \"monto\": 0},\n    {\"id\": \"T3\", \"monto\": 25},\n]\nfor row in lote:\n    if row[\"monto\"] > 0:\n        print(row[\"id\"])\n",
+      "justification_from_packet": "Anclé S04-T1-A-E3 en «Comprehensions legibles»: **`while condicion:`** repite mientras la condición sea verdadera. Úsalo cuando . La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "code": "for i in range(3):\n    print(i)\nprint(list(range(1, 4)))\n",
+      "justification_from_packet": "En la lección, «**`enumerate(seq, start=0)`** te da `(índice, valor)` sin ar» aclara: **`break`** sale del bucle actual de inmediato. **`continue`** salta al **siguie. Completé S04-T1-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor i, r in enumerate(regiones, start=1):\n    print(i, r)\n",
+      "justification_from_packet": "Tras leer «enumerate y zip sin desalinear» (Un **contador** suma 1 por evento (`n_reject += 1`). Un **acumulador** suma cant), resolví S04-T1-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "code": "ids = [\"C001\", \"C002\", \"C003\"]\nmontos = [10, 20]\nfor i, (cid, monto) in enumerate(zip(ids, montos)):\n    print(i, cid, monto)\nprint(\"nota: zip se detiene en la secuencia más corta; C003 se pierde sin strict\")\n",
+      "justification_from_packet": "El paquete L2 en «Trazado de estado» sostiene: Una **list comprehension** `[expr for x in xs if cond]` construye una lista en u. S04-T1-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "code": "lineas = [\"  Ana  \", \"\", \"  \", \"Luis\"]\nfor ln in lineas:\n    if not ln.strip():\n        continue\n    print(ln.strip())\n",
+      "justification_from_packet": "Revisé la teoría «Aplicar break/continue y guardrails contra loops infinitos» del paquete: **Trazar estado** es escribir (o imaginar) una tabla: iteración | variables | sa. En S04-T2-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "code": "def first_positive(nums):\n    for n in nums:\n        if n > 0:\n            return n\n    return None\n\nprint(first_positive([-1, 0, 4, 9]))\nprint(first_positive([-2, -3]))\n",
+      "justification_from_packet": "El heading «Distinguir costo lineal vs cuadrático y corregir off-by-one » dice en sustancia: Un solo `for` sobre n filas es **O(n)** (lineal). Dos bucles anidados sobre el m. Por eso en S04-T2-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "code": "def scan(rows):\n    for r in rows:\n        if r.get(\"status\") == \"fatal\":\n            break\n        if not r.get(\"id\"):\n            continue\n        print(r[\"id\"])\n\nscan([\n    {\"id\": \"\", \"status\": \"ok\"},\n    {\"id\": \"C001\", \"status\": \"ok\"},\n    {\"id\": \"C002\", \"status\": \"fatal\"},\n    {\"id\": \"C003\", \"status\": \"ok\"},\n])\n",
+      "justification_from_packet": "Anclé S04-T2-A-E3 en «Distinguir costo lineal vs cuadrático y corregir off-by-one »: El bucle **`for x in secuencia:`** recorre cada elemento **una vez**, en orden. . La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "code": "# for para conteo de lote; while solo si la condición de parada no es \"agotar lista\"\nrows = [1, 2, 3]\ntotal = 0\nfor x in rows:\n    total += x\nprint(\"for_total\", total)\nn, s = 0, 0\nwhile n < 3:\n    s += n\n    n += 1\nprint(\"while_sum\", s)\n",
+      "justification_from_packet": "En la lección, «Contadores, acumuladores y búsqueda» aclara: **`enumerate(seq, start=0)`** te da `(índice, valor)` sin armar el índice a mano. Completé S04-T2-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "code": "def read_until_blank(lines):\n    out = []\n    i = 0\n    while i < len(lines) and lines[i].strip() != \"\":\n        out.append(lines[i])\n        i += 1\n    return out\n\nprint(read_until_blank([\"a\", \"b\", \"\", \"c\"]))\n",
+      "justification_from_packet": "Tras leer «for, range y secuencias» (**`while condicion:`** repite mientras la condición sea verdadera. Úsalo cuando ), resolví S04-T2-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "code": "# while True + break para menú sintético\nopciones = [\"1\", \"2\", \"q\"]\nidx = 0\nwhile True:\n    cmd = opciones[idx]\n    idx += 1\n    print(\"cmd\", cmd)\n    if cmd == \"q\":\n        break\nprint(\"salí limpio\")\n",
+      "justification_from_packet": "El paquete L2 en «**Trazar estado** es escribir (o imaginar) una tabla: iterac» sostiene: **`break`** sale del bucle actual de inmediato. **`continue`** salta al **siguie. S04-T2-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "code": "decisiones = [\"accept\", \"reject\", \"accept\", \"review\", \"reject\"]\nn_total = len(decisiones)\nn_reject = 0\nfor d in decisiones:\n    if d == \"reject\":\n        n_reject += 1\ntasa = n_reject / n_total if n_total else None\nprint(n_total, n_reject, tasa)\n",
+      "justification_from_packet": "Revisé la teoría «Escribir while con centinelas y condición de terminación exp» del paquete: Un **contador** suma 1 por evento (`n_reject += 1`). Un **acumulador** suma cant. En S04-T3-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "code": "def tasa_reject(decisiones):\n    n_total = len(decisiones)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for d in decisiones if d == \"reject\")\n    return n_reject / n_total\n\nprint(tasa_reject([\"accept\", \"reject\"]))\nprint(tasa_reject([]))\n",
+      "justification_from_packet": "El heading «Aplicar break/continue y guardrails contra loops infinitos» dice en sustancia: Una **list comprehension** `[expr for x in xs if cond]` construye una lista en u. Por eso en S04-T3-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "code": "montos = [10, 20, 5, 15]\nacum = 0\nfor m in montos:\n    acum += m\nprint(\"suma\", acum, \"promedio\", acum / len(montos))\n",
+      "justification_from_packet": "Anclé S04-T3-A-E3 en «Trazado de estado»: **Trazar estado** es escribir (o imaginar) una tabla: iteración | variables | sa. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "code": "from collections import Counter\nregs = [\"Lima\", \"Cusco\", \"Lima\", \"Piura\", \"Lima\"]\nprint(dict(Counter(regs)))\n",
+      "justification_from_packet": "En la lección, «for, range y secuencias» aclara: Un solo `for` sobre n filas es **O(n)** (lineal). Dos bucles anidados sobre el m. Completé S04-T3-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "code": "rows = [\n    {\"region\": \"Lima\", \"monto\": 10},\n    {\"region\": \"Lima\", \"monto\": 5},\n    {\"region\": \"Cusco\", \"monto\": 7},\n]\nagg = {}\nfor r in rows:\n    agg[r[\"region\"]] = agg.get(r[\"region\"], 0) + r[\"monto\"]\nprint(agg)\n",
+      "justification_from_packet": "Tras leer «Implementar contadores, acumuladores y búsquedas en un pase » (El bucle **`for x in secuencia:`** recorre cada elemento **una vez**, en orden. ), resolví S04-T3-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "code": "# un solo pase O(n) en lugar de re-escanear por cada métrica\ndecisiones = [\"accept\", \"reject\", \"review\", \"reject\"]\nn_total = n_accept = n_reject = n_review = 0\nfor d in decisiones:\n    n_total += 1\n    if d == \"accept\":\n        n_accept += 1\n    elif d == \"reject\":\n        n_reject += 1\n    elif d == \"review\":\n        n_review += 1\nprint({\"n_total\": n_total, \"n_accept\": n_accept, \"n_reject\": n_reject, \"n_review\": n_review})\n",
+      "justification_from_packet": "El paquete L2 en «Escribir while con centinelas y condición de terminación exp» sostiene: **`enumerate(seq, start=0)`** te da `(índice, valor)` sin armar el índice a mano. S04-T3-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "code": "pares = list(zip([1, 2, 3], [\"a\", \"b\", \"c\"]))\nprint(pares)\n",
+      "justification_from_packet": "Revisé la teoría «Una **list comprehension** `[expr for x in xs if cond]` cons» del paquete: **`while condicion:`** repite mientras la condición sea verdadera. Úsalo cuando . En S04-T4-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "code": "a, b = [1, 2, 3], [10, 20]\nprint(list(zip(a, b)))\ntry:\n    list(zip(a, b, strict=True))\nexcept ValueError as e:\n    print(\"strict ValueError\", type(e).__name__)\n",
+      "justification_from_packet": "El heading «Aplicar break/continue y guardrails contra loops infinitos» dice en sustancia: **`break`** sale del bucle actual de inmediato. **`continue`** salta al **siguie. Por eso en S04-T4-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "code": "ids = [\"C001\", \"C002\"]\nmontos = [10, 20, 30]\nif len(ids) != len(montos):\n    print(\"review: longitudes distintas\", len(ids), len(montos))\nelse:\n    print(list(zip(ids, montos)))\n",
+      "justification_from_packet": "Anclé S04-T4-A-E3 en «El bucle **`for x in secuencia:`** recorre cada elemento **u»: Un **contador** suma 1 por evento (`n_reject += 1`). Un **acumulador** suma cant. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "code": "xs = [1, 2, 3, 4]\nprint([x * 2 for x in xs if x % 2 == 0])\n",
+      "justification_from_packet": "En la lección, «Recorrer secuencias con for y range sin off-by-one en el sto» aclara: Una **list comprehension** `[expr for x in xs if cond]` construye una lista en u. Completé S04-T4-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "code": "rows = [{\"id\": \"a\", \"v\": 1}, {\"id\": \"b\", \"v\": 2}]\nprint({r[\"id\"]: r[\"v\"] for r in rows})\n",
+      "justification_from_packet": "Tras leer «Aplicar break/continue y guardrails contra loops infinitos» (**Trazar estado** es escribir (o imaginar) una tabla: iteración | variables | sa), resolví S04-T4-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "code": "# reescritura O(n) vs O(n²) ingenuo\nids = [\"a\", \"b\", \"a\", \"c\"]\n# ingenuo: for i for j comparar todos los pares\n# O(n): un set de vistos\nseen = set()\ndups = set()\nfor i in ids:\n    if i in seen:\n        dups.add(i)\n    else:\n        seen.add(i)\nprint(\"dups\", sorted(dups))\n",
+      "justification_from_packet": "El paquete L2 en «Costo lineal/cuadrático y off-by-one» sostiene: Un solo `for` sobre n filas es **O(n)** (lineal). Dos bucles anidados sobre el m. S04-T4-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté distractores y me quedo con «[0,1,2]». La teoría («El bucle **`for x in secuencia:`** recorre cada elemento **una vez**, ») y el enunciado «¿Qué produce list(range(3))?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté distractores y me quedo con «Empareja solo (1,10) y (2,20); el 3 se pierde en silencio». La teoría («**`enumerate(seq, start=0)`** te da `(índice, valor)` sin armar el índ») y el enunciado «zip([1,2,3],[10,20]) sin strict…» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Descarté distractores y me quedo con «n_total de registros procesados (intentados)». La teoría («**`while condicion:`** repite mientras la condición sea verdadera. Úsa») y el enunciado «Para la tasa de reject del gate, el denominador debe ser…» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Descarté distractores y me quedo con «Salta al siguiente ciclo del bucle». La teoría («**`break`** sale del bucle actual de inmediato. **`continue`** salta a») y el enunciado «¿Qué hace continue en un for de líneas de intake?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté distractores y me quedo con «O(n²)». La teoría («Un **contador** suma 1 por evento (`n_reject += 1`). Un **acumulador**») y el enunciado «Un doble for anidado sobre n elementos es aproximadamente…» coinciden.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:37:01.754617+00:00",
+  "session_started_at": "2026-07-23T18:37:01.753688+00:00",
+  "session_ended_at": "2026-07-23T18:37:38.953688+00:00",
+  "receipt_response_sha256": "1e6d5ebe3b0bc5811a0c9133adf6a37a5b5c21590332cbba142ef77784df1b29",
+  "receipt_exercises_sha256": "cde75afcb91bb2e627ba92d0f2a994e3f58797eb4c5416185480f467d79bedc5",
+  "receipt_selfcheck_sha256": "facf5e5e48b7b5725c56fae11b2c86ab15127ea1e7394d6cb3f517afd77b961a"
+}

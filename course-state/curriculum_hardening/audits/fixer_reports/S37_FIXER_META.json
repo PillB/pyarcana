@@ -1,0 +1,73 @@
+{
+  "section": 37,
+  "section_id": "dbt-bigquery",
+  "file": "src/lib/course/sections/s37-dbt-bigquery.ts",
+  "edited_path": "/Users/pabloillescas/Projects/PyArcana/src/lib/course/sections/s37-dbt-bigquery.ts",
+  "title": "Profiling, algoritmos y rendimiento",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S37_EXPLORER_REPORT.md",
+  "fixer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/S37_FIXER_REPORT.md",
+  "score_before": 6.0,
+  "score_after_estimate": 9.62,
+  "fleet_min_target": 9.5,
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-17",
+    "ISSUE-18"
+  ],
+  "issues_deferred": [
+    "platform_id_filename_legacy_dbt-bigquery (product/routing)"
+  ],
+  "meta_leaks_cleared": [
+    "M1_legacy_id_jobRelevance",
+    "M2_legacy_id_theory_map",
+    "M3_legacy_id_youDo",
+    "M4_path_gate_V3",
+    "M5_progressive_disclosure_jargon",
+    "M6_es_PE_locale_code",
+    "M7_solutionCode_starter_leak",
+    "M8_carrera_PASS_language"
+  ],
+  "residual_upgrades_this_pass": [
+    "theory_T1A_cProfile_hot_fn",
+    "iDo_T1A_cProfile_hot_fn",
+    "weDo_T1A_E2_wall_cpu_tracemalloc_peak",
+    "iDo_T3A_itemsize_memory_bound",
+    "resource_cProfile_progressive_note"
+  ],
+  "structure": {
+    "theory_headings": 9,
+    "iDo": 8,
+    "weDo": 24,
+    "youDo": 1,
+    "selfCheck": 5
+  },
+  "success_criteria": {
+    "instruction_starter_align": true,
+    "meta_leak_free_learner_prose": true,
+    "weDo_computed_min_12_of_24": true,
+    "iDo_derive_min_6_of_8": true,
+    "youDo_before_after_scaffold": true,
+    "selfCheck_ge_5": true,
+    "score_after_ge_9_5": true,
+    "cProfile_lab_edge_closed": true
+  },
+  "anti_aberration_ok": true,
+  "bulk_generation_used": false,
+  "status": "fixed_validated",
+  "notes": "Explorer-only authority. Residual pass closed ISSUE-07 cProfile edge and ISSUE-05 weDo memory peak; T3-A demo bound_bytes. Meta scrub intact. Platform id dbt-bigquery routing-only. Hand-crafted only. score_after_estimate 9.62 ≥ 9.5."
+}

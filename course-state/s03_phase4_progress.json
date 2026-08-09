@@ -1,0 +1,318 @@
+{
+  "version": "3.2",
+  "section": "S03",
+  "section_id": "data-structures",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S03-P4",
+  "generated_at": "2026-07-20T20:15:00Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/s01/s02/orchestration",
+
+  "preamble": {
+    "objective": "Retarget s03-data-structures.ts from Data Structures & File Handling to V3 Decisiones y reglas de validación; author full packages for all 8 subtopics (T1–T4).",
+    "scope_in": [
+      "src/lib/course/sections/s03-data-structures.ts",
+      "course-state/s03_phase4_progress.json",
+      "course-state/lanes/LANE-S03-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "s01-setup.ts",
+      "s02-basics.ts",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+
+  "meta_updates": {
+    "id": "data-structures",
+    "index": 3,
+    "title": "Decisiones y reglas de validación",
+    "shortTitle": "Decisiones & Reglas",
+    "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+    "estimatedHours": 8,
+    "learningOutcomes": 8,
+    "youDo": "Sales Log Parser → Motor de reglas del intake (CP-N1-A increment)",
+    "icon": "GitBranch",
+    "legacy_note": "list/dict/CSV/JSON/ETL demoted to intro callout 'contenido reubicado conceptualmente a S6'"
+  },
+
+  "subtopics_authored": {
+    "S03-T1-A": {
+      "slug": "comparisons-membership",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S03-T1-A-DEMO",
+      "exercises": ["S03-T1-A-E1", "S03-T1-A-E2", "S03-T1-A-E3"],
+      "executed": true
+    },
+    "S03-T1-B": {
+      "slug": "truthiness-shortcircuit",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S03-T1-B-DEMO",
+      "exercises": ["S03-T1-B-E1", "S03-T1-B-E2", "S03-T1-B-E3"],
+      "executed": true
+    },
+    "S03-T2-A": {
+      "slug": "if-elif-else",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S03-T2-A-DEMO",
+      "exercises": ["S03-T2-A-E1", "S03-T2-A-E2", "S03-T2-A-E3"],
+      "executed": true
+    },
+    "S03-T2-B": {
+      "slug": "guard-clauses",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S03-T2-B-DEMO",
+      "exercises": ["S03-T2-B-E1", "S03-T2-B-E2", "S03-T2-B-E3"],
+      "executed": true
+    },
+    "S03-T3-A": {
+      "slug": "allowlists-ranges",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S03-T3-A-DEMO",
+      "exercises": ["S03-T3-A-E1", "S03-T3-A-E2", "S03-T3-A-E3"],
+      "executed": true
+    },
+    "S03-T3-B": {
+      "slug": "decision-tables-match",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S03-T3-B-DEMO",
+      "exercises": ["S03-T3-B-E1", "S03-T3-B-E2", "S03-T3-B-E3"],
+      "executed": true
+    },
+    "S03-T4-A": {
+      "slug": "invariants-examples",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S03-T4-A-DEMO",
+      "exercises": ["S03-T4-A-E1", "S03-T4-A-E2", "S03-T4-A-E3"],
+      "executed": true
+    },
+    "S03-T4-B": {
+      "slug": "actionable-messages-branch-tests",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S03-T4-B-DEMO",
+      "exercises": ["S03-T4-B-E1", "S03-T4-B-E2", "S03-T4-B-E3"],
+      "executed": true
+    }
+  },
+
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1,
+    "self_check_questions": 5
+  },
+
+  "execution_log": {
+    "runtime": "python3.12 via uv cpython-3.12-macos-x86_64-none",
+    "system_python_note": "System /usr/bin/python3 is 3.9.6 (no match); all match/case verified on 3.12",
+    "executed_at": "2026-07-20",
+    "items": [
+      {
+        "id": "S03-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "4 comparaciones + 2 membership + encadenamiento monto"
+      },
+      {
+        "id": "S03-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "edad/region bools True True True False True"
+      },
+      {
+        "id": "S03-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "DNI True; dni False; RUC False"
+      },
+      {
+        "id": "S03-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "is None True; True==1 True; True is 1 False"
+      },
+      {
+        "id": "S03-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "None review; 0 accept; policy vs bool()"
+      },
+      {
+        "id": "S03-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "tabla falsy + [0] truthy"
+      },
+      {
+        "id": "S03-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "or/and operand returns"
+      },
+      {
+        "id": "S03-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "monto 0 accept; None review"
+      },
+      {
+        "id": "S03-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "95 accept / 60 review / 30 reject"
+      },
+      {
+        "id": "S03-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "fronteras 80/50"
+      },
+      {
+        "id": "S03-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "bad pisa 95→review; good accept"
+      },
+      {
+        "id": "S03-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "bandas alto/medio/bajo/nulo"
+      },
+      {
+        "id": "S03-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "guards edad 6 casos"
+      },
+      {
+        "id": "S03-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "MISSING/BAD_TYPE/NEEDS_REVIEW/OK"
+      },
+      {
+        "id": "S03-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "nested == guards 6 casos"
+      },
+      {
+        "id": "S03-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "rama muerta x>=0/elif x>5 documentada"
+      },
+      {
+        "id": "S03-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "region+edad matriz 4"
+      },
+      {
+        "id": "S03-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "allowlist regiones Perú sintético"
+      },
+      {
+        "id": "S03-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "monto 0 accept; 60000 review"
+      },
+      {
+        "id": "S03-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "DNI len + codes"
+      },
+      {
+        "id": "S03-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "if vs match same=True en 5 códigos"
+      },
+      {
+        "id": "S03-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "decision table dict + default"
+      },
+      {
+        "id": "S03-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "match OR patterns + _"
+      },
+      {
+        "id": "S03-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "match códigos; if rangos"
+      },
+      {
+        "id": "S03-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "contacto 4 examples ok"
+      },
+      {
+        "id": "S03-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "edad examples accept/reject/review"
+      },
+      {
+        "id": "S03-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "apellidos multi-campo"
+      },
+      {
+        "id": "S03-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "contraejemplo strict 15→review fix"
+      },
+      {
+        "id": "S03-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "suite 4 ramas PASS + mensajes"
+      },
+      {
+        "id": "S03-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "3 mensajes accionables"
+      },
+      {
+        "id": "S03-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "tests por rama score"
+      },
+      {
+        "id": "S03-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "off-by-one 18 accept after >= fix"
+      }
+    ],
+    "UNVERIFIED": []
+  },
+
+  "v3_fields_used": [
+    "subtopicId",
+    "demoId",
+    "environment",
+    "id",
+    "kind",
+    "hints",
+    "edgeCases",
+    "tests",
+    "feedback"
+  ],
+
+  "capstone_alignment": {
+    "project": "S03-PROJ Motor de reglas del intake",
+    "capstone": "CP-N1-A",
+    "codes": ["MISSING", "OUT_OF_RANGE", "NOT_IN_ALLOWLIST", "NEEDS_REVIEW", "OK", "BAD_TYPE"],
+    "tri_state": ["accept", "reject", "review"],
+    "gate_critical": "None vs 0 / falsy no colapsados"
+  },
+
+  "next_actions": [
+    "PHASE 5: exam bank 8×3 variants for data-structures concepts",
+    "seed.ts: add 8 V3 decision slugs under data-structures (separate lane)",
+    "Do not mark S03 section_passed from this lane"
+  ]
+}

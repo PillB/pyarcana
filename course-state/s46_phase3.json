@@ -1,0 +1,1068 @@
+{
+  "version": "3.2",
+  "section": "S46",
+  "section_id": "gpu-computing",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S46 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S46 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s46-gpu-computing.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "gpu-computing",
+    "index": 46,
+    "title_platform": "Performance Extrema — CUDA, GPU Computing con Python",
+    "title_v3": "Ingeniería de datos y orquestación de producción",
+    "title_decision": "KEEP platform id 'gpu-computing' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto",
+    "estimatedHours": 14,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S45"
+    ],
+    "environment": "local/cloud",
+    "project_capstone": "CP-N4-B (pipeline)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "gpu-computing",
+    "platform_title": "Performance Extrema — CUDA, GPU Computing con Python",
+    "v3_title": "Ingeniería de datos y orquestación de producción",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante maneja ventanas y watermarks.",
+    "El estudiante trata late data y exactly-once compuesto.",
+    "El estudiante modela DAG/assets y deps.",
+    "El estudiante programa backfills y recupera estado.",
+    "El estudiante valida contracts y freshness.",
+    "El estudiante registra lineage y ownership.",
+    "El estudiante carga incremental por particiones.",
+    "El estudiante opera SLO e incidentes de datos."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S46-T1-A",
+      "slug": "windows-event-time-watermarks",
+      "title": "ventanas, event time y watermarks"
+    },
+    {
+      "subtopic_id": "S46-T1-B",
+      "slug": "late-data-exactly-once",
+      "title": "late data y exactly-once como propiedad compuesta"
+    },
+    {
+      "subtopic_id": "S46-T2-A",
+      "slug": "dag-assets-dependency",
+      "title": "DAG/assets y dependency"
+    },
+    {
+      "subtopic_id": "S46-T2-B",
+      "slug": "schedules-backfills-state",
+      "title": "schedules, backfills y state recovery"
+    },
+    {
+      "subtopic_id": "S46-T3-A",
+      "slug": "contracts-freshness",
+      "title": "contracts y freshness"
+    },
+    {
+      "subtopic_id": "S46-T3-B",
+      "slug": "lineage-obs-ownership",
+      "title": "lineage, observability y ownership"
+    },
+    {
+      "subtopic_id": "S46-T4-A",
+      "slug": "partitions-incremental",
+      "title": "partitions e incremental loads"
+    },
+    {
+      "subtopic_id": "S46-T4-B",
+      "slug": "slo-incidents-data-recovery",
+      "title": "SLO, incidentes y data recovery"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S46-T1",
+      "title": "Batch/stream",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S46-T1-A",
+          "slug": "windows-event-time-watermarks",
+          "title": "ventanas, event time y watermarks",
+          "outcome": "El estudiante maneja ventanas y watermarks.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ventanas, event time y watermarks",
+              "must_cover": [
+                "event time",
+                "watermark"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S46-T1-A-DEMO",
+              "title": "Demo: ventanas, event time y watermarks",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S46-T1-A-E1",
+                "kind": "guided",
+                "title": "ventanas, event time y watermarks — guided",
+                "skill": "windows",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T1-A-E2",
+                "kind": "independent",
+                "title": "ventanas, event time y watermarks — independent",
+                "skill": "windows",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T1-A-E3",
+                "kind": "transfer",
+                "title": "ventanas, event time y watermarks — transfer",
+                "skill": "windows",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S46-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S46-T1-B",
+          "slug": "late-data-exactly-once",
+          "title": "late data y exactly-once como propiedad compuesta",
+          "outcome": "El estudiante trata late data y exactly-once compuesto.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "late data y exactly-once como propiedad compuesta",
+              "must_cover": [
+                "late data",
+                "exactly-once"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S46-T1-B-DEMO",
+              "title": "Demo: late data y exactly-once como propiedad compuesta",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S46-T1-B-E1",
+                "kind": "guided",
+                "title": "late data y exactly-once como propiedad compuesta — guided",
+                "skill": "late",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T1-B-E2",
+                "kind": "independent",
+                "title": "late data y exactly-once como propiedad compuesta — independent",
+                "skill": "late",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T1-B-E3",
+                "kind": "transfer",
+                "title": "late data y exactly-once como propiedad compuesta — transfer",
+                "skill": "late",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S46-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S46-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S46-T1-EVAL-1",
+            "title": "ventanas, event time y watermarks — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S46-T1-EVAL-2",
+            "title": "late data y exactly-once como propiedad compuesta — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S46-T2",
+      "title": "Orquestación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S46-T2-A",
+          "slug": "dag-assets-dependency",
+          "title": "DAG/assets y dependency",
+          "outcome": "El estudiante modela DAG/assets y deps.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "DAG/assets y dependency",
+              "must_cover": [
+                "DAG",
+                "assets"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S46-T2-A-DEMO",
+              "title": "Demo: DAG/assets y dependency",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S46-T2-A-E1",
+                "kind": "guided",
+                "title": "DAG/assets y dependency — guided",
+                "skill": "dag",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T2-A-E2",
+                "kind": "independent",
+                "title": "DAG/assets y dependency — independent",
+                "skill": "dag",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T2-A-E3",
+                "kind": "transfer",
+                "title": "DAG/assets y dependency — transfer",
+                "skill": "dag",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S46-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S46-T2-B",
+          "slug": "schedules-backfills-state",
+          "title": "schedules, backfills y state recovery",
+          "outcome": "El estudiante programa backfills y recupera estado.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "schedules, backfills y state recovery",
+              "must_cover": [
+                "schedule",
+                "backfill"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S46-T2-B-DEMO",
+              "title": "Demo: schedules, backfills y state recovery",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S46-T2-B-E1",
+                "kind": "guided",
+                "title": "schedules, backfills y state recovery — guided",
+                "skill": "schedules",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T2-B-E2",
+                "kind": "independent",
+                "title": "schedules, backfills y state recovery — independent",
+                "skill": "schedules",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T2-B-E3",
+                "kind": "transfer",
+                "title": "schedules, backfills y state recovery — transfer",
+                "skill": "schedules",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S46-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S46-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S46-T2-EVAL-1",
+            "title": "DAG/assets y dependency — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S46-T2-EVAL-2",
+            "title": "schedules, backfills y state recovery — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S46-T3",
+      "title": "Calidad/linaje",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S46-T3-A",
+          "slug": "contracts-freshness",
+          "title": "contracts y freshness",
+          "outcome": "El estudiante valida contracts y freshness.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "contracts y freshness",
+              "must_cover": [
+                "data contract",
+                "freshness"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S46-T3-A-DEMO",
+              "title": "Demo: contracts y freshness",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S46-T3-A-E1",
+                "kind": "guided",
+                "title": "contracts y freshness — guided",
+                "skill": "contracts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T3-A-E2",
+                "kind": "independent",
+                "title": "contracts y freshness — independent",
+                "skill": "contracts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T3-A-E3",
+                "kind": "transfer",
+                "title": "contracts y freshness — transfer",
+                "skill": "contracts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S46-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S46-T3-B",
+          "slug": "lineage-obs-ownership",
+          "title": "lineage, observability y ownership",
+          "outcome": "El estudiante registra lineage y ownership.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "lineage, observability y ownership",
+              "must_cover": [
+                "lineage",
+                "ownership"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S46-T3-B-DEMO",
+              "title": "Demo: lineage, observability y ownership",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S46-T3-B-E1",
+                "kind": "guided",
+                "title": "lineage, observability y ownership — guided",
+                "skill": "lineage",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T3-B-E2",
+                "kind": "independent",
+                "title": "lineage, observability y ownership — independent",
+                "skill": "lineage",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T3-B-E3",
+                "kind": "transfer",
+                "title": "lineage, observability y ownership — transfer",
+                "skill": "lineage",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S46-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S46-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S46-T3-EVAL-1",
+            "title": "contracts y freshness — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S46-T3-EVAL-2",
+            "title": "lineage, observability y ownership — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S46-T4",
+      "title": "Operación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S46-T4-A",
+          "slug": "partitions-incremental",
+          "title": "partitions e incremental loads",
+          "outcome": "El estudiante carga incremental por particiones.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "partitions e incremental loads",
+              "must_cover": [
+                "partition",
+                "incremental"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S46-T4-A-DEMO",
+              "title": "Demo: partitions e incremental loads",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S46-T4-A-E1",
+                "kind": "guided",
+                "title": "partitions e incremental loads — guided",
+                "skill": "partitions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T4-A-E2",
+                "kind": "independent",
+                "title": "partitions e incremental loads — independent",
+                "skill": "partitions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T4-A-E3",
+                "kind": "transfer",
+                "title": "partitions e incremental loads — transfer",
+                "skill": "partitions",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S46-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S46-T4-B",
+          "slug": "slo-incidents-data-recovery",
+          "title": "SLO, incidentes y data recovery",
+          "outcome": "El estudiante opera SLO e incidentes de datos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "SLO, incidentes y data recovery",
+              "must_cover": [
+                "data SLO",
+                "recovery"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S46-T4-B-DEMO",
+              "title": "Demo: SLO, incidentes y data recovery",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S46-T4-B-E1",
+                "kind": "guided",
+                "title": "SLO, incidentes y data recovery — guided",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T4-B-E2",
+                "kind": "independent",
+                "title": "SLO, incidentes y data recovery — independent",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S46-T4-B-E3",
+                "kind": "transfer",
+                "title": "SLO, incidentes y data recovery — transfer",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S46-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S46-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S46-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S46-T4-EVAL-1",
+            "title": "partitions e incremental loads — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S46-T4-EVAL-2",
+            "title": "SLO, incidentes y data recovery — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S46-PROJ",
+    "title": "Ingeniería de datos y orquestación de producción",
+    "replaces_legacy": "Legacy You Do de 'Performance Extrema — CUDA, GPU Computing con Python' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "pipeline incremental/backfillable cuya reejecución no duplica, registra lineage y alerta por dato tardío o contrato roto.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-B (pipeline)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-B (pipeline)",
+    "increment_gate": "pipeline incremental/backfillable cuya reejecución no duplica, registra lineage y alerta por dato tardío o contrato roto."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'gpu-computing' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s46-gpu-computing.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Performance Extrema — CUDA, GPU Computing con Python' vs 'Ingeniería de datos y orquestación de producción'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-B (pipeline)",
+    "increment_gate": "pipeline incremental/backfillable cuya reejecución no duplica, registra lineage y alerta por dato tardío o contrato roto.",
+    "project_id": "S46-PROJ",
+    "section_passed": false,
+    "notes": "S46 contributes to CP-N4-B (pipeline). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S46",
+    "risk": "Display title still 'Performance Extrema — CUDA, GPU Computing con Python' until product rename; topic mismatch vs V3 'Ingeniería de datos y orquestación de producción'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S46-T1-A first"
+  }
+}

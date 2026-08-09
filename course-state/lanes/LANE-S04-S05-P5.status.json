@@ -1,0 +1,72 @@
+{
+  "lane_id": "LANE-S04-S05-P5",
+  "status": "completed",
+  "phase": "PHASE_5_EXAM_BANK",
+  "sections": ["S04", "S05"],
+  "section_ids": ["functions-modules", "oop"],
+  "generated_at": "2026-07-20T12:05:00Z",
+  "language": "es-PE professional",
+  "format": "MCQ-4",
+  "s04": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "concept_slugs": [
+      "for-range-sequences",
+      "enumerate-zip",
+      "while-sentinels",
+      "break-continue-guards",
+      "counters-accumulators",
+      "comprehensions",
+      "state-tracing",
+      "complexity-off-by-one"
+    ],
+    "retired_legacy_slugs": [
+      "functools-wraps",
+      "pathlib-vs-os",
+      "name-main",
+      "keyword-only-args"
+    ],
+    "artifact": "course-state/s04_phase5_exam_bank.json"
+  },
+  "s05": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "concept_slugs": [
+      "def-call-return",
+      "params-safe-defaults",
+      "prepost-docstrings",
+      "type-hints-domain-errors",
+      "small-functions-compose",
+      "purity-io-injection",
+      "legb-closures",
+      "examples-refactor"
+    ],
+    "retired_legacy_slugs": [
+      "str-vs-repr",
+      "super-init",
+      "underscore-convention",
+      "composition-vs-inheritance"
+    ],
+    "artifact": "course-state/s05_phase5_exam_bank.json"
+  },
+  "equivalence_review": "16 families × 3 parallel MCQs: same skill/format/demand within family; distinct scenarios (not cosmetic). Aligned to V3 theory in s04-functions-modules.ts and s05-oop.ts. Platform seed keys remain functions-modules and oop.",
+  "files_changed": [
+    "prisma/seed.ts",
+    "course-state/s04_phase5_exam_bank.json",
+    "course-state/s05_phase5_exam_bank.json",
+    "course-state/lanes/LANE-S04-S05-P5.status.json"
+  ],
+  "files_not_edited": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "src/lib/course/sections/s01-setup.ts",
+    "src/lib/course/sections/s02-basics.ts",
+    "src/lib/course/sections/s03-data-structures.ts",
+    "src/lib/course/sections/s04-functions-modules.ts",
+    "src/lib/course/sections/s05-oop.ts"
+  ],
+  "next_action": "Orchestrator: merge PHASE 5 into checkpoint/section_ledger for S04/S05; db:seed functions-modules + oop banks; proceed PHASE 6 isolated validation when ready."
+}

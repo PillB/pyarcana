@@ -1,0 +1,110 @@
+{
+  "version": "3.2",
+  "section": "S28",
+  "section_id": "llm-agents",
+  "phase": "PHASE_5",
+  "lane": "LANE-S27-S30-CLOSE",
+  "generated_at": "2026-07-20T23:45:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "llm-agents",
+    "title_v3": "Pruebas de datos, propiedades e integración"
+  },
+  "retired_from_bank": [
+    "entender-langgraph-como-state",
+    "implementar-patrones-de-agente",
+    "construir-multi-agent-systems",
+    "implementar-memoria-a-corto-y"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S28 (Pruebas de datos, propiedades e integración).",
+  "families": [
+    {
+      "family_id": "S28-T1-A-EX",
+      "concept": "invariants-case-generation",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S28-T1-B-EX",
+      "concept": "idempotency-symmetry-metamorphic",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S28-T2-A-EX",
+      "concept": "schema-quality-contracts",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S28-T2-B-EX",
+      "concept": "golden-drift-reconcile",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S28-T3-A-EX",
+      "concept": "mocks-fakes-http-db-clock",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S28-T3-B-EX",
+      "concept": "contract-tests-no-overmock",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S28-T4-A-EX",
+      "concept": "integration-e2e-testcontainers",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S28-T4-B-EX",
+      "concept": "flakes-determinism-ci",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (llm-agents key)",
+    "course-state/s28_phase5_exam_bank.json"
+  ]
+}

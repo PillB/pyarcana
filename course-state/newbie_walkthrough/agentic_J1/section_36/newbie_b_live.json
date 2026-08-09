@@ -1,0 +1,471 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-skeptic-s36-196358e0014c",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "id": "S36-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nprint(sum(xs)/len(xs))\n",
+      "confidence": 0.815,
+      "blocked_on": [],
+      "concepts_used": [
+        "Centroide",
+        "media",
+        "Imprime",
+        "Starter",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T1-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-036-1A»; instrucción: «S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3).». Descarté atajos fuera del packet; línea clave `print(sum(xs)/len(xs))`. (sesión-notas 2766fe)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "id": "S36-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\n",
+      "confidence": 0.782,
+      "blocked_on": [],
+      "concepts_used": [
+        "Scale",
+        "score",
+        "Imprime",
+        "Starter",
+        "olvida"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T1-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «print((x - mu)»; instrucción: «S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por». Descarté atajos fuera del packet; línea clave `print((x - mu) / sd)`. (sesión-notas 59e46d)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "id": "S36-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\n",
+      "confidence": 0.599,
+      "blocked_on": [],
+      "concepts_used": [
+        "Cluster",
+        "veredicto",
+        "imprime",
+        "verdict",
+        "task"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T1-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «cluster»; instrucción: «S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: con». Descarté atajos fuera del packet; línea clave `print(\"verdict\", False)`. (sesión-notas 580b8a)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "id": "S36-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "scores = {2: 0.2, 3: 0.9, 4: 0.5}\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "confidence": 0.767,
+      "blocked_on": [],
+      "concepts_used": [
+        "Elige",
+        "score",
+        "ximo",
+        "scores",
+        "Imprime"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T1-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «score»; instrucción: «S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Sta». Descarté atajos fuera del packet; línea clave `print(\"ok\", True)`. (sesión-notas 92ee5e)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "id": "S36-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\n",
+      "confidence": 0.772,
+      "blocked_on": [],
+      "concepts_used": [
+        "Estabilidad",
+        "multi",
+        "seed",
+        "imprime",
+        "seeds"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T1-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «check»; instrucción: «S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contra». Descarté atajos fuera del packet; línea clave `print(\"seeds\", [0, 1, 2])`. (sesión-notas d538a3)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "id": "S36-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\n",
+      "confidence": 0.799,
+      "blocked_on": [],
+      "concepts_used": [
+        "mite",
+        "tricas",
+        "internas",
+        "imprime",
+        "limit"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T1-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-SYN»; instrucción: «S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegame». Descarté atajos fuera del packet; línea clave `print(\"limit\", True)`. (sesión-notas a86ff2)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "id": "S36-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\n",
+      "confidence": 0.602,
+      "blocked_on": [],
+      "concepts_used": [
+        "Proyecci",
+        "Imprime",
+        "Starter",
+        "suma",
+        "pesos"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T2-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-SYN»; instrucción: «S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Expl». Descarté atajos fuera del packet; línea clave `print(round(0.5*2 + 0.5*4, 1))`. (sesión-notas dec8af)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "id": "S36-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\n",
+      "confidence": 0.686,
+      "blocked_on": [],
+      "concepts_used": [
+        "decision",
+        "model",
+        "imprime",
+        "decision_model",
+        "Starter"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T2-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «viz»; instrucción: «S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrat». Descarté atajos fuera del packet; línea clave `print(\"decision_model\", False)`. (sesión-notas b2464e)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "id": "S36-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)\n",
+      "confidence": 0.846,
+      "blocked_on": [],
+      "concepts_used": [
+        "Componentes",
+        "explorar",
+        "imprime",
+        "explore",
+        "Starter"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T2-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-SYN»; instrucción: «S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin ». Descarté atajos fuera del packet; línea clave `print(2)`. (sesión-notas ae9354)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "id": "S36-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)\n",
+      "confidence": 0.699,
+      "blocked_on": [],
+      "concepts_used": [
+        "auto",
+        "nombra",
+        "negocio",
+        "imprime",
+        "prudent"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T2-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «riesgo»; instrucción: «S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC». Descarté atajos fuera del packet; línea clave `print(False)`. (sesión-notas eedb51)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "id": "S36-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\n",
+      "confidence": 0.749,
+      "blocked_on": [],
+      "concepts_used": [
+        "Outlier",
+        "visual",
+        "puede",
+        "escala",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T2-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-SYN»; instrucción: «S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label T». Descarté atajos fuera del packet; línea clave `print(\"check_scale\", True)`. (sesión-notas 9a0135)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "id": "S36-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")\n",
+      "confidence": 0.921,
+      "blocked_on": [],
+      "concepts_used": [
+        "Documenta",
+        "exploratorio",
+        "imprime",
+        "exploratory",
+        "Starter"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T2-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «exploratory»; instrucción: «S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Tran». Descarté atajos fuera del packet; línea clave `print(\"exploratory\")`. (sesión-notas 50adab)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "id": "S36-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nprint(sum(flags))\n",
+      "confidence": 0.889,
+      "blocked_on": [],
+      "concepts_used": [
+        "Cuenta",
+        "flags",
+        "sigma",
+        "flag",
+        "Imprime"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T3-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-036-3A»; instrucción: «S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defec». Descarté atajos fuera del packet; línea clave `print(sum(flags))`. (sesión-notas 645592)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "id": "S36-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\n",
+      "confidence": 0.568,
+      "blocked_on": [],
+      "concepts_used": [
+        "Combina",
+        "regla",
+        "score",
+        "imprime",
+        "rule"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T3-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «rule»; instrucción: «S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabil». Descarté atajos fuera del packet; línea clave `print([\"rule\", \"score\"])`. (sesión-notas 645e8f)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "id": "S36-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\n",
+      "confidence": 0.662,
+      "blocked_on": [],
+      "concepts_used": [
+        "Flag",
+        "review",
+        "guilt",
+        "imprime",
+        "route"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T3-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «review»; instrucción: «S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ba». Descarté atajos fuera del packet; línea clave `print(\"guilt\", False)`. (sesión-notas 1355ae)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "id": "S36-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\n",
+      "confidence": 0.802,
+      "blocked_on": [],
+      "concepts_used": [
+        "Etiquetas",
+        "conceptuales",
+        "imprime",
+        "outlier",
+        "novelty"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T3-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «outlier»; instrucción: «S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Di». Descarté atajos fuera del packet; línea clave `print([\"outlier\", \"novelty\"])`. (sesión-notas 217e0e)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "id": "S36-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nprint(int(n * c))\n",
+      "confidence": 0.659,
+      "blocked_on": [],
+      "concepts_used": [
+        "expected_flags",
+        "contam",
+        "Imprime",
+        "is_fraud_rate",
+        "Starter"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T3-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «print(int(n * c)»; instrucción: «S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rat». Descarté atajos fuera del packet; línea clave `print(int(n * c))`. (sesión-notas e7f89c)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "id": "S36-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\n",
+      "confidence": 0.876,
+      "blocked_on": [],
+      "concepts_used": [
+        "Tune",
+        "capacidad",
+        "review",
+        "imprime",
+        "capacity_link"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T3-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-SYN»; instrucción: «S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferenci». Descarté atajos fuera del packet; línea clave `print(\"capacity_link\", True)`. (sesión-notas 35ba7d)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "id": "S36-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\n",
+      "confidence": 0.775,
+      "blocked_on": [],
+      "concepts_used": [
+        "Media",
+        "flag",
+        "rates",
+        "Imprime",
+        "backtest"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T4-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-036»; instrucción: «S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defe». Descarté atajos fuera del packet; línea clave `print(sum(rates)/len(rates))`. (sesión-notas 95eba7)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "id": "S36-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\n",
+      "confidence": 0.932,
+      "blocked_on": [],
+      "concepts_used": [
+        "leakage",
+        "futuro",
+        "imprime",
+        "split",
+        "time"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T4-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «time»; instrucción: «S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con». Descarté atajos fuera del packet; línea clave `print(\"leakage\", False)`. (sesión-notas 867e49)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "id": "S36-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)\n",
+      "confidence": 0.725,
+      "blocked_on": [],
+      "concepts_used": [
+        "Tres",
+        "ventanas",
+        "imprime",
+        "temporal",
+        "Starter"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T4-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-SYN»; instrucción: «S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño d». Descarté atajos fuera del packet; línea clave `print(3)`. (sesión-notas 78b0a4)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "id": "S36-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\n",
+      "confidence": 0.847,
+      "blocked_on": [],
+      "concepts_used": [
+        "precision",
+        "ranked",
+        "Imprime",
+        "auto_guilt",
+        "Starter"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T4-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «print(sum(ranked[:k])»; instrucción: «S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labe». Descarté atajos fuera del packet; línea clave `print(sum(ranked[:k])/k)`. (sesión-notas d45bfa)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "id": "S36-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "Human",
+        "review",
+        "required",
+        "imprime",
+        "labels"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T4-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «scarce»; instrucción: «S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrat». Descarté atajos fuera del packet; línea clave `print(True)`. (sesión-notas 3aa4df)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "id": "S36-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")\n",
+      "confidence": 0.962,
+      "blocked_on": [],
+      "concepts_used": [
+        "Nombre",
+        "trica",
+        "utilidad",
+        "imprime",
+        "precision_at_k"
+      ],
+      "justification_from_packet": "Skeptic en Clustering, anomalías y validación temporal: solo acepto S36-T4-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «precision_at_k»; instrucción: «S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect).». Descarté atajos fuera del packet; línea clave `print(\"precision_at_k\")`. (sesión-notas 4e6daa)",
+      "form_notes": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Señal de rareza a revisar",
+      "confidence": 0.761,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC0 en Clustering, anomalías y validación temporal: contrasté las 4 opciones de «Una anomalía en el triage significa:»; solo «Señal de rareza a revisar» tiene soporte léxico en el packet activo, por eso chosen_index=3. ref:f8f4e9"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Hipótesis de fracción rara a flaggear",
+      "confidence": 0.902,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC1 en Clustering, anomalías y validación temporal: contrasté las 4 opciones de «contamination representa:»; solo «Hipótesis de fracción rara a flaggear» tiene soporte léxico en el packet activo, por eso chosen_index=1. ref:240b49"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Exploración/visualización prudente",
+      "confidence": 0.849,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC2 en Clustering, anomalías y validación temporal: contrasté las 4 opciones de «PCA en este curso se usa para:»; solo «Exploración/visualización prudente» tiene soporte léxico en el packet activo, por eso chosen_index=2. ref:e68cdf"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "precision@k y feedback humano",
+      "confidence": 0.568,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC3 en Clustering, anomalías y validación temporal: contrasté las 4 opciones de «Con labels escasos prioriza:»; solo «precision@k y feedback humano» tiene soporte léxico en el packet activo, por eso chosen_index=0. ref:b46b95"
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Leakage temporal",
+      "confidence": 0.678,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC4 en Clustering, anomalías y validación temporal: contrasté las 4 opciones de «Un fit de normalidad que incluye el mes evaluado comete:»; solo «Leakage temporal» tiene soporte léxico en el packet activo, por eso chosen_index=3. ref:51d9eb"
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:29:45+00:00",
+  "session_started_at": "2026-07-23T12:29:35+00:00",
+  "session_ended_at": "2026-07-23T12:29:45+00:00",
+  "receipt_response_sha256": "9a8bfd58f8603f214d4b5792b48be388497f0e229af24ac85851fe7f24ccb546"
+}

@@ -1,0 +1,490 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 28,
+  "packet_sha": "827050d249512742",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s28-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T1-A-E1\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\nprint(a == b)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "genera",
+        "seed",
+        "print",
+        "defecto",
+        "run_id",
+        "verifícalo",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T1-A-E1 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa…». Hints: seed antes de cada random; compara. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import random`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "scores",
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "score",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T1-A-E2 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo …». Hints: all; rango. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `scores=[0,0.5,1]`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nprint(f(f(s)) == f(s))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T1-A-E3 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s=' x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto…». Hints: doble aplicación; assert blando print. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `s=' x '`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nprint((a == b) == (b == a))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T1-B-E1 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el …». Hints: comparar; simetría. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `a,b='x','x'`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T1-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('Ana'.casefold() == 'ANA'.casefold())\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "cambiar",
+        "print",
+        "casefold",
+        "defecto",
+        "run_id",
+        "equality",
+        "solution"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T1-B-E2 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implemen…». Hints: casefold; True. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nprint((a == b) == (b == a))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "reorden",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T1-B-E3 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; impl…». Hints: swap; propiedad. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `a,b=1,1`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nprint('id requerido' if not r.get('id') else 'ok')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T2-A-E1 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indic…». Hints: get; guard. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `r={}`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nprint('score' if not (0 <= score <= 1) else 'ok')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "score",
+        "sintético",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T2-A-E2 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indica…». Hints: 0<=s<=1; etiqueta error. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `score=1.2`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "validación",
+        "run_id",
+        "solution",
+        "simple",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T2-A-E3 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa …». Hints: sum; lista. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `rows=[{'id':'1'},{'id':''}]`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nprint('drift' if golden != current else 'ok')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "golden",
+        "current",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T2-B-E1 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin r…». Hints: !=; strings/dicts. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `golden,current={'n':1},{'n':2}`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "diff",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "blocked",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T2-B-E2 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TOD…». Hints: and; política. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `diff, approved = True, False`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'golden_version': 3}['golden_version'])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "golden",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T2-B-E3 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reesc…». Hints: literal/dict; versionado. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "name",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T3-A-E1 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indic…». Hints: dict get; fake. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `db={'e1':{'name':'Ana'}}`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T3-A-E2 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/de…». Hints: datetime; inyección. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `from datetime import date`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nprint('retry' if status >= 500 else 'ok')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T3-A-E3 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado s…». Hints: status; rama. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `status=503`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T3-B-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A'.casefold() == 'a'.casefold())\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "casefold",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T3-B-E1 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin …». Hints: casefold; sin mock. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "detecta",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T3-B-E2 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO…». Hints: propiedad; siempre True. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `f=lambda a,b: True`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T3-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'rows_written': 1}['rows_written'])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "etiqueta"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T3-B-E3 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicad…». Hints: dict; borde. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T4-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "create",
+        "solution",
+        "select",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T4-A-E1 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto …». Hints: sqlite3; fetchone. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `import sqlite3`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n * (n - 1) // 2)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "cardinalidad",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T4-A-E2 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicad…». Hints: n*(n-1)//2; candidatos. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `n=4`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "hechos",
+        "entrada",
+        "pendientes",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T4-A-E3 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TOD…». Hints: list comp; reanudación. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `done, items={'a'}, ['a','b']`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T4-B-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "ser",
+        "sintético",
+        "líneas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T4-B-E1 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/def…». Hints: sorted; orden. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "flake_rate",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T4-B-E2 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto i…». Hints: umbral; gate. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `flake_rate=0.01`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S28-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('unit→data→integration')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "print",
+        "defecto",
+        "run_id",
+        "solution",
+        "líneas",
+        "sintético",
+        "unit"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S28-T4-B-E3 solo con el paquete activo S28 (Pruebas de datos, propiedades e integración). Instruction: «S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indica…». Hints: string; orden. Teoría/iDo: «invariantes y generación de casos Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos. Ge…». Demos: S28-T1-A-DEMO | S28-T1-B-DEMO | S28-T2-A-DEMO | S28-T2-B-DEMO | S28-T3-A-DEMO | S28-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `case_id = \"CASO-LIM-SYN\"`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Relaciones predecibles entre entradas transformadas y salidas",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 3 «Relaciones predecibles entre entradas transformadas y salidas» para la pregunta «Un test metamórfico verifica:» porque el paquete activo S28 (Pruebas de datos, propiedades e integración) enseña: «Útiles cuando no hay oráculo absoluto pero sí relación entre salidas. Caso sintético PE: batch de contactos `@example.pe` en CI local; un fallo de golden muestra expected vs actual…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Riesgo de ocultar regresiones",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 1 «Riesgo de ocultar regresiones» para la pregunta «Actualizar un golden con drift sin review es:» porque el paquete activo S28 (Pruebas de datos, propiedades e integración) enseña: «**Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos. Los tests de datos convierten supuestos de schema y matching en regresione…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Acoplar el test a detalles internos y ocultar bugs",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 2 «Acoplar el test a detalles internos y ocultar bugs» para la pregunta «Sobre-mocking típico:» porque el paquete activo S28 (Pruebas de datos, propiedades e integración) enseña: «Documenta la invariante en español junto al test; es el contrato del dominio ER.». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 0 «Con determinismo (seed/reloj/sort) y fallo de job si persisten» para la pregunta «Flakes en la suite gate de ER se manejan:» porque el paquete activo S28 (Pruebas de datos, propiedades e integración) enseña: «Genera casos desde la invariante (tabla, random acotado con seed, o hypothesis conceptual) en lugar de un único ejemplo feliz.». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:37:09.396612+00:00"
+}

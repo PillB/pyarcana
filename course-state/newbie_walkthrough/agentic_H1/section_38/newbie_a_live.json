@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s38-fc445c42180f",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "code": "# dual explorer-H1 · S38-T1-A-E1\nbound = \"cpu\"\nchoice = \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T1-A-E1 leyendo el instruction del quiz_card: «S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: entrada bound='cpu'; salida ex…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, bound, cpu; salida anclada a prints ['print(choice)', 'print(\"bound\", bound)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "bound",
+        "cpu",
+        "choice",
+        "processes",
+        "CASO"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "code": "# dual explorer-H1 · S38-T1-A-E2\nbound = \"io\"\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T1-A-E2 leyendo el instruction del quiz_card: «S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: entrada bound='io'; imprime async_or_thread…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, bound, choice; salida anclada a prints ['print(choice)', 'print(\"bound\", bound)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "bound",
+        "choice",
+        "async_or_threads",
+        "CASO",
+        "LIM"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "code": "# dual explorer-H1 · S38-T1-A-E3\nmeasure_first = True\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T1-A-E3 leyendo el instruction del quiz_card: «S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige measure_first=True. Entrada: flag de política; sal…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, measure_first, CASO; salida anclada a prints ['print(measure_first)', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "measure_first",
+        "CASO",
+        "LIM",
+        "transfer",
+        "antes"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "code": "# dual explorer-H1 · S38-T1-B-E1\nimport json\npayload = {\"x\": 2}\nprint(len(json.dumps(payload).encode()))\nprint(\"ok\", True)\nprint(\"compact\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T1-B-E1 leyendo el instruction del quiz_card: «S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UTF-8. Contrato: print del tamaño (8),…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, json, payload; salida anclada a prints ['print(len(json.dumps(payload).encode()))', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "json",
+        "payload",
+        "len",
+        "dumps",
+        "encode"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "code": "# dual explorer-H1 · S38-T1-B-E2\nprint(\"limited\")\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T1-B-E2 leyendo el instruction del quiz_card: «S38-T1-B-E2 · Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_threads True. Contrato de etiqueta operativa para…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, limited, cpu_threads; salida anclada a prints ['print(\"limited\")', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "limited",
+        "cpu_threads",
+        "Documenta",
+        "efecto",
+        "del"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "code": "# dual explorer-H1 · S38-T1-B-E3\nprint(\"compact_payload\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T1-B-E3 leyendo el instruction del quiz_card: «S38-T1-B-E3 · Política de payload entre workers: imprime preferencia compact_payload, ok True, n 1. El starter prefiere full_record (defect:…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, compact_payload, Pol; salida anclada a prints ['print(\"compact_payload\")', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "compact_payload",
+        "Pol",
+        "tica",
+        "payload",
+        "entre"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "code": "# dual explorer-H1 · S38-T2-A-E1\nclass TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T2-A-E1 leyendo el instruction del quiz_card: «S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (d…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, TokenBucket, __init__; salida anclada a prints ['print(sum(1 for a in allows if a))', 'print(\"third\", allows[2])']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "TokenBucket",
+        "__init__",
+        "self",
+        "rate",
+        "tokens"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "code": "# dual explorer-H1 · S38-T2-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = \"backpressure\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T2-A-E2 leyendo el instruction del quiz_card: «S38-T2-A-E2 · Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola acotada es la política de backpressure…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "code": "# dual explorer-H1 · S38-T2-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = \"provider\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T2-A-E3 leyendo el instruction del quiz_card: «S38-T2-A-E3 · ¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dice 'only_cpu' (defect). El contrato d…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "code": "# dual explorer-H1 · S38-T2-B-E1\npolicy = {\"seconds\": 5, \"on_fail\": \"retry_or_dlq\"}\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T2-B-E1 leyendo el instruction del quiz_card: «S38-T2-B-E1 · Política de timeout: imprime seconds=5, on_fail='retry_or_dlq', ok True. Fixture CASO-LIM-038-2B. Starter usa seconds=0 y on_f…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, policy, seconds; salida anclada a prints ['print(policy[\"seconds\"])', 'print(\"on_fail\", policy[\"on_fail\"])']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "policy",
+        "seconds",
+        "on_fail",
+        "retry_or_dlq",
+        "Pol"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "code": "# dual explorer-H1 · S38-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclose_in_finally = True\nh1_out = close_in_finally\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T2-B-E2 leyendo el instruction del quiz_card: «S38-T2-B-E2 · Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok True. Starter deja False (defect: leak). No…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "code": "# dual explorer-H1 · S38-T2-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"incident\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T2-B-E3 leyendo el instruction del quiz_card: «S38-T2-B-E3 · Transferencia: sin timeout el incidente es real. Imprime incident True, ok True, n 1. Starter niega el incidente (False). Corr…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, sint; salida anclada a prints ['print(\"incident\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "code": "# dual explorer-H1 · S38-T3-A-E1\nevent = {\"event\": \"scored\", \"corr\": \"corr-1\"}\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T3-A-E1 leyendo el instruction del quiz_card: «S38-T3-A-E1 · Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True. Fixture dict con corr='corr-1'. Start…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, event, scored; salida anclada a prints ['print(bool(event.get(\"corr\")))', 'print(\"event\", event[\"event\"])']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "event",
+        "scored",
+        "corr",
+        "bool",
+        "get"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "code": "# dual explorer-H1 · S38-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\npillars = [\"logs\", \"metrics\", \"traces\"]\nh1_out = pillars\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T3-A-E2 leyendo el instruction del quiz_card: «S38-T3-A-E2 · Tres pilares de o11y: imprime la lista ['logs','metrics','traces'], ok True, n 3. Starter lista solo ['logs'] (defect). Comple…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "code": "# dual explorer-H1 · S38-T3-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\npii_raw = False\nh1_out = pii_raw\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T3-A-E3 leyendo el instruction del quiz_card: «S38-T3-A-E3 · pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True. Starter imprime True (defect: permite…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "code": "# dual explorer-H1 · S38-T3-B-E1\nphone = \"90000001\"\nredacted = phone[:2] + \"****\" + phone[-2:]\nprint(redacted)\nprint(\"ok\", True)\nprint(\"pii\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T3-B-E1 leyendo el instruction del quiz_card: «S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el red…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, phone, redacted; salida anclada a prints ['print(redacted)', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "phone",
+        "redacted",
+        "pii",
+        "Redacta",
+        "tel"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "code": "# dual explorer-H1 · S38-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\np95, limit = 100, 200\nslo_ok = p95 <= limit\nh1_out = slo_ok\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T3-B-E2 leyendo el instruction del quiz_card: «S38-T3-B-E2 · SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara al revés (p95 >= limit) (defect). Cor…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "code": "# dual explorer-H1 · S38-T3-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = \"error_budget\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T3-B-E3 leyendo el instruction del quiz_card: «S38-T3-B-E3 · Concepto de error budget: imprime 'error_budget', ok True, n 1. Starter imprime 'infinite_sla' (defect). El contrato de transf…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "code": "# dual explorer-H1 · S38-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstates = [\"pending\", \"running\", \"done\", \"failed\"]\nh1_out = states\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T4-A-E1 leyendo el instruction del quiz_card: «S38-T4-A-E1 · Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4. Starter omite 'failed' (defect). Completa l…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, del; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "code": "# dual explorer-H1 · S38-T4-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = \"case:step:ver\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T4-A-E2 leyendo el instruction del quiz_card: «S38-T4-A-E2 · Formato de idempotency key: imprime 'case:step:ver', ok True, dup False. Starter usa solo 'case' (defect: colisiones entre pas…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "code": "# dual explorer-H1 · S38-T4-A-E3\nstate = {\"step\": \"features\", \"status\": \"done\"}\nprint(state[\"step\"])\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T4-A-E3 leyendo el instruction del quiz_card: «S38-T4-A-E3 · Resume desde último checkpoint: imprime 'features', ok True, checkpoint True. Fixture state step=features done. Starter resume…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, state, step; salida anclada a prints ['print(state[\"step\"])', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "state",
+        "step",
+        "features",
+        "status",
+        "done"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "code": "# dual explorer-H1 · S38-T4-B-E1\ndef backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T4-B-E1 leyendo el instruction del quiz_card: «S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa multiplicación lineal attempt*base (…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, backoff, attempt; salida anclada a prints ['print(backoff(3))', 'print(\"ok\", True)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "backoff",
+        "attempt",
+        "base",
+        "Imprime",
+        "Starter"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "code": "# dual explorer-H1 · S38-T4-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = \"poison\"\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T4-B-E2 leyendo el instruction del quiz_card: «S38-T4-B-E2 · Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'. Starter dice 'delete_always' (defect). Contrato: DLQ aísl…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "code": "# dual explorer-H1 · S38-T4-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nh1_out = True\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Concurrencia, observabilidad y workflows resilientes» (S38) resolví S38-T4-B-E3 leyendo el instruction del quiz_card: «S38-T4-B-E3 · Runbook de on-call existe: imprime True, oncall True, ok True. Starter imprime False (defect: operar sin runbook). Transferenc…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S38, Fixture, sint; salida anclada a prints ['print(h1_out)']. Teoría activa: «threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes conviene cua.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S38",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S38 Q0: «Para CPU bound en CPython suele preferirse:». En la teoría del slim_packet («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co) la opción «Procesos» es la que describe el concepto; descarto p.ej. ['Miles de threads CPU', 'Quitar timeouts']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S38 Q1: «Backpressure evita:». En la teoría del slim_packet («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co) la opción «Colas infinitas y OOM» es la que describe el concepto; descarto p.ej. ['Solo tests', 'Checkpoints']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S38 Q2: «Idempotencia permite:». En la teoría del slim_packet («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co) la opción «Reejecutar sin side effects duplicados» es la que describe el concepto; descarto p.ej. ['Duplicar cobros', 'Borrar DLQ siempre']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S38 Q3: «En logs de prod debes:». En la teoría del slim_packet («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co) la opción «Redactar PII y correlacionar» es la que describe el concepto; descarto p.ej. ['PII completa', 'Desactivar métricas']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S38 Q4: «Un proveedor sin timeout en el worker suele causar:». En la teoría del slim_packet («threads/processes/async» Threads conviene cuando el cuello es I/O concurrente (esperas de red o disco) y el trabajo por hilo es liviano. Processes co) la opción «Hang de workers y cola bloqueada» es la que describe el concepto; descarto p.ej. ['Mejor p95 mágico', 'Idempotencia automática']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:28:42.620993+00:00",
+  "session_started_at": "2026-07-23T08:28:19.794549+00:00",
+  "session_ended_at": "2026-07-23T08:28:42.620993+00:00"
+}

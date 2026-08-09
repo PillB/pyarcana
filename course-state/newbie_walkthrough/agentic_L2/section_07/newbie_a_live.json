@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 7,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s07-7fb29102ce7c",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "code": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']\nfor n in names:\n    print(repr(n), '->', repr(unicodedata.normalize('NFC', n)))\n",
+      "justification_from_packet": "Como explorer aplico «**FP** (false positive): el sistema dice match y no debería. **FN**: d». En S07-T1-A-E1 resolví: Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Manipular texto con métodos str idiomáticos antes de…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "code": "a, b = 'MAÑANA', 'mañana'\nprint(a.casefold() == b.casefold())\n",
+      "justification_from_packet": "Como explorer aplico «Normalizar email/teléfono con reglas modestas sin overvalidation». En S07-T1-A-E2 resolví: Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Comparar por igualdad normalizada y Jaccard de tokens» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\nprint('raw==', a == b)\nprint('NFC==', unicodedata.normalize('NFC', a) == unicodedata.normalize('NFC', b))\nprint('causa: NFD residual / composición distinta')\n",
+      "justification_from_packet": "Como explorer aplico «Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígit». En S07-T1-A-E3 resolví: Diagnostica mismatch: dos strings que se ven iguales pero fallan `==`. Imprime i. Me guié también por «Exacta y por tokens (Jaccard simple)» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "code": "raw = 'Ana María Quispe Huamán'\nparts = raw.split()\ngiven = parts[0]\napellidos = parts[1:]\nprint('given', given)\nprint('apellidos', apellidos)\n",
+      "justification_from_packet": "Como explorer aplico «Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points.». En S07-T1-B-E1 resolví: Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «split / join / search / replace» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "code": "import re\nraw = '  Juan   Carlos  '\nclean = re.sub(r'\\s+', ' ', raw.strip())\nprint(repr(clean))\n",
+      "justification_from_packet": "Como explorer aplico «Email: strip + casefold y una comprobación **modesta pero completa**: ». En S07-T1-B-E2 resolví: Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Compilación, extracción y límites» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "code": "def tokens(name: str):\n    return [t for t in name.replace(',', ' ').split() if t]\n\nprint(tokens('Quispe, Ana María'))\n",
+      "justification_from_packet": "Como explorer aplico «Patrones, grupos y anchors». En S07-T1-B-E3 resolví: Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «`re.compile` reutiliza el patrón en loops (claridad + micro-» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "code": "s = 'DNI 12345678'\nprint(s.find('123'))\nprint(s[4:12])\n",
+      "justification_from_packet": "Como explorer aplico «Compilación, extracción y límites». En S07-T2-A-E1 resolví: Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Matching de texto en intake: primero **igualdad normalizada*» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "code": "email = 'Ana.Q@Ejemplo.PE'\nprint(email.lower())\nprint(email.casefold())\n",
+      "justification_from_packet": "Como explorer aplico «Matching de texto en intake: primero **igualdad normalizada** (NFC + c». En S07-T2-A-E2 resolví: Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Normalizar Unicode (NFC/NFD) y usar casefold en…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "code": "parts = 'a,b,c'.split(',')\nprint(parts)\nprint('|'.join(parts))\n",
+      "justification_from_packet": "Como explorer aplico «Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones». En S07-T2-A-E3 resolví: Normaliza guiones de teléfono con replace encadenado sin regex: `'999.000-111'` . Me guié también por «Normalizar email/teléfono con reglas modestas sin overvalida»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "code": "import re\nprint(bool(re.fullmatch(r'\\d{8}', '12345678')))\nprint(re.fullmatch(r'\\d{8}', 'DNI 12345678'))\n",
+      "justification_from_packet": "Como explorer aplico «Razonar FP/FN y conservar evidencia sin claims de parentesco». En S07-T2-B-E1 resolví: Implementa `normalize_email`: strip+casefold, exactamente un `@`, local/dominio . Me guié también por «Tildes, ñ, partículas y apellidos compuestos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "code": "import re\ntext = 'tel 999-111-222 y 988777666'\nprint(re.findall(r'\\d{3}-?\\d{3}-?\\d{3}', text))\n",
+      "justification_from_packet": "Como explorer aplico «Razonar FP/FN y conservar evidencia sin claims de parentesco». En S07-T2-B-E2 resolví: Concepto: S07-T2-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Tildes, ñ, partículas y apellidos compuestos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "code": "# Preferir str methods cuando basta; regex para patrones\ns = '  ABC  '\nprint(s.strip().lower())  # sin regex\nimport re\nprint(bool(re.fullmatch(r'[A-Z]{3}', 'ABC')))\n",
+      "justification_from_packet": "Como explorer aplico «**FP** (false positive): el sistema dice match y no debería. **FN**: d». En S07-T2-B-E3 resolví: Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+`. Imp. Me guié también por «Manipular texto con métodos str idiomáticos antes de…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "code": "def jaccard(a: str, b: str) -> float:\n    sa, sb = set(a.casefold()), set(b.casefold())\n    if not sa and not sb:\n        return 1.0\n    return len(sa & sb) / len(sa | sb)\n\nprint(round(jaccard('Ana', 'Ana'), 2))\nprint(round(jaccard('Ana', 'Anb'), 2))\n",
+      "justification_from_packet": "Como explorer aplico «Patrones, grupos y anchors». En S07-T3-A-E1 resolví: Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «`re.compile` reutiliza el patrón en loops (claridad + micro-» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "code": "def token_jaccard(a, b):\n    sa, sb = set(a.casefold().split()), set(b.casefold().split())\n    if not sa and not sb:\n        return 1.0\n    return len(sa & sb) / len(sa | sb)\n\nprint(round(token_jaccard('Ana Quispe', 'Ana Rojas'), 2))\n",
+      "justification_from_packet": "Como explorer aplico «**FP** (false positive): el sistema dice match y no debería. **FN**: d». En S07-T3-A-E2 resolví: Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Manipular texto con métodos str idiomáticos antes de…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "code": "score = 0.67\nif score >= 0.9:\n    accion = 'auto_link_review_light'\nelif score >= 0.5:\n    accion = 'review'\nelse:\n    accion = 'no_match'\nprint(score, accion)\nprint('evidencia: raw_a, raw_b, score; sin claim de parentesco')\n",
+      "justification_from_packet": "Como explorer aplico «Exacta y por tokens (Jaccard simple)». En S07-T3-A-E3 resolví: Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «**FP** (false positive): el sistema dice match y no debería.» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "code": "def same_doc(a, b):\n    def norm(x):\n        return ''.join(ch for ch in x.casefold() if ch.isalnum())\n    return norm(a) == norm(b)\n\nprint(same_doc('DNI-123', 'dni123'))\nprint(same_doc('DNI-123', 'DNI-999'))\n",
+      "justification_from_packet": "Como explorer aplico «FP/FN y conservación de evidencia». En S07-T3-B-E1 resolví: Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Modelar nombres latam con dos apellidos y partículas sin for» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "code": "pairs = [('Ana', 'Ana'), ('Ana', 'an a'), ('X', 'Y')]\nfor a, b in pairs:\n    print(a, b, a.casefold().replace(' ', '') == b.casefold().replace(' ', ''))\n",
+      "justification_from_packet": "Como explorer aplico «Email: strip + casefold y una comprobación **modesta pero completa**: ». En S07-T3-B-E2 resolví: Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Compilación, extracción y límites» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "code": "print('score medio 0.67 -> review con evidencia (raw, score); no fusionar identidades ni afirmar parentesco')\n",
+      "justification_from_packet": "Como explorer aplico «Patrones, grupos y anchors». En S07-T3-B-E3 resolví: Explica en prints el riesgo de backtracking con un patrón malo conceptual `(a+)+. Me guié también por «`re.compile` reutiliza el patrón en loops (claridad + micro-» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "code": "s = 'Café'\nprint(s.encode('utf-8'))\nprint(list(s))\n",
+      "justification_from_packet": "Como explorer aplico «Tildes, ñ, partículas y apellidos compuestos». En S07-T4-A-E1 resolví: Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Antes de regex: `strip`, `split`, `join`, `replace`, `find`,» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "code": "b = 'José'.encode('utf-8')\nprint(b.decode('utf-8'))\ntry:\n    print(b.decode('ascii'))\nexcept UnicodeDecodeError as e:\n    print(type(e).__name__)\n",
+      "justification_from_packet": "Como explorer aplico «Manipular texto con métodos str idiomáticos antes de regex». En S07-T4-A-E2 resolví: Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Compilar patrones, extraer con findall/finditer y conocer lí» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "code": "# NFC antes de comparar / hashear nombres\nimport unicodedata, hashlib\ndef nfc(s):\n    return unicodedata.normalize('NFC', s)\na, b = 'José', 'Jose\\u0301'\nprint(hashlib.sha256(nfc(a).encode()).hexdigest() == hashlib.sha256(nfc(b).encode()).hexdigest())\n",
+      "justification_from_packet": "Como explorer aplico «Compilar patrones, extraer con findall/finditer y conocer límites». En S07-T4-A-E3 resolví: Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Code points, normalización y casefold» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "code": "raw = 'línea con Ñ'\nprint(raw.encode('utf-8').decode('utf-8'))\n",
+      "justification_from_packet": "Como explorer aplico «Matching de texto en intake: primero **igualdad normalizada** (NFC + c». En S07-T4-B-E1 resolví: Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Normalizar Unicode (NFC/NFD) y usar casefold en…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "code": "def safe_preview(s, n=20):\n    return (s[:n] + '…') if len(s) > n else s\n\nprint(safe_preview('abcdefghijklmnopqrstuvwxyz'))\n",
+      "justification_from_packet": "Como explorer aplico «Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones». En S07-T4-B-E2 resolví: Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Normalizar email/teléfono con reglas modestas sin overvalida»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "code": "print('mojibake típico: bytes latin-1 leídos como utf-8 o viceversa; fix: re-decode con encoding correcto y normalizar NFC')\n",
+      "justification_from_packet": "Como explorer aplico «Tildes, ñ, partículas y apellidos compuestos». En S07-T4-B-E3 resolví: Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del star. Me guié también por «Antes de regex: `strip`, `split`, `join`, `replace`, `find`,» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «Formas Unicode distintas (NFC vs NFD)» porque el paquete en «Code points, normalización y casefold» lo sostiene. Pregunta: ¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Marcar review y conservar raw» porque el paquete en «Tildes, ñ, partículas y apellidos compuestos» lo sostiene. Pregunta: En nombres latam, si solo hay un token, la política segura es….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «Cuando la transformación es literal/simple» porque el paquete en «split / join / search / replace» lo sostiene. Pregunta: ¿Cuándo preferir str.replace/split sobre regex?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «None (no es full match)» porque el paquete en «Nombres, emails y teléfonos sin sobrevalidación» lo sostiene. Pregunta: fullmatch(r'\\d{8}', 'DNI 12345678') devuelve….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «Ir a review con evidencia (raw, score)» porque el paquete en «Patrones, grupos y anchors» lo sostiene. Pregunta: Un Jaccard 0.67 entre nombres debe….",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:24:56.852993+00:00",
+  "session_started_at": "2026-07-23T17:32:29.903097Z",
+  "session_ended_at": "2026-07-23T17:33:21.100226Z",
+  "receipt_response_sha256": "260ca87d2c936f7f554acaecf126929e6df606c7c5c120ad34eba0fb9893ea55",
+  "receipt_exercises_sha256": "445a4e31099b75ea0ac08a1fe7bfc755a84d022ed1c34dc0b842411cb8938f0a",
+  "receipt_selfcheck_sha256": "6202cb9eec49b7a35c06fa77b6181a42e5dbff2cbe2815d9d276cdfe4d40e4fe"
+}

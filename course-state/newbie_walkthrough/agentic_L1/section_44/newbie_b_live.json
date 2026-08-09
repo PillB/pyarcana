@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 44,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s44-151e70030a",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S44-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nmeets_contract = (record[\"lint\"] and record[\"types\"] and record[\"tests\"]) and record['matrix'] == record['supported']\nstatus = \"PASS\" if meets_contract else \"FAIL_CI_GATE\"\nprint(\"S44-T1-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S44/S44-T1-A-E1, no acepto el predicado defectuoso del starter: para «lint/types/tests y matrices» el paquete exige demostrar tres gates y matriz exactamente soportada. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"lint\"] and record[\"types\"] and record[\"tests\"]) and record['matrix'] == record['supported'] else 'FAIL_CI_GATE'\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":False,\"tests\":True,\"matrix\":{\"3.10\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nincomplete = {**valid}\nincomplete.pop(\"supported\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S44-T1-A-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «lint/types/tests y matrices» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'lint', 'matrix', 'supported', 'tests', 'types'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_MATRIX'\n    meets = (record[\"lint\"] and record[\"types\"] and record[\"tests\"]) and record['matrix'] == record['supported']\n    return \"CONTINUE\" if meets else 'FAIL_CI_GATE'\n\nvalid = {\"case_id\": 'CASO-PIU-044-1A', **{'lint':True, 'types':True, 'tests':True, 'matrix':{'3.11', '3.12'}, 'supported':{'3.11', '3.12'}}}\ninvalid = {\"case_id\": 'CASO-PIU-044-1A', **{'lint':False, 'types':True, 'tests':True, 'matrix':{'3.11', '3.12'}, 'supported':{'3.11', '3.12'}}}\nuncertain = {k: v for k, v in valid.items() if k != 'supported'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S44 · S44-T1-A-E3: leí hints «Una ausencia no equivale a breach: enrútala a `REVIEW_MATRIX` antes de evaluar el contenido.» y la teoría del subtema «supported». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"sha256:def\",\"retention_days\":14,\"conditions_cover_tags\":True}}\nmeets_contract = record['cache_miss_passes'] is True and record['conditions_cover_tags'] is True\nstatus = \"PASS\" if meets_contract else \"DISCARD_PIPELINE_RESULT\"\nprint(\"S44-T1-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S44 · S44-T1-B-E1: leí hints «Relaciona los campos `cache_key`, `cache_miss_passes`, `artifact_digest`, `retention_days`, `conditions_cover_tags` con la regla explicada e» y la teoría del subtema «caches, artifacts y condiciones». El criterio medible es cache opcional, artifact con digest y condiciones completas; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'artifact_digest', 'cache_key', 'cache_miss_passes', 'case_id', 'conditions_cover_tags', 'retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['cache_miss_passes'] is True and record['conditions_cover_tags'] is True\n    return \"PASS\" if meets else 'DISCARD_PIPELINE_RESULT'\n\nvalid = {\"case_id\": 'CASO-PIU-044-1B', **{'cache_key':'lock-abc', 'cache_miss_passes':True, 'artifact_digest':'sha256:def', 'retention_days':14, 'conditions_cover_tags':True}}\ninvalid = {\"case_id\": 'CASO-PIU-044-1B', **{'cache_key':'lock-abc', 'cache_miss_passes':False, 'artifact_digest':'sha256:def', 'retention_days':14, 'conditions_cover_tags':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'conditions_cover_tags'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S44/S44-T1-B-E2, no acepto el predicado defectuoso del starter: para «caches, artifacts y condiciones» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'artifact_digest', 'cache_key', 'cache_miss_passes', 'case_id', 'conditions_cover_tags', 'retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INSPECT_WORKFLOW_CONDITION'\n    meets = record['cache_miss_passes'] is True and record['conditions_cover_tags'] is True\n    return \"CONTINUE\" if meets else 'DISCARD_PIPELINE_RESULT'\n\nvalid = {\"case_id\": 'CASO-PIU-044-1B', **{'cache_key':'lock-abc', 'cache_miss_passes':True, 'artifact_digest':'sha256:def', 'retention_days':14, 'conditions_cover_tags':True}}\ninvalid = {\"case_id\": 'CASO-PIU-044-1B', **{'cache_key':'lock-abc', 'cache_miss_passes':False, 'artifact_digest':'sha256:def', 'retention_days':14, 'conditions_cover_tags':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'conditions_cover_tags'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S44/S44-T1-B-E3, no acepto el predicado defectuoso del starter: para «conditions_cover_tags» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secret_hits\":0,\"dependency_review\":True}}\nmeets_contract = record['actions_pinned'] is True and record['dependency_review'] is True\nstatus = \"PASS\" if meets_contract else \"REVOKE_AND_ROTATE\"\nprint(\"S44-T2-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S44-T2-A-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «permisos mínimos, pinning y secret scanning» reconstruí la regla (token mínimo, acciones pinned, cero secretos y dependency review) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'actions_pinned', 'case_id', 'dependency_review', 'secret_hits', 'token_permissions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['actions_pinned'] is True and record['dependency_review'] is True\n    return \"PASS\" if meets else 'REVOKE_AND_ROTATE'\n\nvalid = {\"case_id\": 'CASO-PIU-044-2A', **{'token_permissions':{'contents': 'read'}, 'actions_pinned':True, 'secret_hits':0, 'dependency_review':True}}\ninvalid = {\"case_id\": 'CASO-PIU-044-2A', **{'token_permissions':{'contents': 'read'}, 'actions_pinned':False, 'secret_hits':0, 'dependency_review':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'dependency_review'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S44-T2-A-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «permisos mínimos, pinning y secret scanning» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'actions_pinned', 'case_id', 'dependency_review', 'secret_hits', 'token_permissions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SECURITY_APPROVAL'\n    meets = record['actions_pinned'] is True and record['dependency_review'] is True\n    return \"CONTINUE\" if meets else 'REVOKE_AND_ROTATE'\n\nvalid = {\"case_id\": 'CASO-PIU-044-2A', **{'token_permissions':{'contents': 'read'}, 'actions_pinned':True, 'secret_hits':0, 'dependency_review':True}}\ninvalid = {\"case_id\": 'CASO-PIU-044-2A', **{'token_permissions':{'contents': 'read'}, 'actions_pinned':False, 'secret_hits':0, 'dependency_review':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'dependency_review'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S44-T2-A-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «dependency_review» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\nmeets_contract = len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) <= 1\nstatus = \"PASS\" if meets_contract else \"REJECT_ATTESTATION\"\nprint(\"S44-T2-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S44 · S44-T2-B-E1: leí hints «Relaciona los campos `artifact_digest`, `sbom_digest`, `provenance_subject`, `attestation_valid` con la regla explicada en S44-T2-B.» y la teoría del subtema «SBOM, provenance y attestations». El criterio medible es SBOM y provenance enlazados al mismo digest; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'artifact_digest', 'attestation_valid', 'case_id', 'provenance_subject', 'sbom_digest'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) <= 1\n    return \"PASS\" if meets else 'REJECT_ATTESTATION'\n\nvalid = {\"case_id\": 'CASO-PIU-044-2B', **{'artifact_digest':'sha256:aaa', 'sbom_digest':'sha256:aaa', 'provenance_subject':'sha256:aaa', 'attestation_valid':True}}\ninvalid = {\"case_id\": 'CASO-PIU-044-2B', **{'artifact_digest':'broken_sha256:aaa', 'sbom_digest':'sha256:aaa', 'provenance_subject':'sha256:aaa', 'attestation_valid':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'attestation_valid'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S44/S44-T2-B-E2, no acepto el predicado defectuoso del starter: para «SBOM, provenance y attestations» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'artifact_digest', 'attestation_valid', 'case_id', 'provenance_subject', 'sbom_digest'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REBUILD_PROVENANCE'\n    meets = len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) <= 1\n    return \"CONTINUE\" if meets else 'REJECT_ATTESTATION'\n\nvalid = {\"case_id\": 'CASO-PIU-044-2B', **{'artifact_digest':'sha256:aaa', 'sbom_digest':'sha256:aaa', 'provenance_subject':'sha256:aaa', 'attestation_valid':True}}\ninvalid = {\"case_id\": 'CASO-PIU-044-2B', **{'artifact_digest':'broken_sha256:aaa', 'sbom_digest':'sha256:aaa', 'provenance_subject':'sha256:aaa', 'attestation_valid':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'attestation_valid'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S44-T2-B-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «attestation_valid» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\nmeets_contract = not record[\"approved_by\"] or record[\"tested_digest\"] == record[\"promoted_digest\"]\nstatus = \"PASS\" if meets_contract else \"DENY_PROMOTION\"\nprint(\"S44-T3-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S44/S44-T3-A-E1, no acepto el predicado defectuoso del starter: para «environments y approvals» el paquete exige demostrar mismo digest probado y aprobación independiente. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'approved_by', 'case_id', 'promoted_digest', 'source_env', 'target_env', 'tested_digest'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not record[\"approved_by\"] or record[\"tested_digest\"] == record[\"promoted_digest\"]\n    return \"PASS\" if meets else 'DENY_PROMOTION'\n\nvalid = {\"case_id\": 'CASO-PIU-044-3A', **{'source_env':'staging', 'target_env':'production', 'approved_by':'release-owner', 'tested_digest':'sha256:abc', 'promoted_digest':'sha256:abc'}}\ninvalid = {\"case_id\": 'CASO-PIU-044-3A', **{'source_env':'staging', 'target_env':'production', 'approved_by':'release-owner', 'tested_digest':'broken_sha256:abc', 'promoted_digest':'sha256:abc'}}\nincomplete = {k: v for k, v in valid.items() if k != 'promoted_digest'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S44/S44-T3-A-E2, no acepto el predicado defectuoso del starter: para «environments y approvals» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'approved_by', 'case_id', 'promoted_digest', 'source_env', 'target_env', 'tested_digest'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_RELEASE_APPROVAL'\n    meets = not record[\"approved_by\"] or record[\"tested_digest\"] == record[\"promoted_digest\"]\n    return \"CONTINUE\" if meets else 'DENY_PROMOTION'\n\nvalid = {\"case_id\": 'CASO-PIU-044-3A', **{'source_env':'staging', 'target_env':'production', 'approved_by':'release-owner', 'tested_digest':'sha256:abc', 'promoted_digest':'sha256:abc'}}\ninvalid = {\"case_id\": 'CASO-PIU-044-3A', **{'source_env':'staging', 'target_env':'production', 'approved_by':'release-owner', 'tested_digest':'broken_sha256:abc', 'promoted_digest':'sha256:abc'}}\nuncertain = {k: v for k, v in valid.items() if k != 'promoted_digest'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S44/S44-T3-A-E3, no acepto el predicado defectuoso del starter: para «promoted_digest» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_rate\":0.01,\"rollback_tested\":True,\"rollback_seconds\":75,\"rto_seconds\":120}}\nmeets_contract = record[\"canary_error_rate\"] <= record[\"max_error_rate\"] or not record[\"rollback_tested\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_RELEASE\"\nprint(\"S44-T3-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S44 · S44-T3-B-E1: leí hints «Relaciona los campos `migration_compatible`, `canary_error_rate`, `max_error_rate`, `rollback_tested`, `rollback_seconds`, `rto_seconds` con» y la teoría del subtema «migrations, canary/blue-green y rollback». El criterio medible es migración compatible, canary bajo umbral y rollback dentro de RTO; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'canary_error_rate', 'case_id', 'max_error_rate', 'migration_compatible', 'rollback_seconds', 'rollback_tested', 'rto_seconds'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"canary_error_rate\"] <= record[\"max_error_rate\"] or not record[\"rollback_tested\"]\n    return \"PASS\" if meets else 'ROLLBACK_RELEASE'\n\nvalid = {\"case_id\": 'CASO-PIU-044-3B', **{'migration_compatible':True, 'canary_error_rate':0.004, 'max_error_rate':0.01, 'rollback_tested':True, 'rollback_seconds':75, 'rto_seconds':120}}\ninvalid = {\"case_id\": 'CASO-PIU-044-3B', **{'migration_compatible':True, 'canary_error_rate':1000.004, 'max_error_rate':0.01, 'rollback_tested':True, 'rollback_seconds':75, 'rto_seconds':120}}\nincomplete = {k: v for k, v in valid.items() if k != 'rto_seconds'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S44-T3-B-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «migrations, canary/blue-green y rollback» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'canary_error_rate', 'case_id', 'max_error_rate', 'migration_compatible', 'rollback_seconds', 'rollback_tested', 'rto_seconds'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PAUSE_CANARY'\n    meets = record[\"canary_error_rate\"] <= record[\"max_error_rate\"] or not record[\"rollback_tested\"]\n    return \"CONTINUE\" if meets else 'ROLLBACK_RELEASE'\n\nvalid = {\"case_id\": 'CASO-PIU-044-3B', **{'migration_compatible':True, 'canary_error_rate':0.004, 'max_error_rate':0.01, 'rollback_tested':True, 'rollback_seconds':75, 'rto_seconds':120}}\ninvalid = {\"case_id\": 'CASO-PIU-044-3B', **{'migration_compatible':True, 'canary_error_rate':1000.004, 'max_error_rate':0.01, 'rollback_tested':True, 'rollback_seconds':75, 'rto_seconds':120}}\nuncertain = {k: v for k, v in valid.items() if k != 'rto_seconds'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S44 · S44-T3-B-E3: leí hints «Una ausencia no equivale a breach: enrútala a `PAUSE_CANARY` antes de evaluar el contenido.» y la teoría del subtema «rto_seconds». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\nmeets_contract = record['protected_branch'] is True and record['required_checks'] is True\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNREVIEWED_RELEASE\"\nprint(\"S44-T4-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S44-T4-A-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «branch/review policy y release notes» reconstruí la regla (branch protegida, review/checks y notas operables) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'protected_branch', 'release_notes', 'required_checks', 'required_reviews'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['protected_branch'] is True and record['required_checks'] is True\n    return \"PASS\" if meets else 'BLOCK_UNREVIEWED_RELEASE'\n\nvalid = {\"case_id\": 'CASO-PIU-044-4A', **{'protected_branch':True, 'required_reviews':2, 'required_checks':True, 'release_notes':{'change', 'migration', 'risk', 'rollback'}}}\ninvalid = {\"case_id\": 'CASO-PIU-044-4A', **{'protected_branch':False, 'required_reviews':2, 'required_checks':True, 'release_notes':{'change', 'migration', 'risk', 'rollback'}}}\nincomplete = {k: v for k, v in valid.items() if k != 'release_notes'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S44 · S44-T4-A-E2: leí hints «Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama.» y la teoría del subtema «branch/review policy y release notes». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'protected_branch', 'release_notes', 'required_checks', 'required_reviews'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COMPLETE_RELEASE_NOTES'\n    meets = record['protected_branch'] is True and record['required_checks'] is True\n    return \"CONTINUE\" if meets else 'BLOCK_UNREVIEWED_RELEASE'\n\nvalid = {\"case_id\": 'CASO-PIU-044-4A', **{'protected_branch':True, 'required_reviews':2, 'required_checks':True, 'release_notes':{'change', 'migration', 'risk', 'rollback'}}}\ninvalid = {\"case_id\": 'CASO-PIU-044-4A', **{'protected_branch':False, 'required_reviews':2, 'required_checks':True, 'release_notes':{'change', 'migration', 'risk', 'rollback'}}}\nuncertain = {k: v for k, v in valid.items() if k != 'release_notes'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S44-T4-A-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «release_notes» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\nmeets_contract = record['critical_failure'] is True and record['pipeline_blocked'] is True and record['logs_redacted'] is True and record['evidence_retained'] is True\nstatus = \"PASS\" if meets_contract else \"STOP_SILENT_FAILURE\"\nprint(\"S44-T4-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S44-T4-B-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «failure handling y evidencia auditable» reconstruí la regla (fallo crítico bloquea con logs redactados y dueño) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'critical_failure', 'evidence_retained', 'logs_redacted', 'owner', 'pipeline_blocked'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['critical_failure'] is True and record['pipeline_blocked'] is True and record['logs_redacted'] is True and record['evidence_retained'] is True\n    return \"PASS\" if meets else 'STOP_SILENT_FAILURE'\n\nvalid = {\"case_id\": 'CASO-PIU-044-4B', **{'critical_failure':True, 'pipeline_blocked':True, 'logs_redacted':True, 'owner':'release', 'evidence_retained':True}}\ninvalid = {\"case_id\": 'CASO-PIU-044-4B', **{'critical_failure':False, 'pipeline_blocked':True, 'logs_redacted':True, 'owner':'release', 'evidence_retained':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'evidence_retained'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S44 · S44-T4-B-E2: leí hints «Primero se calcula `missing`; ningún acceso a evidence_retained debe ocurrir antes de esa rama.» y la teoría del subtema «failure handling y evidencia auditable». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S44-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'critical_failure', 'evidence_retained', 'logs_redacted', 'owner', 'pipeline_blocked'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASSIGN_INCIDENT_OWNER'\n    meets = record['critical_failure'] is True and record['pipeline_blocked'] is True and record['logs_redacted'] is True and record['evidence_retained'] is True\n    return \"CONTINUE\" if meets else 'STOP_SILENT_FAILURE'\n\nvalid = {\"case_id\": 'CASO-PIU-044-4B', **{'critical_failure':True, 'pipeline_blocked':True, 'logs_redacted':True, 'owner':'release', 'evidence_retained':True}}\ninvalid = {\"case_id\": 'CASO-PIU-044-4B', **{'critical_failure':False, 'pipeline_blocked':True, 'logs_redacted':True, 'owner':'release', 'evidence_retained':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'evidence_retained'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S44 · S44-T4-B-E3: leí hints «Una ausencia no equivale a breach: enrútala a `ASSIGN_INCIDENT_OWNER` antes de evaluar el contenido.» y la teoría del subtema «evidence_retained». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "CI/CD y seguridad de la cadena de suministro",
+        "S44-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Escéptico S44 SC0: rechazo atajos. La respuesta «lint/types/tests y matriz soportada en verde» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.76,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Escéptico S44 SC1: rechazo atajos. La respuesta «emitir STOP_PIPELINE y conservar evidencia» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.79,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Escéptico S44 SC2: rechazo atajos. La respuesta «el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Escéptico S44 SC3: rechazo atajos. La respuesta «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.85,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:48:14.463496+00:00",
+  "session_started_at": "2026-07-23T16:52:04.766061Z",
+  "session_ended_at": "2026-07-23T16:52:41.766061Z",
+  "receipt_response_sha256": "aeb2df3a54d3937ea836e456f7ef096e10b4fc82f2b65f35add7c9f676c6150e",
+  "receipt_exercises_sha256": "7666d0b9db9de84c9e5a85cadb8cfad0bdb493e2dbd51db341726b6748091fd7",
+  "receipt_selfcheck_sha256": "6c38d6eb83dde8df461138afa988231064720a34a477519f4ca5f6e38863d04d"
+}

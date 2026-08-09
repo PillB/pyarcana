@@ -1,0 +1,843 @@
+     1→<?xml version="1.0" encoding="UTF-8"?>
+     2→<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+     3→<head>
+     4→<title>Table of Contents</title>
+     5→<link href="stylesheet.css" type="text/css" rel="stylesheet" />
+     6→<meta charset="utf-8"/>
+     7→</head>
+     8→<body dir="ltr">
+     9→      <section class="frontmatter TableOfContents" epub:type="frontmatter toc">
+    10→        <h2 id='toc'>Table of Contents</h2>
+    11→
+    12→         <nav xmlns:epub="http://www.idpf.org/2007/ops" epub:type="toc">
+    13→           <ol class='toc has-parts'>
+    14→  <li>
+    15→    <a href='chap00.xhtml#leanpub-auto-introduction'>Introduction</a>
+    16→    <ol>
+    17→      <li>
+    18→        <span>&#160;</span>
+    19→        <ol>
+    20→          <li>
+    21→            <a href='chap00.xhtml#leanpub-auto-about-the-author'>About the Author</a>
+    22→          </li>
+    23→          <li>
+    24→            <a href='chap00.xhtml#leanpub-auto-conventions'>Conventions</a>
+    25→          </li>
+    26→          <li>
+    27→            <a href='chap00.xhtml#leanpub-auto-requirements'>Requirements</a>
+    28→          </li>
+    29→          <li>
+    30→            <a href='chap00.xhtml#leanpub-auto-reader-feedback'>Reader Feedback</a>
+    31→          </li>
+    32→          <li>
+    33→            <a href='chap00.xhtml#leanpub-auto-errata'>Errata</a>
+    34→          </li>
+    35→          <li>
+    36→            <a href='chap00.xhtml#leanpub-auto-code-examples'>Code Examples</a>
+    37→          </li>
+    38→        </ol>
+    39→      </li>
+    40→    </ol>
+    41→  </li>
+    42→  <li>
+    43→    <a href='chap01.xhtml#leanpub-auto-part-i---the-intermediate-modules'>Part I - The Intermediate Modules</a>
+    44→  </li>
+    45→  <li>
+    46→    <a href='chap02.xhtml#leanpub-auto-chapter-1---an-intro-to-argument-parsing-using-argparse'>Chapter 1 - An Intro to Argument Parsing using argparse</a>
+    47→    <ol>
+    48→      <li>
+    49→        <span>&#160;</span>
+    50→        <ol>
+    51→          <li>
+    52→            <a href='chap02.xhtml#leanpub-auto-getting-started'>Getting Started</a>
+    53→          </li>
+    54→          <li>
+    55→            <a href='chap02.xhtml#leanpub-auto-adding-arguments'>Adding Arguments</a>
+    56→          </li>
+    57→          <li>
+    58→            <a href='chap02.xhtml#leanpub-auto-short-options-and-long-options'>Short Options and Long Options</a>
+    59→          </li>
+    60→          <li>
+    61→            <a href='chap02.xhtml#leanpub-auto-options-that-conflict'>Options that Conflict</a>
+    62→          </li>
+    63→          <li>
+    64→            <a href='chap02.xhtml#leanpub-auto-wrapping-up'>Wrapping Up</a>
+    65→          </li>
+    66→        </ol>
+    67→      </li>
+    68→    </ol>
+    69→  </li>
+    70→  <li>
+    71→    <a href='chap03.xhtml#leanpub-auto-chapter-2---the-collections-module'>Chapter 2 - The collections module</a>
+    72→    <ol>
+    73→      <li>
+    74→        <span>&#160;</span>
+    75→        <ol>
+    76→          <li>
+    77→            <a href='chap03.xhtml#leanpub-auto-chainmap'>ChainMap</a>
+    78→          </li>
+    79→          <li>
+    80→            <a href='chap03.xhtml#leanpub-auto-counter'>Counter</a>
+    81→          </li>
+    82→          <li>
+    83→            <a href='chap03.xhtml#leanpub-auto-defaultdict'>defaultdict</a>
+    84→          </li>
+    85→          <li>
+    86→            <a href='chap03.xhtml#leanpub-auto-deque'>deque</a>
+    87→          </li>
+    88→          <li>
+    89→            <a href='chap03.xhtml#leanpub-auto-namedtuple'>namedtuple</a>
+    90→          </li>
+    91→          <li>
+    92→            <a href='chap03.xhtml#leanpub-auto-ordereddict'>OrderedDict</a>
+    93→          </li>
+    94→          <li>
+    95→            <a href='chap03.xhtml#leanpub-auto-wrapping-up-1'>Wrapping Up</a>
+    96→          </li>
+    97→        </ol>
+    98→      </li>
+    99→    </ol>
+   100→  </li>
+   101→  <li>
+   102→    <a href='chap04.xhtml#leanpub-auto-chapter-3---context-managers'>Chapter 3 - Context Managers</a>
+   103→    <ol>
+   104→      <li>
+   105→        <span>&#160;</span>
+   106→        <ol>
+   107→          <li>
+   108→            <a href='chap04.xhtml#leanpub-auto-creating-a-context-manager-class'>Creating a Context Manager class</a>
+   109→          </li>
+   110→          <li>
+   111→            <a href='chap04.xhtml#leanpub-auto-creating-a-context-manager-using-contextlib'>Creating a Context Manager using contextlib</a>
+   112→          </li>
+   113→          <li>
+   114→            <a href='chap04.xhtml#leanpub-auto-contextlibclosingthing'>contextlib.closing(thing)</a>
+   115→          </li>
+   116→          <li>
+   117→            <a href='chap04.xhtml#leanpub-auto-contextlibsuppressexceptions'>contextlib.suppress(*exceptions)</a>
+   118→          </li>
+   119→          <li>
+   120→            <a href='chap04.xhtml#leanpub-auto-contextlibredirectstdout--redirectstderr'>contextlib.redirect_stdout / redirect_stderr</a>
+   121→          </li>
+   122→          <li>
+   123→            <a href='chap04.xhtml#leanpub-auto-exitstack'>ExitStack</a>
+   124→          </li>
+   125→          <li>
+   126→            <a href='chap04.xhtml#leanpub-auto-reentrant-context-managers'>Reentrant Context Managers</a>
+   127→          </li>
+   128→          <li>
+   129→            <a href='chap04.xhtml#leanpub-auto-wrapping-up-2'>Wrapping Up</a>
+   130→          </li>
+   131→        </ol>
+   132→      </li>
+   133→    </ol>
+   134→  </li>
+   135→  <li>
+   136→    <a href='chap05.xhtml#leanpub-auto-chapter-4---the-functools-module'>Chapter 4 - The functools module</a>
+   137→    <ol>
+   138→      <li>
+   139→        <span>&#160;</span>
+   140→        <ol>
+   141→          <li>
+   142→            <a href='chap05.xhtml#leanpub-auto-caching-with-functoolslrucache'>Caching with functools.lru_cache</a>
+   143→          </li>
+   144→          <li>
+   145→            <a href='chap05.xhtml#leanpub-auto-functoolpartial'>functool.partial</a>
+   146→          </li>
+   147→          <li>
+   148→            <a href='chap05.xhtml#leanpub-auto-function-overloading-with-functoolssingledispatch'>Function Overloading with functools.singledispatch</a>
+   149→          </li>
+   150→          <li>
+   151→            <a href='chap05.xhtml#leanpub-auto-functoolswraps'>functools.wraps</a>
+   152→          </li>
+   153→          <li>
+   154→            <a href='chap05.xhtml#leanpub-auto-wraps-to-the-rescue'>Wraps to the Rescue!</a>
+   155→          </li>
+   156→          <li>
+   157→            <a href='chap05.xhtml#leanpub-auto-wrapping-up-3'>Wrapping Up</a>
+   158→          </li>
+   159→        </ol>
+   160→      </li>
+   161→    </ol>
+   162→  </li>
+   163→  <li>
+   164→    <a href='chap06.xhtml#leanpub-auto-chapter-5---all-about-imports'>Chapter 5 - All About Imports</a>
+   165→    <ol>
+   166→      <li>
+   167→        <span>&#160;</span>
+   168→        <ol>
+   169→          <li>
+   170→            <a href='chap06.xhtml#leanpub-auto-regular-imports'>Regular Imports</a>
+   171→          </li>
+   172→          <li>
+   173→            <a href='chap06.xhtml#leanpub-auto-using-from-module-import-something'>Using “from module import something”</a>
+   174→          </li>
+   175→          <li>
+   176→            <a href='chap06.xhtml#leanpub-auto-relative-imports'>Relative Imports</a>
+   177→          </li>
+   178→          <li>
+   179→            <a href='chap06.xhtml#leanpub-auto-optional-imports'>Optional Imports</a>
+   180→          </li>
+   181→          <li>
+   182→            <a href='chap06.xhtml#leanpub-auto-local-imports'>Local Imports</a>
+   183→          </li>
+   184→          <li>
+   185→            <a href='chap06.xhtml#leanpub-auto-import-pitfalls'>Import Pitfalls</a>
+   186→          </li>
+   187→          <li>
+   188→            <a href='chap06.xhtml#leanpub-auto-wrapping-up-4'>Wrapping Up</a>
+   189→          </li>
+   190→        </ol>
+   191→      </li>
+   192→    </ol>
+   193→  </li>
+   194→  <li>
+   195→    <a href='chap07.xhtml#leanpub-auto-chapter-6---the-importlib-module'>Chapter 6 - The importlib Module</a>
+   196→    <ol>
+   197→      <li>
+   198→        <span>&#160;</span>
+   199→        <ol>
+   200→          <li>
+   201→            <a href='chap07.xhtml#leanpub-auto-dynamic-imports'>Dynamic Imports</a>
+   202→          </li>
+   203→          <li>
+   204→            <a href='chap07.xhtml#leanpub-auto-module-import-checking'>Module Import Checking</a>
+   205→          </li>
+   206→          <li>
+   207→            <a href='chap07.xhtml#leanpub-auto-import-from-source-file'>Import From Source File</a>
+   208→          </li>
+   209→          <li>
+   210→            <a href='chap07.xhtml#leanpub-auto-importfromgithubcom'>import_from_github_com</a>
+   211→          </li>
+   212→          <li>
+   213→            <a href='chap07.xhtml#leanpub-auto-wrapping-up-5'>Wrapping Up</a>
+   214→          </li>
+   215→        </ol>
+   216→      </li>
+   217→    </ol>
+   218→  </li>
+   219→  <li>
+   220→    <a href='chap08.xhtml#leanpub-auto-chapter-7---iterators-and-generators'>Chapter 7 - Iterators and Generators</a>
+   221→    <ol>
+   222→      <li>
+   223→        <span>&#160;</span>
+   224→        <ol>
+   225→          <li>
+   226→            <a href='chap08.xhtml#leanpub-auto-iterators'>Iterators</a>
+   227→          </li>
+   228→          <li>
+   229→            <a href='chap08.xhtml#leanpub-auto-creating-your-own-iterators'>Creating Your Own Iterators</a>
+   230→          </li>
+   231→          <li>
+   232→            <a href='chap08.xhtml#leanpub-auto-generators'>Generators</a>
+   233→          </li>
+   234→          <li>
+   235→            <a href='chap08.xhtml#leanpub-auto-wrapping-up-6'>Wrapping Up</a>
+   236→          </li>
+   237→        </ol>
+   238→      </li>
+   239→    </ol>
+   240→  </li>
+   241→  <li>
+   242→    <a href='chap09.xhtml#leanpub-auto-chapter-8---the-itertools-module'>Chapter 8 - The itertools Module</a>
+   243→    <ol>
+   244→      <li>
+   245→        <span>&#160;</span>
+   246→        <ol>
+   247→          <li>
+   248→            <a href='chap09.xhtml#leanpub-auto-the-infinite-iterators'>The Infinite Iterators</a>
+   249→          </li>
+   250→          <li>
+   251→            <a href='chap09.xhtml#leanpub-auto-iterators-that-terminate'>Iterators That Terminate</a>
+   252→          </li>
+   253→          <li>
+   254→            <a href='chap09.xhtml#leanpub-auto-the-combinatoric-generators'>The Combinatoric Generators</a>
+   255→          </li>
+   256→          <li>
+   257→            <a href='chap09.xhtml#leanpub-auto-wrapping-up-7'>Wrapping Up</a>
+   258→          </li>
+   259→        </ol>
+   260→      </li>
+   261→    </ol>
+   262→  </li>
+   263→  <li>
+   264→    <a href='chap10.xhtml#leanpub-auto-chapter-9---regular-expressions'>Chapter 9 - Regular Expressions</a>
+   265→    <ol>
+   266→      <li>
+   267→        <span>&#160;</span>
+   268→        <ol>
+   269→          <li>
+   270→            <a href='chap10.xhtml#leanpub-auto-the-matching-characters'>The Matching Characters</a>
+   271→          </li>
+   272→          <li>
+   273→            <a href='chap10.xhtml#leanpub-auto-pattern-matching-using-search'>Pattern Matching Using search</a>
+   274→          </li>
+   275→          <li>
+   276→            <a href='chap10.xhtml#leanpub-auto-escape-codes'>Escape Codes</a>
+   277→          </li>
+   278→          <li>
+   279→            <a href='chap10.xhtml#leanpub-auto-compiling'>Compiling</a>
+   280→          </li>
+   281→          <li>
+   282→            <a href='chap10.xhtml#leanpub-auto-compilation-flags'>Compilation Flags</a>
+   283→          </li>
+   284→          <li>
+   285→            <a href='chap10.xhtml#leanpub-auto-finding-multiple-instances'>Finding Multiple Instances</a>
+   286→          </li>
+   287→          <li>
+   288→            <a href='chap10.xhtml#leanpub-auto-backslashes-are-complicated'>Backslashes Are Complicated</a>
+   289→          </li>
+   290→          <li>
+   291→            <a href='chap10.xhtml#leanpub-auto-wrapping-up-8'>Wrapping Up</a>
+   292→          </li>
+   293→        </ol>
+   294→      </li>
+   295→    </ol>
+   296→  </li>
+   297→  <li>
+   298→    <a href='chap11.xhtml#leanpub-auto-chapter-10---the-typing-module'>Chapter 10 - The typing Module</a>
+   299→    <ol>
+   300→      <li>
+   301→        <span>&#160;</span>
+   302→        <ol>
+   303→          <li>
+   304→            <a href='chap11.xhtml#leanpub-auto-type-hints-and-overloaded-functions'>Type Hints and Overloaded Functions</a>
+   305→          </li>
+   306→          <li>
+   307→            <a href='chap11.xhtml#leanpub-auto-wrapping-up-9'>Wrapping Up</a>
+   308→          </li>
+   309→        </ol>
+   310→      </li>
+   311→    </ol>
+   312→  </li>
+   313→  <li>
+   314→    <a href='chap12.xhtml#leanpub-auto-part-ii---odds-and-ends'>Part II - Odds and Ends</a>
+   315→  </li>
+   316→  <li>
+   317→    <a href='chap13.xhtml#leanpub-auto-chapter-11---python-built-ins'>Chapter 11 - Python Built-ins</a>
+   318→    <ol>
+   319→      <li>
+   320→        <span>&#160;</span>
+   321→        <ol>
+   322→          <li>
+   323→            <a href='chap13.xhtml#leanpub-auto-any'>any</a>
+   324→          </li>
+   325→          <li>
+   326→            <a href='chap13.xhtml#leanpub-auto-enumerate'>enumerate</a>
+   327→          </li>
+   328→          <li>
+   329→            <a href='chap13.xhtml#leanpub-auto-eval'>eval</a>
+   330→          </li>
+   331→          <li>
+   332→            <a href='chap13.xhtml#leanpub-auto-filter'>filter</a>
+   333→          </li>
+   334→          <li>
+   335→            <a href='chap13.xhtml#leanpub-auto-map'>map</a>
+   336→          </li>
+   337→          <li>
+   338→            <a href='chap13.xhtml#leanpub-auto-zip'>zip</a>
+   339→          </li>
+   340→          <li>
+   341→            <a href='chap13.xhtml#leanpub-auto-wrapping-up-10'>Wrapping Up</a>
+   342→          </li>
+   343→        </ol>
+   344→      </li>
+   345→    </ol>
+   346→  </li>
+   347→  <li>
+   348→    <a href='chap14.xhtml#leanpub-auto-chapter-12---unicode'>Chapter 12 - Unicode</a>
+   349→    <ol>
+   350→      <li>
+   351→        <span>&#160;</span>
+   352→        <ol>
+   353→          <li>
+   354→            <a href='chap14.xhtml#leanpub-auto-encoding--decoding'>Encoding / Decoding</a>
+   355→          </li>
+   356→          <li>
+   357→            <a href='chap14.xhtml#leanpub-auto-wrapping-up-11'>Wrapping Up</a>
+   358→          </li>
+   359→        </ol>
+   360→      </li>
+   361→    </ol>
+   362→  </li>
+   363→  <li>
+   364→    <a href='chap15.xhtml#leanpub-auto-chapter-13---benchmarking'>Chapter 13 - Benchmarking</a>
+   365→    <ol>
+   366→      <li>
+   367→        <span>&#160;</span>
+   368→        <ol>
+   369→          <li>
+   370→            <a href='chap15.xhtml#leanpub-auto-timeit'>timeit</a>
+   371→          </li>
+   372→          <li>
+   373→            <a href='chap15.xhtml#leanpub-auto-importing-timeit-for-testing'>Importing timeit for Testing</a>
+   374→          </li>
+   375→          <li>
+   376→            <a href='chap15.xhtml#leanpub-auto-use-a-decorator'>Use a decorator</a>
+   377→          </li>
+   378→          <li>
+   379→            <a href='chap15.xhtml#leanpub-auto-create-a-timing-context-manager'>Create a Timing Context Manager</a>
+   380→          </li>
+   381→          <li>
+   382→            <a href='chap15.xhtml#leanpub-auto-cprofile'>cProfile</a>
+   383→          </li>
+   384→          <li>
+   385→            <a href='chap15.xhtml#leanpub-auto-lineprofiler'>line_profiler</a>
+   386→          </li>
+   387→          <li>
+   388→            <a href='chap15.xhtml#leanpub-auto-memoryprofiler'>memory_profiler</a>
+   389→          </li>
+   390→          <li>
+   391→            <a href='chap15.xhtml#leanpub-auto-profilehooks'>profilehooks</a>
+   392→          </li>
+   393→          <li>
+   394→            <a href='chap15.xhtml#leanpub-auto-wrapping-up-12'>Wrapping Up</a>
+   395→          </li>
+   396→        </ol>
+   397→      </li>
+   398→    </ol>
+   399→  </li>
+   400→  <li>
+   401→    <a href='chap16.xhtml#leanpub-auto-chapter-14---encryption-and-cryptography'>Chapter 14 - Encryption and Cryptography</a>
+   402→    <ol>
+   403→      <li>
+   404→        <span>&#160;</span>
+   405→        <ol>
+   406→          <li>
+   407→            <a href='chap16.xhtml#leanpub-auto-hashing'>Hashing</a>
+   408→          </li>
+   409→          <li>
+   410→            <a href='chap16.xhtml#leanpub-auto-key-derivation'>Key Derivation</a>
+   411→          </li>
+   412→          <li>
+   413→            <a href='chap16.xhtml#leanpub-auto-pycrypto'>PyCrypto</a>
+   414→          </li>
+   415→          <li>
+   416→            <a href='chap16.xhtml#leanpub-auto-the-cryptography-package'>The cryptography Package</a>
+   417→          </li>
+   418→          <li>
+   419→            <a href='chap16.xhtml#leanpub-auto-wrapping-up-13'>Wrapping Up</a>
+   420→          </li>
+   421→        </ol>
+   422→      </li>
+   423→    </ol>
+   424→  </li>
+   425→  <li>
+   426→    <a href='chap17.xhtml#leanpub-auto-chapter-15---databases'>Chapter 15 - Databases</a>
+   427→    <ol>
+   428→      <li>
+   429→        <span>&#160;</span>
+   430→        <ol>
+   431→          <li>
+   432→            <a href='chap17.xhtml#leanpub-auto-basic-sql-syntax'>Basic SQL Syntax</a>
+   433→          </li>
+   434→          <li>
+   435→            <a href='chap17.xhtml#leanpub-auto-adodbapi'>adodbapi</a>
+   436→          </li>
+   437→          <li>
+   438→            <a href='chap17.xhtml#leanpub-auto-pyodbc'>pyodbc</a>
+   439→          </li>
+   440→          <li>
+   441→            <a href='chap17.xhtml#leanpub-auto-pypyodbc'>pypyodbc</a>
+   442→          </li>
+   443→          <li>
+   444→            <a href='chap17.xhtml#leanpub-auto-mysql'>MySQL</a>
+   445→          </li>
+   446→          <li>
+   447→            <a href='chap17.xhtml#leanpub-auto-postgresql'>PostgreSQL</a>
+   448→          </li>
+   449→          <li>
+   450→            <a href='chap17.xhtml#leanpub-auto-object-relational-mappers'>Object Relational Mappers</a>
+   451→          </li>
+   452→          <li>
+   453→            <a href='chap17.xhtml#leanpub-auto-wrapping-up-14'>Wrapping Up</a>
+   454→          </li>
+   455→        </ol>
+   456→      </li>
+   457→    </ol>
+   458→  </li>
+   459→  <li>
+   460→    <a href='chap18.xhtml#leanpub-auto-chapter-16---the-super-built-in'>Chapter 16 - The super built-in</a>
+   461→    <ol>
+   462→      <li>
+   463→        <span>&#160;</span>
+   464→        <ol>
+   465→          <li>
+   466→            <a href='chap18.xhtml#leanpub-auto-python-2-vs-python-3'>Python 2 vs Python 3</a>
+   467→          </li>
+   468→          <li>
+   469→            <a href='chap18.xhtml#leanpub-auto-method-resolution-order-mro'>Method Resolution Order (MRO)</a>
+   470→          </li>
+   471→          <li>
+   472→            <a href='chap18.xhtml#leanpub-auto-wrapping-up-15'>Wrapping Up</a>
+   473→          </li>
+   474→        </ol>
+   475→      </li>
+   476→    </ol>
+   477→  </li>
+   478→  <li>
+   479→    <a href='chap19.xhtml#leanpub-auto-chapter-17---descriptors'>Chapter 17 - Descriptors</a>
+   480→    <ol>
+   481→      <li>
+   482→        <span>&#160;</span>
+   483→        <ol>
+   484→          <li>
+   485→            <a href='chap19.xhtml#leanpub-auto-the-descriptor-protocol'>The Descriptor Protocol</a>
+   486→          </li>
+   487→          <li>
+   488→            <a href='chap19.xhtml#leanpub-auto-calling-a-descriptor'>Calling a Descriptor</a>
+   489→          </li>
+   490→          <li>
+   491→            <a href='chap19.xhtml#leanpub-auto-descriptor-examples'>Descriptor Examples</a>
+   492→          </li>
+   493→          <li>
+   494→            <a href='chap19.xhtml#leanpub-auto-wrapping-up-16'>Wrapping Up</a>
+   495→          </li>
+   496→        </ol>
+   497→      </li>
+   498→    </ol>
+   499→  </li>
+   500→  <li>
+   501→    <a href='chap20.xhtml#leanpub-auto-chapter-18---scope'>Chapter 18 - Scope</a>
+   502→    <ol>
+   503→      <li>
+   504→        <span>&#160;</span>
+   505→        <ol>
+   506→          <li>
+   507→            <a href='chap20.xhtml#leanpub-auto-local-scope'>Local Scope</a>
+   508→          </li>
+   509→          <li>
+   510→            <a href='chap20.xhtml#leanpub-auto-global-scope'>Global Scope</a>
+   511→          </li>
+   512→          <li>
+   513→            <a href='chap20.xhtml#leanpub-auto-nonlocal-scope'>nonlocal Scope</a>
+   514→          </li>
+   515→          <li>
+   516→            <a href='chap20.xhtml#leanpub-auto-wrapping-up-17'>Wrapping Up</a>
+   517→          </li>
+   518→        </ol>
+   519→      </li>
+   520→    </ol>
+   521→  </li>
+   522→  <li>
+   523→    <a href='chap21.xhtml#leanpub-auto-part-iii---working-with-the-web'>Part III - Working with the Web</a>
+   524→  </li>
+   525→  <li>
+   526→    <a href='chap22.xhtml#leanpub-auto-chapter-19---web-scraping'>Chapter 19 - Web Scraping</a>
+   527→    <ol>
+   528→      <li>
+   529→        <span>&#160;</span>
+   530→        <ol>
+   531→          <li>
+   532→            <a href='chap22.xhtml#leanpub-auto-tips-for-scraping'>Tips for Scraping</a>
+   533→          </li>
+   534→          <li>
+   535→            <a href='chap22.xhtml#leanpub-auto-preparing-to-scrape'>Preparing to Scrape</a>
+   536→          </li>
+   537→          <li>
+   538→            <a href='chap22.xhtml#leanpub-auto-beautifulsoup'>BeautifulSoup</a>
+   539→          </li>
+   540→          <li>
+   541→            <a href='chap22.xhtml#leanpub-auto-scrapy'>Scrapy</a>
+   542→          </li>
+   543→          <li>
+   544→            <a href='chap22.xhtml#leanpub-auto-wrapping-up-18'>Wrapping Up</a>
+   545→          </li>
+   546→        </ol>
+   547→      </li>
+   548→    </ol>
+   549→  </li>
+   550→  <li>
+   551→    <a href='chap23.xhtml#leanpub-auto-chapter-20---web-apis'>Chapter 20 - Web APIs</a>
+   552→    <ol>
+   553→      <li>
+   554→        <span>&#160;</span>
+   555→        <ol>
+   556→          <li>
+   557→            <a href='chap23.xhtml#leanpub-auto-twitter'>Twitter</a>
+   558→          </li>
+   559→          <li>
+   560→            <a href='chap23.xhtml#leanpub-auto-reddit'>Reddit</a>
+   561→          </li>
+   562→          <li>
+   563→            <a href='chap23.xhtml#leanpub-auto-wikipedia'>Wikipedia</a>
+   564→          </li>
+   565→          <li>
+   566→            <a href='chap23.xhtml#leanpub-auto-other-api-libraries'>Other API Libraries</a>
+   567→          </li>
+   568→          <li>
+   569→            <a href='chap23.xhtml#leanpub-auto-wrapping-up-19'>Wrapping Up</a>
+   570→          </li>
+   571→        </ol>
+   572→      </li>
+   573→    </ol>
+   574→  </li>
+   575→  <li>
+   576→    <a href='chap24.xhtml#leanpub-auto-chapter-21---working-with-ftp'>Chapter 21 - Working with FTP</a>
+   577→    <ol>
+   578→      <li>
+   579→        <span>&#160;</span>
+   580→        <ol>
+   581→          <li>
+   582→            <a href='chap24.xhtml#leanpub-auto-connecting-to-an-ftp-server'>Connecting to an FTP Server</a>
+   583→          </li>
+   584→          <li>
+   585→            <a href='chap24.xhtml#leanpub-auto-navigating-directories-with-ftplib'>Navigating Directories with ftplib</a>
+   586→          </li>
+   587→          <li>
+   588→            <a href='chap24.xhtml#leanpub-auto-downloading-a-file-via-ftp'>Downloading a File via FTP</a>
+   589→          </li>
+   590→          <li>
+   591→            <a href='chap24.xhtml#leanpub-auto-uploading-files-to-an-ftp-server'>Uploading Files to an FTP Server</a>
+   592→          </li>
+   593→          <li>
+   594→            <a href='chap24.xhtml#leanpub-auto-wrapping-up-20'>Wrapping Up</a>
+   595→          </li>
+   596→        </ol>
+   597→      </li>
+   598→    </ol>
+   599→  </li>
+   600→  <li>
+   601→    <a href='chap25.xhtml#leanpub-auto-chapter-22---the-urllib-module'>Chapter 22 - The urllib Module</a>
+   602→    <ol>
+   603→      <li>
+   604→        <span>&#160;</span>
+   605→        <ol>
+   606→          <li>
+   607→            <a href='chap25.xhtml#leanpub-auto-urllibrequest'>urllib.request</a>
+   608→          </li>
+   609→          <li>
+   610→            <a href='chap25.xhtml#leanpub-auto-urllibparse'>urllib.parse</a>
+   611→          </li>
+   612→          <li>
+   613→            <a href='chap25.xhtml#leanpub-auto-urllibrobotparser'>urllib.robotparser</a>
+   614→          </li>
+   615→          <li>
+   616→            <a href='chap25.xhtml#leanpub-auto-wrapping-up-21'>Wrapping Up</a>
+   617→          </li>
+   618→        </ol>
+   619→      </li>
+   620→    </ol>
+   621→  </li>
+   622→  <li>
+   623→    <a href='chap26.xhtml#leanpub-auto-part-iv---testing'>Part IV - Testing</a>
+   624→  </li>
+   625→  <li>
+   626→    <a href='chap27.xhtml#leanpub-auto-chapter-24---the-doctest-module'>Chapter 24 - The doctest Module</a>
+   627→    <ol>
+   628→      <li>
+   629→        <span>&#160;</span>
+   630→        <ol>
+   631→          <li>
+   632→            <a href='chap27.xhtml#leanpub-auto-how-it-works'>How it Works</a>
+   633→          </li>
+   634→          <li>
+   635→            <a href='chap27.xhtml#leanpub-auto-check-your-test-with-a-text-file'>Check Your Test With a Text File</a>
+   636→          </li>
+   637→          <li>
+   638→            <a href='chap27.xhtml#leanpub-auto-option-flags-and-directives'>Option Flags and Directives</a>
+   639→          </li>
+   640→          <li>
+   641→            <a href='chap27.xhtml#leanpub-auto-wrapping-up-22'>Wrapping Up</a>
+   642→          </li>
+   643→        </ol>
+   644→      </li>
+   645→    </ol>
+   646→  </li>
+   647→  <li>
+   648→    <a href='chap28.xhtml#leanpub-auto-chapter-24---the-unittest-module'>Chapter 24 - The unittest Module</a>
+   649→    <ol>
+   650→      <li>
+   651→        <span>&#160;</span>
+   652→        <ol>
+   653→          <li>
+   654→            <a href='chap28.xhtml#leanpub-auto-a-simple-example'>A Simple Example</a>
+   655→          </li>
+   656→          <li>
+   657→            <a href='chap28.xhtml#leanpub-auto-command-line-interface'>Command-Line Interface</a>
+   658→          </li>
+   659→          <li>
+   660→            <a href='chap28.xhtml#leanpub-auto-creating-a-more-complex-test'>Creating a More Complex Test</a>
+   661→          </li>
+   662→          <li>
+   663→            <a href='chap28.xhtml#leanpub-auto-creating-test-suites'>Creating Test Suites</a>
+   664→          </li>
+   665→          <li>
+   666→            <a href='chap28.xhtml#leanpub-auto-how-to-skip-tests'>How to Skip Tests</a>
+   667→          </li>
+   668→          <li>
+   669→            <a href='chap28.xhtml#leanpub-auto-integrating-with-doctest'>Integrating with doctest</a>
+   670→          </li>
+   671→          <li>
+   672→            <a href='chap28.xhtml#leanpub-auto-wrapping-up-23'>Wrapping Up</a>
+   673→          </li>
+   674→        </ol>
+   675→      </li>
+   676→    </ol>
+   677→  </li>
+   678→  <li>
+   679→    <a href='chap29.xhtml#leanpub-auto-chapter-25---the-mock-module'>Chapter 25 - The mock Module</a>
+   680→    <ol>
+   681→      <li>
+   682→        <span>&#160;</span>
+   683→        <ol>
+   684→          <li>
+   685→            <a href='chap29.xhtml#leanpub-auto-simple-examples'>Simple Examples</a>
+   686→          </li>
+   687→          <li>
+   688→            <a href='chap29.xhtml#leanpub-auto-side-effects'>Side Effects</a>
+   689→          </li>
+   690→          <li>
+   691→            <a href='chap29.xhtml#leanpub-auto-autospeccing'>Autospeccing</a>
+   692→          </li>
+   693→          <li>
+   694→            <a href='chap29.xhtml#leanpub-auto-the-patch'>The Patch</a>
+   695→          </li>
+   696→          <li>
+   697→            <a href='chap29.xhtml#leanpub-auto-wrapping-up-24'>Wrapping Up</a>
+   698→          </li>
+   699→        </ol>
+   700→      </li>
+   701→    </ol>
+   702→  </li>
+   703→  <li>
+   704→    <a href='chap30.xhtml#leanpub-auto-chapter-26---an-intro-to-coveragepy'>Chapter 26 - An Intro to coverage.py</a>
+   705→    <ol>
+   706→      <li>
+   707→        <span>&#160;</span>
+   708→        <ol>
+   709→          <li>
+   710→            <a href='chap30.xhtml#leanpub-auto-additional-information'>Additional Information</a>
+   711→          </li>
+   712→          <li>
+   713→            <a href='chap30.xhtml#leanpub-auto-wrapping-up-25'>Wrapping Up</a>
+   714→          </li>
+   715→        </ol>
+   716→      </li>
+   717→    </ol>
+   718→  </li>
+   719→  <li>
+   720→    <a href='chap31.xhtml#leanpub-auto-part-v---concurrency'>Part V - Concurrency</a>
+   721→  </li>
+   722→  <li>
+   723→    <a href='chap32.xhtml#leanpub-auto-chapter-27---the-asyncio-module'>Chapter 27 - The asyncio Module</a>
+   724→    <ol>
+   725→      <li>
+   726→        <span>&#160;</span>
+   727→        <ol>
+   728→          <li>
+   729→            <a href='chap32.xhtml#leanpub-auto-definitions'>Definitions</a>
+   730→          </li>
+   731→          <li>
+   732→            <a href='chap32.xhtml#leanpub-auto-async-and-await'>async and await</a>
+   733→          </li>
+   734→          <li>
+   735→            <a href='chap32.xhtml#leanpub-auto-a-bad-coroutine-example'>A Bad Coroutine Example</a>
+   736→          </li>
+   737→          <li>
+   738→            <a href='chap32.xhtml#leanpub-auto-a-better-coroutine-example'>A Better Coroutine Example</a>
+   739→          </li>
+   740→          <li>
+   741→            <a href='chap32.xhtml#leanpub-auto-scheduling-calls'>Scheduling Calls</a>
+   742→          </li>
+   743→          <li>
+   744→            <a href='chap32.xhtml#leanpub-auto-tasks'>Tasks</a>
+   745→          </li>
+   746→          <li>
+   747→            <a href='chap32.xhtml#leanpub-auto-wrapping-up-26'>Wrapping Up</a>
+   748→          </li>
+   749→        </ol>
+   750→      </li>
+   751→    </ol>
+   752→  </li>
+   753→  <li>
+   754→    <a href='chap33.xhtml#leanpub-auto-chapter-28---the-threading-module'>Chapter 28 - The threading Module</a>
+   755→    <ol>
+   756→      <li>
+   757→        <span>&#160;</span>
+   758→        <ol>
+   759→          <li>
+   760→            <a href='chap33.xhtml#leanpub-auto-intro-to-threads'>Intro to threads</a>
+   761→          </li>
+   762→          <li>
+   763→            <a href='chap33.xhtml#leanpub-auto-locks-and-synchronization'>Locks and Synchronization</a>
+   764→          </li>
+   765→          <li>
+   766→            <a href='chap33.xhtml#leanpub-auto-timers'>Timers</a>
+   767→          </li>
+   768→          <li>
+   769→            <a href='chap33.xhtml#leanpub-auto-other-thread-components'>Other Thread Components</a>
+   770→          </li>
+   771→          <li>
+   772→            <a href='chap33.xhtml#leanpub-auto-thread-communication'>Thread Communication</a>
+   773→          </li>
+   774→          <li>
+   775→            <a href='chap33.xhtml#leanpub-auto-wrapping-up-27'>Wrapping Up</a>
+   776→          </li>
+   777→        </ol>
+   778→      </li>
+   779→    </ol>
+   780→  </li>
+   781→  <li>
+   782→    <a href='chap34.xhtml#leanpub-auto-chapter-29---the-multiprocessing-module'>Chapter 29 - The multiprocessing Module</a>
+   783→    <ol>
+   784→      <li>
+   785→        <span>&#160;</span>
+   786→        <ol>
+   787→          <li>
+   788→            <a href='chap34.xhtml#leanpub-auto-getting-started-with-multiprocessing'>Getting Started With Multiprocessing</a>
+   789→          </li>
+   790→          <li>
+   791→            <a href='chap34.xhtml#leanpub-auto-locks'>Locks</a>
+   792→          </li>
+   793→          <li>
+   794→            <a href='chap34.xhtml#leanpub-auto-logging'>Logging</a>
+   795→          </li>
+   796→          <li>
+   797→            <a href='chap34.xhtml#leanpub-auto-the-pool-class'>The Pool Class</a>
+   798→          </li>
+   799→          <li>
+   800→            <a href='chap34.xhtml#leanpub-auto-process-communication'>Process Communication</a>
+   801→          </li>
+   802→          <li>
+   803→            <a href='chap34.xhtml#leanpub-auto-wrapping-up-28'>Wrapping Up</a>
+   804→          </li>
+   805→        </ol>
+   806→      </li>
+   807→    </ol>
+   808→  </li>
+   809→  <li>
+   810→    <a href='chap35.xhtml#leanpub-auto-chapter-30---the-concurrentfutures-module'>Chapter 30 - The concurrent.futures Module</a>
+   811→    <ol>
+   812→      <li>
+   813→        <span>&#160;</span>
+   814→        <ol>
+   815→          <li>
+   816→            <a href='chap35.xhtml#leanpub-auto-creating-a-pool'>Creating a Pool</a>
+   817→          </li>
+   818→          <li>
+   819→            <a href='chap35.xhtml#leanpub-auto-deadlocks'>Deadlocks</a>
+   820→          </li>
+   821→          <li>
+   822→            <a href='chap35.xhtml#leanpub-auto-wrapping-up-29'>Wrapping Up</a>
+   823→          </li>
+   824→        </ol>
+   825→      </li>
+   826→    </ol>
+   827→  </li>
+   828→</ol>
+   829→
+   830→         </nav>
+   831→
+   832→         <nav xmlns:epub="http://www.idpf.org/2007/ops" epub:type="landmarks" id="guide">
+   833→            <h2>Guide</h2>
+   834→            <ol>
+   835→               <li>
+   836→                  <a epub:type="bodymatter" href="chap00.xhtml">Begin Reading</a>
+   837→               </li>
+   838→            </ol>
+   839→         </nav>
+   840→</section>
+   841→</body>
+   842→</html>
+   843→

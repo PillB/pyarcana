@@ -1,0 +1,1116 @@
+{
+  "section_index": 48,
+  "section_id": "ai-governance",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S48-T1-A-E1",
+          "code": "print(\"sim\", \"cosine\"); print(\"space\", \"unit\"); print(\"synth_docs\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "embeddings",
+            "similarity",
+            "iDo_S48-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T1-A-E2",
+          "code": "print(\"sim\", \"cosine\"); print(\"space\", \"unit\"); print(\"synth_docs\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "embeddings",
+            "similarity",
+            "iDo_S48-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T1-A-E3",
+          "code": "print(\"sim\", \"cosine\"); print(\"space\", \"unit\"); print(\"synth_docs\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "embeddings",
+            "similarity",
+            "iDo_S48-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T1-B-E1",
+          "code": "print(\"eval\", \"nDCG@10\"); print(\"version\", \"e5-v1\"); print(\"regression_suite\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "version",
+            "eval",
+            "iDo_S48-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T1-B-E2",
+          "code": "print(\"eval\", \"nDCG@10\"); print(\"version\", \"e5-v1\"); print(\"regression_suite\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "version",
+            "eval",
+            "iDo_S48-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T1-B-E3",
+          "code": "print(\"eval\", \"nDCG@10\"); print(\"version\", \"e5-v1\"); print(\"regression_suite\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "version",
+            "eval",
+            "iDo_S48-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-A-E1",
+          "code": "print(\"chunk_n\", 3); print(\"overlap\", \"optional\"); print(\"dedup_key\", \"sha1\")\n",
+          "note": "",
+          "concepts_used": [
+            "chunking",
+            "dedup",
+            "iDo_S48-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-A-E2",
+          "code": "print(\"chunk_n\", 3); print(\"overlap\", \"optional\"); print(\"dedup_key\", \"sha1\")\n",
+          "note": "",
+          "concepts_used": [
+            "chunking",
+            "dedup",
+            "iDo_S48-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-A-E3",
+          "code": "print(\"chunk_n\", 3); print(\"overlap\", \"optional\"); print(\"dedup_key\", \"sha1\")\n",
+          "note": "",
+          "concepts_used": [
+            "chunking",
+            "dedup",
+            "iDo_S48-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-B-E1",
+          "code": "print(\"provenance\", \"doc_version\"); print(\"acl_enforce\", True); print(\"hard_delete\", \"policy\")\n",
+          "note": "",
+          "concepts_used": [
+            "acl",
+            "provenance",
+            "iDo_S48-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-B-E2",
+          "code": "print(\"provenance\", \"doc_version\"); print(\"acl_enforce\", True); print(\"hard_delete\", \"policy\")\n",
+          "note": "",
+          "concepts_used": [
+            "acl",
+            "provenance",
+            "iDo_S48-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-B-E3",
+          "code": "print(\"provenance\", \"doc_version\"); print(\"acl_enforce\", True); print(\"hard_delete\", \"policy\")\n",
+          "note": "",
+          "concepts_used": [
+            "acl",
+            "provenance",
+            "iDo_S48-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-A-E1",
+          "code": "print(\"lexical\", \"bm25_like\"); print(\"vector\", \"cosine\"); print(\"fuse\", \"linear\")\n",
+          "note": "",
+          "concepts_used": [
+            "hybrid",
+            "rerank",
+            "iDo_S48-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-A-E2",
+          "code": "print(\"lexical\", \"bm25_like\"); print(\"vector\", \"cosine\"); print(\"fuse\", \"linear\")\n",
+          "note": "",
+          "concepts_used": [
+            "hybrid",
+            "rerank",
+            "iDo_S48-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-A-E3",
+          "code": "print(\"lexical\", \"bm25_like\"); print(\"vector\", \"cosine\"); print(\"fuse\", \"linear\")\n",
+          "note": "",
+          "concepts_used": [
+            "hybrid",
+            "rerank",
+            "iDo_S48-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-B-E1",
+          "code": "print(\"cites\", True); print(\"drop_denied\", True); print(\"context_budget\", 2)\n",
+          "note": "",
+          "concepts_used": [
+            "cites",
+            "permissions",
+            "iDo_S48-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-B-E2",
+          "code": "print(\"cites\", True); print(\"drop_denied\", True); print(\"context_budget\", 2)\n",
+          "note": "",
+          "concepts_used": [
+            "cites",
+            "permissions",
+            "iDo_S48-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-B-E3",
+          "code": "print(\"cites\", True); print(\"drop_denied\", True); print(\"context_budget\", 2)\n",
+          "note": "",
+          "concepts_used": [
+            "cites",
+            "permissions",
+            "iDo_S48-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-A-E1",
+          "code": "print(\"structured\", {\"decision\":\"ok\",\"cites\":[\"c1\"]}); print(\"grounded\", True); print(\"schema\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "grounding",
+            "structured",
+            "iDo_S48-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-A-E2",
+          "code": "print(\"structured\", {\"decision\":\"ok\",\"cites\":[\"c1\"]}); print(\"grounded\", True); print(\"schema\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "grounding",
+            "structured",
+            "iDo_S48-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-A-E3",
+          "code": "print(\"structured\", {\"decision\":\"ok\",\"cites\":[\"c1\"]}); print(\"grounded\", True); print(\"schema\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "grounding",
+            "structured",
+            "iDo_S48-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-B-E1",
+          "code": "print(\"eval\", \"answer_faithfulness\"); print(\"abstain\", True); print(\"cost_cap\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "abstain",
+            "cost",
+            "iDo_S48-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-B-E2",
+          "code": "print(\"eval\", \"answer_faithfulness\"); print(\"abstain\", True); print(\"cost_cap\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "abstain",
+            "cost",
+            "iDo_S48-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-B-E3",
+          "code": "print(\"eval\", \"answer_faithfulness\"); print(\"abstain\", True); print(\"cost_cap\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "abstain",
+            "cost",
+            "iDo_S48-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S48-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sim cosine\nspace unit\nsynth_docs True\n",
+          "expected_head": "sim cosine\nspace unit\nsynth_docs True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sim cosine\nspace unit\nsynth_docs True\n",
+          "expected_head": "sim cosine\nspace unit\nsynth_docs True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sim cosine\nspace unit\nsynth_docs True\n",
+          "expected_head": "sim cosine\nspace unit\nsynth_docs True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval nDCG@10\nversion e5-v1\nregression_suite True\n",
+          "expected_head": "eval nDCG@10\nversion e5-v1\nregression_suite True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval nDCG@10\nversion e5-v1\nregression_suite True\n",
+          "expected_head": "eval nDCG@10\nversion e5-v1\nregression_suite True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval nDCG@10\nversion e5-v1\nregression_suite True\n",
+          "expected_head": "eval nDCG@10\nversion e5-v1\nregression_suite True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "chunk_n 3\noverlap optional\ndedup_key sha1\n",
+          "expected_head": "chunk_n 3\noverlap optional\ndedup_key sha1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "chunk_n 3\noverlap optional\ndedup_key sha1\n",
+          "expected_head": "chunk_n 3\noverlap optional\ndedup_key sha1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "chunk_n 3\noverlap optional\ndedup_key sha1\n",
+          "expected_head": "chunk_n 3\noverlap optional\ndedup_key sha1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "provenance doc_version\nacl_enforce True\nhard_delete policy\n",
+          "expected_head": "provenance doc_version\nacl_enforce True\nhard_delete policy",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "provenance doc_version\nacl_enforce True\nhard_delete policy\n",
+          "expected_head": "provenance doc_version\nacl_enforce True\nhard_delete policy",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "provenance doc_version\nacl_enforce True\nhard_delete policy\n",
+          "expected_head": "provenance doc_version\nacl_enforce True\nhard_delete policy",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lexical bm25_like\nvector cosine\nfuse linear\n",
+          "expected_head": "lexical bm25_like\nvector cosine\nfuse linear",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lexical bm25_like\nvector cosine\nfuse linear\n",
+          "expected_head": "lexical bm25_like\nvector cosine\nfuse linear",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lexical bm25_like\nvector cosine\nfuse linear\n",
+          "expected_head": "lexical bm25_like\nvector cosine\nfuse linear",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cites True\ndrop_denied True\ncontext_budget 2\n",
+          "expected_head": "cites True\ndrop_denied True\ncontext_budget 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cites True\ndrop_denied True\ncontext_budget 2\n",
+          "expected_head": "cites True\ndrop_denied True\ncontext_budget 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cites True\ndrop_denied True\ncontext_budget 2\n",
+          "expected_head": "cites True\ndrop_denied True\ncontext_budget 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True\n",
+          "expected_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True\n",
+          "expected_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True\n",
+          "expected_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval answer_faithfulness\nabstain True\ncost_cap True\n",
+          "expected_head": "eval answer_faithfulness\nabstain True\ncost_cap True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval answer_faithfulness\nabstain True\ncost_cap True\n",
+          "expected_head": "eval answer_faithfulness\nabstain True\ncost_cap True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval answer_faithfulness\nabstain True\ncost_cap True\n",
+          "expected_head": "eval answer_faithfulness\nabstain True\ncost_cap True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S48-T1-A-E1",
+          "code": "print(\"sim\", \"cosine\"); print(\"space\", \"unit\"); print(\"synth_docs\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T1-A-E2",
+          "code": "print(\"sim\", \"cosine\"); print(\"space\", \"unit\"); print(\"synth_docs\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T1-A-E3",
+          "code": "print(\"sim\", \"cosine\"); print(\"space\", \"unit\"); print(\"synth_docs\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T1-B-E1",
+          "code": "print(\"eval\", \"nDCG@10\"); print(\"version\", \"e5-v1\"); print(\"regression_suite\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T1-B-E2",
+          "code": "print(\"eval\", \"nDCG@10\"); print(\"version\", \"e5-v1\"); print(\"regression_suite\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T1-B-E3",
+          "code": "print(\"eval\", \"nDCG@10\"); print(\"version\", \"e5-v1\"); print(\"regression_suite\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-A-E1",
+          "code": "print(\"chunk_n\", 3); print(\"overlap\", \"optional\"); print(\"dedup_key\", \"sha1\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-A-E2",
+          "code": "print(\"chunk_n\", 3); print(\"overlap\", \"optional\"); print(\"dedup_key\", \"sha1\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-A-E3",
+          "code": "print(\"chunk_n\", 3); print(\"overlap\", \"optional\"); print(\"dedup_key\", \"sha1\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-B-E1",
+          "code": "print(\"provenance\", \"doc_version\"); print(\"acl_enforce\", True); print(\"hard_delete\", \"policy\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-B-E2",
+          "code": "print(\"provenance\", \"doc_version\"); print(\"acl_enforce\", True); print(\"hard_delete\", \"policy\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T2-B-E3",
+          "code": "print(\"provenance\", \"doc_version\"); print(\"acl_enforce\", True); print(\"hard_delete\", \"policy\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-A-E1",
+          "code": "print(\"lexical\", \"bm25_like\"); print(\"vector\", \"cosine\"); print(\"fuse\", \"linear\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-A-E2",
+          "code": "print(\"lexical\", \"bm25_like\"); print(\"vector\", \"cosine\"); print(\"fuse\", \"linear\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-A-E3",
+          "code": "print(\"lexical\", \"bm25_like\"); print(\"vector\", \"cosine\"); print(\"fuse\", \"linear\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-B-E1",
+          "code": "print(\"cites\", True); print(\"drop_denied\", True); print(\"context_budget\", 2)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-B-E2",
+          "code": "print(\"cites\", True); print(\"drop_denied\", True); print(\"context_budget\", 2)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T3-B-E3",
+          "code": "print(\"cites\", True); print(\"drop_denied\", True); print(\"context_budget\", 2)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-A-E1",
+          "code": "print(\"structured\", {\"decision\":\"ok\",\"cites\":[\"c1\"]}); print(\"grounded\", True); print(\"schema\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-A-E2",
+          "code": "print(\"structured\", {\"decision\":\"ok\",\"cites\":[\"c1\"]}); print(\"grounded\", True); print(\"schema\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-A-E3",
+          "code": "print(\"structured\", {\"decision\":\"ok\",\"cites\":[\"c1\"]}); print(\"grounded\", True); print(\"schema\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-B-E1",
+          "code": "print(\"eval\", \"answer_faithfulness\"); print(\"abstain\", True); print(\"cost_cap\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-B-E2",
+          "code": "print(\"eval\", \"answer_faithfulness\"); print(\"abstain\", True); print(\"cost_cap\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S48-T4-B-E3",
+          "code": "print(\"eval\", \"answer_faithfulness\"); print(\"abstain\", True); print(\"cost_cap\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S48-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S48-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sim cosine\nspace unit\nsynth_docs True\n",
+          "expected_head": "sim cosine\nspace unit\nsynth_docs True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sim cosine\nspace unit\nsynth_docs True\n",
+          "expected_head": "sim cosine\nspace unit\nsynth_docs True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sim cosine\nspace unit\nsynth_docs True\n",
+          "expected_head": "sim cosine\nspace unit\nsynth_docs True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval nDCG@10\nversion e5-v1\nregression_suite True\n",
+          "expected_head": "eval nDCG@10\nversion e5-v1\nregression_suite True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval nDCG@10\nversion e5-v1\nregression_suite True\n",
+          "expected_head": "eval nDCG@10\nversion e5-v1\nregression_suite True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval nDCG@10\nversion e5-v1\nregression_suite True\n",
+          "expected_head": "eval nDCG@10\nversion e5-v1\nregression_suite True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "chunk_n 3\noverlap optional\ndedup_key sha1\n",
+          "expected_head": "chunk_n 3\noverlap optional\ndedup_key sha1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "chunk_n 3\noverlap optional\ndedup_key sha1\n",
+          "expected_head": "chunk_n 3\noverlap optional\ndedup_key sha1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "chunk_n 3\noverlap optional\ndedup_key sha1\n",
+          "expected_head": "chunk_n 3\noverlap optional\ndedup_key sha1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "provenance doc_version\nacl_enforce True\nhard_delete policy\n",
+          "expected_head": "provenance doc_version\nacl_enforce True\nhard_delete policy",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "provenance doc_version\nacl_enforce True\nhard_delete policy\n",
+          "expected_head": "provenance doc_version\nacl_enforce True\nhard_delete policy",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "provenance doc_version\nacl_enforce True\nhard_delete policy\n",
+          "expected_head": "provenance doc_version\nacl_enforce True\nhard_delete policy",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lexical bm25_like\nvector cosine\nfuse linear\n",
+          "expected_head": "lexical bm25_like\nvector cosine\nfuse linear",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lexical bm25_like\nvector cosine\nfuse linear\n",
+          "expected_head": "lexical bm25_like\nvector cosine\nfuse linear",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lexical bm25_like\nvector cosine\nfuse linear\n",
+          "expected_head": "lexical bm25_like\nvector cosine\nfuse linear",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cites True\ndrop_denied True\ncontext_budget 2\n",
+          "expected_head": "cites True\ndrop_denied True\ncontext_budget 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cites True\ndrop_denied True\ncontext_budget 2\n",
+          "expected_head": "cites True\ndrop_denied True\ncontext_budget 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cites True\ndrop_denied True\ncontext_budget 2\n",
+          "expected_head": "cites True\ndrop_denied True\ncontext_budget 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True\n",
+          "expected_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True\n",
+          "expected_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True\n",
+          "expected_head": "structured {'decision': 'ok', 'cites': ['c1']}\ngrounded True\nschema True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval answer_faithfulness\nabstain True\ncost_cap True\n",
+          "expected_head": "eval answer_faithfulness\nabstain True\ncost_cap True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval answer_faithfulness\nabstain True\ncost_cap True\n",
+          "expected_head": "eval answer_faithfulness\nabstain True\ncost_cap True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S48-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "eval answer_faithfulness\nabstain True\ncost_cap True\n",
+          "expected_head": "eval answer_faithfulness\nabstain True\ncost_cap True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

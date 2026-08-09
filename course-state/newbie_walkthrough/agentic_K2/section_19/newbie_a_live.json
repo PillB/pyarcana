@@ -1,0 +1,492 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-exp-s19-b86b79acc46e",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "id": "S19-T1-A-E1",
+      "code": "pregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)",
+      "justification_from_packet": "Como explorador en S19-T1-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: preg. Aplico el hint «Asigna chart='bar'.» y.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "chart",
+        "choice",
+        "para",
+        "regional",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "id": "S19-T1-A-E2",
+      "code": "print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})",
+      "justification_from_packet": "Como explorador en S19-T1-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: pr. Aplico el hint «Incluye las 3 claves.».",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "metadata",
+        "pregunta",
+        "audiencia",
+        "chart",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "id": "S19-T1-A-E3",
+      "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))",
+      "justification_from_packet": "Como explorador en S19-T1-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: de. Aplico el hint «in para substring.» y.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "elige_chart",
+        "por",
+        "keyword",
+        "tendencia",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "id": "S19-T1-B-E1",
+      "code": "truco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))",
+      "justification_from_packet": "Como explorador en S19-T1-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: tru. Aplico el hint.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "visual",
+        "por",
+        "baseline",
+        "recortado",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "id": "S19-T1-B-E2",
+      "code": "ylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")",
+      "justification_from_packet": "Como explorador en S19-T1-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos. Aplico el hint «Variable.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "gate",
+        "ylim_bottom",
+        "honesto",
+        "revisar",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "id": "S19-T1-B-E3",
+      "code": "encoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")",
+      "justification_from_packet": "Como explorador en S19-T1-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: enco. Aplico el hint «if/elif.» y dejo el.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "riesgo",
+        "dual_axis",
+        "position",
+        "Fixture",
+        "datos",
+        "encoding"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "id": "S19-T2-A-E1",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)",
+      "justification_from_packet": "Como explorador en S19-T2-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\". Aplico el hint «matplotlib Agg.» y dejo.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "bar",
+        "chart",
+        "con",
+        "ylim",
+        "desde",
+        "Fixture"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "id": "S19-T2-A-E2",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\nplt.close(fig)",
+      "justification_from_packet": "Como explorador en S19-T2-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.us. Aplico el hint «set_ylabel.» y dejo el.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "ylabel",
+        "unidades",
+        "PEN",
+        "Fixture",
+        "datos",
+        "matplotlib"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "id": "S19-T2-A-E3",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(0, max(values) * 1.2)\n    out = {\"n_bars\": len(values), \"ylim0\": ax.get_ylim()[0]}\n    plt.close(fig)\n    return out\nprint(meta_bar([\"A\", \"B\"], [3, 4]))",
+      "justification_from_packet": "Como explorador en S19-T2-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.u. Aplico el hint «len(values).» y dejo el.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "meta_bar",
+        "n_bars",
+        "Fixture",
+        "datos",
+        "matplotlib",
+        "use"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "id": "S19-T2-B-E1",
+      "code": "print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})",
+      "justification_from_packet": "Como explorador en S19-T2-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"p. Aplico el hint «Dict literal.» y dejo.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "export",
+        "dict",
+        "fmt",
+        "dpi",
+        "panels",
+        "Fixture"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "id": "S19-T2-B-E2",
+      "code": "version = 3\nprint(f\"fig_cpn2b_v{version}.png\")",
+      "justification_from_packet": "Como explorador en S19-T2-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version . Aplico el hint «f-string.» y dejo el.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "nombre",
+        "versionado",
+        "figura",
+        "Fixture",
+        "datos",
+        "version"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "id": "S19-T2-B-E3",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([ax.get_title() for ax in axes])\nplt.close(fig)",
+      "justification_from_packet": "Como explorador en S19-T2-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.. Aplico el hint «ax.get_title().» y dejo.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "subplots",
+        "con",
+        "Fixture",
+        "datos",
+        "matplotlib",
+        "use"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "id": "S19-T3-A-E1",
+      "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint(next(r for r in rows if r[\"region\"] == \"Lima\")[\"median\"])",
+      "justification_from_packet": "Como explorador en S19-T3-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\". Aplico el hint «list comp o next.» y.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "filtro",
+        "rows",
+        "por",
+        "Fixture",
+        "datos",
+        "rows"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "id": "S19-T3-A-E2",
+      "code": "print(f\"Lima: {28} PEN (n={40})\")",
+      "justification_from_packet": "Como explorador en S19-T3-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima:. Aplico el hint «f-string.» y dejo el.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "tooltip",
+        "con",
+        "unidad",
+        "Fixture",
+        "datos",
+        "print"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "id": "S19-T3-A-E3",
+      "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))",
+      "justification_from_packet": "Como explorador en S19-T3-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row. Aplico el hint «Incluye unidad PEN.» y.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "tooltip",
+        "row",
+        "Fixture",
+        "datos",
+        "def",
+        "tooltip"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "id": "S19-T3-B-E1",
+      "code": "chart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])",
+      "justification_from_packet": "Como explorador en S19-T3-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; tab. Aplico el hint «Compara valores.» y.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "parity",
+        "chart",
+        "tabla",
+        "Fixture",
+        "datos",
+        "chart"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "id": "S19-T3-B-E2",
+      "code": "import json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))",
+      "justification_from_packet": "Como explorador en S19-T3-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: pr. Aplico el hint «import json.» y dejo el.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "state",
+        "filtros",
+        "serializado",
+        "JSON",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "id": "S19-T3-B-E3",
+      "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))",
+      "justification_from_packet": "Como explorador en S19-T3-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"regi. Aplico el hint «join.» y dejo el.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "alt_text",
+        "desde",
+        "tabla",
+        "Fixture",
+        "datos",
+        "table"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "id": "S19-T4-A-E1",
+      "code": "print(\"unidad=PEN | fuente=sintetico\")",
+      "justification_from_packet": "Como explorador en S19-T4-A-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=P. Aplico el hint «f-string o dict.» y.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "caption",
+        "con",
+        "unidad",
+        "fuente",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "id": "S19-T4-A-E2",
+      "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"})",
+      "justification_from_packet": "Como explorador en S19-T4-A-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap . Aplico el hint «set de keys.» y dejo el.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "claves",
+        "caption",
+        "Fixture",
+        "datos",
+        "cap",
+        "unidad"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "id": "S19-T4-A-E3",
+      "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))",
+      "justification_from_packet": "Como explorador en S19-T4-A-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(ca. Aplico el hint «join items.» y dejo el.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "pie",
+        "figura",
+        "unido",
+        "con",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "id": "S19-T4-B-E1",
+      "code": "claim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")",
+      "justification_from_packet": "Como explorador en S19-T4-B-E1, sigo la instrucción del quiz_card: E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lim. Aplico el hint «in checks.» y dejo el.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "rechazo",
+        "claim",
+        "sin",
+        "muestra",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "id": "S19-T4-B-E2",
+      "code": "alt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\nprint(\"n=\" in \"Lima 28 PEN n=40\")",
+      "justification_from_packet": "Como explorador en S19-T4-B-E2, sigo la instrucción del quiz_card: E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Li. Aplico el hint «substring.» y dejo el.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "alt",
+        "text",
+        "debe",
+        "mencionar",
+        "Fixture",
+        "datos"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "id": "S19-T4-B-E3",
+      "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))",
+      "justification_from_packet": "Como explorador en S19-T4-B-E3, sigo la instrucción del quiz_card: E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: d. Aplico el hint «Función binaria simple.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "classify_claim",
+        "PERMITIDO",
+        "RECHAZADO",
+        "Fixture",
+        "datos",
+        "def"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q0 elijo «Barras con baseline 0» porque la teoría «pregunta, audiencia y chart choice» del paquete dice: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "En selfcheck Q1 elijo «Repetir los mismos números clave del chart» porque la teoría «ejes, escalas y encodings honestos» del paquete dice: Ejes de **magnitudes absolutas en barras** deben incluir cero salvo.",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "En selfcheck Q2 elijo «Sobreclaim / generalización indebida» porque la teoría «Matplotlib / Seaborn» del paquete dice: Matplotlib/Seaborn construyen la figura estática del portfolio. Siempre: título, etiquetas de ejes.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "En selfcheck Q3 elijo «Unidad, fuente y limitaciones» porque la teoría «composición, annotations y exportación» del paquete dice: Multi-panel (`subplots`) alinea comparaciones (Vol vs Med). Anota valores clave con.",
+      "confidence": 0.87,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "En selfcheck Q4 elijo «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita» porque la teoría «Plotly / filtros / tooltips (modelo de datos)» del paquete dice: En entornos sin Plotly.",
+      "confidence": 0.9,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:20:07.502399+00:00",
+  "session_started_at": "2026-07-23T15:19:45.992466Z",
+  "session_ended_at": "2026-07-23T15:20:07.501264Z",
+  "receipt_response_sha256": "3c23648b639ac55d6da1e9ec6382ce24f07796e2a650071a227828699242f2ea",
+  "receipt_exercises_sha256": "6000a1dfe87e5a5ed993ec2e081366cd491558521eed7eb8b9a6bbf6c0b2dc0f",
+  "receipt_selfcheck_sha256": "ef8f8b04f4bb2ab64d3f593dd09f79fb251a6c687c190a1b50fe06ad4bf60c06"
+}

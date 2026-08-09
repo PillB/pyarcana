@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+    "name": "Artificial intelligence",
+    "snippet": "Artificial intelligence ( AI ) is the capability of computational systems to perform tasks typically associated with human intelligence Read more",
+    "host_name": "en.wikipedia.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ai.google",
+    "name": "Google AI - How we're making AI helpful for everyone",
+    "snippet": "Discover how Google AI is committed to enriching knowledge, solving complex challenges and helping people grow by building useful AI tools and technologies.",
+    "host_name": "ai.google",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://cloud.google.com/learn/what-is-artificial-intelligence",
+    "name": "What is Artificial Intelligence (AI)?",
+    "snippet": "AI is a field of computer science focused on creating smart machines that can perform tasks that typically require human intelligence, like learning, reasoning ...",
+    "host_name": "cloud.google.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ibm.com/think/topics/artificial-intelligence",
+    "name": "What Is Artificial Intelligence (AI)?",
+    "snippet": "Aug 9, 2024 — Artificial intelligence (AI) is technology that enables computers and machines to simulate human learning , comprehension, problem solving, ...",
+    "host_name": "www.ibm.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ai.iastate.edu",
+    "name": "Artificial Intelligence",
+    "snippet": "Multimodal. AI that can understand and respond to different types of input , like text, images or even audio. It's like a tool that can read, see, and listen. Read more",
+    "host_name": "ai.iastate.edu",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.britannica.com/technology/artificial-intelligence",
+    "name": "Artificial intelligence (AI) | Definition, Examples, Types",
+    "snippet": "6 days ago — Artificial intelligence (AI), the ability of a digital computer or computer-controlled robot to perform tasks commonly associated with intelligent beings. Read more",
+    "host_name": "www.britannica.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://learning.nd.edu/resource-library/ai-overview-and-definitions",
+    "name": "AI Overview and Definitions - Notre Dame Learning",
+    "snippet": "Artificial intelligence ( AI ), in its simplest definition, refers to any technology or machine that can perform complex tasks typically associated with human ... Read more",
+    "host_name": "learning.nd.edu",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2502.18468v1",
+    "name": "Exploring Hallucinations and Security Risks in AI-Assisted",
+    "snippet": "A user survey indicated that 15.2% of users rated its generated code quality at 50%, with 9.1% rating it between 60% and 80%. Cursor AI's error identification ...",
+    "host_name": "arxiv.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@tsecretdeveloper/im-astonished-that-developers-said-this-about-ai-fe351cf2e7a1",
+    "name": "I'm Astonished That Developers Said This About AI",
+    "snippet": "68.3% of developers believe AI tools are not a threat to their job. they've seen its hallucinations firsthand. The 72% of developers who like  ...",
+    "host_name": "medium.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://diffray.ai/blog/llm-hallucinations-code-review",
+    "name": "LLM Hallucinations in AI Code Review - diffray",
+    "snippet": "Dec 27, 2025 — Code review hallucinations manifest in ways that can compromise security , break production systems, and erode developer trust. Security ...",
+    "host_name": "diffray.ai",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

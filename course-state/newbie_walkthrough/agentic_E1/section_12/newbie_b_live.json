@@ -1,0 +1,372 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 12,
+  "packet_sha": "f7618f33608a851f",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s12-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "answer": "def mock_get(url, status=200, body=None):",
+      "code": "def mock_get(url, status=200, body=None):\n    return {\"url\": url, \"status\": status, \"body\": body or {}}\nprint(mock_get(\"https://api.example/entities/1\", 200, {\"id\": \"E1\"}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T1-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Implementa `get_». Delivered code centers on `def mock_get(url, status=200, body=None):` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "answer": "def parse_entity(payload):",
+      "code": "def parse_entity(payload):\n    if \"id\" not in payload or \"region\" not in payload:\n        raise ValueError(\"missing id/region\")\n    return {\"id\": payload[\"id\"], \"region\": payload[\"region\"]}\nprint(parse_entity({\"id\": \"E1\", \"region\": \"Lima\", \"extra\": 1}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T1-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exija claves `id` y `region` y devuelva solo requests conceptua». Delivered code centers on `def parse_entity(payload):` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "answer": "STATUS_ACTION = {200: \"use_body\", 404: \"missing\", 429: \"retry\", 500: \"retry\", 400: \"fix_client\"}",
+      "code": "STATUS_ACTION = {200: \"use_body\", 404: \"missing\", 429: \"retry\", 500: \"retry\", 400: \"fix_client\"}\nfor s in [200, 404, 429, 500, 400]:\n    print(s, STATUS_ACTION[s])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T1-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 500→'retry', 400→'fix_client'. Imprime la acción para [200,404,429,400». Delivered code centers on `STATUS_ACTION = {200: \"use_body\", 404: \"missing\", 429: \"retry\", 500: \"retry\", 400: \"fix_cl` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "answer": "def call_with_timeout(fn, timeout_s=1.0):",
+      "code": "def call_with_timeout(fn, timeout_s=1.0):\n    # simulación: si fn lanza TimeoutError, propaga\n    return fn()\ndef flaky():\n    raise TimeoutError(\"timeout\")\ntry:\n    call_with_timeout(flaky)\nexcept TimeoutError:\n    print(\"TimeoutError handled → candidate for backoff retry\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T1-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Simula timeout: ». Delivered code centers on `def call_with_timeout(fn, timeout_s=1.0):` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "answer": "def collect_pages(pages):",
+      "code": "def collect_pages(pages):\n    out = []\n    for p in pages:\n        out.extend(p)\n    return out\nprint(collect_pages([[1, 2], [3], []]))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T1-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `collect_». Delivered code centers on `def collect_pages(pages):` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "answer": "def should_retry(status, attempt, max_attempts=3):",
+      "code": "def should_retry(status, attempt, max_attempts=3):\n    if attempt >= max_attempts:\n        return False\n    return status in (429, 500, 502, 503)\nfor st, a in [(429, 1), (400, 1), (500, 3)]:\n    print(st, a, should_retry(st, a))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T1-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `should_r». Delivered code centers on `def should_retry(status, attempt, max_attempts=3):` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "answer": "import os",
+      "code": "import os\ndef require_token(env_key=\"API_TOKEN\"):\n    tok = os.environ.get(env_key)\n    if not tok:\n        raise RuntimeError(f\"missing secret {env_key}\")\n    return tok\nos.environ[\"API_TOKEN\"] = \"synthetic\"\nprint(\"token_len\", len(require_token()))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T2-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `require_token(e». Delivered code centers on `import os` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "answer": "cache = {}",
+      "code": "cache = {}\ndef cached_get(key, loader):\n    if key not in cache:\n        cache[key] = loader()\n    return cache[key]\nprint(cached_get(\"E1\", lambda: {\"id\": \"E1\"}))\nprint(cached_get(\"E1\", lambda: {\"id\": \"OTHER\"}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T2-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Cache GET». Delivered code centers on `cache = {}` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "answer": "def min_provenance(url, status, cache_hit):",
+      "code": "def min_provenance(url, status, cache_hit):\n    return {\n        \"source_url\": url,\n        \"fetched_at\": \"2026-07-20T00:00:00Z\",\n        \"status_code\": status,\n        \"cache_hit\": cache_hit,\n    }\nprint(min_provenance(\"https://api.example/x\", 200, False))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T2-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_at fijo '2026-07-20T00:00:00Z', status_code, cache_hit. Sin token.». Delivered code centers on `def min_provenance(url, status, cache_hit):` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "answer": "def assert_key_not_logged(log_line, secret=\"sk-test\"):",
+      "code": "def assert_key_not_logged(log_line, secret=\"sk-test\"):\n    assert secret not in log_line\n    print(\"ok no secret in log\")\nassert_key_not_logged(\"event=done token=***\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T2-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `assert_keys(pay». Delivered code centers on `def assert_key_not_logged(log_line, secret=\"sk-test\"):` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "answer": "def fetch_with_fallback(status, local_body):",
+      "code": "def fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return (local_body, \"offline\")\n    if status == 200:\n        return ({\"online\": True}, \"online\")\n    return (local_body, \"offline\")\nprint(fetch_with_fallback(500, {\"local\": 1}))\nprint(fetch_with_fallback(200, {\"local\": 1}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T2-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, 'offline'); si 200 devuelve ({'online':True}, 'online').». Delivered code centers on `def fetch_with_fallback(status, local_body):` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "answer": "matrix = {",
+      "code": "matrix = {\n    (400, \"no_retry\"): \"fix_client\",\n    (429, \"retry\"): \"backoff\",\n    (500, \"retry\"): \"backoff\",\n    (200, \"use\"): \"use_body\",\n}\nfor k, v in matrix.items():\n    print(k, \"→\", v)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T2-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Matriz on». Delivered code centers on `matrix = {` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "answer": "import sqlite3",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)\")\ncon.execute(\"INSERT INTO evidence VALUES (?,?,?)\", (\"E1\", \"C001\", \"geo\"))\nn = con.execute(\"SELECT COUNT(*) FROM evidence\").fetchone()[0]\nprint(n)\ncon.close()\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T3-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL). Inserta E1/C001/geo y cuenta filas.». Delivered code centers on `import sqlite3` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "answer": "import sqlite3",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE e(id TEXT PRIMARY KEY, v TEXT)\")\ncon.execute(\"INSERT INTO e VALUES (?,?)\", (\"1\", \"a\"))\nprint(con.execute(\"SELECT v FROM e WHERE id=?\", (\"1\",)).fetchone())\ncon.execute(\"UPDATE e SET v=? WHERE id=?\", (\"b\", \"1\"))\ncon.execute(\"DELETE FROM e WHERE id=?\", (\"1\",))\nprint(\"count\", con.execute(\"SELECT COUNT(*) FROM e\").fetchone()[0])\ncon.close()\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T3-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: CRUD de c». Delivered code centers on `import sqlite3` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "answer": "import sqlite3",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript(\"\"\"\nCREATE TABLE entities(id TEXT PRIMARY KEY, name TEXT);\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\nINSERT INTO entities VALUES ('C001','Ana');\nINSERT INTO evidence VALUES ('E1','C001','geo');\n\"\"\")\nrows = con.execute(\n    \"SELECT e.name, v.kind FROM entities e JOIN evidence v ON e.id=v.entity_id\"\n).fetchall()\nprint(rows)\ncon.close()\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T3-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Join: cli». Delivered code centers on `import sqlite3` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "answer": "sql = \"SELECT * FROM t WHERE id=?\"",
+      "code": "# bad: f\"SELECT * FROM t WHERE id='{user}'\"\n# good:\nsql = \"SELECT * FROM t WHERE id=?\"\nparams = (\"C001\",)\nprint(sql, params)\nprint(\"placeholders evitan inyección\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T3-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Reescribe búsque». Delivered code centers on `sql = \"SELECT * FROM t WHERE id=?\"` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "answer": "import sqlite3",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE t(id TEXT PRIMARY KEY)\")\ntry:\n    with con:\n        con.execute(\"INSERT INTO t VALUES (?)\", (\"C001\",))\n        con.execute(\"INSERT INTO t VALUES (?)\", (\"C001\",))  # duplicate\nexcept sqlite3.IntegrityError:\n    print(\"rollback path\")\n# verificar: si usamos transaction, count puede ser 0 tras rollback del with\nprint(\"count\", con.execute(\"SELECT COUNT(*) FROM t\").fetchone()[0])\ncon.close()\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T3-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 si todo el batch falla junto (usa un solo requests conceptual». Delivered code centers on `import sqlite3` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "answer": "import sqlite3",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE e(id TEXT PRIMARY KEY, entity_id TEXT)\")\ncon.execute(\"CREATE INDEX idx_e_entity ON e(entity_id)\")\nprint(\"index created\")\ncon.close()\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T3-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Crea índi». Delivered code centers on `import sqlite3` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "answer": "def normalize_address(raw: str) -> str:",
+      "code": "def normalize_address(raw: str) -> str:\n    return \" \".join(raw.strip().upper().split())\nprint(normalize_address(\"  jr. unión  450 \"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T4-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `normalize_addre». Delivered code centers on `def normalize_address(raw: str) -> str:` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "answer": "def geocode_payload(street: str, city: str):",
+      "code": "# geocode mock: solo campos permitidos\ndef geocode_payload(street: str, city: str):\n    return {\"street\": street, \"city\": city}\nprint(geocode_payload(\"JR UNION 450\", \"LIMA\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T4-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: Interfaz ». Delivered code centers on `def geocode_payload(street: str, city: str):` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "answer": "FORBIDDEN = {\"document_id\", \"api_token\", \"password\", \"full_name\"}",
+      "code": "FORBIDDEN = {\"document_id\", \"api_token\", \"password\", \"full_name\"}\ndef allowed_for_public_geocoder(payload: dict) -> bool:\n    return not any(k in FORBIDDEN for k in payload)\nprint(allowed_for_public_geocoder({\"street\": \"X\", \"city\": \"Lima\"}))\nprint(allowed_for_public_geocoder({\"street\": \"X\", \"document_id\": \"123\"}))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T4-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo requests conceptual + sqlite3 + math haversine (S01–S12).». Delivered code centers on `FORBIDDEN = {\"document_id\", \"api_token\", \"password\", \"full_name\"}` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "answer": "def valid_lat_lon(lat, lon):",
+      "code": "def valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\nprint(valid_lat_lon(-12.04, -77.04))\nprint(valid_lat_lon(100, 0))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T4-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `valid_lat_lon(l». Delivered code centers on `def valid_lat_lon(lat, lon):` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "answer": "from math import radians, sin, cos, asin, sqrt",
+      "code": "from math import radians, sin, cos, asin, sqrt\ndef haversine_km(lat1, lon1, lat2, lon2):\n    r = 6371.0\n    dlat, dlon = radians(lat2 - lat1), radians(lon2 - lon1)\n    a = sin(dlat/2)**2 + cos(radians(lat1))*cos(radians(lat2))*sin(dlon/2)**2\n    return 2 * r * asin(sqrt(a))\nprint(round(haversine_km(-12.04, -77.04, -12.05, -77.04), 3))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T4-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `haversin». Delivered code centers on `from math import radians, sin, cos, asin, sqrt` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "answer": "def as_relationship_signal(km: float, threshold_km: float = 2.0) -> dict:",
+      "code": "def as_relationship_signal(km: float, threshold_km: float = 2.0) -> dict:\n    return {\n        \"geo_distance_km\": km,\n        \"signal\": km <= threshold_km,\n        \"note\": \"geoseñal de relación, no veredicto de parentesco/fraude\",\n    }\nprint(as_relationship_signal(1.2))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "API",
+        "SQL",
+        "geo"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S12-T4-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (`CASO`/ids C00x) en APIs y geodatos. Tarea: `as_relat». Delivered code centers on `def as_relationship_signal(km: float, threshold_km: float = 2.0) -> dict:` matching theory/iDo («requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un »). Concepts: API, SQL, geo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Tratarse como error de cliente (no retry ciego)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q0 «Un 400 Bad Request del proveedor debe…» — choose «Tratarse como error de cliente (no retry ciego)» because packet theory says «requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSO». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "En variable de entorno / secret store",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q1 «¿Dónde debe vivir el token de API?» — choose «En variable de entorno / secret store» because packet theory says «requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSO». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Inyección / inseguro; usar placeholders `?`",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q2 «SQL con f-string e input de usuario es…» — choose «Inyección / inseguro; usar placeholders `?`» because packet theory says «requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSO». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Viola la política de egress de CP-N1-C",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q3 «Enviar document_id bancario a un geocoder público…» — choose «Viola la política de egress de CP-N1-C» because packet theory says «requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSO». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Una geoseñal de relación, no un veredicto",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q4 «1.2 km entre dos entidades sintéticas implica…» — choose «Una geoseñal de relación, no un veredicto» because packet theory says «requests/responses, status y JSON: Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSO». Other options invent speed/compile/legal myths not present in the slim packet."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:58.074686+00:00"
+}

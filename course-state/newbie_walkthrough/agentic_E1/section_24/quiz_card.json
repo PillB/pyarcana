@@ -1,0 +1,443 @@
+{
+  "section_index": 24,
+  "title": "OCR y Document AI",
+  "outcomes": [
+    "Preprocesar imágenes (DPI, deskew, crop, contraste)",
+    "Corregir ruido y orientación",
+    "Ejecutar OCR con idiomas, layout y confidence",
+    "Extraer texto, tablas y pares clave–valor",
+    "Normalizar a schema de extracción",
+    "Validar cross-field y encolar revisión",
+    "Evaluar exactitud por campo en golden set",
+    "Manejar privacidad, hostiles y fallback"
+  ],
+  "theory": [
+    {
+      "heading": "DPI, deskew, crop y contraste",
+      "paragraphs": [
+        "**DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) antes del motor. **Deskew** corrige inclinación de escaneo móvil; **crop** quita márgenes negros; **contraste** ayuda tinta débil sin inventar dígitos.",
+        "Modelamos ops como transformaciones sobre metadatos de imagen sintética (w, h, dpi, skew_deg, contrast): no necesitas OpenCV instalado para aprender el contrato del pipeline. Cada op deja flags (deskew_applied) auditables en el run de intake.",
+        "Pipeline canónico: load → dpi_check → deskew → crop → contrast → OCR. Caso PE sintético: foto de boleta a 96 DPI y 1.8° de sesgo; tras preproceso dpi=200, deskew_applied True, crop 2–5% y contrast escalado — listo para adapter con lang spa."
+      ],
+      "code": "def preprocess_meta(img):\n    # img: dict sintético\n    out = dict(img)\n    out[\"dpi\"] = max(img.get(\"dpi\", 72), 200)\n    ang = img.get(\"skew_deg\", 0.0)\n    out[\"skew_deg\"] = 0.0 if abs(ang) < 0.5 else 0.0  # deskew simulado\n    out[\"deskew_applied\"] = abs(ang) >= 0.5\n    # crop 2% margins\n    w, h = img[\"w\"], img[\"h\"]\n    out[\"crop_box\"] = (int(0.02*w), int(0.02*h), int(0.98*w), int(0.98*h))\n    out[\"contrast\"] = min(1.5, img.get(\"contrast\", 1.0) * 1.2)\n    return out\n\nmeta = preprocess_meta({\"w\": 1000, \"h\": 1400, \"dpi\": 96, \"skew_deg\": 1.8, \"contrast\": 1.0})\nprint(meta[\"dpi\"], meta[\"deskew_applied\"], meta[\"crop_box\"][0], round(meta[\"contrast\"], 2))"
+    },
+    {
+      "heading": "ruido y orientación",
+      "paragraphs": [
+        "Ruido (sal/pimienta, compresión JPEG) y **orientación** (0/90/180/270) rompen el layout y pueden dar confidence alta en basura si OCR corre al revés. Detecta orientación por scores de señales (cabecera, densidad) o modelo; corrige **antes** de OCR.",
+        "Simulamos score por rotación y un denoise binario sobre flags 0/1. Si score_orient < 0.5, el intake prefiere manual_orient (humano gira la página) antes de forzar auto con baja certeza — fail-closed de calidad.",
+        "Caso sintético: página con scores {0:0.1, 90:0.05, 180:0.7, 270:0.15} → 180°. Un OCR previo a orientar produce campos RUC permutados; el runbook exige fix_orientation en el preflight del batch nocturno."
+      ],
+      "code": "def fix_orientation(page_signals):\n    # page_signals: scores por rotación\n    best = max(page_signals, key=page_signals.get)\n    return best, page_signals[best]\n\ndef denoise_binary(flags):\n    # flags: lista 0/1 ruido\n    return [0 if f == 1 and True else f for f in flags]  # “limpia” ruido marcado\n\nori, score = fix_orientation({0: 0.1, 90: 0.05, 180: 0.7, 270: 0.15})\nprint(\"orientation\", ori, \"score\", score)\nprint(\"denoise\", denoise_binary([0, 1, 0, 1, 0]))"
+    },
+    {
+      "heading": "idiomas, layout y confidence",
+      "paragraphs": [
+        "Configura **idiomas** (spa+eng) según el corpus: facturas PE en español con tokens EN de software. El **layout** (bloques, columnas) guía el orden de lectura; no concatenes columnas a ciegas o mezclas “Total” con líneas de ítem.",
+        "Cada token/campo trae **confidence** 0–1. Umbral de abstención por campo crítico (RUC, total): un promedio global esconde el dígito débil. Si RUC conf < 0.85 → review_queue, no inventes dígitos ni “corrijas” con checksum inventado sin política.",
+        "Contrato del adapter: ocr_page(tokens, lang) → lista {text, conf, bbox, lang}. Low-conf se lista para HITL. FakeOcrAdapter devuelve observaciones fijadas para tests de parsing; nunca se presenta como motor real en logs de producción del curso."
+      ],
+      "code": "def ocr_page(tokens, lang=\"spa\"):\n    return [{\"text\": t[\"text\"], \"conf\": t[\"conf\"], \"bbox\": t[\"bbox\"], \"lang\": lang} for t in tokens]\n\ntokens = [\n    {\"text\": \"FACTURA\", \"conf\": 0.98, \"bbox\": [10, 10, 120, 40]},\n    {\"text\": \"RUC\", \"conf\": 0.91, \"bbox\": [10, 50, 50, 70]},\n    {\"text\": \"20123456789\", \"conf\": 0.72, \"bbox\": [60, 50, 200, 70]},\n]\nout = ocr_page(tokens)\nlow = [t for t in out if t[\"conf\"] < 0.85]\nprint(\"n\", len(out), \"low_conf\", [(t[\"text\"], t[\"conf\"]) for t in low])"
+    },
+    {
+      "heading": "texto, tablas y pares clave–valor",
+      "paragraphs": [
+        "Extrae **texto corrido**, **tablas** (filas/cols) y **KV** (RUC→valor, Total→monto) con bbox de evidencia del **valor**, no solo del label. Heurística KV didáctica: “Clave: valor” en la misma línea tras split de “:”.",
+        "Tablas sintéticas como listas de listas con header en fila 0; n_data_rows = len(table)-1. Ítems de factura demo alimentan validación de suma vs total, siempre con tolerancia monetaria.",
+        "Caso PE: líneas “RUC: 20123456789” y “Total: 150.00” → dict KV; tabla 2 ítems. Evidencia: adjunta bbox del valor RUC al field dict para que el revisor resalte en UI sin re-OCRizar."
+      ],
+      "code": "lines = [\n    {\"text\": \"RUC: 20123456789\", \"y\": 50},\n    {\"text\": \"Total: 150.00\", \"y\": 80},\n]\n\ndef kv_from_lines(lines):\n    kv = {}\n    for ln in lines:\n        if \":\" in ln[\"text\"]:\n            k, v = ln[\"text\"].split(\":\", 1)\n            kv[k.strip()] = v.strip()\n    return kv\n\ntable = [[\"Item\", \"Monto\"], [\"A\", \"100\"], [\"B\", \"50\"]]\nprint(kv_from_lines(lines))\nprint(\"table_rows\", len(table)-1, \"header\", table[0])"
+    },
+    {
+      "heading": "schema y normalización",
+      "paragraphs": [
+        "Un **schema** define campos, tipos y required (ruc str11, total float, fecha date). Normaliza monedas (quita PEN/comas), fechas a ISO y RUC a solo dígitos. Output canónico: {field, value, conf, bbox, source_doc_id} + schema_version en metadata del run.",
+        "Si tras normalizar RUC no tiene longitud 11, value=None y el validador acumula reason — no rellenes con ceros mágicos. Fechas DD/MM/YYYY de boletas sintéticas pasan a YYYY-MM-DD con datetime.strptime.",
+        "Versionar schema evita que un deploy cambie el significado de total_incl_igv a mitad de un golden set. Contrato lab: norm_ruc / norm_total / norm_fecha puras, testeables sin I/O de red."
+      ],
+      "code": "import re\nfrom datetime import datetime\n\nSCHEMA = {\"ruc\": \"str11\", \"total\": \"float\", \"fecha\": \"date\"}\n\ndef norm_ruc(s):\n    d = re.sub(r\"\\D\", \"\", s)\n    return d if len(d) == 11 else None\n\ndef norm_total(s):\n    s = s.replace(\",\", \"\").replace(\"PEN\", \"\").strip()\n    return float(s)\n\ndef norm_fecha(s):\n    for fmt in (\"%d/%m/%Y\", \"%Y-%m-%d\"):\n        try:\n            return datetime.strptime(s, fmt).date().isoformat()\n        except ValueError:\n            pass\n    return None\n\nraw = {\"ruc\": \"20.123456789\", \"total\": \"150,00\", \"fecha\": \"15/01/2026\"}\nprint({\n    \"ruc\": norm_ruc(raw[\"ruc\"]),\n    \"total\": norm_total(raw[\"total\"]),\n    \"fecha\": norm_fecha(raw[\"fecha\"]),\n    \"schema\": \"invoice.v1\",\n})"
+    },
+    {
+      "heading": "validación cross-field y cola de revisión",
+      "paragraphs": [
+        "Cross-field: abs(sum(líneas) - total) > 0.01 → needs_review. RUC None → reasons.append('ruc_missing'). Varias reasons se acumulan; el documento no se auto-acepta si la lista no está vacía o conf de críticos es baja.",
+        "La cola de revisión es el producto: status review, reasons[], evidencias bbox. **Mismatch ≠ fraude**: imprime política review_not_fraud para entrenar el hábito. Humanos investigan; el sistema solo encola.",
+        "Caso sintético: total 10.0 vs líneas 4+5 → needs_review; ruc missing → ['ruc_missing']. El intake batch marca human_queue y sigue con el siguiente doc sin bloquear todo el archivo."
+      ],
+      "code": "def validate(doc):\n    reasons = []\n    lines_sum = sum(doc.get(\"lines\", []))\n    if abs(lines_sum - doc[\"total\"]) > 0.01:\n        reasons.append(\"total_mismatch\")\n    if doc.get(\"ruc\") is None:\n        reasons.append(\"ruc_missing\")\n    if doc.get(\"conf_ruc\", 1) < 0.85:\n        reasons.append(\"ruc_low_conf\")\n    status = \"auto\" if not reasons else \"needs_review\"\n    return status, reasons\n\nprint(validate({\"total\": 150.0, \"lines\": [100.0, 50.0], \"ruc\": \"20123456789\", \"conf_ruc\": 0.9}))\nprint(validate({\"total\": 150.0, \"lines\": [100.0, 40.0], \"ruc\": None, \"conf_ruc\": 0.5}))\nprint(\"note: validation≠fraud_label\")"
+    },
+    {
+      "heading": "golden set sintético, exactitud por campo y cobertura",
+      "paragraphs": [
+        "Un **golden set** de páginas/campos etiquetados a mano mide exactitud por campo (ruc, total, fecha), no un accuracy global engañoso. Campo crítico tiene SLO propio: caer en RUC es más grave que en glosa opcional.",
+        "Accuracy = correct/n; por campo se compara pred vs true en lista de dicts. coverage_auto = auto/(auto+review) mide cuánto pasa sin HITL — subir cobertura bajando umbral sin medir error es anti-patrón.",
+        "Caso PE de lab: 3/4 correctos → 0.75; ruc acc 0.5 en dos filas; auto=7,review=3 → coverage 0.7. Reporta métricas en el paquete de CP-N2-C sin pretender que OCR “valida identidad legal”."
+      ],
+      "code": "golden = [\n    {\"id\": \"d1\", \"ruc_pred\": \"20123456789\", \"ruc_true\": \"20123456789\", \"total_pred\": 150.0, \"total_true\": 150.0},\n    {\"id\": \"d2\", \"ruc_pred\": \"20123456780\", \"ruc_true\": \"20123456789\", \"total_pred\": 99.0, \"total_true\": 100.0},\n]\n\ndef field_acc(rows, field):\n    ok = sum(1 for r in rows if r[f\"{field}_pred\"] == r[f\"{field}_true\"])\n    return ok / len(rows)\n\nprint(\"acc_ruc\", field_acc(golden, \"ruc\"))\nprint(\"acc_total\", field_acc(golden, \"total\"))\ncoverage_auto = 0.5  # sintético\nprint(\"coverage_auto\", coverage_auto)"
+    },
+    {
+      "heading": "privacidad, archivos hostiles y fallback",
+      "paragraphs": [
+        "Privacidad: solo fixtures sintéticos; no subas PDFs reales de clientes al sandbox. Allowlist mime pdf/png/jpeg; zip u otros → reject. Size cap (p. ej. 5e6 bytes) mitiga zip-bomb y DoS al worker OCR.",
+        "Archivos hostiles (corrupción, ratio de compresión absurdo) se rechazan o van a cuarentena. Fallback operativo: ocr_fail → human_rescan (re-escaneo o tipeo asistido), no reintentar 100 veces el mismo binario roto.",
+        "Contrato de seguridad del intake: fail-closed en mime/size; logs sin PII real; Fake vs Real adapters etiquetados. El revisor ve reasons y bbox, nunca un badge de “fraude detectado por OCR”."
+      ],
+      "code": "MAX_BYTES = 5_000_000\nALLOWED = {\"application/pdf\", \"image/png\", \"image/jpeg\"}\n\ndef gate_file(meta):\n    if meta[\"mime\"] not in ALLOWED:\n        return \"reject\", \"mime\"\n    if meta[\"n_bytes\"] > MAX_BYTES:\n        return \"reject\", \"size\"\n    if meta.get(\"encrypted\"):\n        return \"review\", \"encrypted\"\n    return \"ok\", \"pass\"\n\nprint(gate_file({\"mime\": \"image/png\", \"n_bytes\": 120_000}))\nprint(gate_file({\"mime\": \"application/zip\", \"n_bytes\": 10}))\nprint(gate_file({\"mime\": \"application/pdf\", \"n_bytes\": 9_000_000}))"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S24-T1-A-DEMO",
+      "description": "DPI/deskew/crop/contraste sobre meta sintética.",
+      "why": "Preproceso mejora OCR más que un modelo fancy.",
+      "code": "img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0}\nimg[\"dpi\"]=max(img[\"dpi\"],200)\nimg[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5\nprint(img[\"dpi\"], img[\"deskew\"])"
+    },
+    {
+      "demoId": "S24-T1-B-DEMO",
+      "description": "Corregir orientación por score máximo.",
+      "why": "Orientación incorrecta invalida el layout.",
+      "code": "scores={0:0.2,180:0.75,90:0.05}\nprint(max(scores, key=scores.get))"
+    },
+    {
+      "demoId": "S24-T2-A-DEMO",
+      "description": "OCR con confidence y filtro de bajos.",
+      "why": "Low conf → abstenerse.",
+      "code": "toks=[{\"t\":\"RUC\",\"c\":0.9},{\"t\":\"20X\",\"c\":0.55}]\nprint([t for t in toks if t[\"c\"]<0.85])"
+    },
+    {
+      "demoId": "S24-T2-B-DEMO",
+      "description": "Extraer KV desde líneas con dos puntos.",
+      "why": "KV con evidencia textual mínima.",
+      "code": "lines=[\"RUC: 20123456789\",\"Total: 10\"]\nkv={}\nfor ln in lines:\n    k,v=ln.split(\":\",1); kv[k.strip()]=v.strip()\nprint(kv)"
+    },
+    {
+      "demoId": "S24-T3-A-DEMO",
+      "description": "Normalizar RUC a 11 dígitos.",
+      "why": "Schema canónico evita basura aguas abajo.",
+      "code": "import re\ns=\"20.123456789\"\nd=re.sub(r\"\\D\",\"\",s)\nprint(d, len(d)==11)"
+    },
+    {
+      "demoId": "S24-T3-B-DEMO",
+      "description": "Validación total vs suma de líneas.",
+      "why": "Cross-field manda a revisión, no etiqueta fraude.",
+      "code": "total, lines=150.0,[100.0,50.0]\nprint(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")"
+    },
+    {
+      "demoId": "S24-T4-A-DEMO",
+      "description": "Exactitud por campo en golden sintético.",
+      "why": "Métricas por campo crítico.",
+      "code": "g=[{\"p\":\"A\",\"t\":\"A\"},{\"p\":\"B\",\"t\":\"A\"}]\nprint(sum(1 for r in g if r[\"p\"]==r[\"t\"])/len(g))"
+    },
+    {
+      "demoId": "S24-T4-B-DEMO",
+      "description": "Gate de mime/tamaño para archivos hostiles.",
+      "why": "Fallback y límites antes del OCR.",
+      "code": "meta={\"mime\":\"application/pdf\",\"n\":100}\nprint(\"ok\" if meta[\"mime\"]==\"application/pdf\" and meta[\"n\"]<5_000_000 else \"reject\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué haces si confidence de RUC es 0.6?",
+      "options": [
+        "Aceptar igual",
+        "Inventar dígitos",
+        "Etiquetar fraude",
+        "Abstener y encolar revisión"
+      ]
+    },
+    {
+      "question": "Un mismatch total vs líneas implica:",
+      "options": [
+        "Fraude probado",
+        "Cola de revisión / corrección",
+        "Borrar el doc",
+        "Subir DPI"
+      ]
+    },
+    {
+      "question": "¿Por qué medir accuracy por campo?",
+      "options": [
+        "Es más corto",
+        "OCR no tiene global",
+        "Los campos críticos pueden fallar aunque el global se vea bien",
+        "Solo para imágenes"
+      ]
+    },
+    {
+      "question": "Archivo application/zip en intake de facturas:",
+      "options": [
+        "Gate reject/review por mime no permitido",
+        "Siempre OK",
+        "OCR directo",
+        "Enviar por email"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S24-T1-A-E1",
+      "instruction": "Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resultante. Contrato: no inventa detalle óptico; solo metadata. Pass: 200.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndpi=96\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(max(dpi, 200))\n"
+    },
+    {
+      "id": "S24-T1-A-E2",
+      "instruction": "Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico 0.5°. Pass: True. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nskew=1.2\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(abs(skew) >= 0.5)\n"
+    },
+    {
+      "id": "S24-T1-A-E3",
+      "instruction": "Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen esquina superior izquierda. Pass: (50, 50, 950, 950).",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nw=h=1000\nm=0.05\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n"
+    },
+    {
+      "id": "S24-T1-B-E1",
+      "instruction": "Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Contrato: max(s, key=s.get). Pass: 90. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns={0:0.1,90:0.8}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(max(s, key=s.get))\n"
+    },
+    {
+      "id": "S24-T1-B-E2",
+      "instruction": "Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o count. Pass: 2. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflags=[0,1,1,0]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sum(flags))\n"
+    },
+    {
+      "id": "S24-T1-B-E3",
+      "instruction": "Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed a humano. Pass: manual_orient. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.4\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('manual_orient' if score < 0.5 else 'auto')\n"
+    },
+    {
+      "id": "S24-T2-A-E1",
+      "instruction": "Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contrato: no mutar conf. Pass: ['A']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([t['text'] for t in toks if t['conf']>=0.85])\n"
+    },
+    {
+      "id": "S24-T2-A-E2",
+      "instruction": "Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: string fijo didáctico. Pass: spa. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(ocr('Hola')['lang'])\n"
+    },
+    {
+      "id": "S24-T2-A-E3",
+      "instruction": "Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). Contrato: campo débil tumba auto-accept. Pass: 0.75 review.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nconfs=[0.9,0.75,0.95]\nm=min(confs)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(m, 'review' if m < 0.8 else 'auto')\n"
+    },
+    {
+      "id": "S24-T2-B-E1",
+      "instruction": "KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: strip ambos lados. Pass: Total 12.5. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='Total: 12.5'\nk,v=s.split(':',1)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(k.strip(), v.strip())\n"
+    },
+    {
+      "id": "S24-T2-B-E2",
+      "instruction": "Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuenta. Pass: 1. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nt=[['H1','H2'],['a','b']]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(len(t)-1)\n"
+    },
+    {
+      "id": "S24-T2-B-E3",
+      "instruction": "Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Contrato: bbox del valor. Pass: [0, 0, 10, 10] 20123456789.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(field['bbox'], field['value'])\n"
+    },
+    {
+      "id": "S24-T3-A-E1",
+      "instruction": "Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud aquí. Pass: 20123. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='20-123'\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(re.sub(r'\\D', '', s))\n"
+    },
+    {
+      "id": "S24-T3-A-E2",
+      "instruction": "Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import datetime\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n"
+    },
+    {
+      "id": "S24-T3-A-E3",
+      "instruction": "RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\nraw='123'\nd=re.sub(r'\\D','',raw)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(d if len(d)==11 else None)\n"
+    },
+    {
+      "id": "S24-T3-B-E1",
+      "instruction": "Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: tolerancia 0.01. Pass: needs_review. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal, lines=10.0,[4.0,5.0]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n"
+    },
+    {
+      "id": "S24-T3-B-E2",
+      "instruction": "Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no raise. Pass: ['ruc_missing']. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(reasons)\n"
+    },
+    {
+      "id": "S24-T3-B-E3",
+      "instruction": "Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de política del curso. Pass: review_not_fraud.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmismatch=True\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('review_not_fraud' if mismatch else 'auto')\n"
+    },
+    {
+      "id": "S24-T4-A-E1",
+      "instruction": "Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncorrect, n = 3, 4\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(correct / n)\n"
+    },
+    {
+      "id": "S24-T4-A-E2",
+      "instruction": "Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato: solo campo ruc. Pass: 0.5. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n"
+    },
+    {
+      "id": "S24-T4-A-E3",
+      "instruction": "Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobertura. Pass: 0.7. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nauto, review = 7, 3\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(auto / (auto + review))\n"
+    },
+    {
+      "id": "S24-T4-B-E1",
+      "instruction": "Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass: reject. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('reject' if mime not in allowed else 'ok')\n"
+    },
+    {
+      "id": "S24-T4-B-E2",
+      "instruction": "Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=6_000_000\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('reject' if n > 5_000_000 else 'ok')\n"
+    },
+    {
+      "id": "S24-T4-B-E3",
+      "instruction": "Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito de OCR. Pass: human_rescan. Usa solo fixtures sintéticos del lab; la salida debe coincidir exactamente con el solution output del grader.",
+      "hints": [
+        "contrato I/O en instruction",
+        "compara output con solution",
+        "datos sintéticos only"
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus='ocr_fail'\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n"
+    }
+  ],
+  "packet_sha": "b630b1d121c06add"
+}

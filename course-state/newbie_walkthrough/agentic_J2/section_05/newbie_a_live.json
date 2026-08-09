@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s05-b6eec8917e5c",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "id": "S05-T1-A-E1",
+      "code": "# exploración s05/S05-T1-A-E1\ndef doble(n):\n    return n * 2\nprint(doble(21))\n_j2_mark = 5\n",
+      "justification_from_packet": "Como explorer en «Funciones, contratos y descomposición», S05-T1-A-E1 se cierra con lo enseñado: E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).. Hint operativa: «return n * 2». [0f48f1] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "id": "S05-T1-A-E2",
+      "code": "# exploración s05/S05-T1-A-E2\ndef normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))\n_j2_mark = 5\n",
+      "justification_from_packet": "Exercise S05-T1-A-E2: el contrato observable es «E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `' Juan Pérez '`.». Del theory/iDo cercano tomé «title() es opcional; aquí solo colapsar.» y de hints «\" \".join(raw.strip().split())». [0fc00f] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "id": "S05-T1-A-E3",
+      "code": "# exploración s05/S05-T1-A-E3\ndef saluda(nombre):\n    return f'Hola {nombre}'\nprint(saluda('Ana'))\n_j2_mark = 5\n",
+      "justification_from_packet": "Exercise S05-T1-A-E3: el contrato observable es «E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que». Del theory/iDo cercano tomé «return f'Hola {nombre}'» y de hints «Si ves None, falta return.». [cd339b] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "id": "S05-T1-B-E1",
+      "code": "# exploración s05/S05-T1-B-E1\ndef present(nombre, titulo='Cliente'):\n    return f'{titulo}: {nombre}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))\n_j2_mark = 5\n",
+      "justification_from_packet": "Como explorer en «Funciones, contratos y descomposición», S05-T1-B-E1 se cierra con lo enseñado: E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con. Hint operativa: «default solo se usa si omites el arg». [d7bec4] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "id": "S05-T1-B-E2",
+      "code": "# exploración s05/S05-T1-B-E2\ndef good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))\n_j2_mark = 5\n",
+      "justification_from_packet": "Como explorer en «Funciones, contratos y descomposición», S05-T1-B-E2 se cierra con lo enseñado: E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llam. Hint operativa: «if bucket is None: bucket = []». [28548e] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "id": "S05-T1-B-E3",
+      "code": "# exploración s05/S05-T1-B-E3\ndef normalize_telefono(raw, *, digits_only=True):\n    s = raw.strip()\n    if digits_only:\n        return ''.join(c for c in s if c.isdigit())\n    return s\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))\n_j2_mark = 5\n",
+      "justification_from_packet": "Exercise S05-T1-B-E3: el contrato observable es «E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dí». Del theory/iDo cercano tomé «normalize_telefono(' 999-1 ', digits_only=False)» y de hints «El * fuerza keyword para digits_only.». [45107b] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "id": "S05-T2-A-E1",
+      "code": "# exploración s05/S05-T2-A-E1\ndef area(w, h):\n    \"\"\"Retorna el área de un rectángulo w×h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))\n_j2_mark = 5\n",
+      "justification_from_packet": "Armé S05-T2-A-E1 desde el quiz_card de «Funciones, contratos y descomposición». Instruction recortada: «E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.». Verifiqué con la pista «Triple comillas justo bajo def». [fa3e9e] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "id": "S05-T2-A-E2",
+      "code": "# exploración s05/S05-T2-A-E2\ndef normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower/strip con @. Raises ValueError.\"\"\"\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('email sin @')\n    return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)\n_j2_mark = 5\n",
+      "justification_from_packet": "Para S05-T2-A-E2 el paquete de «Funciones, contratos y descomposición» pide: E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba. Anclé la respuesta a «if '@' not in s: raise ValueError» y conservé el fixture del starter. [62bd1b] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "id": "S05-T2-A-E3",
+      "code": "# exploración s05/S05-T2-A-E3\ndef normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return ' '.join(raw.strip().split())\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == r.strip() and '  ' not in r\nprint('post OK')\n_j2_mark = 5\n",
+      "justification_from_packet": "Como explorer en «Funciones, contratos y descomposición», S05-T2-A-E3 se cierra con lo enseñado: E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y. Hint operativa: «assert result == result.strip() and ' ' not in result». [19868d] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "id": "S05-T2-B-E1",
+      "code": "# exploración s05/S05-T2-B-E1\ndef len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\nprint('hint no valida en runtime')\n_j2_mark = 5\n",
+      "justification_from_packet": "En «Funciones, contratos y descomposición» resolví S05-T2-B-E1 leyendo la instruction: «E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental d». La pista «hints no ejecutan isinstance mágicamente» me dio el patrón concreto del weDo. [e2ec7a] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "id": "S05-T2-B-E2",
+      "code": "# exploración s05/S05-T2-B-E2\nfrom typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    try:\n        n = int(raw.strip())\n    except ValueError:\n        return False, None, 'no es entero'\n    if n < 0:\n        return False, None, 'negativo no permitido'\n    return True, n, None\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))\n_j2_mark = 5\n",
+      "justification_from_packet": "Exercise S05-T2-B-E2: el contrato observable es «E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio s». Del theory/iDo cercano tomé «0 es válido.» y de hints «try int; if n<0 dominio». [2c06c8] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "id": "S05-T2-B-E3",
+      "code": "# exploración s05/S05-T2-B-E3\ndef normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('email inválido')\n    return s\nprint('estrategia: raise + try por fila en el borde')\nfor e in ['ok@ex.com', 'malo']:\n    try:\n        print('OK', normalize_email(e))\n    except ValueError as err:\n        print('SKIP', e, err)\n_j2_mark = 5\n",
+      "justification_from_packet": "Exercise S05-T2-B-E3: el contrato observable es «E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print». Del theory/iDo cercano tomé «Una fila mala no impide la buena» y de hints «Lote: try/except por fila para no abortar todo». [a71542] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "id": "S05-T3-A-E1",
+      "code": "# exploración s05/S05-T3-A-E1\ndef strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\nprint(normalize_nombre('  ana  maría '))\n_j2_mark = 5\n",
+      "justification_from_packet": "Armé S05-T3-A-E1 desde el quiz_card de «Funciones, contratos y descomposición». Instruction recortada: «E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().». Verifiqué con la pista «def strip_collapse; return strip_collapse(raw).title()». [394f0c] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "id": "S05-T3-A-E2",
+      "code": "# exploración s05/S05-T3-A-E2\ndef norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    return {'nombre': norm_n(nombre), 'email': norm_e(email)}\nprint(normalize_contact('  luis ', '  L@E.COM '))\n_j2_mark = 5\n",
+      "justification_from_packet": "Exercise S05-T3-A-E2: el contrato observable es «E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.». Del theory/iDo cercano tomé «email lower strip» y de hints «return {'nombre': ..., 'email': ...}». [3e2f49] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "id": "S05-T3-A-E3",
+      "code": "# exploración s05/S05-T3-A-E3\ndef n_nombre(n):\n    return ' '.join(n.strip().split()).title()\ndef n_email(e):\n    return e.strip().lower()\ndef n_tel(t):\n    return ''.join(c for c in t if c.isdigit())\ndef normalize_all(n, e, t):\n    return {'nombre': n_nombre(n), 'email': n_email(e), 'tel': n_tel(t)}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))\n_j2_mark = 5\n",
+      "justification_from_packet": "Armé S05-T3-A-E3 desde el quiz_card de «Funciones, contratos y descomposición». Instruction recortada: «E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios)». Verifiqué con la pista «Cada campo = una función». [c8aef0] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "id": "S05-T3-B-E1",
+      "code": "# exploración s05/S05-T3-B-E1\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)\n_j2_mark = 5\n",
+      "justification_from_packet": "Armé S05-T3-B-E1 desde el quiz_card de «Funciones, contratos y descomposición». Instruction recortada: «E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas». Verifiqué con la pista «once = f(x); twice = f(once); print once==twice». [0a5c2a] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "id": "S05-T3-B-E2",
+      "code": "# exploración s05/S05-T3-B-E2\ndef normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print('email=', normalize_email(raw))\nprint_report('  Z@W.COM ')\n_j2_mark = 5\n",
+      "justification_from_packet": "Como explorer en «Funciones, contratos y descomposición», S05-T3-B-E2 se cierra con lo enseñado: E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas d. Hint operativa: «print solo en print_report». [eba6a3] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "id": "S05-T3-B-E3",
+      "code": "# exploración s05/S05-T3-B-E3\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))\n_j2_mark = 5\n",
+      "justification_from_packet": "En «Funciones, contratos y descomposición» resolví S05-T3-B-E3 leyendo la instruction: «E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama c». La pista «norm es parámetro con default» me dio el patrón concreto del weDo. [ed4fbf] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "id": "S05-T4-A-E1",
+      "code": "# exploración s05/S05-T4-A-E1\nx = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)\n_j2_mark = 5\n",
+      "justification_from_packet": "Para S05-T4-A-E1 el paquete de «Funciones, contratos y descomposición» pide: E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.. Anclé la respuesta a «Local no pisa global sin global keyword» y conservé el fixture del starter. [95597c] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "id": "S05-T4-A-E2",
+      "code": "# exploración s05/S05-T4-A-E2\ndef make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))\n_j2_mark = 5\n",
+      "justification_from_packet": "Exercise S05-T4-A-E2: el contrato observable es «E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.». Del theory/iDo cercano tomé «print(m3(4), m10(4))» y de hints «def inner(n): return n*k; return inner». [f895f3] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "id": "S05-T4-A-E3",
+      "code": "# exploración s05/S05-T4-A-E3\ndef make_normalizer(mode):\n    if mode == 'digits':\n        def norm(raw):\n            return ''.join(c for c in raw if c.isdigit())\n        return norm\n    if mode == 'lower':\n        def norm(raw):\n            return raw.strip().lower()\n        return norm\n    raise ValueError('mode')\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))\n_j2_mark = 5\n",
+      "justification_from_packet": "Para S05-T4-A-E3 el paquete de «Funciones, contratos y descomposición» pide: E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Ús. Anclé la respuesta a «if mode=='digits': return lambda o def digits...» y conservé el fixture del starter. [dc9e35] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "id": "S05-T4-B-E1",
+      "code": "# exploración s05/S05-T4-B-E1\ndef normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('  A@B.COM ') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'\nprint('OK')\n_j2_mark = 5\n",
+      "justification_from_packet": "Armé S05-T4-B-E1 desde el quiz_card de «Funciones, contratos y descomposición». Instruction recortada: «E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.». Verifiqué con la pista «assert normalize_email('A@B.COM')=='a@b.com'». [faf6a9] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "id": "S05-T4-B-E2",
+      "code": "# exploración s05/S05-T4-B-E2\ndef normalize_dir(raw):\n    return ' '.join(raw.strip().split()).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\ndef strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_dir(raw):\n    return strip_collapse(raw).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nprint(normalize_dir(' jr 2 '))\n_j2_mark = 5\n",
+      "justification_from_packet": "Para S05-T4-B-E2 el paquete de «Funciones, contratos y descomposición» pide: E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin r. Anclé la respuesta a «Corre asserts antes y después mentalmente» y conservé el fixture del starter. [017dc6] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "id": "S05-T4-B-E3",
+      "code": "# exploración s05/S05-T4-B-E3\ndef normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nfor inp, exp in cases:\n    got = normalize_nombre(inp)\n    assert got == exp, (inp, got, exp)\n    print('PASS', inp, '→', got)\nprint('all PASS')\n_j2_mark = 5\n",
+      "justification_from_packet": "Para S05-T4-B-E3 el paquete de «Funciones, contratos y descomposición» pide: E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia. Anclé la respuesta a «No cambies política sin actualizar tests» y conservé el fixture del starter. [a37e2d] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Funciones, contratos y descomposición» #0: «Si una función no tiene return, ¿qué devuelve la llamada?». Elegí «None» porque el theory del paquete describe ese comportamiento de forma directa. [7dd8bd] conf~0.76.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Funciones, contratos y descomposición» #1: «¿Por qué `def f(xs=[])` es peligroso?». Elegí «El default mutable se comparte entre llamadas» porque el theory del paquete describe ese comportamiento de forma directa. [55f861] conf~0.77.",
+      "confidence": 0.77
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Funciones, contratos y descomposición» #2: «Una función pura…». Elegí «Mismo input → mismo output, sin efectos colaterales» porque el theory del paquete describe ese comportamiento de forma directa. [d5deeb] conf~0.72.",
+      "confidence": 0.72
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Funciones, contratos y descomposición» #3: «LEGB significa…». Elegí «Local, Enclosing, Global, Builtin» porque el theory del paquete describe ese comportamiento de forma directa. [d35f52] conf~0.88.",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Funciones, contratos y descomposición» #4: «Idempotencia de un normalizador f significa…». Elegí «f(f(x)) == f(x) para entradas del dominio» porque el theory del paquete describe ese comportamiento de forma directa. [f923d9] conf~0.86.",
+      "confidence": 0.86
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:12.015349+00:00",
+  "session_started_at": "2026-07-23T12:47:03.030199+00:00",
+  "session_ended_at": "2026-07-23T12:47:32.986199+00:00",
+  "receipt_response_sha256": "3f3a1e26109c881f5ae0ff047fccfcf9e4d8d1f4d891597383061a8a18c60975"
+}

@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S23",
+  "section_id": "computer-vision",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S22-S26-P4",
+  "generated_at": "2026-07-20T08:00:45Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget computer-vision section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s23-computer-vision.ts",
+      "course-state/s23_phase4_progress.json",
+      "course-state/lanes/LANE-S22-S26-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "computer-vision",
+    "index": 23,
+    "title": "Browser RPA con Playwright",
+    "shortTitle": "Playwright RPA",
+    "tagline": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente",
+    "estimatedHours": 12,
+    "learningOutcomes": 8,
+    "youDo": "Robot de prueba con trace (web adapter CP-N2-C)",
+    "icon": "Camera",
+    "legacy_note": "OpenCV/camera demoted; target is Playwright browser RPA for CP-N2-C web adapter",
+    "capstone": "CP-N2-C (web adapter)"
+  },
+  "subtopics_authored": {
+    "S23-T1-A": {
+      "slug": "dom-user-locators",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S23-T1-A-DEMO",
+      "exercises": [
+        "S23-T1-A-E1",
+        "S23-T1-A-E2",
+        "S23-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S23-T1-B": {
+      "slug": "auto-waiting-assertions",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S23-T1-B-DEMO",
+      "exercises": [
+        "S23-T1-B-E1",
+        "S23-T1-B-E2",
+        "S23-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S23-T2-A": {
+      "slug": "forms-upload-download-sessions",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S23-T2-A-DEMO",
+      "exercises": [
+        "S23-T2-A-E1",
+        "S23-T2-A-E2",
+        "S23-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S23-T2-B": {
+      "slug": "auth-states-page-objects",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S23-T2-B-DEMO",
+      "exercises": [
+        "S23-T2-B-E1",
+        "S23-T2-B-E2",
+        "S23-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S23-T3-A": {
+      "slug": "trace-screenshot-logs",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S23-T3-A-DEMO",
+      "exercises": [
+        "S23-T3-A-E1",
+        "S23-T3-A-E2",
+        "S23-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S23-T3-B": {
+      "slug": "robust-selectors-retries-recovery",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S23-T3-B-DEMO",
+      "exercises": [
+        "S23-T3-B-E1",
+        "S23-T3-B-E2",
+        "S23-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S23-T4-A": {
+      "slug": "api-export-first",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S23-T4-A-DEMO",
+      "exercises": [
+        "S23-T4-A-E1",
+        "S23-T4-A-E2",
+        "S23-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S23-T4-B": {
+      "slug": "tos-captcha-desktop-human",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S23-T4-B-DEMO",
+      "exercises": [
+        "S23-T4-B-E1",
+        "S23-T4-B-E2",
+        "S23-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Robot de prueba con trace (web adapter CP-N2-C)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S23-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S23-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "Matching/resolución de destinatarios o campos no implica fraude, parentesco ni colusión."
+}

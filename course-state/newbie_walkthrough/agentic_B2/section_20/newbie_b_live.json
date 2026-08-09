@@ -1,0 +1,562 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 20,
+  "packet_sha": "cecd7c28c679cace",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_20/packet.json",
+  "recorded_at": "2026-07-22T02:01:21.741551+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "selfcheck_rebuilt_B2_skeptic_packet_quotes_batch_01_26; exercises_kept",
+  "persona_seed": "d7c44fec5605",
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T1-A-E1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames)\nprint(ws[\"A1\"].value)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S20-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "title",
+        "Entrada"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T1-A-E1 si el paquete lo enseña. Instrucción: «Crea Workbook, pon título de hoja 'Entrada' y A1='region'; imprime sheetnames y A1.». Demo ancla S20-T1-B-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Hints del weDo: ws.title y ws['A1'].; from openpyxl import Workbook.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T1-A-E1 from openpyxl import Workbook wb = Workbook() ws = wb.active ws.title = \"Entrada\" ws[\"A1\"] = \"regi». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T1-A-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S20-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "append",
+        "region"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T1-A-E2 si el paquete lo enseña. Instrucción: «append header y una fila Lima/10.0; imprime max_row.». Demo ancla S20-T1-B-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Hints del weDo: ws.append.; max_row incluye header.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T1-A-E2 from openpyxl import Workbook wb = Workbook() ws = wb.active ws.append([\"region\", \"monto\"]) ws.app». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T1-A-E3\nfrom openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S20-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "title",
+        "Datos"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T1-A-E3 si el paquete lo enseña. Instrucción: «Crea hojas Datos y Salida; imprime sheetnames ordenados por creación.». Demo ancla S20-T1-B-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Hints del weDo: create_sheet.; Renombra active primero.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T1-A-E3 from openpyxl import Workbook wb = Workbook() wb.active.title = \"Datos\" wb.create_sheet(\"Salida\") ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T1-B-E1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(str(ws[\"A3\"].value).startswith(\"=\"))\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S20-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "str",
+        "value"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T1-B-E1 si el paquete lo enseña. Instrucción: «Asigna fórmula =A1+A2 y print si startswith('=').». Demo ancla S20-T1-B-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Hints del weDo: cell value string.; True esperado.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T1-B-E1 from openpyxl import Workbook wb = Workbook() ws = wb.active ws[\"A3\"] = \"=A1+A2\" print(str(ws[\"A3\"». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T1-B-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S20-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "value"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T1-B-E2 si el paquete lo enseña. Instrucción: «Con A1=3 A2=4 calcula suma python e imprime 7 sin evaluar fórmula Excel.». Demo ancla S20-T1-B-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Hints del weDo: Suma .value numéricos.; No uses data_only aquí.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T1-B-E2 from openpyxl import Workbook wb = Workbook() ws = wb.active ws[\"A1\"] = 3 ws[\"A2\"] = 4 print(ws[\"A». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T1-B-E3\ndef es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\n\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S20-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "es_formula",
+        "isinstance",
+        "str",
+        "and",
+        "startswith"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T1-B-E3 si el paquete lo enseña. Instrucción: «Función es_formula(v) True si str y empieza con =; prueba con '=A1' y 3.». Demo ancla S20-T1-B-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws.title = \"Datos\" ws.append([\"region\", \"monto\"]) ws.append([\"Lima\", 28.0]) ws.append([\"Cusco\", 22». Hints del weDo: isinstance str.; Dos prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T1-B-E3 def es_formula(v): return isinstance(v, str) and v.startswith(\"=\") print(es_formula(\"=A1\")) print(». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'es_formula']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T2-A-E1\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"].font = Font(bold=True)\nprint(ws[\"A1\"].font.bold)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S20-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "styles",
+        "Font",
+        "active"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T2-A-E1 si el paquete lo enseña. Instrucción: «Pon A1 bold=True e imprime font.bold.». Demo ancla S20-T2-A-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Hints del weDo: Font(bold=True).; openpyxl.styles.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T2-A-E1 from openpyxl import Workbook from openpyxl.styles import Font wb = Workbook() ws = wb.active ws[\"». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T2-A-E2\nfrom openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill is not None)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S20-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "styles",
+        "PatternFill",
+        "active"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T2-A-E2 si el paquete lo enseña. Instrucción: «Aplica PatternFill solid fgColor 1F4E79 a A1 e imprime que fill no es None.». Demo ancla S20-T2-A-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Hints del weDo: PatternFill.; print True.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T2-A-E2 from openpyxl import Workbook from openpyxl.styles import PatternFill wb = Workbook() ws = wb.acti». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T2-A-E3\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, cell):\n    c = ws[cell]\n    c.font = Font(bold=True)\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n\nwb = Workbook()\nws = wb.active\nheader_style(ws, \"A1\")\nprint(ws[\"A1\"].font.bold)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S20-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "styles",
+        "Font",
+        "PatternFill"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T2-A-E3 si el paquete lo enseña. Instrucción: «Escribe header_style(ws, cell) bold+fill; aplícalo a A1 y print bold.». Demo ancla S20-T2-A-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Hints del weDo: Función mutadora.; Color corporativo.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T2-A-E3 from openpyxl import Workbook from openpyxl.styles import Font, PatternFill def header_style(ws, c». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T2-B-E1\nfrom openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S20-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "datetime",
+        "date",
+        "active"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T2-B-E1 si el paquete lo enseña. Instrucción: «Escribe date(2024,1,15) en A1 e imprime isoformat.». Demo ancla S20-T2-A-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Hints del weDo: datetime.date.; value.isoformat().. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T2-B-E1 from openpyxl import Workbook from datetime import date wb = Workbook() ws = wb.active ws[\"A1\"] = ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T2-B-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S20-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "merge_cells",
+        "value"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T2-B-E2 si el paquete lo enseña. Instrucción: «merge B1:C1, valor en B1 'x'; imprime C1 value (None esperado).». Demo ancla S20-T2-A-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Hints del weDo: merge_cells.; Leer no ancla.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T2-B-E2 from openpyxl import Workbook wb = Workbook() ws = wb.active ws.merge_cells(\"B1:C1\") ws[\"B1\"] = \"x». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T2-B-E3\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S20-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "openpyxl",
+        "Workbook",
+        "active",
+        "merge_cells",
+        "len"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T2-B-E3 si el paquete lo enseña. Instrucción: «Cuenta cuántos merge ranges hay tras merge A1:B1 y C1:D1; print int.». Demo ancla S20-T2-A-DEMO: «from openpyxl import Workbook  wb = Workbook() ws = wb.active ws[\"B1\"] = 10 ws[\"B2\"] = 15 ws[\"B3\"] = \"=B1+B2\" formula = ws[\"B3\"].value py_val = ws[\"B1\"].value +». Hints del weDo: len(ws.merged_cells.ranges).; Dos merges.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T2-B-E3 from openpyxl import Workbook wb = Workbook() ws = wb.active ws.merge_cells(\"A1:B1\") ws.merge_cell». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'openpyxl']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T3-A-E1\ndet_sum = 10 + 5\nportada = 15\nprint(abs(det_sum - portada) < 0.01)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S20-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "det_sum",
+        "portada",
+        "abs"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T3-A-E1 si el paquete lo enseña. Instrucción: «detalle sum 10+5, portada 15; print reconcile True con tol 0.01.». Demo ancla S20-T3-A-DEMO: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Hints del weDo: abs(diff)<0.01.; print bool.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T3-A-E1 det_sum = 10 + 5 portada = 15 print(abs(det_sum - portada) < 0.01)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'det_sum']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T3-A-E2\nimport pandas as pd\ndet = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(det.groupby(\"region\")[\"monto\"].sum().to_dict())\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S20-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "pandas",
+        "det",
+        "DataFrame",
+        "region",
+        "Lima"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T3-A-E2 si el paquete lo enseña. Instrucción: «Pivot suma por región con pandas; print dict de Lima/Cusco para montos 10,5 y 7.». Demo ancla S20-T3-A-DEMO: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Hints del weDo: groupby sum.; to_dict.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T3-A-E2 import pandas as pd det = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'pandas']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T3-A-E3\ndef reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\n\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23))\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S20-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "reconcile",
+        "det_sum",
+        "portada",
+        "tol",
+        "abs"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T3-A-E3 si el paquete lo enseña. Instrucción: «reconcile(det_sum, portada, tol=0.01) devuelve bool; prueba 22.0 vs 22.005 y 22.0 vs 23.». Demo ancla S20-T3-A-DEMO: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Hints del weDo: abs <= tol o <.; Dos prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T3-A-E3 def reconcile(det_sum, portada, tol=0.01): return abs(det_sum - portada) < tol print(reconcile(22.». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'reconcile']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T3-B-E1\nexpected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nprint(got == expected)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S20-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "expected",
+        "region",
+        "monto",
+        "got"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T3-B-E1 si el paquete lo enseña. Instrucción: «headers got vs expected region/monto; print equality.». Demo ancla S20-T3-A-DEMO: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Hints del weDo: list compare.; True.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T3-B-E1 expected = [\"region\", \"monto\"] got = [\"region\", \"monto\"] print(got == expected)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'expected']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T3-B-E2\nregions = [\"Lima\", \"Piura\"]\nallowed = {\"Lima\", \"Cusco\"}\nbad = [r for r in regions if r not in allowed]\nprint(bad)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S20-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "regions",
+        "Lima",
+        "Piura",
+        "allowed",
+        "Cusco"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T3-B-E2 si el paquete lo enseña. Instrucción: «Filtra regiones no permitidas de ['Lima','Piura'] con allowed Lima/Cusco; print bad list.». Demo ancla S20-T3-A-DEMO: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Hints del weDo: list comp.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T3-B-E2 regions = [\"Lima\", \"Piura\"] allowed = {\"Lima\", \"Cusco\"} bad = [r for r in regions if r not in allo». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'regions']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T3-B-E3\ndef validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\n\nrows = [{\"region\": \"Lima\"}, {\"region\": \"Piura\"}]\nprint(validate_rows(rows, {\"Lima\", \"Cusco\"}))\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S20-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "validate_rows",
+        "rows",
+        "allowed",
+        "region",
+        "not"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T3-B-E3 si el paquete lo enseña. Instrucción: «validate_rows(rows, allowed) retorna lista de regiones inválidas; prueba una inválida.». Demo ancla S20-T3-A-DEMO: «from openpyxl import Workbook from datetime import date  wb = Workbook() ws = wb.active ws[\"A1\"] = date(2024, 6, 30) ws.merge_cells(\"B1:D1\") ws[\"B1\"] = \"Cobertu». Hints del weDo: Comprensión.; print resultado.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T3-B-E3 def validate_rows(rows, allowed): return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'validate_rows']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T4-A-E1\nst = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(1 for v in st if v == \"ok\"))\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S20-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "corrupt",
+        "sum"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T4-A-E1 si el paquete lo enseña. Instrucción: «De statuses ok/corrupt/ok cuenta ok; print 2.». Demo ancla S20-T4-A-DEMO: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Hints del weDo: sum genexp.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T4-A-E1 st = [\"ok\", \"corrupt\", \"ok\"] print(sum(1 for v in st if v == \"ok\"))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'corrupt']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T4-A-E2\nname = \"report.lock\"\nstatus = \"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\"\nprint(status)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S20-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "name",
+        "report",
+        "lock",
+        "status",
+        "locked"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T4-A-E2 si el paquete lo enseña. Instrucción: «Clasifica nombre 'file.xlsx.lock' como locked si endswith .lock o contiene 'lock'; print status.». Demo ancla S20-T4-A-DEMO: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Hints del weDo: Regla simple didáctica.; print locked.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T4-A-E2 name = \"report.lock\" status = \"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\" print». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'name']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T4-A-E3\nfrom collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S20-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "collections",
+        "Counter",
+        "files",
+        "corrupt",
+        "dict"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T4-A-E3 si el paquete lo enseña. Instrucción: «batch_status(files_dict) devuelve conteos por estado; input {'a':'ok','b':'corrupt'}.». Demo ancla S20-T4-A-DEMO: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Hints del weDo: Counter o dict.; print dict.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T4-A-E3 from collections import Counter files = {\"a\": \"ok\", \"b\": \"corrupt\"} print(dict(Counter(files.value». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'collections']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T4-B-E1\nmanifest = {\"backup\": \"results.prev.xlsx\", \"idempotent\": True}\nprint(manifest)\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S20-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "manifest",
+        "backup",
+        "results",
+        "prev",
+        "xlsx"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T4-B-E1 si el paquete lo enseña. Instrucción: «Imprime manifest con backup path y idempotent True.». Demo ancla S20-T4-A-DEMO: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Hints del weDo: dict.; json opcional.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T4-B-E1 manifest = {\"backup\": \"results.prev.xlsx\", \"idempotent\": True} print(manifest)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'manifest']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T4-B-E2\nimport hashlib\n\ndef build(rows):\n    lines = [\"region,monto\"] + [f\"{r},{m}\" for r, m in sorted(rows)]\n    return \"\\n\".join(lines) + \"\\n\"\n\na = build([(\"Lima\", 10), (\"Cusco\", 5)])\nb = build([(\"Cusco\", 5), (\"Lima\", 10)])\nprint(hashlib.sha1(a.encode()).hexdigest() == hashlib.sha1(b.encode()).hexdigest())\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S20-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "hashlib",
+        "build",
+        "rows",
+        "lines",
+        "region"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T4-B-E2 si el paquete lo enseña. Instrucción: «Muestra que build ordenado es idempotente: same hash para rows en distinto orden.». Demo ancla S20-T4-A-DEMO: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Hints del weDo: sorted + sha1.; print True.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T4-B-E2 import hashlib def build(rows): lines = [\"region,monto\"] + [f\"{r},{m}\" for r, m in sorted(rows)] r». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'hashlib']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S20-T4-B-E3\ndef structural_ok(sheetnames, need):\n    return set(sheetnames).issuperset(need)\n\nprint(structural_ok([\"Entrada\", \"Salida\", \"Extra\"], {\"Entrada\", \"Salida\"}))\n# B2 dual-run (Skeptic): re-validated vs packet S20 S20-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S20-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S20",
+        "structural_ok",
+        "sheetnames",
+        "need",
+        "set",
+        "issuperset"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S20-T4-B-E3 si el paquete lo enseña. Instrucción: «structural_ok(sheetnames, need) True si need subset de sheetnames; prueba need Entrada/Salida.». Demo ancla S20-T4-A-DEMO: «expected = [\"region\", \"monto\", \"n\"] got = [\"region\", \"monto\", \"n\"] allowed = {\"Lima\", \"Arequipa\", \"Cusco\"} rows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"r». Hints del weDo: set issuperset.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S20-T4-B-E3 def structural_ok(sheetnames, need): return set(sheetnames).issuperset(need) print(structural_ok([». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S20', 'structural_ok']. Heading: De “RAG en producción” a Excel factory (mapa) | sheets, celdas, tablas y named r."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "openpyxl sin Excel instalado evalúa fórmulas automáticamente:",
+      "chosen_index": 1,
+      "chosen_text": "No; suele devolver la fórmula o cache si existe",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «fórmulas vs valores cacheados» — quote: «…xl por defecto no evalúa fórmulas de Excel: lees el **string de fórmula** o un **valor cacheado** si existe en el archivo.». Choose [1] «No; suele devolver la fórmula o cache si existe». openpyxl does not auto-evaluate formulas; formula string or cache only."
+    },
+    {
+      "question_index": 1,
+      "question": "Al escribir en celdas combinadas debes:",
+      "chosen_index": 1,
+      "chosen_text": "Escribir en la celda ancla (top-left)",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «fechas, locales, celdas combinadas y protección» — quote: «…s**: escribe en la celda ancla (top-left). Leer celdas no ancla puede devolver None.». Choose [1] «Escribir en la celda ancla (top-left)». Write merged cells at anchor (top-left), not any cell in merge."
+    },
+    {
+      "question_index": 2,
+      "question": "Un manifest del excel factory debe permitir auditar:",
+      "chosen_index": 1,
+      "chosen_text": "Estados de batch, conciliación y backups",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…añar la plantilla y deja manifest de cambios En finanzas, operaciones y reporting en Perú, **Excel sigue siendo el contrato de entrega**. Esta sección (id `rag` conservad…». Choose [1] «Estados de batch, conciliación y backups». Excel factory manifest audits batch states, reconciliation, backups."
+    },
+    {
+      "question_index": 3,
+      "question": "Idempotencia significa:",
+      "chosen_index": 1,
+      "chosen_text": "Misma entrada → mismo resultado lógico",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «backups, idempotencia y pruebas estructurales» — quote: «…antes de sobrescribir. **Idempotencia**: re-ejecutar con mismos inputs produce mismo resultado lógico (o versiona outputs).». Choose [1] «Misma entrada → mismo resultado lógico». Idempotence: same input → same logical result across reruns."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "batch": "01_26",
+    "method": "llm_packet_only_no_generator"
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S26",
+  "section_id": "integrator-phase1",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S22-S26-P4",
+  "generated_at": "2026-07-20T08:00:49Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget integrator-phase1 section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s26-integrator-phase1.ts",
+      "course-state/s26_phase4_progress.json",
+      "course-state/lanes/LANE-S22-S26-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "integrator-phase1",
+    "index": 26,
+    "title": "Orquestación y VP RPA + AI Analyst",
+    "shortTitle": "VP RPA + AI Analyst",
+    "tagline": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas",
+    "estimatedHours": 16,
+    "learningOutcomes": 8,
+    "youDo": "VP RPA + AI Analyst — cierre CP-N2-C + notas regresión N2",
+    "icon": "Award",
+    "legacy_note": "Integrator phase1 retargeted to VP RPA+AI Analyst close + N2 regression notes",
+    "capstone": "CP-N2-C (cierre) + CF-2 + Level-2 regression"
+  },
+  "subtopics_authored": {
+    "S26-T1-A": {
+      "slug": "tasks-flows-dag-states",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S26-T1-A-DEMO",
+      "exercises": [
+        "S26-T1-A-E1",
+        "S26-T1-A-E2",
+        "S26-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S26-T1-B": {
+      "slug": "limits-metadata-schedules",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S26-T1-B-DEMO",
+      "exercises": [
+        "S26-T1-B-E1",
+        "S26-T1-B-E2",
+        "S26-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S26-T2-A": {
+      "slug": "checkpoints-retry-backoff-dlq",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S26-T2-A-DEMO",
+      "exercises": [
+        "S26-T2-A-E1",
+        "S26-T2-A-E2",
+        "S26-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S26-T2-B": {
+      "slug": "idempotency-concurrency-rollback",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S26-T2-B-DEMO",
+      "exercises": [
+        "S26-T2-B-E1",
+        "S26-T2-B-E2",
+        "S26-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S26-T3-A": {
+      "slug": "review-analysis-report-recipient",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S26-T3-A-DEMO",
+      "exercises": [
+        "S26-T3-A-E1",
+        "S26-T3-A-E2",
+        "S26-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S26-T3-B": {
+      "slug": "approve-reject-edit-audit",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S26-T3-B-DEMO",
+      "exercises": [
+        "S26-T3-B-E1",
+        "S26-T3-B-E2",
+        "S26-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S26-T4-A": {
+      "slug": "slo-alerts-runbook",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S26-T4-A-DEMO",
+      "exercises": [
+        "S26-T4-A-E1",
+        "S26-T4-A-E2",
+        "S26-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S26-T4-B": {
+      "slug": "e2e-security-cost-value",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S26-T4-B-DEMO",
+      "exercises": [
+        "S26-T4-B-E1",
+        "S26-T4-B-E2",
+        "S26-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "VP RPA + AI Analyst — cierre CP-N2-C + notas regresión N2",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S26-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S26-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "Matching/resolución de destinatarios o campos no implica fraude, parentesco ni colusión."
+}

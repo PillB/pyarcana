@@ -1,0 +1,262 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-skeptic-s23-151521-56",
+  "production_note": "agentic_I1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint( next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "justification_from_packet": "S23-T1-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `nodes=[{'role':'link','name':'Inicio','id':'n1'}]` cubre la Tarea del packet («Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra ro»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint( sorted(strats, key=lambda s: order[s]))\n",
+      "justification_from_packet": "S23-T1-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `strats=['css','role','testid']` cubre la Tarea del packet («Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando rol»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint( hits[0]['name'] if hits else 'need_testid')\n",
+      "justification_from_packet": "S23-T1-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `nodes=[{'role':'img','name':'logo'}]` cubre la Tarea del packet («Sin control button en nodes (solo img logo): al buscar button imprime 'need_test»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint( i)\n",
+      "justification_from_packet": "S23-T1-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `for i in range(1, 4):` cubre la Tarea del packet («Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprim»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\n    print( 'ok')\n",
+      "justification_from_packet": "S23-T1-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `ready = False` cubre la Tarea del packet («Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected, actual = 'Portal demo', 'Portal demo'\nprint( 'pass' if expected == actual else 'fail')\n",
+      "justification_from_packet": "S23-T1-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `expected, actual = 'Portal demo', 'Portal demo'` cubre la Tarea del packet («Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales el»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nform = {}\nform['usuario'] = 'ana'\nprint( form)\n",
+      "justification_from_packet": "S23-T2-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `form = {}` cubre la Tarea del packet («Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contr»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint( hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "justification_from_packet": "S23-T2-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `import hashlib` cubre la Tarea del packet («Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashli»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'token':'t'}\nprint( 'reuse' if state.get('token') else 'login')\n",
+      "justification_from_packet": "S23-T2-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `state={'token':'t'}` cubre la Tarea del packet («Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-l»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "code": "# skeptic path: packet fixtures only\nclass LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == \"sandbox\":\n            self.auth = True\n\np = LoginPage()\np.submit(\"demo\", \"sandbox\")\nprint( p.auth)\n",
+      "justification_from_packet": "S23-T2-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `class LoginPage:` cubre la Tarea del packet («Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prue»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\n    print( 'ok')\n",
+      "justification_from_packet": "S23-T2-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `ctx={'auth':False}` cubre la Tarea del packet («ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint( state)\n",
+      "justification_from_packet": "S23-T2-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `state='anonymous'` cubre la Tarea del packet («Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint( sorted(ev.keys()))\n",
+      "justification_from_packet": "S23-T3-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `ev={'trace':'a.zip','screenshot':'b.png','error':'x'}` cubre la Tarea del packet («Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Con»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlogs=['ok','ERR timeout','nav']\nprint( [l for l in logs if 'ERR' in l])\n",
+      "justification_from_packet": "S23-T3-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `logs=['ok','ERR timeout','nav']` cubre la Tarea del packet («Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que cont»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint( pkg)\n",
+      "justification_from_packet": "S23-T3-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `ok=False` cubre la Tarea del packet («Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'tra»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "code": "# skeptic path: packet fixtures only\ndef should_retry(k):\n    return k in (\"timeout\", \"429\")\n\nfor k in [\"timeout\", \"captcha\", \"429\"]:\n    print( k, should_retry(k))\n",
+      "justification_from_packet": "S23-T3-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `def should_retry(k):` cubre la Tarea del packet («Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nerr='stale'\nprint( 'goto_home' if err=='stale' else 'continue')\n",
+      "justification_from_packet": "S23-T3-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `err='stale'` cubre la Tarea del packet («Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "code": "# skeptic path: packet fixtures only\nerrors = [\"timeout\", \"timeout\", \"timeout\"]\nfor i, e in enumerate(errors, 1):\n    if e != \"timeout\":\n        break\n    if i == 3:\n        print( \"fail\", i)\n        break\nelse:\n    print(\"ok\", i)\n",
+      "justification_from_packet": "S23-T3-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `errors = [\"timeout\", \"timeout\", \"timeout\"]` cubre la Tarea del packet («Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Co»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi=True\nprint( 'api' if api else 'rpa')\n",
+      "justification_from_packet": "S23-T4-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `api=True` cubre la Tarea del packet («API-first gate: api=True → elige 'api'. Imprime la elección del método de obtenc»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint( c)\n",
+      "justification_from_packet": "S23-T4-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `f={'api':False,'export':True,'rpa':True}` cubre la Tarea del packet («Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'.»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndecision={'method':'rpa','reason':'no_api'}\nprint( decision)\n",
+      "justification_from_packet": "S23-T4-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `decision={'method':'rpa','reason':'no_api'}` cubre la Tarea del packet («Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason.»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncaptcha=True\nprint( 'human_handoff' if captcha else 'continue')\n",
+      "justification_from_packet": "S23-T4-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `captcha=True` cubre la Tarea del packet («CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypa»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsig={'tos_forbidden':True,'captcha':True}\nprint( 'abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "justification_from_packet": "S23-T4-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `sig={'tos_forbidden':True,'captcha':True}` cubre la Tarea del packet («ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime act»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint( sorted(payload.keys()), payload['step'])\n",
+      "justification_from_packet": "S23-T4-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `payload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}` cubre la Tarea del packet («Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic S23: contrasté las opciones con theory sobre Playwright; descarté distractores y me quedo con índice 2 («Refleja la UI accesible y suele ser más estable») porque el paquete lo enseña explícitamente frente a «¿Por qué preferir get_by_role a CSS nth-child?».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic S23: contrasté las opciones con theory sobre selector; descarté distractores y me quedo con índice 0 («Detenerse y hacer handoff humano») porque el paquete lo enseña explícitamente frente a «Ante un CAPTCHA el robot debe:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic S23: contrasté las opciones con theory sobre retry; descarté distractores y me quedo con índice 1 («Buscar integración no-UI antes de automatizar el browser») porque el paquete lo enseña explícitamente frente a «API/export primero significa:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S23: contrasté las opciones con theory sobre screenshot; descarté distractores y me quedo con índice 3 («Solo fallas transitorias (timeout/red), no captcha/403 de negocio») porque el paquete lo enseña explícitamente frente a «Un retry seguro reintenta:».",
+      "confidence": 0.74
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:16:17+00:00",
+  "session_started_at": "2026-07-23T15:15:21+00:00",
+  "session_ended_at": "2026-07-23T15:16:17+00:00"
+}

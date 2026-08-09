@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "None"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "El default mutable se comparte entre llamadas"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.67,
+    "correct_preview": "Mismo input → mismo output, sin efectos colaterales"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Local, Enclosing, Global, Builtin"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "f(f(x)) == f(x) para entradas del dominio"
+  }
+]

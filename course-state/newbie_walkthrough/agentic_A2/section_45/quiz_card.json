@@ -1,0 +1,231 @@
+{
+  "section_index": 45,
+  "title": "Cloud, almacenamiento, colas e infraestructura",
+  "outcomes": [
+    "Elige object/relacional/cache",
+    "Define consistencia, lifecycle y backups",
+    "Diseña colas y delivery semantics",
+    "Garantiza dedup, orden y DLQ",
+    "Dimensiona compute y red",
+    "Restringe IAM, paths privados y egress",
+    "Declara infra y environments",
+    "Presupuesta costo y recovery"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S45: Cloud, almacenamiento, colas e infraestructura",
+      "paragraphs": [
+        "En V3, **S45** retematiza el archivo de plataforma `iac` hacia **Cloud, almacenamiento, colas e infraestructura**.",
+        "Incremento: job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "object store, relacional y cache",
+      "paragraphs": [
+        "**object store, relacional y cache** — outcome del blueprint phase3 para `object-relational-cache`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (arquitectura)** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"hot_days\":30,\"backup\":\"daily\"}); print(\"rpo\", \"24h\"); print(\"consistency\", \"job_status_strong\")"
+    },
+    {
+      "heading": "consistencia, lifecycle y backups",
+      "paragraphs": [
+        "**consistencia, lifecycle y backups** — outcome del blueprint phase3 para `consistency-lifecycle-backups`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (arquitectura)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "queue/event y delivery semantics",
+      "paragraphs": [
+        "**queue/event y delivery semantics** — outcome del blueprint phase3 para `queue-event-delivery`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (arquitectura)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "dedup, ordering y dead-letter",
+      "paragraphs": [
+        "**dedup, ordering y dead-letter** — outcome del blueprint phase3 para `dedup-ordering-dlq`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (arquitectura)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "compute, autoscaling y networking",
+      "paragraphs": [
+        "**compute, autoscaling y networking** — outcome del blueprint phase3 para `compute-autoscale-net`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (arquitectura)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "IAM, private paths y egress",
+      "paragraphs": [
+        "**IAM, private paths y egress** — outcome del blueprint phase3 para `iam-private-egress`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (arquitectura)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "configuración declarativa y environments",
+      "paragraphs": [
+        "**configuración declarativa y environments** — outcome del blueprint phase3 para `declarative-config-envs`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (arquitectura)** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"monthly_usd\":200}); print({\"rto_min\":60}); print(\"portable\", \"container_images\")"
+    },
+    {
+      "heading": "costos, quotas, recovery y portability",
+      "paragraphs": [
+        "**costos, quotas, recovery y portability** — outcome del blueprint phase3 para `cost-quotas-recovery-portability`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (arquitectura)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S45-T1-B-DEMO",
+      "description": "Demo: object store, relacional y cache",
+      "why": "Demuestra el outcome de S45-T1-A con Python verificable.",
+      "code": "print(\"blob\", \"s3_like\"); print(\"sql\", \"jobs_table\"); print(\"cache\", \"redis_like\")"
+    },
+    {
+      "demoId": "S45-T2-A-DEMO",
+      "description": "Demo: consistencia, lifecycle y backups",
+      "why": "Demuestra el outcome de S45-T1-B con Python verificable.",
+      "code": "print(\"lifecycle\", True); print(\"backup\", \"daily\"); print(\"restore_tested\", True)"
+    },
+    {
+      "demoId": "S45-T2-B-DEMO",
+      "description": "Demo: queue/event y delivery semantics",
+      "why": "Demuestra el outcome de S45-T2-A con Python verificable.",
+      "code": "print(\"queue\", \"jobs\"); print(\"event\", \"job.finished\"); print(\"delivery\", \"at_least_once\")"
+    },
+    {
+      "demoId": "S45-T3-A-DEMO",
+      "description": "Demo: dedup, ordering y dead-letter",
+      "why": "Demuestra el outcome de S45-T2-B con Python verificable.",
+      "code": "print(\"order\", \"per_partition\"); print(\"dlq\", True); print(\"dedup_store\", \"redis_or_db\")"
+    },
+    {
+      "demoId": "S45-T3-B-DEMO",
+      "description": "Demo: compute, autoscaling y networking",
+      "why": "Demuestra el outcome de S45-T3-A con Python verificable.",
+      "code": "print(\"scale_on\", \"lag\"); print(\"private\", True); print(\"api_edge\", True)"
+    },
+    {
+      "demoId": "S45-T4-A-DEMO",
+      "description": "Demo: IAM, private paths y egress",
+      "why": "Demuestra el outcome de S45-T3-B con Python verificable.",
+      "code": "print(\"least_privilege\", True); print(\"no_0_0_0_0_admin\", True); print(\"egress\", \"allowlist\")"
+    },
+    {
+      "demoId": "S45-T4-B-DEMO",
+      "description": "Demo: configuración declarativa y environments",
+      "why": "Demuestra el outcome de S45-T4-A con Python verificable.",
+      "code": "print(\"env_parity\", True); print(\"config_as_code\", True); print(\"drift_detect\", True)"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: costos, quotas, recovery y portability",
+      "why": "Demuestra el outcome de S45-T4-B con Python verificable.",
+      "code": "print(\"quota\", True); print(\"cost_alert\", 0.8); print(\"recovery_drill\", True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S45 que se preserva es:",
+      "options": [
+        "iac",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S45 pertenece a:",
+      "options": [
+        "CP-N4-B (arquitectura)",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP",
+    "Schemas, seguridad y privacidad de servicios",
+    "Contenedores y reproducibilidad operativa",
+    "CI/CD y seguridad de la cadena de suministro"
+  ]
+}

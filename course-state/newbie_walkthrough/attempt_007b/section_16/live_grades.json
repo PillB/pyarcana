@@ -1,0 +1,1078 @@
+{
+  "section_index": 16,
+  "section_id": "wxpython-gui",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S16-T1-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n",
+          "note": "",
+          "concepts_used": [
+            "isna",
+            "sum"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T1-A-E2",
+          "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {}\nfor col, pol in policy.items():\n    n = int(df[col].isna().sum())\n    if pol == \"required\" and n > 0:\n        viol[col] = n\nprint(viol)\n",
+          "note": "",
+          "concepts_used": [
+            "policy required"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T1-A-E3",
+          "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(\"fail\" if viol else \"pass\")\n",
+          "note": "",
+          "concepts_used": [
+            "gate fail/pass"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T1-B-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf = df.copy()\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "was_null",
+            "fillna"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T1-B-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None, None, 2.0]})\nrate = float(df[\"monto\"].isna().mean())\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "null_rate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T1-B-E3",
+          "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(float(med), filled.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "median fillna"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1], \"b\": [2, 2]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+          "note": "",
+          "concepts_used": [
+            "duplicated"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-A-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nconf = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(conf[conf > 1].index.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "nunique conflict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-A-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"]})\nrow = df[df.cliente_id == \"C001\"]\nif int(row.duplicated(keep=False).sum()) > 0:\n    label = \"exact\"\nelif row[\"region\"].nunique() > 1:\n    label = \"conflict\"\nelse:\n    label = \"clean\"\nprint(label)\n",
+          "note": "",
+          "concepts_used": [
+            "exact/conflict/clean"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-B-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nclean = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(q), len(clean))\n",
+          "note": "",
+          "concepts_used": [
+            "quarantine",
+            "drop_duplicates"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-B-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"batch\": [\"b1\", \"b2\", \"b1\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)][[\"id\", \"batch\"]].copy()\nprint(q.columns.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "evidence cols"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-B-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\", \"c\"], \"v\": [1, 2, 3]})\nif df[\"id\"].nunique() == len(df):\n    print(\"card_ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "cardinality"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-A-E1",
+          "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "strip",
+            "title"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-A-E2",
+          "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nvals = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(vals.sum()))\n",
+          "note": "",
+          "concepts_used": [
+            "str.replace",
+            "float"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-A-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\" lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.strip().str.title()\nprint(df[\"region_raw\"].tolist(), df[\"region\"].tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "raw preserved"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-B-E1",
+          "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "domain_error"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-B-E2",
+          "code": "import pandas as pd\ns = pd.Series([1, 2, 3, 100])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nstat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[stat].tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "IQR"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-B-E3",
+          "code": "val = -1\nprint(\"error\" if val < 0 else \"flag\" if False else \"ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "error vs flag"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\"]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])\n",
+          "note": "",
+          "concepts_used": [
+            "missing cols"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-A-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]), \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-04-01\"])})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "cross-field"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-A-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "schema drift"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-B-E1",
+          "code": "rows_in, q = 10, 3\nprint(rows_in - q)\n",
+          "note": "",
+          "concepts_used": [
+            "rows_clean"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-B-E2",
+          "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\", \"n\": 1})\nprint(len(audit))\n",
+          "note": "",
+          "concepts_used": [
+            "audit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-B-E3",
+          "code": "n_q = 1\nprint(bool(n_q == 0))\n",
+          "note": "",
+          "concepts_used": [
+            "pass metric"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S16-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'a': 1}\n",
+          "expected_head": "{'a': 1}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fail\n",
+          "expected_head": "fail",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[False, True]\n",
+          "expected_head": "[False, True]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "blocked\n",
+          "expected_head": "blocked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.5 [1.0, 2.0, 1.5]\n",
+          "expected_head": "1.5 [1.0, 2.0, 1.5]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['C001']\n",
+          "expected_head": "['C001']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "clean\n",
+          "expected_head": "clean",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2 2\n",
+          "expected_head": "2 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['id', 'batch']\n",
+          "expected_head": "['id', 'batch']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "card_ok\n",
+          "expected_head": "card_ok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Lima', 'Cusco']\n",
+          "expected_head": "['Lima', 'Cusco']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3.5\n",
+          "expected_head": "3.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[' lima'] ['Lima']\n",
+          "expected_head": "['lima'] ['Lima']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[False, True, False]\n",
+          "expected_head": "[False, True, False]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "[100]\n",
+          "expected_head": "[100.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "error\n",
+          "expected_head": "error",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['monto']\n",
+          "expected_head": "['monto']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1]\n",
+          "expected_head": "[1]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "drift\n",
+          "expected_head": "drift",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "7\n",
+          "expected_head": "7",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\n",
+          "expected_head": "False",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 23,
+      "code_tried": 24,
+      "code_ratio": 0.958,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S16-T1-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n",
+          "note": "Starter has fixture; hints isna().sum().",
+          "concepts_used": [
+            "isna",
+            "sum"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T1-A-E2",
+          "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)\n",
+          "note": "Starter policy+df; theory/demo dict only required with nulls.",
+          "concepts_used": [
+            "policy violations"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T1-A-E3",
+          "code": "import pandas as pd\npolicy = {\"a\": \"required\"}\ndf = pd.DataFrame({\"a\": [1, None]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(\"fail\" if viol else \"pass\")\n",
+          "note": "Hints use viol dict; fail if any required violations.",
+          "concepts_used": [
+            "fail/pass gate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T1-B-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+          "note": "Hints was_null=isna then fillna.",
+          "concepts_used": [
+            "was_null indicator",
+            "fillna"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T1-B-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None, None, 2.0]})\nrate = float(df[\"monto\"].isna().mean())\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+          "note": "Instruction fixture 2 of 4 null; cap 0.3 → blocked.",
+          "concepts_used": [
+            "null_rate cap"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T1-B-E3",
+          "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(float(med), float(filled.median()))\n",
+          "note": "Hints median skipna + fillna; [1,2,None].",
+          "concepts_used": [
+            "median fillna"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1], \"b\": [2, 2]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+          "note": "Hints two exact rows → 2.",
+          "concepts_used": [
+            "duplicated keep=False"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-A-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"region\": [\"Lima\", \"Cusco\", \"Lima\"],\n})\nconf = df.groupby(\"cliente_id\").filter(lambda g: g[\"region\"].nunique() > 1)\nprint(conf[\"cliente_id\"].unique().tolist())\n",
+          "note": "Demo S16-T2-B-DEMO pattern for conflict ids.",
+          "concepts_used": [
+            "groupby nunique conflict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-A-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"]})\nsub = df[df[\"cliente_id\"] == \"C001\"]\nif int(sub.duplicated(keep=False).sum()) >= 2:\n    print(\"exact\")\nelif sub[\"region\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")\n",
+          "note": "Hints order exact then conflict; one-row fixture → clean.",
+          "concepts_used": [
+            "classify exact/conflict/clean"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-B-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nclean = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(q), len(clean))\n",
+          "note": "Starter fixture; hints duplicated keep=False + drop_duplicates.",
+          "concepts_used": [
+            "quarantine",
+            "drop_duplicates"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-B-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"batch\": [\"b1\", \"b2\", \"b1\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nprint(q.columns.tolist())\n",
+          "note": "Hints copy mask; keep batch column; demo T3-A.",
+          "concepts_used": [
+            "evidence columns"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T2-B-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\", \"c\"]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_fail\")\n",
+          "note": "Hints nunique==len.",
+          "concepts_used": [
+            "cardinality 1:1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-A-E1",
+          "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+          "note": "Hints strip+title.",
+          "concepts_used": [
+            "str.strip",
+            "str.title"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-A-E2",
+          "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nvals = s.str.replace(\"S/\", \"\", regex=False).str.strip().astype(float)\nprint(float(vals.sum()))\n",
+          "note": "Hints replace S/ + float; print sum.",
+          "concepts_used": [
+            "str.replace",
+            "astype float"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-A-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\" lima\", \"CUSCO \"]})\ndf[\"region\"] = df[\"region_raw\"].str.strip().str.title()\nprint(df[\"region_raw\"].tolist())\nprint(df[\"region\"].tolist())\n",
+          "note": "Hints new col does not overwrite raw; demo T3-B.",
+          "concepts_used": [
+            "raw preserved"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-B-E1",
+          "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+          "note": "Hints s<0 tolist.",
+          "concepts_used": [
+            "domain_error"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-B-E2",
+          "code": "import pandas as pd\ns = pd.Series([1, 2, 3, 100])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nstat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[stat].tolist())\n",
+          "note": "Demo T4-A IQR 1.5 pattern.",
+          "concepts_used": [
+            "IQR outlier"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T3-B-E3",
+          "code": "import pandas as pd\nval = -1\ns = pd.Series([1, 2, -1])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nstat = (val < q1 - 1.5 * iqr) or (val > q3 + 1.5 * iqr)\ndomain = val < 0\nif domain:\n    print(\"error\")\nelif stat:\n    print(\"flag\")\nelse:\n    print(\"ok\")\n",
+          "note": "Hints prioritize domain error; value -1.",
+          "concepts_used": [
+            "error vs flag"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\nprint(missing)\n",
+          "note": "Hints list comprehension not in columns.",
+          "concepts_used": [
+            "missing columns"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-A-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-04-01\"]),\n})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())\n",
+          "note": "Demo T4-B cross_fail pattern.",
+          "concepts_used": [
+            "cross-field dates"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-A-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+          "note": "Hints fixed messages drift/schema_ok.",
+          "concepts_used": [
+            "schema drift message"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-B-E1",
+          "code": "rows_in = 10\nq = 3\nprint(rows_in - q)\n",
+          "note": "Starter rows_in=10 q=3; print clean.",
+          "concepts_used": [
+            "rows_clean"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-B-E2",
+          "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\", \"n\": 1})\nprint(len(audit))\n",
+          "note": "Starter audit start; append quarantine.",
+          "concepts_used": [
+            "audit append"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S16-T4-B-E3",
+          "code": "n_q = 1\nprint(n_q == 0)\n",
+          "note": "Hints pass = n_q==0; n_q=1 → False.",
+          "concepts_used": [
+            "pass flag"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S16-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'a': 1}\n",
+          "expected_head": "{'a': 1}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fail\n",
+          "expected_head": "fail",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[False, True]\n",
+          "expected_head": "[False, True]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "blocked\n",
+          "expected_head": "blocked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T1-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "1.5 1.5\n",
+          "expected_head": "1.5 [1.0, 2.0, 1.5]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['C001']\n",
+          "expected_head": "['C001']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "clean\n",
+          "expected_head": "clean",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2 2\n",
+          "expected_head": "2 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['id', 'batch']\n",
+          "expected_head": "['id', 'batch']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "card_ok\n",
+          "expected_head": "card_ok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Lima', 'Cusco']\n",
+          "expected_head": "['Lima', 'Cusco']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3.5\n",
+          "expected_head": "3.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[' lima', 'CUSCO ']\n['Lima', 'Cusco']\n",
+          "expected_head": "['lima'] ['Lima']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[False, True, False]\n",
+          "expected_head": "[False, True, False]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "[100]\n",
+          "expected_head": "[100.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "error\n",
+          "expected_head": "error",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['monto']\n",
+          "expected_head": "['monto']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1]\n",
+          "expected_head": "[1]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "drift\n",
+          "expected_head": "drift",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "7\n",
+          "expected_head": "7",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S16-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\n",
+          "expected_head": "False",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

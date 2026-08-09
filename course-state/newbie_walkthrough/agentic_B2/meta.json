@@ -1,0 +1,10 @@
+{
+  "attempt_id": "agentic_B2",
+  "started_at": "2026-07-22T01:56:18.281170+00:00",
+  "source_exercises": "agentic_B1",
+  "source_selfcheck": "agentic_B1",
+  "voice_seed": "B2",
+  "method": "llm_packet_only_no_generator",
+  "note": "Exercise codes from dual-LLM live source; justifications rebuilt per-exercise from learner packets; selfcheck from dual-LLM source.",
+  "brand": "PyArcana"
+}

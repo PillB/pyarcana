@@ -1,0 +1,3382 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-07-28T21:23:05Z",
+  "generated_by": "curriculum_graph_builder node (Phase 2)",
+  "source_brief": "industry_reality_brief.md (Parts A + B, §1-§32)",
+  "level_vocabulary": [
+    "foundation",
+    "independent",
+    "advanced",
+    "leadership"
+  ],
+  "verb_vocabulary": [
+    "knowing",
+    "following",
+    "applying_with_guidance",
+    "applying_independently",
+    "diagnosing",
+    "designing",
+    "operating",
+    "evaluating",
+    "advising",
+    "leading"
+  ],
+  "roles": [
+    {
+      "role_id": "data_analyst",
+      "role_name": "Data Analyst",
+      "soc_code": "15-2051.01 (O*NET BI Analyst, closest)",
+      "summary": "Backward-looking analyst: what happened, why, and what to do about it. SQL + Excel + BI + Python + communication. Distinguished from DS by predictive scope (none) and from AIML by absence of production ML.",
+      "levels": [
+        {
+          "level_id": "foundation",
+          "level_name": "Foundational / Entry",
+          "autonomy": "Works under routine supervision; follows instructions.",
+          "ambiguity": "Low - requirements are pre-scoped by a PM or senior analyst.",
+          "scope": "Single dataset, single dashboard, single report.",
+          "complexity": "SELECT/WHERE/GROUP BY, basic joins, simple pivots, follow existing templates, run existing notebooks.",
+          "consequence": "Low - output reviewed by senior; failure delays one report.",
+          "market_readiness": "SQL 'Fundamentals' - not sufficient for competitive roles (Jobright 2026).",
+          "evidence_of_capability": "Reproducible notebook pulling from a shared DB, producing a clean chart + 200-word summary, runs end-to-end on a colleague's machine.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": false,
+            "diagnosing": false,
+            "designing": false,
+            "operating": false,
+            "evaluating": false,
+            "advising": false,
+            "leading": false
+          },
+          "skills": [
+            "sql_fundamentals",
+            "excel_spreadsheets",
+            "python_core",
+            "pandas_numpy",
+            "data_cleaning",
+            "bi_tools",
+            "python_visualization",
+            "descriptive_stats",
+            "written_communication"
+          ]
+        },
+        {
+          "level_id": "independent",
+          "level_name": "Independent Practitioner",
+          "autonomy": "Works under general direction; manages own work within deadlines.",
+          "ambiguity": "Receives a question, not a task list. Determines tables, dimensions, time window.",
+          "scope": "Weekly cadence of dashboards and ad-hoc analyses for one stakeholder team.",
+          "complexity": "3-4 table joins, window functions, CTEs, cohort analysis, INDEX/MATCH/XLOOKUP, one BI tool to '2026 Target Level' (Jobright). Basic A/B test reading.",
+          "consequence": "Medium - a wrong metric misleads a stakeholder decision; a broken dashboard delays a weekly review.",
+          "market_readiness": "Jobright 'Entry-Level Ready' to '2026 Target Level' SQL.",
+          "evidence_of_capability": "End-to-end owned project: define metrics with stakeholder, pull/clean data, build dashboard, write 1-page summary with recommendation, present. Plus a second project of similar shape.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": "partial",
+            "designing": false,
+            "operating": "partial",
+            "evaluating": false,
+            "advising": false,
+            "leading": false
+          },
+          "skills": [
+            "sql_fundamentals",
+            "sql_window_ctes",
+            "excel_spreadsheets",
+            "python_core",
+            "pandas_numpy",
+            "data_cleaning",
+            "data_validation",
+            "bi_tools",
+            "python_visualization",
+            "descriptive_stats",
+            "hypothesis_testing",
+            "git_workflow",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "written_communication",
+            "oral_communication",
+            "stakeholder_translation",
+            "business_framing"
+          ]
+        },
+        {
+          "level_id": "advanced",
+          "level_name": "Advanced Delivery",
+          "autonomy": "Works autonomously under general direction; supports and guides others.",
+          "ambiguity": "Investigates problems and datasets to assess analytical-solution usefulness. Anticipates risks.",
+          "scope": "Cross-team analyses; data products used by multiple stakeholder teams; contributes to BI-tool and data-model decisions.",
+          "complexity": "Performance-tuned SQL, dashboard architecture, basic ETL, schema design, statistical rigor in A/B tests (power, multiple comparisons), data validation as a discipline.",
+          "consequence": "High - owns reliability of a portfolio of dashboards/reports that drive business decisions.",
+          "market_readiness": "O*NET 15-2051.01 Tasks 65-84 (Importance >=65).",
+          "evidence_of_capability": "Portfolio of 3-5 documented projects each with a README explaining the why, decisions, tradeoffs, business value. >=1 project used by another team.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": true,
+            "designing": true,
+            "operating": true,
+            "evaluating": "partial",
+            "advising": "partial",
+            "leading": false
+          },
+          "skills": [
+            "sql_fundamentals",
+            "sql_window_ctes",
+            "sql_performance_tuning",
+            "excel_spreadsheets",
+            "python_core",
+            "pandas_numpy",
+            "data_cleaning",
+            "data_validation",
+            "bi_tools",
+            "python_visualization",
+            "hypothesis_testing",
+            "experimental_design",
+            "process_analysis",
+            "git_workflow",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "written_communication",
+            "oral_communication",
+            "stakeholder_translation",
+            "business_framing",
+            "metric_design",
+            "tradeoff_articulation"
+          ]
+        },
+        {
+          "level_id": "leadership",
+          "level_name": "Technical Leadership / Mastery",
+          "autonomy": "Provides authoritative guidance; works under broad direction; accountable for significant outcomes.",
+          "ambiguity": "Turns 'growth is slowing' into five concrete hypotheses, a prioritized plan, and a timeline. Resolves ambiguity for others.",
+          "scope": "Org-level analytics roadmap; multi-quarter initiatives; policy/standards for the analytics practice.",
+          "complexity": "Metric design as strategy; tradeoff articulation; influencing PMs; designing the analytics operating model.",
+          "consequence": "Critical - roadmap and policy decisions shape the org's analytics capability for years.",
+          "market_readiness": "TDS L5: strategy memos not analysis reports; recommendations not findings.",
+          "evidence_of_capability": "Documented analytics framework adopted across >=2 teams; mentorship of >=2 L2/L3 analysts; published internal standards for dashboard design, metric definition, or A/B test review.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": true,
+            "designing": true,
+            "operating": true,
+            "evaluating": true,
+            "advising": true,
+            "leading": true
+          },
+          "skills": [
+            "sql_fundamentals",
+            "sql_window_ctes",
+            "sql_performance_tuning",
+            "data_validation",
+            "bi_tools",
+            "experimental_design",
+            "process_analysis",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "written_communication",
+            "oral_communication",
+            "stakeholder_translation",
+            "business_framing",
+            "metric_design",
+            "tradeoff_articulation"
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "data_scientist",
+      "role_name": "Data Scientist",
+      "soc_code": "15-2051.00 (O*NET Data Scientists)",
+      "summary": "Forward-looking analyst + statistical modeler. Adds classical ML, experimental design, causal inference, model validation. May deploy at senior+ but is not the platform owner.",
+      "levels": [
+        {
+          "level_id": "foundation",
+          "level_name": "Foundational / Entry",
+          "autonomy": "Under routine supervision. Applies specified DS techniques.",
+          "ambiguity": "Low - question and dataset are given by a senior DS or PM.",
+          "scope": "One model, one dataset, one notebook.",
+          "complexity": "Standard scikit-learn pipeline, train/test split, classification/regression on cleaned data, basic evaluation (accuracy, RMSE).",
+          "consequence": "Low - output reviewed by senior; failure delays a proof-of-concept.",
+          "market_readiness": "TDS L3 - 'writes the SQL query, builds the dashboard, runs the experiment.'",
+          "evidence_of_capability": "One end-to-end ML project with proper train/validation/test split, no leakage, documented, reproducible.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": false,
+            "diagnosing": false,
+            "designing": false,
+            "operating": false,
+            "evaluating": false,
+            "advising": false,
+            "leading": false
+          },
+          "skills": [
+            "sql_fundamentals",
+            "excel_spreadsheets",
+            "python_core",
+            "r_language",
+            "pandas_numpy",
+            "data_cleaning",
+            "bi_tools",
+            "python_visualization",
+            "descriptive_stats",
+            "hypothesis_testing",
+            "classical_ml",
+            "written_communication"
+          ]
+        },
+        {
+          "level_id": "independent",
+          "level_name": "Independent Practitioner",
+          "autonomy": "Works under general direction. Proactively enhances skills and impact.",
+          "ambiguity": "Receives a question and chooses data sources, techniques, evaluation. Identifies opportunities to improve models.",
+          "scope": "A model in production-adjacent state with monitoring; a weekly cadence of analyses for one stakeholder team.",
+          "complexity": "Feature engineering, hyperparameter tuning, model comparison with proper validation, basic deployment (script/API/scheduled job), leakage prevention.",
+          "consequence": "Medium - a bad model affects a product surface; undetected leakage invalidates a decision.",
+          "market_readiness": "TDS L4 - 'you own the outcome. L4s ship: documentation that others can use, code that passes review on the first try, results presented in a way that leads to clear decisions.'",
+          "evidence_of_capability": "One project shipping an ML model end-to-end (notebook -> script -> API/scheduled job -> monitoring stub); follow-up analysis anticipating the next question; clean README; >=1 unit test on data and model code.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": "partial",
+            "designing": false,
+            "operating": "partial",
+            "evaluating": false,
+            "advising": false,
+            "leading": false
+          },
+          "skills": [
+            "sql_fundamentals",
+            "sql_window_ctes",
+            "excel_spreadsheets",
+            "python_core",
+            "python_idioms",
+            "r_language",
+            "pandas_numpy",
+            "data_cleaning",
+            "data_validation",
+            "bi_tools",
+            "python_visualization",
+            "descriptive_stats",
+            "hypothesis_testing",
+            "regression",
+            "experimental_design",
+            "classical_ml",
+            "model_evaluation",
+            "leakage_prevention",
+            "feature_engineering",
+            "testing_discipline",
+            "code_review_literacy",
+            "packaging_reproducibility",
+            "git_workflow",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "written_communication",
+            "oral_communication",
+            "stakeholder_translation",
+            "business_framing"
+          ]
+        },
+        {
+          "level_id": "advanced",
+          "level_name": "Advanced Delivery",
+          "autonomy": "Works autonomously; supports and guides others; contributes expertise to team objectives.",
+          "ambiguity": "Investigates problems and datasets to assess DS-solution usefulness. Anticipates risks of modelling. Formulates hypotheses.",
+          "scope": "Cross-team ML initiatives; design of experimentation infrastructure; mentorship of L2 DS.",
+          "complexity": "Diverse DS techniques. Selects, acquires, integrates data. Formulates hypotheses and evaluates models. Advises on technique effectiveness. Contributes to development, evaluation, monitoring, deployment.",
+          "consequence": "High - owns reliability of multiple production models; architectural mistakes propagate across teams.",
+          "market_readiness": "TDS L5 - 'scoping ambiguous problems becomes your core skill. Designing metrics separates L5s from L4s. Influencing PMs becomes a core part of your job. Thinking in tradeoffs.'",
+          "evidence_of_capability": "A shipped model in production with monitoring and retraining; a documented experimentation framework used by >=1 other team; mentorship of >=1 L2 DS; tradeoff memo on a real decision.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": true,
+            "designing": true,
+            "operating": true,
+            "evaluating": "partial",
+            "advising": "partial",
+            "leading": false
+          },
+          "skills": [
+            "sql_fundamentals",
+            "sql_window_ctes",
+            "sql_performance_tuning",
+            "python_core",
+            "python_idioms",
+            "r_language",
+            "pandas_numpy",
+            "data_cleaning",
+            "data_validation",
+            "python_visualization",
+            "descriptive_stats",
+            "hypothesis_testing",
+            "regression",
+            "experimental_design",
+            "causal_inference",
+            "classical_ml",
+            "model_evaluation",
+            "leakage_prevention",
+            "deep_learning",
+            "feature_engineering",
+            "testing_discipline",
+            "code_review_literacy",
+            "packaging_reproducibility",
+            "git_workflow",
+            "cloud_platform",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "mentoring",
+            "written_communication",
+            "oral_communication",
+            "stakeholder_translation",
+            "business_framing",
+            "metric_design",
+            "tradeoff_articulation"
+          ]
+        },
+        {
+          "level_id": "leadership",
+          "level_name": "Technical Leadership / Mastery",
+          "autonomy": "Provides authoritative guidance; works under broad direction; accountable for significant outcomes.",
+          "ambiguity": "Plans, coordinates, drives all stages of DS solution development. Identifies and justifies data sources. Critically reviews benefits and value of techniques and tools.",
+          "scope": "Org-level DS roadmap; sets direction and leads introduction of techniques, methodologies, tools. Leads development of organizational capabilities.",
+          "complexity": "Strategic, large, complex DS initiatives. Multiplier effect through frameworks, mentoring, alignment across teams.",
+          "consequence": "Critical - roadmap and capability decisions shape the org's DS capability for years.",
+          "market_readiness": "TDS L6 - 'your value isn't measured by the quality of your own analyses. It's measured by how much better you make everyone else's work.'",
+          "evidence_of_capability": "A framework adopted org-wide (experimentation review, metric tree, model-risk review); mentorship of multiple L3 DS across teams; published internal standards for ML evaluation, deployment, monitoring; alignment of multiple teams around a shared data/ML problem.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": true,
+            "designing": true,
+            "operating": true,
+            "evaluating": true,
+            "advising": true,
+            "leading": true
+          },
+          "skills": [
+            "sql_performance_tuning",
+            "python_core",
+            "pandas_numpy",
+            "data_validation",
+            "hypothesis_testing",
+            "regression",
+            "experimental_design",
+            "causal_inference",
+            "classical_ml",
+            "model_evaluation",
+            "leakage_prevention",
+            "deep_learning",
+            "testing_discipline",
+            "code_review_literacy",
+            "packaging_reproducibility",
+            "git_workflow",
+            "cloud_platform",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "mentoring",
+            "written_communication",
+            "oral_communication",
+            "stakeholder_translation",
+            "business_framing",
+            "metric_design",
+            "tradeoff_articulation"
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "rpa_automation_developer",
+      "role_name": "RPA / Automation Developer",
+      "soc_code": "N/A (cross-cuts 15-1252 + 15-2051 + business analyst)",
+      "summary": "Builds software bots that automate repetitive, rule-based tasks. UiPath is the dominant vendor; Power Automate and Automation Anywhere are alternatives; Python (Playwright/Selenium/Robocorp) is a durable sub-track. Distinguished by selector design, state-machine workflows, exception handling, queue-based decoupling.",
+      "levels": [
+        {
+          "level_id": "foundation",
+          "level_name": "Foundational / Entry",
+          "autonomy": "Works under routine supervision; follows an existing bot's design pattern.",
+          "ambiguity": "Low - process to automate is given; selector strategy pre-decided.",
+          "scope": "A single attended bot automating one repetitive task (data entry, report generation, file move).",
+          "complexity": "Sequence workflow, basic activities (Click, Type Into, Read Range, Write Range), recording, simple If/Else, basic Excel and email automation. No state machine.",
+          "consequence": "Low - output reviewed by senior; failure blocks one operator's task.",
+          "market_readiness": "UiPath Certified Professional - Automation Developer Associate.",
+          "evidence_of_capability": "A reproducible bot that runs end-to-end on a colleague's machine, with a README describing the process automated and time saved.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": false,
+            "diagnosing": false,
+            "designing": false,
+            "operating": false,
+            "evaluating": false,
+            "advising": false,
+            "leading": false
+          },
+          "skills": [
+            "uipath_studio",
+            "written_communication"
+          ]
+        },
+        {
+          "level_id": "independent",
+          "level_name": "Independent Practitioner",
+          "autonomy": "Works under general direction; manages own queue of automation requests.",
+          "ambiguity": "Receives a process description from a BA; chooses workflow design, queue strategy, exception taxonomy.",
+          "scope": "3-5 unattended bots in production with Orchestrator scheduling; one stakeholder team's automation backlog.",
+          "complexity": "REFramework state machine, Orchestrator queues (dispatcher/performer), Try-Catch + Retry Scope, business-rule vs. system exceptions, logging, basic asset/credential management. API and SAP integration basics.",
+          "consequence": "Medium - a broken bot blocks a business process for hours; an undetected bug creates data-quality issues.",
+          "market_readiness": "UiPath Certified Professional - Automation Developer Professional (v2024.10).",
+          "evidence_of_capability": "A portfolio of 3+ bots in production-adjacent state (or personal Orchestrator tenant) with monitoring, exception logs, and a post-mortem of >=1 bot that broke and was fixed.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": "partial",
+            "designing": false,
+            "operating": "partial",
+            "evaluating": false,
+            "advising": false,
+            "leading": false
+          },
+          "skills": [
+            "python_core",
+            "vbdotnet_csharp",
+            "data_validation",
+            "uipath_studio",
+            "selector_design",
+            "exception_handling_rpa",
+            "orchestrator_operations",
+            "reframework",
+            "power_automate",
+            "automation_anywhere",
+            "python_rpa_browser",
+            "testing_discipline",
+            "packaging_reproducibility",
+            "git_workflow",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "written_communication",
+            "oral_communication",
+            "business_framing"
+          ]
+        },
+        {
+          "level_id": "advanced",
+          "level_name": "Advanced Delivery",
+          "autonomy": "Works autonomously; supports and guides L1/L2 developers; contributes to CoE standards.",
+          "ambiguity": "Investigates processes and assesses automation suitability; identifies re-engineering opportunities before automating.",
+          "scope": "Cross-team automation programs; CoE standards for selector design, exception handling, naming; mentorship of L2.",
+          "complexity": "Performance-tuned bots (parallel execution, asset caching), API/queue/DB integration, multi-environment promotion (Dev->Test->Prod), bot observability dashboards, auto-healing selectors, coded automation (VB.NET/C#).",
+          "consequence": "High - owns reliability of a portfolio of business-critical bots (payroll, invoicing, reconciliation).",
+          "market_readiness": "Mindovermachines Senior RPA Developer JD: 'extensive hands-on experience in designing and developing UiPath RPA implementations.'",
+          "evidence_of_capability": "A documented bot portfolio with measurable impact (hours saved, error rate reduced); a CoE-standard doc adopted by >=2 developers; a post-mortem of a bot failure with a prevention plan.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": true,
+            "designing": true,
+            "operating": true,
+            "evaluating": "partial",
+            "advising": "partial",
+            "leading": false
+          },
+          "skills": [
+            "python_core",
+            "vbdotnet_csharp",
+            "data_validation",
+            "uipath_studio",
+            "selector_design",
+            "exception_handling_rpa",
+            "orchestrator_operations",
+            "reframework",
+            "process_analysis",
+            "power_automate",
+            "automation_anywhere",
+            "python_rpa_browser",
+            "testing_discipline",
+            "observability",
+            "packaging_reproducibility",
+            "git_workflow",
+            "docker",
+            "ci_cd",
+            "security_mindset",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "mentoring",
+            "written_communication",
+            "oral_communication",
+            "business_framing",
+            "tradeoff_articulation"
+          ]
+        },
+        {
+          "level_id": "leadership",
+          "level_name": "Technical Leadership / Mastery",
+          "autonomy": "Provides authoritative guidance; works under broad direction; accountable for enterprise automation architecture.",
+          "ambiguity": "Defines the automation roadmap; identifies which processes to automate, which to re-engineer, which to leave alone. Resolves ambiguity for the CoE.",
+          "scope": "Org-level automation strategy; multi-vendor stack decisions (UiPath + Power Automate + Python); governance, security, auditability; vendor relationship.",
+          "complexity": "End-to-end RPA architecture (Indeed RPA Architect JD): automation-vs-API-vs-EDI triage, license optimization, security and audit controls.",
+          "consequence": "Critical - architectural mistakes propagate across the entire automation estate; vendor lock-in decisions are multi-year.",
+          "market_readiness": "UiPath Certified Professional - Automation Architect. ZipRecruiter RPA Architect: $91k-$180k.",
+          "evidence_of_capability": "A documented automation architecture adopted across >=2 business units; a CoE charter; a vendor-evaluation memo; mentorship of >=2 L3 developers.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": true,
+            "designing": true,
+            "operating": true,
+            "evaluating": true,
+            "advising": true,
+            "leading": true
+          },
+          "skills": [
+            "vbdotnet_csharp",
+            "uipath_studio",
+            "selector_design",
+            "exception_handling_rpa",
+            "orchestrator_operations",
+            "reframework",
+            "process_analysis",
+            "observability",
+            "git_workflow",
+            "stakeholder_management",
+            "mentoring",
+            "written_communication",
+            "oral_communication",
+            "business_framing",
+            "tradeoff_articulation",
+            "architecture_leadership"
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "ai_ml_engineer",
+      "role_name": "AI / ML Engineer",
+      "soc_code": "15-2051.00 (O*NET Data Scientists, 2026 ML/Expert update)",
+      "summary": "Software-engineering-heavy superset of Data Scientist. Owns the ML platform: model deployment, MLOps, LLMOps, drift monitoring, uncertainty quantification. Bridges applied ML, software engineering, and platform thinking.",
+      "levels": [
+        {
+          "level_id": "foundation",
+          "level_name": "Foundational / Entry",
+          "autonomy": "Works under routine supervision; applies specified ML techniques to a defined dataset.",
+          "ambiguity": "Low - model, dataset, metric pre-scoped by a senior MLE or DS.",
+          "scope": "One model, one notebook, one dataset.",
+          "complexity": "Standard scikit-learn pipeline, train/validation/test split, classification/regression on cleaned data, basic evaluation. Reads and reproduces existing papers.",
+          "consequence": "Low - output reviewed; failure delays a proof-of-concept.",
+          "market_readiness": "TDS L3 equivalent; Plain English (Python) 'Failed 23 ML Engineer Interviews' describes the L3->L4 transition as adding production/pipeline/deployment/monitoring awareness.",
+          "evidence_of_capability": "One end-to-end ML project with proper train/validation/test split, no leakage, documented, reproducible.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": false,
+            "diagnosing": false,
+            "designing": false,
+            "operating": false,
+            "evaluating": false,
+            "advising": false,
+            "leading": false
+          },
+          "skills": [
+            "sql_fundamentals",
+            "python_core",
+            "pandas_numpy",
+            "data_cleaning",
+            "python_visualization",
+            "descriptive_stats",
+            "hypothesis_testing",
+            "classical_ml",
+            "written_communication"
+          ]
+        },
+        {
+          "level_id": "independent",
+          "level_name": "Independent Practitioner",
+          "autonomy": "Works under general direction; owns one model in production-adjacent state.",
+          "ambiguity": "Receives a question; chooses data sources, model family, evaluation protocol, deployment pattern.",
+          "scope": "A model in production with monitoring; one product squad's ML backlog; contributes to platform decisions.",
+          "complexity": "Feature engineering, hyperparameter tuning, model comparison with proper validation, containerized deployment (FastAPI/TorchServe), MLOps basics (MLflow/DVC, CI/CD for model, drift monitoring stub). Leakage prevention as a habit.",
+          "consequence": "Medium - a bad model affects a product surface; undetected drift degrades decisions over weeks.",
+          "market_readiness": "Reddit r/MachineLearning: 'more impressed with someone who knows how to take ML models to production.' Kore1 (2026): 'ML system design, applied math intuition, MLOps fluency.'",
+          "evidence_of_capability": "A shipped model in production with monitoring and a rollback plan; follow-up analysis anticipating drift; clean README; >=1 unit test on data and model code; a containerized inference server with a latency budget.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": "partial",
+            "designing": false,
+            "operating": "partial",
+            "evaluating": false,
+            "advising": false,
+            "leading": false
+          },
+          "skills": [
+            "sql_fundamentals",
+            "python_core",
+            "python_idioms",
+            "python_type_safety",
+            "python_async",
+            "pandas_numpy",
+            "data_cleaning",
+            "data_validation",
+            "python_visualization",
+            "descriptive_stats",
+            "hypothesis_testing",
+            "regression",
+            "classical_ml",
+            "model_evaluation",
+            "leakage_prevention",
+            "deep_learning",
+            "feature_engineering",
+            "model_deployment",
+            "mlops_pipelines",
+            "drift_monitoring",
+            "testing_discipline",
+            "async_testing",
+            "observability",
+            "code_review_literacy",
+            "packaging_reproducibility",
+            "git_workflow",
+            "docker",
+            "ci_cd",
+            "cloud_platform",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "written_communication",
+            "oral_communication",
+            "stakeholder_translation",
+            "business_framing"
+          ]
+        },
+        {
+          "level_id": "advanced",
+          "level_name": "Advanced Delivery",
+          "autonomy": "Works autonomously; supports and guides L1/L2 MLEs; contributes expertise to platform decisions.",
+          "ambiguity": "Investigates product opportunities and assesses ML suitability; formulates hypotheses; anticipates risks of modelling.",
+          "scope": "Cross-team ML initiatives; design of experimentation infrastructure; design of MLOps platform decisions; mentorship of L2.",
+          "complexity": "Diverse ML techniques. Selects, acquires, integrates data. Designs feature stores, model registries, evaluation harnesses. Designs drift detection and retraining workflows. Begins LLMOps architecture (prompt mgmt, RAG eval, guardrails). Begins uncertainty quantification for safety-critical surfaces.",
+          "consequence": "High - owns reliability of multiple production models; architectural mistakes propagate across teams.",
+          "market_readiness": "Fitch Lead MLE JD: 'partnering with product squads, business stakeholders, and cross-functional teams to translate ambitious AI ideas.' DevOpsSchool Staff MLE (L6 boundary): 'bridges applied ML, software engineering, and platform thinking.'",
+          "evidence_of_capability": "A shipped model in production with monitoring, drift detection, and retraining; a documented experimentation framework used by >=1 other team; mentorship of >=1 L2 MLE; a tradeoff memo on a real platform decision.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": true,
+            "designing": true,
+            "operating": true,
+            "evaluating": "partial",
+            "advising": "partial",
+            "leading": false
+          },
+          "skills": [
+            "python_core",
+            "python_idioms",
+            "python_type_safety",
+            "python_async",
+            "pandas_numpy",
+            "data_validation",
+            "hypothesis_testing",
+            "regression",
+            "experimental_design",
+            "causal_inference",
+            "classical_ml",
+            "model_evaluation",
+            "leakage_prevention",
+            "deep_learning",
+            "uncertainty_quantification",
+            "feature_engineering",
+            "model_deployment",
+            "mlops_pipelines",
+            "drift_monitoring",
+            "llmops",
+            "process_analysis",
+            "testing_discipline",
+            "async_testing",
+            "observability",
+            "system_design",
+            "code_review_literacy",
+            "packaging_reproducibility",
+            "performance_tuning",
+            "git_workflow",
+            "docker",
+            "kubernetes",
+            "ci_cd",
+            "cloud_platform",
+            "security_mindset",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "mentoring",
+            "written_communication",
+            "oral_communication",
+            "stakeholder_translation",
+            "business_framing",
+            "metric_design",
+            "tradeoff_articulation"
+          ]
+        },
+        {
+          "level_id": "leadership",
+          "level_name": "Technical Leadership / Mastery",
+          "autonomy": "Provides authoritative guidance; works under broad direction; accountable for the ML platform and ecosystem.",
+          "ambiguity": "Defines the ML platform roadmap; identifies which problems are ML problems, which are not, which are platform investments. Resolves ambiguity for the entire ML org.",
+          "scope": "Org-level ML roadmap; sets direction for techniques, methodologies, tools; leads development of organizational capabilities; vendor relationships.",
+          "complexity": "Strategic, large, complex ML initiatives. Multiplier effect through frameworks, mentoring, alignment across teams. Designs the LLMOps / MLOps platform. Defines evaluation and risk-review standards. Defines uncertainty / abstention policy for safety-critical surfaces.",
+          "consequence": "Critical - architectural and roadmap decisions shape the org's ML capability for years; a wrong platform bet can cost quarters of effort.",
+          "market_readiness": "DevOpsSchool Staff MLE: 'responsible for designing, building, and operating production-grade machine learning systems that deliver measurable product and business outcomes.' Bain Staff Engineer, ML: 'defining the architecture, engineering standards, and operational excellence.' mlengineersalary.com: L6 reached in 8-12 yrs typical; 6-8 at frontier labs.",
+          "evidence_of_capability": "A platform or framework adopted across >=2 ML teams; mentorship of multiple L3 MLEs; published internal standards for ML evaluation, deployment, monitoring, or uncertainty/abstention; alignment of multiple teams around a shared ML platform or risk framework.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": true,
+            "designing": true,
+            "operating": true,
+            "evaluating": true,
+            "advising": true,
+            "leading": true
+          },
+          "skills": [
+            "python_core",
+            "python_idioms",
+            "python_type_safety",
+            "data_validation",
+            "experimental_design",
+            "causal_inference",
+            "classical_ml",
+            "model_evaluation",
+            "leakage_prevention",
+            "deep_learning",
+            "uncertainty_quantification",
+            "feature_engineering",
+            "model_deployment",
+            "mlops_pipelines",
+            "drift_monitoring",
+            "llmops",
+            "process_analysis",
+            "testing_discipline",
+            "observability",
+            "system_design",
+            "code_review_literacy",
+            "packaging_reproducibility",
+            "performance_tuning",
+            "git_workflow",
+            "docker",
+            "kubernetes",
+            "ci_cd",
+            "cloud_platform",
+            "security_mindset",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "mentoring",
+            "written_communication",
+            "oral_communication",
+            "stakeholder_translation",
+            "business_framing",
+            "metric_design",
+            "tradeoff_articulation",
+            "architecture_leadership"
+          ]
+        }
+      ]
+    },
+    {
+      "role_id": "production_python_engineer",
+      "role_name": "Production Python / Software Engineer",
+      "soc_code": "15-1252.00 (O*NET Software Developers, Job Zone 4)",
+      "summary": "Python-first software engineer. Type-safe, tested, observable, containerized, CI-gated services. Distinguished from AIML by absence of ML modeling; from RPA by absence of bot/UI-automation focus; from DA/DS by software-engineering depth.",
+      "levels": [
+        {
+          "level_id": "foundation",
+          "level_name": "Foundational / Entry",
+          "autonomy": "Works under routine supervision; follows established patterns.",
+          "ambiguity": "Low - task is pre-scoped; ticket specifies the function or endpoint to implement.",
+          "scope": "One endpoint, one function, one bug fix, one test.",
+          "complexity": "Core Python (data structures, OOP basics, decorators, generators), basic Git workflow (branch + PR), one web framework (FastAPI or Flask), basic SQL, basic pytest. Type hints on new code.",
+          "consequence": "Low - output reviewed by senior; failure blocks one ticket.",
+          "market_readiness": "InterviewGuy Junior Python Developer JD: 'Python skills, basic understanding of front-end technologies, experience with version control systems like Git, and familiarity with databases.'",
+          "evidence_of_capability": "A reproducible project with README, requirements file, >=3 unit tests, type hints on all new code, PR history showing review feedback incorporated.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": false,
+            "diagnosing": false,
+            "designing": false,
+            "operating": false,
+            "evaluating": false,
+            "advising": false,
+            "leading": false
+          },
+          "skills": [
+            "sql_fundamentals",
+            "python_core",
+            "testing_discipline",
+            "git_workflow",
+            "written_communication"
+          ]
+        },
+        {
+          "level_id": "independent",
+          "level_name": "Independent Practitioner",
+          "autonomy": "Works under general direction; owns a service or feature end-to-end.",
+          "ambiguity": "Receives a feature spec; chooses API design, data model, test strategy, deployment pattern.",
+          "scope": "A service or feature in production with CI/CD; one squad's backend backlog; contributes to platform decisions.",
+          "complexity": "Type-annotated Python with mypy in CI; pytest fixtures + mocks + coverage; async I/O (asyncio, async DB drivers); FastAPI/Django service with authn/authz; Docker + docker-compose; structured logging; basic metrics; CI/CD pipeline; basic cloud deployment.",
+          "consequence": "Medium - a bad deploy affects a production service; an unhandled edge case causes user-facing errors.",
+          "market_readiness": "JobDescription.org: 'Type annotations and mypy/Pyright type checking are now baseline expectations.' HackerRank (2026): 'Python is the most commonly tested language... Interviewers probe both syntax knowledge and idiomatic Python patterns.'",
+          "evidence_of_capability": "A production service with README, tests (>70% coverage), mypy-clean, containerized, CI-gated, with structured logs and >=1 metric; a post-mortem of one production incident with a prevention plan.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": "partial",
+            "designing": false,
+            "operating": "partial",
+            "evaluating": false,
+            "advising": false,
+            "leading": false
+          },
+          "skills": [
+            "sql_fundamentals",
+            "python_core",
+            "python_idioms",
+            "python_type_safety",
+            "python_async",
+            "data_validation",
+            "python_rpa_browser",
+            "testing_discipline",
+            "async_testing",
+            "observability",
+            "code_review_literacy",
+            "packaging_reproducibility",
+            "git_workflow",
+            "docker",
+            "ci_cd",
+            "cloud_platform",
+            "security_mindset",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "written_communication",
+            "oral_communication",
+            "business_framing"
+          ]
+        },
+        {
+          "level_id": "advanced",
+          "level_name": "Advanced Delivery",
+          "autonomy": "Works autonomously; supports and guides L1/L2; contributes to platform standards.",
+          "ambiguity": "Investigates product opportunities and assesses engineering tradeoffs; formulates technical proposals; anticipates risks.",
+          "scope": "Cross-team services; design of internal platform decisions; mentorship of L2; code-review leadership.",
+          "complexity": "System design (microservices, message queues, caching, performance tuning, DB schema design); observability discipline (OpenTelemetry tracing, metrics, SLOs); security discipline (OWASP-aware design, secret management, dependency hygiene); Kubernetes; multi-environment promotion; performance profiling.",
+          "consequence": "High - owns reliability of multiple services; architectural mistakes propagate across teams.",
+          "market_readiness": "Python Foundation careers - Senior Software Engineer: 'system design, microservices, message queues, caching strategies, observability, code review leadership, performance tuning.'",
+          "evidence_of_capability": "A documented service architecture adopted across >=2 squads; a CoE-standard doc (testing, observability, security) adopted by >=2 developers; mentorship of >=1 L2; a post-mortem of a significant incident with platform-level prevention.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": true,
+            "designing": true,
+            "operating": true,
+            "evaluating": "partial",
+            "advising": "partial",
+            "leading": false
+          },
+          "skills": [
+            "sql_performance_tuning",
+            "python_core",
+            "python_idioms",
+            "python_type_safety",
+            "python_async",
+            "data_validation",
+            "process_analysis",
+            "python_rpa_browser",
+            "testing_discipline",
+            "async_testing",
+            "observability",
+            "system_design",
+            "code_review_literacy",
+            "packaging_reproducibility",
+            "performance_tuning",
+            "git_workflow",
+            "docker",
+            "kubernetes",
+            "ci_cd",
+            "cloud_platform",
+            "security_mindset",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "mentoring",
+            "written_communication",
+            "oral_communication",
+            "business_framing",
+            "tradeoff_articulation"
+          ]
+        },
+        {
+          "level_id": "leadership",
+          "level_name": "Technical Leadership / Mastery",
+          "autonomy": "Provides authoritative guidance; works under broad direction; accountable for the platform and engineering culture.",
+          "ambiguity": "Defines the platform roadmap; identifies which problems are platform investments, which are product features, which are tech debt. Resolves ambiguity for the engineering org.",
+          "scope": "Org-level engineering roadmap; sets direction for techniques, methodologies, tools; leads development of organizational capabilities; vendor relationships.",
+          "complexity": "Strategic, large, complex initiatives. Multiplier effect through frameworks, mentoring, alignment across teams. Designs the platform (service template, deployment platform, observability platform, security platform). Defines code-review and engineering-excellence standards.",
+          "consequence": "Critical - architectural and roadmap decisions shape the org's engineering capability for years; a wrong platform bet can cost quarters of effort.",
+          "market_readiness": "Python Foundation careers - Tech Lead / Staff Engineer / Platform Developer -> Principal / Architect: 'Define technical strategy across teams.' Fonzi.ai ladder: Junior -> Principal.",
+          "evidence_of_capability": "A platform or framework adopted across >=2 engineering teams; mentorship of multiple L3 engineers; published internal standards for engineering excellence (testing, observability, security, code review); alignment of multiple teams around a shared platform.",
+          "verb_matrix": {
+            "knowing": true,
+            "following": true,
+            "applying_with_guidance": true,
+            "applying_independently": true,
+            "diagnosing": true,
+            "designing": true,
+            "operating": true,
+            "evaluating": true,
+            "advising": true,
+            "leading": true
+          },
+          "skills": [
+            "sql_performance_tuning",
+            "python_core",
+            "python_idioms",
+            "python_type_safety",
+            "python_async",
+            "data_validation",
+            "process_analysis",
+            "testing_discipline",
+            "async_testing",
+            "observability",
+            "system_design",
+            "code_review_literacy",
+            "packaging_reproducibility",
+            "performance_tuning",
+            "git_workflow",
+            "docker",
+            "kubernetes",
+            "ci_cd",
+            "cloud_platform",
+            "security_mindset",
+            "ai_code_review_literacy",
+            "stakeholder_management",
+            "mentoring",
+            "written_communication",
+            "oral_communication",
+            "business_framing",
+            "tradeoff_articulation",
+            "architecture_leadership"
+          ]
+        }
+      ]
+    }
+  ],
+  "skill_nodes": [
+    {
+      "skill_id": "sql_fundamentals",
+      "name": "SQL Fundamentals",
+      "category": "data_query",
+      "description": "Write SELECT, JOIN, GROUP BY, subquery queries; understand schema and row-level filtering.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "foundation",
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "foundation",
+          "independent"
+        ],
+        "production_python_engineer": [
+          "foundation",
+          "independent"
+        ]
+      },
+      "evidence_types": [
+        "live_coding",
+        "take_home",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "sql_window_ctes",
+      "name": "SQL Window Functions & CTEs",
+      "category": "data_query",
+      "description": "Write window functions (ROW_NUMBER, LAG, LEAD, SUM/AVG OVER), CTEs, recursive CTEs; the Jobright '2026 Target Level' bar.",
+      "roles": [
+        "data_analyst",
+        "data_scientist"
+      ],
+      "levels": {
+        "data_analyst": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "independent",
+          "advanced"
+        ]
+      },
+      "evidence_types": [
+        "live_coding",
+        "take_home",
+        "portfolio_artifact"
+      ],
+      "critical_competency": true
+    },
+    {
+      "skill_id": "sql_performance_tuning",
+      "name": "SQL Performance Tuning",
+      "category": "data_query",
+      "description": "Read query plans, design indexes, avoid N+1, reason about partitioning and materialized views.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "take_home",
+        "portfolio_artifact",
+        "code_review"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "excel_spreadsheets",
+      "name": "Excel / Google Sheets",
+      "category": "data_query",
+      "description": "Pivot tables, INDEX/MATCH, XLOOKUP, array formulas, conditional logic, chart that updates with data.",
+      "roles": [
+        "data_analyst",
+        "data_scientist"
+      ],
+      "levels": {
+        "data_analyst": [
+          "foundation",
+          "independent",
+          "advanced"
+        ],
+        "data_scientist": [
+          "foundation",
+          "independent"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "python_core",
+      "name": "Python Core",
+      "category": "programming_language",
+      "description": "Syntax, data structures, OOP, decorators, generators, context managers, data model; the universal foundation for DA, DS, RPA, AIML, PySE.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "foundation",
+          "independent",
+          "advanced"
+        ],
+        "data_scientist": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "live_coding",
+        "take_home",
+        "portfolio_artifact",
+        "code_review"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "python_idioms",
+      "name": "Idiomatic Python Patterns",
+      "category": "programming_language",
+      "description": "Comprehensions, itertools, dataclasses, attrs, Pydantic, context managers, descriptors; the HackerRank 'idiomatic patterns' interview probe.",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "live_coding",
+        "take_home",
+        "code_review"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "python_type_safety",
+      "name": "Type Annotations + mypy/Pyright",
+      "category": "programming_language",
+      "description": "Gradual typing strategy; type annotations on all new code; mypy/Pyright in CI as a hard gate. JobDescription.org: 'now baseline expectations in professional codebases.'",
+      "roles": [
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "code_review",
+        "portfolio_artifact",
+        "ci_log"
+      ],
+      "critical_competency": true
+    },
+    {
+      "skill_id": "python_async",
+      "name": "Async / Concurrent Python",
+      "category": "programming_language",
+      "description": "asyncio, async/await, async DB drivers, event-loop reasoning, backpressure; required for FastAPI / async-track.",
+      "roles": [
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "independent",
+          "advanced"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "take_home",
+        "portfolio_artifact",
+        "code_review"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "r_language",
+      "name": "R Language",
+      "category": "programming_language",
+      "description": "dplyr, ggplot2, R Markdown; preferred (not required) at some DS shops; alternative to Python for DA/DS.",
+      "roles": [
+        "data_scientist"
+      ],
+      "levels": {
+        "data_scientist": [
+          "foundation",
+          "independent",
+          "advanced"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "vbdotnet_csharp",
+      "name": "VB.NET / C# for UiPath",
+      "category": "programming_language",
+      "description": "VB.NET/C# basics for UiPath coded automation, custom activities, advanced expressions. UiPath Forum interview-prep thread.",
+      "roles": [
+        "rpa_automation_developer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "live_coding",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "pandas_numpy",
+      "name": "pandas / NumPy",
+      "category": "data_manipulation",
+      "description": "DataFrame ops, groupby, merges, time series, vectorized NumPy; the InterviewQuery data-engineer interview foundation.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "foundation",
+          "independent",
+          "advanced"
+        ],
+        "data_scientist": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "foundation",
+          "independent",
+          "advanced"
+        ]
+      },
+      "evidence_types": [
+        "live_coding",
+        "take_home",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "data_cleaning",
+      "name": "Data Cleaning & Preparation",
+      "category": "data_manipulation",
+      "description": "Null handling, dedup, type coercion, schema reconciliation, outlier triage; O*NET Task 4 + BLS OOH.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "foundation",
+          "independent",
+          "advanced"
+        ],
+        "data_scientist": [
+          "foundation",
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "foundation",
+          "independent"
+        ]
+      },
+      "evidence_types": [
+        "take_home",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "data_validation",
+      "name": "Data Validation Discipline",
+      "category": "data_manipulation",
+      "description": "Null/duplicate/range/schema/join-quality/type checks (KDnuggets six); runs in CI as a test file with >=6 assertions.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "ci_log",
+        "portfolio_artifact",
+        "code_review"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "bi_tools",
+      "name": "BI Tool (Tableau / Power BI / Looker)",
+      "category": "visualization",
+      "description": "Published dashboard with documented KPIs, filters, drilldowns, and a 1-page 'decision this dashboard supports' summary.",
+      "roles": [
+        "data_analyst",
+        "data_scientist"
+      ],
+      "levels": {
+        "data_analyst": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "foundation",
+          "independent"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "python_visualization",
+      "name": "Python Visualization (matplotlib / Seaborn / Plotly)",
+      "category": "visualization",
+      "description": "Static and interactive charts; audience-tuned; reproducible from data.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "foundation",
+          "independent",
+          "advanced"
+        ],
+        "data_scientist": [
+          "foundation",
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "foundation",
+          "independent"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "descriptive_stats",
+      "name": "Descriptive Statistics",
+      "category": "statistics",
+      "description": "Mean, median, variance, distributions, percentiles, correlation.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "foundation",
+          "independent"
+        ],
+        "data_scientist": [
+          "foundation",
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "foundation",
+          "independent"
+        ]
+      },
+      "evidence_types": [
+        "take_home",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "hypothesis_testing",
+      "name": "Hypothesis Testing & Confidence Intervals",
+      "category": "statistics",
+      "description": "t-test, chi-square, p-values, CIs, effect size, assumption checking; states test, assumptions, effect size, CI, conclusion in plain language.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "independent",
+          "advanced"
+        ],
+        "data_scientist": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "foundation",
+          "independent",
+          "advanced"
+        ]
+      },
+      "evidence_types": [
+        "take_home",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "regression",
+      "name": "Regression & Regularization",
+      "category": "statistics",
+      "description": "Linear, logistic, ridge, lasso, elastic net; interpretation of coefficients; assumption diagnostics.",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced"
+        ]
+      },
+      "evidence_types": [
+        "take_home",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "experimental_design",
+      "name": "Experimental Design / A/B Testing",
+      "category": "statistics",
+      "description": "Pre-registered analysis plan with primary/secondary metrics, sample-size calculation, randomization unit, decision rule; not a post-hoc t-test.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "design_doc"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "causal_inference",
+      "name": "Causal Inference",
+      "category": "statistics",
+      "description": "IV, diff-in-diff, do-calculus, propensity scoring; distinguishes 'what happened' from 'what will happen if we act'.",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "design_doc"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "classical_ml",
+      "name": "Classical ML",
+      "category": "machine_learning",
+      "description": "scikit-learn classification, regression, clustering, dimensionality reduction, model selection.",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "take_home",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "model_evaluation",
+      "name": "Model Evaluation & Validation",
+      "category": "machine_learning",
+      "description": "Cross-validation, baselines, ablations, error analysis by slice, calibrated probabilities; O*NET 15-2051 Tasks 5 & 15.",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "take_home",
+        "portfolio_artifact",
+        "model_card"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "leakage_prevention",
+      "name": "Data Leakage Prevention",
+      "category": "machine_learning",
+      "description": "Target leakage, train-test contamination, time-series leakage, group leakage, label leakage; non-compensatory.",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "take_home",
+        "code_review",
+        "model_card"
+      ],
+      "critical_competency": true
+    },
+    {
+      "skill_id": "deep_learning",
+      "name": "Deep Learning (PyTorch / TensorFlow)",
+      "category": "machine_learning",
+      "description": "DL frameworks, training loops, GPU/TPU, transfer learning, fine-tuning.",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "model_card"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "uncertainty_quantification",
+      "name": "Uncertainty Quantification & Abstention",
+      "category": "machine_learning",
+      "description": "Epistemic vs. aleatoric uncertainty, calibration, conformal prediction, selective prediction, abstention policy for safety-critical surfaces.",
+      "roles": [
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "model_card",
+        "design_doc"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "feature_engineering",
+      "name": "Feature Engineering & Feature Stores",
+      "category": "machine_learning",
+      "description": "Feature selection, feature crossing, target encoding, feature-store design (Feast, Tecton).",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "take_home",
+        "portfolio_artifact",
+        "design_doc"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "model_deployment",
+      "name": "Model Deployment & Serving",
+      "category": "mlops",
+      "description": "Containerized model server (FastAPI / BentoML / TorchServe) with health check, latency budget, rollback plan.",
+      "roles": [
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "ci_log"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "mlops_pipelines",
+      "name": "MLOps Pipelines",
+      "category": "mlops",
+      "description": "MLflow / DVC, experiment tracking, CI/CD for model, canary, gating on metrics, rollback on regression.",
+      "roles": [
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "ci_log",
+        "portfolio_artifact",
+        "design_doc"
+      ],
+      "critical_competency": true
+    },
+    {
+      "skill_id": "drift_monitoring",
+      "name": "Model Drift Monitoring & Retraining",
+      "category": "mlops",
+      "description": "Data drift, concept drift, target drift; Evidently / Arize / MLflow; wired into retraining workflow.",
+      "roles": [
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "ci_log",
+        "dashboard"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "llmops",
+      "name": "LLMOps",
+      "category": "llmops",
+      "description": "Prompt management, RAG evaluation, LLM observability, guardrails, cost tracking, feedback loops. LLMOps.si 8-layer stack.",
+      "roles": [
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "design_doc",
+        "dashboard"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "uipath_studio",
+      "name": "UiPath Studio",
+      "category": "automation_tooling",
+      "description": "Workflows, activities, recording, debugging; the dominant RPA tool per LinkedIn 1000+ jobs.",
+      "roles": [
+        "rpa_automation_developer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "live_coding"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "selector_design",
+      "name": "Selector Design & Resilience",
+      "category": "automation_tooling",
+      "description": "Stable selectors, anchors, robust targeting; survives UI changes. ~60% of RPA failures trace here (Sunflower Lab).",
+      "roles": [
+        "rpa_automation_developer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "code_review"
+      ],
+      "critical_competency": true
+    },
+    {
+      "skill_id": "exception_handling_rpa",
+      "name": "RPA Exception Handling",
+      "category": "automation_tooling",
+      "description": "Try-Catch, Retry Scope, Throw, Rethrow; business-rule vs. system exception taxonomy; REFramework best practices.",
+      "roles": [
+        "rpa_automation_developer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "code_review"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "orchestrator_operations",
+      "name": "UiPath Orchestrator Operations",
+      "category": "automation_tooling",
+      "description": "Queues, assets, jobs, schedules, environments; multi-environment promotion (Dev->Test->Prod).",
+      "roles": [
+        "rpa_automation_developer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "dashboard"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "reframework",
+      "name": "REFramework (State Machine)",
+      "category": "automation_tooling",
+      "description": "State-machine template: Initialization / Get Transaction / Process / End Process; dispatcher/performer split.",
+      "roles": [
+        "rpa_automation_developer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "code_review"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "process_analysis",
+      "name": "Process Analysis & Discovery",
+      "category": "process_analysis",
+      "description": "Process decomposition, automation-suitability triage, re-engineering identification; ZipRecruiter RPA Architect JD.",
+      "roles": [
+        "rpa_automation_developer",
+        "data_analyst",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "advanced",
+          "leadership"
+        ],
+        "data_analyst": [
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "design_doc",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "power_automate",
+      "name": "Microsoft Power Automate / Power Platform",
+      "category": "automation_tooling",
+      "description": "PowerApps + Power Automate + Power BI; the Microsoft-stack alternative to UiPath; Interfell LATAM posting requires it.",
+      "roles": [
+        "rpa_automation_developer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "independent",
+          "advanced"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "automation_anywhere",
+      "name": "Automation Anywhere A360",
+      "category": "automation_tooling",
+      "description": "A360 bot building, bot documentation, A360 community patterns; the third vendor (smaller share).",
+      "roles": [
+        "rpa_automation_developer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "independent",
+          "advanced"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "python_rpa_browser",
+      "name": "Python Browser Automation (Playwright / Selenium / Robocorp)",
+      "category": "automation_tooling",
+      "description": "Python-based RPA as a durable sub-track; cross-vendor transferable; Medium + dev.to practitioner convergence.",
+      "roles": [
+        "rpa_automation_developer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "independent",
+          "advanced"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "code_review"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "testing_discipline",
+      "name": "Testing Discipline",
+      "category": "software_engineering",
+      "description": "pytest, fixtures, mocks, coverage; test pyramid; unit/integration/e2e; KDnuggets six data tests; Made With ML three-axis testing.",
+      "roles": [
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "ci_log",
+        "code_review",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "async_testing",
+      "name": "Async Testing (pytest-asyncio / TestClient)",
+      "category": "software_engineering",
+      "description": "pytest-asyncio, FastAPI TestClient, httpx, async DB test fixtures; FastAPI docs + TestDriven.io canonical stack.",
+      "roles": [
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "independent",
+          "advanced"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "ci_log",
+        "code_review",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "observability",
+      "name": "Observability",
+      "category": "software_engineering",
+      "description": "Structured logs (JSON), metrics (Prometheus), tracing (OpenTelemetry), SLOs; StackOverflow Blog 'developer observability pillar.'",
+      "roles": [
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "ci_log",
+        "dashboard",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "system_design",
+      "name": "System Design",
+      "category": "software_engineering",
+      "description": "Microservices, message queues, caching, performance budgets, DB schema design, consistency/availability/partitioning tradeoffs.",
+      "roles": [
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "design_doc",
+        "code_review",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "code_review_literacy",
+      "name": "Code Review Literacy",
+      "category": "software_engineering",
+      "description": "Giving + receiving constructive review, review etiquette, conflict resolution; GitHub Discussions: 'polite? catches bugs? constructive?'",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "code_review",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "packaging_reproducibility",
+      "name": "Packaging & Reproducibility",
+      "category": "software_engineering",
+      "description": "pyproject.toml + lockfile, src/ layout, deterministic seeds, make/just, README + reproduce commands.",
+      "roles": [
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "ci_log",
+        "code_review",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "performance_tuning",
+      "name": "Performance Tuning & Profiling",
+      "category": "software_engineering",
+      "description": "Profiling (cProfile, py-spy), optimization, async I/O, memory profiling; Python Foundation careers senior+ expectation.",
+      "roles": [
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "code_review"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "git_workflow",
+      "name": "Git Workflow",
+      "category": "devops",
+      "description": "Branching, PR, merge strategies, rebase, bisect, history hygiene; universal at L2+.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "independent",
+          "advanced"
+        ],
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "code_review",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "docker",
+      "name": "Docker",
+      "category": "devops",
+      "description": "Dockerfile, docker-compose, image hygiene, layer caching; O*NET Hot Tech.",
+      "roles": [
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "ci_log",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "kubernetes",
+      "name": "Kubernetes",
+      "category": "devops",
+      "description": "K8s, Helm, deployments, services, ingress; O*NET Hot Tech.",
+      "roles": [
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "ci_log"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "ci_cd",
+      "name": "CI/CD",
+      "category": "devops",
+      "description": "GitHub Actions, GitLab CI, CircleCI; pipeline design, gating, secrets, environments.",
+      "roles": [
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "ci_log",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "cloud_platform",
+      "name": "Cloud Platform (AWS / GCP / Azure)",
+      "category": "devops",
+      "description": "At least one cloud: AWS (SageMaker, EC2, S3), GCP (Vertex AI, GCE, GCS), Azure (ML, AKS); O*NET Hot Tech.",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "ci_log"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "security_mindset",
+      "name": "Security Mindset (OWASP Top 10)",
+      "category": "security",
+      "description": "Input validation, output encoding, authn/authz, secret management, dependency hygiene; OWASP Foundation + Skillsoft + Cybertex.",
+      "roles": [
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "code_review",
+        "design_doc",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "ai_code_review_literacy",
+      "name": "AI-Code Review Literacy",
+      "category": "security",
+      "description": "Critical review of AI-generated code: accept/modify/reject with written justification per change; arXiv 2502.18468 + Soltech 2026.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "independent",
+          "advanced"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "code_review",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "stakeholder_management",
+      "name": "Stakeholder Management",
+      "category": "collaboration",
+      "description": "Collaboration with BAs, PMs, business owners; requirement gathering; expectation management.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "design_doc",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "mentoring",
+      "name": "Mentoring & Coaching",
+      "category": "collaboration",
+      "description": "Mentorship of L1/L2; documented adoption; feedback loop; multiplier effect (TDS L6).",
+      "roles": [
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_scientist": [
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "design_doc"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "written_communication",
+      "name": "Written Communication",
+      "category": "communication",
+      "description": "1-pagers, READMEs, model cards, decision docs, post-mortems; audience-tuned (PM vs director vs engineer).",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "foundation",
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "design_doc"
+      ],
+      "critical_competency": true
+    },
+    {
+      "skill_id": "oral_communication",
+      "name": "Oral Communication",
+      "category": "communication",
+      "description": "Recorded 5-minute presentation with slides, audience-tuned; not a notebook scroll.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "stakeholder_translation",
+      "name": "Stakeholder Translation (Technical -> Business)",
+      "category": "communication",
+      "description": "Map technical findings to company KPIs and incremental revenue; HDSR + Fitch Lead MLE JD + ZipRecruiter AI Data Translator.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "design_doc"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "business_framing",
+      "name": "Business Framing",
+      "category": "business_framing",
+      "description": "Problem -> stakeholder -> decision -> impact framing on every project; Jobright + Soltech + TDS + Codeling.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "independent",
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "portfolio_artifact",
+        "design_doc"
+      ],
+      "critical_competency": true
+    },
+    {
+      "skill_id": "metric_design",
+      "name": "Metric Design",
+      "category": "business_framing",
+      "description": "Metric choice as strategy; primary/secondary/guardrail metrics; TDS L5 'designing metrics separates L5s from L4s.'",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "design_doc",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "tradeoff_articulation",
+      "name": "Tradeoff Articulation",
+      "category": "business_framing",
+      "description": "Decision doc: >=2 options, tradeoffs, chosen option, conditions to revisit; TDS L5 'thinking in tradeoffs.'",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "data_analyst": [
+          "advanced",
+          "leadership"
+        ],
+        "data_scientist": [
+          "advanced",
+          "leadership"
+        ],
+        "rpa_automation_developer": [
+          "advanced",
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "advanced",
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "advanced",
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "design_doc",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    },
+    {
+      "skill_id": "architecture_leadership",
+      "name": "Architecture & Standards Leadership",
+      "category": "business_framing",
+      "description": "Org-level architecture, standards, frameworks adopted across >=2 teams; multiplier effect; Python Foundation / Bain Staff MLE / UiPath Architect.",
+      "roles": [
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "levels": {
+        "rpa_automation_developer": [
+          "leadership"
+        ],
+        "ai_ml_engineer": [
+          "leadership"
+        ],
+        "production_python_engineer": [
+          "leadership"
+        ]
+      },
+      "evidence_types": [
+        "design_doc",
+        "portfolio_artifact"
+      ],
+      "critical_competency": false
+    }
+  ],
+  "skill_dependencies": [
+    {
+      "from": "sql_fundamentals",
+      "to": "sql_window_ctes",
+      "type": "prerequisite"
+    },
+    {
+      "from": "sql_window_ctes",
+      "to": "sql_performance_tuning",
+      "type": "prerequisite"
+    },
+    {
+      "from": "python_core",
+      "to": "python_idioms",
+      "type": "prerequisite"
+    },
+    {
+      "from": "python_idioms",
+      "to": "python_type_safety",
+      "type": "prerequisite"
+    },
+    {
+      "from": "python_core",
+      "to": "python_async",
+      "type": "prerequisite"
+    },
+    {
+      "from": "python_async",
+      "to": "async_testing",
+      "type": "prerequisite"
+    },
+    {
+      "from": "python_core",
+      "to": "pandas_numpy",
+      "type": "prerequisite"
+    },
+    {
+      "from": "python_core",
+      "to": "python_rpa_browser",
+      "type": "prerequisite"
+    },
+    {
+      "from": "python_core",
+      "to": "vbdotnet_csharp",
+      "type": "supports"
+    },
+    {
+      "from": "pandas_numpy",
+      "to": "data_cleaning",
+      "type": "prerequisite"
+    },
+    {
+      "from": "data_cleaning",
+      "to": "data_validation",
+      "type": "prerequisite"
+    },
+    {
+      "from": "descriptive_stats",
+      "to": "hypothesis_testing",
+      "type": "prerequisite"
+    },
+    {
+      "from": "hypothesis_testing",
+      "to": "regression",
+      "type": "prerequisite"
+    },
+    {
+      "from": "hypothesis_testing",
+      "to": "experimental_design",
+      "type": "prerequisite"
+    },
+    {
+      "from": "experimental_design",
+      "to": "causal_inference",
+      "type": "prerequisite"
+    },
+    {
+      "from": "regression",
+      "to": "classical_ml",
+      "type": "prerequisite"
+    },
+    {
+      "from": "classical_ml",
+      "to": "model_evaluation",
+      "type": "prerequisite"
+    },
+    {
+      "from": "model_evaluation",
+      "to": "leakage_prevention",
+      "type": "prerequisite"
+    },
+    {
+      "from": "classical_ml",
+      "to": "feature_engineering",
+      "type": "prerequisite"
+    },
+    {
+      "from": "classical_ml",
+      "to": "deep_learning",
+      "type": "prerequisite"
+    },
+    {
+      "from": "deep_learning",
+      "to": "uncertainty_quantification",
+      "type": "prerequisite"
+    },
+    {
+      "from": "model_evaluation",
+      "to": "model_deployment",
+      "type": "prerequisite"
+    },
+    {
+      "from": "model_deployment",
+      "to": "mlops_pipelines",
+      "type": "prerequisite"
+    },
+    {
+      "from": "mlops_pipelines",
+      "to": "drift_monitoring",
+      "type": "prerequisite"
+    },
+    {
+      "from": "mlops_pipelines",
+      "to": "llmops",
+      "type": "prerequisite"
+    },
+    {
+      "from": "deep_learning",
+      "to": "llmops",
+      "type": "supports"
+    },
+    {
+      "from": "uipath_studio",
+      "to": "selector_design",
+      "type": "prerequisite"
+    },
+    {
+      "from": "uipath_studio",
+      "to": "exception_handling_rpa",
+      "type": "prerequisite"
+    },
+    {
+      "from": "selector_design",
+      "to": "reframework",
+      "type": "prerequisite"
+    },
+    {
+      "from": "exception_handling_rpa",
+      "to": "reframework",
+      "type": "prerequisite"
+    },
+    {
+      "from": "reframework",
+      "to": "orchestrator_operations",
+      "type": "prerequisite"
+    },
+    {
+      "from": "process_analysis",
+      "to": "reframework",
+      "type": "supports"
+    },
+    {
+      "from": "python_core",
+      "to": "testing_discipline",
+      "type": "prerequisite"
+    },
+    {
+      "from": "testing_discipline",
+      "to": "async_testing",
+      "type": "supports"
+    },
+    {
+      "from": "testing_discipline",
+      "to": "data_validation",
+      "type": "supports"
+    },
+    {
+      "from": "python_type_safety",
+      "to": "packaging_reproducibility",
+      "type": "prerequisite"
+    },
+    {
+      "from": "packaging_reproducibility",
+      "to": "ci_cd",
+      "type": "supports"
+    },
+    {
+      "from": "python_async",
+      "to": "observability",
+      "type": "supports"
+    },
+    {
+      "from": "observability",
+      "to": "system_design",
+      "type": "supports"
+    },
+    {
+      "from": "system_design",
+      "to": "performance_tuning",
+      "type": "prerequisite"
+    },
+    {
+      "from": "system_design",
+      "to": "architecture_leadership",
+      "type": "prerequisite"
+    },
+    {
+      "from": "git_workflow",
+      "to": "code_review_literacy",
+      "type": "prerequisite"
+    },
+    {
+      "from": "code_review_literacy",
+      "to": "ai_code_review_literacy",
+      "type": "prerequisite"
+    },
+    {
+      "from": "packaging_reproducibility",
+      "to": "docker",
+      "type": "supports"
+    },
+    {
+      "from": "docker",
+      "to": "kubernetes",
+      "type": "prerequisite"
+    },
+    {
+      "from": "docker",
+      "to": "ci_cd",
+      "type": "supports"
+    },
+    {
+      "from": "ci_cd",
+      "to": "cloud_platform",
+      "type": "supports"
+    },
+    {
+      "from": "code_review_literacy",
+      "to": "security_mindset",
+      "type": "supports"
+    },
+    {
+      "from": "security_mindset",
+      "to": "ai_code_review_literacy",
+      "type": "supports"
+    },
+    {
+      "from": "written_communication",
+      "to": "oral_communication",
+      "type": "supports"
+    },
+    {
+      "from": "written_communication",
+      "to": "stakeholder_translation",
+      "type": "prerequisite"
+    },
+    {
+      "from": "stakeholder_management",
+      "to": "stakeholder_translation",
+      "type": "supports"
+    },
+    {
+      "from": "business_framing",
+      "to": "metric_design",
+      "type": "prerequisite"
+    },
+    {
+      "from": "metric_design",
+      "to": "tradeoff_articulation",
+      "type": "supports"
+    },
+    {
+      "from": "tradeoff_articulation",
+      "to": "architecture_leadership",
+      "type": "prerequisite"
+    },
+    {
+      "from": "mentoring",
+      "to": "architecture_leadership",
+      "type": "prerequisite"
+    },
+    {
+      "from": "business_framing",
+      "to": "process_analysis",
+      "type": "supports"
+    },
+    {
+      "from": "bi_tools",
+      "to": "stakeholder_translation",
+      "type": "supports"
+    },
+    {
+      "from": "python_visualization",
+      "to": "stakeholder_translation",
+      "type": "supports"
+    }
+  ],
+  "critical_competencies": [
+    {
+      "competency_id": "sql_competency",
+      "name": "SQL Competency (Window Functions + CTEs + Performance)",
+      "description": "Auto-reject filter at DA entry level per Jobright 2026; cannot be offset by Python or BI strength.",
+      "roles": [
+        "data_analyst",
+        "data_scientist"
+      ],
+      "skill_ids": [
+        "sql_fundamentals",
+        "sql_window_ctes",
+        "sql_performance_tuning"
+      ],
+      "non_compensatory": true,
+      "evidence": [
+        "Jobright Jan 2026",
+        "Jess Ramos LinkedIn Jul 2025",
+        "LinkedIn 200-post analysis",
+        "365DataScience"
+      ]
+    },
+    {
+      "competency_id": "leakage_prevention",
+      "name": "Data Leakage Prevention",
+      "description": "A model with leakage is a non-model; cannot be salvaged by tuning. Target leakage, train-test contamination, time-series leakage, group leakage, label leakage.",
+      "roles": [
+        "data_scientist",
+        "ai_ml_engineer"
+      ],
+      "skill_ids": [
+        "leakage_prevention",
+        "model_evaluation"
+      ],
+      "non_compensatory": true,
+      "evidence": [
+        "IBM Think",
+        "H2O Wiki",
+        "Kaggle (Alexis Cook)",
+        "GeeksforGeeks",
+        "O*NET 15-2051 Tasks 5 & 15"
+      ]
+    },
+    {
+      "competency_id": "selector_resilience",
+      "name": "Selector Resilience + Exception Handling",
+      "description": "A bot that breaks on UI changes is not a production bot; ~60% of RPA failures trace to UI changes / selector breaks / unhandled exceptions.",
+      "roles": [
+        "rpa_automation_developer"
+      ],
+      "skill_ids": [
+        "selector_design",
+        "exception_handling_rpa",
+        "reframework"
+      ],
+      "non_compensatory": true,
+      "evidence": [
+        "Sunflower Lab",
+        "UiPath Forum bot-performance thread",
+        "REFramework best practices"
+      ]
+    },
+    {
+      "competency_id": "type_safety_production_hardening",
+      "name": "Type Safety + Production Hardening",
+      "description": "A non-typed, non-observable Python service is not production-grade in 2026. mypy/Pyright baseline + observability + CI gating.",
+      "roles": [
+        "production_python_engineer"
+      ],
+      "skill_ids": [
+        "python_type_safety",
+        "observability",
+        "ci_cd",
+        "packaging_reproducibility"
+      ],
+      "non_compensatory": true,
+      "evidence": [
+        "JobDescription.org",
+        "StackOverflow Blog",
+        "Fahad Ahammed",
+        "UltraTendency Academy"
+      ]
+    },
+    {
+      "competency_id": "mlops_fluency",
+      "name": "ML System Design + MLOps Fluency",
+      "description": "Cannot deploy -> cannot ship value; 87% of DS projects fail at this boundary. Required at AIML L2+.",
+      "roles": [
+        "ai_ml_engineer"
+      ],
+      "skill_ids": [
+        "model_deployment",
+        "mlops_pipelines",
+        "drift_monitoring",
+        "system_design"
+      ],
+      "non_compensatory": true,
+      "evidence": [
+        "Kore1",
+        "Data Science PM (VentureBeat 2019)",
+        "MIT Sloan Review (cited 63)",
+        "ml-ops.org"
+      ]
+    },
+    {
+      "competency_id": "business_framing_judgment",
+      "name": "Business Framing + Metric-Design Judgment",
+      "description": "TDS L5: 'metric choice is strategy'; without it, technical excellence produces non-actionable output. Non-compensatory at L3+ across all roles.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "skill_ids": [
+        "business_framing",
+        "metric_design",
+        "tradeoff_articulation"
+      ],
+      "non_compensatory": true,
+      "evidence": [
+        "TDS L5",
+        "HDSR",
+        "Fitch Lead MLE JD",
+        "Codeling PySE"
+      ]
+    },
+    {
+      "competency_id": "communication_audience_tuned",
+      "name": "Communication (Audience-Tuned)",
+      "description": "O*NET top task for DA/DS; Fitch + Bain JDs for AIML; GitHub Discussions for PySE. Cannot be offset by technical depth.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "skill_ids": [
+        "written_communication",
+        "oral_communication",
+        "stakeholder_translation"
+      ],
+      "non_compensatory": true,
+      "evidence": [
+        "O*NET 15-2051 Task 7",
+        "BLS OOH Important Qualities",
+        "Susan Shu Chang",
+        "Fitch Lead MLE JD",
+        "Bain Staff MLE JD",
+        "GitHub Discussions"
+      ]
+    },
+    {
+      "competency_id": "reproducibility_determinism",
+      "name": "Reproducibility & Determinism",
+      "description": "A non-reproducible artifact cannot be reviewed, audited, or debugged. Required across all roles at L2+.",
+      "roles": [
+        "data_analyst",
+        "data_scientist",
+        "rpa_automation_developer",
+        "ai_ml_engineer",
+        "production_python_engineer"
+      ],
+      "skill_ids": [
+        "packaging_reproducibility",
+        "git_workflow",
+        "testing_discipline"
+      ],
+      "non_compensatory": true,
+      "evidence": [
+        "KDnuggets",
+        "Soltech",
+        "FastAPI testing docs",
+        "MLflow",
+        "REFramework"
+      ]
+    }
+  ],
+  "stats": {
+    "role_count": 5,
+    "level_count_per_role": 4,
+    "skill_node_count": 62,
+    "skill_dependency_count": 59,
+    "critical_competency_count": 8,
+    "category_counts": {
+      "data_query": 4,
+      "programming_language": 6,
+      "data_manipulation": 3,
+      "visualization": 2,
+      "statistics": 5,
+      "machine_learning": 6,
+      "mlops": 3,
+      "llmops": 1,
+      "automation_tooling": 8,
+      "process_analysis": 1,
+      "software_engineering": 7,
+      "devops": 5,
+      "security": 2,
+      "collaboration": 2,
+      "communication": 3,
+      "business_framing": 4
+    }
+  }
+}

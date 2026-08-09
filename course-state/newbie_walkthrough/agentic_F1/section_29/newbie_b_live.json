@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s29",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T1-A-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/25396ef9] S29-T1-A-E1: rechazo claves offline. Paquete dice «S29-T1-A-E1 · Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.p». Demo S29-T1-A-DEMO. Línea: `import sqlite3`. Pista «sqlite3»."
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T1-A-E2: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/91ac52c2] Dudé del atajo en S29-T1-A-E2; me ceñí al weDo. «S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entr». Hint «try/except». Ancla: `import sqlite3`. S29-T1-A-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T1-A-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('e1' < 'e2')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/3d8a5cbb] S29-T1-A-E3: rechazo claves offline. Paquete dice «S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter comp». Demo S29-T1-A-DEMO. Línea: `case_id = \"CASO-LIM-SYN\"`. Pista «comparación strings»."
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\n# forma esperada (referencia): print(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/0ce107c1] Solo acepto S29-T1-B-E1 si el paquete lo enseña. Instrucción: «S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada». Verifiqué pista «append-only» y demo S29-T1-B-DEMO. Código justificado: `import sqlite3`. No invento APIs. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T1-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'source': 'crm_synth', 'record': 'r9'})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a1775e9c] Dudé del atajo en S29-T1-B-E2; me ceñí al weDo. «S29-T1-B-E2 · Imprime provenance dict source='crm_synth' record='r9'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter». Hint «dict». Ancla: `case_id = \"CASO-LIM-SYN\"`. S29-T1-B-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T1-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\n# forma esperada (referencia): print('open' if valid_to is None else 'closed')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a0e98d84] Solo acepto S29-T1-B-E3 si el paquete lo enseña. Instrucción: «S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada ». Verifiqué pista «None» y demo S29-T1-B-DEMO. Código justificado: `valid_to=None`. No invento APIs. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T2-A-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ad749c95] Solo acepto S29-T2-A-E1 si el paquete lo enseña. Instrucción: «S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el sta». Verifiqué pista «NOT IN o left join» y demo S29-T2-A-DEMO. Código justificado: `import sqlite3`. No invento APIs. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\n# forma esperada (referencia): print(sorted(scores, reverse=True)[0])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e68d82bc] Dudé del atajo en S29-T2-A-E2; me ceñí al weDo. «S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada». Hint «sorted». Ancla: `scores=[0.2,0.9,0.5]`. S29-T2-A-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T2-A-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('ranked')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/22ba3e53] S29-T2-A-E3: rechazo claves offline. Paquete dice «S29-T2-A-E3 · Imprime el nombre de la CTE de ejemplo: ranked. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter complet». Demo S29-T2-A-DEMO. Línea: `case_id = \"CASO-LIM-SYN\"`. Pista «literal»."
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T2-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\n# forma esperada (referencia): print(n*(n-1)//2)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a2c17b02] Dudé del atajo en S29-T2-B-E1; me ceñí al weDo. «S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO». Hint «combinatoria». Ancla: `n=5`. S29-T2-B-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T2-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print(None is None)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e8bb974e] S29-T2-B-E2: rechazo claves offline. Paquete dice «S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada e». Demo S29-T2-B-DEMO. Línea: `case_id = \"CASO-LIM-SYN\"`. Pista «is»."
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T2-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('SCAN')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ac7b14a5] Dudé del atajo en S29-T2-B-E3; me ceñí al weDo. «S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico). Fixture sintético `CASO-LIM-029` (run_id». Hint «string». Ancla: `case_id = \"CASO-LIM-SYN\"`. S29-T2-B-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T3-A-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d4c50559] Dudé del atajo en S29-T3-A-E1; me ceñí al weDo. «S29-T3-A-E1 · Tras BEGIN insert y ROLLBACK, count debe ser 0. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter complet». Hint «rollback». Ancla: `import sqlite3`. S29-T3-A-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T3-A-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('A,C,I,D')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/126adf85] Solo acepto S29-T3-A-E2 si el paquete lo enseña. Instrucción: «S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @ex». Verifiqué pista «string» y demo S29-T3-A-DEMO. Código justificado: `case_id = \"CASO-LIM-SYN\"`. No invento APIs. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T3-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\n# forma esperada (referencia): print('abort' if not evidence_ok else 'commit')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/90b11bcc] Dudé del atajo en S29-T3-A-E3; me ceñí al weDo. «S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada ». Hint «guard». Ancla: `evidence_ok=False`. S29-T3-A-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T3-B-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c393b18a] Dudé del atajo en S29-T3-B-E1; me ceñí al weDo. «S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrad». Hint «ON CONFLICT». Ancla: `import sqlite3`. S29-T3-B-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T3-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'job': 'er_block', 'status': 'pending'}['status'])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/f5aca9ca] Solo acepto S29-T3-B-E2 si el paquete lo enseña. Instrucción: «S29-T3-B-E2 · Recuperación: job status 'pending' tras crash; imprime status. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el ». Verifiqué pista «literal/dict» y demo S29-T3-B-DEMO. Código justificado: `case_id = \"CASO-LIM-SYN\"`. No invento APIs. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T3-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\n# forma esperada (referencia): print('retry' if conflict else 'ok')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/7262e5a0] Dudé del atajo en S29-T3-B-E3; me ceñí al weDo. «S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo;». Hint «política». Ancla: `conflict=True`. S29-T3-B-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T4-A-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a3c2d5ce] S29-T4-A-E1: rechazo claves offline. Paquete dice «S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada e». Demo S29-T4-A-DEMO. Línea: `import sqlite3`. Pista «schema_migrations»."
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T4-A-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('idx_pairs_block_key')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/925b9cc0] S29-T4-A-E2: rechazo claves offline. Paquete dice «S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter ». Demo S29-T4-A-DEMO. Línea: `case_id = \"CASO-LIM-SYN\"`. Pista «convención»."
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T4-A-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('no_drop_without_backup')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2ad83ac7] Dudé del atajo en S29-T4-A-E3; me ceñí al weDo. «S29-T4-A-E3 · Política: imprime 'no_drop_without_backup'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; i». Hint «string». Ancla: `case_id = \"CASO-LIM-SYN\"`. S29-T4-A-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\n# forma esperada (referencia): print(store.get('e1'))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/dfe8f6c0] Solo acepto S29-T4-B-E1 si el paquete lo enseña. Instrucción: «S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter comp». Verifiqué pista «dict» y demo S29-T4-B-DEMO. Código justificado: `store={'e1':'Ana'}`. No invento APIs. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T4-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'pool_size': 5}['pool_size'])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c3c2087f] S29-T4-B-E2: rechazo claves offline. Paquete dice «S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; im». Demo S29-T4-B-DEMO. Línea: `case_id = \"CASO-LIM-SYN\"`. Pista «dict»."
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S29-T4-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\n# forma esperada (referencia): print(pending_count)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/59fdd179] Dudé del atajo en S29-T4-B-E3; me ceñí al weDo. «S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; imp». Hint «assert blando». Ancla: `pending_count=1`. S29-T4-B-DEMO. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Evitar duplicar el mismo par en orden invertido",
+      "justification_from_packet": "[agentic_F1/skeptic/b29q0s1] El CHECK a<b del demo de pairs no «infiere fraude»: fuerza orden canónico para no duplicar el mismo par invertido.",
+      "blocked_on": [],
+      "confidence": 0.76
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Nueva fila por cambio de decisión",
+      "justification_from_packet": "[agentic_F1/skeptic/b29q1s2] UPDATE in place contradice append-only: el iDo lista labels review y match como filas sucesivas — cada cambio de decisión añade historia.",
+      "blocked_on": [],
+      "confidence": 0.76
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Ser atómicas en la misma transacción lógica",
+      "justification_from_packet": "[agentic_F1/skeptic/b29q2s3] Commits separados dejan evidencia y decisión desalineadas; el paquete enseña atomicidad ACID y abort si la evidencia no está OK.",
+      "blocked_on": [],
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Encapsula acceso a datos y facilita tests con :memory:",
+      "justification_from_packet": "[agentic_F1/skeptic/b29q3s4] No esparce SQL a propósito: el repository pattern del outcome encapsula acceso y habilita pruebas con :memory:.",
+      "blocked_on": [],
+      "confidence": 0.76
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:18.196946+00:00"
+}

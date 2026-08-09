@@ -1,0 +1,22 @@
+{
+  "code": 200,
+  "data": {
+    "description": "",
+    "external": {},
+    "html": "<html><head></head><body></body></html>",
+    "httpStatus": 200,
+    "httpStatusText": "OK",
+    "metadata": {},
+    "title": "",
+    "url": "https://talent.baidu.com/jobs/detail/GRADUATE/72145a13-5eb1-41ce-8853-d00aa7369281",
+    "usage": {
+      "tokens": 12
+    }
+  },
+  "meta": {
+    "usage": {
+      "tokens": 12
+    }
+  },
+  "status": 20000
+}

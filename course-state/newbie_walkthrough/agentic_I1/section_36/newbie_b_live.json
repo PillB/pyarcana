@@ -1,0 +1,326 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-skeptic-s36-1784810200",
+  "production_note": "agentic_I1 dual-LLM Skeptic: solved from quiz_card+slim_packet only; direct agent output; packet-only; no bulk writers; no stamps; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nprint(sum(xs)/len(xs))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S36-T1-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `xs = [1, 2]`. Soporte: «S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clusteri…». Hints: Centroide 1D = media del grupo.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S36-T1-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `x, mu, sd = 4, 0, 2`. Soporte: «S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Esca…». Hints: z = (x-mu)/sd.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S36-T1-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en c…». Hints: Centroides no son sanciones.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S36-T1-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `scores = {2: 0.2, 3: 0.9, 4: 0.5}`. Soporte: «S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Starter elige min (defe…». Hints: max por score interno del lab.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S36-T1-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a…». Hints: Varias seeds antes de fijar k.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S36-T1-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). …». Hints: Métricas internas fallan con formas raras.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S36-T2-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CA…». Hints: pc = w0*x + w1*y.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S36-T2-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrato del dossier de señ…». Hints: Prohibido auto-decidir con PC.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S36-T2-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia…». Hints: 2D es el default de exploración visual.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S36-T2-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudenc…». Hints: axis_named_by_business = False.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S36-T2-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes …». Hints: Primero scale/missingness.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S36-T2-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Transferencia de etiquet…». Hints: Marca exploratory en el reporte.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nprint(sum(flags))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S36-T3-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `flags = [0, 0, 1]`. Soporte: «S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ condu…». Hints: sum(flags) cuenta raros.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S36-T3-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor…». Hints: Regla legible + score de rareza.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S36-T3-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-cl…». Hints: Ruta humana obligatoria.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S36-T3-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en tr…». Hints: Outlier en train; novelty vs modelo fijado.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nprint(int(n * c))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S36-T3-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `c, n = 0.1, 50`. Soporte: «S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Con…». Hints: expected_flags = int(n*contamination).. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S36-T3-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags de…». Hints: Baja contamination si la cola no da abasto.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S36-T4-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `rates = [0.1, 0.2]`. Soporte: «S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintét…». Hints: mean de rates por ventana.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S36-T4-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato t…». Hints: Fit en pasado, score en futuro.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S36-T4-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizant…». Hints: Varias ventanas para ver estabilidad.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S36-T4-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `ranked, k = [1, 0, 1], 2`. Soporte: «S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de uti…». Hints: P@k = media de los top-k labels de utilidad.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S36-T4-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana…». Hints: HITL obligatorio con labels ralos.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S36-T4-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect). Transferencia: con …». Hints: P@k alinea con capacidad de cola.. Verificación independiente I1; sin copiar lives previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_option": "Señal de rareza a revisar",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q0: re-leí stem «Una anomalía en el triage significa:» y opciones; descarto distractores. Elijo idx 3 «Señal de rareza a revisar» por coherencia con theory del paquete (anomalía / triage / significa); sin mirar correctIndex."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_option": "Hipótesis de fracción rara a flaggear",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q1: re-leí stem «contamination representa:» y opciones; descarto distractores. Elijo idx 1 «Hipótesis de fracción rara a flaggear» por coherencia con theory del paquete (contamination / representa); sin mirar correctIndex."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_option": "Exploración/visualización prudente",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q2: re-leí stem «PCA en este curso se usa para:» y opciones; descarto distractores. Elijo idx 2 «Exploración/visualización prudente» por coherencia con theory del paquete (este / curso / para); sin mirar correctIndex."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_option": "precision@k y feedback humano",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q3: re-leí stem «Con labels escasos prioriza:» y opciones; descarto distractores. Elijo idx 0 «precision@k y feedback humano» por coherencia con theory del paquete (labels / escasos / prioriza); sin mirar correctIndex."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_option": "Leakage temporal",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q4: re-leí stem «Un fit de normalidad que incluye el mes evaluado comete:» y opciones; descarto distractores. Elijo idx 3 «Leakage temporal» por coherencia con theory del paquete (normalidad / incluye / evaluado / comete); sin mirar correctIndex."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:37:05+00:00",
+  "session_started_at": "2026-07-23T12:36:40+00:00",
+  "session_ended_at": "2026-07-23T12:37:05+00:00"
+}

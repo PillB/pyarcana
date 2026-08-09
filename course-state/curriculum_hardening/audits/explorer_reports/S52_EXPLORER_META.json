@@ -1,0 +1,9 @@
+{
+  "section": 52,
+  "id": "career-strategy",
+  "file": "s52-career-strategy.ts",
+  "score_1_to_10": 6.2,
+  "issue_count": 18,
+  "meta_leak_count": 3,
+  "status": "complete"
+}

@@ -1,0 +1,493 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 17,
+  "packet_sha": "4dfb9a19457db16f",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s17-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli=pd.DataFrame({'cliente_id':['C001','C002']})\ntx=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\nout = cli.merge(tx, on='cliente_id', how='left')\nprint(len(out))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "monto",
+        "out"
+      ],
+      "justification_from_packet": "Explorer en S17-T1-A-E1 (guided): resolví el fixture del paquete para «left join clientes–transacciones» respetando el pass «contrato del starter». Usé theory/iDo (S17-T1-A-DEMO) y pistas [\"merge how='left'.\", 'Cuenta filas.'] del slim packet, sin solutions externas. Cierre: print(len(out))"
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "bool",
+        "is_unique",
+        "independiente"
+      ],
+      "justification_from_packet": "Explorer en S17-T1-A-E2 (independent): resolví el fixture del paquete para «unicidad de clave 1:1» respetando el pass «contrato del starter». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['is_unique.', 'Series.cliente_id.'] del slim packet, sin solutions externas. Cierre: print(bool(cli[\"cliente_id\"].is_unique))"
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nprint(len(cli.merge(tx, on=\"cliente_id\", how=\"inner\")))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "monto",
+        "len",
+        "merge"
+      ],
+      "justification_from_packet": "Explorer en S17-T1-A-E3 (transfer): resolví el fixture del paquete para «fan-out 1:m» respetando el pass «3». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['merge inner.', 'print len.'] del slim packet, sin solutions externas. Cierre: print(len(cli.merge(tx, on=\"cliente_id\", how=\"inner\")))"
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "monto",
+        "merge"
+      ],
+      "justification_from_packet": "Explorer en S17-T1-B-E1 (guided): resolví el fixture del paquete para «anti-join con `indicator=True`» respetando el pass «['C002']». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['merge left indicator.', 'filtra _merge.'] del slim packet, sin solutions externas. Cierre: print(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist())"
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\ntry:\n    a.merge(b, on=\"id\", validate=\"one_to_one\")\nexcept Exception:\n    print(\"fail\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "try",
+        "merge",
+        "validate",
+        "one_to_one",
+        "except",
+        "Exception"
+      ],
+      "justification_from_packet": "Explorer en S17-T1-B-E2 (independent): resolví el fixture del paquete para «`validate='one_to_one'` como gate» respetando el pass «fail». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['try MergeError o Exception.', 'validate=.'] del slim packet, sin solutions externas. Cierre:     print(\"fail\")"
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(int((m[\"_merge\"] == \"left_only\").sum()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "C003",
+        "merge"
+      ],
+      "justification_from_packet": "Explorer en S17-T1-B-E3 (transfer): resolví el fixture del paquete para «conteo de huérfanos» respetando el pass «contrato del starter». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['left_only count.', 'nunique o len.'] del slim packet, sin solutions externas. Cierre: print(int((m[\"_merge\"] == \"left_only\").sum()))"
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\nprint(len(df.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "len",
+        "melt",
+        "id_vars",
+        "value_vars",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S17-T2-A-E1 (guided): resolví el fixture del paquete para «melt wide→long» respetando el pass «4». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['melt.', 'var_name value_name opcionales.'] del slim packet, sin solutions externas. Cierre: print(len(df.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])))"
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\nwide = long.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\").reset_index()\nprint(wide.columns.tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "long",
+        "DataFrame",
+        "wide",
+        "pivot_table",
+        "index",
+        "columns",
+        "values"
+      ],
+      "justification_from_packet": "Explorer en S17-T2-A-E2 (independent): resolví el fixture del paquete para «pivot_table long→wide» respetando el pass «['id', 'a', 'b']». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['aggfunc sum.', 'reset_index.'] del slim packet, sin solutions externas. Cierre: print(wide.columns.tolist())"
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint(len(pd.concat([a, b], ignore_index=True)))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "len",
+        "concat",
+        "ignore_index",
+        "transferencia",
+        "Concepto",
+        "vertical"
+      ],
+      "justification_from_packet": "Explorer en S17-T2-A-E3 (transfer): resolví el fixture del paquete para «concat vertical» respetando el pass «2». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['pd.concat(..., ignore_index=True).', 'mismas cols.'] del slim packet, sin solutions externas. Cierre: print(len(pd.concat([a, b], ignore_index=True)))"
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\nwide = long.pivot(index=\"id\", columns=\"mes\", values=\"monto\")\nwide.columns = [f\"monto_{c}\" for c in wide.columns]\nprint(list(wide.columns))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "long",
+        "DataFrame",
+        "mes",
+        "monto",
+        "wide",
+        "pivot",
+        "index"
+      ],
+      "justification_from_packet": "Explorer en S17-T2-B-E1 (guided): resolví el fixture del paquete para «nombres estables post-pivot» respetando el pass «['monto_e', 'monto_f']». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['map join o f-string.', 'tras pivot.'] del slim packet, sin solutions externas. Cierre: print(list(wide.columns))"
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\nprint(set(df.columns) == expected)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "columns",
+        "cliente_id",
+        "monto_ene",
+        "expected",
+        "set",
+        "independiente"
+      ],
+      "justification_from_packet": "Explorer en S17-T2-B-E2 (independent): resolví el fixture del paquete para «validación de schema de columnas» respetando el pass «True». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['set igualdad.', 'expected fijo.'] del slim packet, sin solutions externas. Cierre: print(set(df.columns) == expected)"
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\nprint(df.rename(columns={\"a\": \"monto\"}).columns.tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "rename",
+        "columns",
+        "monto",
+        "tolist",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Explorer en S17-T2-B-E3 (transfer): resolví el fixture del paquete para «rename explícito» respetando el pass «['monto']». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['rename(columns=...).', 'inplace False.'] del slim packet, sin solutions externas. Cierre: print(df.rename(columns={\"a\": \"monto\"}).columns.tolist())"
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "groupby",
+        "sum"
+      ],
+      "justification_from_packet": "Explorer en S17-T3-A-E1 (guided): resolví el fixture del paquete para «groupby + sum» respetando el pass «{'Cusco': 3.0, 'Lima': 3.0}». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['groupby sum.', 'to_dict.'] del slim packet, sin solutions externas. Cierre: print(df.groupby(\"region\")[\"monto\"].sum().to_dict())"
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\nprint(df.groupby(\"region\")[\"monto\"].transform(\"mean\").tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "groupby",
+        "transform"
+      ],
+      "justification_from_packet": "Explorer en S17-T3-A-E2 (independent): resolví el fixture del paquete para «transform mean al shape original» respetando el pass «[2.0, 2.0, 2.0]». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['groupby transform.', 'mismas filas que df.'] del slim packet, sin solutions externas. Cierre: print(df.groupby(\"region\")[\"monto\"].transform(\"mean\").tolist())"
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0]})\ng = df.groupby(\"region\", as_index=False).agg(total=(\"monto\", \"sum\"), n=(\"monto\", \"count\"))\nprint(g.columns.tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "groupby",
+        "as_index"
+      ],
+      "justification_from_packet": "Explorer en S17-T3-A-E3 (transfer): resolví el fixture del paquete para «named agg + as_index=False» respetando el pass «['region', 'total', 'n']». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['named agg.', 'as_index=False.'] del slim packet, sin solutions externas. Cierre: print(g.columns.tolist())"
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nprint([None if pd.isna(x) else float(x) for x in s])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "rolling",
+        "mean",
+        "isna",
+        "else",
+        "float",
+        "for"
+      ],
+      "justification_from_packet": "Explorer en S17-T3-B-E1 (guided): resolví el fixture del paquete para «rolling mean» respetando el pass «[None, 1.5, 2.5]». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['rolling mean.', 'tolist y nan check.'] del slim packet, sin solutions externas. Cierre: print([None if pd.isna(x) else float(x) for x in s])"
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\nfirst = df.groupby(\"cliente_id\")[\"fecha\"].min()\nprint({k: v.strftime(\"%Y-%m\") for k, v in first.items()})\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "fecha",
+        "to_datetime",
+        "first"
+      ],
+      "justification_from_packet": "Explorer en S17-T3-B-E2 (independent): resolví el fixture del paquete para «cohorte mensual por primera fecha» respetando el pass «{'C001': '2024-01', 'C002': '2024-02'}». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['groupby transform min.', \"dt.to_period('M').\"] del slim packet, sin solutions externas. Cierre: print({k: v.strftime(\"%Y-%m\") for k, v in first.items()})"
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\nr = s.sort_index().rolling(2).mean()\nprint(float(r.iloc[-1]))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "index",
+        "to_datetime",
+        "sort_index",
+        "rolling",
+        "mean",
+        "float"
+      ],
+      "justification_from_packet": "Explorer en S17-T3-B-E3 (transfer): resolví el fixture del paquete para «orden temporal antes de rolling» respetando el pass «2.5». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['sort_index.', 'rolling 2.'] del slim packet, sin solutions externas. Cierre: print(float(r.iloc[-1]))"
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "parts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "parts",
+        "total",
+        "abs",
+        "sum",
+        "guiado",
+        "Concepto",
+        "totales",
+        "Imprime"
+      ],
+      "justification_from_packet": "Explorer en S17-T4-A-E1 (guided): resolví el fixture del paquete para «reconciliación de totales» respetando el pass «True». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['sum y abs.', 'eps 1e-9.'] del slim packet, sin solutions externas. Cierre: print(abs(sum(parts) - total) < 1e-9)"
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "activos = 40\npagados = 10\nprint(pagados / activos)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "activos",
+        "pagados",
+        "independiente",
+        "Concepto",
+        "tasa",
+        "con",
+        "denominador",
+        "correcto"
+      ],
+      "justification_from_packet": "Explorer en S17-T4-A-E2 (independent): resolví el fixture del paquete para «tasa con denominador correcto» respetando el pass «0.25». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['división float.', 'print tasa.'] del slim packet, sin solutions externas. Cierre: print(pagados / activos)"
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "total = 100.0\nlima = 60.0\nprint(total - lima)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "total",
+        "lima",
+        "transferencia",
+        "Concepto",
+        "bridge",
+        "residual",
+        "imprime",
+        "del"
+      ],
+      "justification_from_packet": "Explorer en S17-T4-A-E3 (transfer): resolví el fixture del paquete para «bridge residual» respetando el pass «40.0». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['total - lima.', 'residual.'] del slim packet, sin solutions externas. Cierre: print(total - lima)"
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].tolist())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime",
+        "monto",
+        "cutoff",
+        "Timestamp",
+        "loc"
+      ],
+      "justification_from_packet": "Explorer en S17-T4-B-E1 (guided): resolví el fixture del paquete para «filtro pre-cutoff» respetando el pass «[1.0]». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['Timestamp cutoff.', 'máscara <=.'] del slim packet, sin solutions externas. Cierre: print(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].tolist())"
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(float(tx[\"monto\"].sum() - tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].sum()))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime",
+        "monto",
+        "cutoff",
+        "Timestamp",
+        "float"
+      ],
+      "justification_from_packet": "Explorer en S17-T4-B-E2 (independent): resolví el fixture del paquete para «delta de leakage» respetando el pass «5.0». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['total - pre.', 'float.'] del slim packet, sin solutions externas. Cierre: print(float(tx[\"monto\"].sum() - tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].sum()))"
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"monto\": [3.0, 10.0],\n})\ncutoff = pd.Timestamp(\"2024-02-01\")\npre = tx[tx[\"fecha\"] <= cutoff]\nprint(pre.groupby(\"cliente_id\")[\"monto\"].max().to_dict())\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "fecha",
+        "to_datetime",
+        "monto",
+        "cutoff"
+      ],
+      "justification_from_packet": "Explorer en S17-T4-B-E3 (transfer): resolví el fixture del paquete para «feature as-of max» respetando el pass «{'C001': 3.0}». Usé theory/iDo (S17-T1-A-DEMO) y pistas ['filter then groupby max.', 'un cliente.'] del slim packet, sin solutions externas. Cierre: print(pre.groupby(\"cliente_id\")[\"monto\"].max().to_dict())"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Fallar si la cardinalidad no es 1:1",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «validate='one_to_one' en merge sirve para:», I select «Fallar si la cardinalidad no es 1:1» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: claves y cardinalidad en joins `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, m:1, m:m…)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Filas del left sin match en right",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «Un anti-join left_only identifica:», I select «Filas del left sin match en right» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: claves y cardinalidad en joins `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, m:1, m:m…)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Reinyecta el agregado al shape original",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «transform en groupby:», I select «Reinyecta el agregado al shape original» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: claves y cardinalidad en joins `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, m:1, m:m…)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «Leakage temporal ocurre cuando:», I select «Incluyes datos posteriores al cutoff en features/métricas del pasado» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: claves y cardinalidad en joins `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, m:1, m:m…)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Documentar diff con tolerancia eps o corregir el corte",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Explorer: From the active section theory on «En un portfolio ejecutivo, si suma(partes) ≠ total de referencia debes:», I select «Documentar diff con tolerancia eps o corregir el corte» because it matches the taught contracts and fail-closed / synthetic-data guidance in this packet (headings/paragraphs: claves y cardinalidad en joins `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, m:1, m:m…)."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T04:13:58.774930+00:00"
+}

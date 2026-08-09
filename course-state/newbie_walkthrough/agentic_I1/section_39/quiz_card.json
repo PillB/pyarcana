@@ -1,0 +1,504 @@
+{
+  "section_index": 39,
+  "title": "Responsible ML Case Triage y cierre de nivel",
+  "outcomes": [
+    "Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos versionados",
+    "Registrar ownership, semver y política de compatibilidad por artefacto del triage",
+    "Armar cola, evidence packet y explicación en capas sin exponer solo un número",
+    "Operar decisión automática, override humano, feedback y apelación con audit log",
+    "Aplicar checklist de privacidad, fairness por slices y seguridad de inputs del packet",
+    "Monitorear drift, activar human_only, rollback de modelo/umbral y abstención",
+    "Definir criterios de aceptación, demo e2e sintético y smoke de regresión S27–S39",
+    "Publicar model/data/system cards, métricas de valor operativo y postmortem blameless",
+    "Documentar CF-3 y gates N3 sin auto-marcar section_passed en la lane de autoría"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S39-T1-A",
+      "heading": "intake → ER → relación → features → modelo",
+      "paragraphs": [
+        "El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéticos; **ER** decide misma entidad (no familia ni culpa); el **grafo relacional** expone paths de co-ocurrencia; **features** se materializan sin leakage de labels futuros; el **modelo** emite un score de prioridad; la **cola** recibe el caso para revisión humana. Cada etapa tiene schema de entrada/salida y un dueño de contrato.",
+        "Contrato operativo. Entrada: payload con `run_id`, registros de intake y configuración de umbral. Salida de este subtema: stages ordenados, `label_space` en `needs_review` y bandera `auto_fraud=False`. Error: reordenar etapas, saltar ER, o mapear score a veredicto legal. Criterio de éxito: el pipeline es reproducible, fallas se aíslan por etapa y el score solo ordena trabajo humano.",
+        "Aplicación al caso sintético `CASO-LIM-039-T1A` (cola de onboarding digital en Lima): dos registros comparten un teléfono sintético; ER puede proponer misma entidad; el grafo muestra un path de longitud 2; el score 0.66 sugiere prioridad media de cola. Nada de eso prueba fraude, parentesco ni intención: solo justifica que un revisor mire el evidence packet."
+      ],
+      "code": "stages = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\npayload = {\n    \"run_id\": \"n3-reg-001\",\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stage\": \"model_score\",\n    \"score\": 0.66,\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\nprint(\"pipeline\", \" > \".join(stages))\nprint(\"label_space\", payload[\"label_space\"])\nprint(\"auto_fraud\", payload[\"auto_fraud\"])",
+      "code_output": "pipeline intake > er > relation_graph > features > model_score > queue\nlabel_space needs_review\nauto_fraud False"
+    },
+    {
+      "subtopicId": "S39-T1-B",
+      "heading": "contratos, versiones y ownership",
+      "paragraphs": [
+        "Cada artefacto del triage — motor de ER, `graph_schema`, `feature_set`, ranker, umbral y plantilla de packet — debe tener **owner**, **versión semver** y **política de compatibilidad**. Sin owner no hay on-call; sin versión no hay regresión; sin política de breaking change el revisor recibe un packet que el modelo ya no entiende.",
+        "Contrato operativo. Entrada: registry de artefactos con `ver`, `owner` y flag de breaking change. Salida: inventario ordenado, conteo de owners distintos y decisión major/minor. Error: publicar un breaking change como patch o dejar un artefacto sin owner. Criterio de éxito: todo artefacto en producción del triage tiene dueño contactable y bump major documentado cuando el contrato se rompe.",
+        "En `CASO-LIM-039-T1B`, el equipo de plataforma en Lima versiona `er_engine 1.2.0` (data-quality), `graph_schema 3.0.0` (investigations), `feature_set fs-v3` (ml-platform) y `ranker 2.1.0` (ml-risk). Si el schema del grafo elimina un tipo de nodo, el bump es major y la regresión S27–S39 debe revalidar paths antes de reabrir la cola automática."
+      ],
+      "code": "registry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\"},\n}\nprint(sorted(registry))\nprint(\"owners\", len({v[\"owner\"] for v in registry.values()}))\nprint(\"compat\", \"semver\")",
+      "code_output": "['er_engine', 'feature_set', 'graph_schema', 'ranker']\nowners 4\ncompat semver"
+    },
+    {
+      "subtopicId": "S39-T2-A",
+      "heading": "queue, evidence packet y explicación",
+      "paragraphs": [
+        "La cola ordena casos por score calibrado y capacidad del equipo; el **evidence packet** es lo que el revisor ve: hechos sintéticos, path de grafo, top features, incertidumbre (in/out of distribution) y contribuciones del modelo. Un número suelto no es un workbench: sin path ni evidencia el caso no debe entrar a cola humana como «listo».",
+        "Contrato operativo. Entrada: case_id, score, evidence[], graph_path[], uncertainty y opcionalmente model_contrib. Salida: packet mínimo con claves auditables y capas de explicación (S35). Error: packet con solo score o sin graph_path cuando el modelo usó señales relacionales. Criterio de éxito: el revisor puede reconstruir por qué el caso llegó a cola sin confiar en magia del modelo.",
+        "Para `CASO-LIM-039-T2A`, el packet incluye score 0.81, evidencia `shared_phone_synth`, path `E1 → ph:900 → E2` e incertidumbre `in_distribution`. La UI didáctica puede ser un dict en CLI: lo importante es la estructura, no el framework. El revisor decide; el modelo solo prioriza."
+      ],
+      "code": "packet = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\", \"tx_path_len_2\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n    \"model_contrib\": {\"shared_phone\": 0.4},\n}\nprint(packet[\"case_id\"], packet[\"score\"])\nprint(\"path\", packet[\"graph_path\"])\nprint(\"layers\", 4)",
+      "code_output": "CASO-LIM-039-T2A 0.81\npath ['E1', 'ph:900', 'E2']\nlayers 4"
+    },
+    {
+      "subtopicId": "S39-T2-B",
+      "heading": "decisión, override, feedback y apelación",
+      "paragraphs": [
+        "Las acciones de cola típicas son **queue** (priorizar revisión), **skip** (baja prioridad o sin señal accionable) y **escalate**. La política automática sugiere; el **override humano gana** y debe quedar en audit log con actor, razón y timestamp. Sin audit, el override es un riesgo de gobernanza, no un control.",
+        "Contrato operativo. Entrada: case_id, score, umbral, opcional decisión humana y canal de apelación. Salida: acción final, flag de override y evento en log. Error: override sin registro, o feedback de revisor reinyectado al training set con leakage. Criterio de éxito: cada cambio de decisión es reconstruible y la apelación reabre con otro revisor o supervisor.",
+        "En `CASO-LIM-039-T2B`, el auto sugiere queue por score 0.9; un revisor en Lima hace skip por evidencia insuficiente y se loguea override. Si el cliente apela, el caso reabre con reviewer distinto. El feedback mejora reglas o datasets con cuidado de ventana temporal: nunca uses el label de cola como feature del mismo score que la generó."
+      ],
+      "code": "log = []\ndef decide(case_id, score, human=None):\n    auto = \"queue\" if score >= 0.7 else \"skip\"\n    final = human or auto\n    log.append({\n        \"case_id\": case_id,\n        \"auto\": auto,\n        \"final\": final,\n        \"override\": human is not None,\n    })\n    return final\nprint(decide(\"CASO-LIM-039-T2B\", 0.9))\nprint(decide(\"CASO-LIM-039-T2B\", 0.9, human=\"skip\"))\nprint(\"overrides\", sum(1 for e in log if e[\"override\"]))",
+      "code_output": "queue\nskip\noverrides 1"
+    },
+    {
+      "subtopicId": "S39-T3-A",
+      "heading": "privacidad, fairness y seguridad",
+      "paragraphs": [
+        "Antes de abrir el triage a revisores, aplica minimización de PII (solo campos necesarios del packet), **RBAC** por rol (reviewer vs admin), y prohíbe secretos o tokens en el repo. Fairness operativa: mide tasas de envío a cola y de override por slices sintéticos de producto o canal, no para afirmar culpa de un grupo real.",
+        "Contrato operativo. Entrada: checklist con pii_minimized, rbac, secrets_in_repo, slice_metrics e input_limits. Salida: `release_ok` booleano y blockers nominados. Error: secrets_in_repo True, packet sin control de rol, o ausencia de métricas por slice. Criterio de éxito: checklist firmado por owner de riesgo antes de promover el flujo a demo de aceptación.",
+        "Para `CASO-LIM-039-T3A`, el release de la cola en un entorno de laboratorio limeño exige límites de tamaño en adjuntos sintéticos del packet, validación de URLs (sin SSRF a evidence remota) y slice metrics de false-queue rate. El checklist no declara «sistema justo para siempre»: solo evidencia mínima de release responsable."
+      ],
+      "code": "checklist = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nprint(\"release_ok\", all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    not checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n]))\nprint(\"items\", len(checklist))\nprint(\"fraud_auto\", False)",
+      "code_output": "release_ok True\nitems 5\nfraud_auto False"
+    },
+    {
+      "subtopicId": "S39-T3-B",
+      "heading": "drift, incidentes, rollback y human control",
+      "paragraphs": [
+        "En producción del triage monitoreas distribución de scores, prevalencia proxy de cola, calibración, latencia del packet y tasa de overrides. **Drift** no es un veredicto moral: es una señal de que el ranking puede estar desalineado y hay que abstener más o recalibrar. El control humano no se optimiza fuera del sistema para «subir throughput».",
+        "Contrato operativo. Entrada: flags de drift_high e incident, versión de modelo/umbral y runbook. Salida: modo `normal`, `abstain_more` o `human_only`, más target de rollback. Error: seguir en auto cuando hay incidente de política o de seguridad. Criterio de éxito: interruptor human_only documentado, rollback a modelo/umbral previos y alertas accionables.",
+        "En `CASO-LIM-039-T3B`, un pico de score medio sin cambio de intake dispara alerta de calibración: el modo pasa a abstain_more. Si hay incidente T0 de exposición de campos, se fuerza human_only y rollback al ranker anterior. El score nunca se convierte en etiqueta masiva de fraude mientras se investiga."
+      ],
+      "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\nprint(mode(False, True))\nprint(mode(True, False))\nprint(\"rollback\", \"model_previous\")",
+      "code_output": "human_only\nabstain_more\nrollback model_previous"
+    },
+    {
+      "subtopicId": "S39-T4-A",
+      "heading": "aceptación y demo",
+      "paragraphs": [
+        "La aceptación de CP-N3-C no es un screenshot: es una lista de criterios ejecutables sobre fixtures sintéticos. Mínimo: corrida e2e, baseline visible en métricas, camino de abstención, audit log de decisiones, prohibición de auto-label de fraude y smoke de regresión S27–S39 documentado.",
+        "Contrato operativo. Entrada: checklist de aceptación y tres rutas de demo (happy, override, ood_abstain). Salida: conteo de criterios en verde y nota de que CF-3/PASS de promoción es lane separada. Error: demo solo del camino feliz o auto-marcar section_passed. Criterio de éxito: un revisor externo puede repetir la demo sin secretos ni datos reales.",
+        "Para `CASO-LIM-039-T4A`, la demo en laboratorio muestra (1) caso con packet completo y queue, (2) override humano a skip con audit, (3) entrada OOD que abstiene. La regresión N3 es una lista de checks de contratos, no un reentrenamiento completo. Esta lane deja el expediente listo; no escribe el PASS de CF-3."
+      ],
+      "code": "acceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nprint(\"n_criteria\", len(acceptance))\nprint(\"demo_paths\", [\"happy\", \"override\", \"ood_abstain\"])\nprint(\"cf3_note\", \"separate_lane_for_pass\")",
+      "code_output": "n_criteria 6\ndemo_paths ['happy', 'override', 'ood_abstain']\ncf3_note separate_lane_for_pass"
+    },
+    {
+      "subtopicId": "S39-T4-B",
+      "heading": "model/data/system cards, métricas de valor y postmortem",
+      "paragraphs": [
+        "El cierre de nivel exige **cards** legibles: model card (label_space, límites, no auto-fraude), data card (fixtures sintéticos, ventanas, PII minimizada) y system card (modos ops, owners, rollback). Las métricas de valor del triage son operativas: precisión@k de la cola, tasa de overrides, tiempo mediano de review — no solo AUC offline.",
+        "Contrato operativo. Entrada: métricas de valor, plantillas de cards y plantilla de postmortem. Salida: tres cards publicables y un postmortem blameless con timeline, root_cause y actions. Error: card vacía, métrica de negocio ausente o postmortem que busca culpables en lugar de causas de sistema. Criterio de éxito: un stakeholder no-ML entiende qué hace el score y cuándo interviene un humano.",
+        "En `CASO-LIM-039-T4B`, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola. Tras un incidente de calibración, el postmortem blameless lista rollback y recalibración. Con cards y notas de regresión, el expediente queda listo para la lane de CF-3 — sin auto-declarar promoción."
+      ],
+      "code": "value = {\n    \"precision_at_k\": 0.55,\n    \"override_rate\": 0.12,\n    \"median_review_s\": 90,\n}\npostmortem = {\n    \"severity\": \"T0-T3\",\n    \"root_cause\": \"calib_drift\",\n    \"actions\": [\"rollback\", \"recalibrate\"],\n    \"blameless\": True,\n}\nprint(value)\nprint(postmortem[\"root_cause\"])\nprint(\"cards\", [\"model\", \"data\", \"system\"])",
+      "code_output": "{'precision_at_k': 0.55, 'override_rate': 0.12, 'median_review_s': 90}\ncalib_drift\ncards ['model', 'data', 'system']"
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S39-T1-A-DEMO",
+        "subtopicId": "S39-T1-A",
+        "environment": "local-python",
+        "description": "Pipeline canónico N3: stages unidos, label_space needs_review y auto_fraud en false sobre CASO-LIM-039.",
+        "why": "Hace observable el flujo intake→cola con el label correcto: prioridad de revisión, no veredicto de fraude ni parentesco.",
+        "code": "stages = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\nprint(\" > \".join(stages))\nprint(\"label_space\", \"needs_review\")\nprint(\"auto_fraud\", False)",
+        "language": "python",
+        "output": "intake > er > relation_graph > features > model_score > queue\nlabel_space needs_review\nauto_fraud False"
+      },
+      {
+        "demoId": "S39-T1-B-DEMO",
+        "subtopicId": "S39-T1-B",
+        "environment": "local-python",
+        "description": "Registry mínimo: conteo de owners y política semver para artefactos del triage.",
+        "why": "Ownership y semver son el contrato de evolución del triage: sin ellos no hay on-call ni regresión confiable.",
+        "code": "reg = {\"er_engine\": \"dq\", \"ranker\": \"ml-risk\"}\nprint(len({v for v in reg.values()}))\nprint(\"semver\", True)\nprint(\"owner_required\", True)",
+        "language": "python",
+        "output": "2\nsemver True\nowner_required True"
+      },
+      {
+        "demoId": "S39-T2-A-DEMO",
+        "subtopicId": "S39-T2-A",
+        "environment": "local-python",
+        "description": "Evidence packet: claves mínimas ordenadas y cuatro capas de explicación.",
+        "why": "El revisor necesita path y evidencia; el score solo no constituye workbench ni justificación de cola.",
+        "code": "keys = sorted([\"case_id\", \"score\", \"evidence\", \"graph_path\"])\nprint(keys)\nprint(\"layers\", 4)\nprint(\"score_alone_ok\", False)",
+        "language": "python",
+        "output": "['case_id', 'evidence', 'graph_path', 'score']\nlayers 4\nscore_alone_ok False"
+      },
+      {
+        "demoId": "S39-T2-B-DEMO",
+        "subtopicId": "S39-T2-B",
+        "environment": "local-python",
+        "description": "Override humano a skip con flag de audit y conteo de overrides.",
+        "why": "El override gana al auto y debe quedar auditado; sin log no hay control humano verificable.",
+        "code": "event = {\"final\": \"skip\", \"override\": True}\nprint(event)\nprint(\"n_overrides\", 1)\nprint(\"audit\", True)",
+        "language": "python",
+        "output": "{'final': 'skip', 'override': True}\nn_overrides 1\naudit True"
+      },
+      {
+        "demoId": "S39-T3-A-DEMO",
+        "subtopicId": "S39-T3-A",
+        "environment": "local-python",
+        "description": "Checklist de release: sin secretos en repo y sin auto-fraude.",
+        "why": "Release responsable del triage bloquea secretos y prohíbe etiquetas automáticas de fraude.",
+        "code": "print(True)\nprint(\"secrets_in_repo\", False)\nprint(\"auto_fraud\", False)",
+        "language": "python",
+        "output": "True\nsecrets_in_repo False\nauto_fraud False"
+      },
+      {
+        "demoId": "S39-T3-B-DEMO",
+        "subtopicId": "S39-T3-B",
+        "environment": "local-python",
+        "description": "Modo human_only ante incidente y target de rollback al modelo previo.",
+        "why": "Ante incidente, fail-closed a human_only y rollback versionado; el throughput no manda sobre seguridad.",
+        "code": "print(\"human_only\")\nprint(\"rollback\", \"prev_model\")\nprint(\"priority\", \"incident_over_drift\")",
+        "language": "python",
+        "output": "human_only\nrollback prev_model\npriority incident_over_drift"
+      },
+      {
+        "demoId": "S39-T4-A-DEMO",
+        "subtopicId": "S39-T4-A",
+        "environment": "local-python",
+        "description": "Seis criterios de aceptación, scope de regresión S27–S39 y CF-3 en lane separada.",
+        "why": "Aceptación medible y regresión documentada; el PASS de CF-3 no se auto-escribe en esta lane.",
+        "code": "print(6)\nprint(\"regression\", \"S27-S39\")\nprint(\"cf3_pass_lane\", \"separate\")",
+        "language": "python",
+        "output": "6\nregression S27-S39\ncf3_pass_lane separate"
+      },
+      {
+        "demoId": "S39-T4-B-DEMO",
+        "subtopicId": "S39-T4-B",
+        "environment": "local-python",
+        "description": "Métricas de valor operativo, tres cards y flag de postmortem blameless.",
+        "why": "Cierre de nivel con valor de negocio, cards y postmortem blameless listos para CF-3.",
+        "code": "print([\"precision_at_k\", \"override_rate\", \"median_review_s\"])\nprint(sorted([\"model\", \"data\", \"system\"]))\nprint(\"postmortem\", True)",
+        "language": "python",
+        "output": "['precision_at_k', 'override_rate', 'median_review_s']\n['data', 'model', 'system']\npostmortem True"
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "El label_space del triage N3 es preferentemente:",
+      "options": [
+        "fraud_certainty",
+        "parentesco",
+        "needs_review / prioridad de cola",
+        "culpable"
+      ]
+    },
+    {
+      "question": "CF-3 y regresión S27–S39 en esta lane de autoría:",
+      "options": [
+        "Se documentan; PASS lo califica otra lane",
+        "Marcan PASS solos en el ledger",
+        "Se borran al exportar el bundle",
+        "Solo aplican a S01"
+      ]
+    },
+    {
+      "question": "Evidence packet debe incluir:",
+      "options": [
+        "Solo el score del modelo",
+        "Evidencia y path además del score",
+        "Solo el owner del repo de ML",
+        "Claves de API de producción"
+      ]
+    },
+    {
+      "question": "Ante incidente grave el modo seguro es:",
+      "options": [
+        "Ignorar y subir throughput",
+        "Subir contamination del training set",
+        "Etiquetar fraude masivo con el score",
+        "human_only / rollback a artefacto previo"
+      ]
+    },
+    {
+      "question": "Un breaking change en graph_schema del triage exige:",
+      "options": [
+        "Bump patch silencioso",
+        "Borrar el registry",
+        "Bump major, owner contactable y revalidación de paths",
+        "Desactivar el audit log"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S39-T1-A-E1",
+      "instruction": "S39-T1-A-E1 · Valida el contrato del pipeline canónico N3 sobre `CASO-LIM-039-T1A`. Entrada: dict con stages (lista ordenada), label_space y auto_fraud. Debe exigir el orden intake→er→relation_graph→features→model_score→queue, label_space needs_review y auto_fraud False. El starter compara el orden al revés (defecto). Salida exacta: `S39-T1-A PASS`. El fixture adverso de E2 activará `REJECT_STAGE_ORDER`.",
+      "hints": [
+        "Compara stages con la tupla canónica; no inviertas el orden ni cambies los datos del fixture.",
+        "label_space debe ser exactamente needs_review y auto_fraud debe ser False (score ≠ fraude)."
+      ],
+      "kind": "guided",
+      "tests": "Fixture válido imprime `S39-T1-A PASS` y el assert booleano pasa.",
+      "starterCode": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\n# DEFECTO: compara contra el orden invertido\nmeets = record[\"stages\"] == list(reversed(CANON)) and record[\"label_space\"] == \"needs_review\"\nstatus = \"PASS\" if meets else \"REJECT_STAGE_ORDER\"\nprint(\"S39-T1-A\", status)\n"
+    },
+    {
+      "id": "S39-T1-A-E2",
+      "instruction": "S39-T1-A-E2 · Modela tres rutas del pipeline N3: fixture válido, stages en orden adverso y registro sin label_space. Entrada: dict con case_id, stages, label_space, auto_fraud. Salidas exactas: `PASS`, `REJECT_STAGE_ORDER`, `MISSING:label_space`. El starter invierte la comparación de orden; corrige solo la decisión de dominio y conserva el chequeo de missing.",
+      "hints": [
+        "Primero calcula missing de campos requeridos; no evalúes stages si falta label_space.",
+        "El adverso tiene stages al revés: debe fallar por contenido (REJECT_STAGE_ORDER), no por schema."
+      ],
+      "kind": "independent",
+      "tests": "Salida exacta: PASS REJECT_STAGE_ORDER MISSING:label_space",
+      "starterCode": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"stages\", \"label_space\", \"auto_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    # DEFECTO: acepta el orden invertido\n    ok = record[\"stages\"] == list(reversed(CANON)) and record[\"label_space\"] == \"needs_review\"\n    return \"PASS\" if ok else \"REJECT_STAGE_ORDER\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\ninvalid = {**valid, \"stages\": list(reversed(CANON))}\nincomplete = {k: v for k, v in valid.items() if k != \"label_space\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n"
+    },
+    {
+      "id": "S39-T1-A-E3",
+      "instruction": "S39-T1-A-E3 · Fail-closed del pipeline: válido → `CONTINUE`, stages adversos → `REJECT_STAGE_ORDER`, ER pretendiendo parentesco (`er_claims_parentesco=True`) → `REJECT_ER_SCOPE`, y falta de stages → `REQUEST_STAGE_LIST`. El starter continúa en todos los casos y no detecta el abuso de alcance de ER. Corrige sin rellenar evidencia inventada.",
+      "hints": [
+        "Incertidumbre (missing) no es breach de parentesco: token REQUEST_STAGE_LIST va antes de evaluar contenido.",
+        "ER solo habla de misma entidad; er_claims_parentesco True es REJECT_ER_SCOPE aunque el orden de stages sea correcto."
+      ],
+      "kind": "transfer",
+      "tests": "Salida: CONTINUE REJECT_STAGE_ORDER REJECT_ER_SCOPE REQUEST_STAGE_LIST",
+      "starterCode": null
+    },
+    {
+      "id": "S39-T1-B-E1",
+      "instruction": "S39-T1-B-E1 · Valida el contrato de ownership y semver sobre `CASO-LIM-039-T1B`. Entrada: dict artifact con name, ver, owner y breaking. Si breaking es True, bump debe ser `major`; owner no vacío. El starter exige bump `minor` ante breaking (defecto). Salida exacta: `S39-T1-B PASS`. El adverso de E2 activará `REJECT_BUMP_POLICY`.",
+      "hints": [
+        "Breaking change → major. Owner vacío o None falla el contrato aunque el bump sea correcto.",
+        "No alteres el fixture; corrige solo la expresión booleana del predicado."
+      ],
+      "kind": "guided",
+      "tests": "Imprime `S39-T1-B PASS` cuando bump=major, owner presente y breaking True.",
+      "starterCode": "record = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"graph_schema\",\n    \"ver\": \"3.0.0\",\n    \"owner\": \"investigations\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\n# DEFECTO: exige minor ante breaking\nmeets = record[\"breaking\"] and record[\"bump\"] == \"minor\" and bool(record[\"owner\"])\nstatus = \"PASS\" if meets else \"REJECT_BUMP_POLICY\"\nprint(\"S39-T1-B\", status)\n"
+    },
+    {
+      "id": "S39-T1-B-E2",
+      "instruction": "S39-T1-B-E2 · Tres rutas de registry: artefacto válido (breaking+major+owner), adverso (breaking+minor) y sin owner. Entrada: name, ver, owner, breaking, bump. Salidas exactas: `PASS`, `REJECT_BUMP_POLICY`, `MISSING:owner`. Corrige el predicado invertido del starter y mantén el orden missing-antes-de-contenido.",
+      "hints": [
+        "Si falta owner, devuelve MISSING:owner sin mirar bump.",
+        "Si breaking y bump != major → REJECT_BUMP_POLICY aunque haya owner."
+      ],
+      "kind": "independent",
+      "tests": "Salida: PASS REJECT_BUMP_POLICY MISSING:owner",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"name\", \"ver\", \"owner\", \"breaking\", \"bump\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    # DEFECTO: acepta minor ante breaking\n    ok = (not record[\"breaking\"]) or record[\"bump\"] == \"minor\"\n    return \"PASS\" if ok and bool(record[\"owner\"]) else \"REJECT_BUMP_POLICY\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"ranker\",\n    \"ver\": \"2.1.0\",\n    \"owner\": \"ml-risk\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\ninvalid = {**valid, \"bump\": \"minor\"}\nincomplete = {k: v for k, v in valid.items() if k != \"owner\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n"
+    },
+    {
+      "id": "S39-T1-B-E3",
+      "instruction": "S39-T1-B-E3 · Evalúa un registry de cuatro artefactos sintéticos. Si algún artefacto carece de owner → `ESCALATE_NO_OWNER`; si hay breaking con bump distinto de major → `REJECT_BUMP_POLICY`; si todos OK → `CONTINUE` y reporta `n_art` = 4. El starter ignora owners vacíos y cuenta mal el tamaño. Salida de la línea principal: `CONTINUE 4` en el happy path del fixture base.",
+      "hints": [
+        "Recorre todos los artefactos antes de CONTINUE; un solo fallo de política bloquea.",
+        "n_art es len(registry); no hardcodees 3 por error de off-by-one del starter."
+      ],
+      "kind": "transfer",
+      "tests": "Happy path imprime CONTINUE 4; fixtures adversos cubiertos en asserts de solución.",
+      "starterCode": "registry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\", \"breaking\": False, \"bump\": \"patch\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\", \"breaking\": False, \"bump\": \"minor\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\", \"breaking\": False, \"bump\": \"patch\"},\n}\n\ndef decide(reg: dict) -> str:\n    # DEFECTO: no valida owners ni bump\n    return \"CONTINUE\"\n\nprint(decide(registry), len(registry) - 1)\n"
+    },
+    {
+      "id": "S39-T2-A-E1",
+      "instruction": "S39-T2-A-E1 · Valida el evidence packet mínimo de `CASO-LIM-039-T2A`. Entrada: dict con case_id, score, evidence (lista no vacía) y graph_path (lista no vacía). El starter solo exige score > 0 (defecto: score alone). Salida exacta: `S39-T2-A PASS`. El adverso de E2 activará `REJECT_PACKET_INCOMPLETE`.",
+      "hints": [
+        "evidence y graph_path deben ser listas con al menos un elemento; score solo no basta.",
+        "No cambies los datos del fixture feliz; corrige el predicado meets_contract."
+      ],
+      "kind": "guided",
+      "tests": "Imprime `S39-T2-A PASS` cuando el packet tiene las cuatro claves mínimas útiles.",
+      "starterCode": "packet = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\n# DEFECTO: solo mira el score\nmeets = packet.get(\"score\", 0) > 0\nstatus = \"PASS\" if meets else \"REJECT_PACKET_INCOMPLETE\"\nprint(\"S39-T2-A\", status)\n"
+    },
+    {
+      "id": "S39-T2-A-E2",
+      "instruction": "S39-T2-A-E2 · Tres packets: completo, adverso (evidence=[]), y sin graph_path. Entrada: case_id, score, evidence, graph_path. Salidas exactas: `PASS`, `REJECT_PACKET_INCOMPLETE`, `MISSING:graph_path`. El starter trata evidence vacía como PASS; corrige el predicado y el missing check.",
+      "hints": [
+        "Missing de clave ≠ lista vacía: tokens distintos (MISSING vs REJECT_PACKET_INCOMPLETE).",
+        "score alone nunca es PASS aunque sea 0.99."
+      ],
+      "kind": "independent",
+      "tests": "Salida: PASS REJECT_PACKET_INCOMPLETE MISSING:graph_path",
+      "starterCode": "def assess(packet: dict) -> str:\n    required = {\"case_id\", \"score\", \"evidence\", \"graph_path\"}\n    missing = sorted(required - packet.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    # DEFECTO: no valida listas no vacías\n    return \"PASS\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\ninvalid = {**valid, \"evidence\": []}\nincomplete = {k: v for k, v in valid.items() if k != \"graph_path\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n"
+    },
+    {
+      "id": "S39-T2-A-E3",
+      "instruction": "S39-T2-A-E3 · Workbench fail-closed: packet OK → `CONTINUE` y reporta layers=4; score-only → `REJECT_SCORE_ALONE`; sin uncertainty → `REQUEST_UNCERTAINTY`. El starter siempre continúa y reporta layers=1. Salida happy path: `CONTINUE 4`. No inventes path si no viene en el fixture adverso.",
+      "hints": [
+        "Las 4 capas de explicación (S35) se asumen cuando el packet está completo; score-only no las habilita.",
+        "uncertainty ausente es incertidumbre de contrato → REQUEST_UNCERTAINTY, no inventes in_distribution."
+      ],
+      "kind": "transfer",
+      "tests": "Happy: CONTINUE 4; adversos: REJECT_SCORE_ALONE y REQUEST_UNCERTAINTY",
+      "starterCode": "def decide(packet: dict):\n    # DEFECTO: siempre continúa\n    return \"CONTINUE\", 1\n\nok = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n}\nprint(*decide(ok))\n"
+    },
+    {
+      "id": "S39-T2-B-E1",
+      "instruction": "S39-T2-B-E1 · Aplica override humano sobre `CASO-LIM-039-T2B`. Entrada: score, threshold, human_action. Si hay human_action, final=human_action y override=True; si no, auto queue/skip por umbral. El starter ignora el humano y siempre usa auto (defecto). Salida exacta: `S39-T2-B PASS` cuando final es skip con override True ante human_action=skip.",
+      "hints": [
+        "human_action no nulo gana siempre; debe setear override True en el evento de audit conceptual.",
+        "No borres el score; solo corrige la precedencia de la decisión final."
+      ],
+      "kind": "guided",
+      "tests": "Imprime `S39-T2-B PASS` con final skip y override True.",
+      "starterCode": "record = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"score\": 0.9,\n    \"threshold\": 0.7,\n    \"human_action\": \"skip\",\n}\nauto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n# DEFECTO: ignora humano\nfinal = auto\noverride = False\nmeets = final == \"skip\" and override is True\nstatus = \"PASS\" if meets else \"REJECT_OVERRIDE\"\nprint(\"S39-T2-B\", status)\n"
+    },
+    {
+      "id": "S39-T2-B-E2",
+      "instruction": "S39-T2-B-E2 · Tres decisiones: auto queue sin humano (`PASS` con final queue), override a skip (`PASS` con override), y apelación sin second_reviewer (`MISSING:second_reviewer`). Entrada: score, threshold, human_action, appeal, second_reviewer. El starter no exige second_reviewer en apelación. Salidas: `queue`, `skip`, `MISSING:second_reviewer` en la línea impresa de resultados de acción/estado.",
+      "hints": [
+        "Si appeal True y no hay second_reviewer → MISSING:second_reviewer antes de cerrar.",
+        "Override solo aplica cuando human_action no es None; imprime la acción final o el missing."
+      ],
+      "kind": "independent",
+      "tests": "Salida: queue skip MISSING:second_reviewer",
+      "starterCode": "def assess(record: dict) -> str:\n    if record.get(\"appeal\"):\n        return \"reopen\"  # DEFECTO: no exige second_reviewer\n    auto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n    if record.get(\"human_action\") is not None:\n        return record[\"human_action\"]\n    return auto\n\nbase = {\"case_id\": \"CASO-LIM-039-T2B\", \"score\": 0.9, \"threshold\": 0.7, \"human_action\": None, \"appeal\": False}\nauto_q = dict(base)\noverride = {**base, \"human_action\": \"skip\"}\nappeal = {**base, \"appeal\": True}\nprint(assess(auto_q), assess(override), assess(appeal))\n"
+    },
+    {
+      "id": "S39-T2-B-E3",
+      "instruction": "S39-T2-B-E3 · Audit log de feedback: si se registra feedback de revisor, debe incluir leakage_care=True y action logged; si override sin audit_entry → `REJECT_NO_AUDIT`; si falta feedback_id cuando feedback=True → `REQUEST_FEEDBACK_ID`. Happy path imprime `LOGGED True`. El starter marca LOGGED aunque no haya audit.",
+      "hints": [
+        "Fail-closed: sin audit_entry no hay override válido; feedback sin id no se reinyecta.",
+        "leakage_care True es obligatorio al loguear feedback hacia datasets o reglas."
+      ],
+      "kind": "transfer",
+      "tests": "Happy: LOGGED True; adversos con tokens REJECT_NO_AUDIT y REQUEST_FEEDBACK_ID",
+      "starterCode": "def decide(event: dict):\n    # DEFECTO: siempre loguea\n    return \"LOGGED\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"override\": True,\n    \"audit_entry\": True,\n    \"feedback\": True,\n    \"feedback_id\": \"fb-01\",\n    \"leakage_care\": True,\n}\nprint(*decide(happy))\n"
+    },
+    {
+      "id": "S39-T3-A-E1",
+      "instruction": "S39-T3-A-E1 · Evalúa el checklist de release de `CASO-LIM-039-T3A`. Entrada: dict con pii_minimized, rbac, secrets_in_repo, slice_metrics, input_limits. release_ok exige todos True salvo secrets_in_repo que debe ser False. El starter trata secrets_in_repo True como aceptable (defecto grave). Salida exacta: `S39-T3-A PASS` en el fixture limpio.",
+      "hints": [
+        "not secrets_in_repo es obligatorio; un True bloquea aunque el resto esté verde.",
+        "No borres campos del checklist; corrige solo el predicado all(...)."
+      ],
+      "kind": "guided",
+      "tests": "Imprime `S39-T3-A PASS` cuando el checklist limpio cumple el contrato.",
+      "starterCode": "checklist = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\n# DEFECTO: no niega secrets_in_repo\nmeets = all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n])\nstatus = \"PASS\" if meets else \"REJECT_RELEASE\"\nprint(\"S39-T3-A\", status)\n"
+    },
+    {
+      "id": "S39-T3-A-E2",
+      "instruction": "S39-T3-A-E2 · Tres checklists: limpio → `PASS`, secrets_in_repo True → `REJECT_SECRETS`, sin rbac (clave ausente) → `MISSING:rbac`. Entrada: flags del checklist de riesgo. El starter no niega secrets y confunde missing con reject. Salida exacta de la línea: `PASS REJECT_SECRETS MISSING:rbac`.",
+      "hints": [
+        "Missing de rbac se detecta por claves; secrets True es breach de contenido.",
+        "min_role conceptual del packet es reviewer; aquí solo validas flags del checklist."
+      ],
+      "kind": "independent",
+      "tests": "Salida: PASS REJECT_SECRETS MISSING:rbac",
+      "starterCode": "def assess(c: dict) -> str:\n    required = {\"pii_minimized\", \"rbac\", \"secrets_in_repo\", \"slice_metrics\", \"input_limits\"}\n    missing = sorted(required - c.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    # DEFECTO: no bloquea secrets\n    return \"PASS\"\n\nvalid = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\ninvalid = {**valid, \"secrets_in_repo\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"rbac\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n"
+    },
+    {
+      "id": "S39-T3-A-E3",
+      "instruction": "S39-T3-A-E3 · Fairness de cola: si slice_metrics falta → `REQUEST_SLICE_METRICS`; si fp_rate de un slice sintético supera umbral → `REJECT_SLICE_FP`; si OK → `CONTINUE` con metric `fp_rate`. El starter siempre continúa y no lee slices. Happy path: `CONTINUE fp_rate`. No uses el score para afirmar fraude en un slice.",
+      "hints": [
+        "Los slices son sintéticos de canal/producto; fp_rate alto reabre el release, no etiqueta personas.",
+        "REQUEST_SLICE_METRICS cuando la clave slices no existe o está vacía."
+      ],
+      "kind": "transfer",
+      "tests": "Happy CONTINUE fp_rate; adversos REQUEST_SLICE_METRICS y REJECT_SLICE_FP",
+      "starterCode": "def decide(payload: dict):\n    # DEFECTO\n    return \"CONTINUE\", \"auc\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"slices\": [{\"name\": \"canal_app\", \"fp_rate\": 0.08}],\n    \"fp_threshold\": 0.15,\n}\nprint(*decide(happy))\n"
+    },
+    {
+      "id": "S39-T3-B-E1",
+      "instruction": "S39-T3-B-E1 · Calcula el modo ops de `CASO-LIM-039-T3B`. Entrada: drift_high (bool), incident (bool). Prioridad: incident → human_only; si no, drift_high → abstain_more; si no, normal. El starter invierte prioridades (defecto). Salida exacta: `S39-T3-B PASS` cuando incident True produce human_only.",
+      "hints": [
+        "incident gana siempre sobre drift; no devuelvas abstain_more si incident es True.",
+        "Corrige solo la función mode; el fixture de assert usa incident=True."
+      ],
+      "kind": "guided",
+      "tests": "Imprime `S39-T3-B PASS` si mode(incident=True)=human_only.",
+      "starterCode": "def mode(drift_high, incident):\n    # DEFECTO: prioriza drift\n    if drift_high:\n        return \"abstain_more\"\n    if incident:\n        return \"human_only\"\n    return \"normal\"\n\nrecord = {\"case_id\": \"CASO-LIM-039-T3B\", \"drift_high\": True, \"incident\": True}\nm = mode(record[\"drift_high\"], record[\"incident\"])\nmeets = m == \"human_only\"\nstatus = \"PASS\" if meets else \"REJECT_MODE\"\nprint(\"S39-T3-B\", status)\n"
+    },
+    {
+      "id": "S39-T3-B-E2",
+      "instruction": "S39-T3-B-E2 · Tres escenarios ops: normal, solo drift → `abstain_more`, solo incident → `human_only`. Entrada: drift_high, incident. Salidas exactas en una línea: `normal abstain_more human_only`. El starter intercambia drift e incident. No inventes labels de fraude al subir abstención.",
+      "hints": [
+        "Tabla de verdad simple: (F,F)=normal, (T,F)=abstain_more, (F,T)=human_only.",
+        "Si ambos True, human_only (cubierto por la prioridad de incident)."
+      ],
+      "kind": "independent",
+      "tests": "Salida: normal abstain_more human_only",
+      "starterCode": "def mode(drift_high, incident):\n    # DEFECTO: ramas invertidas\n    if drift_high:\n        return \"human_only\"\n    if incident:\n        return \"abstain_more\"\n    return \"normal\"\n\nprint(mode(False, False), mode(True, False), mode(False, True))\n"
+    },
+    {
+      "id": "S39-T3-B-E3",
+      "instruction": "S39-T3-B-E3 · Rollback versionado: si incident, target=`previous_model` y thr=`previous`; si falta prev_model_id → `REQUEST_PREV_MODEL`; si solo drift → modo abstain_more sin rollback forzado (`MONITOR`). Happy path incidente: `ROLLBACK previous_model`. El starter siempre imprime current_model.",
+      "hints": [
+        "Rollback apunta a artefacto versionado previo, no al working tree local.",
+        "Sin prev_model_id no inventes un id; pide REQUEST_PREV_MODEL."
+      ],
+      "kind": "transfer",
+      "tests": "Happy: ROLLBACK previous_model; missing y drift con tokens propios",
+      "starterCode": "def decide(ops: dict):\n    # DEFECTO\n    return \"STAY\", \"current_model\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3B\",\n    \"incident\": True,\n    \"drift_high\": False,\n    \"prev_model_id\": \"previous_model\",\n    \"prev_thr\": \"previous\",\n}\nprint(*decide(happy))\n"
+    },
+    {
+      "id": "S39-T4-A-E1",
+      "instruction": "S39-T4-A-E1 · Verifica criterios de aceptación de `CASO-LIM-039-T4A`. Entrada: lista acceptance de strings. Debe incluir `no_auto_fraud_label` y al menos e2e_synthetic_run, audit_log. El starter busca la clave equivocada `auto_fraud_ok` (defecto). Salida exacta: `S39-T4-A PASS` cuando el criterio correcto está presente.",
+      "hints": [
+        "Busca el string exacto no_auto_fraud_label dentro de la lista acceptance.",
+        "No reescribas la lista; corrige la condición membership."
+      ],
+      "kind": "guided",
+      "tests": "Imprime `S39-T4-A PASS` si el checklist de aceptación es completo en lo esencial.",
+      "starterCode": "acceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\n# DEFECTO: clave incorrecta\nmeets = \"auto_fraud_ok\" in acceptance and \"audit_log\" in acceptance\nstatus = \"PASS\" if meets else \"REJECT_ACCEPTANCE\"\nprint(\"S39-T4-A\", status)\n"
+    },
+    {
+      "id": "S39-T4-A-E2",
+      "instruction": "S39-T4-A-E2 · Documenta regresión y CF-3: scope debe ser `S27-S39`, cf3_lane=`separate_lane`, section_passed debe ser False en esta autoría. Entrada: dict gate_notes. Adverso: section_passed True → `REJECT_AUTO_PASS`. Missing scope → `MISSING:regression_scope`. Salidas: `PASS REJECT_AUTO_PASS MISSING:regression_scope`. El starter permite section_passed True.",
+      "hints": [
+        "Esta lane nunca auto-marca PASS; section_passed True es rechazo de política de autoría.",
+        "cf3_lane separate_lane es el recordatorio de calificación externa."
+      ],
+      "kind": "independent",
+      "tests": "Salida: PASS REJECT_AUTO_PASS MISSING:regression_scope",
+      "starterCode": "def assess(notes: dict) -> str:\n    required = {\"regression_scope\", \"cf3_lane\", \"section_passed\"}\n    missing = sorted(required - notes.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    # DEFECTO: acepta auto pass\n    return \"PASS\"\n\nvalid = {\n    \"regression_scope\": \"S27-S39\",\n    \"cf3_lane\": \"separate_lane\",\n    \"section_passed\": False,\n}\ninvalid = {**valid, \"section_passed\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"regression_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n"
+    },
+    {
+      "id": "S39-T4-A-E3",
+      "instruction": "S39-T4-A-E3 · Demo paths: debe haber exactamente las tres rutas happy, override y ood_abstain (nombres canónicos). Si falta una → `REQUEST_DEMO_PATH`; si hay solo happy → `REJECT_HAPPY_ONLY`; si completo → `CONTINUE 3`. El starter cuenta mal y acepta un solo path. Salida happy: `CONTINUE 3`.",
+      "hints": [
+        "Compara como conjunto los nombres canónicos; el orden de la lista no importa.",
+        "ood_abstain es distinto de ood; usa el token canónico del theory block."
+      ],
+      "kind": "transfer",
+      "tests": "Happy CONTINUE 3; adversos REQUEST_DEMO_PATH / REJECT_HAPPY_ONLY",
+      "starterCode": "def decide(paths: list):\n    # DEFECTO\n    return \"CONTINUE\", len(paths)\n\nprint(*decide([\"happy\", \"override\", \"ood_abstain\"]))\n"
+    },
+    {
+      "id": "S39-T4-B-E1",
+      "instruction": "S39-T4-B-E1 · Valida las tres cards de cierre sobre `CASO-LIM-039-T4B`. Entrada: lista cards. Debe contener exactamente model, data y system (como conjunto). El starter exige cuatro cards incluyendo 'ops' (defecto). Salida exacta: `S39-T4-B PASS`. El adverso de E2 activará `REJECT_CARDS`.",
+      "hints": [
+        "Conjunto {model, data, system}; ni de más ni de menos para el contrato mínimo de S39.",
+        "Orden de impresión puede ser sorted; el predicado usa igualdad de sets."
+      ],
+      "kind": "guided",
+      "tests": "Imprime `S39-T4-B PASS` cuando las tres cards mínimas están presentes.",
+      "starterCode": "cards = [\"model\", \"data\", \"system\"]\n# DEFECTO: exige ops\nmeets = set(cards) == {\"model\", \"data\", \"system\", \"ops\"}\nstatus = \"PASS\" if meets else \"REJECT_CARDS\"\nprint(\"S39-T4-B\", status)\n"
+    },
+    {
+      "id": "S39-T4-B-E2",
+      "instruction": "S39-T4-B-E2 · Métricas de valor: debe existir override_rate (y preferible precision_at_k, median_review_s). Válido → `PASS`; solo auc offline → `REJECT_VALUE_METRICS`; sin dict de métricas → `MISSING:value`. El starter acepta auc como suficiente. Salida: `PASS REJECT_VALUE_METRICS MISSING:value`.",
+      "hints": [
+        "Valor operativo del triage ≠ solo AUC; override_rate es la métrica canónica de este ejercicio.",
+        "MISSING:value cuando el payload no trae la clave value."
+      ],
+      "kind": "independent",
+      "tests": "Salida: PASS REJECT_VALUE_METRICS MISSING:value",
+      "starterCode": "def assess(payload: dict) -> str:\n    if \"value\" not in payload:\n        return \"MISSING:value\"\n    # DEFECTO: acepta solo auc\n    return \"PASS\" if \"auc\" in payload[\"value\"] or \"override_rate\" in payload[\"value\"] else \"REJECT_VALUE_METRICS\"\n\nvalid = {\"value\": {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}}\ninvalid = {\"value\": {\"auc\": 0.91}}\nincomplete = {\"cards\": [\"model\"]}\nprint(assess(valid), assess(invalid), assess(incomplete))\n"
+    },
+    {
+      "id": "S39-T4-B-E3",
+      "instruction": "S39-T4-B-E3 · Postmortem blameless: requiere blameless=True, root_cause no vacío y actions no vacía. Si blameless False → `REJECT_BLAMEFUL`; si falta root_cause → `REQUEST_ROOT_CAUSE`; si OK → `CONTINUE`. Happy path imprime `CONTINUE True`. El starter acepta postmortems con culpa personal y sin acciones.",
+      "hints": [
+        "Blameless mira procesos y sistemas; no nombres de personas como root_cause.",
+        "actions debe ser lista con al menos un ítem (rollback, recalibrate, etc.)."
+      ],
+      "kind": "transfer",
+      "tests": "Happy CONTINUE True; adversos REJECT_BLAMEFUL y REQUEST_ROOT_CAUSE",
+      "starterCode": "def decide(pm: dict):\n    # DEFECTO\n    return \"CONTINUE\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T4B\",\n    \"blameless\": True,\n    \"root_cause\": \"calib_drift\",\n    \"actions\": [\"rollback\", \"recalibrate\"],\n}\nprint(*decide(happy))\n"
+    }
+  ],
+  "packet_sha": "92753e3551164bb0",
+  "attempt_id": "agentic_I1"
+}

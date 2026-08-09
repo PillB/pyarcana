@@ -1,0 +1,211 @@
+     1→# Solarize Orchestrator Worklog
+     2→
+     3→This is the shared worklog for the Solarize multi-agent orchestrator building a
+     4→Python -> Data Analyst / Data Scientist online course website (Peruvian Spanish).
+     5→
+     6→Agents append their entries below using the standard template.
+     7→
+     8→---
+     9→Task ID: 1
+    10→Agent: Research/STORM
+    11→Task: Phase 0 research for Python DS course
+    12→
+    13→Work Log:
+    14→- Read project root; confirmed Next.js 16 + Tailwind 4 + shadcn/ui + Prisma + Framer Motion + z-ai-web-dev-sdk + zustand stack (all relevant for Section 3 SPA findings).
+    15→- Ran 12 web_search queries via z-ai CLI covering: Python DS skills demand 2025; salary Peru Lima; Gradual Release pedagogy; Tailwind 4 + shadcn SPA patterns; Framer Motion perf; spaced repetition for syntax; sklearn Pipeline+Optuna+SHAP; pytest+CI; constructivism in CS ed; course platform success patterns (freeCodeCamp/Kaggle Learn); responsive overflow pitfalls; Python cert value; LATAM DS soft skills; pandas real-world projects; zustand persist; online course completion pitfalls.
+    16→- Cross-referenced 5 independent salary sources for Peru (Levels.fyi, Glassdoor, SalaryExpert, Talently, CosmoQuick).
+    17→- Identified Tailwind v4 + shadcn known Radix transparency bug (GitHub #17137) — actionable for build phase.
+    18→- Validated Gradual Release has evolved to 4 phases (I Do / We Do / You Do Together / You Do) per Corwin + Ferry 2024.
+    19→- Mapped each of the 10 outline sections to a portfolio-grade mini-project mirroring a real DA/DS job task.
+    20→
+    21→Stage Summary:
+    22→- Delivered a ~1,450-word research brief with 4 sections: (1) 15 CV keywords + 5 production project archetypes + 3 cert recommendations + Peru salary ranges; (2) 5 pedagogy principles + 3 anti-patterns; (3) 5 SPA/Tailwind best practices + 3 mobile-on-desktop pitfalls with fixes; (4) per-section must-have sub-skills + mini-project ideas for all 10 outline modules.
+    23→- Key actionable findings for downstream agents: (a) course must use I Do/We Do/You Do Together/You Do pattern with executable feedback after every "You Do"; (b) prefer CSS/LazyMotion animations over JS for perf, animate only transform/opacity; (c) use Zustand+persist for localStorage progress with schema versioning; (d) Tailwind v4 migration requires fixing Radix Select transparency bug; (e) course projects should be the 5 production archetypes (churn, RFM segmentation, forecasting, EDA report, scoring+API) — these double as portfolio pieces; (f) CS50P + Kaggle badges are the highest-signal certifications to recommend.
+    24→- Source-quality honesty: salary/Peru data and Gradual Release model are strongly corroborated; LATAM soft-skills and cert-ROI claims are weaker (anecdotal); niche tool-adoption rankings for 2025-2026 LATAM relied on training-data inference. Recommended: orchestrator commission a Phase 0.5 scrape of actual LinkedIn Peru DS job postings to harden keyword ranking.
+    25→
+    26→---
+    27→Task ID: P0-A
+    28→Agent: Content Extraction
+    29→Task: EPUB gap analysis
+    30→
+    31→Work Log:
+    32→- Read prior worklog (Phase 0 research by Research/STORM agent); aligned with the 10-section course outline.
+    33→- Confirmed ebooklib + lxml not pre-installed; installed into /home/z/.venv (Python 3.12) which already had working lxml 6.0.2. User-local Python 3.13 lxml install was broken (ImportError on etree), so used venv interpreter.
+    34→- Extracted all 3 EPUBs to /tmp/epub_extract/{python_101,python201,PythonAwesomeJob}. Wrote /home/z/my-project/parse_epubs.py that uses ebooklib to walk the spine in order, extract chapter titles, 25-word summaries, and top subheadings (filtered out part dividers / title / TOC pages).
+    35→- Parsed inventory: python_101 = 44 numbered chapters + Appendix A across Parts I-V; python201 = 30 chapters across Parts I-V; PythonAwesomeJob = 8 chapters.
+    36→- Spot-extracted code blocks from 6 high-value chapters (python_101 ch15 csv, ch24 datetime, ch28 decorators; python201 ch3 collections, ch4 context-managers, ch8 iterators, ch27 doctest; PythonAwesomeJob ch4 Excel/PDF, ch5 scraping, ch6 multiprocessing) to ground exercise ideas.
+    37→- Mapped every EPUB chapter to current course sections; flagged COVERED / PARTIAL / MISSING.
+    38→
+    39→Stage Summary:
+    40→- Delivered 4-part gap analysis (~1900 words): (1) full chapter inventory tables for all 3 EPUBs; (2) per-chapter coverage map against the 10 existing sections; (3) top-10 critical missing topics ranked by DS-learner value, each with source citation, justification, and recommended insertion point; (4) 10 concrete exercise ideas sourced from real EPUB code, each with target section.
+    41→- Top cross-cutting gaps: (a) Iterators/Generators/yield — needed for memory-efficient Pandas pipelines; (b) Web scraping + REST APIs — primary DS data-acquisition channel entirely absent; (c) SQL databases (sqlite3/SQLAlchemy/Postgres) — every DS job requires it, course has none; (d) Multiprocessing/concurrent.futures — parallel feature engineering & hyperparam sweeps; (e) Regex — text cleaning; (f) collections (Counter/defaultdict/namedtuple); (g) Profiling/benchmarking; (h) Logging; (i) argparse/CLI tooling — portfolio polish; (j) mocking with unittest.mock — Section 10 only covers pytest fixtures, not mocking external APIs.
+    42→- Recommended structure changes: expand Section 3 (Data Structures & File Handling) to include collections + regex + context managers + generators; expand Section 7 (Pandas & EDA) to include web scraping + APIs + SQL data acquisition as a "Data Acquisition" sub-module; expand Section 10 (Testing) to add unittest.mock; add a NEW optional Section 11 "Performance & Concurrency" covering logging, profiling, multiprocessing, asyncio basics. Total estimated new content: ~6-8 sub-lessons.
+    43→- Reusable artifacts left for downstream agents: /home/z/my-project/parse_epubs.py (re-runnable parser), /tmp/epub_extract/ (extracted XHTML + images — 51 + 36 + 9 chapters of source material).
+    44→
+    45→---
+    46→Task ID: P0-B
+    47→Agent: Research/STORM
+    48→Task: Auth + progress tracking patterns for Next.js 16 App Router (Prisma/SQLite/TS/Tailwind)
+    49→
+    50→Work Log:
+    51→- Read /home/z/my-project/worklog.md (P0-A + Phase 0 context); confirmed Solarize Python DS course, 10 sections, I Do/We Do/You Do pedagogy, all on `/` route (SPA). No separate /login /dashboard routes allowed.
+    52→- Audited current repo: Next.js 16.1.1, next-auth ^4.24.11 already installed (recommend upgrade to v5 beta), Prisma 6.11.1 + SQLite at /home/z/my-project/db/custom.db, zod 4, zustand 5, react 19, Tailwind 4, shadcn/ui. Existing schema only has User + Post stub. Existing src/lib/progress-store.ts uses zustand+persist (localStorage only) — flagged for server-sync migration once auth lands.
+    53→- Ran 2 web_search queries via z-ai CLI to verify Auth.js v5 ↔ Next.js 16 compatibility: confirmed stable via Plain English guide "Stop Crying Over Auth: Senior Dev's Guide to Next.js 16 & Auth.js v5" + WorkOS 2026 App Router auth guide + authjs.dev v5 migration docs. v4 works but fights App Router conventions.
+    54→- Designed full Prisma schema with User/Session/Progress/QuestionBank/ExamAttempt/ExerciseAttempt models, accounting for SQLite constraints (no native enum → String role; Json stored as TEXT but exposed typed via Prisma).
+    55→- Specified smart-exam variant system: 3 variants per concept, no-repeat-within-user enforced by attemptNumber unique constraint, 2-retry-max (3 total attempts) gating via /api/exam/start returning 403 when N≥3.
+    56→- Recommended OAuth mock = Option A (modal explaining env config) as primary + Option B demo-account toggle, NOT fake @gmail.com users (pollutes DB + admin CSV) and NOT Option C placeholder env (confusing runtime errors).
+    57→
+    58→Stage Summary:
+    59→- Delivered ~1,450-word research brief covering: (1) stack with bun add commands; (2) NextAuth v5 vs custom — v5 wins for portfolio project; (3) full Prisma schema with relations; (4) 13 API endpoints; (5) 10-item security checklist; (6) Mock OAuth recommendation (A+B hybrid); (7) 10-step implementation order.
+    60→- Key downstream decisions: upgrade next-auth ^4.24.11 → next-auth@beta (v5); use bcryptjs (pure JS, no native build) cost factor 12; NextAuth Credentials provider + JWT sessions (no DB sessions needed for SQLite dev); protect API via auth() inside route handlers, NOT middleware on `/` (SPA shell is public); migrate zustand progress-store to dual-write (localStorage optimistic + POST /api/progress server sync, hydrate from GET on mount).
+    61→- Anti-cheat for exams: variantSeed JSON stored per attempt for audit; timeSpentSec tracked; attemptNumber @@unique prevents bypassing the 3-attempt cap; admin can review suspicious patterns (instant submits, identical answers across variants).
+    62→- Source quality: Auth.js v5 + Next 16 stability is well-corroborated (3 independent 2025-2026 guides); bcrypt-vs-argon2 debate settled on bcryptjs for portability in dev/SQLite (argon2 needs native build); rate-limiting-without-Redis is the weakest recommendation (in-memory token bucket resets on serverless cold starts — acceptable for portfolio demo, document as known limitation).
+    63→
+    64→---
+    65→Task ID: T2
+    66→Agent: Curriculum Design
+    67→Task: Create Section 11 — Advanced Python for Data Science (covers 10 EPUB gaps)
+    68→
+    69→Work Log:
+    70→- Read prior worklog (P0-A gap analysis identified the 10 missing topics; P0-B auth context).
+    71→- Read /home/z/my-project/src/lib/types.ts to confirm CourseSection type (id, index, title, shortTitle, tagline, estimatedHours, level, icon, accentColor, learningOutcomes, jobRelevance, theory, iDo{intro,steps[]}, weDo{intro,steps[]}, youDo, selfCheck, resources).
+    72→- Read /home/z/my-project/src/lib/course/sections/s10-testing.ts (818 lines) as reference for style/depth, paragraph density, callout usage, code example structure, and Peruvian Spanish tone.
+    73→- Read /home/z/my-project/src/lib/course/index.ts (35 lines) — confirmed COURSE_SECTIONS array and COURSE_META (totalSections=10, totalHours=70).
+    74→- Read /home/z/my-project/prisma/seed.ts (1418 lines) — confirmed QUESTION_BANK structure: Record<sectionId, Q[]> with concept/question/options/correctIndex/explanation per entry, 3 variants per concept enforced by post-insert variant renumbering logic.
+    75→- Created /home/z/my-project/src/lib/course/sections/s11-advanced-topics.ts (1608 lines) — full CourseSection object covering all 10 gaps:
+    76→  (1) Iterators & generators (yield) — streaming CSV, lazy evaluation, pd.read_csv chunksize;
+    77→  (2) Web scraping — requests + BeautifulSoup + Selenium with rate-limiting, caching, legal/ethical callout;
+    78→  (3) REST APIs — requests.get/post, JSON parsing, paginación (next cursor + page param), retry with backoff exponencial, Session for keep-alive;
+    79→  (4) SQL databases — sqlite3 with parameterized queries (SQL injection danger callout), SQLAlchemy ORM, pd.read_sql bridge, df.to_sql persistence;
+    80→  (5) Multiprocessing & concurrent.futures — ProcessPoolExecutor for CPU-bound, ThreadPoolExecutor for I/O-bound, GIL explanation, memory considerations;
+    81→  (6) Regular expressions — DNI/email/teléfono peruano extraction, log parsing, pandas str.replace with regex, regex101.com reference;
+    82→  (7) collections — Counter (most_common, NLP word freq), defaultdict(list) for groupby, namedtuple for structured returns, deque for sliding windows;
+    83→  (8) Profiling & benchmarking — timeit for microbenchmarks, cProfile for script-wide, line_profiler (kernprof -l -v) for line-by-line, memory_profiler bonus;
+    84→  (9) Logging — basicConfig, niveles DEBUG/INFO/WARNING/ERROR/CRITICAL, %-format vs f-string performance, RotatingFileHandler, JSON structured logging (python-json-logger);
+    85→  (10) argparse / CLI tooling — ArgumentParser, add_argument types/choices/action, pyproject.toml [project.scripts] entry points, typer as modern alternative.
+    86→- Each theory block has 3 paragraphs of 150+ words, runnable Python code with realistic outputs (Peruvian context: SUNAT, Interbank, Mercado Libre, Falabella, Ripley), and a callout (info/warning/tip/danger) where pedagogically appropriate.
+    87→- iDo: 3 integrated steps — (1) API paginación + SQLite persistence pipeline with logging, (2) parallel feature engineering with ProcessPoolExecutor, (3) full CLI with argparse + logging + subcommand skip flags.
+    88→- weDo: 3 exercises with starter + solution code — (1) generator stream_csv + batch grouping, (2) fetch_all_pages with rate-limit retry, (3) clean_phones CLI with regex + logging.
+    89→- youDo: capstone "lead-scraper" project combining all 10 gaps (API acquisition → regex cleaning → SQLAlchemy persistence → parallel features → structured logging → argparse CLI → pip-installable) with 8-criterion rubric.
+    90→- selfCheck: 5 quiz questions covering yield, SQL injection safety, Process vs Thread, re.findall, logging best practices.
+    91→- resources: 10 doc links (official Python + regex101), 4 books (Beazley/Ramalho/Mitchell/Teate), 4 courses (Real Python + FastAPI + TalkPython).
+    92→- Updated /home/z/my-project/src/lib/course/index.ts (36 lines): added import of section11, appended to COURSE_SECTIONS array (now 11 entries), bumped COURSE_META totalSections 10→11 and totalHours 70→86, updated description to mention "11 secciones" and "scraping, APIs, SQL, multiprocessing".
+    93→- Updated /home/z/my-project/prisma/seed.ts (1581 lines): added 'advanced-topics' key to QUESTION_BANK with 4 concepts × 3 variants = 12 new questions. Concepts chosen for highest DS-job-relevance: generators-yield, sql-injection-safety, multiprocessing-vs-threads, logging-best-practices. Each variant tests the same concept from a different angle (definition / application / edge case) per the variant pattern established by other sections. The existing variant-renumbering logic in main() handles assigning variant=1,2,3 automatically.
+    94→- Fixed 2 syntax typos introduced during Write: lines 861 and 975 had `],` where `},` was needed (closing code: {} object not an array). Detected via `bun build --no-bundle` parser, confirmed via grep for orphan `],` after template literal closes.
+    95→- Verified all files typecheck cleanly: `bunx tsc --noEmit --strict --target esnext --module esnext --moduleResolution bundler --skipLibCheck` on (s11-advanced-topics.ts, index.ts, types.ts) and (seed.ts) both pass with zero errors.
+    96→
+    97→Stage Summary:
+    98→- Delivered Section 11 "Advanced Python for Data Science" (id='advanced-topics', index=11, 16 hours, level Avanzado, icon Rocket, orange→red gradient) — 1608 lines covering all 10 EPUB gap-analysis topics as integrated theory blocks with Peruvian Spanish voice ("chevere", "pega", examples referencing SUNAT/Interbank/Mercado Libre/Falabella).
+    99→- 3 files modified: NEW s11-advanced-topics.ts (1608 lines), UPDATED index.ts (35→36 lines), UPDATED seed.ts (1418→1581 lines). All typecheck clean, all bun build clean.
+   100→- Key downstream impact: COURSE_META now reports 11 sections / 86 hours; COURSE_SECTIONS array has 11 entries; QUESTION_BANK has 11 keys totaling 134 question variants (10 prior sections ~12 each + new 12). Smart-exam engine (P0-B design) will automatically pick up advanced-topics questions once UI lists section 11 in exam config.
+   101→- Pedagogical decisions: (a) chose to put all 10 gaps in ONE advanced section (per task spec) rather than scattering across existing sections (which would have broken section-level progress tracking and required rewriting s03/s07/s10); (b) used ID 'advanced-topics' (kebab-case matching existing IDs 'setup', 'testing', etc.); (c) used 'Rocket' lucide icon (matches "advanced/launch" semantic, available in lucide-react); (d) orange→red gradient distinct from s10 (cyan→blue) for visual hierarchy; (e) 16 estimatedHours reflects 90min per topic × 10 + capstone (~1 hour), reasonable for autonomous learners.
+   102→- Quality notes: 2 typos (`],` vs `},`) caught and fixed before completion via bun parser. No remaining issues. Code examples include realistic outputs (e.g., "Secuencial: 8.5s / Paralelo (8 workers): 1.4s", "Cargadas 10000 filas, 8 columnas en 0.85s") so learners can verify expected behavior. Callouts span all 5 types (info, warning, tip, danger, success) for visual variety.
+   103→- Next agent recommendations: (a) UI agent should verify the new section renders correctly in the SPA — icon 'Rocket' must be in the lucide-react import map; accentColor class must be safelisted by Tailwind 4 (check tailwind.config or @source inline if dynamic classes are purged); (b) if any UI hardcoded "10 secciones" or "70 horas" outside COURSE_META, those need updating too; (c) smart-exam engine should be configured to include 'advanced-topics' in the section picker for the final exam; (d) consider adding a 12th section icon to the sidebar/navigation if it uses a fixed list.
+   104→
+   105→---
+   106→Task ID: F0-A
+   107→Agent: Research/STORM
+   108→Task: Research common issues, pitfalls, complaints, and success patterns in AI-built apps (Claude, GPT, Perplexity, Cursor, v0, Lovable, Bolt) 2024-2026 — for audit checklist on the Python DS Perú app.
+   109→
+   110→Work Log:
+   111→- Read prior worklog (Phase 0 + P0-A + P0-B + T2) for app context: Next.js 16 SPA on `/`, Tailwind 4 + shadcn/ui + Prisma/SQLite + zustand+persist + z-ai-web-dev-sdk, 11 sections, Peruvian Spanish voice, smart-exam engine with 3 variants/concept, daily-streak planned.
+   112→- Inspected src/ tree (app/, components/, hooks/, lib/) to ground the 20-item audit checklist in actual file paths (`src/app/api/**`, `src/lib/progress-store.ts`, `src/lib/auth.ts`, `src/lib/i18n.ts`).
+   113→- Ran 10 web_search queries via z-ai CLI covering: Claude/Cursor user complaints; v0/Lovable/Bolt comparison reviews; AI slop aesthetic tells; hallucinated npm/PyPI packages (USENIX 2025 paper); MOOC drop-off (IRRODL, Ruzuku, Reddit r/instructionaldesign); WCAG accessibility failures; Next.js security (Arcjet/Authgear/vibeappscanner); Brilliant/Khan/Coursera success mechanics; online exam UX (Honorlock, NN/g, UVA LTS).
+   114→- Synthesized findings into 5 ranked lists: 15 common issues, 10 AI-slop aesthetic tells, 5 success patterns to copy, 5 security pitfalls, 20-item audit checklist specific to our app.
+   115→
+   116→Stage Summary:
+   117→- Delivered ~1,300-word research brief covering 5 dimensions: (1) 15 most common AI-app issues ranked by frequency — hallucinated packages #1 (USENIX: ~20% of AI-recommended packages don't exist, 58% of hallucinated names get attacker-registered for "slopsquatting"); (2) 10 "AI slop" aesthetic tells to avoid (purple/indigo gradient #1, sparkle-emoji hero #2, glassmorphism #3, etc.); (3) 5 success patterns to copy (v0 token discipline, Brilliant interactive-first, Khan streak+mastery, Lovable transparency, freeCodeCamp executable feedback); (4) 5 security pitfalls (dangerouslySetInnerHTML XSS #1, missing auth() in API routes #2, hardcoded secrets in client bundles #3, CSRF on cookie sessions #4, slopsquatting #5); (5) 20-item audit checklist grouped Functional/UX (9), Accessibility WCAG AA (5), Security (5), Polish/anti-slop (1 mega-check) — each item maps to a concrete file path or grep command in our repo.
+   118→- Key actionable findings for downstream agents: (a) UI agent should run `grep -r "dangerouslySetInnerHTML" src/` and audit any hits for sanitization; (b) Auth/Backend agent should grep `src/app/api/**` for missing `auth()` wrappers; (c) Design agent must avoid the 10 AI-slop tells — specifically replace any purple/indigo hero gradient with our orange→red Section 11 accent or Peru-inspired palette; (d) Content agent must replace ALL "Lorem"/"John Doe"/"Acme" placeholders with real Peruvian-context content (SUNAT/Interbank/Mercado Libre — already in T2 Section 11); (e) Build agent should pin all deps and audit `package.json` diffs to catch slopsquatting; (f) Quiz/Exam agent must implement forward-only navigation + auto-save every 30s + variant rotation per attempt (Honorlock best practices align with our P0-B variant design).
+   119→- Source-quality honesty: hallucinated-package stats, MOOC dropout rates, and dangerouslySetInnerHTML-as-top-XSS-vector are strongly corroborated across 3+ independent sources each; "AI slop" aesthetic tells are qualitative (synthesized from r/vibecoding + Addy Osmani + dev.to); exact % of Next.js apps missing auth checks is anecdotal (no published survey). Recommend follow-up task F0-A2: scrape 50 deployed v0/Lovable apps and run automated Lighthouse + custom-grep audit for empirical baselines.
+   120→
+   121→Findings (full research brief below):
+   122→
+   123→## Research Brief: Issues, Pitfalls & Success Patterns in AI-Built Apps (2024–2026)
+   124→
+   125→### Methodology
+   126→- 10 web_search queries via z-ai CLI covering: Claude/Cursor complaints, AI slop aesthetics, hallucinated packages, MOOC drop-off, accessibility, Next.js security, learning app success patterns, quiz UX, v0/Lovable/Bolt comparison.
+   127→- Cross-referenced training data with 2025-2026 cutoff.
+   128→- Read prior worklog (Phase 0, P0-A, P0-B, T2) for Python DS Perú app context.
+   129→
+   130→### 1. Top 15 most common issues in AI-generated web apps (ranked by frequency)
+   131→
+   132→1. **Hallucinated npm/PyPI packages** — USENIX 2025 paper tested 16 models on 576k samples; ~20% of AI-recommended packages don't exist, 58% of hallucinated names get registered by attackers for supply-chain malware ("slopsquatting").
+   133→2. **Missing auth checks on API routes** — AI generates `/api/*` handlers but forgets `auth()` / session check; client-side gating only.
+   134→3. **Broken loading / empty / error states** — happy path wired, skeletons/404/retry UIs absent. Most-cited Cursor/Lovable complaint.
+   135→4. **Inconsistent state management** — context + zustand + useState drift; AI mixes patterns mid-project (LinkedIn: "context loss in larger projects… repetitive and fragmented code").
+   136→5. **`dangerouslySetInnerHTML` XSS sinks** — markdown / AI-generated HTML / scraped content rendered without sanitization.
+   137→6. **Hardcoded secrets in client bundles** — keys imported into `'use client'` files ship to the browser.
+   138→7. **No server-side form validation** — client zod exists, server route skips `safeParse`.
+   139→8. **Accessibility failures** — missing `alt`, decorative icons without `aria-hidden`, `aria-label` overuse masking visible text, color-only state cues.
+   140→9. **Mobile responsiveness broken at 375px** — overflow-x, sticky headers covering content, tap targets <44px.
+   141→10. **Dark mode inconsistencies** — hardcoded `bg-white`/`text-black` instead of `bg-background`/`text-foreground`; FOUC on SSR.
+   142→11. **SEO failures** — no metadata export, no OG images, no sitemap; SPA shells ship empty `<body>`.
+   143→12. **Performance regressions** — no `next/dynamic` for heavy components (Monaco, Recharts, KaTeX), no lazy-loading of section content.
+   144→13. **Cookie-cutter dashboards with buttons that do nothing** — unwired "Settings/Billing/Notifications" nav items leading to `<ComingSoon/>`.
+   145→14. **Generic placeholder content** — "Welcome to your dashboard", "Lorem ipsum", `John Doe` never replaced.
+   146→15. **Auth flow drift** — magic-link UI without email provider; OAuth buttons without provider in `providers:[]`; redirect loops on protected routes.
+   147→
+   148→### 2. Top 10 "AI slop" aesthetic tells to avoid
+   149→
+   150→1. **Purple/indigo gradient on everything** (`from-purple-500 to-indigo-500`) — single most-mocked tell across r/vibecoding, r/lovable, Addy Osmani posts.
+   151→2. **Hero: centered sparkle ✨ + tagline + 2 CTAs** — copied verbatim from v0 default template.
+   152→3. **Glassmorphism cards over blurry blob backgrounds** — looks 2022, not 2026.
+   153→4. **Lucide icons in rounded-2xl boxes with identical gradient bg** — "feature grid of 3" pattern.
+   154→5. **"Trusted by" grayscale logo strip with fake company names** (Acme, Globex, Initech).
+   155→6. **Stock testimonial cards with initials avatars + 5 stars** (Sarah J., Mike T., Emily R.).
+   156→7. **Emoji-as-iconography** (🚀 ⚡ 🎯 📊) instead of SVG icons.
+   157→8. **`bg-gradient-to-r` on text headings** — kills readability, looks marketing-slop.
+   158→9. **Animations everywhere** — `whileHover={{ scale: 1.05 }}` on every clickable; layout-shift jank.
+   159→10. **Cookie-cutter dashboard layout** (sidebar + topbar + 4 stat cards + 1 chart) with no domain-specific IA.
+   160→
+   161→### 3. Top 5 success patterns to copy
+   162→
+   163→1. **v0 by Vercel: component-first, shadcn token discipline** — uses `bg-background`, `text-foreground`, `border` from CSS vars; dark mode correct by construction. Apply to our Tailwind 4 setup.
+   164→2. **Brilliant.org: interactive problem > passive video** — every concept is a step-by-step widget; "play with concepts until they click". Our I Do / We Do / You Do Together / You Do must make "You Do Together" genuinely interactive, not "read this code".
+   165→3. **Khan Academy: streak + mastery + energy points** — daily streak visible in header, per-skill mastery (Not Started → Familiar → Proficient → Mastered). Our progress-store should expose a public skill-mastery view.
+   166→4. **Lovable: guided full-stack scaffolding with transparency** — generates backend + schema + auth + *tells user what was created*. Copy: a "what just happened" toast/log for every state mutation in our app.
+   167→5. **freeCodeCamp / Kaggle Learn: in-browser executable feedback** — runnable code + immediate test runner + green/red signal per exercise. Non-negotiable for a Python course even if execution is sandboxed (Pyodide or backend runner).
+   168→
+   169→### 4. Top 5 security pitfalls
+   170→
+   171→1. **`dangerouslySetInnerHTML` rendering markdown / scraped HTML / AI content** without `rehype-sanitize`/`DOMPurify`. Most common Next.js XSS vector (Arcjet, Authgear, vibeappscanner).
+   172→2. **Missing `auth()` in API route handlers** — AI generates `/api/exam/start` and skips session check; client hides button but endpoint is public.
+   173→3. **Hardcoded secrets in client components** — `import { OPENAI_API_KEY } from '@/config'` into a `'use client'` file ships to browser bundle (vercel/next.js#32874).
+   174→4. **CSRF on cookie-session mutations** — NextAuth DB sessions + no CSRF token on `POST /api/progress`. Mitigation: `sameSite=strict` + Origin header check.
+   175→5. **Slopsquatting** — installing hallucinated packages AI suggests, which attackers then register with malware. Pin all deps, audit `package.json` diffs, never `--force` install.
+   176→
+   177→### 5. 20-item audit checklist for the Python DS Perú app
+   178→
+   179→**Functional / UX**
+   180→1. Every route under `src/app/api/**` wraps handler body in `auth()` and returns 401 on missing session (verify by grep).
+   181→2. Every list/table/quiz view wires 4 states: `loading` (skeleton), `empty` (illustration+CTA), `error` (retry), `success`.
+   182→3. Smart-exam engine enforces 3-attempt cap server-side via `attemptNumber @@unique` (P0-B design) — verify no client bypass.
+   183→4. Exam timer auto-saves every 30s to `/api/progress` and survives reload; `timeSpentSec` written on submit.
+   184→5. Quiz/exam: forward-only navigation, no copy-paste/right-click, variants rotated per attempt (Honorlock best practices + our variant system).
+   185→6. Every form revalidates server-side with zod `safeParse` — client validation is decorative only.
+   186→7. Progress bar in header (Khan-style) updates optimistically AND reconciles with server GET on mount (zustand dual-write from P0-B).
+   187→8. Daily streak indicator visible (Brilliant pattern) — increments on first exercise completion per UTC day, persists in localStorage + server.
+   188→9. No `<ComingSoon/>` placeholders ship to production; remove all unwired nav items.
+   189→
+   190→**Accessibility (WCAG 2.1 AA)**
+   191→10. Every `<img>` has `alt` (descriptive for content, `alt=""` for decorative); icons use `aria-hidden="true"`.
+   192→11. No `aria-label` masking visible text — labels come from visible text, ARIA only when text absent (LinkedIn @nataliemac).
+   193→12. Color contrast ≥ 4.5:1 for body text; verify dark mode tokens, not just light.
+   194→13. Keyboard navigation through quiz, code editor, exam (focus trap on modals, focus-visible rings).
+   195→14. Visible "skip to content" link + heading hierarchy (h1→h2→h3) per section.
+   196→
+   197→**Security**
+   198→15. `grep -r "dangerouslySetInnerHTML" src/` returns 0 hits OR every hit paired with `rehype-sanitize`/`DOMPurify`.
+   199→16. `grep -rE "NEXT_PUBLIC_(.*KEY|.*SECRET|.*TOKEN)" .env*` — only safe-to-expose vars prefixed; server secrets imported only in server components/routes.
+   200→17. `package.json` diff review: every dep verified against npm registry existence + maintainer reputation; no hallucinated packages.
+   201→18. CSRF: `sameSite=strict` on session cookie + Origin header check on all `POST /api/**`.
+   202→19. Rate-limit `/api/exam/start`, `/api/auth/*`, `/api/progress` (in-memory token bucket OK for dev per P0-B; document cold-start caveat).
+   203→
+   204→**Polish / anti-slop**
+   205→20. Audit design against the 10 "AI slop tells" — specifically: no purple/indigo gradient on hero (use our orange→red Section 11 accent OR Peru-inspired palette); no fake "Trusted by" logos; no emoji-as-icon in nav; no `whileHover scale` on every button; replace any "Lorem"/"John Doe"/"Acme" with real Peruvian-context content (SUNAT/Interbank/Mercado Libre examples — already in T2 Section 11).
+   206→
+   207→### Source quality notes
+   208→- **Strongly corroborated**: hallucinated-package stats (USENIX 2025, 3 independent sources), MOOC dropout ~90% / median 12.6% (IRRODL meta-analysis), `dangerouslySetInnerHTML` as top XSS vector (4 sources), Brilliant/Khan gamification mechanics.
+   209→- **Medium**: "AI slop" aesthetic tells (synthesized from r/vibecoding + Addy Osmani + dev.to — qualitative, not quantitative).
+   210→- **Weak/anecdotal**: exact % of Next.js apps missing auth checks (no published survey; inferred from forum complaint density). Recommend follow-up task F0-A2: scrape 50 deployed v0/Lovable apps and run automated audit (Lighthouse + custom grep) for empirical baselines.
+   211→

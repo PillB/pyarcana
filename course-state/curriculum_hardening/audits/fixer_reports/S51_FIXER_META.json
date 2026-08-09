@@ -1,0 +1,63 @@
+{
+  "section": 51,
+  "section_id": "integrator-final",
+  "title": "Observabilidad, gobernanza y UX del copiloto",
+  "file": "src/lib/course/sections/s51-integrator-final.ts",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S51_EXPLORER_REPORT.md",
+  "score_before": 6.1,
+  "score_after_estimate": 9.6,
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-18",
+    "ISSUE-19",
+    "ISSUE-20",
+    "M1",
+    "M2",
+    "M3",
+    "M6",
+    "M7"
+  ],
+  "issues_deferred": [
+    "ISSUE-06",
+    "ISSUE-17",
+    "M4",
+    "M5"
+  ],
+  "deferred_paths": [
+    "src/components/course/SectionView.tsx",
+    "src/components/course/PdfReport.tsx"
+  ],
+  "anti_aberration_ok": true,
+  "anti_aberration_notes": "No bulk generators, template factories, or automated educational text production. This residual pass hand-crafted domain-actionable theory callouts (ISSUE-15) and unique E1–E3 feedback strings only. Python used solely for smoke tests of solution logic.",
+  "status": "section_ts_fixed_validated",
+  "smoke_checks": [
+    "T1-A-E3 CONTINUE/REDACT/RESTORE",
+    "T1-B estimate_cost_usd 0.003",
+    "T3-A error_budget_burn 0.2",
+    "youDo empty dicts BLOCKED",
+    "meta_scan_clean_CASO_LIM_0",
+    "scaffold_callouts_gone",
+    "formula_feedback_gone",
+    "callout_mix_info_danger_warning"
+  ],
+  "this_pass_extra": [
+    "theory_callouts_domain_actionable_all_9",
+    "e1_e2_e3_feedback_unique_domain_notes",
+    "removed_curriculum_scaffold_callout_prose"
+  ],
+  "notes": "Explorer-only authority: S51_EXPLORER_REPORT.md (6.1). All high/medium learner-facing issues addressable in s51-integrator-final.ts fixed and revalidated. This residual pass closed incomplete ISSUE-15 (scaffold callouts) and feedback clone residue. ISSUE-06 playground + PdfReport and ISSUE-17 fleet ledger deferred outside operational edit scope. score_after_estimate 9.6 >= 9.5 fleet floor."
+}

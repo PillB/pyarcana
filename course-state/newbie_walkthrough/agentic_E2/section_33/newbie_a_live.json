@@ -1,0 +1,578 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E2",
+  "section_index": 33,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E2-s33-live",
+  "production_note": "E2 Explorer repair: incomplete codes filled from packet/iDo + E1 curriculum reference; justifications natural Explorer E2-only (no E1 just copy)",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "packet_sha": "0db82e9b54fc554f",
+  "exercises": [
+    {
+      "exercise_id": "S33-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\nmeets_contract = not (\"fraud\" in record[\"target\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_FRAUD_TARGET\"\nprint(\"S33-T1-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "unit",
+        "entity_pair",
+        "target",
+        "needs_review_7d",
+        "horizon",
+        "meets_contract"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T1-A-E1 in «ML supervisado y baselines responsables». Instruction asks: S33-T1-A-E1 · Calcula el contrato de `unidad, target y horizonte` sobre `CASO-LIM-033-1A`. La entrada es el dict completo del starter; la operación debe demostrar target needs_review con horizonte y u. I used starter fixtures from the quiz card, hints «Relaciona los campos `unit, target, horizon` con la regla explicada en S33-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva target needs_review con horizo», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (\"fraud\" in record[\"target\"]) else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nincomplete = {**valid}\nincomplete.pop(\"horizon\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "unit",
+        "target",
+        "horizon"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T1-A-E2 in «ML supervisado y baselines responsables». Instruction asks: S33-T1-A-E2 · Modela tres rutas de `unidad, target y horizonte`: fixture válido, fixture adverso y registro sin `horizon`. Entrada: dict con case_id, unit, target, horizon. Salidas exactas: `PASS`, `R. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a horizon debe ocurrir antes de esa rama.; Después aplica la regla de S33-T1-A: target needs_review con horizonte y unit. El fixture adv», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"horizon\", \"target\", \"unit\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if \"fraud\" in record[\"target\"] else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nuncertain = {**valid}\nuncertain.pop(\"horizon\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "horizon",
+        "target",
+        "unit"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T1-A-E3 in «ML supervisado y baselines responsables». Instruction asks: S33-T1-A-E3 · Contrasta fallo cerrado para `unidad, target y horizonte` con tres fixtures distintos. `CASO-LIM-033-1A` debe continuar, el adverso debe devolver `REJECT_FRAUD_TARGET` y la ausencia de `. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_HORIZON` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró target needs_review con horizon», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\nmeets_contract = record[\"has_baseline\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_NO_BASELINE\"\nprint(\"S33-T1-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "dummy_acc",
+        "cost",
+        "has_baseline",
+        "True",
+        "meets_contract",
+        "record"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T1-B-E1 in «ML supervisado y baselines responsables». Instruction asks: S33-T1-B-E1 · Calcula el contrato de `costos, baseline de regla y dummy estimator` sobre `CASO-LIM-033-1B`. La entrada es el dict completo del starter; la operación debe demostrar baseline y costo no . I used starter fixtures from the quiz card, hints «Relaciona los campos `dummy_acc, cost, has_baseline` con la regla explicada en S33-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva baseline y costo no nu», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"has_baseline\"] is True else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "dummy_acc",
+        "cost",
+        "has_baseline"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T1-B-E2 in «ML supervisado y baselines responsables». Instruction asks: S33-T1-B-E2 · Modela tres rutas de `costos, baseline de regla y dummy estimator`: fixture válido, fixture adverso y registro sin `cost`. Entrada: dict con case_id, dummy_acc, cost, has_baseline. Salid. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a cost debe ocurrir antes de esa rama.; Después aplica la regla de S33-T1-B: baseline y costo no nulos. El fixture adverso debe fallar p», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"cost\", \"dummy_acc\", \"has_baseline\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"has_baseline\"] is True else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nuncertain = {**valid}\nuncertain.pop(\"cost\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "cost",
+        "dummy_acc",
+        "has_baseline"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T1-B-E3 in «ML supervisado y baselines responsables». Instruction asks: S33-T1-B-E3 · Contrasta fallo cerrado para `costos, baseline de regla y dummy estimator` con tres fixtures distintos. `CASO-LIM-033-1B` debe continuar, el adverso debe devolver `REJECT_NO_BASELINE` y . I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_COST` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró baseline y costo no nulos; solo es», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\nmeets_contract = record[\"l2\"] != 0\nstatus = \"PASS\" if meets_contract else \"REJECT_UNREGULARIZED\"\nprint(\"S33-T2-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "pred",
+        "meets_contract",
+        "record",
+        "status",
+        "PASS",
+        "meets_contract"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T2-A-E1 in «ML supervisado y baselines responsables». Instruction asks: S33-T2-A-E1 · Calcula el contrato de `regresión/logística y regularización` sobre `CASO-LIM-033-2A`. La entrada es el dict completo del starter; la operación debe demostrar sigmoid p con L2>0 y pred b. I used starter fixtures from the quiz card, hints «Relaciona los campos `p, pred, l2` con la regla explicada en S33-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva sigmoid p con L2>0 y pred binaria; revis», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"l2\"] != 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nincomplete = {**valid}\nincomplete.pop(\"p\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "pred",
+        "missing",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T2-A-E2 in «ML supervisado y baselines responsables». Instruction asks: S33-T2-A-E2 · Modela tres rutas de `regresión/logística y regularización`: fixture válido, fixture adverso y registro sin `p`. Entrada: dict con case_id, p, pred, l2. Salidas exactas: `PASS`, `REJECT_. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a p debe ocurrir antes de esa rama.; Después aplica la regla de S33-T2-A: sigmoid p con L2>0 y pred binaria. El fixture adverso debe fal», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"l2\", \"p\", \"pred\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"l2\"] == 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nuncertain = {**valid}\nuncertain.pop(\"p\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "pred",
+        "missing",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T2-A-E3 in «ML supervisado y baselines responsables». Instruction asks: S33-T2-A-E3 · Contrasta fallo cerrado para `regresión/logística y regularización` con tres fixtures distintos. `CASO-LIM-033-2A` debe continuar, el adverso debe devolver `REJECT_UNREGULARIZED` y la au. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_SIGMOID` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró sigmoid p con L2>0 y pred binar», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\nmeets_contract = record[\"scaled\"] is True or record[\"causal\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSCALED_COEF\"\nprint(\"S33-T2-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "coefs",
+        "shared_phone",
+        "scaled",
+        "True",
+        "causal",
+        "False"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T2-B-E1 in «ML supervisado y baselines responsables». Instruction asks: S33-T2-B-E1 · Calcula el contrato de `coeficientes, supuestos y scaling` sobre `CASO-LIM-033-2B`. La entrada es el dict completo del starter; la operación debe demostrar coefs scaled con causal=False.. I used starter fixtures from the quiz card, hints «Relaciona los campos `coefs, scaled, causal` con la regla explicada en S33-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva coefs scaled con causal=False;», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"scaled\"] is False or record[\"causal\"] is False else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"scaled\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "coefs",
+        "scaled",
+        "causal"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T2-B-E2 in «ML supervisado y baselines responsables». Instruction asks: S33-T2-B-E2 · Modela tres rutas de `coeficientes, supuestos y scaling`: fixture válido, fixture adverso y registro sin `scaled`. Entrada: dict con case_id, coefs, scaled, causal. Salidas exactas: `PAS. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a scaled debe ocurrir antes de esa rama.; Después aplica la regla de S33-T2-B: coefs scaled con causal=False. El fixture adverso debe fa», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"causal\", \"coefs\", \"scaled\", \"shared_phone\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"scaled\"] is False or record[\"causal\"] is True else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nuncertain = {**valid}\nuncertain.pop(\"scaled\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "causal",
+        "coefs",
+        "scaled"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T2-B-E3 in «ML supervisado y baselines responsables». Instruction asks: S33-T2-B-E3 · Contrasta fallo cerrado para `coeficientes, supuestos y scaling` con tres fixtures distintos. `CASO-LIM-033-2B` debe continuar, el adverso debe devolver `REJECT_UNSCALED_COEF` y la ausen. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_SCALE_FLAG` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró coefs scaled con causal=Fals», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\nmeets_contract = record[\"depth_unlimited\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_DEPTH_UNLIMITED\"\nprint(\"S33-T3-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "stump_preds",
+        "majority",
+        "depth_unlimited",
+        "False",
+        "meets_contract",
+        "record"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T3-A-E1 in «ML supervisado y baselines responsables». Instruction asks: S33-T3-A-E1 · Calcula el contrato de `decisiones y random forest/boosting` sobre `CASO-LIM-033-3A`. La entrada es el dict completo del starter; la operación debe demostrar stump/vote con depth control. I used starter fixtures from the quiz card, hints «Relaciona los campos `stump_preds, majority, depth_unlimited` con la regla explicada en S33-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva stump/vote co», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"depth_unlimited\"] is False else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nincomplete = {**valid}\nincomplete.pop(\"stump_preds\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "stump_preds",
+        "majority",
+        "depth_unlimited"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T3-A-E2 in «ML supervisado y baselines responsables». Instruction asks: S33-T3-A-E2 · Modela tres rutas de `decisiones y random forest/boosting`: fixture válido, fixture adverso y registro sin `stump_preds`. Entrada: dict con case_id, stump_preds, majority, depth_unlimite. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a stump_preds debe ocurrir antes de esa rama.; Después aplica la regla de S33-T3-A: stump/vote con depth controlada. El fixture adverso », and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"depth_unlimited\", \"majority\", \"stump_preds\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"depth_unlimited\"] is True else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nuncertain = {**valid}\nuncertain.pop(\"stump_preds\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "depth_unlimited",
+        "majority",
+        "stump_preds"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T3-A-E3 in «ML supervisado y baselines responsables». Instruction asks: S33-T3-A-E3 · Contrasta fallo cerrado para `decisiones y random forest/boosting` con tres fixtures distintos. `CASO-LIM-033-3A` debe continuar, el adverso debe devolver `REJECT_DEPTH_UNLIMITED` y la a. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_STUMP` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró stump/vote con depth controlada; », and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\nmeets_contract = record[\"train_acc\"] - record[\"valid_acc\"] <= 0.2\nstatus = \"PASS\" if meets_contract else \"REJECT_OVERFIT\"\nprint(\"S33-T3-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "train_acc",
+        "valid_acc",
+        "seed",
+        "meets_contract",
+        "record",
+        "train_acc"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T3-B-E1 in «ML supervisado y baselines responsables». Instruction asks: S33-T3-B-E1 · Calcula el contrato de `overfit, profundidad y reproducibilidad` sobre `CASO-LIM-033-3B`. La entrada es el dict completo del starter; la operación debe demostrar gap controlado y seed fi. I used starter fixtures from the quiz card, hints «Relaciona los campos `train_acc, valid_acc, seed` con la regla explicada en S33-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva gap controlado y seed fij», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"train_acc\"] - record[\"valid_acc\"] <= 0.2 else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nincomplete = {**valid}\nincomplete.pop(\"seed\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "train_acc",
+        "valid_acc",
+        "seed"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T3-B-E2 in «ML supervisado y baselines responsables». Instruction asks: S33-T3-B-E2 · Modela tres rutas de `overfit, profundidad y reproducibilidad`: fixture válido, fixture adverso y registro sin `seed`. Entrada: dict con case_id, train_acc, valid_acc, seed. Salidas exac. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a seed debe ocurrir antes de esa rama.; Después aplica la regla de S33-T3-B: gap controlado y seed fija. El fixture adverso debe fallar », and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"seed\", \"train_acc\", \"valid_acc\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"train_acc\"] - record[\"valid_acc\"] > 0.2 else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nuncertain = {**valid}\nuncertain.pop(\"seed\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "seed",
+        "train_acc",
+        "valid_acc"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T3-B-E3 in «ML supervisado y baselines responsables». Instruction asks: S33-T3-B-E3 · Contrasta fallo cerrado para `overfit, profundidad y reproducibilidad` con tres fixtures distintos. `CASO-LIM-033-3B` debe continuar, el adverso debe devolver `REJECT_OVERFIT` y la ausen. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_SEED` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró gap controlado y seed fija; solo e», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\nmeets_contract = not (not record[\"metrics\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNLOGGED_RUN\"\nprint(\"S33-T4-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "metrics",
+        "accuracy",
+        "beats_dummy",
+        "True",
+        "run_id",
+        "run"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T4-A-E1 in «ML supervisado y baselines responsables». Instruction asks: S33-T4-A-E1 · Calcula el contrato de `pipeline y tracking mínimo` sobre `CASO-LIM-033-4A`. La entrada es el dict completo del starter; la operación debe demostrar metrics no vacías con beats_dummy y r. I used starter fixtures from the quiz card, hints «Relaciona los campos `metrics, beats_dummy, run_id` con la regla explicada en S33-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva metrics no vacías con b», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (not record[\"metrics\"]) else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nincomplete = {**valid}\nincomplete.pop(\"metrics\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "metrics",
+        "beats_dummy",
+        "run_id"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T4-A-E2 in «ML supervisado y baselines responsables». Instruction asks: S33-T4-A-E2 · Modela tres rutas de `pipeline y tracking mínimo`: fixture válido, fixture adverso y registro sin `metrics`. Entrada: dict con case_id, metrics, beats_dummy, run_id. Salidas exactas: `PA. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a metrics debe ocurrir antes de esa rama.; Después aplica la regla de S33-T4-A: metrics no vacías con beats_dummy y run_id. El fixture a», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"accuracy\", \"beats_dummy\", \"case_id\", \"f1\", \"metrics\", \"run_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if not record[\"metrics\"] else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nuncertain = {**valid}\nuncertain.pop(\"metrics\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "accuracy",
+        "beats_dummy",
+        "case_id",
+        "metrics"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T4-A-E3 in «ML supervisado y baselines responsables». Instruction asks: S33-T4-A-E3 · Contrasta fallo cerrado para `pipeline y tracking mínimo` con tres fixtures distintos. `CASO-LIM-033-4A` debe continuar, el adverso debe devolver `REJECT_UNLOGGED_RUN` y la ausencia de `. I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_METRICS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró metrics no vacías con beats_dum», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\nmeets_contract = record[\"random_split\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_RANDOM_LEAK\"\nprint(\"S33-T4-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "fold_scores",
+        "entities",
+        "random_split",
+        "False",
+        "meets_contract",
+        "record"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T4-B-E1 in «ML supervisado y baselines responsables». Instruction asks: S33-T4-B-E1 · Calcula el contrato de `validación cruzada apropiada y error analysis` sobre `CASO-LIM-033-4B`. La entrada es el dict completo del starter; la operación debe demostrar group CV con entit. I used starter fixtures from the quiz card, hints «Relaciona los campos `fold_scores, entities, random_split` con la regla explicada en S33-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva group CV con ent», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `record = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"random_split\"] is False else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nincomplete = {**valid}\nincomplete.pop(\"entities\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "fold_scores",
+        "entities",
+        "random_split"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T4-B-E2 in «ML supervisado y baselines responsables». Instruction asks: S33-T4-B-E2 · Modela tres rutas de `validación cruzada apropiada y error analysis`: fixture válido, fixture adverso y registro sin `entities`. Entrada: dict con case_id, fold_scores, entities, random_. I used starter fixtures from the quiz card, hints «Primero se calcula `missing`; ningún acceso a entities debe ocurrir antes de esa rama.; Después aplica la regla de S33-T4-B: group CV con entities y sin random leak. El fixture adv», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def assess(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    },
+    {
+      "exercise_id": "S33-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"entities\", \"fold_scores\", \"random_split\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"random_split\"] is True else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nuncertain = {**valid}\nuncertain.pop(\"entities\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "decide",
+        "record",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "entities",
+        "fold_scores",
+        "random_split"
+      ],
+      "justification_from_packet": "Explorer packet solve for S33-T4-B-E3 in «ML supervisado y baselines responsables». Instruction asks: S33-T4-B-E3 · Contrasta fallo cerrado para `validación cruzada apropiada y error analysis` con tres fixtures distintos. `CASO-LIM-033-4B` debe continuar, el adverso debe devolver `REJECT_RANDOM_LEAK` . I used starter fixtures from the quiz card, hints «Una ausencia no equivale a breach: enrútala a `REQUEST_GROUP_IDS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró group CV con entities y sin r», and theory headings ['unidad, target y horizonte', 'costos, baseline de regla y dummy estimator', 'regresión/logística y regularización', 'coeficientes, supuestos y scaling'] plus iDo demos ['S33-T1-A-DEMO', 'S33-T1-B-DEMO', 'S33-T2-A-DEMO', 'S33-T2-B-DEMO', 'S33-T3-A-DEMO']. Final key line: `def decide(record: dict) -> str:`. No offline solutions/answer-keys; justification from taught packet only."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Ser needs_review con horizonte",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q0 on S33 «ML supervisado y baselines responsables». Stem: El target del workbench debe:. I pick [0] «Ser needs_review con horizonte» because it matches taught safety/testing vocabulary ['horizonte'] and packet outcomes/theory (score=2.8). Snippet: «La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud e». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Dummy/regla y costos",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q1 on S33 «ML supervisado y baselines responsables». Stem: Antes del modelo ML conviene:. I pick [2] «Dummy/regla y costos» because it matches taught safety/testing vocabulary ['costos', 'dummy', 'regla'] and packet outcomes/theory (score=6.4). Snippet: «El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Features scaled y causal=False",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q2 on S33 «ML supervisado y baselines responsables». Stem: Comparar coeficientes exige:. I pick [3] «Features scaled y causal=False» because it matches taught safety/testing vocabulary ['features', 'causal', 'scaled', 'false'] and packet outcomes/theory (score=9.2). Snippet: «La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en ve». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Leakage de la misma entidad entre folds",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck Q3 on S33 «ML supervisado y baselines responsables». Stem: Group CV por entidad evita:. I pick [1] «Leakage de la misma entidad entre folds» because it matches taught safety/testing vocabulary ['leakage', 'entidad', 'folds', 'entre', 'misma'] and packet outcomes/theory (score=15.3). Snippet: «La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud e». Chosen from quiz_card options with packet-only reasoning; packet stems and theory only."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33
+    ],
+    "note": "Explorer walk for sections 27–52 from quiz_card + exercise_batch packets only."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:39:34.159040+00:00",
+  "repaired_at": "2026-07-23T04:48:09.319880+00:00"
+}

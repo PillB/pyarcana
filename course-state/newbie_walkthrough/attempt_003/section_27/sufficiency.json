@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Pruebas unitarias"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Una fuente de verdad determinista para el assert"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "El contrato es débil; el mutante sobrevivió"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Contratos de misma entidad / normalización — no riesgo ni relación"
+  }
+]

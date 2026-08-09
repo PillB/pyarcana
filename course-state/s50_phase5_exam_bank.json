@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S50",
+  "section_id": "tech-leadership",
+  "phase": "PHASE_5",
+  "lane": "LANE-S40-S52-CLOSE",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "tech-leadership",
+    "title_v3": "Evals, red teaming y fiabilidad de IA",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "escribir-rfcs-(request-for-com",
+    "conducir-code-reviews-construc",
+    "mentorear-juniors:-cómo-estruc",
+    "comunicar-trade-offs-a-stakeho"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S50 (Evals, red teaming y fiabilidad de IA).",
+  "families": [
+    {
+      "family_id": "S50-T1-A-EX",
+      "concept": "task-dataset-rubric",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S50-T1-B-EX",
+      "concept": "outcome-process-trajectory-recovery",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S50-T2-A-EX",
+      "concept": "graders-det-human-llm",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S50-T2-B-EX",
+      "concept": "calibration-order-bias-holdout",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S50-T3-A-EX",
+      "concept": "injection-exfil-tool-misuse",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S50-T3-B-EX",
+      "concept": "indirect-poison-least-priv",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S50-T4-A-EX",
+      "concept": "hallucination-abstention",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S50-T4-B-EX",
+      "concept": "latency-cost-cache-incident-rollback",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (tech-leadership key)",
+    "course-state/s50_phase5_exam_bank.json"
+  ]
+}

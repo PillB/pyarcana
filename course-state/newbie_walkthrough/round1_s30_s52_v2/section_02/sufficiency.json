@@ -1,0 +1,68 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "NoneType"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "str y False"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Porque no es una cantidad aritmética y puede necesitar ceros o formato"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "1, 2, 3 (ambos nombres ven el cambio)"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "if x is None:"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 0.0,
+    "correct_preview": "-9"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Decimal(\"0.1\")"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "str siempre"
+  },
+  {
+    "i": 8,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "errors lista el campo; edad_raw sigue siendo \"abc\""
+  },
+  {
+    "i": 9,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "raw conserva los espacios; clean es \"Ñahui\" y es otro str"
+  },
+  {
+    "i": 10,
+    "ok": true,
+    "support_ratio": 0.0,
+    "correct_preview": "S/ 99.50"
+  }
+]

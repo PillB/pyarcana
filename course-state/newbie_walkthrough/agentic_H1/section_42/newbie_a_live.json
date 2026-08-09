@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 42,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s42-c9dc06a92014",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S42-T1-A-E1",
+      "code": "# dual explorer-H1 · S42-T1-A-E1\nrecord = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\nmeets_contract = not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_SCHEMA\"\nprint(\"S42-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T1-A-E1 leyendo el instruction del quiz_card: «S42-T1-A-E1 · Calcula el contrato de `Pydantic y JSON Schema` sobre `CASO-CUS-042-1A`. La entrada es el dict completo del starter; la operac…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, case_id, CASO; salida anclada a prints ['print(\"S42-T1-A\", status)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "case_id",
+        "CASO",
+        "CUS",
+        "extra_policy",
+        "forbid"
+      ]
+    },
+    {
+      "exercise_id": "S42-T1-A-E2",
+      "code": "# dual explorer-H1 · S42-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'business_rule', 'json_schema', 'case_id', 'valid_fixture', 'extra_policy'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])\n    return \"PASS\" if ok else 'REJECT_SCHEMA'\n\nvalid = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\ninvalid = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True, '_adverse': True}\nincomplete = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T1-A-E2 leyendo el instruction del quiz_card: «S42-T1-A-E2 · Modela tres rutas de `Pydantic y JSON Schema`: fixture válido, fixture adverso y registro sin `business_rule`. Entrada: dict c…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "business_rule",
+        "json_schema"
+      ]
+    },
+    {
+      "exercise_id": "S42-T1-A-E3",
+      "code": "# dual explorer-H1 · S42-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {'business_rule', 'json_schema', 'case_id', 'valid_fixture', 'extra_policy'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_BUSINESS_INVARIANT'\n    ok = not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])\n    return \"CONTINUE\" if ok else 'REJECT_SCHEMA'\n\nvalid = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\ninvalid = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True, '_adverse': True}\nincomplete = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T1-A-E3 leyendo el instruction del quiz_card: «S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos. `CASO-CUS-042-1A` debe continuar, el adverso d…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "business_rule",
+        "json_schema"
+      ]
+    },
+    {
+      "exercise_id": "S42-T1-B-E1",
+      "code": "# dual explorer-H1 · S42-T1-B-E1\nrecord = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\nmeets_contract = not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])\nstatus = \"PASS\" if meets_contract else \"VERSION_SCHEMA\"\nprint(\"S42-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T1-B-E1 leyendo el instruction del quiz_card: «S42-T1-B-E1 · Compara el contrato de `evolución, discriminated unions y validación de negocio` sobre `CASO-CUS-042-1B`. La entrada es el dic…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, case_id, CASO; salida anclada a prints ['print(\"S42-T1-B\", status)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "case_id",
+        "CASO",
+        "CUS",
+        "change",
+        "add_optional"
+      ]
+    },
+    {
+      "exercise_id": "S42-T1-B-E2",
+      "code": "# dual explorer-H1 · S42-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'handled_tags', 'change', 'old_reader_passes', 'case_id', 'union_tags'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])\n    return \"PASS\" if ok else 'VERSION_SCHEMA'\n\nvalid = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'phone', 'email'}, 'handled_tags': {'phone', 'email'}}\ninvalid = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'phone', 'email'}, 'handled_tags': {'phone', 'email'}, '_adverse': True}\nincomplete = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'phone', 'email'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T1-B-E2 leyendo el instruction del quiz_card: «S42-T1-B-E2 · Verifica tres rutas de `evolución, discriminated unions y validación de negocio`: fixture válido, fixture adverso y registro s…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "handled_tags",
+        "change"
+      ]
+    },
+    {
+      "exercise_id": "S42-T1-B-E3",
+      "code": "# dual explorer-H1 · S42-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {'handled_tags', 'change', 'old_reader_passes', 'case_id', 'union_tags'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'MIGRATE_CONSUMERS'\n    ok = not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])\n    return \"CONTINUE\" if ok else 'VERSION_SCHEMA'\n\nvalid = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'phone', 'email'}, 'handled_tags': {'phone', 'email'}}\ninvalid = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'phone', 'email'}, 'handled_tags': {'phone', 'email'}, '_adverse': True}\nincomplete = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'phone', 'email'}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T1-B-E3 leyendo el instruction del quiz_card: «S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tres fixtures distintos. `CASO-CUS-0…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "handled_tags",
+        "change"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-A-E1",
+      "code": "# dual explorer-H1 · S42-T2-A-E1\nrecord = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\nmeets_contract = not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])\nstatus = \"PASS\" if meets_contract else \"DENY_CROSS_TENANT\"\nprint(\"S42-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T2-A-E1 leyendo el instruction del quiz_card: «S42-T2-A-E1 · Filtra el contrato de `authn/authz y RBAC` sobre `CASO-CUS-042-2A`. La entrada es el dict completo del starter; la operación d…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, case_id, CASO; salida anclada a prints ['print(\"S42-T2-A\", status)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "case_id",
+        "CASO",
+        "CUS",
+        "authenticated",
+        "actor"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-A-E2",
+      "code": "# dual explorer-H1 · S42-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'resource_owner', 'actor', 'authenticated', 'roles'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])\n    return \"PASS\" if ok else 'DENY_CROSS_TENANT'\n\nvalid = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}}\ninvalid = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}, '_adverse': True}\nincomplete = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T2-A-E2 leyendo el instruction del quiz_card: «S42-T2-A-E2 · Clasifica tres rutas de `authn/authz y RBAC`: fixture válido, fixture adverso y registro sin `roles`. Entrada: dict con case_i…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "resource_owner"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-A-E3",
+      "code": "# dual explorer-H1 · S42-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'resource_owner', 'actor', 'authenticated', 'roles'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_RESOURCE_OWNER'\n    ok = not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])\n    return \"CONTINUE\" if ok else 'DENY_CROSS_TENANT'\n\nvalid = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}}\ninvalid = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}, '_adverse': True}\nincomplete = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T2-A-E3 leyendo el instruction del quiz_card: «S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos. `CASO-CUS-042-2A` debe continuar, el adverso deb…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "resource_owner"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-B-E1",
+      "code": "# dual explorer-H1 · S42-T2-B-E1\nrecord = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\nmeets_contract = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\nstatus = \"PASS\" if meets_contract else \"DENY_SCOPE\"\nprint(\"S42-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T2-B-E1 leyendo el instruction del quiz_card: «S42-T2-B-E1 · Modela el contrato de `scopes, service identities y deny-by-default` sobre `CASO-CUS-042-2B`. La entrada es el dict completo d…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, case_id, CASO; salida anclada a prints ['print(\"S42-T2-B\", status)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "case_id",
+        "CASO",
+        "CUS",
+        "requested_scope",
+        "report"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-B-E2",
+      "code": "# dual explorer-H1 · S42-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'requested_scope', 'service_id', 'case_id', 'route_declared', 'granted_scopes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\n    return \"PASS\" if ok else 'DENY_SCOPE'\n\nvalid = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\ninvalid = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': False}\nincomplete = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T2-B-E2 leyendo el instruction del quiz_card: «S42-T2-B-E2 · Audita tres rutas de `scopes, service identities y deny-by-default`: fixture válido, fixture adverso y registro sin `route_dec…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "requested_scope",
+        "service_id"
+      ]
+    },
+    {
+      "exercise_id": "S42-T2-B-E3",
+      "code": "# dual explorer-H1 · S42-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {'requested_scope', 'service_id', 'case_id', 'route_declared', 'granted_scopes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_NARROW_GRANT'\n    ok = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\n    return \"CONTINUE\" if ok else 'DENY_SCOPE'\n\nvalid = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\ninvalid = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': False}\nincomplete = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T2-B-E3 leyendo el instruction del quiz_card: «S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures distintos. `CASO-CUS-042-2B` debe…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "requested_scope",
+        "service_id"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-A-E1",
+      "code": "# dual explorer-H1 · S42-T3-A-E1\nrecord = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\nmeets_contract = not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))\nstatus = \"PASS\" if meets_contract else \"REJECT_UNTRUSTED_INPUT\"\nprint(\"S42-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T3-A-E1 leyendo el instruction del quiz_card: «S42-T3-A-E1 · Verifica el contrato de `input limits, injection y SSRF/path traversal` sobre `CASO-CUS-042-3A`. La entrada es el dict complet…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, case_id, CASO; salida anclada a prints ['print(\"S42-T3-A\", status)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "case_id",
+        "CASO",
+        "CUS",
+        "bytes",
+        "max_bytes"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-A-E2",
+      "code": "# dual explorer-H1 · S42-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {'host', 'bytes', 'max_bytes', 'case_id', 'allowed_hosts', 'resolved_path', 'root'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))\n    return \"PASS\" if ok else 'REJECT_UNTRUSTED_INPUT'\n\nvalid = {'case_id': 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\ninvalid = {'case_id': 'CASO-CUS-042-3A', 'bytes': 4097, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\nincomplete = {'case_id': 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T3-A-E2 leyendo el instruction del quiz_card: «S42-T3-A-E2 · Decide tres rutas de `input limits, injection y SSRF/path traversal`: fixture válido, fixture adverso y registro sin `root`. E…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "host",
+        "bytes"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-A-E3",
+      "code": "# dual explorer-H1 · S42-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {'host', 'bytes', 'max_bytes', 'case_id', 'allowed_hosts', 'resolved_path', 'root'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SECURITY_REVIEW'\n    ok = not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))\n    return \"CONTINUE\" if ok else 'REJECT_UNTRUSTED_INPUT'\n\nvalid = {'case_id': 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\ninvalid = {'case_id': 'CASO-CUS-042-3A', 'bytes': 4097, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\nincomplete = {'case_id': 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T3-A-E3 leyendo el instruction del quiz_card: «S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixtures distintos. `CASO-CUS-042-3A` de…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "host",
+        "bytes"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-B-E1",
+      "code": "# dual explorer-H1 · S42-T3-B-E1\nrecord = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\nmeets_contract = not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])\nstatus = \"PASS\" if meets_contract else \"ROTATE_AND_BLOCK\"\nprint(\"S42-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T3-B-E1 leyendo el instruction del quiz_card: «S42-T3-B-E1 · Clasifica el contrato de `secretos, cifrado y dependency risk` sobre `CASO-CUS-042-3B`. La entrada es el dict completo del sta…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, case_id, CASO; salida anclada a prints ['print(\"S42-T3-B\", status)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "case_id",
+        "CASO",
+        "CUS",
+        "secret_in_repo",
+        "secret_in_log"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-B-E2",
+      "code": "# dual explorer-H1 · S42-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'rotation_tested', 'case_id', 'dependency_pinned', 'critical_cves', 'secret_in_repo', 'secret_in_log'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])\n    return \"PASS\" if ok else 'ROTATE_AND_BLOCK'\n\nvalid = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\ninvalid = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': True, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\nincomplete = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T3-B-E2 leyendo el instruction del quiz_card: «S42-T3-B-E2 · Calcula tres rutas de `secretos, cifrado y dependency risk`: fixture válido, fixture adverso y registro sin `critical_cves`. E…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "rotation_tested",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S42-T3-B-E3",
+      "code": "# dual explorer-H1 · S42-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {'rotation_tested', 'case_id', 'dependency_pinned', 'critical_cves', 'secret_in_repo', 'secret_in_log'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASSESS_DEPENDENCY_RISK'\n    ok = not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])\n    return \"CONTINUE\" if ok else 'ROTATE_AND_BLOCK'\n\nvalid = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\ninvalid = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': True, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\nincomplete = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T3-B-E3 leyendo el instruction del quiz_card: «S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distintos. `CASO-CUS-042-3B` debe conti…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "rotation_tested",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-A-E1",
+      "code": "# dual explorer-H1 · S42-T4-A-E1\nrecord = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\nmeets_contract = not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])\nstatus = \"PASS\" if meets_contract else \"MINIMIZE_AND_EXPIRE\"\nprint(\"S42-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T4-A-E1 leyendo el instruction del quiz_card: «S42-T4-A-E1 · Audita el contrato de `minimización, purpose y retención` sobre `CASO-CUS-042-4A`. La entrada es el dict completo del starter;…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, case_id, CASO; salida anclada a prints ['print(\"S42-T4-A\", status)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "case_id",
+        "CASO",
+        "CUS",
+        "collected",
+        "region"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-A-E2",
+      "code": "# dual explorer-H1 · S42-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'collected', 'needed', 'case_id', 'purpose', 'max_retention_days', 'retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])\n    return \"PASS\" if ok else 'MINIMIZE_AND_EXPIRE'\n\nvalid = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\ninvalid = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region', 'extra'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\nincomplete = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T4-A-E2 leyendo el instruction del quiz_card: «S42-T4-A-E2 · Compara tres rutas de `minimización, purpose y retención`: fixture válido, fixture adverso y registro sin `max_retention_days`…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "collected",
+        "needed"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-A-E3",
+      "code": "# dual explorer-H1 · S42-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {'collected', 'needed', 'case_id', 'purpose', 'max_retention_days', 'retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PRIVACY_OWNER_REVIEW'\n    ok = not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])\n    return \"CONTINUE\" if ok else 'MINIMIZE_AND_EXPIRE'\n\nvalid = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\ninvalid = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region', 'extra'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\nincomplete = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T4-A-E3 leyendo el instruction del quiz_card: «S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos. `CASO-CUS-042-4A` debe continuar, el…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "collected",
+        "needed"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-B-E1",
+      "code": "# dual explorer-H1 · S42-T4-B-E1\nrecord = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\nmeets_contract = not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])\nstatus = \"PASS\" if meets_contract else \"PURGE_DERIVATIVES\"\nprint(\"S42-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T4-B-E1 leyendo el instruction del quiz_card: «S42-T4-B-E1 · Decide el contrato de `audit, deletion, pseudonymization y acceso` sobre `CASO-CUS-042-4B`. La entrada es el dict completo del…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, case_id, CASO; salida anclada a prints ['print(\"S42-T4-B\", status)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "case_id",
+        "CASO",
+        "CUS",
+        "audit_fields",
+        "actor_id"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-B-E2",
+      "code": "# dual explorer-H1 · S42-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'pii_fields', 'key_separate', 'deleted', 'audit_fields', 'derived_deleted'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])\n    return \"PASS\" if ok else 'PURGE_DERIVATIVES'\n\nvalid = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'case_token', 'actor_id', 'action', 'at'}, 'pii_fields': {'full_name', 'email'}, 'deleted': True, 'derived_deleted': True, 'key_separate': True}\ninvalid = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'case_token', 'actor_id', 'action', 'at'}, 'pii_fields': {'full_name', 'email'}, 'deleted': True, 'derived_deleted': False, 'key_separate': True}\nincomplete = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'case_token', 'actor_id', 'action', 'at'}, 'pii_fields': {'full_name', 'email'}, 'deleted': True, 'derived_deleted': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T4-B-E2 leyendo el instruction del quiz_card: «S42-T4-B-E2 · Filtra tres rutas de `audit, deletion, pseudonymization y acceso`: fixture válido, fixture adverso y registro sin `key_separat…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(*results)']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "pii_fields"
+      ]
+    },
+    {
+      "exercise_id": "S42-T4-B-E3",
+      "code": "# dual explorer-H1 · S42-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'pii_fields', 'key_separate', 'deleted', 'audit_fields', 'derived_deleted'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_DELETION_SCOPE'\n    ok = not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])\n    return \"CONTINUE\" if ok else 'PURGE_DERIVATIVES'\n\nvalid = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'case_token', 'actor_id', 'action', 'at'}, 'pii_fields': {'full_name', 'email'}, 'deleted': True, 'derived_deleted': True, 'key_separate': True}\ninvalid = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'case_token', 'actor_id', 'action', 'at'}, 'pii_fields': {'full_name', 'email'}, 'deleted': True, 'derived_deleted': False, 'key_separate': True}\nincomplete = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'case_token', 'actor_id', 'action', 'at'}, 'pii_fields': {'full_name', 'email'}, 'deleted': True, 'derived_deleted': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Schemas, seguridad y privacidad de servicios» (S42) resolví S42-T4-B-E3 leyendo el instruction del quiz_card: «S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures distintos. `CASO-CUS-042-4B` debe…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S42, dict, str; salida anclada a prints ['print(decide(valid), decide(invalid), decide(incomplete))']. Teoría activa: «Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. C.",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S42",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "pii_fields"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S42 Q0: «¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042?». En la teoría del slim_packet («Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del ) la opción «schema exportado y fixtures válidos/inválidos» es la que describe el concepto; descarto p.ej. ['un print sin assert ni versión', 'una captura de pantalla sin fuente']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S42 Q1: «Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y auditabilidad?». En la teoría del slim_packet («Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del ) la opción «emitir DENY y conservar evidencia» es la que describe el concepto; descarto p.ej. ['continuar y ocultar el warning', 'inventar evidencia faltante']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S42 Q2: «¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?». En la teoría del slim_packet («Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del ) la opción «un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos» es la que describe el concepto; descarto p.ej. ['el archivo S42 existe, aunque no pruebe el gate', 'el README afirma que funciona']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S42 Q3: «¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?». En la teoría del slim_packet («Pydantic y JSON Schema» Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del ) la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la que describe el concepto; descarto p.ej. ['reemplazarlo por datos reales sin consentimiento', 'subir secretos para facilitar la demo']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:39:08.775681+00:00",
+  "session_started_at": "2026-07-23T08:38:45.855840+00:00",
+  "session_ended_at": "2026-07-23T08:39:08.775681+00:00"
+}

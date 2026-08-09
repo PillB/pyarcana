@@ -1,0 +1,503 @@
+{
+  "section_index": 6,
+  "title": "Colecciones y estructuras de datos",
+  "outcomes": [
+    "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+    "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+    "Modelar registros con dict, get e índices id→fila",
+    "Deduplicar con set y reportar conflictos sin borrarlos",
+    "Navegar list[dict] anidados cliente→contactos→txs",
+    "Acceder campos opcionales sin KeyError; missing vs vacío",
+    "Ordenar con sorted(..., key=) de forma estable",
+    "Elegir list/dict/set y producir JSON determinista"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S06-T1-A",
+      "heading": "Listas, tuplas y slicing",
+      "paragraphs": [
+        "Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`). Una **tuple** es inmutable: ideal para **claves estables**, headers fijos o “contratos” de columnas que no deben mutarse por accidente.",
+        "El **slicing** `seq[i:j:k]` produce una **ventana** sin mutar el original (en listas/tuplas crea una nueva secuencia). `txs[-3:]` son las últimas tres transacciones. El stop es exclusivo, igual que en `range`.",
+        "Membership `x in seq` es O(n) en listas: útil para lotes pequeños de demo; para lookups masivos preferirás **set/dict** en T2."
+      ],
+      "code": "txs = [\n    {\"id\": \"T1\", \"monto\": 10},\n    {\"id\": \"T2\", \"monto\": 25},\n    {\"id\": \"T3\", \"monto\": 7},\n    {\"id\": \"T4\", \"monto\": 40},\n]\nventana = txs[-3:]\nkeys = (\"id\", \"monto\")  # contrato estable\nprint(\"ventana ids:\", [r[\"id\"] for r in ventana])\nprint(\"keys:\", keys)\nprint(\"T2 in slice?\", any(r[\"id\"] == \"T2\" for r in ventana))",
+      "code_output": "ventana ids: ['T2', 'T3', 'T4']\nkeys: ('id', 'monto')\nT2 in slice? True"
+    },
+    {
+      "subtopicId": "S06-T1-B",
+      "heading": "Unpacking, aliasing y copia",
+      "paragraphs": [
+        "**Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin índices ruidosos. Falla si el largo no calza: eso es bueno (detecta shape roto).",
+        "**Aliasing**: `b = a` no copia; ambas variables apuntan al **mismo** objeto. Si `a` es una lista de dicts y mutas `b[0]['x']`, también cambia `a[0]`. Ese bug aparece al “clonar” clientes en memoria.",
+        "`list.copy()` / `seq[:]` hacen **copia superficial**. Para dicts anidados necesitas `copy.deepcopy` o reconstruir. En intake, shallow basta si solo reordenas filas sin mutar campos compartidos."
+      ],
+      "code": "import copy\nclientes = [{\"id\": \"C001\", \"tags\": [\"vip\"]}]\nalias = clientes\nshallow = clientes.copy()\ndeep = copy.deepcopy(clientes)\nalias[0][\"tags\"].append(\"alias\")\nprint(\"original tras alias:\", clientes)\nshallow[0][\"tags\"].append(\"shallow\")\nprint(\"original tras shallow mut de tags:\", clientes)\ndeep[0][\"tags\"].append(\"solo-deep\")\nprint(\"deep aislado:\", deep)\nprint(\"original final:\", clientes)",
+      "code_output": "original tras alias: [{'id': 'C001', 'tags': ['vip', 'alias']}]\noriginal tras shallow mut de tags: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]\ndeep aislado: [{'id': 'C001', 'tags': ['vip', 'solo-deep']}]\noriginal final: [{'id': 'C001', 'tags': ['vip', 'alias', 'shallow']}]"
+    },
+    {
+      "subtopicId": "S06-T2-A",
+      "heading": "Diccionarios y pertenencia",
+      "paragraphs": [
+        "Un **dict** modela registros y **índices** `id → cliente`. Lookup promedio O(1). Construye índices con `{c['id']: c for c in filas}` cuando harás muchos accesos por clave.",
+        "`d.get(k)` o `d.get(k, default)` evita **KeyError** en campos opcionales. `k in d` prueba pertenencia de **clave**, no de valor.",
+        "`update` fusiona configs: el segundo dict **pisa** claves del primero. Documenta la precedencia (env > defaults) para no “pisar sin querer” políticas de normalización."
+      ],
+      "code": "filas = [\n    {\"id\": \"C001\", \"region\": \"Lima\"},\n    {\"id\": \"C002\", \"region\": \"Cusco\"},\n]\nidx = {c[\"id\"]: c for c in filas}\nprint(\"lookup C002:\", idx[\"C002\"][\"region\"])\nprint(\"get missing:\", idx.get(\"C999\", {}).get(\"region\", \"N/A\"))\nbase = {\"timeout\": 30, \"retry\": 1}\noverride = {\"retry\": 3}\nmerged = {**base, **override}\nprint(\"merged:\", merged)",
+      "code_output": "lookup C002: Cusco\nget missing: N/A\nmerged: {'timeout': 30, 'retry': 3}"
+    },
+    {
+      "subtopicId": "S06-T2-B",
+      "heading": "Deduplicación y operaciones de set",
+      "paragraphs": [
+        "Un **set** guarda elementos únicos (hashables). Ideal para **ids/emails** deduplicados y para **unión/intersección/diferencia** de cohortes de dos lotes.",
+        "Deduplicar **no es borrar a ciegas** cuando hay conflicto de negocio: dos filas con mismo `id` pero montos distintos deben **reportarse**, no silenciarse. El patrón es `unique` + `conflicts`.",
+        "Sets no conservan orden de inserción de forma que debas depender para exports estables en todos los contextos pedagógicos: ordena con `sorted(...)` al exportar."
+      ],
+      "code": "lote_a = {\"C001\", \"C002\", \"C003\"}\nlote_b = {\"C002\", \"C003\", \"C004\"}\nprint(\"intersección:\", sorted(lote_a & lote_b))\nprint(\"solo A:\", sorted(lote_a - lote_b))\nemails = [\"a@ex.com\", \"b@ex.com\", \"a@ex.com\"]\nprint(\"únicos:\", sorted(set(emails)))",
+      "code_output": "intersección: ['C002', 'C003']\nsolo A: ['C001']\núnicos: ['a@ex.com', 'b@ex.com']"
+    },
+    {
+      "subtopicId": "S06-T3-A",
+      "heading": "Estructuras anidadas y recorridos",
+      "paragraphs": [
+        "El modelo CP-N1-B anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. Recorres con `for c in clients: for t in c['txs']:`.",
+        "**Aplanar** transacciones a filas densas (con `client_id` denormalizado) prepara el shape de export CSV en S08. **Contar** contactos por cliente valida integridad del grafo en memoria.",
+        "Shape inconsistente (falta clave `txs`, o no es lista) se detecta con `isinstance` y se manda a review — no asumas que todo dict llegó bien formado."
+      ],
+      "code": "clients = [\n    {\n        \"id\": \"C001\",\n        \"contacts\": [{\"tipo\": \"email\", \"valor\": \"a@ex.com\"}],\n        \"txs\": [{\"id\": \"T1\", \"monto\": 10}, {\"id\": \"T2\", \"monto\": 5}],\n    },\n    {\n        \"id\": \"C002\",\n        \"contacts\": [],\n        \"txs\": [{\"id\": \"T3\", \"monto\": 20}],\n    },\n]\nfor c in clients:\n    print(c[\"id\"], \"n_contacts=\", len(c[\"contacts\"]), \"n_txs=\", len(c[\"txs\"]))\nflat = [\n    {\"client_id\": c[\"id\"], \"tx_id\": t[\"id\"], \"monto\": t[\"monto\"]}\n    for c in clients\n    for t in c[\"txs\"]\n]\nprint(\"flat rows:\", flat)",
+      "code_output": "C001 n_contacts= 1 n_txs= 2\nC002 n_contacts= 0 n_txs= 1\nflat rows: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 10}, {'client_id': 'C001', 'tx_id': 'T2', 'monto': 5}, {'client_id': 'C002', 'tx_id': 'T3', 'monto': 20}]"
+    },
+    {
+      "subtopicId": "S06-T3-B",
+      "heading": "Acceso seguro y valores faltantes",
+      "paragraphs": [
+        "Campos opcionales: `contact.get('telefono')` puede devolver `None`. Encadenar `.get` en anidados evita KeyError: `(c.get('profile') or {}).get('phone')`.",
+        "Distingue **missing** (`None` / clave ausente) de **vacío falsy** (`''`, `0`, `[]`). Un teléfono `''` no es lo mismo que “no vino el campo”: el reporte de calidad debe etiquetar distinto si la política lo exige.",
+        "Helpers `dig(obj, *path)` o `get_nested` centralizan la política y se testean una vez."
+      ],
+      "code": null,
+      "code_output": null
+    },
+    {
+      "subtopicId": "S06-T4-A",
+      "heading": "Ordenamiento y key",
+      "paragraphs": [
+        "`sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-place** y retorna `None` — un bug clásico si haces `x = rows.sort(...)`.",
+        "`key` multi-campo: `key=lambda r: (r['region'], r['nombre'])` ordena estable por región y luego nombre. La estabilidad de Timsort preserva el orden relativo de empates.",
+        "Para montos, asegúrate de que el tipo sea numérico antes de ordenar; strings `'100' < '20'` rompen el ranking."
+      ],
+      "code": "clients = [\n    {\"nombre\": \"Zara\", \"region\": \"Lima\", \"monto\": 30},\n    {\"nombre\": \"Ana\", \"region\": \"Lima\", \"monto\": 50},\n    {\"nombre\": \"Luis\", \"region\": \"Cusco\", \"monto\": 20},\n]\nby_region_name = sorted(clients, key=lambda r: (r[\"region\"], r[\"nombre\"]))\nprint([(r[\"region\"], r[\"nombre\"]) for r in by_region_name])\nby_monto = sorted(clients, key=lambda r: r[\"monto\"], reverse=True)\nprint(\"top monto:\", by_monto[0][\"nombre\"], by_monto[0][\"monto\"])",
+      "code_output": "[('Cusco', 'Luis'), ('Lima', 'Ana'), ('Lima', 'Zara')]\ntop monto: Ana 50"
+    },
+    {
+      "subtopicId": "S06-T4-B",
+      "heading": "Estructura adecuada, complejidad y determinismo",
+      "paragraphs": [
+        "Elige estructura por **operación dominante**: muchos appends → list; muchos lookups por id → dict; membership de cohortes → set; contrato fijo inmutable → tuple.",
+        "Complejidad: membership en list O(n); en set/dict O(1) promedio. No hagas `if x in big_list` dentro de un loop de n si puedes preindexar.",
+        "**Determinismo**: `json.dumps(obj, sort_keys=True, ensure_ascii=False)` + `sorted` de ids produce el mismo string en cada corrida. Reproducibilidad es parte del gate de calidad."
+      ],
+      "code": "import json\npayload = {\"b\": 2, \"a\": 1, \"ids\": [\"C002\", \"C001\"]}\npayload[\"ids\"] = sorted(payload[\"ids\"])\nprint(json.dumps(payload, sort_keys=True, ensure_ascii=False))\nprint(json.dumps(payload, sort_keys=True, ensure_ascii=False))",
+      "code_output": "{\"a\": 1, \"b\": 2, \"ids\": [\"C001\", \"C002\"]}\n{\"a\": 1, \"b\": 2, \"ids\": [\"C001\", \"C002\"]}"
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S06-T1-A-DEMO",
+        "subtopicId": "S06-T1-A",
+        "environment": "browser-pyodide",
+        "description": "Ventana de transacciones con slicing y tupla de keys estables",
+        "why": "Slicing da la ventana; la tupla de keys fija el contrato de columnas sin mutación accidental.",
+        "code": "txs = [\n    {\"id\": \"T01\", \"monto\": 12.5, \"canal\": \"app\"},\n    {\"id\": \"T02\", \"monto\": 40.0, \"canal\": \"web\"},\n    {\"id\": \"T03\", \"monto\": 8.0, \"canal\": \"app\"},\n    {\"id\": \"T04\", \"monto\": 15.0, \"canal\": \"tienda\"},\n    {\"id\": \"T05\", \"monto\": 22.0, \"canal\": \"app\"},\n]\nKEYS = (\"id\", \"monto\", \"canal\")\nultimas = txs[-3:]\nprint(\"keys contrato:\", KEYS)\nfor row in ultimas:\n    print(tuple(row[k] for k in KEYS))\nprint(\"len ventana:\", len(ultimas))",
+        "language": "python",
+        "output": "keys contrato: ('id', 'monto', 'canal')\n('T03', 8.0, 'app')\n('T04', 15.0, 'tienda')\n('T05', 22.0, 'app')\nlen ventana: 3"
+      },
+      {
+        "demoId": "S06-T1-B-DEMO",
+        "subtopicId": "S06-T1-B",
+        "environment": "browser-pyodide",
+        "description": "Bug de alias al 'copiar' lista de dicts de clientes",
+        "why": "Alias muta el original; dict(c) por fila basta si el nivel 1 es plano; deepcopy para anidados.",
+        "code": "import copy\nclientes = [\n    {\"id\": \"C001\", \"score\": 10},\n    {\"id\": \"C002\", \"score\": 20},\n]\nmal = clientes  # alias, no copia\nmal[0][\"score\"] = 99\nprint(\"tras alias mut:\", clientes[0][\"score\"])\n\nbien_shallow = [dict(c) for c in clientes]\nbien_shallow[0][\"score\"] = 1\nprint(\"original tras shallow dict():\", clientes[0][\"score\"])\n\ndeep = copy.deepcopy(clientes)\ndeep[1][\"score\"] = 0\nprint(\"C002 original:\", clientes[1][\"score\"], \"deep:\", deep[1][\"score\"])",
+        "language": "python",
+        "output": "tras alias mut: 99\noriginal tras shallow dict(): 99\nC002 original: 20 deep: 0"
+      },
+      {
+        "demoId": "S06-T2-A-DEMO",
+        "subtopicId": "S06-T2-A",
+        "environment": "browser-pyodide",
+        "description": "Índice id→cliente y lookup seguro",
+        "why": "El índice dict hace lookup O(1); get encadenado evita KeyError en demos de intake.",
+        "code": "filas = [\n    {\"id\": \"C001\", \"nombre\": \"Ana Quispe\", \"region\": \"Lima\"},\n    {\"id\": \"C002\", \"nombre\": \"Luis Huamán\", \"region\": \"Arequipa\"},\n]\nidx = {c[\"id\"]: c for c in filas}\ncid = \"C002\"\nprint(\"encontrado:\", idx.get(cid, {}).get(\"nombre\", \"N/A\"))\nprint(\"missing:\", idx.get(\"C999\", {}).get(\"nombre\", \"N/A\"))\nprint(\"keys ordenadas:\", sorted(idx))",
+        "language": "python",
+        "output": "encontrado: Luis Huamán\nmissing: N/A\nkeys ordenadas: ['C001', 'C002']"
+      },
+      {
+        "demoId": "S06-T2-B-DEMO",
+        "subtopicId": "S06-T2-B",
+        "environment": "browser-pyodide",
+        "description": "ids únicos; intersección de lotes; conflictos = mismo id datos distintos",
+        "why": "Dedup preserva primera vista; conflictos se listan sin borrar filas del reporte.",
+        "code": "rows = [\n    {\"id\": \"C001\", \"email\": \"a@ex.com\"},\n    {\"id\": \"C002\", \"email\": \"b@ex.com\"},\n    {\"id\": \"C001\", \"email\": \"a@ex.com\"},\n    {\"id\": \"C001\", \"email\": \"otro@ex.com\"},\n]\nseen = {}\nunique = []\nconflicts = []\nfor r in rows:\n    rid = r[\"id\"]\n    if rid not in seen:\n        seen[rid] = r\n        unique.append(r)\n    elif seen[rid] != r:\n        conflicts.append({\"id\": rid, \"a\": seen[rid], \"b\": r})\nprint(\"unique ids:\", sorted(seen))\nprint(\"n_conflicts:\", len(conflicts))\nprint(\"conflict email pair:\", conflicts[0][\"a\"][\"email\"], \"vs\", conflicts[0][\"b\"][\"email\"])\nlote1, lote2 = {\"C001\", \"C002\"}, {\"C002\", \"C003\"}\nprint(\"intersección lotes:\", sorted(lote1 & lote2))",
+        "language": "python",
+        "output": "unique ids: ['C001', 'C002']\nn_conflicts: 1\nconflict email pair: a@ex.com vs otro@ex.com\nintersección lotes: ['C002']"
+      },
+      {
+        "demoId": "S06-T3-A-DEMO",
+        "subtopicId": "S06-T3-A",
+        "environment": "browser-pyodide",
+        "description": "Modelo en memoria Client con contacts[] y txs[]",
+        "why": "El grafo cliente→contactos/txs es el núcleo del modelo tabular CP-N1-B en RAM.",
+        "code": "store = [\n    {\n        \"id\": \"C001\",\n        \"nombre\": \"María Quispe\",\n        \"contacts\": [\n            {\"tipo\": \"email\", \"valor\": \"maria@ex.com\"},\n            {\"tipo\": \"tel\", \"valor\": \"999000111\"},\n        ],\n        \"txs\": [\n            {\"id\": \"T1\", \"monto\": 50},\n            {\"id\": \"T2\", \"monto\": 12},\n        ],\n    }\n]\nc = store[0]\nprint(\"cliente\", c[\"id\"], c[\"nombre\"])\nprint(\"contactos:\", len(c[\"contacts\"]))\ntotal = sum(t[\"monto\"] for t in c[\"txs\"])\nprint(\"total txs:\", total)\nflat = [\n    {\"client_id\": c[\"id\"], \"tx_id\": t[\"id\"], \"monto\": t[\"monto\"]}\n    for c in store\n    for t in c[\"txs\"]\n]\nprint(\"flat:\", flat)",
+        "language": "python",
+        "output": "cliente C001 María Quispe\ncontactos: 2\ntotal txs: 62\nflat: [{'client_id': 'C001', 'tx_id': 'T1', 'monto': 50}, {'client_id': 'C001', 'tx_id': 'T2', 'monto': 12}]"
+      },
+      {
+        "demoId": "S06-T3-B-DEMO",
+        "subtopicId": "S06-T3-B",
+        "environment": "browser-pyodide",
+        "description": "Extraer teléfono opcional de contacto anidado",
+        "why": "dig() centraliza acceso seguro; etiquetas missing vs empty alimentan el reporte de calidad.",
+        "code": "def dig(d, *path, default=None):\n    cur = d\n    for k in path:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\n\nc1 = {\"id\": \"C001\", \"profile\": {\"phone\": \"999111222\"}}\nc2 = {\"id\": \"C002\", \"profile\": {}}\nc3 = {\"id\": \"C003\"}\nfor c in (c1, c2, c3):\n    phone = dig(c, \"profile\", \"phone\", default=\"MISSING\")\n    flag = \"ok\" if phone != \"MISSING\" and phone else (\"empty\" if phone == \"\" else \"missing\")\n    if phone == \"MISSING\":\n        flag = \"missing\"\n    print(c[\"id\"], phone, flag)",
+        "language": "python",
+        "output": "C001 999111222 ok\nC002 MISSING missing\nC003 MISSING missing"
+      },
+      {
+        "demoId": "S06-T4-A-DEMO",
+        "subtopicId": "S06-T4-A",
+        "environment": "browser-pyodide",
+        "description": "Ordenar clientes por región luego nombre",
+        "why": "sorted no muta; key multi-campo da orden estable región→nombre para exports.",
+        "code": "clients = [\n    {\"id\": \"C003\", \"nombre\": \"Zara\", \"region\": \"Lima\"},\n    {\"id\": \"C001\", \"nombre\": \"Ana\", \"region\": \"Lima\"},\n    {\"id\": \"C002\", \"nombre\": \"Bruno\", \"region\": \"Cusco\"},\n]\nordered = sorted(clients, key=lambda r: (r[\"region\"], r[\"nombre\"]))\nfor r in ordered:\n    print(r[\"region\"], r[\"nombre\"], r[\"id\"])\nmutated = clients[:]\nmutated.sort(key=lambda r: r[\"id\"])\nprint(\"sort in-place retorna:\", clients[:0].sort(key=lambda r: r[\"id\"]))\nprint(\"ids mutados:\", [r[\"id\"] for r in mutated])",
+        "language": "python",
+        "output": "Cusco Bruno C002\nLima Ana C001\nLima Zara C003\nsort in-place retorna: None\nids mutados: ['C001', 'C002', 'C003']"
+      },
+      {
+        "demoId": "S06-T4-B-DEMO",
+        "subtopicId": "S06-T4-B",
+        "environment": "browser-pyodide",
+        "description": "Mismo input → mismo JSON dump con sort_keys",
+        "why": "sort de filas + sort_keys hace reproducible el artefacto de demo del modelo en memoria.",
+        "code": "import json\ndata = {\n    \"clients\": [\n        {\"id\": \"C002\", \"region\": \"Cusco\"},\n        {\"id\": \"C001\", \"region\": \"Lima\"},\n    ],\n    \"generated_by\": \"s06-demo\",\n}\ndata[\"clients\"] = sorted(data[\"clients\"], key=lambda c: c[\"id\"])\na = json.dumps(data, sort_keys=True, ensure_ascii=False)\nb = json.dumps(data, sort_keys=True, ensure_ascii=False)\nprint(a)\nprint(\"determinista:\", a == b)",
+        "language": "python",
+        "output": "{\"clients\": [{\"id\": \"C001\", \"region\": \"Lima\"}, {\"id\": \"C002\", \"region\": \"Cusco\"}], \"generated_by\": \"s06-demo\"}\ndeterminista: True"
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué produce xs[-2:] si xs = [1,2,3,4]?",
+      "options": [
+        "[1,2]",
+        "[3,4]",
+        "[4]",
+        "Error"
+      ]
+    },
+    {
+      "question": "b = a (listas) y mutas b.append(1). ¿Qué pasa con a?",
+      "options": [
+        "a no cambia",
+        "se lanza error",
+        "a se convierte en tuple",
+        "a también ve el append (alias)"
+      ]
+    },
+    {
+      "question": "Para reportar dos filas con mismo id y payload distinto debes…",
+      "options": [
+        "Listar conflicto en conflicts sin silenciar",
+        "Borrar ambas",
+        "Quedarte con la última sin traza",
+        "Convertir a set de dicts"
+      ]
+    },
+    {
+      "question": "rows.sort(key=...) retorna…",
+      "options": [
+        "la lista ordenada",
+        "una tuple",
+        "None (muta in-place)",
+        "un set"
+      ]
+    },
+    {
+      "question": "json.dumps(..., sort_keys=True) ayuda a…",
+      "options": [
+        "comprimir el archivo",
+        "salidas deterministas/reproducibles",
+        "validar schema JSON Schema",
+        "encriptar PII"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S06-T1-A-E1",
+      "instruction": "E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `ventana=[]` y `len=0`.",
+      "hints": [
+        "Usa txs[-2:] (funciona también si hay menos de 2).",
+        "print la lista y luego len(ventana)."
+      ],
+      "kind": "guided",
+      "tests": "[40, 50] y []",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntxs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(ventana)\n"
+    },
+    {
+      "id": "S06-T1-A-E2",
+      "instruction": "E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `KEYS + ('canal',)` crea otra tupla sin mutar `KEYS`.",
+      "hints": [
+        "tuple(lista) o keys = ('id','monto')",
+        "KEYS no tiene append; usa + para nueva tupla."
+      ],
+      "kind": "independent",
+      "tests": "KEYS estable + more",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nheaders = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('KEYS', KEYS)\n"
+    },
+    {
+      "id": "S06-T1-A-E3",
+      "instruction": "E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e imprime el resultado y un mensaje de diagnóstico.",
+      "hints": [
+        "tuple no tiene append → AttributeError",
+        "list(ids) para mutar una copia."
+      ],
+      "kind": "transfer",
+      "tests": "AttributeError + lista mutada",
+      "starterCode": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')  # bug intencional si se ejecuta sobre tuple\nexcept Exception as e:\n    # TODO\n    ..."
+    },
+    {
+      "id": "S06-T1-B-E1",
+      "instruction": "E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fallaría (no lo fuerces aquí).",
+      "hints": [
+        "a, b, c = fila",
+        "Orden posicional importa."
+      ],
+      "kind": "guided",
+      "tests": "C001 Lima 10",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfila = ('C001', 'Lima', 10)\ncid, region, monto = fila\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(cid, region, monto)\n"
+    },
+    {
+      "id": "S06-T1-B-E2",
+      "instruction": "E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a copia e imprimir de nuevo xs.",
+      "hints": [
+        "alias comparte objeto; copy es superficial de la lista de ints.",
+        "ints inmutables: shallow basta."
+      ],
+      "kind": "independent",
+      "tests": "xs crece con alias; no con copia tras divergencia",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\ncopia.append(4)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('tras alias', xs, copia)\n"
+    },
+    {
+      "id": "S06-T1-B-E3",
+      "instruction": "E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags del deep, e imprime original vs deep.",
+      "hints": [
+        "import copy; deepcopy",
+        "shallow[0] is original[0] → True"
+      ],
+      "kind": "transfer",
+      "tests": "deep no contamina original en el append 'd'",
+      "starterCode": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\n# TODO deep + mutaciones\nprint('orig', rows)\nprint('deep', deep)"
+    },
+    {
+      "id": "S06-T2-A-E1",
+      "instruction": "E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.",
+      "hints": [
+        "dict(pares) o comprensión",
+        "Claves deben ser hashables (str ok)."
+      ],
+      "kind": "guided",
+      "tests": "Cusco",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(d)\n"
+    },
+    {
+      "id": "S06-T2-A-E2",
+      "instruction": "E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx['C999']` directo.",
+      "hints": [
+        "idx.get('C999','N/A')",
+        "KeyError solo en acceso duro."
+      ],
+      "kind": "independent",
+      "tests": "Ana / N/A / KeyError",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nidx = {'C001': 'Ana'}\ntry:\nexcept KeyError as e:\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(idx.get('C001', 'N/A'))\n"
+    },
+    {
+      "id": "S06-T2-A-E3",
+      "instruction": "E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de `defaults.update(override)` mutando defaults (usa copia).",
+      "hints": [
+        "{**defaults, **override} o defaults | override (3.9+)",
+        "Copia antes de update in-place."
+      ],
+      "kind": "transfer",
+      "tests": "retry 5 timeout 30; defaults original intacto",
+      "starterCode": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\n# TODO merged seguro\nprint('merged', merged)\n# TODO no mutar original defaults al fusionar"
+    },
+    {
+      "id": "S06-T2-B-E1",
+      "instruction": "E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.",
+      "hints": [
+        "sorted(set(emails))",
+        "set no garantiza orden de impresión sin sorted."
+      ],
+      "kind": "guided",
+      "tests": "['a@ex.com', 'b@ex.com']",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(unicos)\n"
+    },
+    {
+      "id": "S06-T2-B-E2",
+      "instruction": "E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.",
+      "hints": [
+        "a & b ; a ^ b",
+        "sorted para determinismo."
+      ],
+      "kind": "independent",
+      "tests": "inter b,c ; symdiff a,d",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('inter', sorted(a & b))\n"
+    },
+    {
+      "id": "S06-T2-B-E3",
+      "instruction": "E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas sintéticas con C001 repetido distinto.",
+      "hints": [
+        "seen dict; si key existe y row!=prev → conflict",
+        "unique guarda primera ocurrencia."
+      ],
+      "kind": "transfer",
+      "tests": "1 conflict C001",
+      "starterCode": "def dedup_report(rows, key='id'):\n    # TODO\n    ...\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))"
+    },
+    {
+      "id": "S06-T3-A-E1",
+      "instruction": "E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.",
+      "hints": [
+        "len(c['contacts'])",
+        "for c in clients"
+      ],
+      "kind": "guided",
+      "tests": "C001 → 2 ; C002 → 0",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(c['id'], '→', len(c['contacts']))\n"
+    },
+    {
+      "id": "S06-T3-A-E2",
+      "instruction": "E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.",
+      "hints": [
+        "doble for o comprehension anidada",
+        "conserva client_id en cada fila"
+      ],
+      "kind": "independent",
+      "tests": "3 filas flat",
+      "starterCode": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\n# TODO flat\nprint(flat)"
+    },
+    {
+      "id": "S06-T3-A-E3",
+      "instruction": "E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).",
+      "hints": [
+        "isinstance(c.get('txs'), list)",
+        "No asumas claves siempre presentes."
+      ],
+      "kind": "transfer",
+      "tests": "ok / review / review",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(c['id'], 'ok' if ok else 'review')\n"
+    },
+    {
+      "id": "S06-T3-B-E1",
+      "instruction": "E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.",
+      "hints": [
+        "Recorre keys; si falta retorna default.",
+        "Chequea isinstance dict en cada nivel."
+      ],
+      "kind": "guided",
+      "tests": "999 y N/A",
+      "starterCode": "def get_nested(d, *keys, default=None):\n    # TODO\n    ...\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))"
+    },
+    {
+      "id": "S06-T3-B-E2",
+      "instruction": "E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.",
+      "hints": [
+        "'email' not in c or c['email'] is None → missing",
+        "'' puede contarse present vacío según política; aquí '' = present."
+      ],
+      "kind": "independent",
+      "tests": "present/missing/missing",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(f\"{c['id']}: {flag}\")\n"
+    },
+    {
+      "id": "S06-T3-B-E3",
+      "instruction": "E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None = missing aquí).",
+      "hints": [
+        "bool(x) vs x is None",
+        "0 y '' son falsy pero pueden ser datos válidos."
+      ],
+      "kind": "transfer",
+      "tests": "solo None missing=True",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [None, '', 0, []]\nfor v in vals:\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n"
+    },
+    {
+      "id": "S06-T4-A-E1",
+      "instruction": "E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.",
+      "hints": [
+        "key=lambda r: r['monto']",
+        "sorted no muta la lista original."
+      ],
+      "kind": "guided",
+      "tests": "T1 luego T2",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([r['id'] for r in ordered])\n"
+    },
+    {
+      "id": "S06-T4-A-E2",
+      "instruction": "E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.",
+      "hints": [
+        "key=lambda r: (r['region'], r['nombre'])",
+        "Tupla compara lexicográficamente."
+      ],
+      "kind": "independent",
+      "tests": "Cusco Bob; Lima Ana; Lima Zed",
+      "starterCode": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\n# TODO"
+    },
+    {
+      "id": "S06-T4-A-E3",
+      "instruction": "E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada sin tocar otra lista `base`.",
+      "hints": [
+        "x = lst.sort() → x is None",
+        "sorted(base) no muta base."
+      ],
+      "kind": "transfer",
+      "tests": "None + base intacta",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('ret', ret)\n"
+    },
+    {
+      "id": "S06-T4-B-E1",
+      "instruction": "E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.",
+      "hints": [
+        "list / dict / set",
+        "Una línea por job con la elección."
+      ],
+      "kind": "guided",
+      "tests": "list/dict/set",
+      "starterCode": "jobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\n# TODO print job → estructura"
+    },
+    {
+      "id": "S06-T4-B-E2",
+      "instruction": "E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.",
+      "hints": [
+        "sorted ids; sort_keys=True",
+        "ensure_ascii=False para tildes si hubiera."
+      ],
+      "kind": "independent",
+      "tests": "{\"a\": 2, \"ids\": [\"C001\", \"C002\"], \"z\": 1}",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(s)\n"
+    },
+    {
+      "id": "S06-T4-B-E3",
+      "instruction": "E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x in set` True.",
+      "hints": [
+        "list O(n) vs set O(1) promedio",
+        "No necesitas timeit; razona y demo pequeña."
+      ],
+      "kind": "transfer",
+      "tests": "O(n) vs O(1) + True",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print('list membership: O(n) por chequeo')\n"
+    }
+  ],
+  "packet_sha": "2b7e2c730df3d20b",
+  "attempt_id": "agentic_H2"
+}

@@ -1,0 +1,111 @@
+# S33 Grammar Findings
+
+Records: 357 (Spanish: 247, English-dominant: 110)
+Sentences: 446
+FH mean=74.8 median=75.5 min=-16.2 max=151.8
+WPS mean=10.65 max=38.0; SPW mean=2.02
+
+Findings by severity: {'L': 400, 'M': 401, 'H': 2}
+Findings by rule: {'english_dominant': 330, 'missing_terminal': 154, 'high_comma_density': 118, 'anaphora_monotony': 118, 'unbalanced_delim': 68, 'long_sentence_gt32': 10, 'meta_leak': 2, 'repeated_word': 2, 'paragraph_single_long_sentence': 1}
+
+## Worst 25 sentences (lowest FH)
+  FH=-37.2 wc=4 :: Adverso: depth_unlimited True → `REJECT_DEPTH_UNLIMITED`.
+      - english_dominant (M): Adverso: depth_unlimited True → `REJECT_DEPTH_UNLIMITED`.
+  FH=-35.2 wc=2 :: random_split → REJECT_RANDOM_LEAK.
+      - english_dominant (M): random_split → REJECT_RANDOM_LEAK.
+  FH=-16.2 wc=3 :: Regularización y validación
+      - missing_terminal (L): Regularización y validación
+  FH=-7.4 wc=10 :: S33-T2-B-E3 · Fallo cerrado: válido → `CONTINUE`, unscaled/causal → `REJECT_UNSCALED_COEF`, sin `scaled` → `REQUEST_SCALE_FLAG`.
+      - english_dominant (M): S33-T2-B-E3 · Fallo cerrado: válido → `CONTINUE`, unscaled/causal → `REJECT_UNSC
+      - high_comma_density (L): 2/10
+  FH=-5.2 wc=2 :: `shared_phone`, `amount_z`).
+      - unbalanced_delim (M): (): 0 vs 1
+      - english_dominant (M): `shared_phone`, `amount_z`).
+      - high_comma_density (L): 1/2
+  FH=3.8 wc=3 :: Depth libre → REJECT_DEPTH_UNLIMITED.
+      - english_dominant (M): Depth libre → REJECT_DEPTH_UNLIMITED.
+  FH=3.8 wc=3 :: Regularización y árboles
+      - missing_terminal (L): Regularización y árboles
+  FH=7.8 wc=4 :: Documentación en español profesional
+      - missing_terminal (L): Documentación en español profesional
+  FH=7.8 wc=4 :: Baseline primero; métricas honestas
+      - missing_terminal (L): Baseline primero; métricas honestas
+      - english_dominant (M): Baseline primero; métricas honestas
+  FH=11.2 wc=8 :: Salidas exactas en orden: `CONTINUE CONTINUE REJECT_UNLOGGED_RUN REQUEST_METRICS`.
+      - repeated_word (M): CONTINUE CONTINUE
+      - english_dominant (M): Salidas exactas en orden: `CONTINUE CONTINUE REJECT_UNLOGGED_RUN REQUEST_METRICS
+  FH=16.6 wc=10 :: Reproducibilidad y control de overfit son requisitos de experimentación responsable.
+  FH=16.6 wc=10 :: Produce `CONTINUE REJECT_FRAUD_TARGET REQUEST_HORIZON` con prevalence calculada en el válido.
+      - english_dominant (M): Produce `CONTINUE REJECT_FRAUD_TARGET REQUEST_HORIZON` con prevalence calculada 
+      - anaphora_monotony (L): Produce
+  FH=17.7 wc=9 :: Producto incremental: comparación **honesta** sobre el target sintético `needs_review_7d`.
+  FH=20.7 wc=6 :: Sin baseline → REJECT_NO_BASELINE; sin costo → REQUEST_COST.
+      - english_dominant (M): Sin baseline → REJECT_NO_BASELINE; sin costo → REQUEST_COST.
+  FH=21.7 wc=5 :: Regresión logística y regularización L2
+      - missing_terminal (L): Regresión logística y regularización L2
+  FH=21.7 wc=5 :: Salidas: `PASS`, `REJECT_DEPTH_UNLIMITED`, `MISSING:stump_preds`.
+      - english_dominant (M): Salidas: `PASS`, `REJECT_DEPTH_UNLIMITED`, `MISSING:stump_preds`.
+      - high_comma_density (L): 2/5
+  FH=23.8 wc=3 :: Sin scaling → REJECT_UNSCALED_COEF.
+      - english_dominant (M): Sin scaling → REJECT_UNSCALED_COEF.
+  FH=23.8 wc=3 :: CASO-LIM-033-1A es sintético
+      - missing_terminal (L): CASO-LIM-033-1A es sintético
+  FH=23.8 wc=3 :: CASO-LIM-033-1A es sintético
+      - missing_terminal (L): CASO-LIM-033-1A es sintético
+      - anaphora_monotony (L): CASO
+  FH=23.8 wc=3 :: CASO-LIM-033-1A es sintético
+      - missing_terminal (L): CASO-LIM-033-1A es sintético
+      - anaphora_monotony (L): CASO
+  FH=23.8 wc=3 :: CASO-LIM-033-1B es sintético
+      - missing_terminal (L): CASO-LIM-033-1B es sintético
+  FH=23.8 wc=3 :: CASO-LIM-033-1B es sintético
+      - missing_terminal (L): CASO-LIM-033-1B es sintético
+  FH=23.8 wc=3 :: CASO-LIM-033-1B es sintético
+      - missing_terminal (L): CASO-LIM-033-1B es sintético
+  FH=23.8 wc=3 :: CASO-LIM-033-2A es sintético
+      - missing_terminal (L): CASO-LIM-033-2A es sintético
+      - anaphora_monotony (L): CASO
+  FH=23.8 wc=3 :: CASO-LIM-033-2A es sintético
+      - missing_terminal (L): CASO-LIM-033-2A es sintético
+      - anaphora_monotony (L): CASO
+
+## Longest 25 sentences
+  wc=41 :: S33-T1-B-E1 · **Calcula el dual baseline** sobre `y=[1,1,0]` y `x=[1.0,1.0,0.0]`: (1) dummy majority con c_fp=1, c_fn=5 → `dummy_acc==0.667` y `cost==1` (un FP); (2) regla `x>=1` → `rule_acc==1.0`.
+      - long_sentence_gt32 (L): S33-T1-B-E1 · **Calcula el dual baseline** sobre `y=[1,1,0]` y `x=[1.0,1.0,0.0]`: (1) dummy majority con c_fp=1, c_fn=5 
+  wc=38 :: Te muestro el camino completo: framing honesto, baseline y costo, logística con L2, coeficientes escalados, stump con voto, control de overfit, tracking aunque pierdas al dummy, y group CV por entidad — todo sobre fixtures sintéticos de Red Andina.
+      - long_sentence_gt32 (L): Te muestro el camino completo: framing honesto, baseline y costo, logística con L2, coeficientes escalados, stump con vo
+      - meta_leak (H): \bTODO\b
+      - high_comma_density (L): 7/38
+  wc=36 :: **Random Forest** (bagging de árboles) y **boosting** (reponderar residuos o errores) son *familias* más ricas; aquí solo practicamos stump + vote y el control de profundidad — suficiente para el workbench y para no inventar APIs no enseñadas.
+      - long_sentence_gt32 (L): **Random Forest** (bagging de árboles) y **boosting** (reponderar residuos o errores) son *familias* más ricas; aquí sol
+  wc=34 :: En cada tema reparas un cálculo defectuoso (prevalencia, dummy+costo, sigmoid/L2, stump, gap, beats, n_groups), luego enrutas fixtures válidos/adversos/faltantes, y cierras con fallo cerrado: continuar, rechazar o pedir evidencia — sin inventar valores por defecto.
+      - long_sentence_gt32 (L): En cada tema reparas un cálculo defectuoso (prevalencia, dummy+costo, sigmoid/L2, stump, gap, beats, n_groups), luego en
+      - english_dominant (M): En cada tema reparas un cálculo defectuoso (prevalencia, dummy+costo, sigmoid/L2
+      - high_comma_density (L): 9/34
+  wc=33 :: **Espina numérica del lab** (misma y=[1,1,0] o fixtures del demo): dummy majority ≈0.667 · regla simple y stump se calculan · logística con L2 reportada · `beats_dummy` True o False según métrica.
+      - long_sentence_gt32 (L): **Espina numérica del lab** (misma y=[1,1,0] o fixtures del demo): dummy majority ≈0.667 · regla simple y stump se calcu
+  wc=32 :: El costo `fp * c_fp + fn * c_fn` traduce errores a **impacto de cola**, no a moral de fraude: un FN caro significa un caso que debió revisarse y no se priorizó a tiempo.
+  wc=32 :: En `CASO-LIM-033`: con `y=[1,1,0]` el dummy predice 1 y acierta 2/3 (acc≈0.667); su costo se deriva de y vs predicciones (1 FP con c_fp=1 → costo 1).
+  wc=32 :: Sobre CASO-LIM-033 (sintético): define unit/target/horizon, calcula dummy+costo, entrena un modelo lineal simple o un stump, registra un run con params/metrics/beats_dummy (True o False) y reporta n_groups con group CV por entidad.
+      - english_dominant (M): Sobre CASO-LIM-033 (sintético): define unit/target/horizon, calcula dummy+costo,
+  wc=31 :: En el workbench de Red Andina, un target llamado `fraud` o `is_fraud` es un **breach de producto**: el ML solo prioriza la cola de revisión humana, no etiqueta delito ni parentesco.
+  wc=31 :: S33-T1-A-E1 · **Calcula** el framing de `CASO-LIM-033-1A`: con `y=[0,1,0,0]` la prevalencia debe ser 0.25; el target `needs_review_7d` no debe contener `fraud`; horizon=7 y unit no vacío.
+  wc=30 :: Primero se documenta un **baseline** (dummy majority o regla simple) y los costos de FP/FN de cola; solo entonces se prueba si un modelo supervisado mejora la **prioridad de revisión**.
+  wc=30 :: Esta sección no empuja stacking por deporte: define **unidad de scoring**, **target** y **horizonte**, y conserva un **baseline determinista** antes de cualquier modelo en el workbench de Red Andina (CP-N3-B).
+  wc=29 :: Solo aceptas targets `needs_review_*` con horizonte **explícito**, y anotas la **prevalencia** de la clase positiva **antes** de cualquier fit: sin esa foto del desbalance, el dummy majority ya engaña.
+  wc=28 :: Antes de entrenar, cierra el **problema de scoring**: la **unidad** (par de entidades, caso o cuenta en el instante `t`), el **target observable** y el **horizonte** temporal (p.
+      - unbalanced_delim (M): (): 2 vs 1
+  wc=28 :: Un random split clásico infla métricas cuando hay múltiples filas por entidad (pares, cuentas, dispositivos) — el modelo “recuerda” al par en valid porque ya lo vio en train.
+  wc=28 :: S33-T2-B-E2 · **Calcula** el top por `|coef|` sobre `shared_phone=0.8` y `amount_z=-0.2` (top debe ser `shared_phone`) y arma el fixture válido con `scaled=True`, `causal=False`.
+  wc=28 :: S33-T3-A-E3 · **Transferencia:** genera `stump_preds` con thr=0.3 sobre `[0.1,0.4]` y majority de `[1,0,1]`; decide CONTINUE si depth controlada y preds no vacías.
+  wc=28 :: S33-T4-A-E3 · **Transferencia:** decide sobre **dos** runs logueados (victoria acc=0.7 y derrota acc=0.5 vs dummy 0.667), un run mal logueado y uno sin metrics.
+  wc=27 :: S33-T4-B-E2 · **Calcula** `n_groups` y `mean_fold` sobre entities `['e1','e1','e2','e3']` y folds `[0.6,0.7,0.65]` (n_groups=3, mean=0.65 con 3 decimales).
+      - high_comma_density (L): 6/27
+  wc=26 :: La regla `x >= 1` sobre `x=[1,1,0]` produce pred `[1,1,0]` y accuracy **1.0**: a veces la heurística ya gana al dummy.
+      - high_comma_density (L): 4/26
+  wc=26 :: En `CASO-LIM-033`, `shared_phone=0.8` (positivo) ordena arriba; se imprime el ranking con `causal=False` para no sobre-interpretar el score de cola como parentesco o fraude.
+  wc=26 :: Si más adelante lees RF/GB en sklearn, verás la misma idea de “muchos débiles bien controlados” — con bagging o boosting, no con un solo árbol profundo.
+  wc=26 :: **Importante:** un run que **no** supera al dummy sigue siendo válido si está bien logueado: la comparación honesta es el producto, no un score de vanidad.
+  wc=26 :: Con z=0 → p=0.5; con w=1,b=0,x=0.2 y thr=0.6 → pred=0; con w=[1,2] → l2_sq=5.
+  wc=25 :: En `CASO-LIM-033`: thr=0.3 sobre `[0.1, 0.4]` produce `[0, 1]`; el voto de tres predictores débiles `[1,0,1]` da majority 1.
+      - high_comma_density (L): 4/25

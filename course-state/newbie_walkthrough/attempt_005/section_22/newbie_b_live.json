@@ -1,0 +1,282 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 22,
+  "recorded_at": "2026-07-21T23:18:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + demos + weDo hints",
+      "required_for_early_exercises": {
+        "MIMEText/MIMEMultipart": { "in_theory_or_demo": true, "where": "theory MIME" },
+        "html.escape allowlist scopes": { "in_theory_or_demo": true, "where": "theory sanitize + scopes" },
+        "drafts expiry approval SM": { "in_theory_or_demo": true, "where": "S22-T4-B-DEMO" },
+        "idempotency sha256": { "in_theory_or_demo": true, "where": "final once() demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Solo drafts/.eml en sandbox y aprobación humana",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: no real send; drafts/sandbox only."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": "Solo evidencia débil de contacto a revisar; no prueba de fraude",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory matching ≠ fraude/parentesco."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Solo los scopes mínimos (p. ej. draft) necesarios",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory scopes mínimos OAuth."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Reutilizar el mismo draft_id si la key existe",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "once() demo returns same id."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S22-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "from email.mime.text import MIMEText\nmsg = MIMEText(\"Hola\", \"plain\", \"utf-8\")\nprint(msg[\"Content-Type\"])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["MIMEText"],
+        "note": "Hints MIMEText Content-Type."
+      },
+      {
+        "exercise_id": "S22-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart(\"mixed\")\nmsg[\"Subject\"] = \"Test\"\npart = MIMEApplication(b\"x\", Name=\"a.txt\")\npart.add_header(\"Content-Disposition\", \"attachment\", filename=\"a.txt\")\nmsg.attach(part)\nprint(\"a.txt\" in msg.as_string())\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["MIMEMultipart", "MIMEApplication"],
+        "note": "Hints attach + Content-Disposition; theory attachments."
+      },
+      {
+        "exercise_id": "S22-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmixed = MIMEMultipart(\"mixed\")\nalt = MIMEMultipart(\"alternative\")\nalt.attach(MIMEText(\"hola\", \"plain\", \"utf-8\"))\nalt.attach(MIMEText(\"<p>hola</p>\", \"html\", \"utf-8\"))\nmixed.attach(alt)\nraw = mixed.as_string()\nprint(raw.count(\"Content-Type:\"))\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["alternative under mixed"],
+        "note": "Theory multiparte alternative; hints nested."
+      },
+      {
+        "exercise_id": "S22-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import html\nprint(html.escape(\"<script>x</script>\"))\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["html.escape"],
+        "note": "Hints html.escape."
+      },
+      {
+        "exercise_id": "S22-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import html\nname = \"<b>Ana</b>\"\nprint(\"Hola {name}\".format(name=html.escape(name)))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["escape before format"],
+        "note": "Hints escape before format."
+      },
+      {
+        "exercise_id": "S22-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "urls = [\"https://example.pe/a\", \"https://evil.test\"]\nfor url in urls:\n    print(\"ok\" if \"example.pe\" in url else \"blocked\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["url allowlist"],
+        "note": "Hints example.pe in url."
+      },
+      {
+        "exercise_id": "S22-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "requested = [\"mail.draft\", \"mail.full\"]\nallowed = {\"mail.draft\", \"mail.readonly\"}\nprint([s for s in requested if s in allowed])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["scope filter"],
+        "note": "Hints list comp membership."
+      },
+      {
+        "exercise_id": "S22-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "granted = [\"mail.draft\"]\nprint(all(x not in granted for x in (\"mail.full\", \"admin\")))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["least privilege check"],
+        "note": "Hints all not in."
+      },
+      {
+        "exercise_id": "S22-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\npast = (now - timedelta(hours=1)).isoformat()\nfuture = (now + timedelta(hours=1)).isoformat()\nfor exp in (past, future):\n    exp_dt = datetime.fromisoformat(exp)\n    print(\"refresh\" if exp_dt < now else \"valid\")\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["token expiry"],
+        "note": "Hints fromisoformat vs now UTC."
+      },
+      {
+        "exercise_id": "S22-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "store = {}\nstore[\"d001\"] = {\"status\": \"draft\"}\nprint(store[\"d001\"][\"status\"])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["draft store"],
+        "note": "Hints dict assignment."
+      },
+      {
+        "exercise_id": "S22-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nis_usable = now < expires_at\nprint(is_usable)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["is_usable expiry"],
+        "note": "Hints now < expires → False when past."
+      },
+      {
+        "exercise_id": "S22-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "store = {}\n\ndef create_draft():\n    n = len(store) + 1\n    did = f\"d{n:03d}\"\n    store[did] = {\"status\": \"draft\"}\n    return did\n\nprint(create_draft(), create_draft())\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["sequential draft ids"],
+        "note": "Hints len+1 f-string d{n:03d}."
+      },
+      {
+        "exercise_id": "S22-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import re\npat = re.compile(r\"^[^@]+@[^@]+\\.[^@]+$\")\nprint(bool(pat.match(\"ana@example.pe\")), bool(pat.match(\"bad\")))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["email regex"],
+        "note": "Instruction gives regex."
+      },
+      {
+        "exercise_id": "S22-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "DIRECTORY = {\"C001\": \"ana@example.pe\"}\nemail = DIRECTORY.get(\"C001\")\ndomain = email.split(\"@\")[1] if email else \"\"\nprint(\"verified\" if domain == \"example.pe\" else \"rejected\")\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["resolve domain"],
+        "note": "Hints dict.get split @."
+      },
+      {
+        "exercise_id": "S22-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "a, b = \"ana.rojas@example.pe\", \"ana.rojas@example.com\"\nn = 0\nfor ca, cb in zip(a, b):\n    if ca != cb:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), \"match_no_es_fraude\")\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["similarity note no fraud"],
+        "note": "Hints common prefix / max len + match_no_es_fraude."
+      },
+      {
+        "exercise_id": "S22-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "xs = [\"a@x\", \"b@x\", \"a@x\"]\nprint(list(dict.fromkeys(xs)))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["dedupe order"],
+        "note": "Hints dict.fromkeys."
+      },
+      {
+        "exercise_id": "S22-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "rows = [{\"email\": \"p@other.test\", \"role\": \"cc\"}]\nfor r in rows:\n    if r[\"email\"].endswith(\"@other.test\"):\n        r[\"role\"] = \"bcc\"\nprint(rows)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["force bcc external"],
+        "note": "Hints endswith mutate role."
+      },
+      {
+        "exercise_id": "S22-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "rows = [(\"a@example.pe\", \"to\"), (\"b@other.test\", \"cc\")]\npolicy = []\nfor email, role in rows:\n    if email.endswith(\"@other.test\"):\n        role = \"bcc\"\n    policy.append((email, role))\nvisible = sum(1 for _, r in policy if r in (\"to\", \"cc\"))\nprint(visible)\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["visible after bcc policy"],
+        "note": "Hints filter to+cc after policy; external moves to bcc → 1 visible."
+      },
+      {
+        "exercise_id": "S22-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "T = {\"draft\": {\"submit\": \"pending\"}}\nstate = \"draft\"\nstate = T[state][\"submit\"]\nprint(state)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["state machine submit"],
+        "note": "Demo SM transitions."
+      },
+      {
+        "exercise_id": "S22-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "T = {\"draft\": {\"submit\": \"pending\"}, \"pending\": {\"approve\": \"approved\"}}\nstate, action = \"draft\", \"approve\"\nnxt = T.get(state, {}).get(action)\nprint(nxt if nxt else \"invalid\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["invalid transition"],
+        "note": "Hints .get None → invalid."
+      },
+      {
+        "exercise_id": "S22-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "log = []\nlog.append({\"from\": \"pending\", \"to\": \"approved\", \"actor\": \"rev1\"})\nprint(log)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["audit log actor"],
+        "note": "Hints append from/to/actor."
+      },
+      {
+        "exercise_id": "S22-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import hashlib\nprint(hashlib.sha256(b\"run|to|v1\").hexdigest()[:8])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["idempotency key"],
+        "note": "Hints sha256 hex[:8]."
+      },
+      {
+        "exercise_id": "S22-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "store = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = \"draft-001\"\n    return store[key]\n\na = create(\"k1\")\nb = create(\"k1\")\nprint(a == b)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["idempotent create"],
+        "note": "once() demo pattern."
+      },
+      {
+        "exercise_id": "S22-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "audit = []\nstore = {}\nkey = \"k1\"\nif key not in store:\n    store[key] = \"d1\"\n    audit.append(\"create\")\nelse:\n    audit.append(\"retry_hit\")\nif key in store:\n    audit.append(\"retry_hit\")\nprint(audit)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["audit create+retry"],
+        "note": "Hints event names same key."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "a238f3d396c575e9",
+    "summary": {
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "residual_gaps": [],
+      "top_gaps": []
+    }
+  }
+}

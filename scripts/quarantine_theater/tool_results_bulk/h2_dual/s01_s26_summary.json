@@ -1,0 +1,366 @@
+[
+  {
+    "section": 1,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 38.166232
+  },
+  {
+    "section": 1,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 39.918529
+  },
+  {
+    "section": 2,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 36.117536
+  },
+  {
+    "section": 2,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 33.118293
+  },
+  {
+    "section": 3,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 31.800241
+  },
+  {
+    "section": 3,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 41.39664
+  },
+  {
+    "section": 4,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 47.122473
+  },
+  {
+    "section": 4,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 39.27329
+  },
+  {
+    "section": 5,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 33.611774
+  },
+  {
+    "section": 5,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 31.279646
+  },
+  {
+    "section": 6,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 26.515353
+  },
+  {
+    "section": 6,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 29.542898
+  },
+  {
+    "section": 7,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 36.640325
+  },
+  {
+    "section": 7,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 35.551679
+  },
+  {
+    "section": 8,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 41.072071
+  },
+  {
+    "section": 8,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 30.378752
+  },
+  {
+    "section": 9,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 39.461388
+  },
+  {
+    "section": 9,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 22.946383
+  },
+  {
+    "section": 10,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 41.284949
+  },
+  {
+    "section": 10,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 45.972057
+  },
+  {
+    "section": 11,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 39.062486
+  },
+  {
+    "section": 11,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 34.191383
+  },
+  {
+    "section": 12,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 35.847669
+  },
+  {
+    "section": 12,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 40.890057
+  },
+  {
+    "section": 13,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 34.566487
+  },
+  {
+    "section": 13,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 40.525009
+  },
+  {
+    "section": 14,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 31.727164
+  },
+  {
+    "section": 14,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 23.689044
+  },
+  {
+    "section": 15,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 30.556299
+  },
+  {
+    "section": 15,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 31.688711
+  },
+  {
+    "section": 16,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 33.988629
+  },
+  {
+    "section": 16,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 46.093657
+  },
+  {
+    "section": 17,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 40.439116
+  },
+  {
+    "section": 17,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 27.545605
+  },
+  {
+    "section": 18,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 39.662009
+  },
+  {
+    "section": 18,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 39.244197
+  },
+  {
+    "section": 19,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 37.919037
+  },
+  {
+    "section": 19,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 35.30522
+  },
+  {
+    "section": 20,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 29.352433
+  },
+  {
+    "section": 20,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 29.958301
+  },
+  {
+    "section": 21,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 26.606546
+  },
+  {
+    "section": 21,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 29.957826
+  },
+  {
+    "section": 22,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 44.25216
+  },
+  {
+    "section": 22,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 38.322343
+  },
+  {
+    "section": 23,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 35.669755
+  },
+  {
+    "section": 23,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 37.908078
+  },
+  {
+    "section": 24,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 36.081909
+  },
+  {
+    "section": 24,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 40.068927
+  },
+  {
+    "section": 25,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 45.478841
+  },
+  {
+    "section": 25,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 45.049781
+  },
+  {
+    "section": 26,
+    "agent": "newbie_a",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 47.708368
+  },
+  {
+    "section": 26,
+    "agent": "newbie_b",
+    "issues": [],
+    "n_issues": 0,
+    "duration": 23.944035
+  }
+]

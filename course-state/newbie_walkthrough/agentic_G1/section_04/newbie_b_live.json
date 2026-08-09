@@ -1,0 +1,326 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 4,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-skeptic-s04-9709c813",
+  "production_note": "agentic_G1 dual-LLM Skeptic: packet-only; no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "answer": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(list(range(3)))\n",
+      "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(list(range(3)))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T1-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S04-T1-A-E1: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "answer": "edades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(n)\nassert n == 3\n",
+      "code": "edades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(n)\nassert n == 3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T1-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S04-T1-A-E2: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "answer": "lote = [\n    {\"id\": \"C1\", \"monto\": 10},\n    {\"id\": \"C2\", \"monto\": 0},\n    {\"id\": \"C3\", \"monto\": -5},\n    {\"id\": \"C4\", \"monto\": 20},\n]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\nprint(\"len lote\", len(lote))\n",
+      "code": "lote = [\n    {\"id\": \"C1\", \"monto\": 10},\n    {\"id\": \"C2\", \"monto\": 0},\n    {\"id\": \"C3\", \"monto\": -5},\n    {\"id\": \"C4\", \"monto\": 20},\n]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\nprint(\"len lote\", len(lote))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T1-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S04-T1-A-E3: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "answer": "ids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")\n",
+      "code": "ids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T1-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S04-T1-B-E1: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "answer": "nombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor nombre, edad in zip(nombres, edades):\n    print(f\"{nombre}={edad}\")\nprint(\"zip corto:\", list(zip(nombres, edades[:2])))\n",
+      "code": "nombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor nombre, edad in zip(nombres, edades):\n    print(f\"{nombre}={edad}\")\nprint(\"zip corto:\", list(zip(nombres, edades[:2])))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T1-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S04-T1-B-E2: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "answer": "def zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(f\"desalineado: {len(a)} vs {len(b)}\")\n    return list(zip(a, b))\n\ntry:\n    print(zip_strict([1, 2, 3], [10, 20]))\nexcept ValueError as e:\n    print(\"DESALINEADO\", e)\n\nprint(\"OK\", zip_strict([1, 2], [10, 20]))\n",
+      "code": "def zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(f\"desalineado: {len(a)} vs {len(b)}\")\n    return list(zip(a, b))\n\ntry:\n    print(zip_strict([1, 2, 3], [10, 20]))\nexcept ValueError as e:\n    print(\"DESALINEADO\", e)\n\nprint(\"OK\", zip_strict([1, 2], [10, 20]))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T1-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S04-T1-B-E3: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "answer": "lines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)\n",
+      "code": "lines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T2-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S04-T2-A-E1: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "answer": "intentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)\n",
+      "code": "intentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T2-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S04-T2-A-E2: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "answer": "cola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\n    print(job)\nprint(\"rest\", cola)\n",
+      "code": "cola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\n    print(job)\nprint(\"rest\", cola)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T2-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S04-T2-A-E3: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "answer": "raw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)\n",
+      "code": "raw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T2-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S04-T2-B-E1: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "answer": "codes = [200, 200, 500, 200]\nn_ok = 0\nfor code in codes:\n    if code >= 500:\n        print(\"STOP\")\n        break\n    print(\"ok\")\n    n_ok += 1\nprint(\"n_ok\", n_ok)\n",
+      "code": "codes = [200, 200, 500, 200]\nn_ok = 0\nfor code in codes:\n    if code >= 500:\n        print(\"STOP\")\n        break\n    print(\"ok\")\n    n_ok += 1\nprint(\"n_ok\", n_ok)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T2-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S04-T2-B-E2: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "answer": "buf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guardrail\")\n    item = buf[i]\n    i += 1\n    if item == \"END\":\n        break\n    out.append(item)\nprint(out)\n",
+      "code": "buf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guardrail\")\n    item = buf[i]\n    i += 1\n    if item == \"END\":\n        break\n    out.append(item)\nprint(out)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T2-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S04-T2-B-E3: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "answer": "sts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor st in sts:\n    n_total += 1\n    if st == \"accept\":\n        n_accept += 1\n    elif st == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)\n",
+      "code": "sts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor st in sts:\n    n_total += 1\n    if st == \"accept\":\n        n_accept += 1\n    elif st == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T3-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S04-T3-A-E1: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "answer": "def tasa_reject(sts):\n    n_total = len(sts)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\n\nsts = [\"accept\", \"reject\", \"accept\"]\nprint(round(tasa_reject(sts), 4))\nprint(tasa_reject([]))\n",
+      "code": "def tasa_reject(sts):\n    n_total = len(sts)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\n\nsts = [\"accept\", \"reject\", \"accept\"]\nprint(round(tasa_reject(sts), 4))\nprint(tasa_reject([]))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T3-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S04-T3-A-E2: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "answer": "rows = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"review\"},\n    {\"id\": \"C3\", \"status\": \"reject\"},\n]\nfirst = -1\nfirst_id = None\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        first = i\n        first_id = r[\"id\"]\n        break\nif first == -1:\n    print(-1)\nelse:\n    print(first, first_id)\n",
+      "code": "rows = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"review\"},\n    {\"id\": \"C3\", \"status\": \"reject\"},\n]\nfirst = -1\nfirst_id = None\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        first = i\n        first_id = r[\"id\"]\n        break\nif first == -1:\n    print(-1)\nelse:\n    print(first, first_id)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T3-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S04-T3-A-E3: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "answer": "nums = [1, 2, 3, 4, 5]\ncuadrados = [x * x for x in nums]\npares = [x for x in nums if x % 2 == 0]\nprint(cuadrados)\nprint(pares)\n",
+      "code": "nums = [1, 2, 3, 4, 5]\ncuadrados = [x * x for x in nums]\npares = [x for x in nums if x % 2 == 0]\nprint(cuadrados)\nprint(pares)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T3-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S04-T3-B-E1: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "answer": "rows = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"reject\"},\n    {\"id\": \"C3\", \"status\": \"review\"},\n    {\"id\": \"C4\", \"status\": \"reject\"},\n]\nprint(sorted({r[\"status\"] for r in rows}))\n",
+      "code": "rows = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"reject\"},\n    {\"id\": \"C3\", \"status\": \"review\"},\n    {\"id\": \"C4\", \"status\": \"reject\"},\n]\nprint(sorted({r[\"status\"] for r in rows}))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T3-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S04-T3-B-E2: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "answer": "rows = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"reject\"},\n    {\"id\": \"C3\", \"status\": \"accept\"},\n    {\"id\": \"C4\", \"status\": \"reject\"},\n]\nby = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"]\ntasa = len(rejects) / len(rows) if rows else None\nprint(\"by\", by)\nprint(\"reject\", rejects, tasa)\n",
+      "code": "rows = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"reject\"},\n    {\"id\": \"C3\", \"status\": \"accept\"},\n    {\"id\": \"C4\", \"status\": \"reject\"},\n]\nby = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"]\ntasa = len(rejects) / len(rows) if rows else None\nprint(\"by\", by)\nprint(\"reject\", rejects, tasa)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T3-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S04-T3-B-E3: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "answer": "vals = [2, -1, 3]\ns = 0\nprint(\"i | val | s\")\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)\n",
+      "code": "vals = [2, -1, 3]\ns = 0\nprint(\"i | val | s\")\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T4-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S04-T4-A-E1: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "answer": "# Bug: n se incrementaba dos veces por fila\nfilas = [\"a\", \"b\", \"c\"]\nn = 0\nfor _ in filas:\n    n += 1  # una sola vez por fila\nprint(n)\nassert n == 3\n",
+      "code": "# Bug: n se incrementaba dos veces por fila\nfilas = [\"a\", \"b\", \"c\"]\nn = 0\nfor _ in filas:\n    n += 1  # una sola vez por fila\nprint(n)\nassert n == 3\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T4-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S04-T4-A-E2: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "answer": "regs = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"reject\"},\n    {\"id\": \"C3\", \"status\": \"review\"},\n]\ncounts = {\"accept\": 0, \"reject\": 0, \"review\": 0}\nfor r in regs:\n    counts[r[\"status\"]] += 1\n    print(\"TRACE\", r[\"id\"], dict(counts))\nprint(\"FINAL\", counts)\n",
+      "code": "regs = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"reject\"},\n    {\"id\": \"C3\", \"status\": \"review\"},\n]\ncounts = {\"accept\": 0, \"reject\": 0, \"review\": 0}\nfor r in regs:\n    counts[r[\"status\"]] += 1\n    print(\"TRACE\", r[\"id\"], dict(counts))\nprint(\"FINAL\", counts)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T4-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S04-T4-A-E3: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "answer": "n = 5\nlinear = 0\nfor _ in range(n):\n    linear += 1\nquad = 0\nfor _ in range(n):\n    for __ in range(n):\n        quad += 1\nprint(linear, quad)\n",
+      "code": "n = 5\nlinear = 0\nfor _ in range(n):\n    linear += 1\nquad = 0\nfor _ in range(n):\n    for __ in range(n):\n        quad += 1\nprint(linear, quad)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T4-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S04-T4-B-E1: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "answer": "data = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):  # 0..n-1, no range(1, len+1)\n    print(data[i])\n",
+      "code": "data = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):  # 0..n-1, no range(1, len+1)\n    print(data[i])\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T4-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S04-T4-B-E2: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "answer": "statuses = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\n# O(n²) ingenuo de pares reject-reject (evitado):\n# n_pairs = 0\n# for i,a in enumerate(statuses):\n#     for j,b in enumerate(statuses):\n#         if i < j and a == b == \"reject\":\n#             n_pairs += 1\nn_reject = 0\nfor st in statuses:\n    if st == \"reject\":\n        n_reject += 1\nn_total = len(statuses)\ntasa = n_reject / n_total if n_total else None\nprint(n_reject, tasa)\nprint(\"Nota: la tasa de reject del gate es O(n) con contador; no hace falta doble for de pares.\")\n",
+      "code": "statuses = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\n# O(n²) ingenuo de pares reject-reject (evitado):\n# n_pairs = 0\n# for i,a in enumerate(statuses):\n#     for j,b in enumerate(statuses):\n#         if i < j and a == b == \"reject\":\n#             n_pairs += 1\nn_reject = 0\nfor st in statuses:\n    if st == \"reject\":\n        n_reject += 1\nn_total = len(statuses)\ntasa = n_reject / n_total if n_total else None\nprint(n_reject, tasa)\nprint(\"Nota: la tasa de reject del gate es O(n) con contador; no hace falta doble for de pares.\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S04-T4-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S04-T4-B-E3: contrasté con theory+tests del quiz_card S04; sin atajos fuera del packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "[0,1,2]",
+      "justification_from_packet": "Descarto [1,2,3] y [0..3]: el packet insiste en stop exclusivo de range → [0,1,2].",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
+      "justification_from_packet": "No lanza ValueError por defecto: solo zip(..., strict=True) o zip_strict validan longitudes.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "n_total de registros procesados (intentados)",
+      "justification_from_packet": "Solo n_accept o n_review distorsionan la tasa del gate; el packet fija n_total procesados.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Salta al siguiente ciclo del bucle",
+      "justification_from_packet": "break termina el bucle; continue solo salta el resto del cuerpo de esta iteración.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "O(n²)",
+      "justification_from_packet": "O(n) es un solo for; el anidado completo es cuadrático según la teoría de costo.",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:39:37.265704+00:00",
+  "session_started_at": "2026-07-23T06:38:22.265704+00:00",
+  "session_ended_at": "2026-07-23T06:39:37.265704+00:00"
+}

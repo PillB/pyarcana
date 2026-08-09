@@ -1,0 +1,525 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B1",
+  "section_index": 27,
+  "packet_sha": "384cbdb34be6c4ce",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_27/packet.json",
+  "recorded_at": "2026-07-22T01:47:02.296491+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "8cab66d30489",
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T1-A-E1\nimpact, likelihood = 5, 4\nscore = impact * likelihood\nprint(score)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "impact",
+        "likelihood",
+        "score"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T1-A-E1 si el paquete lo enseña. Instrucción: «Dado impact=5 likelihood=4, imprime score=impact*likelihood.». Demo ancla S27-T1-B-DEMO: «areas = [     (\"normalize\", 5, 5, \"unit\"),     (\"blocking\", 4, 4, \"unit\"),     (\"repo_sql\", 4, 2, \"integration\"),     (\"review_ui\", 2, 2, \"e2e\"), ] scored = sor». Hints del weDo: Multiplica enteros; print del producto. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T1-A-E1 impact, likelihood = 5, 4 score = impact * likelihood print(score)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'impact']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T1-A-E2\nrows=[('e2e',2,1),('unit',5,5)]\nscored = sorted(((i * l, n) for n, i, l in rows), reverse=True)\nprint([n for _, n in scored])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "rows",
+        "e2e",
+        "unit",
+        "scored",
+        "sorted"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T1-A-E2 si el paquete lo enseña. Instrucción: «Ordena áreas por score desc y imprime solo los nombres.». Demo ancla S27-T1-B-DEMO: «areas = [     (\"normalize\", 5, 5, \"unit\"),     (\"blocking\", 4, 4, \"unit\"),     (\"repo_sql\", 4, 2, \"integration\"),     (\"review_ui\", 2, 2, \"e2e\"), ] scored = sor». Hints del weDo: sorted reverse; key con producto. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T1-A-E2 rows=[('e2e',2,1),('unit',5,5)] scored = sorted(((i * l, n) for n, i, l in rows), reverse=True) pr». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'rows']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T1-A-E3\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "top_layer",
+        "unit"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T1-A-E3 si el paquete lo enseña. Instrucción: «Imprime True si la capa top es 'unit'.». Demo ancla S27-T1-B-DEMO: «areas = [     (\"normalize\", 5, 5, \"unit\"),     (\"blocking\", 4, 4, \"unit\"),     (\"repo_sql\", 4, 2, \"integration\"),     (\"review_ui\", 2, 2, \"e2e\"), ] scored = sor». Hints del weDo: compara layer; pirámide. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T1-A-E3 top_layer='unit' print(top_layer == 'unit')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'top_layer']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T1-B-E1\ns=' A  B '\nprint(\" \".join(s.casefold().split()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "join",
+        "casefold",
+        "split"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T1-B-E1 si el paquete lo enseña. Instrucción: «Implementa normalize: casefold + join de split; imprime resultado de ' A  B '.». Demo ancla S27-T1-B-DEMO: «areas = [     (\"normalize\", 5, 5, \"unit\"),     (\"blocking\", 4, 4, \"unit\"),     (\"repo_sql\", 4, 2, \"integration\"),     (\"review_ui\", 2, 2, \"e2e\"), ] scored = sor». Hints del weDo: casefold; split/join. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T1-B-E1 s=' A B ' print(\" \".join(s.casefold().split()))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'join']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T1-B-E2\nraw='ANA'\noracle = 'ana'\ngot = \" \".join(raw.casefold().split())\nassert got == oracle\nprint('pass')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "raw",
+        "ANA",
+        "oracle",
+        "ana",
+        "got"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T1-B-E2 si el paquete lo enseña. Instrucción: «AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'.». Demo ancla S27-T1-B-DEMO: «areas = [     (\"normalize\", 5, 5, \"unit\"),     (\"blocking\", 4, 4, \"unit\"),     (\"repo_sql\", 4, 2, \"integration\"),     (\"review_ui\", 2, 2, \"e2e\"), ] scored = sor». Hints del weDo: assert luego print; oráculo 'ana'. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T1-B-E2 raw='ANA' oracle = 'ana' got = \" \".join(raw.casefold().split()) assert got == oracle print('pass')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'raw']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T1-B-E3\na,b='X Y','x  y'\nna = \" \".join(a.casefold().split())\nnb = \" \".join(b.casefold().split())\nprint(na == nb)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "join",
+        "casefold",
+        "split"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T1-B-E3 si el paquete lo enseña. Instrucción: «Oráculo de matching exacto: imprime True si a y b normalizados son iguales.». Demo ancla S27-T1-B-DEMO: «areas = [     (\"normalize\", 5, 5, \"unit\"),     (\"blocking\", 4, 4, \"unit\"),     (\"repo_sql\", 4, 2, \"integration\"),     (\"review_ui\", 2, 2, \"e2e\"), ] scored = sor». Hints del weDo: normaliza ambos; compara. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T1-B-E3 a,b='X Y','x y' na = \" \".join(a.casefold().split()) nb = \" \".join(b.casefold().split()) print(na =». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'join']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T2-A-E1\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "names",
+        "test_a",
+        "helper",
+        "test_b",
+        "startswith"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T2-A-E1 si el paquete lo enseña. Instrucción: «Filtra nombres que empiezan con 'test_' de la lista dada.». Demo ancla S27-T2-A-DEMO: «def normalize_name(s: str) -> str:     return \" \".join(s.casefold().split())  # Arrange raw, oracle = \"  María  Ríos \", \"maría ríos\" # Act got = normalize_name(». Hints del weDo: startswith; list comp. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T2-A-E1 names=['test_a','helper','test_b'] print([n for n in names if n.startswith('test_')])». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'names']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T2-A-E2\nleft,right='a','b'\nprint('fail' if left != right else 'ok')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "left",
+        "right",
+        "fail",
+        "else"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T2-A-E2 si el paquete lo enseña. Instrucción: «Si left!=right imprime 'fail' else 'ok' (assert blando).». Demo ancla S27-T2-A-DEMO: «def normalize_name(s: str) -> str:     return \" \".join(s.casefold().split())  # Arrange raw, oracle = \"  María  Ríos \", \"maría ríos\" # Act got = normalize_name(». Hints del weDo: ternario; diff conceptual. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T2-A-E2 left,right='a','b' print('fail' if left != right else 'ok')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'left']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T2-A-E3\ntable = [(' x ', 'x')]\nprint(table)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "table"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T2-A-E3 si el paquete lo enseña. Instrucción: «Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'.». Demo ancla S27-T2-A-DEMO: «def normalize_name(s: str) -> str:     return \" \".join(s.casefold().split())  # Arrange raw, oracle = \"  María  Ríos \", \"maría ríos\" # Act got = normalize_name(». Hints del weDo: lista de tuplas; tabla. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T2-A-E3 table = [(' x ', 'x')] print(table)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'table']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T2-B-E1\nfrom copy import deepcopy\norig=[{'n':1}]\nc = deepcopy(orig)\nc[0]['n'] = 99\nprint(orig[0]['n'])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "copy",
+        "deepcopy",
+        "orig"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T2-B-E1 si el paquete lo enseña. Instrucción: «Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1.». Demo ancla S27-T2-A-DEMO: «def normalize_name(s: str) -> str:     return \" \".join(s.casefold().split())  # Arrange raw, oracle = \"  María  Ríos \", \"maría ríos\" # Act got = normalize_name(». Hints del weDo: deepcopy; mutación local. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T2-B-E1 from copy import deepcopy orig=[{'n':1}] c = deepcopy(orig) c[0]['n'] = 99 print(orig[0]['n'])». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'copy']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T2-B-E2\nprint('function')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "function"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T2-B-E2 si el paquete lo enseña. Instrucción: «Imprime 'function' como scope por defecto de fixture.». Demo ancla S27-T2-A-DEMO: «def normalize_name(s: str) -> str:     return \" \".join(s.casefold().split())  # Arrange raw, oracle = \"  María  Ríos \", \"maría ríos\" # Act got = normalize_name(». Hints del weDo: literal; scopes pytest. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T2-B-E2 print('function')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'function']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T2-B-E3\ndef make(n):\n    return [{\"id\": f\"e{i}\"} for i in range(n)]\nprint(len(make(3)))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "make",
+        "range",
+        "len"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T2-B-E3 si el paquete lo enseña. Instrucción: «Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)).». Demo ancla S27-T2-A-DEMO: «def normalize_name(s: str) -> str:     return \" \".join(s.casefold().split())  # Arrange raw, oracle = \"  María  Ríos \", \"maría ríos\" # Act got = normalize_name(». Hints del weDo: list comp; ids sintéticos. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T2-B-E3 def make(n): return [{\"id\": f\"e{i}\"} for i in range(n)] print(len(make(3)))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'make']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T3-A-E1\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "math",
+        "isclose"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T3-A-E1 si el paquete lo enseña. Instrucción: «Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano.». Demo ancla S27-T3-A-DEMO: «from copy import deepcopy BASE = [{\"id\": \"e1\", \"name\": \"Luis\"}]  def contacts_fx():     return deepcopy(BASE)  a = contacts_fx(); a[0][\"name\"] = \"X\" b = contact». Hints del weDo: import math; isclose. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T3-A-E1 import math print(math.isclose(0.1 + 0.2, 0.3))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'math']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T3-A-E2\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "try",
+        "int",
+        "except",
+        "ValueError",
+        "bad"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T3-A-E2 si el paquete lo enseña. Instrucción: «Captura ValueError de int('x') e imprime 'bad'.». Demo ancla S27-T3-A-DEMO: «from copy import deepcopy BASE = [{\"id\": \"e1\", \"name\": \"Luis\"}]  def contacts_fx():     return deepcopy(BASE)  a = contacts_fx(); a[0][\"name\"] = \"X\" b = contact». Hints del weDo: try/except; ValueError. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T3-A-E2 try: int('x') except ValueError: print('bad')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'try']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T3-A-E3\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path = f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "tempfile",
+        "pathlib",
+        "Path",
+        "with",
+        "NamedTemporaryFile"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T3-A-E3 si el paquete lo enseña. Instrucción: «Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip().». Demo ancla S27-T3-A-DEMO: «from copy import deepcopy BASE = [{\"id\": \"e1\", \"name\": \"Luis\"}]  def contacts_fx():     return deepcopy(BASE)  a = contacts_fx(); a[0][\"name\"] = \"X\" b = contact». Hints del weDo: tempfile; utf-8. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T3-A-E3 import tempfile from pathlib import Path with tempfile.NamedTemporaryFile('w+', delete=False, enco». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'tempfile']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T3-B-E1\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(str(e))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "email",
+        "try",
+        "raise",
+        "ValueError",
+        "except"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T3-B-E1 si el paquete lo enseña. Instrucción: «Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje.». Demo ancla S27-T3-A-DEMO: «from copy import deepcopy BASE = [{\"id\": \"e1\", \"name\": \"Luis\"}]  def contacts_fx():     return deepcopy(BASE)  a = contacts_fx(); a[0][\"name\"] = \"X\" b = contact». Hints del weDo: raise ValueError; except. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T3-B-E1 email='' try: if email == '': raise ValueError('email vacío') except ValueError as e: print(str(e)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'email']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T3-B-E2\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "sin",
+        "arroba",
+        "else",
+        "invalid"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T3-B-E2 si el paquete lo enseña. Instrucción: «Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'.». Demo ancla S27-T3-A-DEMO: «from copy import deepcopy BASE = [{\"id\": \"e1\", \"name\": \"Luis\"}]  def contacts_fx():     return deepcopy(BASE)  a = contacts_fx(); a[0][\"name\"] = \"X\" b = contact». Hints del weDo: in; guard. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T3-B-E2 s='sin-arroba' print('ok' if '@' in s else 'invalid')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'sin']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T3-B-E3\nv=-1\nprint(f\"campo score inválido: {v!r}\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "campo",
+        "score"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T3-B-E3 si el paquete lo enseña. Instrucción: «Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo.». Demo ancla S27-T3-A-DEMO: «from copy import deepcopy BASE = [{\"id\": \"e1\", \"name\": \"Luis\"}]  def contacts_fx():     return deepcopy(BASE)  a = contacts_fx(); a[0][\"name\"] = \"X\" b = contact». Hints del weDo: f-string !r; sin PII. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T3-B-E3 v=-1 print(f\"campo score inválido: {v!r}\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'campo']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T4-A-E1\ndef f(x):\n    if x > 0:\n        return 'hi'\n    else:\n        return 'lo'\nprint(f(1), f(-1))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "else"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T4-A-E1 si el paquete lo enseña. Instrucción: «Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1).». Demo ancla S27-T4-A-DEMO: «def check_ruc(s: str) -> str:     if not s or not s.isdigit() or len(s) != 11:         raise ValueError(f\"ruc inválido: {s!r}\")     return s  ok = [] for val, b». Hints del weDo: if/else; dos prints o tupla. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T4-A-E1 def f(x): if x > 0: return 'hi' else: return 'lo' print(f(1), f(-1))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'else']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T4-A-E2\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "hit",
+        "auto",
+        "review",
+        "non",
+        "not"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T4-A-E2 si el paquete lo enseña. Instrucción: «Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'.». Demo ancla S27-T4-A-DEMO: «def check_ruc(s: str) -> str:     if not s or not s.isdigit() or len(s) != 11:         raise ValueError(f\"ruc inválido: {s!r}\")     return s  ok = [] for val, b». Hints del weDo: membership; cobertura. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T4-A-E2 hit={'auto','review'} print('non' not in hit)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'hit']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T4-A-E3\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "int"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T4-A-E3 si el paquete lo enseña. Instrucción: «Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66.». Demo ancla S27-T4-A-DEMO: «def check_ruc(s: str) -> str:     if not s or not s.isdigit() or len(s) != 11:         raise ValueError(f\"ruc inválido: {s!r}\")     return s  ok = [] for val, b». Hints del weDo: int(100*k/n); branch %. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T4-A-E3 k,n=2,3 print(int(100 * k / n))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'int']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T4-B-E1\nraw=' a '\ngood = raw.strip()\nmutant = raw\nprint(mutant != 'a' or good == 'a')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "raw",
+        "good",
+        "strip",
+        "mutant"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T4-B-E1 si el paquete lo enseña. Instrucción: «Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza.». Demo ancla S27-T4-A-DEMO: «def check_ruc(s: str) -> str:     if not s or not s.isdigit() or len(s) != 11:         raise ValueError(f\"ruc inválido: {s!r}\")     return s  ok = [] for val, b». Hints del weDo: compara; kill mutant. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T4-B-E1 raw=' a ' good = raw.strip() mutant = raw print(mutant != 'a' or good == 'a')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'raw']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T4-B-E2\nprint({'expected': 1, 'actual': 2})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "expected",
+        "actual"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T4-B-E2 si el paquete lo enseña. Instrucción: «Falla útil: imprime dict con keys expected, actual para expected=1 actual=2.». Demo ancla S27-T4-A-DEMO: «def check_ruc(s: str) -> str:     if not s or not s.isdigit() or len(s) != 11:         raise ValueError(f\"ruc inválido: {s!r}\")     return s  ok = [] for val, b». Hints del weDo: dict; debug CI. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T4-B-E2 print({'expected': 1, 'actual': 2})». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'expected']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S27-T4-B-E3\nprint('bug_repro → regression_test')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S27",
+        "bug_repro",
+        "regression_test"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S27-T4-B-E3 si el paquete lo enseña. Instrucción: «Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A).». Demo ancla S27-T4-A-DEMO: «def check_ruc(s: str) -> str:     if not s or not s.isdigit() or len(s) != 11:         raise ValueError(f\"ruc inválido: {s!r}\")     return s  ok = [] for val, b». Hints del weDo: string; mantenimiento. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S27-T4-B-E3 print('bug_repro → regression_test')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S27', 'bug_repro']. Heading: De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A) | riesgos y pi."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Pruebas unitarias",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic — card/theory «riesgos y pirámide de pruebas»: «La pirámide prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E». La base más ancha son pruebas unitarias, no E2E UI ni load en prod. Rechazo [0]/[2]/[3] porque invierten o vacían la pirámide."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Una fuente de verdad determinista para el assert",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic — card «Arrange–Act–Assert y oráculos confiables»: «Un oráculo es la fuente de verdad del assert: valor fijo conocido, propiedad invariante o resultado de un algoritmo de referencia simple». Oráculos frágiles (reloj sin fijar, orden de set) se desaconsejan. Elijo fuente determinista; no print ni reloj libre."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "El contrato es débil; el mutante sobrevivió",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic — card «mutación conceptual…»: «cambia deliberadamente el código (quita un strip…) y verifica que algún test falle. Si no falla, el test es débil». Mutar casefold sin fallo = mutante sobrevivió / contrato débil. No es 'está bien' ni culpa genérica de pytest."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Contratos de misma entidad / normalización — no riesgo ni relación",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic — mapa CP-N3-A: pruebas convierten supuestos de normalización/matching en contratos; «Privacidad: las pruebas no etiquetan fraude ni parentesco». Matching demuestra contratos de misma entidad/normalización — no fraude, parentescos ni envío de correos."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

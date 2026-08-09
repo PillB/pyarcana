@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_a",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 4,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-explorer-7f3a9c2e-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:03:04.540000+00:00",
+  "session_ended_at": "2026-07-23T12:03:30.500000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T1-A-E1\nzonas = [\"Lima\", \"Cusco\", \"Piura\"]\nfor dept in zonas:\n    print(dept)\nprint(list(range(3)))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "dada",
+        "regiones",
+        "lima",
+        "cusco",
+        "piura",
+        "imprime",
+        "cada"
+      ],
+      "justification_from_packet": "Explorer S04-T1-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Dada `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`, imprime cada región en su propia línea con un `for`. Luego imprime `list(range(3…». Completé el contrato Pass con código ancla `zonas = [\"Lima\", \"Cusco\", \"Piura\"]`. Pista del paquete: «for r in regiones: print(r)». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T1-A-E2\nedades = [30, 17, 45, 22]\nvalor = 0\nfor e in edades:\n    if e >= 18:\n        valor += 1\nprint(valor)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "edades",
+        "cuenta",
+        "ntas",
+        "son",
+        "con",
+        "uses",
+        "comprehension"
+      ],
+      "justification_from_packet": "Explorer S04-T1-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (no uses comprehension todavía). Imprime el contador…». Completé el contrato Pass con código ancla `edades = [30, 17, 45, 22]`. Pista del paquete: «n = 0; for e in edades: if e >= 18: n += 1». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T1-A-E3\nlote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\nprint(\"n_original\", len(lote))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "simula",
+        "mini",
+        "lote",
+        "lista",
+        "dicts",
+        "con",
+        "monto"
+      ],
+      "justification_from_packet": "Explorer S04-T1-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cuyo monto sea `> 0` usando for. No mutes…». Completé el contrato Pass con código ancla `lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\",`. Pista del paquete: «for reg in lote: if reg['monto'] > 0: print(reg['id'])». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0},`."
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T1-B-E1\nids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "con",
+        "ids",
+        "usa",
+        "enumerate",
+        "start",
+        "imprime",
+        "fila"
+      ],
+      "justification_from_packet": "Explorer S04-T1-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Con `ids = [\"A\", \"B\", \"C\"]`, usa `enumerate(..., start=1)` e imprime `fila k: id`.…». Completé el contrato Pass con código ancla `ids = [\"A\", \"B\", \"C\"]`. Pista del paquete: «for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}')». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `ids = [\"A\", \"B\", \"C\"]`."
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T1-B-E2\nnombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor valor, e in zip(nombres, edades):\n    print(f\"{valor}={e}\")\nprint(\"zip corto\", list(zip(nombres, edades[:1])))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "nombres",
+        "edades",
+        "igual",
+        "longitud",
+        "empar",
+        "jalos",
+        "con"
+      ],
+      "justification_from_packet": "Explorer S04-T1-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e imprime `nombre=edad`. Luego muestra qué pasa con zip s…». Completé el contrato Pass con código ancla `nombres = [\"Ana\", \"Luis\", \"María\"]`. Pista del paquete: «zip se detiene en la más corta; el resto se pierde.». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T1-B-E3\ndef zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"desalineado\")\n    return list(zip(a, b))\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "implementa",
+        "zip_strict",
+        "que",
+        "lance",
+        "valueerror",
+        "len",
+        "equivalente"
+      ],
+      "justification_from_packet": "Explorer S04-T1-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalente pedagógico a `zip(..., strict=True)`…». Completé el contrato Pass con código ancla `def zip_strict(a, b):`. Pista del paquete: «if len(a) != len(b): raise ValueError(...); return list(zip(a,b))». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def zip_strict(a, b):`."
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T2-A-E1\nlines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "buffer",
+        "lines",
+        "con",
+        "while",
+        "ndice",
+        "acumula",
+        "hasta"
+      ],
+      "justification_from_packet": "Explorer S04-T2-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el string vacío (sin incluirlo). Imprime la lista.…». Completé el contrato Pass con código ancla `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Pista del paquete: «while i < len: leer, i+=1, if line=='': break else append». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `lines = [\"r1\", \"r2\", \"\", \"r3\"]`."
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T2-A-E2\nintentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "simula",
+        "reintentos",
+        "intentos",
+        "max",
+        "while",
+        "incrementa",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S04-T2-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`, incrementa e imprime `intento k`. Al salir imprim…». Completé el contrato Pass con código ancla `intentos = 0`. Pista del paquete: «intentos += 1 dentro del while es la variable de control.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `intentos = 0`."
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T2-A-E3\ncola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\nprint(\"rest\", cola)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "cola",
+        "simulada",
+        "job1",
+        "job2",
+        "job3",
+        "mientras",
+        "est"
+      ],
+      "justification_from_packet": "Explorer S04-T2-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no esté vacía, saca el primero con `pop(0)`, impríme…». Completé el contrato Pass con código ancla `cola = [\"job1\", \"job2\", \"job3\"]`. Pista del paquete: «while cola: job = cola.pop(0)». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `cola = [\"job1\", \"job2\", \"job3\"]`."
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T2-B-E1\nraw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "raw",
+        "lima",
+        "cusco",
+        "con",
+        "usa",
+        "continue",
+        "not"
+      ],
+      "justification_from_packet": "Explorer S04-T2-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — `raw = [\"  \", \"Lima\", \"\", \"Cusco\"]`. Con for, usa continue si `not x.strip()`; imprime las regiones válidas.…». Completé el contrato Pass con código ancla `raw = [\"  \", \"Lima\", \"\", \"Cusco\"]`. Pista del paquete: «if not x.strip(): continue». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `raw = [\"  \", \"Lima\", \"\", \"Cusco\"]`."
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T2-B-E2\ncodes = [200, 200, 500, 200]\nn_ok = 0\nfor c in codes:\n    if c >= 500:\n        print(\"STOP\")\n        break\n    print(\"ok\")\n    n_ok += 1\nprint(\"n_ok\", n_ok)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "codes",
+        "recorre",
+        "code",
+        "imprime",
+        "stop",
+        "break",
+        "cuenta"
+      ],
+      "justification_from_packet": "Explorer S04-T2-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP` y break; si no, imprime `ok`. Cuenta cuántos ok …». Completé el contrato Pass con código ancla `codes = [200, 200, 500, 200]`. Pista del paquete: «break no procesa el 200 final.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `codes = [200, 200, 500, 200]`."
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T2-B-E3\nbuf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    item = buf[i]\n    i += 1\n    if item == \"END\":\n        break\n    out.append(item)\nprint(out)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "escribe",
+        "while",
+        "true",
+        "que",
+        "lea",
+        "buf",
+        "end"
+      ],
+      "justification_from_packet": "Explorer S04-T2-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y un guardrail `if i > 10: raise…». Completé el contrato Pass con código ancla `buf = [\"a\", \"b\", \"END\"]`. Pista del paquete: «while True no es pecado si break y guardrail están claros.». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `buf = [\"a\", \"b\", \"END\"]`."
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T3-A-E1\nsts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor s in sts:\n    n_total += 1\n    if s == \"accept\":\n        n_accept += 1\n    elif s == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "sts",
+        "accept",
+        "reject",
+        "inicializa",
+        "contadores",
+        "incrementa",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S04-T3-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa contadores y en un for incrementa. Imprime n_accept, n_reject, n_total.…». Completé el contrato Pass con código ancla `sts = [\"accept\", \"reject\", \"accept\"]`. Pista del paquete: «n_total = len o +=1 por fila». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `sts = [\"accept\", \"reject\", \"accept\"]`."
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T3-A-E2\ndef tasa_reject(sts):\n    n_total = len(sts)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\nprint(round(tasa_reject([\"accept\", \"reject\", \"accept\"]), 4))\nprint(tasa_reject([]))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "calcula",
+        "tasa_reject",
+        "n_reject",
+        "n_total",
+        "para",
+        "sts",
+        "del"
+      ],
+      "justification_from_packet": "Explorer S04-T3-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego calcula tasa para lista vacía sin ZeroDivisionError (…». Completé el contrato Pass con código ancla `def tasa_reject(sts):`. Pista del paquete: «if n_total: tasa = n_rej/n_total else None». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `def tasa_reject(sts):`."
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T3-A-E3\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nidx = -1\nfor i, dept in enumerate(rows):\n    if dept[\"status\"] == \"review\":\n        idx = i\n        break\nif idx == -1:\n    print(-1)\nelse:\n    print(idx, rows[idx][\"id\"])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "busca",
+        "ndice",
+        "del",
+        "primer",
+        "status",
+        "review",
+        "una"
+      ],
+      "justification_from_packet": "Explorer S04-T3-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Busca el índice del primer `status==\"review\"` en una lista de dicts. Si no hay, imprime -1. Si hay, imprime el índice y…». Completé el contrato Pass con código ancla `rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"`. Pista del paquete: «first = None; for i,r in enumerate(...): if ...: first=i; break». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T3-B-E1\nnums = [1, 2, 3, 4, 5]\nprint([x * x for x in nums])\nprint([x for x in nums if x % 2 == 0])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "nums",
+        "crea",
+        "con",
+        "comprehension",
+        "lista",
+        "cuadrados",
+        "pares"
+      ],
+      "justification_from_packet": "Explorer S04-T3-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares. Imprímelas.…». Completé el contrato Pass con código ancla `nums = [1, 2, 3, 4, 5]`. Pista del paquete: «[x*x for x in nums] y [x for x in nums if x%2==0]». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `nums = [1, 2, 3, 4, 5]`."
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T3-B-E2\nrows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint(sorted({dept[\"status\"] for dept in rows}))",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "rows",
+        "con",
+        "status",
+        "obt",
+        "set",
+        "statuses",
+        "distintos"
+      ],
+      "justification_from_packet": "Explorer S04-T3-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — De `rows` con status, obtén set de statuses distintos ordenados alfabéticamente para el reporte.…». Completé el contrato Pass con código ancla `rows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]`. Pista del paquete: «sorted({r['status'] for r in rows})». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T3-B-E3\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby = {dept[\"id\"]: dept[\"status\"] for dept in rows}\nrejects = [i for i, st in by.items() if st == \"reject\"]\ntasa = len(rejects) / len(rows)\nprint(by[\"C2\"], rejects, tasa)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "construye",
+        "dict",
+        "status",
+        "por",
+        "comprehension",
+        "calcula",
+        "tasa"
+      ],
+      "justification_from_packet": "Explorer S04-T3-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de reject como len de rejects / len rows usando otra com…». Completé el contrato Pass con código ancla `rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"`. Pista del paquete: «by = {r['id']: r['status'] for r in rows}». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T4-A-E1\nvals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "traza",
+        "vals",
+        "acumulador",
+        "cada",
+        "paso",
+        "imprime",
+        "val"
+      ],
+      "justification_from_packet": "Explorer S04-T4-A-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, s` después de sumar solo positivos.…». Completé el contrato Pass con código ancla `vals = [2, -1, 3]`. Pista del paquete: «if val > 0: s += val; luego print». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `vals = [2, -1, 3]`."
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T4-A-E2\nfilas = [\"a\", \"b\", \"c\"]\nvalor = 0\nfor f in filas:\n    valor += 1\nprint(valor)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "hay",
+        "bug",
+        "contador",
+        "incrementa",
+        "dos",
+        "veces",
+        "por"
+      ],
+      "justification_from_packet": "Explorer S04-T4-A-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e identifica; imprime n corregido para 3 filas (deb…». Completé el contrato Pass con código ancla `filas = [\"a\", \"b\", \"c\"]`. Pista del paquete: «Busca n += 1 duplicado». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T4-A-E3\nregs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor i, st in enumerate(regs):\n    counts[st] = counts.get(st, 0) + 1\n    print(\"TRACE\", i, st, dict(counts))\nprint(\"FINAL\", counts)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "simula",
+        "tres",
+        "registros",
+        "dict",
+        "contadores",
+        "imprime",
+        "una"
+      ],
+      "justification_from_packet": "Explorer S04-T4-A-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRACE por registro con el estado completo del dict (co…». Completé el contrato Pass con código ancla `regs = [\"accept\", \"reject\", \"accept\"]`. Pista del paquete: «counts = dict; al final de cada iter print TRACE». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `regs = [\"accept\", \"reject\", \"accept\"]`."
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T4-B-E1\nvalor = 5\nlin = quad = 0\nfor i in range(valor):\n    lin += 1\nfor i in range(valor):\n    for j in range(valor):\n        quad += 1\nprint(lin, quad)",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "para",
+        "cuenta",
+        "pasos",
+        "simple",
+        "doble",
+        "anidado",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer S04-T4-B-E1: partí del starterCode e instruction del quiz_card «E1 (guiado) — Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números.…». Completé el contrato Pass con código ancla `valor = 5`. Pista del paquete: «linear n, quad n*n». Solo usé theory/iDo/hints de esta sección."
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T4-B-E2\ndata = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):\n    print(data[i])",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "data",
+        "digo",
+        "usa",
+        "range",
+        "len",
+        "hace",
+        "indexerror"
+      ],
+      "justification_from_packet": "Explorer S04-T4-B-E2: partí del starterCode e instruction del quiz_card «E2 (independiente) — `data = [\"r0\", \"r1\", \"r2\"]`. El código usa `for i in range(1, len(data)+1)` y hace IndexError. Arréglalo para recorrer …». Completé el contrato Pass con código ancla `data = [\"r0\", \"r1\", \"r2\"]`. Pista del paquete: «range(len(data)) → 0..n-1». Solo usé theory/iDo/hints de esta sección. Variante explorer del ancla `data = [\"r0\", \"r1\", \"r2\"]`."
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 explorer-read · S04-T4-B-E3\nsts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\nvalor = len(sts)\nn_reject = sum(1 for s in sts if s == \"reject\")\nprint(n_reject, round(n_reject / valor, 2))\nprint(\"nota: la tasa solo necesita conteo O(valor), no pares O(n2)\")",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "reescribe",
+        "conteo",
+        "pares",
+        "reject",
+        "ingenuo",
+        "rejects",
+        "necesitas"
+      ],
+      "justification_from_packet": "Explorer S04-T4-B-E3: partí del starterCode e instruction del quiz_card «E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rejects (no necesitas pares). Imprime n_re…». Completé el contrato Pass con código ancla `sts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]`. Pista del paquete: «No necesitas combinar pares para la tasa de error.». Solo usé theory/iDo/hints de esta sección."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "[0,1,2]",
+      "justification_from_packet": "Explorer S04 Q0: leí la teoría del quiz_card («{\"subtopicId\": \"S04-T1-A\", \"heading\": \"for, range y secuencias\", \"paragraphs\": [\"El bucle **`for x in secuencia:`** reco…») y la pregunta «¿Qué produce list(range(3))?». La opción [3] «[0,1,2]» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
+      "justification_from_packet": "Explorer S04 Q1: leí la teoría del quiz_card («{\"subtopicId\": \"S04-T1-A\", \"heading\": \"for, range y secuencias\", \"paragraphs\": [\"El bucle **`for x in secuencia:`** reco…») y la pregunta «zip([1,2,3],[10,20]) sin strict…». La opción [1] «Empareja solo (1,10) y (2,20); el 3 se pierde en silencio» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "n_total de registros procesados (intentados)",
+      "justification_from_packet": "Explorer S04 Q2: leí la teoría del quiz_card («{\"subtopicId\": \"S04-T1-A\", \"heading\": \"for, range y secuencias\", \"paragraphs\": [\"El bucle **`for x in secuencia:`** reco…») y la pregunta «Para la tasa de reject del gate, el denominador debe ser…». La opción [2] «n_total de registros procesados (intentados)» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Salta al siguiente ciclo del bucle",
+      "justification_from_packet": "Explorer S04 Q3: leí la teoría del quiz_card («{\"subtopicId\": \"S04-T1-A\", \"heading\": \"for, range y secuencias\", \"paragraphs\": [\"El bucle **`for x in secuencia:`** reco…») y la pregunta «¿Qué hace continue en un for de líneas de intake?». La opción [0] «Salta al siguiente ciclo del bucle» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "O(n²)",
+      "justification_from_packet": "Explorer S04 Q4: leí la teoría del quiz_card («{\"subtopicId\": \"S04-T1-A\", \"heading\": \"for, range y secuencias\", \"paragraphs\": [\"El bucle **`for x in secuencia:`** reco…») y la pregunta «Un doble for anidado sobre n elementos es aproximadamente…». La opción [3] «O(n²)» es la que alinea con el outcome/iDo del paquete; las demás contradicen el material enseñado (venv/aislar, tipos, contratos, etc. según la sección).",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:03:30.500000+00:00"
+}

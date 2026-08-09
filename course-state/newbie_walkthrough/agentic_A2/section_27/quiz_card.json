@@ -1,0 +1,213 @@
+{
+  "section_index": 27,
+  "title": "Estrategia de pruebas con pytest",
+  "outcomes": [
+    "Priorizar pruebas según riesgo y pirámide",
+    "Escribir tests AAA con oráculos confiables",
+    "Usar discovery y assertions de pytest",
+    "Aislar estado con fixtures y scopes",
+    "Cubrir excepciones, floats, fechas y tmp files",
+    "Diseñar casos negativos con mensajes útiles",
+    "Medir cobertura por rama y riesgo",
+    "Interpretar mutación conceptual y fallas útiles"
+  ],
+  "theory": [
+    {
+      "heading": "De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A)",
+      "paragraphs": [
+        "En V3, **S27 no es el path principal de asyncio/TaskGroup**. Ese material se reubica. Aquí **inicias CP-N3-A**: convertir supuestos de normalización y matching en **contratos de prueba** con pytest.",
+        "El hilo: un módulo sintético `normalize_name` / `exact_match` sobre contactos fakes (`run_id=cpn3a-01`, `@example.pe`). Cada bug reproducido → test de regresión.",
+        "Orden: **T1 Diseño** → **T2 Pytest** → **T3 Bordes** → **T4 Cobertura**. Privacidad: las pruebas no etiquetan fraude ni parentesco."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "riesgos y pirámide de pruebas",
+      "paragraphs": [
+        "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests que un typo de log.",
+        "Clasifica riesgo por impacto (datos incorrectos, regresión silenciosa) y probabilidad. En ER, normalización y comparadores son capa de alto riesgo.",
+        "No inviertas la pirámide: E2E lentas no sustituyen contratos unitarios de `strip`/`casefold`."
+      ],
+      "code": "# priorización sintética de suites por riesgo (CP-N3-A)\nrisks = [\n    {\"area\": \"normalize_name\", \"impact\": 5, \"likelihood\": 4, \"layer\": \"unit\"},\n    {\"area\": \"exact_match\", \"impact\": 5, \"likelihood\": 3, \"layer\": \"unit\"},\n    {\"area\": \"sqlite_repo\", \"impact\": 4, \"likelihood\": 2, \"layer\": \"integration\"},\n    {\"area\": \"ui_review_queue\", \"impact\": 3, \"likelihood\": 2, \"layer\": \"e2e\"},\n]\nfor r in risks:"
+    },
+    {
+      "heading": "Arrange–Act–Assert y oráculos confiables",
+      "paragraphs": [
+        "**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup.",
+        "Un **oráculo** es la fuente de verdad del assert: valor fijo conocido, propiedad invariante o resultado de un algoritmo de referencia simple.",
+        "Oráculos frágiles (timestamps de reloj real, orden de dicts en JSON sin sort) generan flakes. Prefiere fixtures sintéticas deterministas."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "discovery y assertions",
+      "paragraphs": [
+        "pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`).",
+        "Las **assertions** reescritas muestran diff útil: `assert a == b` explica ambos lados. Usa `pytest.raises` para excepciones esperadas.",
+        "Parametriza con `@pytest.mark.parametrize` para tablas de casos sin copiar el cuerpo del test."
+      ],
+      "code": "# simulación didáctica de discovery + assert rewrite (sin invocar pytest CLI)\nimport ast\n\nsrc = '''\ndef test_normalize_spaces():\n    assert \" \".join(\"a  b\".split()) == \"a b\"\n\ndef helper_not_a_test():\n    return 1\n\ndef test_casefold():\n    assert \"Á\".casefold() == \"á\"\n'''\ntree = ast.parse(src)\ndiscovered = [n.name for n in tree.body if isinstance(n, ast.FunctionDef) and n.name.startswith(\"test_\")]\n"
+    },
+    {
+      "heading": "fixtures, scopes y aislamiento",
+      "paragraphs": [
+        "Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session.",
+        "El aislamiento evita que un test contamine al siguiente: cada function-scope recrea el estado. Session-scope sirve para recursos caros de solo lectura.",
+        "Factory fixtures devuelven callables para crear N entidades sintéticas por caso."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "excepciones, floats, fechas y archivos temporales",
+      "paragraphs": [
+        "Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado.",
+        "**Fechas**: fija el reloj o usa valores UTC sintéticos; no compares `now()` con literales frágiles.",
+        "**tmp_path** / `tempfile` evita escribir en el repo. Limpia o usa context managers."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "casos negativos y mensajes",
+      "paragraphs": [
+        "Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada.",
+        "Mensajes de error **útiles** nombran el campo y el valor ofensivo (sin PII real). Facilita debug en CI.",
+        "Tabla: input → excepción esperada → fragmento de mensaje. Cubre al menos un caso happy path y tres negativos por función pública."
+      ],
+      "code": "def require_email(value):\n    if value is None:\n        raise TypeError(\"email: se esperaba str, recibió None\")\n    if not isinstance(value, str):\n        raise TypeError(f\"email: se esperaba str, recibió {type(value).__name__}\")\n    v = value.strip()\n    if not v or \"@\" not in v:\n        raise ValueError(f\"email inválido: {value!r}\")\n    return v.casefold()\n\ncases = [\n    (None, TypeError, \"None\""
+    },
+    {
+      "heading": "branch y risk coverage",
+      "paragraphs": [
+        "**Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto.",
+        "**Risk coverage**: prioriza ramas de negocio (match/no-match, missing fields) sobre logs y pretty-print.",
+        "Reporta cobertura como evidencia, no como meta vacía: una rama de umbral sin test es deuda del gate CP-N3-A."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "mutación conceptual, fallas útiles y mantenimiento",
+      "paragraphs": [
+        "**Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el test es débil.",
+        "Fallas **útiles** muestran input sintético, esperado vs actual y el contrato violado. Evita `assert False`.",
+        "Mantenimiento: borra tests que solo copian implementación; renombra; parametriza tablas; no duplices oráculos en tres sitios."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S27-T1-B-DEMO",
+      "description": "Prioriza suites unit/integration/e2e por score de riesgo para el motor ER sintético.",
+      "why": "La pirámide + riesgo pone primero los contratos de normalización.",
+      "code": "areas = [\n    (\"normalize\", 5, 5, \"unit\"),\n    (\"blocking\", 4, 4, \"unit\"),\n    (\"repo_sql\", 4, 2, \"integration\"),\n    (\"review_ui\", 2, 2, \"e2e\"),\n]\nscored = sorted(((i*l, n, layer) for n,i,l,layer in areas), reverse=True)\nprint(\"order\", [n for _, n, _ in scored])\nprint(\"top_layer\", scored[0][2])\nprint(\"pyramid_ok\", scored[0][2] == \"unit\")"
+    },
+    {
+      "demoId": "S27-T2-A-DEMO",
+      "description": "Test AAA con oráculo fijo para normalize_name sobre dato sintético peruano.",
+      "why": "Oráculo determinista = regresión confiable.",
+      "code": "def normalize_name(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\n# Arrange\nraw, oracle = \"  María  Ríos \", \"maría ríos\"\n# Act\ngot = normalize_name(raw)\n# Assert\nassert got == oracle\nprint(\"got\", got)\nprint(\"aaa\", \"pass\")"
+    },
+    {
+      "demoId": "S27-T2-B-DEMO",
+      "description": "Descubre nombres test_* y valida un assert de matching exacto post-normalización.",
+      "why": "Discovery predecible y asserts claros aceleran CI.",
+      "code": "import re\nmodule = '''\ndef test_exact_after_norm():\n    a = \" \".join(\"A B\".split()).casefold()\n    b = \"a b\"\n    assert a == b\ndef util():\n    pass\ndef test_email_domain():\n    assert \"x@example.pe\".endswith(\"@example.pe\")\n'''\nnames = re.findall(r\"^def (test_\\w+)\", module, flags=re.M)\nprint(\"node_ids\", names)\na = \" \".join(\"A B\".split()).casefold()\nprint(\"assert_exact\", a == \"a b\")\nprint(\"n_tests\", len(names))"
+    },
+    {
+      "demoId": "S27-T3-A-DEMO",
+      "description": "Fixture factory con scope function: dos tests no se contaminan al mutar contactos.",
+      "why": "Aislamiento function-scope evita flakes de orden.",
+      "code": "from copy import deepcopy\nBASE = [{\"id\": \"e1\", \"name\": \"Luis\"}]\n\ndef contacts_fx():\n    return deepcopy(BASE)\n\na = contacts_fx(); a[0][\"name\"] = \"X\"\nb = contacts_fx()\nprint(\"isolated\", b[0][\"name\"] == \"Luis\")\nprint(\"a_mut\", a[0][\"name\"])\nprint(\"scope\", \"function\")"
+    },
+    {
+      "demoId": "S27-T3-B-DEMO",
+      "description": "Excepción ValueError, isclose de score y escritura en directorio temporal.",
+      "why": "Bordes numéricos/temporales evitan tests frágiles.",
+      "code": "import math, tempfile\nfrom pathlib import Path\nfrom datetime import date\n\ndef score(x):\n    if x is None:\n        raise ValueError(\"score None\")\n    return float(x)\n\ntry:\n    score(None)\nexcept ValueError as e:\n    print(\"exc\", str(e))\nprint(\"close\", math.isclose(0.30000000000000004, 0.3, abs_tol=1e-9))\nprint(\"day\", date(2026, 1, 15).isoformat())\nwith tempfile.TemporaryDirectory() as td:\n    p = Path(td) / \"s.txt\"\n    p.write_text(\"0.85\", encoding=\"utf-8\")\n    print(\"tmp\", p.read_text(encoding=\""
+    },
+    {
+      "demoId": "S27-T4-A-DEMO",
+      "description": "Tabla de casos negativos para validador de RUC sintético (formato, no consulta SUNAT real).",
+      "why": "Mensajes con valor ofensivo (sintético) aceleran el fix.",
+      "code": "def check_ruc(s: str) -> str:\n    if not s or not s.isdigit() or len(s) != 11:\n        raise ValueError(f\"ruc inválido: {s!r}\")\n    return s\n\nok = []\nfor val, bad in [(\"20123456789\", False), (\"123\", True), (\"\", True), (\"abcdefghijk\", True)]:\n    try:\n        check_ruc(val)\n        ok.append(not bad)\n    except ValueError as e:\n        ok.append(bad and \"inválido\" in str(e))\nprint(\"neg_table\", all(ok))\nprint(\"n\", len(ok))"
+    },
+    {
+      "demoId": "S27-T4-B-DEMO",
+      "description": "Cubre las tres ramas de umbral auto/review/non_match y reporta cobertura de ramas.",
+      "why": "Branch coverage enfocada en umbrales de matching.",
+      "code": "def decide(score):\n    if score >= 0.9:\n        return \"auto\"\n    if score >= 0.6:\n        return \"review\"\n    return \"non\"\n\nhits = {decide(s) for s in (0.95, 0.75, 0.1)}\nprint(\"covered\", sorted(hits))\nprint(\"full\", hits == {\"auto\", \"review\", \"non\"})\nprint(\"risk\", \"threshold_branches\")"
+    },
+    {
+      "demoId": null,
+      "description": "Mutación: quitar casefold; el test de regresión debe fallar (mutante eliminado).",
+      "why": "Si el mutante vive, el test no protege el contrato.",
+      "code": "def good(s):\n    return s.casefold().strip()\ndef mutant(s):\n    return s.strip()  # mutación\noracle = \"ana\"\nraw = \"ANA\"\nprint(\"test_good\", good(raw) == oracle)\nprint(\"kills_mutant\", mutant(raw) != oracle)\nprint(\"policy\", \"regression_on_bug\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "En la pirámide de pruebas, la base más ancha suele ser:",
+      "options": [
+        "E2E UI",
+        "Pruebas unitarias",
+        "Solo manual",
+        "Load tests en prod"
+      ]
+    },
+    {
+      "question": "Un oráculo confiable es:",
+      "options": [
+        "Un print en consola",
+        "Una fuente de verdad determinista para el assert",
+        "El reloj del sistema sin fijar",
+        "El orden de un set"
+      ]
+    },
+    {
+      "question": "Si mutas un casefold y ningún test falla:",
+      "options": [
+        "Está bien",
+        "El contrato es débil; el mutante sobrevivió",
+        "pytest está roto siempre",
+        "Ignora cobertura"
+      ]
+    },
+    {
+      "question": "Las pruebas de matching en CP-N3-A demuestran:",
+      "options": [
+        "Fraude automático",
+        "Parentescos",
+        "Contratos de misma entidad / normalización — no riesgo ni relación",
+        "Envío de correos"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst"
+  ]
+}

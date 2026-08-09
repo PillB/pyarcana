@@ -1,0 +1,38 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Encadenar la causa en __cause__ sin perder contexto"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Fail-fast (abortar el job)"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Solo datos; diagnóstico a stderr"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "a***@ejemplo.pe"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.83,
+    "correct_preview": "Puede reintentarse con backoff; ValueError de datos no"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "La entrada más pequeña que reproduce el bug"
+  }
+]

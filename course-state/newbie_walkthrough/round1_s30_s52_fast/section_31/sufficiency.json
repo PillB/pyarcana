@@ -1,0 +1,62 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Posición estructural que requiere contexto, no culpa"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Auditar source/record_id del hecho relacional"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "Conservar detalle o punteros además del agregado"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Un hecho de contacto compartido a investigar con evidencia, no veredicto"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "hipótesis de relación con evidencia auditable para revisión humana"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Para conservar varios hechos/fuente entre el mismo par sin colapsar auditoría"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Acotar costo y ruido de caminos largos poco accionables"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "dirigida con etype `transfer` y peso en PEN (u otra unidad documentada)"
+  },
+  {
+    "i": 8,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Solo S y sus vecinos directos (radio 1)"
+  },
+  {
+    "i": 9,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Rompes agregaciones y comparaciones posteriores del workbench"
+  }
+]

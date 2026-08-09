@@ -1,0 +1,221 @@
+{
+  "section_index": 35,
+  "title": "Explicabilidad, equidad e incertidumbre",
+  "outcomes": [
+    "Explicar con coeficientes e importancia",
+    "Delimitar explicación local y correlación",
+    "Medir equidad por cohorte/slice",
+    "Detectar proxies y daño diferencial",
+    "Comunicar incertidumbre y conformal",
+    "Abstener ante OOD",
+    "Documentar model card y contestabilidad",
+    "Operar aprobación, override y retiro"
+  ],
+  "theory": [
+    {
+      "heading": "Inicio CP-N3-C: ficha de caso responsable",
+      "paragraphs": [
+        "En V3, **S35** abre CP-N3-C. La ficha de caso no es un dump de SHAP: distingue capas.",
+        "Legacy 'system design IA' se retematiza a explicabilidad, equidad e incertidumbre.",
+        "Orden: **T1 Explicación** → **T2 Equidad** → **T3 Incertidumbre** → **T4 Gobernanza**."
+      ],
+      "code": "# permutación conceptual: drop en accuracy\nbase = 0.80\ndrops = {\"shared_phone\": 0.10, \"amount_7d\": 0.03, \"region\": 0.01}\nimp = sorted(drops, key=drops.get, reverse=True)\nprint(\"top_feature\", imp[0])\nprint(\"drop\", drops[imp[0]])\nprint(\"means_fraud\", False)"
+    },
+    {
+      "heading": "coeficientes e importancia por permutación",
+      "paragraphs": [
+        "Coeficientes (lineales) e importance por permutación (caída de métrica al barajar una feature).",
+        "Importancia global no explica un caso; es mapa de sensibilidad del modelo.",
+        "No traduzcas importance a 'prueba de fraude': es sensibilidad del modelo sobre datos sintéticos, **no** veredicto legal ni label automático de fraude/parentesco."
+      ],
+      "code": "# permutación conceptual: drop en accuracy\nbase = 0.80\ndrops = {\"shared_phone\": 0.10, \"amount_7d\": 0.03, \"region\": 0.01}\nimp = sorted(drops, key=drops.get, reverse=True)\nprint(\"top_feature\", imp[0])\nprint(\"drop\", drops[imp[0]])\nprint(\"means_fraud\", False)"
+    },
+    {
+      "heading": "explicación local, correlación y límites",
+      "paragraphs": [
+        "Local: contribución de features al score del caso (pesos × valores).",
+        "Correlación ≠ contribución ≠ causa. Límites: dependencia de grafo, confusores.",
+        "Plantilla: evidencia observada | aporte modelo | incertidumbre | decisión humana."
+      ],
+      "code": "feats = {\"shared_phone\": (1.0, 0.9), \"amount_z\": (0.5, 0.2)}\ncontrib = {k: v * w for k, (v, w) in feats.items()}\nprint(\"contrib\", {k: round(v, 3) for k, v in contrib.items()})\nprint(\"sum\", round(sum(contrib.values()), 3))\nprint(\"causal\", False)"
+    },
+    {
+      "heading": "cohortes y métricas por slice",
+      "paragraphs": [
+        "Corta por región, canal, tipo de enlace. Compara precision/recall/tasa de queue.",
+        "n chico → intervalos anchos; no grites inequidad con n=3.",
+        "Equidad aquí: daño diferencial en revisión, no 'paridad de fraude'."
+      ],
+      "code": "slices = {\n    \"LIM\": {\"n\": 100, \"precision\": 0.6},\n    \"AQP\": {\"n\": 8, \"precision\": 0.9},\n}\nfor s, m in slices.items():\n    flag = \"low_n\" if m[\"n\"] < 30 else \"ok_n\"\n    print(s, m[\"precision\"], flag)\nprint(\"compared\", True)"
+    },
+    {
+      "heading": "proxies, sample size y daño diferencial",
+      "paragraphs": [
+        "Proxies: variables que correlacionan con atributos sensibles. Revisa features de ubicación/canal.",
+        "Daño: más falsos positivos en un grupo → más fricción injustificada.",
+        "Mitiga: quitar proxy, recalibrar por grupo con cuidado, abstener, oversight humano."
+      ],
+      "code": "features = [\"amount_7d\", \"district_code\", \"shared_phone\"]\nproxy_risk = {\"amount_7d\": \"low\", \"district_code\": \"high\", \"shared_phone\": \"medium\"}\nprint(\"high_proxy\", [f for f in features if proxy_risk[f] == \"high\"])\nprint(\"action\", \"review_feature\")\nprint(\"fraud_eq\", False)"
+    },
+    {
+      "heading": "calibración, intervalos/conformal conceptualmente",
+      "paragraphs": [
+        "Además de Brier: intervalos de predicción / conformal dan cobertura garantizada bajo i.i.d. (idealizado).",
+        "Comunica: score 0.7 con banda o set de predicción, no certeza.",
+        "Didáctica: residual quantiles como intervalo toy."
+      ],
+      "code": "resid = [0.1, -0.2, 0.05, 0.15, -0.05]\nq = sorted(abs(r) for r in resid)[int(0.8 * (len(resid) - 1))]\np = 0.7\nprint(\"interval\", round(p - q, 3), round(p + q, 3))\nprint(\"level\", \"approx_80pct\")\nprint(\"guarantee\", \"conceptual\")"
+    },
+    {
+      "heading": "out-of-distribution y abstención",
+      "paragraphs": [
+        "OOD: feature fuera de rango train, grafo inusual, canal nuevo. Abstén y escala a humano.",
+        "Detector simple: max |z-score| > umbral.",
+        "Mejor abstener que inventar certeza."
+      ],
+      "code": "def ood(z, thr=3.0):\n    return max(abs(x) for x in z) > thr\nprint(\"ood\", ood([0.1, 0.2, 4.5]))\nprint(\"action\", \"abstain\")\nprint(\"auto_fraud\", False)"
+    },
+    {
+      "heading": "model card y contestabilidad",
+      "paragraphs": [
+        "Model card: uso previsto, datos, métricas, límites, fairness slices, dueño.",
+        "Contestabilidad: el afectado o revisor puede pedir revisión del score/proceso.",
+        "Sin card, no hay promoción responsable en CP-N3-C."
+      ],
+      "code": "card = {\n    \"name\": \"review_ranker_v1\",\n    \"intended_use\": \"priorizar cola de revisión sintética\",\n    \"out_of_scope\": \"etiqueta de fraude o parentesco\",\n    \"owner\": \"risk-ml-pe\",\n}\nprint(card[\"intended_use\"])\nprint(\"out_of_scope\", card[\"out_of_scope\"])\nprint(\"contestability\", True)"
+    },
+    {
+      "heading": "aprobación, override, apelación y retiro",
+      "paragraphs": [
+        "Estados: proposed → approved → production → retired. Override humano siempre auditado.",
+        "Apelación reabre caso. Retiro si drift o incidente.",
+        "La ficha de caso muestra quién decidió qué."
+      ],
+      "code": "states = [\"proposed\", \"approved\", \"production\", \"retired\"]\nevent = {\"case\": \"c1\", \"model_score\": 0.82, \"human\": \"override_skip\", \"by\": \"analyst_7\"}\nprint(\"lifecycle\", \" > \".join(states))\nprint(\"override\", event[\"human\"])\nprint(\"audit\", True)"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S35-T1-B-DEMO",
+      "description": "Ranking de importance por drop.",
+      "why": "Importancia global.",
+      "code": "d={\"f1\":0.02,\"f2\":0.1}\nprint(max(d, key=d.get), d[max(d, key=d.get)])\nprint('fraud', False)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S35-T2-A-DEMO",
+      "description": "Contrib local suma.",
+      "why": "Local no causal.",
+      "code": "c={\"a\":0.2,\"b\":-0.1}\nprint(round(sum(c.values()),3))\nprint('causal', False)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S35-T2-B-DEMO",
+      "description": "Slice con low_n.",
+      "why": "n por cohorte.",
+      "code": "n=5; print('flag', 'low_n' if n<30 else 'ok_n')\nprint('n', n)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S35-T3-A-DEMO",
+      "description": "Lista proxies high.",
+      "why": "Proxy risk.",
+      "code": "print(['district_code'])\nprint('action', 'review')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S35-T3-B-DEMO",
+      "description": "Intervalo toy p±q.",
+      "why": "Incertidumbre.",
+      "code": "p,q=0.6,0.1\nprint(round(p-q,2), round(p+q,2))\nprint('level', 'toy')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S35-T4-A-DEMO",
+      "description": "OOD z-score.",
+      "why": "Abstain OOD.",
+      "code": "print(max(abs(x) for x in [1,2,3.5])>3)\nprint('action', 'abstain')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S35-T4-B-DEMO",
+      "description": "Model card out_of_scope.",
+      "why": "Card mínima.",
+      "code": "print('out_of_scope', 'fraud_label')\nprint('use', 'queue_rank')\nprint('card', True)"
+    },
+    {
+      "demoId": null,
+      "description": "Override audit fields.",
+      "why": "Gobernanza.",
+      "code": "print({'case':'c1','human':'override','by':'u1'})\nprint('audit', True)\nprint('ok', True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "La ficha de caso debe separar:",
+      "options": [
+        "Solo score",
+        "Evidencia, modelo, incertidumbre y decisión humana",
+        "Solo SHAP global",
+        "Solo UI"
+      ]
+    },
+    {
+      "question": "Perm importance prueba:",
+      "options": [
+        "Fraude",
+        "Sensibilidad del modelo a barajar features",
+        "Parentesco",
+        "Causalidad legal"
+      ]
+    },
+    {
+      "question": "Ante OOD conviene:",
+      "options": [
+        "Forzar pred 1",
+        "Abstener y escalar",
+        "Borrar logs",
+        "Ignorar"
+      ]
+    },
+    {
+      "question": "Model card out_of_scope incluye:",
+      "options": [
+        "Nada",
+        "Usos prohibidos p.ej. etiqueta de fraude",
+        "Solo accuracy",
+        "Solo owner email personal"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales"
+  ]
+}

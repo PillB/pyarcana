@@ -1,0 +1,230 @@
+{
+  "section_index": 44,
+  "title": "CI/CD y seguridad de la cadena de suministro",
+  "outcomes": [
+    "Corre lint/types/tests en matrices",
+    "Usa caches, artifacts y condiciones",
+    "Minimiza permisos y escanea secretos",
+    "Genera SBOM, provenance y attestations",
+    "Configura environments y approvals",
+    "Despliega con canary y rollback",
+    "Aplica políticas de branch/review",
+    "Maneja fallos con evidencia auditable"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S44: CI/CD y seguridad de la cadena de suministro",
+      "paragraphs": [
+        "En V3, **S44** retematiza el archivo de plataforma `multimodal` hacia **CI/CD y seguridad de la cadena de suministro**.",
+        "Incremento: pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "lint/types/tests y matrices",
+      "paragraphs": [
+        "**lint/types/tests y matrices** — outcome del blueprint phase3 para `lint-types-tests-matrix`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"cache\", {\"pip\":True}); print(\"artifacts\", [\"wheel\",\"sbom\"]); print(\"if\", \"on_success\")"
+    },
+    {
+      "heading": "caches, artifacts y condiciones",
+      "paragraphs": [
+        "**caches, artifacts y condiciones** — outcome del blueprint phase3 para `caches-artifacts-conditions`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "permisos mínimos, pinning y secret scanning",
+      "paragraphs": [
+        "**permisos mínimos, pinning y secret scanning** — outcome del blueprint phase3 para `min-perms-pin-secret-scan`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "SBOM, provenance y attestations",
+      "paragraphs": [
+        "**SBOM, provenance y attestations** — outcome del blueprint phase3 para `sbom-provenance-attest`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "environments y approvals",
+      "paragraphs": [
+        "**environments y approvals** — outcome del blueprint phase3 para `envs-approvals`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "migrations, canary/blue-green y rollback",
+      "paragraphs": [
+        "**migrations, canary/blue-green y rollback** — outcome del blueprint phase3 para `migrations-canary-rollback`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "branch/review policy y release notes",
+      "paragraphs": [
+        "**branch/review policy y release notes** — outcome del blueprint phase3 para `branch-review-release-notes`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"block_release\"); print([\"log\",\"artifact\"]); print(\"audit\", True)"
+    },
+    {
+      "heading": "failure handling y evidencia auditable",
+      "paragraphs": [
+        "**failure handling y evidencia auditable** — outcome del blueprint phase3 para `failure-handling-audit-evidence`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"block_release\"); print([\"log\",\"artifact\"]); print(\"audit\", True)"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S44-T1-B-DEMO",
+      "description": "Demo: lint/types/tests y matrices",
+      "why": "Demuestra el outcome de S44-T1-A con Python verificable.",
+      "code": "print(True); print(\"n\", 3); print(\"matrix_ok\", True)"
+    },
+    {
+      "demoId": "S44-T2-A-DEMO",
+      "description": "Demo: caches, artifacts y condiciones",
+      "why": "Demuestra el outcome de S44-T1-B con Python verificable.",
+      "code": "print(\"cache_hit\", True); print(\"artifact\", \"wheel\"); print(\"condition\", \"main_only\")"
+    },
+    {
+      "demoId": "S44-T2-B-DEMO",
+      "description": "Demo: permisos mínimos, pinning y secret scanning",
+      "why": "Demuestra el outcome de S44-T2-A con Python verificable.",
+      "code": "print(\"gitleaks\", \"block\"); print(\"perms\", \"least\"); print(\"pin\", True)"
+    },
+    {
+      "demoId": "S44-T3-A-DEMO",
+      "description": "Demo: SBOM, provenance y attestations",
+      "why": "Demuestra el outcome de S44-T2-B con Python verificable.",
+      "code": "print(\"attest\", True); print(\"verifiable\", True); print(\"spdx\", True)"
+    },
+    {
+      "demoId": "S44-T3-B-DEMO",
+      "description": "Demo: environments y approvals",
+      "why": "Demuestra el outcome de S44-T3-A con Python verificable.",
+      "code": "print(\"env\", \"staging\"); print(\"needs_approval\", True); print(\"prod_gate\", True)"
+    },
+    {
+      "demoId": "S44-T4-A-DEMO",
+      "description": "Demo: migrations, canary/blue-green y rollback",
+      "why": "Demuestra el outcome de S44-T3-B con Python verificable.",
+      "code": "print(\"migration\", \"expand_first\"); print(\"blue_green\", \"optional\"); print(\"rollback_demo\", True)"
+    },
+    {
+      "demoId": "S44-T4-B-DEMO",
+      "description": "Demo: branch/review policy y release notes",
+      "why": "Demuestra el outcome de S44-T4-A con Python verificable.",
+      "code": "print(\"reviews\", 1); print(\"release_notes\", True); print(\"conventional\", True)"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: failure handling y evidencia auditable",
+      "why": "Demuestra el outcome de S44-T4-B con Python verificable.",
+      "code": "print(\"on_fail\", \"block\"); print(\"evidence_n\", 2); print(\"audit_trail\", True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S44 que se preserva es:",
+      "options": [
+        "multimodal",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S44 pertenece a:",
+      "options": [
+        "CP-N4-B (inicio)",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP",
+    "Schemas, seguridad y privacidad de servicios",
+    "Contenedores y reproducibilidad operativa"
+  ]
+}

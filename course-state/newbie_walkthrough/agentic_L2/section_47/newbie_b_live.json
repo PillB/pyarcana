@@ -1,0 +1,221 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 47,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-ske-s47-a2ba680e19d2",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-TAC-047-1A', **{'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}}\nrecord = payload\nmeets_contract = bool(not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"]))\nstatus = (\"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\")\nprint(\"S47-T1-A\", status)\n",
+      "justification_from_packet": "Auditoría de S47-T1-A-E1: el starter fallaba a propósito. Apliqué rerun dentro de tolerancia con seed/parámetros con trazas del caso CASO-TAC-047-1A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "code": "REQUIRED = {'case_id', 'metric', 'params', 'rerun_metric', 'seed', 'tolerance'}\nREJECT = 'MARK_RUN_NONREPRODUCIBLE'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-TAC-047-1A', **{'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}}\nadverse_fx = {\"case_id\": 'CASO-TAC-047-1A', **{'seed': 42, 'params': {'depth': 4}, 'metric': 1.81, 'rerun_metric': 0.805, 'tolerance': 0.01}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('tolerance', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "En S47-T1-A-E2 contrasté el fixture válido contra el adverso del mismo subtema «tracking y reproducibilidad». La regla el contrato del subtema solo aprueba CASO-TAC-047-1A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "code": "REQUIRED = {'case_id', 'metric', 'params', 'rerun_metric', 'seed', 'tolerance'}\nBREACH = 'MARK_RUN_NONREPRODUCIBLE'\nUNCERTAIN = 'INVESTIGATE_RANDOMNESS'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-TAC-047-1A', **{'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}}\nbad = {\"case_id\": 'CASO-TAC-047-1A', **{'seed': 42, 'params': {'depth': 4}, 'metric': 1.81, 'rerun_metric': 0.805, 'tolerance': 0.01}}\ngap = {k: good[k] for k in good if k != 'tolerance'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S47-T1-A-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-TAC-047-1A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «tracking y reproducibilidad».",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-TAC-047-1B', **{'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}}\nrecord = payload\nmeets_contract = bool(not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"]))\nstatus = (\"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\")\nprint(\"S47-T1-B\", status)\n",
+      "justification_from_packet": "Auditoría de S47-T1-B-E1: el starter fallaba a propósito. Apliqué data/code/env/split/métrica versionados y candidato mejor con trazas del caso CASO-TAC-047-1B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "code": "REQUIRED = {'baseline', 'candidate', 'case_id', 'code', 'data', 'env', 'metric_definition', 'split'}\nREJECT = 'INVALIDATE_COMPARISON'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-TAC-047-1B', **{'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}}\nadverse_fx = {\"case_id\": 'CASO-TAC-047-1B', **{'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': -0.18000000000000005, 'baseline': 0.78}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('baseline', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Auditoría de S47-T1-B-E2: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-TAC-047-1B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "code": "REQUIRED = {'baseline', 'candidate', 'case_id', 'code', 'data', 'env', 'metric_definition', 'split'}\nBREACH = 'INVALIDATE_COMPARISON'\nUNCERTAIN = 'RESTORE_LINEAGE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-TAC-047-1B', **{'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}}\nbad = {\"case_id\": 'CASO-TAC-047-1B', **{'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': -0.18000000000000005, 'baseline': 0.78}}\ngap = {k: good[k] for k in good if k != 'baseline'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S47-T1-B-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-TAC-047-1B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «data/code/env lineage y comparación».",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}}\nrecord = payload\nmeets_contract = bool(not (not record[\"approved\"] or record[\"stage\"] == \"production\"))\nstatus = (\"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\")\nprint(\"S47-T2-A\", status)\n",
+      "justification_from_packet": "En S47-T2-A-E1 contrasté el fixture válido contra el adverso del mismo subtema «firmas, stages y approvals». La regla firma exacta, staging y aprobación solo aprueba CASO-TAC-047-2A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "code": "REQUIRED = {'approved', 'case_id', 'input_signature', 'output_signature', 'stage'}\nREJECT = 'DENY_MODEL_PROMOTION'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}}\nadverse_fx = {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('approved', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Auditoría de S47-T2-A-E2: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-TAC-047-2A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "code": "REQUIRED = {'approved', 'case_id', 'input_signature', 'output_signature', 'stage'}\nBREACH = 'DENY_MODEL_PROMOTION'\nUNCERTAIN = 'REQUEST_MODEL_APPROVAL'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"approved\"] or record[\"stage\"] == \"production\"):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}}\nbad = {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}}\ngap = {k: good[k] for k in good if k != 'approved'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S47-T2-A-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-TAC-047-2A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «firmas, stages y approvals».",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}}\nrecord = payload\nmeets_contract = bool(not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4))\nstatus = (\"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\")\nprint(\"S47-T2-B\", status)\n",
+      "justification_from_packet": "En S47-T2-B-E1 contrasté el fixture válido contra el adverso del mismo subtema «artefactos, model card y compatibilidad». La regla digest, compatibilidad de features y card completa solo aprueba CASO-TAC-047-2B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "code": "REQUIRED = {'artifact_digest', 'card_sections', 'case_id', 'feature_version', 'serving_feature_version'}\nREJECT = 'REJECT_MODEL_ARTIFACT'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}}\nadverse_fx = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest': 'sha256:model', 'feature_version': 'features-v3_X', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('card_sections', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S47-T2-B-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-TAC-047-2B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «artefactos, model card y compatibilidad».",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "code": "REQUIRED = {'artifact_digest', 'card_sections', 'case_id', 'feature_version', 'serving_feature_version'}\nBREACH = 'REJECT_MODEL_ARTIFACT'\nUNCERTAIN = 'COMPLETE_MODEL_CARD'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}}\nbad = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest': 'sha256:model', 'feature_version': 'features-v3_X', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}}\ngap = {k: good[k] for k in good if k != 'card_sections'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S47-T2-B-E3 contrasté el fixture válido contra el adverso del mismo subtema «artefactos, model card y compatibilidad». La regla el contrato del subtema solo aprueba CASO-TAC-047-2B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}}\nrecord = payload\nmeets_contract = bool(not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"]))\nstatus = (\"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\")\nprint(\"S47-T3-A\", status)\n",
+      "justification_from_packet": "Auditoría de S47-T3-A-E1: el starter fallaba a propósito. Apliqué paridad batch/online sin leakage y contract tests con trazas del caso CASO-TAC-047-3A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "code": "REQUIRED = {'batch_features', 'case_id', 'contract_tests', 'leakage', 'online_features'}\nREJECT = 'DISABLE_INCONSISTENT_SERVING'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}}\nadverse_fx = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features': [0.1, 0.4, 0.8, '__bad__'], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('contract_tests', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S47-T3-A-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-TAC-047-3A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «batch/online y feature consistency».",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "code": "REQUIRED = {'batch_features', 'case_id', 'contract_tests', 'leakage', 'online_features'}\nBREACH = 'DISABLE_INCONSISTENT_SERVING'\nUNCERTAIN = 'TRACE_FEATURE_PIPELINE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}}\nbad = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features': [0.1, 0.4, 0.8, '__bad__'], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}}\ngap = {k: good[k] for k in good if k != 'contract_tests'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "En S47-T3-A-E3 contrasté el fixture válido contra el adverso del mismo subtema «batch/online y feature consistency». La regla el contrato del subtema solo aprueba CASO-TAC-047-3A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"]))\nstatus = (\"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\")\nprint(\"S47-T3-B\", status)\n",
+      "justification_from_packet": "Skeptic sobre S47-T3-B-E1: no acepto el booleano invertido del starter. El paquete exige demostrar p95 bajo SLO, batch acotado y fallback probado en CASO-TAC-047-3B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «latency, batching y fallback».",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "code": "REQUIRED = {'batch_size', 'case_id', 'fallback', 'fallback_tested', 'p95_ms', 'slo_ms'}\nREJECT = 'ACTIVATE_SAFE_FALLBACK'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}}\nadverse_fx = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms': 240, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('fallback_tested', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Skeptic sobre S47-T3-B-E2: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-TAC-047-3B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «latency, batching y fallback».",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "code": "REQUIRED = {'batch_size', 'case_id', 'fallback', 'fallback_tested', 'p95_ms', 'slo_ms'}\nBREACH = 'ACTIVATE_SAFE_FALLBACK'\nUNCERTAIN = 'TUNE_BATCH_OR_CAPACITY'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}}\nbad = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms': 240, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}}\ngap = {k: good[k] for k in good if k != 'fallback_tested'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Auditoría de S47-T3-B-E3: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-TAC-047-3B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "code": "payload = {\"case_id\": 'CASO-TAC-047-4A', **{'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}}\nrecord = payload\nmeets_contract = bool(not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"]))\nstatus = (\"PASS\" if meets_contract else \"STOP_CANARY\")\nprint(\"S47-T4-A\", status)\n",
+      "justification_from_packet": "En S47-T4-A-E1 contrasté el fixture válido contra el adverso del mismo subtema «shadow/canary y monitoring hooks». La regla tráfico limitado, quality/error gates y hooks solo aprueba CASO-TAC-047-4A cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "code": "REQUIRED = {'case_id', 'error_rate', 'hooks', 'max_error_rate', 'max_quality_drop', 'mode', 'quality_delta', 'traffic_pct'}\nREJECT = 'STOP_CANARY'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-TAC-047-4A', **{'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}}\nadverse_fx = {\"case_id\": 'CASO-TAC-047-4A', **{'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 1.004, 'max_error_rate': 0.01, 'hooks': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('hooks', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Auditoría de S47-T4-A-E2: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-TAC-047-4A y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "code": "REQUIRED = {'case_id', 'error_rate', 'hooks', 'max_error_rate', 'max_quality_drop', 'mode', 'quality_delta', 'traffic_pct'}\nBREACH = 'STOP_CANARY'\nUNCERTAIN = 'COLLECT_MORE_SHADOW_EVIDENCE'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-TAC-047-4A', **{'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}}\nbad = {\"case_id\": 'CASO-TAC-047-4A', **{'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 1.004, 'max_error_rate': 0.01, 'hooks': True}}\ngap = {k: good[k] for k in good if k != 'hooks'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S47-T4-A-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-TAC-047-4A; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «shadow/canary y monitoring hooks».",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "code": "payload = {\"case_id\": 'CASO-TAC-047-4B', **{'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}}\nrecord = payload\nmeets_contract = bool(not (not record[\"compatible_features\"] or not record[\"rollback_tested\"]))\nstatus = (\"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\")\nprint(\"S47-T4-B\", status)\n",
+      "justification_from_packet": "En S47-T4-B-E1 contrasté el fixture válido contra el adverso del mismo subtema «rollback, retirement y audit». La regla last-known-good compatible, rollback y retiro auditado solo aprueba CASO-TAC-047-4B cuando el schema está completo; si falta el campo, no invento datos.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "code": "REQUIRED = {'audit_entry', 'case_id', 'compatible_features', 'current', 'last_good', 'retired', 'rollback_tested'}\nREJECT = 'ROLLBACK_TO_LAST_GOOD'\n\ndef assess(record: dict) -> str:\n    absent = sorted(REQUIRED - record.keys())\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    contract_ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    return \"PASS\" if contract_ok else REJECT\n\nvalid_fx = {\"case_id\": 'CASO-TAC-047-4B', **{'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}}\nadverse_fx = {\"case_id\": 'CASO-TAC-047-4B', **{'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}}\npartial_fx = dict(valid_fx)\npartial_fx.pop('audit_entry', None)\nprint(assess(valid_fx), assess(adverse_fx), assess(partial_fx))\n",
+      "justification_from_packet": "Auditoría de S47-T4-B-E2: el starter fallaba a propósito. Apliqué el contrato del subtema con trazas del caso CASO-TAC-047-4B y separé CONTINUE/breach/incertidumbre como pide el transfer.",
+      "status": "answered",
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "code": "REQUIRED = {'audit_entry', 'case_id', 'compatible_features', 'current', 'last_good', 'retired', 'rollback_tested'}\nBREACH = 'ROLLBACK_TO_LAST_GOOD'\nUNCERTAIN = 'REVIEW_RETIREMENT'\n\ndef route(record: dict) -> str:\n    if sorted(REQUIRED - set(record.keys())):\n        return UNCERTAIN\n    if not (not record[\"compatible_features\"] or not record[\"rollback_tested\"]):\n        return \"CONTINUE\"\n    return BREACH\n\ngood = {\"case_id\": 'CASO-TAC-047-4B', **{'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}}\nbad = {\"case_id\": 'CASO-TAC-047-4B', **{'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}}\ngap = {k: good[k] for k in good if k != 'audit_entry'}\nprint(route(good), route(bad), route(gap))\n",
+      "justification_from_packet": "Skeptic sobre S47-T4-B-E3: no acepto el booleano invertido del starter. El paquete exige demostrar el contrato del subtema en CASO-TAC-047-4B; reescribí la decisión y mantuve MISSING antes de evaluar contenido, conforme a «rollback, retirement y audit».",
+      "status": "answered",
+      "confidence": 0.72
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic en S47 Q0: «rerun dentro de tolerancia declarada» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver.",
+      "status": "answered",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic en S47 Q1: «emitir ROLLBACK_MODEL y conservar evidencia» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic en S47 Q2: «solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia» es la respuesta que no oculta el error ni inventa evidencia. El paquete lo marca al hablar de Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté capturas vacías o PII real en Q3/S47. La opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la única que preserva auditoría según el texto del paquete: Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver.",
+      "status": "answered",
+      "confidence": 0.91
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:54:25.759068+00:00",
+  "session_started_at": "2026-07-23T17:53:16.004918+00:00",
+  "session_ended_at": "2026-07-23T17:54:25.756961+00:00",
+  "receipt_response_sha256": "1b534697c1f11ecb278992b8aa8dc2f7af098ce86d16e96609427774cbba2612",
+  "receipt_exercises_sha256": "9bd06d3f38e162bb2d530ce6df7f3726d59124cbf06e75da478c872ed91166c7",
+  "receipt_selfcheck_sha256": "6c3891deb8821b3624d19206aca42ca591ff378d6f0c142b8a770e315fc67ed3"
+}

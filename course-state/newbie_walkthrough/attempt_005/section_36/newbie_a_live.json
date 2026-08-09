@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 36,
+  "packet_source": "course-state/newbie_walkthrough/attempt_005/section_36/packet.json",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S36-T1-A-E1", "answer": "mean of [1,2]", "code": "print((1 + 2) / 2)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["mean"]},
+    {"exercise_id": "S36-T1-A-E2", "answer": "z-score 2.0", "code": "print((4 - 0) / 2)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["scale"]},
+    {"exercise_id": "S36-T1-A-E3", "answer": "kmeans not verdict", "code": "print(False)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["no guilt"]},
+    {"exercise_id": "S36-T1-B-E1", "answer": "best k from scores", "code": "scores = {2: 0.4, 3: 0.7, 4: 0.6}\nprint(max(scores, key=scores.get))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["choose k"]},
+    {"exercise_id": "S36-T1-B-E2", "answer": "multi seed note", "code": "print('run_multi_seed')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["stability"]},
+    {"exercise_id": "S36-T1-B-E3", "answer": "internal metrics limited", "code": "print('internal_metrics_not_labels')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["limits"]},
+    {"exercise_id": "S36-T2-A-E1", "answer": "dot weights", "code": "print(sum(a * b for a, b in zip([1, 2], [0.5, 0.5])))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["dot"]},
+    {"exercise_id": "S36-T2-A-E2", "answer": "not decision model", "code": "print('exploratory_not_decision')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["PCA role"]},
+    {"exercise_id": "S36-T2-A-E3", "answer": "n components 2", "code": "print(2)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["components"]},
+    {"exercise_id": "S36-T2-B-E1", "answer": "axis auto name false", "code": "print(False)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["PCA axes"]},
+    {"exercise_id": "S36-T2-B-E2", "answer": "outlier may be scale", "code": "print('check_scale_first')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["scale caution"]},
+    {"exercise_id": "S36-T2-B-E3", "answer": "doc exploratory", "code": "print('exploratory')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["docs"]},
+    {"exercise_id": "S36-T3-A-E1", "answer": "sigma flag count", "code": "import statistics\nxs = [1, 1, 1, 10]\nmu = statistics.mean(xs); sd = statistics.pstdev(xs) or 1\nprint(sum(x > mu + 3 * sd for x in xs))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["sigma flags"]},
+    {"exercise_id": "S36-T3-A-E2", "answer": "combine rule+score", "code": "print({'rule': True, 'score': 0.8})\n", "confidence": 0.88, "blocked_on": [], "concepts_used": ["combine"]},
+    {"exercise_id": "S36-T3-A-E3", "answer": "review candidate not guilt", "code": "print('review_candidate_not_guilt')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["disclaimer"]},
+    {"exercise_id": "S36-T3-B-E1", "answer": "novelty vs outlier labels", "code": "print(['novelty', 'outlier'])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["labels"]},
+    {"exercise_id": "S36-T3-B-E2", "answer": "contam 0.1 n=50 → 5", "code": "print(int(0.1 * 50))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["contamination"]},
+    {"exercise_id": "S36-T3-B-E3", "answer": "tune to capacity", "code": "print('tune_flags_to_capacity')\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["capacity"]},
+    {"exercise_id": "S36-T4-A-E1", "answer": "mean of rates", "code": "print(sum([0.1, 0.2, 0.3]) / 3)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["backtest mean"]},
+    {"exercise_id": "S36-T4-A-E2", "answer": "no future in fit", "code": "print('fit_past_only')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["temporal"]},
+    {"exercise_id": "S36-T4-A-E3", "answer": "window list len", "code": "windows = ['w1', 'w2', 'w3']\nprint(len(windows))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["windows"]},
+    {"exercise_id": "S36-T4-B-E1", "answer": "p@k [1,0,1] k=2 → 0.5", "code": "print(sum([1, 0, 1][:2]) / 2)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["P@k"]},
+    {"exercise_id": "S36-T4-B-E2", "answer": "human review required", "code": "print(True)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["HITL"]},
+    {"exercise_id": "S36-T4-B-E3", "answer": "utility metric name", "code": "print('precision_at_k')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["utility"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "chosen_text": "Señal de rareza a revisar", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Anomaly = rarity signal to review not proven fraud."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Hipótesis de fracción rara a flaggear", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "contamination is hypothesis of rare fraction to flag."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Exploración/visualización prudente", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "PCA for careful exploration/viz."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "precision@k y feedback humano", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "With scarce labels prioritize precision@k + human feedback."}
+  ],
+  "confusion_points": ["Platform ai-apis-advanced; anomaly signals CP-N3-C."],
+  "retrospection": "S36 24 weDo. Selfcheck 4/4. blocked_count=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_exercises_blocked": 0, "n_selfcheck": 4, "n_selfcheck_blocked": 0, "blocked_count": 0}
+}

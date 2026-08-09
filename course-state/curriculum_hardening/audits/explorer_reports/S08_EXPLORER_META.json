@@ -1,0 +1,9 @@
+{
+  "section": 8,
+  "id": "pandas",
+  "file": "src/lib/course/sections/s08-pandas.ts",
+  "score_1_to_10": 5.5,
+  "issue_count": 25,
+  "meta_leak_count": 6,
+  "status": "complete"
+}

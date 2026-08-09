@@ -1,0 +1,368 @@
+{
+  "1": [
+    {
+      "i": 0,
+      "ci": 0,
+      "q": "¿Para qué sirve un entorno virtual (venv) en Python?"
+    },
+    {
+      "i": 1,
+      "ci": 2,
+      "q": "¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?"
+    },
+    {
+      "i": 2,
+      "ci": 3,
+      "q": "¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?"
+    },
+    {
+      "i": 3,
+      "ci": 1,
+      "q": "¿Qué comando te permite replicar el entorno de otro desarrollador?"
+    },
+    {
+      "i": 4,
+      "ci": 0,
+      "q": "¿Por qué NO debes subir el archivo .env a GitHub?"
+    }
+  ],
+  "2": [
+    {
+      "i": 0,
+      "ci": 1,
+      "q": "¿Cuál es el tipo de None en Python?"
+    },
+    {
+      "i": 1,
+      "ci": 3,
+      "q": "¿Qué imprime type(\"42\").__name__ y la comparación 42 == \"42\"?"
+    },
+    {
+      "i": 2,
+      "ci": 0,
+      "q": "¿Por qué el teléfono de un cliente de intake se modela como str?"
+    },
+    {
+      "i": 3,
+      "ci": 2,
+      "q": "Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`?"
+    },
+    {
+      "i": 4,
+      "ci": 1,
+      "q": "¿Cuál es el idioma correcto para comprobar ausencia de valor?"
+    }
+  ],
+  "3": [
+    {
+      "i": 0,
+      "ci": 2,
+      "q": "¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un valid"
+    },
+    {
+      "i": 1,
+      "ci": 0,
+      "q": "En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera"
+    },
+    {
+      "i": 2,
+      "ci": 1,
+      "q": "¿Qué devuelve la expresión `\"\" or \"default\"` en Python?"
+    },
+    {
+      "i": 3,
+      "ci": 3,
+      "q": "Una allowlist de tipos de documento se implementa mejor como…"
+    },
+    {
+      "i": 4,
+      "ci": 2,
+      "q": "¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introduc"
+    }
+  ],
+  "4": [
+    {
+      "i": 0,
+      "ci": 3,
+      "q": "¿Qué produce list(range(3))?"
+    },
+    {
+      "i": 1,
+      "ci": 1,
+      "q": "zip([1,2,3],[10,20]) sin strict…"
+    },
+    {
+      "i": 2,
+      "ci": 2,
+      "q": "Para la tasa de reject del gate, el denominador debe ser…"
+    },
+    {
+      "i": 3,
+      "ci": 0,
+      "q": "¿Qué hace continue en un for de líneas de intake?"
+    },
+    {
+      "i": 4,
+      "ci": 3,
+      "q": "Un doble for anidado sobre n elementos es aproximadamente…"
+    }
+  ],
+  "5": [
+    {
+      "i": 0,
+      "ci": 0,
+      "q": "Si una función no tiene return, ¿qué devuelve la llamada?"
+    },
+    {
+      "i": 1,
+      "ci": 2,
+      "q": "¿Por qué `def f(xs=[])` es peligroso?"
+    },
+    {
+      "i": 2,
+      "ci": 3,
+      "q": "Una función pura…"
+    },
+    {
+      "i": 3,
+      "ci": 1,
+      "q": "LEGB significa…"
+    },
+    {
+      "i": 4,
+      "ci": 0,
+      "q": "Idempotencia de un normalizador f significa…"
+    }
+  ],
+  "6": [
+    {
+      "i": 0,
+      "ci": 1,
+      "q": "¿Qué produce xs[-2:] si xs = [1,2,3,4]?"
+    },
+    {
+      "i": 1,
+      "ci": 3,
+      "q": "b = a (listas) y mutas b.append(1). ¿Qué pasa con a?"
+    },
+    {
+      "i": 2,
+      "ci": 0,
+      "q": "Para reportar dos filas con mismo id y payload distinto debes…"
+    },
+    {
+      "i": 3,
+      "ci": 2,
+      "q": "rows.sort(key=...) retorna…"
+    },
+    {
+      "i": 4,
+      "ci": 1,
+      "q": "json.dumps(..., sort_keys=True) ayuda a…"
+    }
+  ],
+  "7": [
+    {
+      "i": 0,
+      "ci": 2,
+      "q": "¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?"
+    },
+    {
+      "i": 1,
+      "ci": 0,
+      "q": "En nombres latam, si solo hay un token, la política segura es…"
+    },
+    {
+      "i": 2,
+      "ci": 1,
+      "q": "¿Cuándo preferir str.replace/split sobre regex?"
+    },
+    {
+      "i": 3,
+      "ci": 3,
+      "q": "fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…"
+    },
+    {
+      "i": 4,
+      "ci": 2,
+      "q": "Un Jaccard 0.67 entre nombres debe…"
+    }
+  ],
+  "8": [
+    {
+      "i": 0,
+      "ci": 3,
+      "q": "¿Por qué declarar encoding='utf-8' al abrir texto?"
+    },
+    {
+      "i": 1,
+      "ci": 1,
+      "q": "Escritura atómica típica es…"
+    },
+    {
+      "i": 2,
+      "ci": 2,
+      "q": "Una fila CSV con columnas de más debe…"
+    },
+    {
+      "i": 3,
+      "ci": 0,
+      "q": "Reconciliación del manifest exige…"
+    },
+    {
+      "i": 4,
+      "ci": 3,
+      "q": "Si reconcile falla, el pipeline debe…"
+    }
+  ],
+  "9": [
+    {
+      "i": 0,
+      "ci": 0,
+      "q": "¿Para qué sirve `raise NewError(...) from e`?"
+    },
+    {
+      "i": 1,
+      "ci": 2,
+      "q": "Un delimiter vacío en config del job debería…"
+    },
+    {
+      "i": 2,
+      "ci": 3,
+      "q": "¿Qué va a stdout en una CLI bien diseñada?"
+    },
+    {
+      "i": 3,
+      "ci": 1,
+      "q": "mask_email('ana@ejemplo.pe') de forma segura podría ser…"
+    },
+    {
+      "i": 4,
+      "ci": 0,
+      "q": "TimeoutError en un fetch remoto típico…"
+    },
+    {
+      "i": 5,
+      "ci": 2,
+      "q": "¿Cuál es un buen minimal repro?"
+    }
+  ],
+  "10": [
+    {
+      "i": 0,
+      "ci": 1,
+      "q": "¿Para qué sirve `if __name__ == '__main__'`?"
+    },
+    {
+      "i": 1,
+      "ci": 3,
+      "q": "Precedencia correcta de config…"
+    },
+    {
+      "i": 2,
+      "ci": 0,
+      "q": "Exit code 2 en CLI argparse suele significar…"
+    },
+    {
+      "i": 3,
+      "ci": 2,
+      "q": "¿Dónde van los logs de progreso?"
+    },
+    {
+      "i": 4,
+      "ci": 1,
+      "q": "Añadir un subcomando nuevo compatible es tipicamente…"
+    },
+    {
+      "i": 5,
+      "ci": 3,
+      "q": "¿Qué no debe ir al git del paquete?"
+    }
+  ],
+  "11": [
+    {
+      "i": 0,
+      "ci": 2,
+      "q": "¿Por qué `field(default_factory=list)` y no `= []`?"
+    },
+    {
+      "i": 1,
+      "ci": 0,
+      "q": "RelationshipEvidence.signal_score representa…"
+    },
+    {
+      "i": 2,
+      "ci": 1,
+      "q": "Un Protocol EntityStore sirve para…"
+    },
+    {
+      "i": 3,
+      "ci": 3,
+      "q": "Objeto inválido: ¿cuándo fallar?"
+    },
+    {
+      "i": 4,
+      "ci": 2,
+      "q": "Client hereda de Person…"
+    },
+    {
+      "i": 5,
+      "ci": 0,
+      "q": "¿Qué no debe tener el dominio de familiaridad?"
+    }
+  ],
+  "12": [
+    {
+      "i": 0,
+      "ci": 3,
+      "q": "Un 400 Bad Request del proveedor debe…"
+    },
+    {
+      "i": 1,
+      "ci": 1,
+      "q": "¿Dónde debe vivir el token de API?"
+    },
+    {
+      "i": 2,
+      "ci": 2,
+      "q": "SQL con f-string e input de usuario es…"
+    },
+    {
+      "i": 3,
+      "ci": 0,
+      "q": "Enviar document_id bancario a un geocoder público…"
+    },
+    {
+      "i": 4,
+      "ci": 3,
+      "q": "1.2 km entre dos entidades sintéticas implica…"
+    }
+  ],
+  "13": [
+    {
+      "i": 0,
+      "ci": 0,
+      "q": "entity_resolution_score y relationship_signal_score deben…"
+    },
+    {
+      "i": 1,
+      "ci": 2,
+      "q": "Un false positive de ER implica…"
+    },
+    {
+      "i": 2,
+      "ci": 3,
+      "q": "En zona gris de score el sistema debe…"
+    },
+    {
+      "i": 3,
+      "ci": 1,
+      "q": "CF-1 en S13 incluye…"
+    },
+    {
+      "i": 4,
+      "ci": 0,
+      "q": "Level-1 regression notes en el You Do exigen…"
+    }
+  ]
+}

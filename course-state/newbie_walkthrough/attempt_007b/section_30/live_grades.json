@@ -1,0 +1,1072 @@
+{
+  "section_index": 30,
+  "section_id": "security-infra",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S30-T1-A-E1",
+          "code": "a = b = 'a'\nprint(1.0 if a == b else 0.0)\n",
+          "note": "",
+          "concepts_used": [
+            "exact match"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T1-A-E2",
+          "code": "ta, tb = set('a b'.split()), set('b c'.split())\nprint(len(ta & tb) / len(ta | tb))\n",
+          "note": "",
+          "concepts_used": [
+            "jaccard",
+            "tokens"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T1-A-E3",
+          "code": "from datetime import date\na = b = date(2026, 1, 1)\nprint(1.0 if a == b else 0.0)\n",
+          "note": "",
+          "concepts_used": [
+            "date_sim"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T1-B-E1",
+          "code": "a, b = '', 'x'\nprint('missing' if a == '' or b == '' else 'ok')\n",
+          "note": "",
+          "concepts_used": [
+            "missingness"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T1-B-E2",
+          "code": "freq = 10\nprint(1 / freq)\n",
+          "note": "",
+          "concepts_used": [
+            "frecuencia"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T1-B-E3",
+          "code": "print('informative_missing')\n",
+          "note": "",
+          "concepts_used": [
+            "missing design"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-A-E1",
+          "code": "last, city = 'lopez', 'lima'\nprint(last + '|' + city)\n",
+          "note": "",
+          "concepts_used": [
+            "blocking"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-A-E2",
+          "code": "found, gold_n = 1, 2\nprint(found / gold_n)\n",
+          "note": "",
+          "concepts_used": [
+            "candidate recall"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-A-E3",
+          "code": "n = 4\nprint(n * (n - 1) // 2)\n",
+          "note": "",
+          "concepts_used": [
+            "costo bloque"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-B-E1",
+          "code": "sizes = [3, 5]\nprint(sum(n * (n - 1) // 2 for n in sizes))\n",
+          "note": "",
+          "concepts_used": [
+            "costo total"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-B-E2",
+          "code": "ta, tb = 'person', 'org'\nprint(ta != tb)\n",
+          "note": "",
+          "concepts_used": [
+            "impossible filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-B-E3",
+          "code": "print('filter_before_score')\n",
+          "note": "",
+          "concepts_used": [
+            "pipeline"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-A-E1",
+          "code": "print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+          "note": "",
+          "concepts_used": [
+            "scorer",
+            "pesos"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-A-E2",
+          "code": "s, t_high, t_low = 0.7, 0.9, 0.5\nif s >= t_high:\n    print('auto_match')\nelif s <= t_low:\n    print('non_match')\nelse:\n    print('review')\n",
+          "note": "",
+          "concepts_used": [
+            "umbrales"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-A-E3",
+          "code": "print({'name': 0.9, 'email': 1.0})\n",
+          "note": "",
+          "concepts_used": [
+            "explicable"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-B-E1",
+          "code": "p = {1: 1, 2: 2, 3: 3}\ndef find(x):\n    while p[x] != x:\n        x = p[x]\n    return x\ndef union(a, b):\n    p[find(a)] = find(b)\nunion(1, 2)\nunion(2, 3)\nprint(find(1) == find(3))\n",
+          "note": "",
+          "concepts_used": [
+            "Union-Find",
+            "cluster"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-B-E2",
+          "code": "print(['match', 'non_match', 'uncertain'])\n",
+          "note": "",
+          "concepts_used": [
+            "clerical review"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-B-E3",
+          "code": "print('ER_only_same_entity')\n",
+          "note": "",
+          "concepts_used": [
+            "privacidad",
+            "gate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-A-E1",
+          "code": "a, b = 'e1', 'e2'\ntrain_e = {'e1', 'e2', 'e3'}\nprint('train' if {a, b} <= train_e else 'test')\n",
+          "note": "",
+          "concepts_used": [
+            "entity split"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-A-E2",
+          "code": "matches, n = 1, 5\nprint(matches / n)\n",
+          "note": "",
+          "concepts_used": [
+            "base rate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-A-E3",
+          "code": "print('entity_split')\n",
+          "note": "",
+          "concepts_used": [
+            "anti-leakage"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-B-E1",
+          "code": "tp, fp = 2, 1\nprint(round(tp / (tp + fp), 2))\n",
+          "note": "",
+          "concepts_used": [
+            "precision"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-B-E2",
+          "code": "tp, fn = 2, 2\nprint(tp / (tp + fn))\n",
+          "note": "",
+          "concepts_used": [
+            "recall"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-B-E3",
+          "code": "print(['missing_phone'])\n",
+          "note": "",
+          "concepts_used": [
+            "error slices"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S30-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0\n",
+          "expected_head": "1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.3333333333333333\n",
+          "expected_head": "0.3333333333333333",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0\n",
+          "expected_head": "1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "missing\n",
+          "expected_head": "missing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.1\n",
+          "expected_head": "0.1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "informative_missing\n",
+          "expected_head": "informative_missing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lopez|lima\n",
+          "expected_head": "lopez|lima",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\n",
+          "expected_head": "0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "6\n",
+          "expected_head": "6",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "13\n",
+          "expected_head": "13",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "filter_before_score\n",
+          "expected_head": "filter_before_score",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.75\n",
+          "expected_head": "0.75",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "review\n",
+          "expected_head": "review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'name': 0.9, 'email': 1.0}\n",
+          "expected_head": "{'name': 0.9, 'email': 1.0}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['match', 'non_match', 'uncertain']\n",
+          "expected_head": "['match', 'non_match', 'uncertain']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ER_only_same_entity\n",
+          "expected_head": "ER_only_same_entity",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "train\n",
+          "expected_head": "train",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.2\n",
+          "expected_head": "0.2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "entity_split\n",
+          "expected_head": "entity_split",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.67\n",
+          "expected_head": "0.67",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\n",
+          "expected_head": "0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['missing_phone']\n",
+          "expected_head": "['missing_phone']",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S30-T1-A-E1",
+          "code": "a=b='a'\nprint(1.0 if a == b else 0.0)\n",
+          "note": "Theory exact comparator.",
+          "concepts_used": [
+            "exact"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T1-A-E2",
+          "code": "ta, tb = set('a b'.split()), set('b c'.split())\nprint(len(ta & tb) / len(ta | tb))\n",
+          "note": "Theory token_jaccard 1/3.",
+          "concepts_used": [
+            "jaccard"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T1-A-E3",
+          "code": "from datetime import date\nd1 = d2 = date(2026, 1, 1)\nprint(1.0 if d1 == d2 else 0.0)\n",
+          "note": "Theory same day → 1.0.",
+          "concepts_used": [
+            "date_sim"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T1-B-E1",
+          "code": "a,b='', 'x'\nif a == '' or b == '':\n    print('missing')\n",
+          "note": "Theory missing guard.",
+          "concepts_used": [
+            "missingness"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T1-B-E2",
+          "code": "freq=10\nprint(1 / freq)\n",
+          "note": "Theory 1/freq.",
+          "concepts_used": [
+            "frequency weight"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T1-B-E3",
+          "code": "print('informative_missing')\n",
+          "note": "Theory informative missingness label.",
+          "concepts_used": [
+            "informative missing"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-A-E1",
+          "code": "last,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+          "note": "Theory block_key last|city.",
+          "concepts_used": [
+            "block_key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-A-E2",
+          "code": "found,gold_n=1,2\nprint(found / gold_n)\n",
+          "note": "Theory recall found/gold.",
+          "concepts_used": [
+            "candidate recall"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-A-E3",
+          "code": "n=4\nprint(n * (n - 1) // 2)\n",
+          "note": "Theory block pair cost.",
+          "concepts_used": [
+            "C(n,2)"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-B-E1",
+          "code": "sizes=[3,5]\nprint(sum(n * (n - 1) // 2 for n in sizes))\n",
+          "note": "Demo cost over block sizes.",
+          "concepts_used": [
+            "total block cost"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-B-E2",
+          "code": "ta,tb='person','org'\nprint(ta != tb)\n",
+          "note": "Demo person vs org impossible.",
+          "concepts_used": [
+            "impossible pairs"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T2-B-E3",
+          "code": "print('filter_before_score')\n",
+          "note": "Theory filter before heavy scorer.",
+          "concepts_used": [
+            "pipeline"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-A-E1",
+          "code": "print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+          "note": "Demo weighted field scores → 0.75.",
+          "concepts_used": [
+            "weighted avg"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-A-E2",
+          "code": "s,t_high,t_low=0.7,0.9,0.5\nif s >= t_high:\n    print('auto_match')\nelif s <= t_low:\n    print('non_match')\nelse:\n    print('review')\n",
+          "note": "Theory decide by thresholds.",
+          "concepts_used": [
+            "thresholds"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-A-E3",
+          "code": "print({'name': 0.9, 'email': 1.0})\n",
+          "note": "Theory explainable field scores.",
+          "concepts_used": [
+            "explain scores"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-B-E1",
+          "code": "p={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)] = find(a)\nunion(1,2)\nunion(2,3)\nprint(find(1) == find(3))\n",
+          "note": "Theory UnionFind; starter provides find.",
+          "concepts_used": [
+            "Union-Find"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-B-E2",
+          "code": "print(['match', 'non_match', 'uncertain'])\n",
+          "note": "Theory clerical options.",
+          "concepts_used": [
+            "review actions"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T3-B-E3",
+          "code": "print('ER_only_same_entity')\n",
+          "note": "Theory ER only same entity.",
+          "concepts_used": [
+            "privacy gate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-A-E1",
+          "code": "a,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a, b} <= train_e else 'test')\n",
+          "note": "Demo subset train_e.",
+          "concepts_used": [
+            "entity split"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-A-E2",
+          "code": "matches,n=1,5\nprint(matches / n)\n",
+          "note": "Theory match prevalence.",
+          "concepts_used": [
+            "prevalence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-A-E3",
+          "code": "print('entity_split')\n",
+          "note": "Theory split por entidad.",
+          "concepts_used": [
+            "anti-leakage"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-B-E1",
+          "code": "tp,fp=2,1\nprint(round(tp / (tp + fp), 2))\n",
+          "note": "Theory precision tp/(tp+fp).",
+          "concepts_used": [
+            "precision"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-B-E2",
+          "code": "tp,fn=2,2\nprint(tp / (tp + fn))\n",
+          "note": "Theory recall tp/(tp+fn).",
+          "concepts_used": [
+            "recall"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S30-T4-B-E3",
+          "code": "print(['missing_phone'])\n",
+          "note": "Theory error slices e.g. missing phone.",
+          "concepts_used": [
+            "error slices"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S30-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0\n",
+          "expected_head": "1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.3333333333333333\n",
+          "expected_head": "0.3333333333333333",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0\n",
+          "expected_head": "1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "missing\n",
+          "expected_head": "missing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.1\n",
+          "expected_head": "0.1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "informative_missing\n",
+          "expected_head": "informative_missing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "lopez|lima\n",
+          "expected_head": "lopez|lima",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\n",
+          "expected_head": "0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "6\n",
+          "expected_head": "6",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "13\n",
+          "expected_head": "13",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "filter_before_score\n",
+          "expected_head": "filter_before_score",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.75\n",
+          "expected_head": "0.75",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "review\n",
+          "expected_head": "review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'name': 0.9, 'email': 1.0}\n",
+          "expected_head": "{'name': 0.9, 'email': 1.0}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['match', 'non_match', 'uncertain']\n",
+          "expected_head": "['match', 'non_match', 'uncertain']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ER_only_same_entity\n",
+          "expected_head": "ER_only_same_entity",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "train\n",
+          "expected_head": "train",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.2\n",
+          "expected_head": "0.2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "entity_split\n",
+          "expected_head": "entity_split",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.67\n",
+          "expected_head": "0.67",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\n",
+          "expected_head": "0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S30-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['missing_phone']\n",
+          "expected_head": "['missing_phone']",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

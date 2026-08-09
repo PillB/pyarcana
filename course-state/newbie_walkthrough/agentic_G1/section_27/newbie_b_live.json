@@ -1,0 +1,282 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-dual-skeptic-s27-83fa11c3",
+  "production_note": "agentic_G1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T1-A-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `impact, likelihood = 5, 4`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «print del producto». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T1-A-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `rows=[('e2e',2,1),('unit',5,5)]`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «key con producto». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T1-A-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `top_layer='unit'`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «pirámide». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T1-B-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `s=' A  B '`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «split/join». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T1-B-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `raw='ANA'`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «oráculo 'ana'». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T1-B-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `a,b='X Y','x  y'`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «compara». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T2-A-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `names=['test_a','helper','test_b']`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «list comp». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T2-A-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `left,right='a','b'`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «diff conceptual». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T2-A-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `case_id = \"CASO-LIM-SYN\"`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «tabla». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "code": "from copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'])\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T2-B-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `orig=[{'n':1}]`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «mutación local». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T2-B-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `case_id = \"CASO-LIM-SYN\"`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «scopes pytest». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "code": "def make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T2-B-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `def make(n):`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «ids sintéticos». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T3-A-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `print(math.isclose(0.1 + 0.2, 0.3))`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «isclose». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('bad')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T3-A-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `try:`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «ValueError». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T3-A-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `with tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «utf-8». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "code": "email=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T3-B-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `email=''`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «except». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T3-B-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `s='sin-arroba'`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «guard». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T3-B-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `v=-1`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «sin PII». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T4-A-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `def f(x):`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «dos prints o tupla». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T4-A-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `hit={'auto','review'}`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «cobertura». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T4-A-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `k,n=2,3`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «branch %». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T4-B-E1 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `raw=' a '`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «kill mutant». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T4-B-E2 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `case_id = \"CASO-LIM-SYN\"`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «debug CI». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n# skeptic: contrato verificado vs Pass del card\n",
+      "justification_from_packet": "Skeptic B revisó S27-T4-B-E3 contra el paquete activo: instruction pide el contrato del ejercicio y el starter traía TODO. Solución aplicada: `case_id = \"CASO-LIM-SYN\"`; verifiqué que no queda `# TODO` y hay print/resultado contractual. Cruce con «mutación conceptual, fallas útiles y mantenimiento» y hint «mantenimiento». Rechacé copiar ANSWERS/hardcoded de otros intentos — solo quiz_card+slim.",
+      "concepts_used": [
+        "riesgos y pirámide de pruebas",
+        "Arrange–Act–Assert y oráculos confiables",
+        "discovery y assertions"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic: contrasté las 4 opciones de «En la pirámide de pruebas, la base más ancha suele ser:». La correcta es «Pruebas unitarias» porque el slim_packet enfatiza «discovery y assertions» / «Interpretar mutación conceptual y fallas útiles». Las demás o invierten el control (envío sin approve, fraude automático) o son ruido."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic: contrasté las 4 opciones de «Un oráculo confiable es:». La correcta es «Una fuente de verdad determinista para el assert» porque el slim_packet enfatiza «discovery y assertions» / «Interpretar mutación conceptual y fallas útiles». Las demás o invierten el control (envío sin approve, fraude automático) o son ruido."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic: contrasté las 4 opciones de «Si mutas un casefold y ningún test falla:». La correcta es «El contrato es débil; el mutante sobrevivió» porque el slim_packet enfatiza «discovery y assertions» / «Interpretar mutación conceptual y fallas útiles». Las demás o invierten el control (envío sin approve, fraude automático) o son ruido."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic: contrasté las 4 opciones de «Las pruebas de matching en CP-N3-A demuestran:». La correcta es «Contratos de misma entidad / normalización — no riesgo ni relación» porque el slim_packet enfatiza «discovery y assertions» / «Interpretar mutación conceptual y fallas útiles». Las demás o invierten el control (envío sin approve, fraude automático) o son ruido."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:23:03.142936+00:00",
+  "session_started_at": "2026-07-23T06:41:01.981032+00:00",
+  "session_ended_at": "2026-07-23T06:23:03.142953+00:00"
+}

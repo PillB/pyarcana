@@ -1,0 +1,47 @@
+{
+  "id": "CP-N1-B",
+  "version": "2.0.0",
+  "name": "Pipeline ETL Reproducible de Clientes y Transacciones",
+  "level": 1,
+  "gate_section": "S08",
+  "scale": "0-3",
+  "criteria": {
+    "correctness": {
+      "weight": 0.35,
+      "focus": "Cumple el comportamiento principal en casos normales, de borde y de error."
+    },
+    "robustness": {
+      "weight": 0.2,
+      "focus": "Maneja entradas imperfectas y casos límite sin caer."
+    },
+    "maintainability": {
+      "weight": 0.25,
+      "focus": "Diseño limpio, modular, testeable y documentado."
+    },
+    "responsible_use": {
+      "weight": 0.2,
+      "focus": "Controles de seguridad, privacidad y uso responsable presentes."
+    }
+  },
+  "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0.",
+  "critical_failures": [
+    "Expone secretos",
+    "No es idempotente",
+    "Sin cuarentena",
+    "Pierde proveniencia"
+  ],
+  "prohibitions": [
+    "No real PII",
+    "No hardcoded secrets",
+    "Synthetic or legally reusable data only",
+    "No unsupported adverse/fraud inference"
+  ],
+  "package_version": "2.0.0",
+  "tests_required": [
+    "lote válido → accepted + manifest",
+    "fila con campo extra → cuarentena",
+    "fila malformada → cuarentena, no crashea",
+    "rerun produce mismo manifest hash",
+    "cada accepted fila tiene source_file"
+  ]
+}

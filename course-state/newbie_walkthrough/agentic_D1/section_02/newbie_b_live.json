@@ -1,0 +1,506 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "section_index": 2,
+  "packet_sha": "4954c6038cd0329c",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "literales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(repr(lit), \"→\", type(lit).__name__)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "literales",
+        "Lima",
+        "lit",
+        "repr",
+        "type",
+        "__name__",
+        "guiado",
+        "Clasifica"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T1-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Clasifica estos literales imprimiendo `repr(valor)` y `type(valor).__name__` para cada uno: `0`, `3.14`, `\"Lima\"`, `False`, `None`.. Hints: Recorre una lista de literales con un for. Usa type(x).__name__ para un nombre legible (int, float, str, bool, NoneType).; None imprime type NoneType, no \"None\". Entrega: «literales = [0, 3.14, \"Lima\", False, None]  for lit in literales:     print(repr(lit), \"→\", type(lit).__name__) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "codigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__)\nprint(\"igualdad cruda:\", codigo_int == codigo_str)\nprint(\"igualdad tras str():\", str(codigo_int) == codigo_str)\nprint(\"isinstance(True, int) →\", isinstance(True, int))\nprint(\"Nota: bool es subclase de int; modela banderas como bool, no como 1/0 accidental\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "codigo_int",
+        "codigo_str",
+        "tipos",
+        "type",
+        "__name__",
+        "igualdad",
+        "cruda",
+        "tras"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T1-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Demuestra que `42` y `\"42\"` son tipos distintos: imprime ambos `type(...).__name__`, el resultado de `42 == \"42\"`, y el de `str(42) == \"42\"`. Comenta en un print por qué `isinstance(True, int)` es Tr. Hints: No conviertas antes de la primera comparación. str(42) produce el texto \"42\".; bool es subclase de int en Python: isinstance(True, int) → True. En negocio, mode. Entrega: «codigo_int = 42 codigo_str = \"42\"  print(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__) print(\"igualdad cruda:\", codigo_int». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "campos = {\n    \"nombres\": (\"María José\", str),\n    \"apellido_paterno\": (\"Quispe\", str),\n    \"apellido_materno\": (\"Huamán\", str),\n    \"contacto\": (\"999000111\", str),  # teléfono\n    \"edad\": (34, int),\n    \"activo\": (True, bool),\n}\n\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "campos",
+        "nombres",
+        "str",
+        "apellido_paterno",
+        "Quispe",
+        "apellido_materno",
+        "contacto",
+        "edad"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T1-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Para el cliente sintético de intake, elige el tipo Python correcto de cada campo y crea literales de ejemplo. Campos: nombres, apellido_paterno, apellido_materno, contacto (teléfono), edad, activo. E. Hints: contacto = \"999000111\" (str), no 999000111 (int). Apellidos con ñ/tildes son str Unicode.; Puedes guardar tuplas (valor, tipo_esperado) en un dict y validar typ. Entrega: «campos = {     \"nombres\": (\"María José\", str),     \"apellido_paterno\": (\"Quispe\", str),     \"apellido_materno\": (\"Huamán\", str),     \"contac». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "raw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "edad",
+        "int",
+        "strip",
+        "type",
+        "__name__",
+        "guiado",
+        "Dado"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T1-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Dado `raw = \" 21 \"`, conviértelo a `int` usando `strip` y muestra el valor y su tipo. Debe quedar `21` de tipo int.. Hints: int(raw.strip()) — strip primero, constructor después.; Si haces int(raw) sin strip, en \" 21 \" también funciona en Python 3, pero el hábito strip es obligatorio. Entrega: «raw = \" 21 \" edad = int(raw.strip()) print(edad, type(edad).__name__) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return (False, None, f\"{campo} vacío: {valor!r}\")\n    try:\n        return (True, int(texto), None)\n    except ValueError:\n        return (False, None, f\"{campo} no es entero: {valor!r}\")\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "safe_int",
+        "campo",
+        "str",
+        "valor",
+        "texto",
+        "strip",
+        "try",
+        "int"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T1-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Implementa `safe_int(campo, valor) -> tuple` que devuelva `(True, int, None)` si convierte, o `(False, None, mensaje)` si está vacío (tras strip) o no es entero. Prueba con `\" 21 \"`, `\"\"`, `\"abc\"` y . Hints: Tras strip, si texto == \"\", error de vacío. try/except ValueError para letras.; Mensaje accionable: incluye el nombre del campo y el valor recibido con !r (repr. Entrega: «def safe_int(campo: str, valor: str):     texto = valor.strip()     if texto == \"\":         return (False, None, f\"{campo} vacío: {valor!r}\"». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\n\ndef parse_pipeline(edad_raw: str, monto_raw: str) -> dict:\n    raw = {\"edad\": edad_raw, \"monto\": monto_raw}\n    clean = {\"edad\": None, \"monto\": None}\n    errors = []\n    et = edad_raw.strip()\n    if not et:\n        errors.append(\"edad vacía\")\n    else:\n        try:\n            clean[\"edad\"] = int(et)\n        except ValueError:\n            errors.append(f\"edad no entera: {edad_raw!r}\")\n    mt = monto_raw.strip().replace(\",\", \".\")\n    if not mt:\n        errors.append(\"monto vacío\")\n    else:\n        try:\n            d = Decimal(mt)\n            if not d.is_finite():\n                raise InvalidOperation\n            clean[\"monto\"] = d.quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)\n        except (InvalidOperation, ValueError):\n            errors.append(f\"monto inválido: {monto_raw!r}\")\n    return {\"raw\": raw, \"clean\": clean, \"errors\": errors}\n\ncasos = [\n    (\" 34 \", \"150.5\"),\n    (\"x\", \"99,00\"),\n    (\"\", \"abc\"),\n]\nfor e, m in casos:\n    print(parse_pipeline(e, m))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "decimal",
+        "Decimal",
+        "InvalidOperation",
+        "ROUND_HALF_UP",
+        "parse_pipeline",
+        "edad_raw",
+        "str",
+        "monto_raw"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T1-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Pipeline de 2 campos: `edad` (`int`) y `monto` (`Decimal` cuantizado a céntimos) desde texto. Devuelve un dict con `raw`, `clean` y `errors`. Si un campo falla, el otro puede seguir OK; raw siempre c. Hints: Importa Decimal e InvalidOperation; nunca pases el monto por float.; clean[\"edad\"] = None si falla, pero raw[\"edad\"] sigue siendo el string de entrada.. Entrega: «from decimal import Decimal, InvalidOperation, ROUND_HALF_UP  def parse_pipeline(edad_raw: str, monto_raw: str) -> dict:     raw = {\"edad\": ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Después (bueno):\nnombre_cliente = \"Luis\"\napellido_paterno = \"Ramos\"\nindice = 0\nlongitud = 5\nEDAD_MAXIMA = 120\n\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "bueno",
+        "nombre_cliente",
+        "Luis",
+        "apellido_paterno",
+        "Ramos",
+        "indice",
+        "longitud",
+        "EDAD_MAXIMA"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T2-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Renombra estas 5 variables a PEP 8: `NombreCliente`, `AP`, `x` (índice), `l` (longitud), `EdadMaxima` (constante de negocio). Imprime los cinco nombres buenos con valores sintéticos.. Hints: snake_case para vars; UPPER_CASE para la constante de tope de edad.; Evita l/O/I: usa longitud, indice. apellido_paterno en lugar de AP.. Entrega: «# Después (bueno): nombre_cliente = \"Luis\" apellido_paterno = \"Ramos\" indice = 0 longitud = 5 EDAD_MAXIMA = 120  print(nombre_cliente, apell». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "estado = \"activo\"\ncodigo = 10\nflag = True\n\nif estado == \"activo\":\n    print(\"ok estado\")\nif codigo == 10:\n    print(\"ok codigo\")\nif flag == True:\n    print(\"ok flag\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "estado",
+        "activo",
+        "codigo",
+        "flag",
+        "independiente",
+        "Bug",
+        "hunt",
+        "siguiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T2-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Bug hunt: el siguiente código tiene tres comparaciones rotas con `=` en lugar de `==`. Corrígelas para que imprima tres líneas `ok ...` sin SyntaxError.. Hints: En cada if, cambia = por ==. No uses el operador walrus := en S02.; if flag == True funciona; también puedes escribir if flag: — ambas aceptables aquí si el arc. Entrega: «estado = \"activo\" codigo = 10 flag = True  if estado == \"activo\":     print(\"ok estado\") if codigo == 10:     print(\"ok codigo\") if flag == ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "encabezados = [\n    \"Nombres\",\n    \"Apellido Paterno\",\n    \"Apellido Materno\",\n    \"Teléfono / Cel\",\n    \"Dirección\",\n    \"Edad (años)\",\n]\n\nmapeo = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Teléfono / Cel\": \"telefono\",\n    \"Dirección\": \"direccion\",\n    \"Edad (años)\": \"edad\",\n}\n\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, '???')}\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "encabezados",
+        "Nombres",
+        "Apellido",
+        "Paterno",
+        "Materno",
+        "Cel",
+        "Edad",
+        "mapeo"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T2-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Un CSV de intake llega con encabezados feos. Propón nombres PEP 8 (snake_case) para: `Nombres`, `Apellido Paterno`, `Apellido Materno`, `Teléfono / Cel`, `Dirección`, `Edad (años)`. Devuelve un dict . Hints: Minúsculas, guiones bajos, sin espacios ni tildes en el identificador Python.; Ejemplos: \"Apellido Paterno\" → apellido_paterno; \"Teléfono / Cel\" → telefono o co. Entrega: «encabezados = [     \"Nombres\",     \"Apellido Paterno\",     \"Apellido Materno\",     \"Teléfono / Cel\",     \"Dirección\",     \"Edad (años)\", ]  ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"None is None →\", None is None)\nprint(\"[] == [] →\", [] == [])\nprint(\"[] is [] →\", [] is [])\nprint(\"1 == True →\", 1 == True)\nprint(\"1 is True →\", 1 is True)\n# Comentario: usa is solo para None (identidad); == para igualdad de valores\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Comentario",
+        "usa",
+        "solo",
+        "para",
+        "identidad",
+        "igualdad",
+        "valores",
+        "guiado"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T2-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Completa la tabla de predicciones imprimiendo el bool real de: `None is None`, `[] == []`, `[] is []`, `1 == True`, `1 is True`. Luego escribe una línea de comentario: cuándo usar `is` vs `==`.. Hints: Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None.; 1 == True es True (bool subtipo int), pero 1 is True es False: no uses is para igual. Entrega: «print(\"None is None →\", None is None) print(\"[] == [] →\", [] == []) print(\"[] is [] →\", [] is []) print(\"1 == True →\", 1 == True) print(\"1 i». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "original = [\"a\", \"b\"]\ntrabajo = original.copy()  # debe ser copia, no alias\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "original",
+        "trabajo",
+        "copy",
+        "debe",
+        "ser",
+        "copia",
+        "alias",
+        "append"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T2-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — `original = [\"a\", \"b\"]`. Crea `trabajo` como **copia** (no alias), haz `trabajo.append(\"c\")` y demuestra que `original` sigue siendo `[\"a\", \"b\"]`.. Hints: trabajo = original.copy()  o  trabajo = original[:]; Si haces trabajo = original, append mutará ambos. Verifica con print y con `original is trabajo` → False.. Entrega: «original = [\"a\", \"b\"] trabajo = original.copy()  # debe ser copia, no alias trabajo.append(\"c\") print(\"original:\", original) print(\"trabajo:». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def make_record(nombres: str, contacto: str) -> dict:\n    return {\n        \"nombres_raw\": nombres,\n        \"contacto_raw\": contacto,\n        \"nombres\": nombres.strip(),\n        \"contacto\": contacto.strip(),\n    }\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "make_record",
+        "nombres",
+        "str",
+        "contacto",
+        "dict",
+        "nombres_raw",
+        "contacto_raw",
+        "strip"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T2-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Diseña `make_record(nombres, contacto)` que devuelva un dict con `nombres_raw`, `contacto_raw`, `nombres` y `contacto` (strip). Luego muta solo el campo limpio a `.upper()` y **assert** que los `*_ra. Hints: Guarda el string original en *_raw antes de strip. No reutilices el mismo nombre para ambos.; Tras upper() en clean, assert rec[\"nombres_raw\"] == entrada_origin. Entrega: «def make_record(nombres: str, contacto: str) -> dict:     return {         \"nombres_raw\": nombres,         \"contacto_raw\": contacto,        ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "n = 17\nd = 5\nprint(\"n//d\", n // d)\nprint(\"n%d\", n % d)\nprint(\"2**4\", 2 ** 4)\nprint(\"n/d\", n / d)\nprint(\"Nota: / siempre devuelve float aunque la división sea exacta en enteros\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Nota",
+        "siempre",
+        "devuelve",
+        "float",
+        "aunque",
+        "sea",
+        "exacta",
+        "enteros"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T3-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Con `n = 17` y `d = 5`, imprime `n // d`, `n % d`, `2 ** 4` y `n / d`. Comenta en un print por qué `/` devuelve float.. Hints: Usa los operadores // % ** / directamente. No hace falta import.; 17//5 → 3, 17%5 → 2, 2**4 → 16, 17/5 → 3.4 (float).. Entrega: «n = 17 d = 5 print(\"n//d\", n // d) print(\"n%d\", n % d) print(\"2**4\", 2 ** 4) print(\"n/d\", n / d) print(\"Nota: / siempre devuelve float aunqu». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal, ROUND_HALF_UP\n\nprecios = [\"10.1\", \"0.1\", \"2.335\"]\nfor p in precios:\n    d = Decimal(p).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)\n    print(p, \"→\", d)\nprint(\"Nota: float acumula error binario; Decimal cuantiza a céntimos de forma controlada\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "decimal",
+        "Decimal",
+        "ROUND_HALF_UP",
+        "precios",
+        "quantize",
+        "rounding",
+        "Nota",
+        "float"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T3-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Demuestra que `-3**2` es `-9` y que `(-3)**2` es `9`. Asigna `cuadrado_neg = (-3)**2` y haz `assert cuadrado_neg == 9`.. Hints: ** tiene mayor precedencia que el unario menos. Paréntesis cambian el orden.; print(-3**2) y print((-3)**2); el assert solo pasa con (-3)**2.. Entrega: «from decimal import Decimal, ROUND_HALF_UP  precios = [\"10.1\", \"0.1\", \"2.335\"] for p in precios:     d = Decimal(p).quantize(Decimal(\"0.01\")». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "expr = (2 + 3) * 4 - 1\nprint(\"resultado\", expr)\nprint(\"orden: paréntesis, luego *, luego - ; sin paréntesis 2+3*4-1 sería 13\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "expr",
+        "resultado",
+        "orden",
+        "luego",
+        "sin",
+        "transferencia",
+        "ticket",
+        "tiene"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T3-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Un ticket sintético tiene líneas `50` y `30` (soles, solo para practicar ops). Calcula `subtotal = 50 + 30` y `total = subtotal * (1 + 0.18)` con **paréntesis explícitos** en la tasa IGV 18%. Imprime. Hints: subtotal primero; luego multiplica por (1 + 0.18), no 1 + 0.18 * subtotal sin revisar.; Con base 80, total float es 94.3999… — es la motivación de Decimal. Si u. Entrega: «expr = (2 + 3) * 4 - 1 print(\"resultado\", expr) print(\"orden: paréntesis, luego *, luego - ; sin paréntesis 2+3*4-1 sería 13\") ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "a = 10\nb = 3\nprint(\"a > b\", a > b)\nprint(\"a == b\", a == b)\nprint(\"a != b\", a != b)\nprint(\"a >= 10\", a >= 10)\nprint(\"1 < a < 20\", 1 < a < 20)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "Imprime",
+        "float",
+        "Decimal",
+        "Importa",
+        "desde",
+        "decimal"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T3-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Imprime `0.1 + 0.2` (float) y `Decimal(\"0.1\") + Decimal(\"0.2\")`. Importa desde `decimal`.. Hints: from decimal import Decimal. Construye Decimal desde strings, no desde 0.1 float.; float imprime 0.30000000000000004; Decimal imprime 0.3.. Entrega: «a = 10 b = 3 print(\"a > b\", a > b) print(\"a == b\", a == b) print(\"a != b\", a != b) print(\"a >= 10\", a >= 10) print(\"1 < a < 20\", 1 < a < 20)». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "x = 5\nx += 2\nprint(\"tras +=\", x)\nx *= 3\nprint(\"tras *=\", x)\nx //= 4\nprint(\"tras //=\", x)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "tras",
+        "independiente",
+        "Cuenta",
+        "restaurante",
+        "Decimal",
+        "propina",
+        "Calcula",
+        "total"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T3-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Cuenta de restaurante sintético `Decimal(\"85.50\")`, propina 10%. Calcula propina y total con `quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)`. Sin float.. Hints: from decimal import Decimal, ROUND_HALF_EVEN. Multiplica por Decimal(\"0.10\").; propina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HAL. Entrega: «x = 5 x += 2 print(\"tras +=\", x) x *= 3 print(\"tras *=\", x) x //= 4 print(\"tras //=\", x) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Precedencia: not > and > or\nprint(False or True and False)   # and primero → False\nprint(not False and True)        # not primero → True\nprint((False or True) and False) # paréntesis cambian el orden\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Precedencia",
+        "not",
+        "primero",
+        "cambian",
+        "orden",
+        "transferencia",
+        "Implementa",
+        "parse_monto"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T3-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Implementa `parse_monto(texto: str)` que devuelva `(ok, Decimal|None, error|None)`: strip, rechace vacío, parsee con `Decimal`, quantize a `0.01`, error accionable si falla. Prueba `\"150.50\"`, `\"  20. Hints: try/except InvalidOperation. raw en el mensaje con !r.; from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation. Si strip vacío → error antes de Decimal.. Entrega: «# Precedencia: not > and > or print(False or True and False)   # and primero → False print(not False and True)        # not primero → True p». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nombre = input(\"nombre: \") if False else \"Ana\"\nedad = input(\"edad: \") if False else \"30\"\nprint(f\"Hola {nombre}, tienes {edad} años\")\n# en REPL real usaría input(); aquí fixture sintético para stdout estable\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "nombre",
+        "input",
+        "else",
+        "Ana",
+        "edad",
+        "Hola",
+        "tienes",
+        "REPL"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T4-A-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Con `nombre = \"José\"`, imprime un saludo con f-string: `Hola, José. Bienvenido al intake.` (acento incluido).. Hints: f\"Hola, {nombre}. Bienvenido al intake.\"; No concatenes con + salvo que practiques; f-string es el estilo S02.. Entrega: «nombre = input(\"nombre: \") if False else \"Ana\" edad = input(\"edad: \") if False else \"30\" print(f\"Hola {nombre}, tienes {edad} años\") # en RE». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "raw = \"  42 \"\nprint(\"strip:\", raw.strip())\nprint(\"int:\", int(raw.strip()))\nprint(\"sin strip falla o es frágil; strip es hábito del parser\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "strip",
+        "int",
+        "sin",
+        "falla",
+        "del",
+        "parser",
+        "independiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T4-A-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Con nombres, apellido_paterno, contacto y monto `Decimal(\"99.5\")`, imprime un reporte multi-línea con f-string incluyendo `S/ {monto:.2f}`.. Hints: Usa varios print(f\"...\") o un solo f-string multi-línea. :.2f formatea dos decimales.; Incluye las 4 etiquetas: nombres, apellido_paterno, contacto, monto.. Entrega: «raw = \"  42 \" print(\"strip:\", raw.strip()) print(\"int:\", int(raw.strip())) print(\"sin strip falla o es frágil; strip es hábito del parser\") ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def prompt_int(label: str, raw: str):\n    texto = raw.strip()\n    if texto == \"\":\n        return None, f\"{label} vacío\"\n    try:\n        return int(texto), None\n    except ValueError:\n        return None, f\"{label} no es entero: {raw!r}\"\n\nfor lab, r in [(\"edad\", \" 21 \"), (\"edad\", \"x\"), (\"edad\", \"  \")]:\n    print(lab, r, \"→\", prompt_int(lab, r))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "prompt_int",
+        "label",
+        "str",
+        "raw",
+        "texto",
+        "strip",
+        "try",
+        "int"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T4-A-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Escribe `simular_intake(nombres: str, contacto: str, edad: str) -> dict` que **no** llame a `input()` real: recibe los valores (como si vinieran de prompts), devuelve un dict con esos str y un subdic. Hints: No uses input(). Los parámetros ya simulan las respuestas del usuario.; types = {k: type(v).__name__ for k, v in datos.items()}. Entrega: «def prompt_int(label: str, raw: str):     texto = raw.strip()     if texto == \"\":         return None, f\"{label} vacío\"     try:         ret». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "cliente = {\"id\": \"C001\", \"region\": \"Lima\", \"score\": 80}\nprint(f\"id={cliente['id']} region={cliente['region']} score={cliente['score']}\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "cliente",
+        "C001",
+        "region",
+        "Lima",
+        "score",
+        "guiado",
+        "Completa",
+        "parse_nombres"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T4-B-E1 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E1 (guiado) — Completa `parse_nombres(valor: str) -> dict` con claves `nombres_raw`, `nombres` (strip o None si vacío) y `errors` (lista). Si vacío tras strip, agrega error accionable. Prueba con `\"\"`.. Hints: Siempre guarda raw = valor original antes de strip.; errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\"). Entrega: «cliente = {\"id\": \"C001\", \"region\": \"Lima\", \"score\": 80} print(f\"id={cliente['id']} region={cliente['region']} score={cliente['score']}\") ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal\nmonto = Decimal(\"150.50\")\nprint(\"OK monto={:.2f}\".format(float(monto)))  # formato display; valor sigue Decimal\nprint(f\"OK monto={monto}\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "decimal",
+        "Decimal",
+        "monto",
+        "format",
+        "float",
+        "formato",
+        "display",
+        "valor"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T4-B-E2 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E2 (independiente) — Parsea `apellido_materno = \"  Ñahui  \"` conservando raw con espacios y clean strip. Assert de round-trip Unicode: clean == \"Ñahui\" y raw original intacto.. Hints: No encodes a ascii. Python 3 str es Unicode.; raw = original; clean = original.strip(); assert raw == original.. Entrega: «from decimal import Decimal monto = Decimal(\"150.50\") print(\"OK monto={:.2f}\".format(float(monto)))  # formato display; valor sigue Decimal ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Bug: print(\"total:\" + 10)  # TypeError str+int\ntotal = 10\nprint(\"total:\", total)\nprint(\"total:\" + str(total))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Bug",
+        "total",
+        "TypeError",
+        "str",
+        "int",
+        "transferencia",
+        "Implementa",
+        "parse_client"
+      ],
+      "justification_from_packet": "D1-Skeptic: para S02-T4-B-E3 resolví solo con instruction/hints/tests del slim_packet y exercise_batch, sin mirar correctIndex ni otros attempts. Instrucción: E3 (transferencia) — Implementa `parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None)` con `*_raw`, limpios, `errors`, y `safe_int` para edad. Suite de 3 tests: feliz+Unicode, vacío e. Hints: Reutiliza el patrón del DEMO T4-B. No dejes que ValueError se escape.; assert r[\"edad_raw\"]==\"abc\" y any(\"edad\" in e.lower() for e in errors). raw siempre prese. Entrega: «# Bug: print(\"total:\" + 10)  # TypeError str+int total = 10 print(\"total:\", total) print(\"total:\" + str(total)) ». Verifiqué ausencia de ____/TODO y alineación al checklist del weDo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "NoneType",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q0 elijo índice 1 «NoneType» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Cuál es el tipo de None en Python?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "str y False",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q1 elijo índice 3 «str y False» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Qué imprime type(\"42\").__name__ y la comparación 42 == \"42\"?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Porque no es una cantidad aritmética y puede necesitar ceros o formato",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q2 elijo índice 0 «Porque no es una cantidad aritmética y puede necesitar ceros o formato» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Por qué el teléfono de un cliente de intake se modela como str?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "[1, 2, 3]",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q3 elijo índice 2 «[1, 2, 3]» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "if x is None:",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en selfcheck Q4 elijo índice 1 «if x is None:» porque la theory/iDo del paquete lo respalda de forma explícita (contratos isolation/fail-closed/is None/placeholders). Pregunta: ¿Cuál es el idioma correcto para comprobar ausencia de valor?. Descarto distractores que contradicen el material enseñado en la sección activa."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:41:41.934433+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s02-live",
+  "method_declared": "llm_packet_only_no_gen"
+}

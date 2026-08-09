@@ -1,0 +1,250 @@
+{
+  "version": "3.2",
+  "section": "S12",
+  "section_id": "performance",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "prompt_version": "3.2",
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Contar temas en blueprint de S12 = 4",
+        "status": "pass",
+        "evidence": "V3 roadmap S12 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar subtemas en blueprint de S12 = 8 (4×2)",
+        "status": "blocked",
+        "evidence": "Contenido de plataforma no está estructurado como 4×2 V3; requiere retematización en PHASE 4."
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios del estudiante",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar demos = 8, ejercicios = 24 para S12",
+        "status": "blocked",
+        "evidence": "Inventario plataforma: demos/ejercicios por debajo del vector canónico (ver counting_summary en phase1)."
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes de examen A/B/C",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar variantes = 24 (8×3) para S12",
+        "status": "blocked",
+        "evidence": "seed.ts: 4 conceptos × 3 = 12 variantes por section_id de plataforma; target V3 = 24."
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Cada sección tiene evaluación por tema, examen acumulativo y proyecto",
+        "source": "V3 prompt §4",
+        "acceptance_test": "4 topic evaluations + 1 section exam + 1 project increment for S12",
+        "status": "partial",
+        "evidence": "selfCheck + youDo presentes; faltan 4 evaluaciones por tema y retheme del proyecto al gate V3."
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma: español peruano profesional",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Contenido de S12 en español peruano sin caricaturas",
+        "status": "pass",
+        "evidence": "Contenido plataforma usa tono profesional y contexto peruano (regiones, S/, empresas locales)."
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/colusión/fraude",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S12: entity_resolution_score separado de relationship_signal_score; sin inferencia automática de parentesco/fraude",
+        "status": "partial",
+        "evidence": "Principio se formaliza en S11–S13 V3; contenido legado no modela ER/relación."
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Todo código debe ejecutarse o marcarse UNVERIFIED",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Código de S12 ejecutado en entorno declarado",
+        "status": "partial",
+        "evidence": "Outputs embebidos en demos legacy; re-verificación formal en PHASE 7 / TECHNICALLY_VERIFIED."
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S12 no usa PII real de personas",
+        "status": "pass",
+        "evidence": "Preferencia V3: datasets sintéticos de cliente/transacción; demos legacy usan datos de muestra."
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S12-001",
+        "requirement": "S12 cubre: HTTP — requests/responses, status y JSON; Timeout, paginación, retry/backoff y rate limit",
+        "source": "V3 roadmap S12 T1",
+        "acceptance_test": "Contenido de S12 incluye ambos subtemas de T1",
+        "status": "fail",
+        "evidence": "Plataforma performance (Performance, Concurrency & Logging) no enseña el tema V3 'HTTP' como ownership canónico."
+      },
+      {
+        "id": "REQ-S12-002",
+        "requirement": "S12 cubre: APIs — Auth, secretos, cache y provenance; Contract tests y fallback",
+        "source": "V3 roadmap S12 T2",
+        "acceptance_test": "Contenido de S12 incluye ambos subtemas de T2",
+        "status": "fail",
+        "evidence": "Plataforma performance (Performance, Concurrency & Logging) no enseña el tema V3 'APIs' como ownership canónico."
+      },
+      {
+        "id": "REQ-S12-003",
+        "requirement": "S12 cubre: SQL — Esquema, CRUD y joins; Parámetros, transacciones, constraints e índices",
+        "source": "V3 roadmap S12 T3",
+        "acceptance_test": "Contenido de S12 incluye ambos subtemas de T3",
+        "status": "fail",
+        "evidence": "Plataforma performance (Performance, Concurrency & Logging) no enseña el tema V3 'SQL' como ownership canónico."
+      },
+      {
+        "id": "REQ-S12-004",
+        "requirement": "S12 cubre: Geodatos — Normalización y geocoding autorizado; Calidad de coordenada, Haversine, caching y política",
+        "source": "V3 roadmap S12 T4",
+        "acceptance_test": "Contenido de S12 incluye ambos subtemas de T4",
+        "status": "fail",
+        "evidence": "Plataforma performance (Performance, Concurrency & Logging) no enseña el tema V3 'Geodatos' como ownership canónico."
+      },
+      {
+        "id": "REQ-S12-005",
+        "requirement": "S12 incremento/gate: adaptadores limitados a SQLite, HTTP síncrono, auth básica y un geocoder mock/intercambiable; demo con coordenadas sintéticas o precalculadas; no envía PII bancaria a servicios públicos",
+        "source": "V3 roadmap S12 Incremento/gate",
+        "acceptance_test": "You Do / project cumple el gate V3",
+        "status": "fail",
+        "evidence": "You Do actual: Capstone: Performance Optimizer — de script lento a CLI production-ready"
+      },
+      {
+        "id": "REQ-S12-006",
+        "requirement": "S12 proyecto: adquisición y geoseñales (capstone CP-N1-C (adquisición + geoevidencia))",
+        "source": "V3 roadmap S12 Proyecto + capstone_ledger",
+        "acceptance_test": "Incremento de proyecto alineado a capstone",
+        "status": "fail",
+        "evidence": "Proyecto de plataforma desalineado; ver phase3 project_increment"
+      },
+      {
+        "id": "REQ-S12-007",
+        "requirement": "S12 entorno: local/cloud controlado",
+        "source": "V3 roadmap S12",
+        "acceptance_test": "Demos declaran entorno correcto",
+        "status": "pass",
+        "evidence": "Target environment local/cloud controlado"
+      },
+      {
+        "id": "REQ-S12-008",
+        "requirement": "S12 prerrequisitos: S08, S09, S10, S11",
+        "source": "V3 roadmap S12",
+        "acceptance_test": "Prerrequisitos documentados en blueprint",
+        "status": "pass",
+        "evidence": "['S08', 'S09', 'S10', 'S11']"
+      },
+      {
+        "id": "REQ-S12-009",
+        "requirement": "Contenido legado de plataforma no se elimina; se inventaría y planifica reubicación",
+        "source": "Instrucciones LANE-N1B-FACTORY + course_requirements authority",
+        "acceptance_test": "Archivo src/lib/course/sections/s12-performance.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Esta lane solo escribe course-state artifacts; no reescribe .ts grandes"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S12 carga en la plataforma con id estable 'performance'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "Section id performance registrado en COURSE_SECTIONS",
+        "status": "pass",
+        "evidence": "index imports src/lib/course/sections/s12-performance.ts; id: 'performance'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "S12 tiene especificación de examen en seed/roadmap de plataforma",
+        "source": "prisma/seed.ts + learning_roadmap.md",
+        "acceptance_test": "4 conceptos legacy × 3 presentes; 8 V3 pendientes",
+        "status": "partial",
+        "evidence": "seed 'performance': 4 concepts × 3 = 12; 0 alineados a V3 S12"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz renderizan",
+        "source": "CourseSection shape + SectionView",
+        "acceptance_test": "theory[], iDo, weDo, youDo, selfCheck presentes",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s12-performance.ts incluye shape actual"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S12-001",
+      "issue": "V3 define S12 como 'APIs, SQL y geodatos responsables'. Plataforma id 'performance' es 'Performance, Concurrency & Logging' (src/lib/course/sections/s12-performance.ts).",
+      "resolution": "Mantener section_id de plataforma (learning_roadmap.md authority). TARGET de producción = topics V3 4×2. Contenido legado inventariado, no borrado.",
+      "authority": "learning_roadmap.md = id/title platform; V3 = counting + outcomes target",
+      "impact": "No claim de section passed. PHASE 4+ retheme.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S12-002",
+      "issue": "You Do plataforma = 'Capstone: Performance Optimizer — de script lento a CLI production-ready'. V3 project = 'adquisición y geoseñales'.",
+      "resolution": "Mapear You Do legacy; TARGET project_increment en phase3.",
+      "authority": "V3 Incremento/gate S12",
+      "impact": "You Do reescritura en PHASE 4; no borrar hasta reemplazo verificado",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S12-003",
+      "issue": "Exam bank 4×3 legacy vs 8×3 V3 subtopics",
+      "resolution": "PHASE 5 introduce 8 familias A/B/C V3; legacy se reasigna o retira en seed coordinado",
+      "authority": "V3 counting contract",
+      "impact": "12 vs 24 variants; 0 cobertura skills V3",
+      "status": "recorded"
+    }
+  ],
+  "v3_section_snapshot": {
+    "v3_label": "S12 — APIs, SQL y geodatos responsables",
+    "prerequisite": "S08, S09, S10, S11",
+    "environment": "local/cloud controlado",
+    "project": "adquisición y geoseñales",
+    "topics": {
+      "T1": "HTTP: requests/responses, status y JSON; Timeout, paginación, retry/backoff y rate limit",
+      "T2": "APIs: Auth, secretos, cache y provenance; Contract tests y fallback",
+      "T3": "SQL: Esquema, CRUD y joins; Parámetros, transacciones, constraints e índices",
+      "T4": "Geodatos: Normalización y geocoding autorizado; Calidad de coordenada, Haversine, caching y política"
+    },
+    "increment_gate": "adaptadores limitados a SQLite, HTTP síncrono, auth básica y un geocoder mock/intercambiable; demo con coordenadas sintéticas o precalculadas; no envía PII bancaria a servicios públicos",
+    "capstone": "CP-N1-C (adquisición + geoevidencia)"
+  },
+  "platform_section_snapshot": {
+    "section_id": "performance",
+    "index": 12,
+    "title": "Performance, Concurrency & Logging",
+    "shortTitle": "Performance & Logging",
+    "file": "src/lib/course/sections/s12-performance.ts",
+    "orphan_files": [],
+    "youDo": "Capstone: Performance Optimizer — de script lento a CLI production-ready",
+    "exam_concepts_seed": [
+      "multiprocessing-vs-threads",
+      "profiling-tools",
+      "logging-best-practices",
+      "argparse-cli"
+    ],
+    "lines": 1222
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1"
+  }
+}

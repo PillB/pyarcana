@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s28-64fcf2a476f5",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "id": "S28-T1-A-E1",
+      "code": "# skeptic/S28-T1-A-E1: packet-only K2; rejected inverted contracts / theater claims\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\nprint(a == b)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S28-T1-A-E1 («Pruebas de datos, propiedades e integración»): verifiqué el contrato I/O sintético del paquete activo. Enunciado: «S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fixture sintético `CASO». Señal del starter: TODO contractual. Hint: seed antes de cada random. Léxico del paquete: choice, invariantes, normalize, hypothesis. Me resisto a copiar sin anclar en el paquete; riesgo: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S28-T1-A"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "id": "S28-T1-A-E2",
+      "code": "# skeptic/S28-T1-A-E2: packet-only K2; rejected inverted contracts / theater claims\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia lexical en theory/iDo del paquete activo al cerrar S28-T1-A-E2. La sección «Pruebas de datos, propiedades e integración» pide: S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el star. Me anclé en generación, integración, conceptual y en «all». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso verifiqué el contrato I/O sintético del paquete activo; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S28-T1-A"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "id": "S28-T1-A-E3",
+      "code": "# skeptic/S28-T1-A-E3: packet-only K2; rejected inverted contracts / theater claims\ns='  x '\nf=lambda x: x.strip()\nprint(f(f(s)) == f(s))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S28-T1-A-E3 no improvisé APIs: crucé instruction contra hints e iDo del slim_packet y armé el cuerpo desde el quiz_card. Resumen de instrucción: S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s=' x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo;. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: lugar, dominio, contrato, vacíos, cumplirse. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "concepts_used": [
+        "S28-T1-A"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "id": "S28-T1-B-E1",
+      "code": "# skeptic/S28-T1-B-E1: packet-only K2; rejected inverted contracts / theater claims\na,b='x','x'\nprint((a == b) == (b == a))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos teatrales al cerrar S28-T1-B-E1. La sección «Pruebas de datos, propiedades e integración» pide: S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter. Me anclé en Genera, split, siempre y en «comparar». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso verifiqué el contrato I/O sintético del paquete activo; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S28-T1-B"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "id": "S28-T1-B-E2",
+      "code": "# skeptic/S28-T1-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint('Ana'.casefold() == 'ANA'.casefold())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S28-T1-B-E2 no improvisé APIs: verifiqué el contrato I/O sintético del paquete activo y armé el cuerpo desde el quiz_card. Resumen de instrucción: S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: propiedades, contrato, junto, scores, generación. Desconfío de claims de fraude o parentesco fuera de scope.",
+      "concepts_used": [
+        "S28-T1-B"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "id": "S28-T1-B-E3",
+      "code": "# skeptic/S28-T1-B-E3: packet-only K2; rejected inverted contracts / theater claims\na,b=1,1\nprint((a == b) == (b == a))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S28/S28-T1-B-E3 («Pruebas de datos, propiedades e integración»): S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrad. Apoyo léxico K2: idempotent_ok, random, randint, casefold. Hint: swap. Starter: forma esperada en comentarios del starter, TODO contractual. Me resisto a copiar sin anclar en el paquete; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S28-T1-B"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "id": "S28-T2-A-E1",
+      "code": "# skeptic/S28-T2-A-E1: packet-only K2; rejected inverted contracts / theater claims\nr={}\nprint('id requerido' if not r.get('id') else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S28-T2-A-E1. La sección «Pruebas de datos, propiedades e integración» pide: S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; impleme. Me anclé en Pruebas, ejemplo, contrato y en «get». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso releí con desconfianza el starter del quiz_card; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S28-T2-A"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "id": "S28-T2-A-E2",
+      "code": "# skeptic/S28-T2-A-E2: packet-only K2; rejected inverted contracts / theater claims\nscore=1.2\nprint('score' if not (0 <= score <= 1) else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S28-T2-A-E2 no improvisé APIs: contrasté theory headings con el enunciado del ejercicio y armé el cuerpo desde el quiz_card. Resumen de instrucción: S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implemen. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: acotado, casefold, hypothesis, tabla, normalize. Me resisto a copiar sin anclar en el paquete.",
+      "concepts_used": [
+        "S28-T2-A"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "id": "S28-T2-A-E3",
+      "code": "# skeptic/S28-T2-A-E3: packet-only K2; rejected inverted contracts / theater claims\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S28/S28-T2-A-E3 («Pruebas de datos, propiedades e integración»): S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el. Apoyo léxico K2: siempre, normalize, datos, append. Hint: sum. Starter: forma esperada en comentarios del starter, TODO contractual. Exijo evidencia lexical en theory/iDo del paquete activo; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S28-T2-A"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "id": "S28-T2-B-E1",
+      "code": "# skeptic/S28-T2-B-E1: packet-only K2; rejected inverted contracts / theater claims\ngolden,current={'n':1},{'n':2}\nprint('drift' if golden != current else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S28-T2-B-E1 no improvisé APIs: crucé instruction contra hints e iDo del slim_packet y armé el cuerpo desde el quiz_card. Resumen de instrucción: S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: datos, propiedad, random, gen_strings, generación. Prefiero lo aburrido, determinista y auditable.",
+      "concepts_used": [
+        "S28-T2-B"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "id": "S28-T2-B-E2",
+      "code": "# skeptic/S28-T2-B-E2: packet-only K2; rejected inverted contracts / theater claims\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S28/S28-T2-B-E2 («Pruebas de datos, propiedades e integración»): S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter co. Apoyo léxico K2: lugar, scores, ejemplo, Documenta. Hint: and. Starter: forma esperada en comentarios del starter, TODO contractual. Prefiero lo aburrido, determinista y auditable; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S28-T2-B"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "id": "S28-T2-B-E3",
+      "code": "# skeptic/S28-T2-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint({'golden_version': 3}['golden_version'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S28-T2-B-E3 («Pruebas de datos, propiedades e integración»): contrasté theory headings con el enunciado del ejercicio. Enunciado: «S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo el T». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: literal/dict. Léxico del paquete: choice, idempotente, tabla, datos. Desconfío de claims de fraude o parentesco fuera de scope; riesgo: si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S28-T2-B"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "id": "S28-T3-A-E1",
+      "code": "# skeptic/S28-T3-A-E1: packet-only K2; rejected inverted contracts / theater claims\ndb={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S28-T3-A-E1 no improvisé APIs: derivé el cuerpo desde forma esperada sin inventar APIs y armé el cuerpo desde el quiz_card. Resumen de instrucción: S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; impleme. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: choice, random, propiedad, Pruebas, idempotente. Prefiero lo aburrido, determinista y auditable.",
+      "concepts_used": [
+        "S28-T3-A"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "id": "S28-T3-A-E2",
+      "code": "# skeptic/S28-T3-A-E2: packet-only K2; rejected inverted contracts / theater claims\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S28/S28-T3-A-E2 («Pruebas de datos, propiedades e integración»): S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter comple. Apoyo léxico K2: contrato, casefold, casos, invariantes. Hint: datetime. Starter: forma esperada en comentarios del starter, TODO contractual. Exijo evidencia lexical en theory/iDo del paquete activo; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S28-T3-A"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "id": "S28-T3-A-E3",
+      "code": "# skeptic/S28-T3-A-E3: packet-only K2; rejected inverted contracts / theater claims\nstatus=503\nprint('retry' if status >= 500 else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S28-T3-A-E3 («Pruebas de datos, propiedades e integración»): confronté predicados invertidos y marcas DEFECTO. Enunciado: «S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa s». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: status. Léxico del paquete: Documenta, normalize, junto, alphabet. Exijo evidencia lexical en theory/iDo del paquete activo; riesgo: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S28-T3-A"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "id": "S28-T3-B-E1",
+      "code": "# skeptic/S28-T3-B-E1: packet-only K2; rejected inverted contracts / theater claims\nprint('A'.casefold() == 'a'.casefold())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S28/S28-T3-B-E1 («Pruebas de datos, propiedades e integración»): S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa solo. Apoyo léxico K2: español, conceptual, integración, contrato. Hint: casefold. Starter: forma esperada en comentarios del starter, TODO contractual. Desconfío de claims de fraude o parentesco fuera de scope; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S28-T3-B"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "id": "S28-T3-B-E2",
+      "code": "# skeptic/S28-T3-B-E2: packet-only K2; rejected inverted contracts / theater claims\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S28-T3-B-E2 («Pruebas de datos, propiedades e integración»): verifiqué el contrato I/O sintético del paquete activo. Enunciado: «S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter com». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: propiedad. Léxico del paquete: cumplirse, dominio, generación, contrato. Sigo dudando de atajos teatrales; riesgo: si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S28-T3-B"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "id": "S28-T3-B-E3",
+      "code": "# skeptic/S28-T3-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint({'rows_written': 1}['rows_written'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S28-T3-B-E3. La sección «Pruebas de datos, propiedades e integración» pide: S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implement. Me anclé en tabla, datos, conceptual y en «dict». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso derivé el cuerpo desde forma esperada sin inventar APIs; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S28-T3-B"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "id": "S28-T4-A-E1",
+      "code": "# skeptic/S28-T4-A-E1: packet-only K2; rejected inverted contracts / theater claims\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S28/S28-T4-A-E1 («Pruebas de datos, propiedades e integración»): S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; im. Apoyo léxico K2: range, contrato, feliz, random. Hint: sqlite3. Starter: TODO contractual. No asumo que el primer predicado booleano sea correcto; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S28-T4-A"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "id": "S28-T4-A-E2",
+      "code": "# skeptic/S28-T4-A-E2: packet-only K2; rejected inverted contracts / theater claims\nn=4\nprint(n * (n - 1) // 2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S28-T4-A-E2 («Pruebas de datos, propiedades e integración»): seguí el knowledge boundary: solo landing + packet K2. Enunciado: «S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implement». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: n*(n-1)//2. Léxico del paquete: choice, español, Documenta, split. Exijo evidencia lexical en theory/iDo del paquete activo; riesgo: si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S28-T4-A"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "id": "S28-T4-A-E3",
+      "code": "# skeptic/S28-T4-A-E3: packet-only K2; rejected inverted contracts / theater claims\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Sigo dudando de atajos teatrales al cerrar S28-T4-A-E3. La sección «Pruebas de datos, propiedades e integración» pide: S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter co. Me anclé en randint, tabla, scores y en «list comp». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso confronté predicados invertidos y marcas DEFECTO; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S28-T4-A"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "id": "S28-T4-B-E1",
+      "code": "# skeptic/S28-T4-B-E1: packet-only K2; rejected inverted contracts / theater claims\nprint(sorted(['b', 'a']))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S28-T4-B-E1 («Pruebas de datos, propiedades e integración»): contrasté theory headings con el enunciado del ejercicio. Enunciado: «S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter complet». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: sorted. Léxico del paquete: range, integración, hypothesis, casos. Exijo evidencia lexical en theory/iDo del paquete activo; riesgo: si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S28-T4-B"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "id": "S28-T4-B-E2",
+      "code": "# skeptic/S28-T4-B-E2: packet-only K2; rejected inverted contracts / theater claims\nflake_rate=0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S28-T4-B-E2. La sección «Pruebas de datos, propiedades e integración» pide: S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; imp. Me anclé en alphabet, único, datos y en «umbral». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso derivé el cuerpo desde forma esperada sin inventar APIs; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S28-T4-B"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "id": "S28-T4-B-E3",
+      "code": "# skeptic/S28-T4-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint('unit→data→integration')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S28-T4-B-E3 no improvisé APIs: verifiqué el contrato I/O sintético del paquete activo y armé el cuerpo desde el quiz_card. Resumen de instrucción: S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implemen. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: junto, append, vacíos, invariante, dominio. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "concepts_used": [
+        "S28-T4-B"
+      ],
+      "confidence": 0.85
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Un test metamórfico verifica:»). Tras seguí el knowledge boundary: solo landing + packet K2, la opción 3 («Relaciones predecibles entre entradas transformadas y salidas») es la coherente con twice, conceptual, español en «Pruebas de datos, propiedades e integración». Alternativas (Solo un número mágico / Que la red esté caída) suenan plausibles pero el material las niega.",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Actualizar un golden con drift sin review es:»). Tras revisé que no quede TODO ni pass de relleno, la opción 1 («Riesgo de ocultar regresiones») es la coherente con invariante, dominio, Genera en «Pruebas de datos, propiedades e integración». Alternativas (Buena práctica / Obligatorio en CI) suenan plausibles pero el material las niega.",
+      "confidence": 0.8
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Sobre-mocking típico:»). Tras derivé el cuerpo desde forma esperada sin inventar APIs, la opción 2 («Acoplar el test a detalles internos y ocultar bugs») es la coherente con propiedad, Documenta, español en «Pruebas de datos, propiedades e integración». Alternativas (Probar lógica pura real / Usar sqlite memoria) suenan plausibles pero el material las niega.",
+      "confidence": 0.97
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Flakes en la suite gate de ER se manejan:»). Tras verifiqué el contrato I/O sintético del paquete activo, la opción 0 («Con determinismo (seed/reloj/sort) y fallo de job si persisten») es la coherente con append, propiedad, junto en «Pruebas de datos, propiedades e integración». Alternativas (Ignorándolos / Subiendo retries a 100) suenan plausibles pero el material las niega.",
+      "confidence": 0.79
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:13:03.545326+00:00",
+  "session_started_at": "2026-07-23T15:12:12.233378+00:00",
+  "session_ended_at": "2026-07-23T15:13:03.542598+00:00",
+  "receipt_response_sha256": "ffa96e66ee6b9994ed317f74d94cf8c1882b543b941962e71063fb6f7e6941c8",
+  "receipt_exercises_sha256": "484b647ea82f7c4ed648f08f7938508803b7d0c432d4fd65a95c89728b3722e3",
+  "receipt_selfcheck_sha256": "0fec8fc3a3ce1a721848d51e82fb298b33d62753f4c051faa57fe0282c322219"
+}

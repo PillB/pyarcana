@@ -1,0 +1,540 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 42,
+  "packet_sha": "93b177a844e593bc",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-I1-s42-live",
+  "production_note": "packet-only dual-LLM solve from quiz_card/packet; no bulk writers; no prior-attempt maps; no stamps",
+  "knowledge_boundary": "Only landing + prior sequential packets + active section packet.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S42-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\nmeets_contract = bool(not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"]))\nstatus = (\"PASS\" if meets_contract else \"REJECT_SCHEMA\")\nprint(\"S42-T1-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T1-A-E1",
+        "Calcula",
+        "contrato",
+        "Pydantic",
+        "JSON",
+        "Schema",
+        "sobre",
+        "CASO-CUS-042-1A"
+      ],
+      "justification_from_packet": "Skeptic en S42-T1-A-E1: desconfío del predicado del starter en «Pydantic y JSON Schema»; valido missing antes de dominio. Predicado: `not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])`. Instrucción: S42-T1-A-E1 · Calcula el contrato de `Pydantic y JSON Schema` sobre `CASO-CUS-042-1A`. La entrada es el dict completo del starter; la operación debe demostrar schema estricto más regla de negocio. Ree… Paquete: Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes"
+    },
+    {
+      "exercise_id": "S42-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'extra_policy', 'json_schema', 'valid_fixture', 'business_rule'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])\n    return \"PASS\" if ok else \"REJECT_SCHEMA\"\n\nvalid = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\ninvalid = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'INVALID', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\nincomplete = dict(valid)\nif \"business_rule\" in incomplete:\n    del incomplete[\"business_rule\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T1-A-E2",
+        "Modela",
+        "tres",
+        "rutas",
+        "Pydantic",
+        "JSON",
+        "Schema",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S42-T1-A-E2: desconfío del predicado del starter en «Pydantic y JSON Schema»; valido missing antes de dominio. Predicado: `not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])`. Instrucción: S42-T1-A-E2 · Modela tres rutas de `Pydantic y JSON Schema`: fixture válido, fixture adverso y registro sin `business_rule`. Entrada: dict con case_id, extra_policy, json_schema, valid_fixture, busine… Paquete: Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes"
+    },
+    {
+      "exercise_id": "S42-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'extra_policy', 'json_schema', 'valid_fixture', 'business_rule'}\n    if any(k not in record for k in required):\n        return \"REVIEW_BUSINESS_INVARIANT\"\n    if not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"]):\n        return \"CONTINUE\"\n    return \"REJECT_SCHEMA\"\n\nfixture_ok = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\nfixture_bad = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'INVALID', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"business_rule\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T1-A-E3",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "Pydantic",
+        "JSON",
+        "Schema",
+        "tres"
+      ],
+      "justification_from_packet": "Skeptic en S42-T1-A-E3: desconfío del predicado del starter en «Pydantic y JSON Schema»; valido missing antes de dominio. Predicado: `not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])`. Instrucción: S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos. `CASO-CUS-042-1A` debe continuar, el adverso debe devolver `REJECT_SCHEMA` y la ausencia de `business_rule… Paquete: Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes"
+    },
+    {
+      "exercise_id": "S42-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\nmeets_contract = bool(not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"]))\nstatus = (\"PASS\" if meets_contract else \"VERSION_SCHEMA\")\nprint(\"S42-T1-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T1-B-E1",
+        "Compara",
+        "contrato",
+        "evolución",
+        "discriminated",
+        "unions",
+        "validación",
+        "negocio"
+      ],
+      "justification_from_packet": "Skeptic en S42-T1-B-E1: desconfío del predicado del starter en «evolución, discriminated unions y validación de negocio»; valido missing antes de dominio. Predicado: `not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])`. Instrucción: S42-T1-B-E1 · Compara el contrato de `evolución, discriminated unions y validación de negocio` sobre `CASO-CUS-042-1B`. La entrada es el dict completo del starter; la operación debe demostrar cambio a… Paquete: La evolución segura prefiere campos opcionales aditivos y discriminated unions exhaustivas; renombrar o reinterpretar un"
+    },
+    {
+      "exercise_id": "S42-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'change', 'old_reader_passes', 'union_tags', 'handled_tags'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])\n    return \"PASS\" if ok else \"VERSION_SCHEMA\"\n\nvalid = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}, 'handled_tags': {'email', 'phone'}}\ninvalid = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': set(), 'handled_tags': {'email', 'phone'}}\nincomplete = dict(valid)\nif \"handled_tags\" in incomplete:\n    del incomplete[\"handled_tags\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T1-B-E2",
+        "Verifica",
+        "tres",
+        "rutas",
+        "evolución",
+        "discriminated",
+        "unions",
+        "validación"
+      ],
+      "justification_from_packet": "Skeptic en S42-T1-B-E2: desconfío del predicado del starter en «evolución, discriminated unions y validación de negocio»; valido missing antes de dominio. Predicado: `not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])`. Instrucción: S42-T1-B-E2 · Verifica tres rutas de `evolución, discriminated unions y validación de negocio`: fixture válido, fixture adverso y registro sin `handled_tags`. Entrada: dict con case_id, change, old_re… Paquete: La evolución segura prefiere campos opcionales aditivos y discriminated unions exhaustivas; renombrar o reinterpretar un"
+    },
+    {
+      "exercise_id": "S42-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'change', 'old_reader_passes', 'union_tags', 'handled_tags'}\n    if any(k not in record for k in required):\n        return \"MIGRATE_CONSUMERS\"\n    if not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"]):\n        return \"CONTINUE\"\n    return \"VERSION_SCHEMA\"\n\nfixture_ok = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}, 'handled_tags': {'email', 'phone'}}\nfixture_bad = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': set(), 'handled_tags': {'email', 'phone'}}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"handled_tags\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T1-B-E3",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "evolución",
+        "discriminated",
+        "unions",
+        "validación"
+      ],
+      "justification_from_packet": "Skeptic en S42-T1-B-E3: desconfío del predicado del starter en «evolución, discriminated unions y validación de negocio»; valido missing antes de dominio. Predicado: `not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])`. Instrucción: S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tres fixtures distintos. `CASO-CUS-042-1B` debe continuar, el adverso debe devolver `VERSION_SCH… Paquete: La evolución segura prefiere campos opcionales aditivos y discriminated unions exhaustivas; renombrar o reinterpretar un"
+    },
+    {
+      "exercise_id": "S42-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\nmeets_contract = bool(not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"]))\nstatus = (\"PASS\" if meets_contract else \"DENY_CROSS_TENANT\")\nprint(\"S42-T2-A\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T2-A-E1",
+        "Filtra",
+        "contrato",
+        "authn",
+        "authz",
+        "RBAC",
+        "sobre",
+        "CASO-CUS-042-2A"
+      ],
+      "justification_from_packet": "Skeptic en S42-T2-A-E1: desconfío del predicado del starter en «authn/authz y RBAC»; valido missing antes de dominio. Predicado: `not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])`. Instrucción: S42-T2-A-E1 · Filtra el contrato de `authn/authz y RBAC` sobre `CASO-CUS-042-2A`. La entrada es el dict completo del starter; la operación debe demostrar identidad, permiso y pertenencia del recurso. … Paquete: Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mínimos y verifica pert"
+    },
+    {
+      "exercise_id": "S42-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'authenticated', 'actor', 'resource_owner', 'roles'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])\n    return \"PASS\" if ok else \"DENY_CROSS_TENANT\"\n\nvalid = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}}\ninvalid = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'INVALID', 'resource_owner': 'user-a', 'roles': {'case:read'}}\nincomplete = dict(valid)\nif \"roles\" in incomplete:\n    del incomplete[\"roles\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T2-A-E2",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "authn",
+        "authz",
+        "RBAC",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S42-T2-A-E2: desconfío del predicado del starter en «authn/authz y RBAC»; valido missing antes de dominio. Predicado: `not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])`. Instrucción: S42-T2-A-E2 · Clasifica tres rutas de `authn/authz y RBAC`: fixture válido, fixture adverso y registro sin `roles`. Entrada: dict con case_id, authenticated, actor, resource_owner, roles. Salidas exac… Paquete: Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mínimos y verifica pert"
+    },
+    {
+      "exercise_id": "S42-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'authenticated', 'actor', 'resource_owner', 'roles'}\n    if any(k not in record for k in required):\n        return \"VERIFY_RESOURCE_OWNER\"\n    if not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"]):\n        return \"CONTINUE\"\n    return \"DENY_CROSS_TENANT\"\n\nfixture_ok = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}}\nfixture_bad = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'INVALID', 'resource_owner': 'user-a', 'roles': {'case:read'}}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"roles\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T2-A-E3",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "authn",
+        "authz",
+        "RBAC",
+        "tres"
+      ],
+      "justification_from_packet": "Skeptic en S42-T2-A-E3: desconfío del predicado del starter en «authn/authz y RBAC»; valido missing antes de dominio. Predicado: `not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])`. Instrucción: S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos. `CASO-CUS-042-2A` debe continuar, el adverso debe devolver `DENY_CROSS_TENANT` y la ausencia de `roles` debe… Paquete: Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mínimos y verifica pert"
+    },
+    {
+      "exercise_id": "S42-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\nmeets_contract = bool(not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"]))\nstatus = (\"PASS\" if meets_contract else \"DENY_SCOPE\")\nprint(\"S42-T2-B\", status)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T2-B-E1",
+        "Modela",
+        "contrato",
+        "scopes",
+        "service",
+        "identities",
+        "deny-by-default",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S42-T2-B-E1: desconfío del predicado del starter en «scopes, service identities y deny-by-default»; valido missing antes de dominio. Predicado: `not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])`. Instrucción: S42-T2-B-E1 · Modela el contrato de `scopes, service identities y deny-by-default` sobre `CASO-CUS-042-2B`. La entrada es el dict completo del starter; la operación debe demostrar scope estrecho, iden… Paquete: Scopes expresan capacidades estrechas, cada servicio tiene identidad propia y deny-by-default cubre rutas o acciones no "
+    },
+    {
+      "exercise_id": "S42-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'requested_scope', 'granted_scopes', 'service_id', 'route_declared'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\n    return \"PASS\" if ok else \"DENY_SCOPE\"\n\nvalid = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\ninvalid = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'INVALID', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\nincomplete = dict(valid)\nif \"route_declared\" in incomplete:\n    del incomplete[\"route_declared\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T2-B-E2",
+        "Audita",
+        "tres",
+        "rutas",
+        "scopes",
+        "service",
+        "identities",
+        "deny-by-default"
+      ],
+      "justification_from_packet": "Skeptic en S42-T2-B-E2: desconfío del predicado del starter en «scopes, service identities y deny-by-default»; valido missing antes de dominio. Predicado: `not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])`. Instrucción: S42-T2-B-E2 · Audita tres rutas de `scopes, service identities y deny-by-default`: fixture válido, fixture adverso y registro sin `route_declared`. Entrada: dict con case_id, requested_scope, granted_… Paquete: Scopes expresan capacidades estrechas, cada servicio tiene identidad propia y deny-by-default cubre rutas o acciones no "
+    },
+    {
+      "exercise_id": "S42-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'requested_scope', 'granted_scopes', 'service_id', 'route_declared'}\n    if any(k not in record for k in required):\n        return \"REQUEST_NARROW_GRANT\"\n    if not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"]):\n        return \"CONTINUE\"\n    return \"DENY_SCOPE\"\n\nfixture_ok = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\nfixture_bad = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'INVALID', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"route_declared\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T2-B-E3",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "scopes",
+        "service",
+        "identities",
+        "deny-by-default"
+      ],
+      "justification_from_packet": "Skeptic en S42-T2-B-E3: desconfío del predicado del starter en «scopes, service identities y deny-by-default»; valido missing antes de dominio. Predicado: `not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])`. Instrucción: S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures distintos. `CASO-CUS-042-2B` debe continuar, el adverso debe devolver `DENY_SCOPE` y la ausen… Paquete: Scopes expresan capacidades estrechas, cada servicio tiene identidad propia y deny-by-default cubre rutas o acciones no "
+    },
+    {
+      "exercise_id": "S42-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\nmeets_contract = bool(not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\")))\nstatus = (\"PASS\" if meets_contract else \"REJECT_UNTRUSTED_INPUT\")\nprint(\"S42-T3-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T3-A-E1",
+        "Verifica",
+        "contrato",
+        "input",
+        "limits",
+        "injection",
+        "SSRF",
+        "path"
+      ],
+      "justification_from_packet": "Skeptic en S42-T3-A-E1: desconfío del predicado del starter en «input limits, injection y SSRF/path traversal»; valido missing antes de dominio. Predicado: `not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))`. Instrucción: S42-T3-A-E1 · Verifica el contrato de `input limits, injection y SSRF/path traversal` sobre `CASO-CUS-042-3A`. La entrada es el dict completo del starter; la operación debe demostrar límite, host allo… Paquete: Límites de tamaño y allowlists se aplican antes de procesar; URLs, nombres de archivo y expresiones nunca se convierten "
+    },
+    {
+      "exercise_id": "S42-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'bytes', 'max_bytes', 'host', 'allowed_hosts', 'resolved_path', 'root'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))\n    return \"PASS\" if ok else \"REJECT_UNTRUSTED_INPUT\"\n\nvalid = {'case_id': 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\ninvalid = {'case_id': 'CASO-CUS-042-3A', 'bytes': 1002048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\nincomplete = dict(valid)\nif \"root\" in incomplete:\n    del incomplete[\"root\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T3-A-E2",
+        "Decide",
+        "tres",
+        "rutas",
+        "input",
+        "limits",
+        "injection",
+        "SSRF"
+      ],
+      "justification_from_packet": "Skeptic en S42-T3-A-E2: desconfío del predicado del starter en «input limits, injection y SSRF/path traversal»; valido missing antes de dominio. Predicado: `not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))`. Instrucción: S42-T3-A-E2 · Decide tres rutas de `input limits, injection y SSRF/path traversal`: fixture válido, fixture adverso y registro sin `root`. Entrada: dict con case_id, bytes, max_bytes, host, allowed_ho… Paquete: Límites de tamaño y allowlists se aplican antes de procesar; URLs, nombres de archivo y expresiones nunca se convierten "
+    },
+    {
+      "exercise_id": "S42-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'bytes', 'max_bytes', 'host', 'allowed_hosts', 'resolved_path', 'root'}\n    if any(k not in record for k in required):\n        return \"SECURITY_REVIEW\"\n    if not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\")):\n        return \"CONTINUE\"\n    return \"REJECT_UNTRUSTED_INPUT\"\n\nfixture_ok = {'case_id': 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\nfixture_bad = {'case_id': 'CASO-CUS-042-3A', 'bytes': 1002048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"root\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T3-A-E3",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "input",
+        "limits",
+        "injection",
+        "SSRF"
+      ],
+      "justification_from_packet": "Skeptic en S42-T3-A-E3: desconfío del predicado del starter en «input limits, injection y SSRF/path traversal»; valido missing antes de dominio. Predicado: `not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))`. Instrucción: S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixtures distintos. `CASO-CUS-042-3A` debe continuar, el adverso debe devolver `REJECT_UNTRUSTED_INP… Paquete: Límites de tamaño y allowlists se aplican antes de procesar; URLs, nombres de archivo y expresiones nunca se convierten "
+    },
+    {
+      "exercise_id": "S42-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\nmeets_contract = bool(not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"]))\nstatus = (\"PASS\" if meets_contract else \"ROTATE_AND_BLOCK\")\nprint(\"S42-T3-B\", status)\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T3-B-E1",
+        "Clasifica",
+        "contrato",
+        "secretos",
+        "cifrado",
+        "dependency",
+        "risk",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S42-T3-B-E1: desconfío del predicado del starter en «secretos, cifrado y dependency risk»; valido missing antes de dominio. Predicado: `not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])`. Instrucción: S42-T3-B-E1 · Clasifica el contrato de `secretos, cifrado y dependency risk` sobre `CASO-CUS-042-3B`. La entrada es el dict completo del starter; la operación debe demostrar secretos fuera del artefac… Paquete: Secretos llegan por runtime, nunca por código/log; cifrado requiere gestión de claves y dependencias fijadas se revisan "
+    },
+    {
+      "exercise_id": "S42-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'secret_in_repo', 'secret_in_log', 'rotation_tested', 'dependency_pinned', 'critical_cves'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])\n    return \"PASS\" if ok else \"ROTATE_AND_BLOCK\"\n\nvalid = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\ninvalid = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': True, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\nincomplete = dict(valid)\nif \"critical_cves\" in incomplete:\n    del incomplete[\"critical_cves\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T3-B-E2",
+        "Calcula",
+        "tres",
+        "rutas",
+        "secretos",
+        "cifrado",
+        "dependency",
+        "risk"
+      ],
+      "justification_from_packet": "Skeptic en S42-T3-B-E2: desconfío del predicado del starter en «secretos, cifrado y dependency risk»; valido missing antes de dominio. Predicado: `not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])`. Instrucción: S42-T3-B-E2 · Calcula tres rutas de `secretos, cifrado y dependency risk`: fixture válido, fixture adverso y registro sin `critical_cves`. Entrada: dict con case_id, secret_in_repo, secret_in_log, rot… Paquete: Secretos llegan por runtime, nunca por código/log; cifrado requiere gestión de claves y dependencias fijadas se revisan "
+    },
+    {
+      "exercise_id": "S42-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'secret_in_repo', 'secret_in_log', 'rotation_tested', 'dependency_pinned', 'critical_cves'}\n    if any(k not in record for k in required):\n        return \"ASSESS_DEPENDENCY_RISK\"\n    if not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"]):\n        return \"CONTINUE\"\n    return \"ROTATE_AND_BLOCK\"\n\nfixture_ok = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\nfixture_bad = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': True, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"critical_cves\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T3-B-E3",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "secretos",
+        "cifrado",
+        "dependency",
+        "risk"
+      ],
+      "justification_from_packet": "Skeptic en S42-T3-B-E3: desconfío del predicado del starter en «secretos, cifrado y dependency risk»; valido missing antes de dominio. Predicado: `not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])`. Instrucción: S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distintos. `CASO-CUS-042-3B` debe continuar, el adverso debe devolver `ROTATE_AND_BLOCK` y la ausen… Paquete: Secretos llegan por runtime, nunca por código/log; cifrado requiere gestión de claves y dependencias fijadas se revisan "
+    },
+    {
+      "exercise_id": "S42-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\nmeets_contract = bool(not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"]))\nstatus = (\"PASS\" if meets_contract else \"MINIMIZE_AND_EXPIRE\")\nprint(\"S42-T4-A\", status)\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T4-A-E1",
+        "Audita",
+        "contrato",
+        "minimización",
+        "purpose",
+        "retención",
+        "sobre",
+        "CASO-CUS-042-4A"
+      ],
+      "justification_from_packet": "Skeptic en S42-T4-A-E1: desconfío del predicado del starter en «minimización, purpose y retención»; valido missing antes de dominio. Predicado: `not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])`. Instrucción: S42-T4-A-E1 · Audita el contrato de `minimización, purpose y retención` sobre `CASO-CUS-042-4A`. La entrada es el dict completo del starter; la operación debe demostrar campos mínimos, propósito y ret… Paquete: Privacidad exige dato mínimo para propósito declarado y retención finita; «podría servir» no es una finalidad válida. Co"
+    },
+    {
+      "exercise_id": "S42-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'collected', 'needed', 'purpose', 'retention_days', 'max_retention_days'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])\n    return \"PASS\" if ok else \"MINIMIZE_AND_EXPIRE\"\n\nvalid = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\ninvalid = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': set(), 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\nincomplete = dict(valid)\nif \"max_retention_days\" in incomplete:\n    del incomplete[\"max_retention_days\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T4-A-E2",
+        "Compara",
+        "tres",
+        "rutas",
+        "minimización",
+        "purpose",
+        "retención",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S42-T4-A-E2: desconfío del predicado del starter en «minimización, purpose y retención»; valido missing antes de dominio. Predicado: `not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])`. Instrucción: S42-T4-A-E2 · Compara tres rutas de `minimización, purpose y retención`: fixture válido, fixture adverso y registro sin `max_retention_days`. Entrada: dict con case_id, collected, needed, purpose, ret… Paquete: Privacidad exige dato mínimo para propósito declarado y retención finita; «podría servir» no es una finalidad válida. Co"
+    },
+    {
+      "exercise_id": "S42-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'collected', 'needed', 'purpose', 'retention_days', 'max_retention_days'}\n    if any(k not in record for k in required):\n        return \"PRIVACY_OWNER_REVIEW\"\n    if not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"]):\n        return \"CONTINUE\"\n    return \"MINIMIZE_AND_EXPIRE\"\n\nfixture_ok = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\nfixture_bad = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': set(), 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"max_retention_days\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T4-A-E3",
+        "Aísla",
+        "fallo",
+        "cerrado",
+        "minimización",
+        "purpose",
+        "retención",
+        "tres"
+      ],
+      "justification_from_packet": "Skeptic en S42-T4-A-E3: desconfío del predicado del starter en «minimización, purpose y retención»; valido missing antes de dominio. Predicado: `not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])`. Instrucción: S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos. `CASO-CUS-042-4A` debe continuar, el adverso debe devolver `MINIMIZE_AND_EXPIRE` y la ausencia d… Paquete: Privacidad exige dato mínimo para propósito declarado y retención finita; «podría servir» no es una finalidad válida. Co"
+    },
+    {
+      "exercise_id": "S42-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\nmeets_contract = bool(not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"]))\nstatus = (\"PASS\" if meets_contract else \"PURGE_DERIVATIVES\")\nprint(\"S42-T4-B\", status)\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T4-B-E1",
+        "Decide",
+        "contrato",
+        "audit",
+        "deletion",
+        "pseudonymization",
+        "acceso",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S42-T4-B-E1: desconfío del predicado del starter en «audit, deletion, pseudonymization y acceso»; valido missing antes de dominio. Predicado: `not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])`. Instrucción: S42-T4-B-E1 · Decide el contrato de `audit, deletion, pseudonymization y acceso` sobre `CASO-CUS-042-4B`. La entrada es el dict completo del starter; la operación debe demostrar audit sin PII, borrado… Paquete: Audit registra quién/qué/cuándo sin copiar PII; borrado cubre derivados, pseudonimización separa la llave y acceso queda"
+    },
+    {
+      "exercise_id": "S42-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {'case_id', 'audit_fields', 'pii_fields', 'deleted', 'derived_deleted', 'key_separate'}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])\n    return \"PASS\" if ok else \"PURGE_DERIVATIVES\"\n\nvalid = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': True, 'key_separate': True}\ninvalid = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': False, 'key_separate': True}\nincomplete = dict(valid)\nif \"key_separate\" in incomplete:\n    del incomplete[\"key_separate\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T4-B-E2",
+        "Filtra",
+        "tres",
+        "rutas",
+        "audit",
+        "deletion",
+        "pseudonymization",
+        "acceso"
+      ],
+      "justification_from_packet": "Skeptic en S42-T4-B-E2: desconfío del predicado del starter en «audit, deletion, pseudonymization y acceso»; valido missing antes de dominio. Predicado: `not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])`. Instrucción: S42-T4-B-E2 · Filtra tres rutas de `audit, deletion, pseudonymization y acceso`: fixture válido, fixture adverso y registro sin `key_separate`. Entrada: dict con case_id, audit_fields, pii_fields, del… Paquete: Audit registra quién/qué/cuándo sin copiar PII; borrado cubre derivados, pseudonimización separa la llave y acceso queda"
+    },
+    {
+      "exercise_id": "S42-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def closed_fail(record: dict) -> str:\n    required = {'case_id', 'audit_fields', 'pii_fields', 'deleted', 'derived_deleted', 'key_separate'}\n    if any(k not in record for k in required):\n        return \"VERIFY_DELETION_SCOPE\"\n    if not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"]):\n        return \"CONTINUE\"\n    return \"PURGE_DERIVATIVES\"\n\nfixture_ok = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': True, 'key_separate': True}\nfixture_bad = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': False, 'key_separate': True}\nfixture_gap = dict(fixture_ok)\nfixture_gap.pop(\"key_separate\", None)\nprint(closed_fail(fixture_ok), closed_fail(fixture_bad), closed_fail(fixture_gap))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42-T4-B-E3",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "audit",
+        "deletion",
+        "pseudonymization",
+        "acceso"
+      ],
+      "justification_from_packet": "Skeptic en S42-T4-B-E3: desconfío del predicado del starter en «audit, deletion, pseudonymization y acceso»; valido missing antes de dominio. Predicado: `not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])`. Instrucción: S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures distintos. `CASO-CUS-042-4B` debe continuar, el adverso debe devolver `PURGE_DERIVATIVES` y la… Paquete: Audit registra quién/qué/cuándo sin copiar PII; borrado cubre derivados, pseudonimización separa la llave y acceso queda"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "schema exportado y fixtures válidos/inválidos",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[0]: elijo «schema exportado y fixtures válidos/inválidos» (fail-closed + evidencia medible). Pregunta: ¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042? Fragmento: Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. Contrato operativo. Entrada: schemas estrictos"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "emitir DENY y conservar evidencia",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[1]: elijo «emitir DENY y conservar evidencia» (fail-closed + evidencia medible). Pregunta: Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y auditabilidad? Fragmento: Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. Contrato operativo. Entrada: schemas estrictos"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[2]: elijo «un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos» (fail-closed + evidencia medible). Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`? Fragmento: Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. Contrato operativo. Entrada: schemas estrictos"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic · selfcheck[3]: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» (fail-closed + evidencia medible). Pregunta: ¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso? Fragmento: Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio. Contrato operativo. Entrada: schemas estrictos"
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "note": "Skeptic rejects inverted predicates and missing-field continues."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T10:26:10+00:00",
+  "session_started_at": "2026-07-23T10:25:40+00:00",
+  "session_ended_at": "2026-07-23T10:26:10+00:00"
+}

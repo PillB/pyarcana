@@ -1,0 +1,146 @@
+{
+  "badge_id": "python_data_foundations",
+  "version": "1.0.0",
+  "generated_at": "2026-07-28T22:08:04Z",
+  "generated_by": "badge_architect node (Phase 6)",
+  "provisional_floors": {
+    "self_check_pct": 85,
+    "you_do_pct": 80,
+    "section_exam_pct": 85,
+    "integrator_project_pct": 85,
+    "critical_competency_pct": 100,
+    "minimum_overall_pct": 85
+  },
+  "components": [
+    {
+      "component_id": "self_check",
+      "description": "Aggregate of section self-check questions across required sections. Self-checks are MCQ-only and low-authenticity; they are weighted lightly and used as a participation/engagement signal, not as a proficiency signal.",
+      "required_score_pct": 85,
+      "weight": 0.15,
+      "evidence_source": "self_check activities",
+      "critical_competency": false
+    },
+    {
+      "component_id": "you_do_projects",
+      "description": "Aggregate of section You Do project rubric scores across required sections. You Do projects are independent (no step-by-step guidance) and high-authenticity; they are the primary evidence of independent capability.",
+      "required_score_pct": 80,
+      "weight": 0.4,
+      "evidence_source": "you_do activities + section rubric",
+      "critical_competency": false
+    },
+    {
+      "component_id": "section_exams",
+      "description": "Aggregate of section exam scores across required sections. Exams are server-graded MCQs (pass@70 baseline); the badge floor is stricter at 85%.",
+      "required_score_pct": 85,
+      "weight": 0.2,
+      "evidence_source": "exam activities (server-graded)",
+      "critical_competency": false
+    },
+    {
+      "component_id": "integrator_project",
+      "description": "Badge-specific integrator project (independent exercise specified in the badge rubric). For applied-skill badges, this is a bounded exercise that ties together the required sections' skills. For cross-section badges, this is a synthesis project. For capstone credentials, this is the phase capstone defense plus a synthesis writeup.",
+      "required_score_pct": 85,
+      "weight": 0.2,
+      "evidence_source": "badge rubric evaluation (server-verified)",
+      "critical_competency": false
+    }
+  ],
+  "scoring_rules": {
+    "aggregation_method": "weighted_average_with_non_compensatory_gates",
+    "minimum_overall_score": 85,
+    "critical_competency_floor": 100,
+    "non_compensatory": true,
+    "rounding": "down",
+    "gates": [
+      {
+        "gate_id": "per_component_floor",
+        "description": "Each scored component must meet its own required_score_pct. A single component below floor blocks the badge, regardless of the weighted average."
+      },
+      {
+        "gate_id": "critical_competency_floor",
+        "description": "Each critical_competency in the badge must be individually scored at 100% (full rubric credit). Critical competencies are non-compensatory: strength elsewhere cannot offset a critical-competency gap."
+      },
+      {
+        "gate_id": "overall_floor",
+        "description": "Even when every component and every critical competency passes its floor, the weighted average must still meet the minimum_overall_score."
+      }
+    ]
+  },
+  "integrator_spec": {
+    "project_id": "BADGE:python_data_foundations:integrator",
+    "project_type": "bounded_independent_exercise",
+    "estimated_hours": 6,
+    "deliverables": [
+      "Bounded exercise artifact (notebook, script, or repo) per the badge's exercise prompt",
+      "Short README (<=500 words) explaining the approach and tradeoffs",
+      "Test(s) demonstrating the artifact works as claimed"
+    ],
+    "rubric_criteria": [
+      {
+        "criterion_id": "exercise_completion",
+        "description": "Exercise prompt fully addressed; no missing parts.",
+        "weight": 0.3,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "independence",
+        "description": "No tutorial-clone; learner built the solution.",
+        "weight": 0.2,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "skill_application",
+        "description": "Every required skill_node is exercised in the artifact.",
+        "weight": 0.25,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "reproducibility",
+        "description": "Artifact runs from a single command; dependencies pinned.",
+        "weight": 0.15,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "critical_competency_pass",
+        "description": "Every critical competency passes its 100% floor.",
+        "weight": 0.1,
+        "floor_pct": 100
+      }
+    ],
+    "minimum_overall_pct": 85,
+    "non_compensatory": true
+  },
+  "critical_competency_rubrics": {
+    "reproducibility_determinism": {
+      "floor_pct": 100,
+      "non_compensatory": true,
+      "criteria": [
+        {
+          "criterion_id": "reproducibility_determinism_criterion_1",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "reproducibility_determinism_criterion_2",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "reproducibility_determinism_criterion_3",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "reproducibility_determinism_criterion_4",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        }
+      ]
+    }
+  },
+  "gap_closure_exercises": {}
+}

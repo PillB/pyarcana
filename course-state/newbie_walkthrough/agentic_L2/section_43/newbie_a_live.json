@@ -1,0 +1,221 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 43,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-exp-s43-3b88d0a404e2",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S43-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1A\", **{\"lock_copied_before_source\":True,\"dependency_layer_reused\":True,\"source_change_rebuilds\":1,\"digest_stable\":True}}\nmeets_contract = not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3)\nstatus = \"PASS\" if meets_contract else \"REORDER_DOCKERFILE\"\nprint(\"S43-T1-A\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de Dockerfile, layers y cache en S43-T1-A-E1. El paquete indica layer de dependencias reutilizable y digest estable; por eso el código valida CASO-TRU-043-1A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S43-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'dependency_layer_reused', 'digest_stable', 'lock_copied_before_source', 'source_change_rebuilds'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3)\n    return \"PASS\" if ok else \"REORDER_DOCKERFILE\"\n\nvalid = {\"case_id\": 'CASO-TRU-043-1A', **{'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}}\ninvalid = {\"case_id\": 'CASO-TRU-043-1A', **{'lock_copied_before_source': False, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'digest_stable'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de Dockerfile, layers y cache en S43-T1-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-TRU-043-1A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S43-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'dependency_layer_reused', 'digest_stable', 'lock_copied_before_source', 'source_change_rebuilds'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"INSPECT_CACHE_INVALIDATION\"\n    ok = not (not record[\"dependency_layer_reused\"] and record[\"source_change_rebuilds\"] > 3)\n    return \"CONTINUE\" if ok else \"REORDER_DOCKERFILE\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TRU-043-1A', **{'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}},\n    {\"case_id\": 'CASO-TRU-043-1A', **{'lock_copied_before_source': False, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-TRU-043-1A', **{'lock_copied_before_source': True, 'dependency_layer_reused': True, 'source_change_rebuilds': 1, 'digest_stable': True}}.items() if k != 'digest_stable'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de Dockerfile, layers y cache en S43-T1-A-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-TRU-043-1A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S43-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runtime_mb\":118,\"max_mb\":150}}\nmeets_contract = not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))\nstatus = \"PASS\" if meets_contract else \"REBUILD_NONROOT\"\nprint(\"S43-T1-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de bases, usuarios no root y tamaño en S43-T1-B-E1. El paquete indica base fijada, UID non-root, cero capabilities y tamaño límite; por eso el código valida CASO-TRU-043-1B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S43-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'base_pinned', 'capabilities', 'case_id', 'max_mb', 'runtime_mb', 'uid'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))\n    return \"PASS\" if ok else \"REBUILD_NONROOT\"\n\nvalid = {\"case_id\": 'CASO-TRU-043-1B', **{'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}}\ninvalid = {\"case_id\": 'CASO-TRU-043-1B', **{'base_pinned': True, 'uid': 0, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}}\nincomplete = {k: v for k, v in valid.items() if k != 'max_mb'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de bases, usuarios no root y tamaño en S43-T1-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-TRU-043-1B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S43-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'base_pinned', 'capabilities', 'case_id', 'max_mb', 'runtime_mb', 'uid'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"SELECT_PATCHABLE_BASE\"\n    ok = not (record[\"uid\"] == 0 or bool(record[\"capabilities\"]))\n    return \"CONTINUE\" if ok else \"REBUILD_NONROOT\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TRU-043-1B', **{'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}},\n    {\"case_id\": 'CASO-TRU-043-1B', **{'base_pinned': True, 'uid': 0, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}},\n    {k: v for k, v in {\"case_id\": 'CASO-TRU-043-1B', **{'base_pinned': True, 'uid': 10001, 'capabilities': set(), 'runtime_mb': 118, 'max_mb': 150}}.items() if k != 'max_mb'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de bases, usuarios no root y tamaño en S43-T1-B-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-TRU-043-1B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S43-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2A\", **{\"secret_baked\":False,\"runtime_secret\":True,\"config_declared\":True,\"durable_volumes\":{\"db\"},\"ephemeral_volumes\":{\"cache\"}}}\nmeets_contract = not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])\nstatus = \"PASS\" if meets_contract else \"REMOVE_BAKED_SECRET\"\nprint(\"S43-T2-A\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de config, secrets y volumes en S43-T2-A-E1. El paquete indica secretos runtime y estado durable/efímero separado; por eso el código valida CASO-TRU-043-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S43-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'config_declared', 'durable_volumes', 'ephemeral_volumes', 'runtime_secret', 'secret_baked'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])\n    return \"PASS\" if ok else \"REMOVE_BAKED_SECRET\"\n\nvalid = {\"case_id\": 'CASO-TRU-043-2A', **{'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}}\ninvalid = {\"case_id\": 'CASO-TRU-043-2A', **{'secret_baked': True, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}}\nincomplete = {k: v for k, v in valid.items() if k != 'ephemeral_volumes'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de config, secrets y volumes en S43-T2-A-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-TRU-043-2A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S43-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'config_declared', 'durable_volumes', 'ephemeral_volumes', 'runtime_secret', 'secret_baked'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"CLASSIFY_VOLUME\"\n    ok = not (record[\"secret_baked\"] or \"db\" in record[\"ephemeral_volumes\"])\n    return \"CONTINUE\" if ok else \"REMOVE_BAKED_SECRET\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TRU-043-2A', **{'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}},\n    {\"case_id\": 'CASO-TRU-043-2A', **{'secret_baked': True, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}},\n    {k: v for k, v in {\"case_id\": 'CASO-TRU-043-2A', **{'secret_baked': False, 'runtime_secret': True, 'config_declared': True, 'durable_volumes': {'db'}, 'ephemeral_volumes': {'cache'}}}.items() if k != 'ephemeral_volumes'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S43-T2-A-E3, el fixture CASO-TRU-043-2A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «config, secrets y volumes» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S43-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-2B\", **{\"private_network\":True,\"readiness_db\":True,\"liveness_loop\":True,\"sigterm_drains\":True,\"grace_seconds\":30}}\nmeets_contract = not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])\nstatus = \"PASS\" if meets_contract else \"DRAIN_AND_ISOLATE\"\nprint(\"S43-T2-B\", status)\n",
+      "justification_from_packet": "En el paquete activo de S43-T2-B-E1, el fixture CASO-TRU-043-2B deja ver que network privada, health semántico y drain de SIGTERM. Corregí el predicado defectuoso del starter para que el escenario de «networking, health checks y signals» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S43-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'grace_seconds', 'liveness_loop', 'private_network', 'readiness_db', 'sigterm_drains'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])\n    return \"PASS\" if ok else \"DRAIN_AND_ISOLATE\"\n\nvalid = {\"case_id\": 'CASO-TRU-043-2B', **{'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}}\ninvalid = {\"case_id\": 'CASO-TRU-043-2B', **{'private_network': True, 'readiness_db': False, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}}\nincomplete = {k: v for k, v in valid.items() if k != 'grace_seconds'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Leí instruction/hints de S43-T2-B-E2: la operación debe demostrar el contrato del subtema. Con el caso sintético CASO-TRU-043-2B reconstruí meets_contract alineado a «networking, health checks y signals» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S43-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'grace_seconds', 'liveness_loop', 'private_network', 'readiness_db', 'sigterm_drains'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"DIAGNOSE_HEALTH_SIGNAL\"\n    ok = not (not record[\"readiness_db\"] or not record[\"sigterm_drains\"])\n    return \"CONTINUE\" if ok else \"DRAIN_AND_ISOLATE\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TRU-043-2B', **{'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}},\n    {\"case_id\": 'CASO-TRU-043-2B', **{'private_network': True, 'readiness_db': False, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}},\n    {k: v for k, v in {\"case_id\": 'CASO-TRU-043-2B', **{'private_network': True, 'readiness_db': True, 'liveness_loop': True, 'sigterm_drains': True, 'grace_seconds': 30}}.items() if k != 'grace_seconds'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de networking, health checks y signals en S43-T2-B-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-TRU-043-2B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S43-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3A\", **{\"services\":{\"api\",\"worker\",\"db\",\"cache\"},\"healthy\":{\"api\",\"worker\",\"db\",\"cache\"},\"api_retries_db\":True,\"networks\":{\"front\",\"back\"}}}\nmeets_contract = not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])\nstatus = \"PASS\" if meets_contract else \"STOP_UNHEALTHY_STACK\"\nprint(\"S43-T3-A\", status)\n",
+      "justification_from_packet": "En el paquete activo de S43-T3-A-E1, el fixture CASO-TRU-043-3A deja ver que cuatro servicios sanos, retries y redes segmentadas. Corregí el predicado defectuoso del starter para que el escenario de «API/worker/DB/cache» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S43-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'api_retries_db', 'case_id', 'healthy', 'networks', 'services'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])\n    return \"PASS\" if ok else \"STOP_UNHEALTHY_STACK\"\n\nvalid = {\"case_id\": 'CASO-TRU-043-3A', **{'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}}}\ninvalid = {\"case_id\": 'CASO-TRU-043-3A', **{'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': False, 'networks': {'back', 'front'}}}\nincomplete = {k: v for k, v in valid.items() if k != 'networks'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S43-T3-A-E2, el fixture CASO-TRU-043-3A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «API/worker/DB/cache» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S43-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'api_retries_db', 'case_id', 'healthy', 'networks', 'services'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"WAIT_FOR_DEPENDENCY\"\n    ok = not (record[\"healthy\"] != record[\"services\"] and not record[\"api_retries_db\"])\n    return \"CONTINUE\" if ok else \"STOP_UNHEALTHY_STACK\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TRU-043-3A', **{'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}}},\n    {\"case_id\": 'CASO-TRU-043-3A', **{'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': False, 'networks': {'back', 'front'}}},\n    {k: v for k, v in {\"case_id\": 'CASO-TRU-043-3A', **{'services': {'api', 'cache', 'db', 'worker'}, 'healthy': {'api', 'cache', 'db', 'worker'}, 'api_retries_db': True, 'networks': {'back', 'front'}}}.items() if k != 'networks'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S43-T3-A-E3, el fixture CASO-TRU-043-3A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «API/worker/DB/cache» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S43-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-3B\", **{\"migration\":\"expand\",\"old_code_compatible\":True,\"ephemeral_reset\":True,\"backup_restored\":True}}\nmeets_contract = not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])\nstatus = \"PASS\" if meets_contract else \"ROLL_BACK_MIGRATION\"\nprint(\"S43-T3-B\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de dependencias, migrations y datos efímeros en S43-T3-B-E1. El paquete indica expand compatible, efímero recreable y restore aprobado; por eso el código valida CASO-TRU-043-3B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S43-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'backup_restored', 'case_id', 'ephemeral_reset', 'migration', 'old_code_compatible'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])\n    return \"PASS\" if ok else \"ROLL_BACK_MIGRATION\"\n\nvalid = {\"case_id\": 'CASO-TRU-043-3B', **{'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}}\ninvalid = {\"case_id\": 'CASO-TRU-043-3B', **{'migration': 'expand', 'old_code_compatible': False, 'ephemeral_reset': True, 'backup_restored': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'backup_restored'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S43-T3-B-E2, el fixture CASO-TRU-043-3B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «dependencias, migrations y datos efímeros» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S43-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'backup_restored', 'case_id', 'ephemeral_reset', 'migration', 'old_code_compatible'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"RUN_RESTORE_DRILL\"\n    ok = not (record[\"migration\"] == \"contract\" and not record[\"old_code_compatible\"])\n    return \"CONTINUE\" if ok else \"ROLL_BACK_MIGRATION\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TRU-043-3B', **{'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}},\n    {\"case_id\": 'CASO-TRU-043-3B', **{'migration': 'expand', 'old_code_compatible': False, 'ephemeral_reset': True, 'backup_restored': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-TRU-043-3B', **{'migration': 'expand', 'old_code_compatible': True, 'ephemeral_reset': True, 'backup_restored': True}}.items() if k != 'backup_restored'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de dependencias, migrations y datos efímeros en S43-T3-B-E3. El paquete indica el contrato del subtema; por eso el código valida CASO-TRU-043-3B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S43-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4A\", **{\"lock_hash\":\"sha256:abc\",\"stages\":{\"builder\",\"runtime\"},\"compiler_in_runtime\":False,\"runtime_deps_locked\":True}}\nmeets_contract = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNPINNED_BUILD\"\nprint(\"S43-T4-A\", status)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de locks y multi-stage builds en S43-T4-A-E1. El paquete indica lock con hash y runtime sin toolchain; por eso el código valida CASO-TRU-043-4A y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S43-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'compiler_in_runtime', 'lock_hash', 'runtime_deps_locked', 'stages'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\n    return \"PASS\" if ok else \"BLOCK_UNPINNED_BUILD\"\n\nvalid = {\"case_id\": 'CASO-TRU-043-4A', **{'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False, 'runtime_deps_locked': True}}\ninvalid = {\"case_id\": 'CASO-TRU-043-4A', **{'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': True, 'runtime_deps_locked': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'runtime_deps_locked'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En el paquete activo de S43-T4-A-E2, el fixture CASO-TRU-043-4A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «locks y multi-stage builds» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S43-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'compiler_in_runtime', 'lock_hash', 'runtime_deps_locked', 'stages'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"REGENERATE_LOCK\"\n    ok = not (not record[\"runtime_deps_locked\"] or record[\"compiler_in_runtime\"])\n    return \"CONTINUE\" if ok else \"BLOCK_UNPINNED_BUILD\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TRU-043-4A', **{'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False, 'runtime_deps_locked': True}},\n    {\"case_id\": 'CASO-TRU-043-4A', **{'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': True, 'runtime_deps_locked': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-TRU-043-4A', **{'lock_hash': 'sha256:abc', 'stages': {'builder', 'runtime'}, 'compiler_in_runtime': False, 'runtime_deps_locked': True}}.items() if k != 'runtime_deps_locked'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S43-T4-A-E3, el fixture CASO-TRU-043-4A deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «locks y multi-stage builds» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S43-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TRU-043-4B\", **{\"critical_cves\":0,\"memory_limit_mb\":512,\"cpu_limit\":1.0,\"debug_shell\":False,\"logs_redacted\":True}}\nmeets_contract = not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_IMAGE\"\nprint(\"S43-T4-B\", status)\n",
+      "justification_from_packet": "Leí instruction/hints de S43-T4-B-E1: la operación debe demostrar scan limpio, límites definidos y debugging sin shell root. Con el caso sintético CASO-TRU-043-4B reconstruí meets_contract alineado a «scanning, resource limits y debugging» y dejé el reject del starter para el fixture adverso.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S43-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'cpu_limit', 'critical_cves', 'debug_shell', 'logs_redacted', 'memory_limit_mb'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])\n    return \"PASS\" if ok else \"QUARANTINE_IMAGE\"\n\nvalid = {\"case_id\": 'CASO-TRU-043-4B', **{'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}}\ninvalid = {\"case_id\": 'CASO-TRU-043-4B', **{'critical_cves': 1, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}}\nincomplete = {k: v for k, v in valid.items() if k != 'logs_redacted'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como explorer prioricé el contrato observable de scanning, resource limits y debugging en S43-T4-B-E2. El paquete indica el contrato del subtema; por eso el código valida CASO-TRU-043-4B y no inventa evidencia fuera del packet.",
+      "status": "answered",
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S43-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'cpu_limit', 'critical_cves', 'debug_shell', 'logs_redacted', 'memory_limit_mb'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"TRIAGE_SCAN_FINDING\"\n    ok = not (record[\"critical_cves\"] > 0 or record[\"debug_shell\"] or not record[\"logs_redacted\"])\n    return \"CONTINUE\" if ok else \"QUARANTINE_IMAGE\"\n\nfixtures = [\n    {\"case_id\": 'CASO-TRU-043-4B', **{'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}},\n    {\"case_id\": 'CASO-TRU-043-4B', **{'critical_cves': 1, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}},\n    {k: v for k, v in {\"case_id\": 'CASO-TRU-043-4B', **{'critical_cves': 0, 'memory_limit_mb': 512, 'cpu_limit': 1.0, 'debug_shell': False, 'logs_redacted': True}}.items() if k != 'logs_redacted'},\n]\nprint(*(decide(f) for f in fixtures))\n",
+      "justification_from_packet": "En el paquete activo de S43-T4-B-E3, el fixture CASO-TRU-043-4B deja ver que el contrato del subtema. Corregí el predicado defectuoso del starter para que el escenario de «scanning, resource limits y debugging» imprima PASS solo cuando la regla se cumple, sin tocar los datos del caso.",
+      "status": "answered",
+      "confidence": 0.77
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Para la pregunta «¿Qué evidencia permite aprobar `Dockerfile, layers y cache` en CASO-TRU-043?…» el packet de S43 sostiene «dos builds producen el mismo digest lógico». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Para la pregunta «Si ocurre la condición de error de S43, ¿qué respuesta preserva seguridad y audi…» el packet de S43 sostiene «emitir BLOCK_IMAGE y conservar evidencia». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Para la pregunta «¿Cuál resultado demuestra el gate `CP-N4-A · servicio reproducible en contenedor…» el packet de S43 sostiene «build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.87
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Para la pregunta «¿Qué tratamiento de `CASO-TRU-043` respeta el alcance del curso?…» el packet de S43 sostiene «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana». Coincide con el contrato observable y el caso sintético del curso.",
+      "status": "answered",
+      "confidence": 0.83
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:44:21.814865+00:00",
+  "session_started_at": "2026-07-23T17:43:16.257671+00:00",
+  "session_ended_at": "2026-07-23T17:44:21.808537+00:00",
+  "receipt_response_sha256": "b4dea1616e3ffbeba29a1ef1d666872aedb311a40eb7d21534b25ac00c93e11a",
+  "receipt_exercises_sha256": "8635ebc39c84d72dc758b01a8127c182f2b3e81bba895a7d7e1ff09759fb8d9a",
+  "receipt_selfcheck_sha256": "b6f30449fe53013f50ec99d94293db20f1714fcf08fcd48b58342f0c794c4aa5"
+}

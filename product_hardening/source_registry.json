@@ -1,0 +1,159 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-07-29T01:16:00Z",
+  "campaign": "product_hardening",
+  "sources": [
+    {
+      "source_id": "S001",
+      "path": "prisma/schema.prisma",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:20:00Z",
+      "notes": "9 Prisma models. User.role restricted to STUDENT|ADMIN. No BadgeAward, Cohort, Supervisor, or Notification models. SQLite datasource."
+    },
+    {
+      "source_id": "S002",
+      "path": "src/lib/auth.ts",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:21:00Z",
+      "notes": "NextAuth v4 CredentialsProvider only. JWT 7-day maxAge. role copied into token. DUMMY_PASSWORD_HASH used for timing-attack mitigation. NEXTAUTH_SECRET has no fallback."
+    },
+    {
+      "source_id": "S003",
+      "path": "src/lib/firebase/admin.ts",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:22:00Z",
+      "notes": "Firebase Admin SDK. Auto-enables when service-account env vars are present. Spark tier. Singleton Firestore instance."
+    },
+    {
+      "source_id": "S004",
+      "path": "src/lib/firebase/sync.ts",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:22:00Z",
+      "notes": "Dual-write helpers for 5 collections: users, progress, examAttempts, exerciseAttempts, feedbackReports. Failures logged and never throw. No read path. passwordHash deliberately omitted from syncUser."
+    },
+    {
+      "source_id": "S005",
+      "path": "firestore.rules",
+      "kind": "config",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:23:00Z",
+      "notes": "8 lines. Deny-all client access (`allow read, write: if false`)."
+    },
+    {
+      "source_id": "S006",
+      "path": "src/lib/eligibility/badge_catalog.json",
+      "kind": "data",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:25:00Z",
+      "notes": "31 badges: 5 progress_achievement, 16 applied_skill, 5 cross_section_capability, 5 capstone_credential. version 1.0.0, generated_by badge_architect node (Phase 6)."
+    },
+    {
+      "source_id": "S007",
+      "path": "src/lib/eligibility/engine.ts",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:26:00Z",
+      "notes": "707 lines. EligibilityEngine class. evaluate() and awardIdempotent(). Awards mutate in-memory LearnerProgress.awarded_badges; no Prisma write."
+    },
+    {
+      "source_id": "S008",
+      "path": "src/lib/eligibility/types.ts",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:26:00Z",
+      "notes": "LearnerProgress interface (in-memory). AwardedBadge, BadgeSpec, EligibilityReport types. 228 lines."
+    },
+    {
+      "source_id": "S009",
+      "path": "src/lib/runtime-mode.ts",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:27:00Z",
+      "notes": "IS_STATIC_SITE = NEXT_PUBLIC_STATIC_SITE === '1'. SITE_BASE_PATH helper. Used by progress-store and API routes."
+    },
+    {
+      "source_id": "S010",
+      "path": "src/lib/progress-store.ts",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:27:00Z",
+      "notes": "Dual path: localStorage for static, Prisma for dynamic. Server writes short-circuit when IS_STATIC_SITE."
+    },
+    {
+      "source_id": "S011",
+      "path": "src/lib/admin-analytics.ts",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:28:00Z",
+      "notes": "481 lines. Computes 'cohorts' as activity-based analytics filters (active_7d, at_risk, phase1, etc.) — NOT user-assignable cohorts with managers."
+    },
+    {
+      "source_id": "S012",
+      "path": "next.config.ts",
+      "kind": "config",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:28:00Z",
+      "notes": "output: 'export' (static) or 'standalone' (dynamic) based on NEXT_OUTPUT env. basePath/assetPrefix for /pyarcana GitHub Pages subpath."
+    },
+    {
+      "source_id": "S013",
+      "path": "prisma/seed.ts",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:30:00Z",
+      "notes": "~15,700 lines. Seeds QuestionBank + 3 SubscriptionPlan tiers (free/pro/team). Explicitly creates no users. Team plan featuresJSON includes 'Reportes de progreso para managers' marketing bullet."
+    },
+    {
+      "source_id": "S014",
+      "path": ".env.example",
+      "kind": "config",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:30:00Z",
+      "notes": "DATABASE_URL, NEXTAUTH_SECRET, NEXTAUTH_URL, FIREBASE_PROJECT_ID/CLIENT_EMAIL/PRIVATE_KEY. No E2E_ADMIN_* here — those are only in scripts/e2e_max/helpers/auth.ts."
+    },
+    {
+      "source_id": "S015",
+      "path": ".github/workflows/deploy.yml",
+      "kind": "config",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:31:00Z",
+      "notes": "GitHub Pages deployment only. bun install + bun run build:static + upload-pages-artifact. No DB provisioning, no dynamic LMS deploy."
+    },
+    {
+      "source_id": "S016",
+      "path": "scripts/e2e_max/helpers/auth.ts",
+      "kind": "source_code",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:31:00Z",
+      "notes": "E2E_ADMIN = { email: process.env.E2E_ADMIN_EMAIL || '', password: process.env.E2E_ADMIN_PASSWORD || '' }. No fallback. Used by loginViaApi in E2E specs."
+    },
+    {
+      "source_id": "S017",
+      "path": "industry_alignment/industry_reality_brief.md",
+      "kind": "research",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:36:00Z",
+      "notes": "2,279 lines. 5 roles × 4 levels. 352 URLs harvested. HIGH/MEDIUM/LOW confidence ratings. Source for Phase 1 badge revalidation."
+    },
+    {
+      "source_id": "S018",
+      "path": "industry_alignment/curriculum_gap_matrix.md",
+      "kind": "research",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:36:00Z",
+      "notes": "796 lines. 41 gaps (6 P0, 7 P1, 15 P2, 5 P3, 8 P4). 16 uncovered industry skills, 4 of which are critical. Source for Phase 1 badge gap report."
+    },
+    {
+      "source_id": "S019",
+      "path": "industry_alignment/industry_skill_graph.json",
+      "kind": "data",
+      "role": "primary",
+      "verified_at": "2026-07-29T01:37:00Z",
+      "notes": "62 skill nodes, 5 roles (data_analyst, data_scientist, rpa_automation_developer, ai_ml_engineer, production_python_engineer) × 4 levels. 8 critical competencies. 59 skill dependencies."
+    }
+  ]
+}

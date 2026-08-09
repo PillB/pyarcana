@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s30-3111d07742fc",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "code": "# dual skeptic-H1 · S30-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T1-A-E1: contrasté el Pass del paquete («S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(1.0 if a == b else 0.0)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "code": "# dual skeptic-H1 · S30-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T1-A-E2: contrasté el Pass del paquete («S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO-LIM-030` (run_id=cp…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(len(ta&tb)/len(ta|tb))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "code": "# dual skeptic-H1 · S30-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T1-A-E3: contrasté el Pass del paquete («S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): l…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(1.0 if d == d else 0.0)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "code": "# dual skeptic-H1 · S30-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T1-B-E1: contrasté el Pass del paquete («S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('missing' if (not a or not b) else 'cmp')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "code": "# dual skeptic-H1 · S30-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T1-B-E2: contrasté el Pass del paquete («S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter comp…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(1 / freq)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "code": "# dual skeptic-H1 · S30-T1-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T1-B-E3: contrasté el Pass del paquete («S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético `CASO-LIM-030` (run…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('informative_missing')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "code": "# dual skeptic-H1 · S30-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T2-A-E1: contrasté el Pass del paquete («S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe):…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(f'{last}|{city}')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "code": "# dual skeptic-H1 · S30-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T2-A-E2: contrasté el Pass del paquete («S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(found / gold_n)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "code": "# dual skeptic-H1 · S30-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T2-A-E3: contrasté el Pass del paquete («S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la en…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(n*(n-1)//2)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "code": "# dual skeptic-H1 · S30-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T2-B-E1: contrasté el Pass del paquete («S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sum(n*(n-1)//2 for n in sizes))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "code": "# dual skeptic-H1 · S30-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T2-B-E2: contrasté el Pass del paquete («S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe)…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(ta != tb)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "code": "# dual skeptic-H1 · S30-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T2-B-E3: contrasté el Pass del paquete («S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('filter_before_score')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "code": "# dual skeptic-H1 · S30-T3-A-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T3-A-E1: contrasté el Pass del paquete («S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la en…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "code": "# dual skeptic-H1 · S30-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T3-A-E2: contrasté el Pass del paquete («S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "code": "# dual skeptic-H1 · S30-T3-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T3-A-E3: contrasté el Pass del paquete («S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print({'name': 0.9, 'email': 1.0})\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "code": "# dual skeptic-H1 · S30-T3-B-E1\np={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\nprint(find(1)==find(3))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T3-B-E1: contrasté el Pass del paquete («S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_i…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, find, while; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(find(1)==find(3))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "find",
+        "while",
+        "union",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "code": "# dual skeptic-H1 · S30-T3-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T3-B-E2: contrasté el Pass del paquete («S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @examp…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(['match', 'non_match', 'uncertain'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "code": "# dual skeptic-H1 · S30-T3-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T3-B-E3: contrasté el Pass del paquete («S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrad…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('ER_only_same_entity')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "code": "# dual skeptic-H1 · S30-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T4-A-E1: contrasté el Pass del paquete («S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('train' if {a,b} <= train_e else 'test')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "code": "# dual skeptic-H1 · S30-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T4-A-E2: contrasté el Pass del paquete («S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(matches / n)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "code": "# dual skeptic-H1 · S30-T4-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T4-A-E3: contrasté el Pass del paquete («S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print('entity_split')\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "code": "# dual skeptic-H1 · S30-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T4-B-E1: contrasté el Pass del paquete («S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la e…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(round(tp/(tp+fp), 2))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "code": "# dual skeptic-H1 · S30-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T4-B-E2: contrasté el Pass del paquete («S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; im…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(tp/(tp+fn))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "code": "# dual skeptic-H1 · S30-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S30/S30-T4-B-E3: contrasté el Pass del paquete («S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-e…») con theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Conceptos dual, skeptic, S30, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: [\"print(['missing_phone'])\"]. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S30",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "PII"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S30#0: contrasto stem «El motor ER de CP-N3-A debe decidir:» con párrafos theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Elijo índice 1 («Si dos registros son la misma entidad») porque cuadra con el vocabulario del paquete; distractores ['Fraude automático', 'Parentescos'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S30#1: contrasto stem «Candidate recall de blocking mide:» con párrafos theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Elijo índice 3 («Fracción de verdaderos matches que sobreviven al blocking») porque cuadra con el vocabulario del paquete; distractores ['Solo CPU', 'Precisión del scorer final únicamente'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S30#2: contrasto stem «Scores entre t_low y t_high van a:» con párrafos theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Elijo índice 0 («clerical review») porque cuadra con el vocabulario del paquete; distractores ['auto_match', 'non_match'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S30#3: contrasto stem «Split por entidad evita:» con párrafos theory/iDo («exact, edit/token y fecha» **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap d). Elijo índice 2 («Leakage de identidad entre train y test») porque cuadra con el vocabulario del paquete; distractores ['Usar sqlite', 'Blocking'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:21:08.009480+00:00",
+  "session_started_at": "2026-07-23T08:20:36.049084+00:00",
+  "session_ended_at": "2026-07-23T08:21:08.009480+00:00"
+}

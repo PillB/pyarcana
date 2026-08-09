@@ -1,0 +1,1060 @@
+{
+  "section_index": 38,
+  "section_id": "performance-extreme",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S38-T1-A-E1",
+          "code": "print('cpu_bound', 'processes')\nprint('not', 'many_threads')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "CPU bound"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T1-A-E2",
+          "code": "print('io_bound', 'threads_or_async')\nprint('ok', True)\nprint('gil', 'less_issue')\n",
+          "note": "",
+          "concepts_used": [
+            "IO bound"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T1-A-E3",
+          "code": "print('first', 'measure')\nprint('then', 'choose_pool')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "measure first"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T1-B-E1",
+          "code": "import json\npayload = {'a': 1}\nprint(len(json.dumps(payload)))\nprint('compact', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "payload size"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T1-B-E2",
+          "code": "print('GIL', 'limits_cpu_threads')\nprint('prefer', 'processes_for_cpu')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "GIL"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T1-B-E3",
+          "code": "print('prefer', 'compact_messages')\nprint('ok', True)\nprint('size', 'matters')\n",
+          "note": "",
+          "concepts_used": [
+            "compact"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-A-E1",
+          "code": "print('allows', 2)\nprint('tokens', 2)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "rate limit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-A-E2",
+          "code": "print('maxsize', 'backpressure')\nprint('role', 'bound_memory')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "backpressure"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-A-E3",
+          "code": "print('protects', 'downstream')\nprint('rate_limit', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "rate limit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-B-E1",
+          "code": "print({'timeout_s': 5})\nprint('timeout_s', 5)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "timeout"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-B-E2",
+          "code": "print('finally', 'close')\nprint('resource', 'released')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "finally"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-B-E3",
+          "code": "print('without_timeout', 'may_hang')\nprint('risk', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "hang risk"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-A-E1",
+          "code": "print('corr_id', True)\nprint('case_id', 'c1')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "correlation id"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-A-E2",
+          "code": "print(['logs', 'metrics', 'traces'])\nprint('n', 3)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "o11y pillars"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-A-E3",
+          "code": "print(True)\nprint('redacted', 'an***')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "no PII logs"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-B-E1",
+          "code": "p = '+51900000001'\nprint(p[:3] + '****' + p[-2:])\nprint('pii_full', False)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "redact"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-B-E2",
+          "code": "print('slo_ok', 0.8 <= 1.0)\nprint('latency', 0.8)\nprint('budget', 1.0)\n",
+          "note": "",
+          "concepts_used": [
+            "SLO"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-B-E3",
+          "code": "print('error_budget', 'remaining_fail_allowance')\nprint('slo', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "error budget"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-A-E1",
+          "code": "print(['pending', 'running', 'done', 'failed'])\nprint('n', 4)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "states"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-A-E2",
+          "code": "print('c1:score:v1')\nprint('status', 'done')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "idempotency"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-A-E3",
+          "code": "print('resume_from', 'last_checkpoint')\nprint('step', 'features')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "resume"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-B-E1",
+          "code": "base = 0.1\nprint([base * (2 ** i) for i in range(3)])\nprint('dlq', True)\nprint('runbook', True)\n",
+          "note": "",
+          "concepts_used": [
+            "backoff"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-B-E2",
+          "code": "print('dlq', 'isolate_poison_messages')\nprint('retry_exhausted', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "DLQ"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-B-E3",
+          "code": "print('runbook', True)\nprint('ops', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "runbook"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S38-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cpu_bound processes\nnot many_threads\nok True\n",
+          "expected_head": "processes\nbound cpu\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "io_bound threads_or_async\nok True\ngil less_issue\n",
+          "expected_head": "async_or_threads\nbound io\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "first measure\nthen choose_pool\nok True\n",
+          "expected_head": "True\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "8\ncompact True\nok True\n",
+          "expected_head": "8\nok True\ncompact True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "GIL limits_cpu_threads\nprefer processes_for_cpu\nok True\n",
+          "expected_head": "limited\nok True\ncpu_threads True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T1-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "prefer compact_messages\nok True\nsize matters\n",
+          "expected_head": "compact_payload\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "allows 2\ntokens 2\nok True\n",
+          "expected_head": "2\nthird False\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "maxsize backpressure\nrole bound_memory\nok True\n",
+          "expected_head": "backpressure\nok True\nmaxsize 50",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "protects downstream\nrate_limit True\nok True\n",
+          "expected_head": "provider\nok True\nban_risk True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'timeout_s': 5}\ntimeout_s 5\nok True\n",
+          "expected_head": "5\non_fail retry_or_dlq\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T2-B-E2",
+          "status": "shell_protocol",
+          "ok": true
+        },
+        {
+          "exercise_id": "S38-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "without_timeout may_hang\nrisk True\nok True\n",
+          "expected_head": "incident True\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "corr_id True\ncase_id c1\nok True\n",
+          "expected_head": "True\nevent scored\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['logs', 'metrics', 'traces']\nn 3\nok True\n",
+          "expected_head": "['logs', 'metrics', 'traces']\nok True\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nredacted an***\nok True\n",
+          "expected_head": "False\nok True\nredact True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "+51****01\npii_full False\nok True\n",
+          "expected_head": "90****01\nok True\npii False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_ok True\nlatency 0.8\nbudget 1.0\n",
+          "expected_head": "True\np95 100\nlimit 200",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "error_budget remaining_fail_allowance\nslo True\nok True\n",
+          "expected_head": "error_budget\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['pending', 'running', 'done', 'failed']\nn 4\nok True\n",
+          "expected_head": "['pending', 'running', 'done', 'failed']\nok True\nn 4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "c1:score:v1\nstatus done\nok True\n",
+          "expected_head": "case:step:ver\nok True\ndup False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "resume_from last_checkpoint\nstep features\nok True\n",
+          "expected_head": "features\nok True\ncheckpoint True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "[0.1, 0.2, 0.4]\ndlq True\nrunbook True\n",
+          "expected_head": "0.8\nok True\nattempt 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "dlq isolate_poison_messages\nretry_exhausted True\nok True\n",
+          "expected_head": "poison\nok True\nreplay controlled",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "runbook True\nops True\nok True\n",
+          "expected_head": "True\noncall True\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 19,
+      "code_tried": 24,
+      "code_ratio": 0.792,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S38-T1-A-E1",
+          "code": "print('async_or_threads')\nprint('bound', 'io')\nprint('ok', True)\n",
+          "note": "pick(io).",
+          "concepts_used": [
+            "io pick"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T1-A-E2",
+          "code": "print('processes')\nprint('bound', 'cpu')\nprint('ok', True)\n",
+          "note": "pick(cpu).",
+          "concepts_used": [
+            "cpu processes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T1-A-E3",
+          "code": "print(True)\nprint('measure_first', True)\nprint('ok', True)\n",
+          "note": "Measure first.",
+          "concepts_used": [
+            "measure first"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T1-B-E1",
+          "code": "import json\nprint(len(json.dumps({'case_id':'c1','score':0.2}).encode()))\nprint('gil_cpu_threads', 'limited')\nprint('prefer', 'compact_payload')\n",
+          "note": "JSON bytes size.",
+          "concepts_used": [
+            "payload size"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T1-B-E2",
+          "code": "print('limited')\nprint('gil_cpu_threads', 'limited')\nprint('ok', True)\n",
+          "note": "GIL limits CPU threads.",
+          "concepts_used": [
+            "GIL"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T1-B-E3",
+          "code": "print('compact_payload')\nprint('prefer', 'compact_payload')\nprint('ok', True)\n",
+          "note": "Prefer compact.",
+          "concepts_used": [
+            "compact"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-A-E1",
+          "code": "print([True, True, False])\nprint('tokens', 2)\nprint('ok', True)\n",
+          "note": "Rate 2 tokens.",
+          "concepts_used": [
+            "token bucket"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-A-E2",
+          "code": "print('backpressure')\nprint('backpressure', 'queue_maxsize')\nprint('ok', True)\n",
+          "note": "maxsize backpressure.",
+          "concepts_used": [
+            "queue maxsize"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-A-E3",
+          "code": "print('providers')\nprint('protects', 'upstream_providers')\nprint('ok', True)\n",
+          "note": "Rate limit protects.",
+          "concepts_used": [
+            "protect providers"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-B-E1",
+          "code": "print(0.01)\nprint('seconds', 0.01)\nprint('policy', 'timeout')\n",
+          "note": "timeout seconds.",
+          "concepts_used": [
+            "timeout"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-B-E2",
+          "code": "print(True)\nprint('close_in_finally', True)\nprint('ok', True)\n",
+          "note": "Close in finally.",
+          "concepts_used": [
+            "finally close"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T2-B-E3",
+          "code": "print(True)\nprint('risk', 'hang_without_timeout')\nprint('ok', True)\n",
+          "note": "No timeout hangs.",
+          "concepts_used": [
+            "hang risk"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-A-E1",
+          "code": "print(True)\nprint('corr', 'corr-9')\nprint('ok', True)\n",
+          "note": "Correlation id.",
+          "concepts_used": [
+            "corr id"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-A-E2",
+          "code": "print(['logs','metrics','traces'])\nprint('pillars', 3)\nprint('ok', True)\n",
+          "note": "3 pillars.",
+          "concepts_used": [
+            "o11y pillars"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-A-E3",
+          "code": "print(False)\nprint('pii_raw', False)\nprint('ok', True)\n",
+          "note": "pii_raw False.",
+          "concepts_used": [
+            "no raw PII"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-B-E1",
+          "code": "def redact(s):\n    return s[:2]+'***' if len(s)>2 else '***'\nprint(redact('900111222'))\nprint('redacted', True)\nprint('ok', True)\n",
+          "note": "Redact phone.",
+          "concepts_used": [
+            "redact"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-B-E2",
+          "code": "sli={'p95_ms':120,'error_rate':0.01}; slo={'p95_ms':200,'error_rate':0.02}\nprint(sli['p95_ms']<=slo['p95_ms'] and sli['error_rate']<=slo['error_rate'])\nprint('slo_ok', True)\nprint('ok', True)\n",
+          "note": "sli vs slo.",
+          "concepts_used": [
+            "SLO"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T3-B-E3",
+          "code": "print('error_budget')\nprint('consumes_on_slo_breach', True)\nprint('ok', True)\n",
+          "note": "Error budget.",
+          "concepts_used": [
+            "error budget"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-A-E1",
+          "code": "print(['pending','running','done','failed'])\nprint('workflow', True)\nprint('ok', True)\n",
+          "note": "Workflow states.",
+          "concepts_used": [
+            "states"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-A-E2",
+          "code": "print('c1:features:v3')\nprint('idem_key', 'c1:features:v3')\nprint('ok', True)\n",
+          "note": "Idempotency key.",
+          "concepts_used": [
+            "idem key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-A-E3",
+          "code": "print('features')\nprint('resume_from', 'features')\nprint('ok', True)\n",
+          "note": "Resume from checkpoint.",
+          "concepts_used": [
+            "resume"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-B-E1",
+          "code": "print(0.1*(2**3))\nprint('backoff', 0.8)\nprint('ok', True)\n",
+          "note": "0.1*2**3=0.8.",
+          "concepts_used": [
+            "backoff"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-B-E2",
+          "code": "print('poison_messages')\nprint('dlq', 'poison_messages')\nprint('ok', True)\n",
+          "note": "DLQ poison.",
+          "concepts_used": [
+            "DLQ"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S38-T4-B-E3",
+          "code": "print(True)\nprint('runbook', True)\nprint('ok', True)\n",
+          "note": "Runbook required.",
+          "concepts_used": [
+            "runbook"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S38-T1-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "async_or_threads\nbound io\nok True\n",
+          "expected_head": "processes\nbound cpu\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "processes\nbound cpu\nok True\n",
+          "expected_head": "async_or_threads\nbound io\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nmeasure_first True\nok True\n",
+          "expected_head": "True\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T1-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "31\ngil_cpu_threads limited\nprefer compact_payload\n",
+          "expected_head": "8\nok True\ncompact True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "limited\ngil_cpu_threads limited\nok True\n",
+          "expected_head": "limited\nok True\ncpu_threads True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compact_payload\nprefer compact_payload\nok True\n",
+          "expected_head": "compact_payload\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[True, True, False]\ntokens 2\nok True\n",
+          "expected_head": "2\nthird False\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backpressure\nbackpressure queue_maxsize\nok True\n",
+          "expected_head": "backpressure\nok True\nmaxsize 50",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "providers\nprotects upstream_providers\nok True\n",
+          "expected_head": "provider\nok True\nban_risk True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T2-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "0.01\nseconds 0.01\npolicy timeout\n",
+          "expected_head": "5\non_fail retry_or_dlq\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T2-B-E2",
+          "status": "shell_protocol",
+          "ok": true
+        },
+        {
+          "exercise_id": "S38-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "True\nrisk hang_without_timeout\nok True\n",
+          "expected_head": "incident True\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\ncorr corr-9\nok True\n",
+          "expected_head": "True\nevent scored\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['logs', 'metrics', 'traces']\npillars 3\nok True\n",
+          "expected_head": "['logs', 'metrics', 'traces']\nok True\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\npii_raw False\nok True\n",
+          "expected_head": "False\nok True\nredact True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "90***\nredacted True\nok True\n",
+          "expected_head": "90****01\nok True\npii False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nslo_ok True\nok True\n",
+          "expected_head": "True\np95 100\nlimit 200",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "error_budget\nconsumes_on_slo_breach True\nok True\n",
+          "expected_head": "error_budget\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['pending', 'running', 'done', 'failed']\nworkflow True\nok True\n",
+          "expected_head": "['pending', 'running', 'done', 'failed']\nok True\nn 4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "c1:features:v3\nidem_key c1:features:v3\nok True\n",
+          "expected_head": "case:step:ver\nok True\ndup False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "features\nresume_from features\nok True\n",
+          "expected_head": "features\nok True\ncheckpoint True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.8\nbackoff 0.8\nok True\n",
+          "expected_head": "0.8\nok True\nattempt 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "poison_messages\ndlq poison_messages\nok True\n",
+          "expected_head": "poison\nok True\nreplay controlled",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S38-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nrunbook True\nok True\n",
+          "expected_head": "True\noncall True\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 17,
+      "code_tried": 24,
+      "code_ratio": 0.708,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

@@ -1,0 +1,459 @@
+{
+  "section": 15,
+  "title": "Pandas: ingesta, selección y tipos",
+  "file": "s15-stdlib-deep.ts",
+  "n_required": 15,
+  "n_logged": 15,
+  "generated_at": "2026-07-24T05:16:09.000+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT 24 > HEAD 0",
+    "ethics": "synthetic only; coercion report not silent fix",
+    "v3_retarget": "Pandas ingest CP-N2-A not stdlib deep",
+    "expert_pass_at": "2026-07-24T05:16:09.000+00:00",
+    "theater_strip": "removed Stack permitido / Documenta decisión / porqué operativo"
+  },
+  "unique_foci": 15,
+  "source_url_count": 15,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget Pandas ingest not stdlib deep",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "read_csv",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html",
+          "note": "parser"
+        },
+        {
+          "family": "pandas",
+          "title": "indexing",
+          "url": "https://pandas.pydata.org/docs/user_guide/indexing.html",
+          "note": "loc iloc"
+        },
+        {
+          "family": "pandas",
+          "title": "dtypes",
+          "url": "https://pandas.pydata.org/docs/user_guide/basics.html#basics-dtypes",
+          "note": "nullable"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 1/15: «V3 retarget Pandas ingest not stdlib deep» via pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «V3 retarget Pandas ingest not stdlib deep».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget Pandas ingest not stdlib deep»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 1/15: «V3 retarget Pandas ingest not stdlib deep» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "Series DataFrame Index cliente_id",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "indexing",
+          "url": "https://pandas.pydata.org/docs/user_guide/indexing.html",
+          "note": "loc iloc"
+        },
+        {
+          "family": "pandas",
+          "title": "dtypes",
+          "url": "https://pandas.pydata.org/docs/user_guide/basics.html#basics-dtypes",
+          "note": "nullable"
+        },
+        {
+          "family": "pandas",
+          "title": "to_datetime",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html",
+          "note": "dates"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 2/15: «Series DataFrame Index cliente_id» via pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «Series DataFrame Index cliente_id».",
+      "expand_scope": "E1/E2/E3 + docs for «Series DataFrame Index cliente_id»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 2/15: «Series DataFrame Index cliente_id» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "read_csv dtype parse_dates na_values",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "dtypes",
+          "url": "https://pandas.pydata.org/docs/user_guide/basics.html#basics-dtypes",
+          "note": "nullable"
+        },
+        {
+          "family": "pandas",
+          "title": "to_datetime",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html",
+          "note": "dates"
+        },
+        {
+          "family": "pandas",
+          "title": "to_numeric",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_numeric.html",
+          "note": "coerce"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 3/15: «read_csv dtype parse_dates na_values» via pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «read_csv dtype parse_dates na_values».",
+      "expand_scope": "E1/E2/E3 + docs for «read_csv dtype parse_dates na_values»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 3/15: «read_csv dtype parse_dates na_values» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "loc vs iloc boolean filters",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "to_datetime",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html",
+          "note": "dates"
+        },
+        {
+          "family": "pandas",
+          "title": "to_numeric",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_numeric.html",
+          "note": "coerce"
+        },
+        {
+          "family": "pandas",
+          "title": "IO",
+          "url": "https://pandas.pydata.org/docs/user_guide/io.html",
+          "note": "export"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 4/15: «loc vs iloc boolean filters» via pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «loc vs iloc boolean filters».",
+      "expand_scope": "E1/E2/E3 + docs for «loc vs iloc boolean filters»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 4/15: «loc vs iloc boolean filters» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "assign pipeline columns",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "to_numeric",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.to_numeric.html",
+          "note": "coerce"
+        },
+        {
+          "family": "pandas",
+          "title": "IO",
+          "url": "https://pandas.pydata.org/docs/user_guide/io.html",
+          "note": "export"
+        },
+        {
+          "family": "Parquet",
+          "title": "docs",
+          "url": "https://parquet.apache.org/docs/",
+          "note": "columnar contract"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 5/15: «assign pipeline columns» via pandas, Parquet (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «assign pipeline columns».",
+      "expand_scope": "E1/E2/E3 + docs for «assign pipeline columns»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 5/15: «assign pipeline columns» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "SettingWithCopy chained assignment",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "IO",
+          "url": "https://pandas.pydata.org/docs/user_guide/io.html",
+          "note": "export"
+        },
+        {
+          "family": "Parquet",
+          "title": "docs",
+          "url": "https://parquet.apache.org/docs/",
+          "note": "columnar contract"
+        },
+        {
+          "family": "pandas",
+          "title": "getting started",
+          "url": "https://pandas.pydata.org/docs/getting_started/index.html",
+          "note": "official"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 6/15: «SettingWithCopy chained assignment» via pandas, Parquet (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «SettingWithCopy chained assignment».",
+      "expand_scope": "E1/E2/E3 + docs for «SettingWithCopy chained assignment»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 6/15: «SettingWithCopy chained assignment» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "string category datetime dtypes",
+      "research": [
+        {
+          "family": "Parquet",
+          "title": "docs",
+          "url": "https://parquet.apache.org/docs/",
+          "note": "columnar contract"
+        },
+        {
+          "family": "pandas",
+          "title": "getting started",
+          "url": "https://pandas.pydata.org/docs/getting_started/index.html",
+          "note": "official"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "files data"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 7/15: «string category datetime dtypes» via Parquet, pandas, Coursera (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «string category datetime dtypes».",
+      "expand_scope": "E1/E2/E3 + docs for «string category datetime dtypes»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 7/15: «string category datetime dtypes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "to_numeric errors coerce report",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "getting started",
+          "url": "https://pandas.pydata.org/docs/getting_started/index.html",
+          "note": "official"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "files data"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 8/15: «to_numeric errors coerce report» via pandas, Coursera, MIT (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «to_numeric errors coerce report».",
+      "expand_scope": "E1/E2/E3 + docs for «to_numeric errors coerce report»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 8/15: «to_numeric errors coerce report» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "schema dict coercion report",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "files data"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 9/15: «schema dict coercion report» via Coursera, MIT, Live (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «schema dict coercion report».",
+      "expand_scope": "E1/E2/E3 + docs for «schema dict coercion report»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 9/15: «schema dict coercion report» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "to_csv to_excel index false",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Real Python",
+          "title": "pandas files",
+          "url": "https://realpython.com/pandas-read-write-files/",
+          "note": "read write"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 10/15: «to_csv to_excel index false» via MIT, Live, Real Python (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «to_csv to_excel index false».",
+      "expand_scope": "E1/E2/E3 + docs for «to_csv to_excel index false»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 10/15: «to_csv to_excel index false» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "parquet contract schema JSON",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Real Python",
+          "title": "pandas files",
+          "url": "https://realpython.com/pandas-read-write-files/",
+          "note": "read write"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "python practice"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 11/15: «parquet contract schema JSON» via Live, Real Python, Harvard (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «parquet contract schema JSON».",
+      "expand_scope": "E1/E2/E3 + docs for «parquet contract schema JSON»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 11/15: «parquet contract schema JSON» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "manifest rows dtypes hash provenance",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "pandas files",
+          "url": "https://realpython.com/pandas-read-write-files/",
+          "note": "read write"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "python practice"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 12/15: «manifest rows dtypes hash provenance» via Real Python, Harvard, GitHub (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «manifest rows dtypes hash provenance».",
+      "expand_scope": "E1/E2/E3 + docs for «manifest rows dtypes hash provenance»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 12/15: «manifest rows dtypes hash provenance» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "memory_usage category cast",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "python practice"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "pandas",
+          "title": "assign",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.assign.html",
+          "note": "pipeline"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 13/15: «memory_usage category cast» via Harvard, GitHub, pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «memory_usage category cast».",
+      "expand_scope": "E1/E2/E3 + docs for «memory_usage category cast»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 13/15: «memory_usage category cast» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "reconcile rows expected after read",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "pandas",
+          "title": "assign",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.assign.html",
+          "note": "pipeline"
+        },
+        {
+          "family": "pandas",
+          "title": "read_csv",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html",
+          "note": "parser"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 14/15: «reconcile rows expected after read» via GitHub, pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «reconcile rows expected after read».",
+      "expand_scope": "E1/E2/E3 + docs for «reconcile rows expected after read»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 14/15: «reconcile rows expected after read» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "synthetic Lima Arequipa PEN only",
+      "research": [
+        {
+          "family": "pandas",
+          "title": "assign",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.assign.html",
+          "note": "pipeline"
+        },
+        {
+          "family": "pandas",
+          "title": "read_csv",
+          "url": "https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html",
+          "note": "parser"
+        },
+        {
+          "family": "pandas",
+          "title": "indexing",
+          "url": "https://pandas.pydata.org/docs/user_guide/indexing.html",
+          "note": "loc iloc"
+        }
+      ],
+      "synthesize": "S15 «Pandas: ingesta, selección y tipos» cycle 15/15: «synthetic Lima Arequipa PEN only» via pandas (CP-N2-A).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «synthetic Lima Arequipa PEN only».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic Lima Arequipa PEN only»; V3 roadmap; pair S15.",
+      "re_synthesize": "Decision 15/15: «synthetic Lima Arequipa PEN only» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html",
+    "https://pandas.pydata.org/docs/user_guide/indexing.html",
+    "https://pandas.pydata.org/docs/user_guide/basics.html#basics-dtypes",
+    "https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html",
+    "https://pandas.pydata.org/docs/reference/api/pandas.to_numeric.html",
+    "https://pandas.pydata.org/docs/user_guide/io.html",
+    "https://parquet.apache.org/docs/",
+    "https://pandas.pydata.org/docs/getting_started/index.html",
+    "https://www.coursera.org/specializations/python",
+    "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+    "https://pillb.github.io/pyarcana/",
+    "https://realpython.com/pandas-read-write-files/",
+    "https://cs50.harvard.edu/python/",
+    "https://github.com/skupriienko/Awesome-Python-Learning",
+    "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.assign.html"
+  ]
+}

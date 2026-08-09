@@ -1,0 +1,495 @@
+{
+  "index": 16,
+  "id": "wxpython-gui",
+  "title": "Calidad, limpieza y contratos de datos",
+  "file": "s16-wxpython-gui.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “GUI wxPython” a calidad y contratos de datos (mapa)",
+      "len": 55
+    },
+    {
+      "i": 1,
+      "text": "En V3, S16 no es el path de wx.Frame ni sizers. El id de plataforma wxpython-gui se conserva, pero el camino del estudiante es el quality gate de CP-N2-A: políticas de null, imputación limitada con indicadores, duplicados vs conflictos, normalización, outliers, contratos de schema/cross-field y cuarentena con audit trail.",
+      "len": 323
+    },
+    {
+      "i": 2,
+      "text": "Regla de oro: nunca “arreglar” silenciosamente. Toda transformación deja métrica, indicador o rastro en cuarentena. Datos sintéticos de clientes y montos (regiones Lima/Arequipa/Cusco, prefijos S/, ids C00x); nunca PII real ni DNIs de personas.",
+      "len": 244
+    },
+    {
+      "i": 3,
+      "text": "Orden pedagógico: T1 Ausencia (required/optional, indicadores, cap de imputación) → T2 Duplicados (exactos vs conflictos, evidencia de clave) → T3 Normalización (strings/números/fechas/cats, outliers) → T4 Contratos (schema, cross-field, métricas y audit). Solo pandas + stdlib de S01–S16.",
+      "len": 289
+    },
+    {
+      "i": 4,
+      "text": "nulls y políticas por campo",
+      "len": 27
+    },
+    {
+      "i": 5,
+      "text": "Cada campo del contrato tiene política required (null ⇒ cuarentena o fail del gate) u optional (null permitido, idealmente con indicador de ausencia). Mezclar ambas sin documentar es la causa clásica de “defaults mágicos” que envenenan el EDA de S17.",
+      "len": 250
+    },
+    {
+      "i": 6,
+      "text": "Contrato operativo: documenta un dict {campo: 'required'|'optional'}, mide con isna/notna, y arma un mapa violations solo para required con n>0. No imputes un required “para que pase el job”: eso oculta rotura de fuente y contamina el EDA posterior.",
+      "len": 249
+    },
+    {
+      "i": 7,
+      "text": "Caso sintético Perú: cliente_id y monto required; email optional. Filas con id o monto nulo entran a violaciones; la tasa de null de email se reporta como métrica pero no tumba el gate por sí sola. Imprime violations y null_rate de opcionales en el reporte del run.",
+      "len": 265
+    },
+    {
+      "i": 8,
+      "text": "indicadores y límites de imputación",
+      "len": 35
+    },
+    {
+      "i": 9,
+      "text": "Un indicador de ausencia (monto_was_null) preserva señal cuando imputas un optional: el modelo, el auditor y el stakeholder de riesgo ven qué filas fueron tocadas. Imputar sin indicador borra evidencia y crea falsos ceros indistinguibles de ceros reales de negocio.",
+      "len": 265
+    },
+    {
+      "i": 10,
+      "text": "Límites del gate: no imputar más del cap (p. ej. 30–40% null en la columna), no imputar llaves de negocio (cliente_id), y documentar la regla (mediana, constante de dominio). Si null_rate > cap, el gate imprime blocked/fail y no rellena en silencio.",
+      "len": 249
+    },
+    {
+      "i": 11,
+      "text": "Caso: monto con 2/5 null y cap=0.4 → se permite fillna(mediana) + columna was_null. Si el rate supera el cap, no hay fill silencioso. La mediana se calcula solo sobre no-nulos pre-imputación; post-fill no se recalcula para “maquillar” el reporte.",
+      "len": 246
+    },
+    {
+      "i": 12,
+      "text": "duplicados exactos vs conflictos",
+      "len": 32
+    },
+    {
+      "i": 13,
+      "text": "Duplicado exacto: mismas columnas relevantes idénticas. Conflicto: misma clave de negocio con atributos distintos (p. ej. dos regiones para un cliente_id). Tratarlos igual con drop_duplicates ciego puede borrar el único rastro del conflicto y dejar un maestro mentiroso.",
+      "len": 270
+    },
+    {
+      "i": 14,
+      "text": "Contrato: usa duplicated(keep=False) para exactos y groupby(clave)[attr].transform('nunique')>1 para conflictos. Solo después eliges política keep='first'|'last' o envío a cuarentena. Clasifica antes de borrar; el orden evita pérdida de evidencia.",
+      "len": 247
+    },
+    {
+      "i": 15,
+      "text": "Caso sintético: C001 repetido exacto (Lima, score 0.9); C002 con Cusco vs Arequipa. Salida esperada: exact_rows para C001 y conflict_ids para C002. El portfolio de calidad de CP-N2-A debe listar ambos tipos por separado en el memo.",
+      "len": 231
+    },
+    {
+      "i": 16,
+      "text": "claves, cardinalidad y conservación de evidencia",
+      "len": 48
+    },
+    {
+      "i": 17,
+      "text": "Define la clave de negocio y la cardinalidad esperada (típicamente 1 fila por cliente). Los duplicados de clave van a cuarentena con evidencia completa (todas las versiones + columnas de origen/batch), no se eliminan sin log append-only.",
+      "len": 237
+    },
+    {
+      "i": 18,
+      "text": "Contrato: clean = drop_duplicates(key, keep=...) con regla documentada; quarantine = filas con clave duplicada sin pérdida de columnas. El set limpio alimenta joins de S17; el audit permite reconstruir por qué se eligió una versión ante revisión humana.",
+      "len": 253
+    },
+    {
+      "i": 19,
+      "text": "Caso: C001 con scores 0.9 y 0.4 de src a/b. keep='first' deja 0.9 en clean; quarantine_n=2 conserva ambas filas y columnas de evidencia. Sin esa evidencia, el gate no es auditable ante un stakeholder de riesgo o cumplimiento.",
+      "len": 225
+    },
+    {
+      "i": 20,
+      "text": "normalización de strings, números, fechas y categorías",
+      "len": 54
+    },
+    {
+      "i": 21,
+      "text": "Normalización: strings (strip, colapso de espacios, title/casefold), números (quitar S/, comas de miles, decimal latino), fechas multi-formato, categorías con mapa de sinónimos (LIM→Lima). Normalizar ≠ imputar: no inventes valores, solo canonicidad.",
+      "len": 249
+    },
+    {
+      "i": 22,
+      "text": "Contrato: conserva raw en columna lateral (region_raw, monto_raw) cuando el valor canónico puede disputarse o re-parsearse. Valida dtypes post-normalización antes del join de S17; un float mal parseado revienta cardinalidades.",
+      "len": 226
+    },
+    {
+      "i": 23,
+      "text": "Caso Perú sintético: lima , AREQUIPA, montos S/ 10.50 y textos con coma de miles. Salida canónica Lima/Arequipa y floats en PEN ficticios; raw intacto para auditoría. Nunca subas padrones reales ni PII al repo del curso.",
+      "len": 220
+    },
+    {
+      "i": 24,
+      "text": "outliers plausibles vs errores",
+      "len": 30
+    },
+    {
+      "i": 25,
+      "text": "Un outlier plausible está lejos estadísticamente pero dentro del dominio de negocio (monto alto legítimo en una campaña). Un error de dominio viola bounds (monto < 0, lat 999, edad 200). IQR/z-score solo candidatan; el dominio de negocio decide error vs flag.",
+      "len": 259
+    },
+    {
+      "i": 26,
+      "text": "Contrato: mantén máscaras stat_outlier y domain_error por separado; por defecto flag + cuarentena, nunca drop silencioso solo por IQR. Documenta bounds en el memo del gate (p. ej. monto ∈ [0, 10000] PEN sintéticos del fixture de clase).",
+      "len": 236
+    },
+    {
+      "i": 27,
+      "text": "Caso: serie con 5000 (cola plausible) y -1 (error). stat marca ambos; domain solo -1; plausible_extreme = 5000. El EDA de S17 no debe perder la cola legítima de montos por un 1.5·IQR ciego sin revisión explícita de dominio.",
+      "len": 223
+    },
+    {
+      "i": 28,
+      "text": "reglas de schema y cross-field",
+      "len": 30
+    },
+    {
+      "i": 29,
+      "text": "Contrato de schema: columnas presentes, dtypes esperados y nullability por campo. Cross-field: p. ej. fecha_fin >= fecha_ini, monto > 0 si estado=pagado. Cada regla devuelve máscara de fallos + código de error legible para cuarentena.",
+      "len": 234
+    },
+    {
+      "i": 30,
+      "text": "Ante schema drift (columna required faltante o renombrada), el gate falla con el nombre de la columna — no con un KeyError opaco al final del pipeline. Columnas extra pueden warn o fail según política documentada en el runbook.",
+      "len": 227
+    },
+    {
+      "i": 31,
+      "text": "Caso: expected {inicio, fin, monto}; detecta cross-field fin<inicio e índices de monto negativo. Imprime drift, cross_fail_idx y neg_idx con códigos legibles. Este bloque es el puente al join validado y al portfolio de S17.",
+      "len": 223
+    },
+    {
+      "i": 32,
+      "text": "métricas, cuarentena y audit trail",
+      "len": 34
+    },
+    {
+      "i": 33,
+      "text": "Métricas operables del run: rows_in, rows_clean, rows_quarantine, tasas de null/dup/fail_schema y pass booleano. Un fail sin métricas no se puede operar en un job nocturno ni explicar a negocio, riesgo o auditoría interna.",
+      "len": 222
+    },
+    {
+      "i": 34,
+      "text": "Cuarentena = tabla de filas rechazadas + razón codificada. Audit trail = lista append-only de eventos (ingest, quarantine, promote). El gate publica el reporte aunque pass=False (exit code ≠ 0 acompañado de JSON de métricas).",
+      "len": 225
+    },
+    {
+      "i": 35,
+      "text": "Caso: 2 filas in, 1 clean, 1 quarantine por null_required_monto; audit con evento quarantine. metrics.pass es false. S17 solo debe consumir clean y el memo debe declarar cuántas filas quedaron fuera del universo analítico.",
+      "len": 222
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 55,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “GUI wxPython” a calidad y contratos de datos (mapa)",
+      "text": "De “GUI wxPython” a calidad y contratos de datos (mapa)"
+    },
+    {
+      "i": 1,
+      "len": 323,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S16 no es el path de wx.Frame ni sizers. El id de plataforma wxpython-gui se conserva, pero el camino del estudiante es el quality gate de CP-N2-A: políticas de null, imputa",
+      "text": "En V3, S16 no es el path de wx.Frame ni sizers. El id de plataforma wxpython-gui se conserva, pero el camino del estudiante es el quality gate de CP-N2-A: políticas de null, imputación limitada con indicadores, duplicados vs conflictos, normalización, outliers, contratos de schema/cross-field y cuarentena con audit trail."
+    },
+    {
+      "i": 2,
+      "len": 244,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Regla de oro: nunca “arreglar” silenciosamente. Toda transformación deja métrica, indicador o rastro en cuarentena. Datos sintéticos de clientes y montos (regiones Lima/Arequipa/Cu",
+      "text": "Regla de oro: nunca “arreglar” silenciosamente. Toda transformación deja métrica, indicador o rastro en cuarentena. Datos sintéticos de clientes y montos (regiones Lima/Arequipa/Cusco, prefijos S/, ids C00x); nunca PII real ni DNIs de personas."
+    },
+    {
+      "i": 3,
+      "len": 289,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden pedagógico: T1 Ausencia (required/optional, indicadores, cap de imputación) → T2 Duplicados (exactos vs conflictos, evidencia de clave) → T3 Normalización (strings/números/fe",
+      "text": "Orden pedagógico: T1 Ausencia (required/optional, indicadores, cap de imputación) → T2 Duplicados (exactos vs conflictos, evidencia de clave) → T3 Normalización (strings/números/fechas/cats, outliers) → T4 Contratos (schema, cross-field, métricas y audit). Solo pandas + stdlib de S01–S16."
+    },
+    {
+      "i": 4,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "nulls y políticas por campo",
+      "text": "nulls y políticas por campo"
+    },
+    {
+      "i": 5,
+      "len": 250,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cada campo del contrato tiene política required (null ⇒ cuarentena o fail del gate) u optional (null permitido, idealmente con indicador de ausencia). Mezclar ambas sin documentar ",
+      "text": "Cada campo del contrato tiene política required (null ⇒ cuarentena o fail del gate) u optional (null permitido, idealmente con indicador de ausencia). Mezclar ambas sin documentar es la causa clásica de “defaults mágicos” que envenenan el EDA de S17."
+    },
+    {
+      "i": 6,
+      "len": 249,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo: documenta un dict {campo: 'required'|'optional'}, mide con isna/notna, y arma un mapa violations solo para required con n>0. No imputes un required “para que pa",
+      "text": "Contrato operativo: documenta un dict {campo: 'required'|'optional'}, mide con isna/notna, y arma un mapa violations solo para required con n>0. No imputes un required “para que pase el job”: eso oculta rotura de fuente y contamina el EDA posterior."
+    },
+    {
+      "i": 7,
+      "len": 265,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético Perú: cliente_id y monto required; email optional. Filas con id o monto nulo entran a violaciones; la tasa de null de email se reporta como métrica pero no tumba el ",
+      "text": "Caso sintético Perú: cliente_id y monto required; email optional. Filas con id o monto nulo entran a violaciones; la tasa de null de email se reporta como métrica pero no tumba el gate por sí sola. Imprime violations y null_rate de opcionales en el reporte del run."
+    },
+    {
+      "i": 8,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "indicadores y límites de imputación",
+      "text": "indicadores y límites de imputación"
+    },
+    {
+      "i": 9,
+      "len": 265,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un indicador de ausencia (monto_was_null) preserva señal cuando imputas un optional: el modelo, el auditor y el stakeholder de riesgo ven qué filas fueron tocadas. Imputar sin indi",
+      "text": "Un indicador de ausencia (monto_was_null) preserva señal cuando imputas un optional: el modelo, el auditor y el stakeholder de riesgo ven qué filas fueron tocadas. Imputar sin indicador borra evidencia y crea falsos ceros indistinguibles de ceros reales de negocio."
+    },
+    {
+      "i": 10,
+      "len": 249,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Límites del gate: no imputar más del cap (p. ej. 30–40% null en la columna), no imputar llaves de negocio (cliente_id), y documentar la regla (mediana, constante de dominio). Si nu",
+      "text": "Límites del gate: no imputar más del cap (p. ej. 30–40% null en la columna), no imputar llaves de negocio (cliente_id), y documentar la regla (mediana, constante de dominio). Si null_rate > cap, el gate imprime blocked/fail y no rellena en silencio."
+    },
+    {
+      "i": 11,
+      "len": 246,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: monto con 2/5 null y cap=0.4 → se permite fillna(mediana) + columna was_null. Si el rate supera el cap, no hay fill silencioso. La mediana se calcula solo sobre no-nulos pre-",
+      "text": "Caso: monto con 2/5 null y cap=0.4 → se permite fillna(mediana) + columna was_null. Si el rate supera el cap, no hay fill silencioso. La mediana se calcula solo sobre no-nulos pre-imputación; post-fill no se recalcula para “maquillar” el reporte."
+    },
+    {
+      "i": 12,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "duplicados exactos vs conflictos",
+      "text": "duplicados exactos vs conflictos"
+    },
+    {
+      "i": 13,
+      "len": 270,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Duplicado exacto: mismas columnas relevantes idénticas. Conflicto: misma clave de negocio con atributos distintos (p. ej. dos regiones para un cliente_id). Tratarlos igual con drop",
+      "text": "Duplicado exacto: mismas columnas relevantes idénticas. Conflicto: misma clave de negocio con atributos distintos (p. ej. dos regiones para un cliente_id). Tratarlos igual con drop_duplicates ciego puede borrar el único rastro del conflicto y dejar un maestro mentiroso."
+    },
+    {
+      "i": 14,
+      "len": 247,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: usa duplicated(keep=False) para exactos y groupby(clave)[attr].transform('nunique')>1 para conflictos. Solo después eliges política keep='first'|'last' o envío a cuarente",
+      "text": "Contrato: usa duplicated(keep=False) para exactos y groupby(clave)[attr].transform('nunique')>1 para conflictos. Solo después eliges política keep='first'|'last' o envío a cuarentena. Clasifica antes de borrar; el orden evita pérdida de evidencia."
+    },
+    {
+      "i": 15,
+      "len": 231,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso sintético: C001 repetido exacto (Lima, score 0.9); C002 con Cusco vs Arequipa. Salida esperada: exact_rows para C001 y conflict_ids para C002. El portfolio de calidad de CP-N2",
+      "text": "Caso sintético: C001 repetido exacto (Lima, score 0.9); C002 con Cusco vs Arequipa. Salida esperada: exact_rows para C001 y conflict_ids para C002. El portfolio de calidad de CP-N2-A debe listar ambos tipos por separado en el memo."
+    },
+    {
+      "i": 16,
+      "len": 48,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "claves, cardinalidad y conservación de evidencia",
+      "text": "claves, cardinalidad y conservación de evidencia"
+    },
+    {
+      "i": 17,
+      "len": 237,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Define la clave de negocio y la cardinalidad esperada (típicamente 1 fila por cliente). Los duplicados de clave van a cuarentena con evidencia completa (todas las versiones + colum",
+      "text": "Define la clave de negocio y la cardinalidad esperada (típicamente 1 fila por cliente). Los duplicados de clave van a cuarentena con evidencia completa (todas las versiones + columnas de origen/batch), no se eliminan sin log append-only."
+    },
+    {
+      "i": 18,
+      "len": 253,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: clean = drop_duplicates(key, keep=...) con regla documentada; quarantine = filas con clave duplicada sin pérdida de columnas. El set limpio alimenta joins de S17; el audi",
+      "text": "Contrato: clean = drop_duplicates(key, keep=...) con regla documentada; quarantine = filas con clave duplicada sin pérdida de columnas. El set limpio alimenta joins de S17; el audit permite reconstruir por qué se eligió una versión ante revisión humana."
+    },
+    {
+      "i": 19,
+      "len": 225,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: C001 con scores 0.9 y 0.4 de src a/b. keep='first' deja 0.9 en clean; quarantine_n=2 conserva ambas filas y columnas de evidencia. Sin esa evidencia, el gate no es auditable ",
+      "text": "Caso: C001 con scores 0.9 y 0.4 de src a/b. keep='first' deja 0.9 en clean; quarantine_n=2 conserva ambas filas y columnas de evidencia. Sin esa evidencia, el gate no es auditable ante un stakeholder de riesgo o cumplimiento."
+    },
+    {
+      "i": 20,
+      "len": 54,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "normalización de strings, números, fechas y categorías",
+      "text": "normalización de strings, números, fechas y categorías"
+    },
+    {
+      "i": 21,
+      "len": 249,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Normalización: strings (strip, colapso de espacios, title/casefold), números (quitar S/, comas de miles, decimal latino), fechas multi-formato, categorías con mapa de sinónimos (LI",
+      "text": "Normalización: strings (strip, colapso de espacios, title/casefold), números (quitar S/, comas de miles, decimal latino), fechas multi-formato, categorías con mapa de sinónimos (LIM→Lima). Normalizar ≠ imputar: no inventes valores, solo canonicidad."
+    },
+    {
+      "i": 22,
+      "len": 226,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: conserva raw en columna lateral (region_raw, monto_raw) cuando el valor canónico puede disputarse o re-parsearse. Valida dtypes post-normalización antes del join de S17; ",
+      "text": "Contrato: conserva raw en columna lateral (region_raw, monto_raw) cuando el valor canónico puede disputarse o re-parsearse. Valida dtypes post-normalización antes del join de S17; un float mal parseado revienta cardinalidades."
+    },
+    {
+      "i": 23,
+      "len": 220,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso Perú sintético: lima , AREQUIPA, montos S/ 10.50 y textos con coma de miles. Salida canónica Lima/Arequipa y floats en PEN ficticios; raw intacto para auditoría. Nunca subas p",
+      "text": "Caso Perú sintético: lima , AREQUIPA, montos S/ 10.50 y textos con coma de miles. Salida canónica Lima/Arequipa y floats en PEN ficticios; raw intacto para auditoría. Nunca subas padrones reales ni PII al repo del curso."
+    },
+    {
+      "i": 24,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "outliers plausibles vs errores",
+      "text": "outliers plausibles vs errores"
+    },
+    {
+      "i": 25,
+      "len": 259,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un outlier plausible está lejos estadísticamente pero dentro del dominio de negocio (monto alto legítimo en una campaña). Un error de dominio viola bounds (monto < 0, lat 999, edad",
+      "text": "Un outlier plausible está lejos estadísticamente pero dentro del dominio de negocio (monto alto legítimo en una campaña). Un error de dominio viola bounds (monto < 0, lat 999, edad 200). IQR/z-score solo candidatan; el dominio de negocio decide error vs flag."
+    },
+    {
+      "i": 26,
+      "len": 236,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato: mantén máscaras stat_outlier y domain_error por separado; por defecto flag + cuarentena, nunca drop silencioso solo por IQR. Documenta bounds en el memo del gate (p. ej. ",
+      "text": "Contrato: mantén máscaras stat_outlier y domain_error por separado; por defecto flag + cuarentena, nunca drop silencioso solo por IQR. Documenta bounds en el memo del gate (p. ej. monto ∈ [0, 10000] PEN sintéticos del fixture de clase)."
+    },
+    {
+      "i": 27,
+      "len": 223,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: serie con 5000 (cola plausible) y -1 (error). stat marca ambos; domain solo -1; plausible_extreme = 5000. El EDA de S17 no debe perder la cola legítima de montos por un 1.5·I",
+      "text": "Caso: serie con 5000 (cola plausible) y -1 (error). stat marca ambos; domain solo -1; plausible_extreme = 5000. El EDA de S17 no debe perder la cola legítima de montos por un 1.5·IQR ciego sin revisión explícita de dominio."
+    },
+    {
+      "i": 28,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "reglas de schema y cross-field",
+      "text": "reglas de schema y cross-field"
+    },
+    {
+      "i": 29,
+      "len": 234,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de schema: columnas presentes, dtypes esperados y nullability por campo. Cross-field: p. ej. fecha_fin >= fecha_ini, monto > 0 si estado=pagado. Cada regla devuelve máscar",
+      "text": "Contrato de schema: columnas presentes, dtypes esperados y nullability por campo. Cross-field: p. ej. fecha_fin >= fecha_ini, monto > 0 si estado=pagado. Cada regla devuelve máscara de fallos + código de error legible para cuarentena."
+    },
+    {
+      "i": 30,
+      "len": 227,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Ante schema drift (columna required faltante o renombrada), el gate falla con el nombre de la columna — no con un KeyError opaco al final del pipeline. Columnas extra pueden warn o",
+      "text": "Ante schema drift (columna required faltante o renombrada), el gate falla con el nombre de la columna — no con un KeyError opaco al final del pipeline. Columnas extra pueden warn o fail según política documentada en el runbook."
+    },
+    {
+      "i": 31,
+      "len": 223,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: expected {inicio, fin, monto}; detecta cross-field fin<inicio e índices de monto negativo. Imprime drift, cross_fail_idx y neg_idx con códigos legibles. Este bloque es el pue",
+      "text": "Caso: expected {inicio, fin, monto}; detecta cross-field fin<inicio e índices de monto negativo. Imprime drift, cross_fail_idx y neg_idx con códigos legibles. Este bloque es el puente al join validado y al portfolio de S17."
+    },
+    {
+      "i": 32,
+      "len": 34,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "métricas, cuarentena y audit trail",
+      "text": "métricas, cuarentena y audit trail"
+    },
+    {
+      "i": 33,
+      "len": 222,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Métricas operables del run: rows_in, rows_clean, rows_quarantine, tasas de null/dup/fail_schema y pass booleano. Un fail sin métricas no se puede operar en un job nocturno ni expli",
+      "text": "Métricas operables del run: rows_in, rows_clean, rows_quarantine, tasas de null/dup/fail_schema y pass booleano. Un fail sin métricas no se puede operar en un job nocturno ni explicar a negocio, riesgo o auditoría interna."
+    },
+    {
+      "i": 34,
+      "len": 225,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cuarentena = tabla de filas rechazadas + razón codificada. Audit trail = lista append-only de eventos (ingest, quarantine, promote). El gate publica el reporte aunque pass=False (e",
+      "text": "Cuarentena = tabla de filas rechazadas + razón codificada. Audit trail = lista append-only de eventos (ingest, quarantine, promote). El gate publica el reporte aunque pass=False (exit code ≠ 0 acompañado de JSON de métricas)."
+    },
+    {
+      "i": 35,
+      "len": 222,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Caso: 2 filas in, 1 clean, 1 quarantine por null_required_monto; audit con evento quarantine. metrics.pass es false. S17 solo debe consumir clean y el memo debe declarar cuántas fi",
+      "text": "Caso: 2 filas in, 1 clean, 1 quarantine por null_required_monto; audit con evento quarantine. metrics.pass es false. S17 solo debe consumir clean y el memo debe declarar cuántas filas quedaron fuera del universo analítico."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 12758
+}

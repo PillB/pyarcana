@@ -1,0 +1,322 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 8,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s08-fe9a06bbb4",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S08-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "pathlib",
+        "utf-8"
+      ],
+      "blocked_on": [],
+      "code": "from pathlib import Path\np = Path('/tmp/s08_demo_hello.txt')\np.write_text('hola intake\\n', encoding='utf-8')\nprint(p.exists(), p.read_text(encoding='utf-8').strip())\n",
+      "justification_from_packet": "pathlib write_text/read_text con encoding utf-8 explícito evita depender del locale (T1-A)."
+    },
+    {
+      "exercise_id": "S08-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "open",
+        "context manager"
+      ],
+      "blocked_on": [],
+      "code": "from pathlib import Path\np = Path('/tmp/s08_line.txt')\nwith p.open('w', encoding='utf-8') as f:\n    f.write('linea1\\n')\n    f.write('linea2\\n')\nprint(p.read_text(encoding='utf-8'))\n",
+      "justification_from_packet": "with path.open('w', encoding='utf-8') y newlines naturales como pide el paquete."
+    },
+    {
+      "exercise_id": "S08-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "UnicodeDecodeError"
+      ],
+      "blocked_on": [],
+      "code": "from pathlib import Path\np = Path('/tmp/s08_bad.bin')\np.write_bytes(b'\\xff\\xfe')\ntry:\n    p.read_text(encoding='utf-8')\nexcept UnicodeDecodeError as e:\n    print('UnicodeDecodeError', type(e).__name__)\n",
+      "justification_from_packet": "Simula UnicodeDecodeError leyendo bytes no-UTF-8 en modo strict; falla cerrado, no rellena."
+    },
+    {
+      "exercise_id": "S08-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "CRLF"
+      ],
+      "blocked_on": [],
+      "code": "samples = [b'a\\r\\nb', b'a\\nb']\nfor data in samples:\n    print(data, 'crlf=', b'\\r\\n' in data)\n",
+      "justification_from_packet": "Detectar CRLF vs LF en bytes antes de normalizar líneas (T1-B)."
+    },
+    {
+      "exercise_id": "S08-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "atomic write"
+      ],
+      "blocked_on": [],
+      "code": "from pathlib import Path\nimport os\ndest = Path('/tmp/s08_atomic_out.txt')\ntmp = dest.with_suffix('.tmp')\ntmp.write_text('payload ok\\n', encoding='utf-8')\nos.replace(tmp, dest)\nprint(dest.read_text(encoding='utf-8').strip())\n",
+      "justification_from_packet": "Escritura atómica: temp en el mismo directorio y os.replace al destino."
+    },
+    {
+      "exercise_id": "S08-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "partial vs atomic"
+      ],
+      "blocked_on": [],
+      "code": "from pathlib import Path\nimport os\ndest = Path('/tmp/s08_partial.txt')\ndest.write_text('PARCIAL', encoding='utf-8')\nprint('riesgo mid-write:', dest.read_text(encoding='utf-8'))\ntmp = dest.with_suffix('.tmp')\ntmp.write_text('COMPLETO', encoding='utf-8')\nos.replace(tmp, dest)\nprint('atomic:', dest.read_text(encoding='utf-8'))\n",
+      "justification_from_packet": "Contrasta write parcial visible vs atomic replace: no publicar dest a medias."
+    },
+    {
+      "exercise_id": "S08-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "concepts_used": [
+        "DictReader"
+      ],
+      "blocked_on": [],
+      "code": "import csv, io\nraw = 'id,region\\nC001,Lima\\nC002,Cusco\\n'\nrows = list(csv.DictReader(io.StringIO(raw)))\nprint(rows)\n",
+      "justification_from_packet": "csv.DictReader sobre StringIO parsea header y filas del contrato de ingesta."
+    },
+    {
+      "exercise_id": "S08-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "DictWriter"
+      ],
+      "blocked_on": [],
+      "code": "import csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=['id', 'region'])\nw.writeheader()\nw.writerow({'id': 'C001', 'region': 'Lima'})\nprint(buf.getvalue())\n",
+      "justification_from_packet": "DictWriter: writeheader + writerow; en open real se usa newline=''."
+    },
+    {
+      "exercise_id": "S08-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Decimal cast"
+      ],
+      "blocked_on": [],
+      "code": "from decimal import Decimal, InvalidOperation, ROUND_HALF_EVEN\ndef cast_monto(v):\n    try:\n        return True, Decimal(v).quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN), None\n    except (InvalidOperation, TypeError):\n        return False, None, f'monto invalido {v!r}'\nfor v in ['10.5', 'abc', '0']:\n    print(v, cast_monto(v))\n",
+      "justification_from_packet": "Decimal desde texto + quantize a céntimos; InvalidOperation no se silencia con float ni 0."
+    },
+    {
+      "exercise_id": "S08-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "column count"
+      ],
+      "blocked_on": [],
+      "code": "header = ['id', 'region', 'monto']\nrow_ok = ['C1', 'Lima', '10']\nrow_bad = ['C2', 'Cusco']\nprint(len(row_ok) == len(header), len(row_bad) == len(header))\n",
+      "justification_from_packet": "Fila con columnas de más/menos: len(row)!=len(header) → cuarentena con motivo."
+    },
+    {
+      "exercise_id": "S08-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "quarantine csv"
+      ],
+      "blocked_on": [],
+      "code": "import csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=['raw', 'reason'])\nw.writeheader()\nw.writerow({'raw': 'C2,Cusco', 'reason': 'column_count_mismatch'})\nprint(buf.getvalue())\n",
+      "justification_from_packet": "Quarantine CSV con campos raw y reason para filas mal formadas."
+    },
+    {
+      "exercise_id": "S08-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Counter"
+      ],
+      "blocked_on": [],
+      "code": "from collections import Counter\nreasons = ['column_count_mismatch', 'bad_monto', 'column_count_mismatch']\nprint(sorted(Counter(reasons).items()))\n",
+      "justification_from_packet": "Counter de motivos de cuarentena ordenado para el reporte del lote."
+    },
+    {
+      "exercise_id": "S08-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.92,
+      "concepts_used": [
+        "json.loads"
+      ],
+      "blocked_on": [],
+      "code": "import json\nobj = json.loads('{\"id\":\"C001\",\"region\":\"Lima\"}')\nprint(obj['id'], obj['region'])\n",
+      "justification_from_packet": "json.loads parsea el objeto sintético; acceso por clave del contrato."
+    },
+    {
+      "exercise_id": "S08-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "json.dumps"
+      ],
+      "blocked_on": [],
+      "code": "import json\ns = json.dumps({'nombre': 'José', 'ok': True}, ensure_ascii=False)\nprint(s)\n",
+      "justification_from_packet": "ensure_ascii=False conserva tildes en JSON legible (T3-A)."
+    },
+    {
+      "exercise_id": "S08-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "isoformat"
+      ],
+      "blocked_on": [],
+      "code": "import json\nfrom datetime import datetime\ndt = datetime(2024, 1, 15, 10, 0, 0)\ntry:\n    json.dumps({'ts': dt})\nexcept TypeError as e:\n    print('TypeError', type(e).__name__)\nprint(json.dumps({'ts': dt.isoformat()}))\n",
+      "justification_from_packet": "datetime no es serializable: convertir a isoformat() antes de dumps."
+    },
+    {
+      "exercise_id": "S08-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "required keys"
+      ],
+      "blocked_on": [],
+      "code": "required = ['id', 'email', 'region']\nobj = {'id': 'C001', 'region': 'Lima'}\nmissing = [k for k in required if k not in obj]\nprint('ok', not missing, 'missing', missing)\n",
+      "justification_from_packet": "Validar claves requeridas listando missing; fail-closed si schema no cuadra."
+    },
+    {
+      "exercise_id": "S08-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "None vs missing"
+      ],
+      "blocked_on": [],
+      "code": "obj = {'id': 'C001', 'email': None}\nprint('email' in obj, obj.get('email') is None)\nprint('clave presente con None != clave ausente')\n",
+      "justification_from_packet": "'email' in obj es True aunque sea None; missing key es otra semántica."
+    },
+    {
+      "exercise_id": "S08-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "setdefault"
+      ],
+      "blocked_on": [],
+      "code": "base = {'retry': 1}\nbase.setdefault('timeout', 30)\nbase.setdefault('retry', 99)\nprint(base)\n",
+      "justification_from_packet": "setdefault no sobrescribe un valor existente (evita overwrite ciego)."
+    },
+    {
+      "exercise_id": "S08-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "sha256"
+      ],
+      "blocked_on": [],
+      "code": "from pathlib import Path\nimport hashlib\np = Path('/tmp/s08_hash.txt')\np.write_text('abc', encoding='utf-8')\nprint(hashlib.sha256(p.read_bytes()).hexdigest())\n",
+      "justification_from_packet": "sha256 de bytes del archivo como huella de integridad de fuente (T4-A)."
+    },
+    {
+      "exercise_id": "S08-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "copy2"
+      ],
+      "blocked_on": [],
+      "code": "from pathlib import Path\nimport shutil\nsrc = Path('/tmp/s08_src.txt'); dst = Path('/tmp/s08_dst.txt')\nsrc.write_text('payload', encoding='utf-8')\nshutil.copy2(src, dst)\nprint(src.read_bytes() == dst.read_bytes())\n",
+      "justification_from_packet": "shutil.copy2 + comparar bytes para snapshot de evidencia reproducible."
+    },
+    {
+      "exercise_id": "S08-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "stat",
+        "hash"
+      ],
+      "blocked_on": [],
+      "code": "from pathlib import Path\nimport hashlib\np = Path('/tmp/s08_size.txt')\np.write_text('hola mundo', encoding='utf-8')\nprint('size', p.stat().st_size)\nprint('sha', hashlib.sha256(p.read_bytes()).hexdigest()[:16])\n",
+      "justification_from_packet": "stat().st_size junto a sha256 completo como checks de integridad."
+    },
+    {
+      "exercise_id": "S08-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "manifest"
+      ],
+      "blocked_on": [],
+      "code": "manifest = {\n    'run_id': 'run-001',\n    'sources': [\n        {'name': 'clients.csv', 'sha256': 'aaa', 'n_in': 10, 'n_clean': 8, 'n_quarantine': 2},\n        {'name': 'transactions.json', 'sha256': 'bbb', 'n_in': 5, 'n_clean': 5, 'n_quarantine': 0},\n    ],\n}\nfor s in manifest['sources']:\n    s['reconcile_ok'] = s['n_in'] == s['n_clean'] + s['n_quarantine']\nprint(manifest)\n",
+      "justification_from_packet": "Manifest con run_id y sources (clients.csv + transactions.json); reconcile por fuente."
+    },
+    {
+      "exercise_id": "S08-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "reconcile"
+      ],
+      "blocked_on": [],
+      "code": "sources = [\n    {'name': 'a', 'n_in': 10, 'n_clean': 8, 'n_quarantine': 2},\n    {'name': 'b', 'n_in': 5, 'n_clean': 4, 'n_quarantine': 0},\n]\nagg = sum(s['n_in'] for s in sources) == sum(s['n_clean'] + s['n_quarantine'] for s in sources)\nper = all(s['n_in'] == s['n_clean'] + s['n_quarantine'] for s in sources)\nprint('agg', agg, 'per_source', per)\n",
+      "justification_from_packet": "Reconciliación exige n_in == n_clean + n_quarantine por fuente; el agregado puede mentir."
+    },
+    {
+      "exercise_id": "S08-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "fail closed"
+      ],
+      "blocked_on": [],
+      "code": "sources = [\n    {'name': 'clients.csv', 'n_in': 10, 'n_clean': 8, 'n_quarantine': 2},\n    {'name': 'txs.json', 'n_in': 5, 'n_clean': 4, 'n_quarantine': 0},\n]\nbroken = [s['name'] for s in sources if s['n_in'] != s['n_clean'] + s['n_quarantine']]\nif broken:\n    print('FAIL closed; no publicar clean. fuentes rotas:', broken)\nelse:\n    print('publish clean')\n",
+      "justification_from_packet": "Si reconcile falla: fail closed, no publicar clean; reportar todas las fuentes rotas."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "confidence": 0.93,
+      "justification_from_packet": "Declarar encoding='utf-8' evita depender del locale del SO (p. ej. Windows)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.92,
+      "justification_from_packet": "Escritura atómica típica: escribir temp y os.replace al destino."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "confidence": 0.91,
+      "justification_from_packet": "Fila CSV con columnas de más debe ir a cuarentena con motivo, no ignorarse."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "confidence": 0.94,
+      "justification_from_packet": "Reconciliación del manifest exige n_in == n_clean + n_quarantine."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "confidence": 0.93,
+      "justification_from_packet": "Si reconcile falla, el pipeline debe fallar (exit non-zero) / fail closed."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:17.392652+00:00",
+  "session_started_at": "2026-07-23T14:16:53.453519+00:00",
+  "session_ended_at": "2026-07-23T14:17:24.513519+00:00",
+  "receipt_response_sha256": "5db86abfbcdff946bdce761b84404c343da3aca7faf683ae33d5a7c5653f3117",
+  "receipt_exercises_sha256": "6a628e77cfd07da4e4b22ef815fac5f7be57dac9a67b46606a497f8a6764c57d",
+  "receipt_selfcheck_sha256": "a8643d293ac8304ac2f100118ee76cc5bdfe6981ad50778e3c346721ee78d193"
+}

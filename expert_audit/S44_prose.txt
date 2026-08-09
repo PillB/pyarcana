@@ -1,0 +1,224 @@
+CI/CD y seguridad de la cadena de suministro
+pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback
+Diseñar una matriz CI (lint → types → tests) sobre runtimes soportados y fallar cerrado si un check crítico queda rojo
+Tratar caches como optimización y artifacts (con digest/retención) como evidencia verificable del build
+Aplicar least privilege, pin de actions por SHA completo y secret scanning antes de publicar
+Producir SBOM + provenance enlazados al mismo digest y rechazar attestation divergente
+Promover entre environments solo con aprobación independiente y sin rebuild del artefacto testeado
+Ejecutar canary con umbral de error y demostrar rollback al digest previo dentro del RTO
+Exigir branch protection, reviews/checks y release notes operables (cambio, riesgo, migración, rollback)
+Clasificar fallos críticos con bloqueo, logs redactados, dueño y evidencia retenida (no continue-on-error silencioso)
+Ruta de S44: CI/CD y seguridad de la cadena de suministro
+Gate de promoción
+Nota de orientación: S44-T1-A: caso sintético con asserts locales; si falta, no promociones.
+lint/types/tests y matrices
+caches, artifacts y condiciones
+permisos mínimos, pinning y secret scanning
+SBOM, provenance y attestations
+environments y approvals
+Anti-patrón: rebuild al promover
+migrations, canary/blue-green y rollback
+branch/review policy y release notes
+failure handling y evidencia auditable
+Ocho demos locales de CI/CD y cadena de suministro: cómo un pipeline decide certificar, firmar evidencia, promover el mismo digest y revertir un canary — sin registry remoto.
+Demo: lint/types/tests y matrices
+Calcula el AND de lint/types/tests y la igualdad matriz==soportada: evidencia mínima antes de pasos costosos de supply chain.
+Demo: caches, artifacts y condiciones
+Separa cache (optimización por lockfile) de artifact verificable (digest + retención): la cache no sustituye evidencia.
+Demo: permisos mínimos, pinning y secret scanning
+Muestra secret scanning que bloquea hits y pin por SHA completo de 40 hex — no un tag flotante.
+Demo: SBOM, provenance y attestations
+Exige que artifact, SBOM y subject de provenance compartan el mismo digest antes de confiar en la attestation.
+Demo: environments y approvals
+Staging→prod exige aprobación y el mismo digest testeado; rebuild en promote se niega explícitamente.
+Demo: migrations, canary/blue-green y rollback
+Demo: branch/review policy y release notes
+Release listo solo con reviews y notes operables (cambio, riesgo, migración, rollback).
+Demo: failure handling y evidencia auditable
+Fallo crítico → block + evidencia retenida; no continue-on-error silencioso.
+S44 · Laboratorio de pipeline CI/CD con supply-chain gates: 24 retos (E1 repara, E2 clasifica valid/invalid/missing, E3 decide fail-closed).
+Ocho case_ids sintéticos de Piura (`CASO-PIU-044-1A`…`4B`); cada tríada reutiliza el mismo fixture de dominio con predicados invertidos a propósito.
+S44-T1-A-E1 · Calcula el contrato de `lint/types/tests y matrices` sobre `CASO-PIU-044-1A`.
+La entrada es el dict completo del starter; la operación debe demostrar tres gates y matriz exactamente soportada.
+Reemplaza la expresión booleana defectuosa, no los datos ni el assert.
+Salida exacta: `S44-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `FAIL_CI_GATE` en E2.
+Relaciona los campos `lint`, `types`, `tests`, `matrix`, `supported` con la regla explicada en S44-T1-A.
+El fixture `CASO-PIU-044-1A` satisface un predicado de dominio real; imprime `S44-T1-A PASS` y el assert booleano pasa.
+S44-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa FAIL_CI_GATE y por qué faltar supported exige REVIEW_MATRIX.
+S44-T1-A-E2 · Modela tres rutas de `lint/types/tests y matrices`: fixture válido, fixture adverso y registro sin `supported`.
+Entrada: dict con case_id, lint, types, tests, matrix, supported.
+Salidas exactas: `PASS`, `FAIL_CI_GATE`, `MISSING:supported`.
+El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+Primero se calcula `missing`; ningún acceso a supported debe ocurrir antes de esa rama.
+La tabla cubre válido/adverso/campo `supported` ausente y produce exactamente `PASS FAIL_CI_GATE MISSING:supported`.
+S44-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa FAIL_CI_GATE y por qué faltar supported exige REVIEW_MATRIX.
+S44-T1-A-E3 · Simula fallo cerrado para `lint/types/tests y matrices` con tres fixtures distintos. `CASO-PIU-044-1A` debe continuar, el adverso debe devolver `FAIL_CI_GATE` y la ausencia de `supported` debe devolver `REVIEW_MATRIX`.
+El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+Una ausencia no equivale a breach: enrútala a `REVIEW_MATRIX` antes de evaluar el contenido.
+Fixtures `CASO-PIU-044-1A`, adverso y sin `supported` prueban continue/breach/uncertainty en ese orden.
+S44-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa FAIL_CI_GATE y por qué faltar supported exige REVIEW_MATRIX.
+S44-T1-B-E1 · Compara el contrato de `caches, artifacts y condiciones` sobre `CASO-PIU-044-1B`.
+La entrada es el dict completo del starter; la operación debe demostrar cache opcional, artifact con digest y condiciones completas.
+Reemplaza la expresión booleana defectuosa, no los datos ni el assert.
+Salida exacta: `S44-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `DISCARD_PIPELINE_RESULT` en E2.
+Relaciona los campos `cache_key`, `cache_miss_passes`, `artifact_digest`, `retention_days`, `conditions_cover_tags` con la regla explicada en S44-T1-B.
+El fixture `CASO-PIU-044-1B` satisface un predicado de dominio real; imprime `S44-T1-B PASS` y el assert booleano pasa.
+S44-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa DISCARD_PIPELINE_RESULT y por qué faltar conditions_cover_tags exige INSPECT_WORKFLOW_CONDITION.
+S44-T1-B-E2 · Verifica tres rutas de `caches, artifacts y condiciones`: fixture válido, fixture adverso y registro sin `conditions_cover_tags`.
+Entrada: dict con case_id, cache_key, cache_miss_passes, artifact_digest, retention_days, conditions_cover_tags.
+Salidas exactas: `PASS`, `DISCARD_PIPELINE_RESULT`, `MISSING:conditions_cover_tags`.
+El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+Primero se calcula `missing`; ningún acceso a conditions_cover_tags debe ocurrir antes de esa rama.
+La tabla cubre válido/adverso/campo `conditions_cover_tags` ausente y produce exactamente `PASS DISCARD_PIPELINE_RESULT MISSING:conditions_cover_tags`.
+S44-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa DISCARD_PIPELINE_RESULT y por qué faltar conditions_cover_tags exige INSPECT_WORKFLOW_CONDITION.
+S44-T1-B-E3 · Extiende fallo cerrado para `caches, artifacts y condiciones` con tres fixtures distintos. `CASO-PIU-044-1B` debe continuar, el adverso debe devolver `DISCARD_PIPELINE_RESULT` y la ausencia de `conditions_cover_tags` debe devolver `INSPECT_WORKFLOW_CONDITION`.
+El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+Una ausencia no equivale a breach: enrútala a `INSPECT_WORKFLOW_CONDITION` antes de evaluar el contenido.
+Fixtures `CASO-PIU-044-1B`, adverso y sin `conditions_cover_tags` prueban continue/breach/uncertainty en ese orden.
+S44-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa DISCARD_PIPELINE_RESULT y por qué faltar conditions_cover_tags exige INSPECT_WORKFLOW_CONDITION.
+S44-T2-A-E1 · Endurece el workflow de `CASO-PIU-044-2A`: permisos mínimos, **pin por SHA completo de 40 hex** en `action_ref`, cero secret hits y dependency review.
+Reemplaza el predicado defectuoso (hoy aprueba write o secretos); no mutes los datos ni el assert.
+Salida exacta: `S44-T2-A PASS`.
+El fixture adverso de E2 activará `REVOKE_AND_ROTATE`.
+Valida permisos ⊆ {read,none}, `action_ref` con SHA de 40 hex tras `@`, secret_hits==0 y dependency_review.
+El fixture `CASO-PIU-044-2A` con SHA de 40 hex y least privilege imprime `S44-T2-A PASS`.
+S44-T2-A-E1: el pin real es el SHA inmutable, no un booleano; write o secret_hits>0 activan REVOKE_AND_ROTATE; sin dependency_review → SECURITY_APPROVAL.
+S44-T2-A-E2 · Clasifica tres rutas de endurecimiento: fixture con pin SHA completo y least privilege (`PASS`), adverso con write/`@v4`/secret hit (`REVOKE_AND_ROTATE`), y registro sin `dependency_review` (`MISSING:dependency_review`).
+Entrada: case_id, token_permissions, action_ref, secret_hits, dependency_review.
+Conserva la rama missing antes del dominio.
+Salida: imprime el valor de meets_contract.
+S44-T2-A-E2: diferencia schema (missing) de breach (write, tag flotante, secret); pin = 40 hex.
+S44-T2-A-E3 · Decide fail-closed: válido → `CONTINUE`, adverso (write/`@v4`/secret) → `REVOKE_AND_ROTATE`, sin `dependency_review` → `SECURITY_APPROVAL`.
+No conviertas missing en CONTINUE ni apruebes tag flotante.
+Salida: imprime el valor de meets_contract.
+Una ausencia no es breach: enrútala a `SECURITY_APPROVAL` antes de evaluar contenido.
+S44-T2-A-E3: uncertainty ≠ breach; pin SHA es medible; write o secret obligan a rotar.
+S44-T2-B-E1 · Modela el contrato de `SBOM, provenance y attestations` sobre `CASO-PIU-044-2B`.
+La entrada es el dict completo del starter; la operación debe demostrar SBOM y provenance enlazados al mismo digest.
+Reemplaza la expresión booleana defectuosa, no los datos ni el assert.
+Salida exacta: `S44-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_ATTESTATION` en E2.
+Relaciona los campos `artifact_digest`, `sbom_digest`, `provenance_subject`, `attestation_valid` con la regla explicada en S44-T2-B.
+El fixture `CASO-PIU-044-2B` satisface un predicado de dominio real; imprime `S44-T2-B PASS` y el assert booleano pasa.
+S44-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ATTESTATION y por qué faltar attestation_valid exige REBUILD_PROVENANCE.
+S44-T2-B-E2 · Audita tres rutas de `SBOM, provenance y attestations`: fixture válido, fixture adverso y registro sin `attestation_valid`.
+Entrada: dict con case_id, artifact_digest, sbom_digest, provenance_subject, attestation_valid.
+Salidas exactas: `PASS`, `REJECT_ATTESTATION`, `MISSING:attestation_valid`.
+El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+Primero se calcula `missing`; ningún acceso a attestation_valid debe ocurrir antes de esa rama.
+La tabla cubre válido/adverso/campo `attestation_valid` ausente y produce exactamente `PASS REJECT_ATTESTATION MISSING:attestation_valid`.
+S44-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ATTESTATION y por qué faltar attestation_valid exige REBUILD_PROVENANCE.
+S44-T2-B-E3 · Recupera fallo cerrado para `SBOM, provenance y attestations` con tres fixtures distintos. `CASO-PIU-044-2B` debe continuar, el adverso debe devolver `REJECT_ATTESTATION` y la ausencia de `attestation_valid` debe devolver `REBUILD_PROVENANCE`.
+El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+Una ausencia no equivale a breach: enrútala a `REBUILD_PROVENANCE` antes de evaluar el contenido.
+Fixtures `CASO-PIU-044-2B`, adverso y sin `attestation_valid` prueban continue/breach/uncertainty en ese orden.
+S44-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_ATTESTATION y por qué faltar attestation_valid exige REBUILD_PROVENANCE.
+S44-T3-A-E1 · Verifica el contrato de `environments y approvals` sobre `CASO-PIU-044-3A`.
+La entrada es el dict completo del starter; la operación debe demostrar mismo digest probado y aprobación independiente.
+Reemplaza la expresión booleana defectuosa, no los datos ni el assert.
+Salida exacta: `S44-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `DENY_PROMOTION` en E2.
+Relaciona los campos `source_env`, `target_env`, `approved_by`, `tested_digest`, `promoted_digest` con la regla explicada en S44-T3-A.
+El fixture `CASO-PIU-044-3A` satisface un predicado de dominio real; imprime `S44-T3-A PASS` y el assert booleano pasa.
+S44-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa DENY_PROMOTION y por qué faltar promoted_digest exige REQUEST_RELEASE_APPROVAL.
+S44-T3-A-E2 · Decide tres rutas de `environments y approvals`: fixture válido, fixture adverso y registro sin `promoted_digest`.
+Entrada: dict con case_id, source_env, target_env, approved_by, tested_digest, promoted_digest.
+Salidas exactas: `PASS`, `DENY_PROMOTION`, `MISSING:promoted_digest`.
+El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+Primero se calcula `missing`; ningún acceso a promoted_digest debe ocurrir antes de esa rama.
+La tabla cubre válido/adverso/campo `promoted_digest` ausente y produce exactamente `PASS DENY_PROMOTION MISSING:promoted_digest`.
+S44-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa DENY_PROMOTION y por qué faltar promoted_digest exige REQUEST_RELEASE_APPROVAL.
+S44-T3-A-E3 · Contrasta fallo cerrado para `environments y approvals` con tres fixtures distintos. `CASO-PIU-044-3A` debe continuar, el adverso debe devolver `DENY_PROMOTION` y la ausencia de `promoted_digest` debe devolver `REQUEST_RELEASE_APPROVAL`.
+El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+Una ausencia no equivale a breach: enrútala a `REQUEST_RELEASE_APPROVAL` antes de evaluar el contenido.
+Fixtures `CASO-PIU-044-3A`, adverso y sin `promoted_digest` prueban continue/breach/uncertainty en ese orden.
+S44-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa DENY_PROMOTION y por qué faltar promoted_digest exige REQUEST_RELEASE_APPROVAL.
+S44-T3-B-E1 · Clasifica el contrato de `migrations, canary/blue-green y rollback` sobre `CASO-PIU-044-3B`.
+La entrada es el dict completo del starter; la operación debe demostrar migración compatible, canary bajo umbral y rollback dentro de RTO.
+Reemplaza la expresión booleana defectuosa, no los datos ni el assert.
+Salida exacta: `S44-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLLBACK_RELEASE` en E2.
+Relaciona los campos `migration_compatible`, `canary_error_rate`, `max_error_rate`, `rollback_tested`, `rollback_seconds`, `rto_seconds` con la regla explicada en S44-T3-B.
+El fixture `CASO-PIU-044-3B` satisface un predicado de dominio real; imprime `S44-T3-B PASS` y el assert booleano pasa.
+S44-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_RELEASE y por qué faltar rto_seconds exige PAUSE_CANARY.
+S44-T3-B-E2 · Calcula tres rutas de `migrations, canary/blue-green y rollback`: fixture válido, fixture adverso y registro sin `rto_seconds`.
+Entrada: dict con case_id, migration_compatible, canary_error_rate, max_error_rate, rollback_tested, rollback_seconds, rto_seconds.
+Salidas exactas: `PASS`, `ROLLBACK_RELEASE`, `MISSING:rto_seconds`.
+El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+Primero se calcula `missing`; ningún acceso a rto_seconds debe ocurrir antes de esa rama.
+La tabla cubre válido/adverso/campo `rto_seconds` ausente y produce exactamente `PASS ROLLBACK_RELEASE MISSING:rto_seconds`.
+S44-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_RELEASE y por qué faltar rto_seconds exige PAUSE_CANARY.
+S44-T3-B-E3 · Instrumenta fallo cerrado para `migrations, canary/blue-green y rollback` con tres fixtures distintos. `CASO-PIU-044-3B` debe continuar, el adverso debe devolver `ROLLBACK_RELEASE` y la ausencia de `rto_seconds` debe devolver `PAUSE_CANARY`.
+El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+Una ausencia no equivale a breach: enrútala a `PAUSE_CANARY` antes de evaluar el contenido.
+Fixtures `CASO-PIU-044-3B`, adverso y sin `rto_seconds` prueban continue/breach/uncertainty en ese orden.
+S44-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_RELEASE y por qué faltar rto_seconds exige PAUSE_CANARY.
+S44-T4-A-E1 · Audita el contrato de `branch/review policy y release notes` sobre `CASO-PIU-044-4A`.
+La entrada es el dict completo del starter; la operación debe demostrar branch protegida, review/checks y notas operables.
+Reemplaza la expresión booleana defectuosa, no los datos ni el assert.
+Salida exacta: `S44-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_UNREVIEWED_RELEASE` en E2.
+Relaciona los campos `protected_branch`, `required_reviews`, `required_checks`, `release_notes` con la regla explicada en S44-T4-A.
+El fixture `CASO-PIU-044-4A` satisface un predicado de dominio real; imprime `S44-T4-A PASS` y el assert booleano pasa.
+S44-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNREVIEWED_RELEASE y por qué faltar release_notes exige COMPLETE_RELEASE_NOTES.
+S44-T4-A-E2 · Compara tres rutas de `branch/review policy y release notes`: fixture válido, fixture adverso y registro sin `release_notes`.
+Entrada: dict con case_id, protected_branch, required_reviews, required_checks, release_notes.
+Salidas exactas: `PASS`, `BLOCK_UNREVIEWED_RELEASE`, `MISSING:release_notes`.
+El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama.
+La tabla cubre válido/adverso/campo `release_notes` ausente y produce exactamente `PASS BLOCK_UNREVIEWED_RELEASE MISSING:release_notes`.
+S44-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNREVIEWED_RELEASE y por qué faltar release_notes exige COMPLETE_RELEASE_NOTES.
+S44-T4-A-E3 · Aísla fallo cerrado para `branch/review policy y release notes` con tres fixtures distintos. `CASO-PIU-044-4A` debe continuar, el adverso debe devolver `BLOCK_UNREVIEWED_RELEASE` y la ausencia de `release_notes` debe devolver `COMPLETE_RELEASE_NOTES`.
+El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+Una ausencia no equivale a breach: enrútala a `COMPLETE_RELEASE_NOTES` antes de evaluar el contenido.
+Fixtures `CASO-PIU-044-4A`, adverso y sin `release_notes` prueban continue/breach/uncertainty en ese orden.
+S44-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNREVIEWED_RELEASE y por qué faltar release_notes exige COMPLETE_RELEASE_NOTES.
+S44-T4-B-E1 · Decide el contrato de `failure handling y evidencia auditable` sobre `CASO-PIU-044-4B`.
+La entrada es el dict completo del starter; la operación debe demostrar fallo crítico bloquea con logs redactados y dueño.
+Reemplaza la expresión booleana defectuosa, no los datos ni el assert.
+Salida exacta: `S44-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `STOP_SILENT_FAILURE` en E2.
+Relaciona los campos `critical_failure`, `pipeline_blocked`, `logs_redacted`, `owner`, `evidence_retained` con la regla explicada en S44-T4-B.
+El fixture `CASO-PIU-044-4B` satisface un predicado de dominio real; imprime `S44-T4-B PASS` y el assert booleano pasa.
+S44-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa STOP_SILENT_FAILURE y por qué faltar evidence_retained exige ASSIGN_INCIDENT_OWNER.
+S44-T4-B-E2 · Filtra tres rutas de `failure handling y evidencia auditable`: fixture válido, fixture adverso y registro sin `evidence_retained`.
+Entrada: dict con case_id, critical_failure, pipeline_blocked, logs_redacted, owner, evidence_retained.
+Salidas exactas: `PASS`, `STOP_SILENT_FAILURE`, `MISSING:evidence_retained`.
+El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+Primero se calcula `missing`; ningún acceso a evidence_retained debe ocurrir antes de esa rama.
+La tabla cubre válido/adverso/campo `evidence_retained` ausente y produce exactamente `PASS STOP_SILENT_FAILURE MISSING:evidence_retained`.
+S44-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa STOP_SILENT_FAILURE y por qué faltar evidence_retained exige ASSIGN_INCIDENT_OWNER.
+S44-T4-B-E3 · Demuestra fallo cerrado para `failure handling y evidencia auditable` con tres fixtures distintos. `CASO-PIU-044-4B` debe continuar, el adverso debe devolver `STOP_SILENT_FAILURE` y la ausencia de `evidence_retained` debe devolver `ASSIGN_INCIDENT_OWNER`.
+El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+Una ausencia no equivale a breach: enrútala a `ASSIGN_INCIDENT_OWNER` antes de evaluar el contenido.
+Fixtures `CASO-PIU-044-4B`, adverso y sin `evidence_retained` prueban continue/breach/uncertainty en ese orden.
+S44-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa STOP_SILENT_FAILURE y por qué faltar evidence_retained exige ASSIGN_INCIDENT_OWNER.
+Pipeline CI/CD con supply-chain gates.
+Trabaja sobre un repositorio ficticio de servicio de operaciones en Piura.
+Entrada: commit revisado, dependencias fijadas y workflow con permisos mínimos.
+Salida: artefacto identificado por digest, SBOM, provenance y evidencia de promoción o rollback.
+El gate bloquea la publicación si hay test crítico rojo, secreto en logs, dependencia insegura sin pin o attestation ausente.
+Evidencia de CP-N4-B · cadena de suministro verificable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual.
+El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales (workflow con pin SHA, SBOM/provenance, log de canary/rollback), no cambiando asserts a True sin archivo.
+Correctitud del contrato y gate
+Pruebas normal/breach/uncertain y recuperación
+Seguridad, privacidad y least privilege
+Reproducibilidad, lineage y evidencia
+Operación: SLO, observabilidad y rollback
+Comunicación de trade-offs y límites
+En S44, ¿qué cuenta como pin profesional de una action de GitHub?
+El pin inmutable es el SHA completo de 40 hex; los tags se pueden mover y no cierran el control de supply chain.
+Si un test crítico falla o falta attestation, ¿qué respuesta preserva seguridad y auditabilidad?
+S44 falla cerrado con códigos de breach por subtema y retiene logs/artifacts; la incertidumbre va a revisión humana, no a éxito silencioso.
+¿Cuál resultado demuestra el gate `CP-N4-B · cadena de suministro verificable`?
+El gate es conductual y medible: el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging.
+¿Qué tratamiento de `CASO-PIU-044` respeta el alcance del curso y la cadena de suministro?
+El lab es sintético a propósito: practicas gates (pin, SBOM, aprobación, rollback) sin PII ni secretos reales; omitir evidencia de supply chain no aprueba el gate.
+Antes de promover a staging, el digest del artefacto testeado y el promovido deben…
+Supply chain exige que lo testeado sea exactamente lo promovido: digests alineados y aprobación registrada.
+Permisos, pinning y secrets
+Approvals y environments
+Provenance y niveles de integridad
+Firmas y attestations de artefactos
+Integridad de cadena de suministro
+Pinning y hash checking
+CI/CD y delivery performance
+Canary, rollback y evidencia
+Pipelines y supply chain intro
+Tests y proyectos reproducibles
+Release y canary conceptual

@@ -1,0 +1,727 @@
+{
+  "attempt_id": "agentic_B2",
+  "section_index": 11,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "El instructor modela el proceso completo"
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Resuelves con pistas progresivas"
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Proyecto autónomo con rúbrica"
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Autoevaluación y examen por sección"
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Alineado al mercado peruano 2025-2026"
+      },
+      {
+        "title": "Proyectos que pesan en entrevistas"
+      },
+      {
+        "title": "Basado en 4 libros + investigación"
+      },
+      {
+        "title": "100% autónomo"
+      }
+    ],
+    "brand": "PyArcana"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Setup & Entorno de Desarrollo",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    }
+  ],
+  "active": {
+    "id": "testing",
+    "index": 11,
+    "title": "OOP y modelo de dominio",
+    "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+    "jobRelevance": "Un modelo de dominio claro es la base de productos de matching/familiaridad sin inventar veredictos legales. Esta sección (id `testing` conservado) retematiza S11 a **OOP y dominio**: núcleo de **CP-N1-C**. pytest/CI se reubican como soporte de calidad alrededor del dominio.",
+    "learningOutcomes": [
+      "Modelar entidades con class/dataclass e instancias válidas",
+      "Imponer invariantes en construcción sin side-effects externos",
+      "Encapsular con properties y métodos de consulta seguros",
+      "Definir igualdad/hash y mutabilidad (frozen) consciente",
+      "Preferir composición a herencia frágil",
+      "Usar Protocol/duck typing para puertos del dominio",
+      "Separar dominio de I/O con repo/service y to_dict",
+      "Probar dominio puro y evitar APIs de fraude/parentesco"
+    ],
+    "theory": [
+      {
+        "heading": "De “Testing pytest/CI” a OOP y modelo de dominio (mapa)",
+        "paragraphs": [
+          "En V3, **S11 no es el path principal de pytest fixtures/coverage/CI** (ese material se reubica como soporte de calidad). Aquí modelas el **dominio de familiaridad**: `ClientRecord`, `ResolvedEntity`, `Transaction`, `RelationshipEvidence`.",
+          "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Id de plataforma `testing` se conserva.",
+          "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests)."
+        ],
+        "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    emails: list[str] = field(default_factory=list)\n\nc = ClientRecord(\"C001\", \"Ana Perez\", [\"ana@ejemplo.pe\"])\nprint(c)\nprint(type(c).__name__, c.client_id)",
+        "code_output": "ClientRecord(client_id='C001', full_name='Ana Perez', emails=['ana@ejemplo.pe'])\nClientRecord C001"
+      },
+      {
+        "heading": "Clases, instancias y dataclass",
+        "paragraphs": [
+          "Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación.",
+          "Campos con **type hints** y `default_factory` para mutables (listas/dicts) evitan el clásico bug del default compartido.",
+          "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Invariantes y estados válidos",
+        "paragraphs": [
+          "`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias.",
+          "Método `validate()` reutilizable ayuda en factories `from_dict`. Sin side-effects de negocio externos (no llama APIs al validar).",
+          "Ejemplo: `document_id` no vacío; fechas de transacción coherentes."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Propiedades y métodos",
+        "paragraphs": [
+          "`@property` expone campos calculados (`display_name`, `masked_email`) sin mutación peligrosa desde afuera.",
+          "Métodos de instancia encapsulan consultas (`age_days_since`). Evita exponer PII raw en la superficie pública si puedes ofrecer máscaras.",
+          "Setters validados solo cuando la mutación es parte del modelo; si no, prefiere frozen/nuevas instancias."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Igualdad, hash y mutabilidad consciente",
+        "paragraphs": [
+          "`__eq__` por **business key** (document_id / entity_id) evita comparar basura de campos opcionales. **`frozen=True`** habilita hash seguro para sets/dicts.",
+          "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq.",
+          "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Composición antes que herencia",
+        "paragraphs": [
+          "**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`.",
+          "Herencia solo si hay **subtipo real** (is-a). Evita jerarquías frágiles `Client(Person(BaseEntity...))` solo para reutilizar un campo.",
+          "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Protocolos y polimorfismo con propósito",
+        "paragraphs": [
+          "`typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar herencia. Duck typing estructural.",
+          "Útil para fakes en tests y para no acoplar dominio a una DB. Evita ABC pesados si Protocol basta.",
+          "No introduzcas Protocol 'por si acaso' con una sola implementación y sin tests — YAGNI."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Repositorios, servicios y serialización",
+        "paragraphs": [
+          "**Repository** light: get/save. **Service** light: orquesta dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` en el borde.",
+          "Serializa sin password fields ni PII innecesaria. DTOs de borde no tienen que ser las entidades internas.",
+          "CLI (S10) llama al service; el service no imprime ni parsea argparse."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Dependencias y pruebas del dominio",
+        "paragraphs": [
+          "Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan.",
+          "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`).",
+          "Scores de resolución/relación son campos; un test puede verificar que existen como float y que no hay método de veredicto."
+        ],
+        "code": null,
+        "code_output": null
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S11-T1-B-DEMO",
+          "description": "ClientRecord dataclass desde dict sintético.",
+          "why": "from_dict nombra el borde dict→dominio.",
+          "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    emails: list[str] = field(default_factory=list)\n\n    @classmethod\n    def from_dict(cls, d: dict) -> \"ClientRecord\":\n        return cls(d[\"client_id\"], d[\"full_name\"], list(d.get(\"emails\", [])))\n\nraw = {\"client_id\": \"C001\", \"full_name\": \"Ana Perez\", \"emails\": [\"ana@ejemplo.pe\"]}\nc = ClientRecord.from_dict(raw)\nprint(c)",
+          "language": "python",
+          "output": "ClientRecord(client_id='C001', full_name='Ana Perez', emails=['ana@ejemplo.pe'])"
+        },
+        {
+          "demoId": "S11-T2-A-DEMO",
+          "description": "ClientRecord rechaza document_id vacío.",
+          "why": "Invariante en construcción: no hay instancia inválida.",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __post_init__(self) -> None:\n        if not str(self.document_id).strip():\n            raise ValueError(\"document_id vacío\")\n\nprint(ClientRecord(\"C001\", \"DNI-100\"))\ntry:\n    ClientRecord(\"C002\", \"\")\nexcept ValueError as e:\n    print(\"rejected\", e)",
+          "language": "python",
+          "output": "ClientRecord(client_id='C001', document_id='DNI-100')\nrejected document_id vacío"
+        },
+        {
+          "demoId": "S11-T2-B-DEMO",
+          "description": "display_name y masked_email como properties.",
+          "why": "La superficie pública no necesita el email completo para mostrar.",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    first_name: str\n    last_name: str\n    email: str\n\n    @property\n    def display_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n\n    @property\n    def masked_email(self) -> str:\n        local, _, domain = self.email.partition(\"@\")\n        return f\"{local[:1]}***@{domain}\"\n\nc = ClientRecord(\"Lucía\", \"Méndez\", \"lucia@ejemplo.pe\")\nprint(c.display_name)\nprint(c.masked_email)",
+          "language": "python",
+          "output": "Lucía Méndez\nl***@ejemplo.pe"
+        },
+        {
+          "demoId": "S11-T3-A-DEMO",
+          "description": "ResolvedEntity frozen por valor; set de entidades.",
+          "why": "frozen permite usar entidades en sets sin sorpresas de mutación.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S11-T3-B-DEMO",
+          "description": "CaseFile compone list[RelationshipEvidence] + entidad resuelta.",
+          "why": "Composición ensambla el caso sin herencia artificial.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S11-T4-A-DEMO",
+          "description": "Protocol EntityStore con get/save; FakeStore en memoria.",
+          "why": "El service depende del Protocol, no de una clase base pesada.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S11-T4-B-DEMO",
+          "description": "InMemoryClientRepository + service que no decide fraude.",
+          "why": "Service orquesta persistencia; no emite veredictos de fraude.",
+          "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    def to_dict(self):\n        return {\"client_id\": self.client_id, \"email\": self.email}\n\nclass InMemoryClientRepository:\n    def __init__(self):\n        self._d = {}\n    def save(self, c: ClientRecord):\n        self._d[c.client_id] = c\n    def get(self, cid: str):\n        return self._d.get(cid)\n\nclass ClientService:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, client_id, email):\n        c = ClientRecord(client_id, email)\n        self.repo.save(c)\n        # deliberadamente no hay is_fraud\n        return c.to_dict()\n\nprint(ClientService(InMemoryClientRepository()).register(\"C001\", \"a@ejemplo.pe\"))\nprint(\"has_is_fraud\", hasattr(ClientService, \"is_fraud\"))",
+          "language": "python",
+          "output": "{'client_id': 'C001', 'email': 'a@ejemplo.pe'}\nhas_is_fraud False"
+        },
+        {
+          "demoId": null,
+          "description": "Tests de RelationshipEvidence: solo señales; sin is_fraud().",
+          "why": "La suite protege el límite ético del modelo.",
+          "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass RelationshipEvidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\ndef test_signal_bounds():\n    ev = RelationshipEvidence(\"E1\", \"E2\", 0.7)\n    assert 0 <= ev.signal_score <= 1\n    assert not hasattr(ev, \"is_fraud\")\n    return \"pass\"\n\ndef test_no_family_verdict():\n    assert not hasattr(RelationshipEvidence, \"is_related_family\")\n    return \"pass\"\n\nprint(test_signal_bounds())\nprint(test_no_family_verdict())",
+          "language": "python",
+          "output": "pass\npass"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S11-T1-A-E1",
+          "instruction": "Completa la dataclass ClientRecord con client_id, full_name y phones: list[str].",
+          "hints": [
+            "Usa field(default_factory=list).",
+            "Instancia y print."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass, field\n# TODO"
+        },
+        {
+          "id": "S11-T1-A-E2",
+          "instruction": "Define Transaction con tx_id, client_id, amount: float, currency: str obligatorios.",
+          "hints": [
+            "Sin defaults en campos obligatorios.",
+            "Crea una instancia sintética."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass\n# TODO"
+        },
+        {
+          "id": "S11-T1-A-E3",
+          "instruction": "Migra un dict anónimo a ClientRecord vía from_dict.",
+          "hints": [
+            "classmethod from_dict.",
+            "Imprime el tipo y el id."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass\n\nraw = {\"client_id\": \"C007\", \"full_name\": \"Luis Ramos\"}\n# TODO"
+        },
+        {
+          "id": "S11-T1-B-E1",
+          "instruction": "Añade invariante: amount de Transaction debe ser > 0.",
+          "hints": [
+            "__post_init__ raise ValueError.",
+            "Muestra ok y reject."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: float\n    # TODO post_init"
+        },
+        {
+          "id": "S11-T1-B-E2",
+          "instruction": "Factory from_dict con validación de client_id y document_id no vacíos.",
+          "hints": [
+            "Raise ValueError con mensaje claro.",
+            "Prueba ok y fail."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> \"ClientRecord\":\n        # TODO\n        ..."
+        },
+        {
+          "id": "S11-T1-B-E3",
+          "instruction": "Lista en español 4 invariantes del dominio e imprímelas.",
+          "hints": [
+            "ClientRecord, Transaction, Evidence, Entity.",
+            "Formato INV: ..."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S11-T2-A-E1",
+          "instruction": "Property full_name desde first_name y last_name.",
+          "hints": [
+            "@property sin setter.",
+            "Print full_name."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n    # TODO property"
+        },
+        {
+          "id": "S11-T2-A-E2",
+          "instruction": "Método age_days_since(day: int) en Transaction con campo day_created: int (demo sin datetime).",
+          "hints": [
+            "Retorna day - day_created.",
+            "Prueba con números sintéticos."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n    # TODO"
+        },
+        {
+          "id": "S11-T2-A-E3",
+          "instruction": "Encapsula mutación de score con setter que solo acepta 0..1.",
+          "hints": [
+            "Property score con setter validado.",
+            "Muestra ok y reject."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "class Signal:\n    def __init__(self):\n        self._score = 0.0\n    # TODO property score"
+        },
+        {
+          "id": "S11-T2-B-E1",
+          "instruction": "Implementa eq por business key document_id (dos clientes iguales si mismo doc).",
+          "hints": [
+            "__eq__ custom; no hace falta hash si no frozen.",
+            "Print comparaciones."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    # TODO eq"
+        },
+        {
+          "id": "S11-T2-B-E2",
+          "instruction": "Crea Evidence frozen value object y úsalo en un set.",
+          "hints": [
+            "frozen=True dataclass.",
+            "Imprime len del set con duplicado."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass\n# TODO"
+        },
+        {
+          "id": "S11-T2-B-E3",
+          "instruction": "Demuestra el bug de entidad mutable como key de dict y la versión frozen segura.",
+          "hints": [
+            "Imprime BUG y SAFE.",
+            "Con mutable: cambiar campo rompe lookup."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO demo bug + safe"
+        },
+        {
+          "id": "S11-T3-A-E1",
+          "instruction": "Reemplaza herencia innecesaria Client(Person) por composición Client tiene person_info dict/objeto.",
+          "hints": [
+            "Imprime el diseño final simple.",
+            "Sin class Person base."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# malo: class Client(Person): ...\n# TODO composición"
+        },
+        {
+          "id": "S11-T3-A-E2",
+          "instruction": "CaseFile agrega evidencias con add_evidence y cuenta.",
+          "hints": [
+            "Lista interna.",
+            "Print n=2."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n    # TODO add_evidence"
+        },
+        {
+          "id": "S11-T3-A-E3",
+          "instruction": "Justifica en 2 líneas por qué no heredar Client de Person; imprime JUST: ...",
+          "hints": [
+            "Piensa en roles y evolución del modelo.",
+            "Español profesional."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S11-T3-B-E1",
+          "instruction": "Define Protocol Scorer con score(pair: tuple[str,str]) -> float y un FakeScorer.",
+          "hints": [
+            "Imprime el score de un par sintético.",
+            "typing.Protocol."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from typing import Protocol\n# TODO"
+        },
+        {
+          "id": "S11-T3-B-E2",
+          "instruction": "Dos implementaciones de normalizer (strip vs casefold) usables por la misma función apply.",
+          "hints": [
+            "apply(norm, text) llama norm(text).",
+            "Imprime ambos resultados."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "def apply(norm, text):\n    return norm(text)\n\n# TODO dos normalizers"
+        },
+        {
+          "id": "S11-T3-B-E3",
+          "instruction": "Escribe 2 razones para NO introducir Protocol aún e imprime WHEN_NOT.",
+          "hints": [
+            "YAGNI / una sola implementación.",
+            "Español claro."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S11-T4-A-E1",
+          "instruction": "to_dict de ClientRecord sin campos password/secret.",
+          "hints": [
+            "Aunque existan en el objeto, no serializarlos.",
+            "Print dict."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = \"\"\n    # TODO to_dict"
+        },
+        {
+          "id": "S11-T4-A-E2",
+          "instruction": "Repository save/get con dict store en memoria.",
+          "hints": [
+            "Clase con save y get.",
+            "Roundtrip de un client dict."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "class Repo:\n    # TODO\n    ..."
+        },
+        {
+          "id": "S11-T4-A-E3",
+          "instruction": "Dibuja en texto la frontera dominio vs CLI I/O (3 capas).",
+          "hints": [
+            "cli → service → domain/repo.",
+            "Imprime LAYER líneas."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO"
+        },
+        {
+          "id": "S11-T4-B-E1",
+          "instruction": "Test de invariante ClientRecord: document_id vacío lanza ValueError; imprime pass.",
+          "hints": [
+            "Usa assert en un try o pytest-style manual.",
+            "print('pass') al final."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError(\"document_id vacío\")\n\n# TODO test"
+        },
+        {
+          "id": "S11-T4-B-E2",
+          "instruction": "Fake repo en 3 tests de servicio (register, get, missing).",
+          "hints": [
+            "Imprime pass x3.",
+            "Service simple con repo inyectado."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "class FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def save(self, row):\n        self.d[row[\"id\"]] = row\n    def get(self, id):\n        return self.d.get(id)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, id, name):\n        self.repo.save({\"id\": id, \"name\": name})\n        return self.repo.get(id)\n\n# TODO 3 tests"
+        },
+        {
+          "id": "S11-T4-B-E3",
+          "instruction": "Revisa una clase con decide_fraud y propón extracción: imprime ANTES/DESPUÉS conceptual.",
+          "hints": [
+            "Mueve el score a Evidence; elimina el veredicto.",
+            "Dos líneas."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "class BadClient:\n    def decide_fraud(self, score):\n        return score > 0.9\n# TODO propuesta"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Modelo de dominio Cliente–Transacción–Evidencia",
+      "context": "Implementas el núcleo de **CP-N1-C**: ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence con invariantes, serialización y repo en memoria. **Ninguna clase decide fraude o parentesco.** Reemplaza el legado de test suite churn.",
+      "objectives": [
+        "Implementar ClientRecord, ResolvedEntity, Transaction, RelationshipEvidence",
+        "Invariantes en construcción y equality consciente",
+        "Ningún método is_fraud / is_related_family: scores no son veredicto de fraude ni parentesco",
+        "Serialización + repositorio en memoria",
+        "Tests unitarios del dominio con datos sintéticos"
+      ],
+      "requirements": [
+        "Cuatro tipos explícitos con type hints",
+        "Scores solo como campos de datos si existen — no veredictos",
+        "README de límites del modelo",
+        "Tests del dominio puros (sin red/DB)",
+        "Datos sintéticos ejemplo.pe / C00x",
+        "Service sin side-effects de CLI"
+      ],
+      "portfolioNote": "Diagrama textual de entidades + lista de invariantes + badge mental 'sin is_fraud'. Muestra 3 tests pasando sobre FakeStore.",
+      "starterCode": "\"\"\"Modelo de dominio Cliente–Transacción–Evidencia (CP-N1-C).\nNingún método decide fraude ni parentesco. Datos sintéticos.\n\"\"\"\nfrom __future__ import annotations\nfrom dataclasses import dataclass, field\nfrom typing import Protocol\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    full_name: str\n    emails: list[str] = field(default_factory=list)\n\n    def __post_init__(self) -> None:\n        if not self.client_id or not self.document_id.strip():\n            raise ValueError(\"client_id/document_id inválidos\")\n\n    def to_dict(self) -> dict:\n        return {\n            \"client_id\": self.client_id,\n            \"document_id\": self.document_id,\n            \"full_name\": self.full_name,\n            \"emails\": list(self.emails),\n        }\n\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n    display_name: str\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: float\n    currency: str\n\n    def __post_init__(self) -> None:\n        if self.amount <= 0:\n            raise ValueError(\"amount debe ser > 0\")\n\n@dataclass(frozen=True)\nclass RelationshipEvidence:\n    left_id: str\n    right_id: str\n    signal_score: float  # dato, no veredicto\n\n    def __post_init__(self) -> None:\n        if not 0.0 <= self.signal_score <= 1.0:\n            raise ValueError(\"signal_score fuera de rango\")\n\nclass ClientRepository(Protocol):\n    def save(self, client: ClientRecord) -> None: ...\n    def get(self, client_id: str) -> ClientRecord | None: ...\n\nclass InMemoryClientRepository:\n    def __init__(self) -> None:\n        self._d: dict[str, ClientRecord] = {}\n\n    def save(self, client: ClientRecord) -> None:\n        self._d[client.client_id] = client\n\n    def get(self, client_id: str) -> ClientRecord | None:\n        return self._d.get(client_id)\n\ndef test_domain() -> None:\n    repo = InMemoryClientRepository()\n    c = ClientRecord(\"C001\", \"DNI-1\", \"Ana Perez\", [\"ana@ejemplo.pe\"])\n    repo.save(c)\n    assert repo.get(\"C001\") is not None\n    assert not hasattr(RelationshipEvidence, \"is_fraud\")\n    ev = RelationshipEvidence(\"E1\", \"E2\", 0.4)\n    assert ev.signal_score == 0.4\n    print(\"tests_pass\")\n\nif __name__ == \"__main__\":\n    test_domain()\n    print(ClientRecord(\"C002\", \"DNI-2\", \"Luis\").to_dict())"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "¿Por qué `field(default_factory=list)` y no `= []`?",
+        "options": [
+          "Es más corto",
+          "Evita el default mutable compartido entre instancias",
+          "Obliga a usar Protocol",
+          "Activa el garbage collector"
+        ]
+      },
+      {
+        "question": "RelationshipEvidence.signal_score representa…",
+        "options": [
+          "Veredicto legal de parentesco",
+          "Una señal/dato numérico, no un veredicto de fraude o familia",
+          "Password hasheado",
+          "Exit code del CLI"
+        ]
+      },
+      {
+        "question": "Un Protocol EntityStore sirve para…",
+        "options": [
+          "Conectarse solo a Postgres",
+          "Definir un puerto get/save implementable por fakes y adapters",
+          "Reemplazar dataclass",
+          "Serializar a PDF"
+        ]
+      },
+      {
+        "question": "Objeto inválido: ¿cuándo fallar?",
+        "options": [
+          "Al final del mes",
+          "En la construcción (__post_init__/validate)",
+          "Nunca",
+          "Solo en producción"
+        ]
+      },
+      {
+        "question": "Client hereda de Person…",
+        "options": [
+          "Siempre es la mejor opción",
+          "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+          "Es obligatoria en Python",
+          "Impide tests"
+        ]
+      },
+      {
+        "question": "¿Qué no debe tener el dominio de familiaridad?",
+        "options": [
+          "to_dict",
+          "is_fraud() automático",
+          "Invariantes",
+          "Tests unitarios"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "cd42f96605437753"
+}

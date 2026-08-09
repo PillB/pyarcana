@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://ischool.syracuse.edu/data-scientist-vs-data-analyst",
+    "name": "Data Scientist vs. Data Analyst: Which Role Fits You Best?",
+    "snippet": "While data scientists use advanced techniques to predict what might happen next, data analysts mainly look at historical data to spot trends ...",
+    "host_name": "ischool.syracuse.edu",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/ritesh-kumar-gupta29_dataanalytics-datascience-machinelearning-activity-7364155951555219457-9xoA",
+    "name": "Analyst vs Data Scientist vs ML Engineer - LinkedIn",
+    "snippet": "Data Analyst → Strong in SQL, BI tools, data cleaning, and Python. Data Analyst → Makes sense of existing data with SQL, Excel, Tableau, and ...",
+    "host_name": "www.linkedin.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.instagram.com/reel/DTk57lACVwW/?hl=en",
+    "name": "Data Analyst vs Data Scientist: What are the differences  - Instagram",
+    "snippet": "Works with statistics, programming, machine learning, and business problems to find patterns, build models, and support decision-making. ✓ Data ...",
+    "host_name": "www.instagram.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/datascience/comments/15enfzg/what_is_the_actual_difference_between_data",
+    "name": "What is the actual difference between Data Scientist, Data Analyst",
+    "snippet": "If your job is mostly statistics, you're a data scientist. If your job is mostly software engineering and model deployment, you're a MLE.",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://datascience.virginia.edu/news/understanding-differences-data-science-data-analytics-and-machine-learning",
+    "name": "Understanding the differences: data science, data analytics, and",
+    "snippet": "While data science is mostly used to understand and extract knowledge from the data, data analytics looks more at insights from already-existing ...",
+    "host_name": "datascience.virginia.edu",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/DeepNetGroup/posts/543491132710440",
+    "name": "difference between business analyst and data scientist? - Facebook",
+    "snippet": "Business analysis focuses on business needs and solutions, while data analysis focuses on extracting insights from data.",
+    "host_name": "www.facebook.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.coursera.org/articles/data-analyst-vs-data-scientist-whats-the-difference",
+    "name": "Data Science vs Data Analytics: What's the Difference? - Coursera",
+    "snippet": "A data analyst focuses on solving business problems, while a data scientist uses data to make predictions. You can become a data analyst ...",
+    "host_name": "www.coursera.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.quora.com/What-is-the-difference-between-a-data-scientist-an-analyst-and-a-business-intelligence-professional",
+    "name": "What is the difference between a data scientist, an analyst  - Quora",
+    "snippet": "In simple terms, data scientists build solutions, while business analysts translate data into business insights.",
+    "host_name": "www.quora.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.instagram.com/p/DWJUCr1GAu5",
+    "name": "Python, ML, Statistics ML Engineer Focus: Deploying models into",
+    "snippet": "While Data Engineers focus on building data pipelines and infrastructure, Data Scientists specialize in machine learning, experimentation, and ...",
+    "host_name": "www.instagram.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/datascience/comments/1cbpt74/difference_between_mle_data_scientist_and_data",
+    "name": "Difference between MLE , Data Scientist and Data Engineer",
+    "snippet": "Data engineers would do preprocessing, ETL , building Warehouse ,SQL queries, CI/CD. Pipeline and scraping. To some extent data scientists do it. Read more",
+    "host_name": "www.reddit.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,490 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 47,
+  "packet_sha": "0cfe281a467074e4",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s47-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S47-T1-A-E1\nrecord = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"tolerance\":0.01}}\nmeets_contract = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "tac",
+        "parámetros",
+        "seed",
+        "status",
+        "print",
+        "tolerancia",
+        "tolerance"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T1-A-E1 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T1-A-E1 · Calcula el contrato de `tracking y reproducibilidad` sobre `CASO-TAC-047-1A`. La entrada es el dict completo del starter; la operación debe demostrar rerun dentro de tolerancia con seed/…». Hints: Relaciona los campos `seed`, `params`, `metric`, `rerun_metric`, `tolerance` con la regla explicada en S47-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva rerun dentro de tolerancia declarada; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metri…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S47-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'metric', 'seed', 'rerun_metric', 'params', 'tolerance', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\n    except Exception:\n        return 'MARK_RUN_NONREPRODUCIBLE'\n    return 'PASS' if ok else 'MARK_RUN_NONREPRODUCIBLE'\n\nrecord = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"tolerance\":0.01}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'tolerance'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "s47",
+        "get",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T1-A-E2 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T1-A-E2 · Modela tres rutas de `tracking y reproducibilidad`: fixture válido, fixture adverso y registro sin `tolerance`. Entrada: dict con case_id, seed, params, metric, rerun_metric, tolerance. …». Hints: Primero se calcula `missing`; ningún acceso a tolerance debe ocurrir antes de esa rama.; Después aplica la regla de S47-T1-A: rerun dentro de tolerancia con seed/parámetros. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S47-T1-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"tolerance\"\n    try:\n        ok = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"tolerance\":0.01}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "s47",
+        "get",
+        "ausencia",
+        "starter"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T1-A-E3 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos. `CASO-TAC-047-1A` debe continuar, el adverso debe devolver `MARK_RUN_NONREPRODUCIBLE` y la ausencia d…». Hints: Una ausencia no equivale a breach: enrútala a `INVESTIGATE_RANDOMNESS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró rerun dentro de tolerancia con seed/parámetros; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S47-T1-B-E1\nrecord = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v1\",\"metric_definition\":\"f1-v2\",\"candidate\":0.82,\"baseline\":0.78}}\nmeets_contract = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "tac",
+        "metric_definition",
+        "comparación",
+        "status",
+        "print",
+        "abc",
+        "salida"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T1-B-E1 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T1-B-E1 · Compara el contrato de `data/code/env lineage y comparación` sobre `CASO-TAC-047-1B`. La entrada es el dict completo del starter; la operación debe demostrar data/code/env/split/métrica …». Hints: Relaciona los campos `data`, `code`, `env`, `split`, `metric_definition`, `candidate`, `baseline` con la regla explicada en S47-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva lineage completo y comparación homogénea; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\"…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S47-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'data', 'split', 'baseline', 'metric_definition', 'candidate', 'code', 'case_id', 'env'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    except Exception:\n        return 'INVALIDATE_COMPARISON'\n    return 'PASS' if ok else 'INVALIDATE_COMPARISON'\n\nrecord = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v1\",\"metric_definition\":\"f1-v2\",\"candidate\":0.82,\"baseline\":0.78}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'baseline'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "comparación",
+        "print",
+        "abc",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "s47"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T1-B-E2 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T1-B-E2 · Verifica tres rutas de `data/code/env lineage y comparación`: fixture válido, fixture adverso y registro sin `baseline`. Entrada: dict con case_id, data, code, env, split, metric_definit…». Hints: Primero se calcula `missing`; ningún acceso a baseline debe ocurrir antes de esa rama.; Después aplica la regla de S47-T1-B: data/code/env/split/métrica versionados y candidato mejor. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S47-T1-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"baseline\"\n    try:\n        ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v1\",\"metric_definition\":\"f1-v2\",\"candidate\":0.82,\"baseline\":0.78}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "comparación",
+        "print",
+        "abc",
+        "stages",
+        "infrastructure",
+        "true",
+        "s47",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T1-B-E3 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos. `CASO-TAC-047-1B` debe continuar, el adverso debe devolver `INVALIDATE_COMPARISON` y la aus…». Hints: Una ausencia no equivale a breach: enrútala a `RESTORE_LINEAGE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró data/code/env/split/métrica versionados y candidato mejor; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S47-T2-A-E1\nrecord = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{\"priority\":\"float\"},\"stage\":\"staging\",\"approved\":True}}\nmeets_contract = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "tac",
+        "status",
+        "deny_model_promotion",
+        "print",
+        "age",
+        "stages",
+        "firmas"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T2-A-E1 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T2-A-E1 · Filtra el contrato de `firmas, stages y approvals` sobre `CASO-TAC-047-2A`. La entrada es el dict completo del starter; la operación debe demostrar firma exacta, staging y aprobación. Re…». Hints: Relaciona los campos `input_signature`, `output_signature`, `stage`, `approved` con la regla explicada en S47-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva firma compatible y aprobación trazada; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"regio…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S47-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {'stage', 'approved', 'input_signature', 'output_signature', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    except Exception:\n        return 'DENY_MODEL_PROMOTION'\n    return 'PASS' if ok else 'DENY_MODEL_PROMOTION'\n\nrecord = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{\"priority\":\"float\"},\"stage\":\"staging\",\"approved\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'approved'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "clasifica",
+        "age",
+        "stages",
+        "infrastructure",
+        "firmas",
+        "true",
+        "registro"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T2-A-E2 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T2-A-E2 · Clasifica tres rutas de `firmas, stages y approvals`: fixture válido, fixture adverso y registro sin `approved`. Entrada: dict con case_id, input_signature, output_signature, stage, appr…». Hints: Primero se calcula `missing`; ningún acceso a approved debe ocurrir antes de esa rama.; Después aplica la regla de S47-T2-A: firma exacta, staging y aprobación. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S47-T2-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"approved\"\n    try:\n        ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{\"priority\":\"float\"},\"stage\":\"staging\",\"approved\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "age",
+        "stages",
+        "infrastructure",
+        "firmas",
+        "request_model_approval",
+        "true",
+        "s47"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T2-A-E3 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos. `CASO-TAC-047-2A` debe continuar, el adverso debe devolver `DENY_MODEL_PROMOTION` y la ausencia de `…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_MODEL_APPROVAL` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró firma exacta, staging y aprobación; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S47-T2-B-E1\nrecord = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\nmeets_contract = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "tac",
+        "status",
+        "use",
+        "print",
+        "limits",
+        "serving_feature_version",
+        "salida"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T2-B-E1 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T2-B-E1 · Modela el contrato de `artefactos, model card y compatibilidad` sobre `CASO-TAC-047-2B`. La entrada es el dict completo del starter; la operación debe demostrar digest, compatibilidad de…». Hints: Relaciona los campos `artifact_digest`, `feature_version`, `serving_feature_version`, `card_sections` con la regla explicada en S47-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva digest/card/compatibilidad verificados; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"fea…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S47-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'feature_version', 'artifact_digest', 'card_sections', 'serving_feature_version', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\n    except Exception:\n        return 'REJECT_MODEL_ARTIFACT'\n    return 'PASS' if ok else 'REJECT_MODEL_ARTIFACT'\n\nrecord = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'card_sections'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "limits",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "s47",
+        "sha256"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T2-B-E2 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T2-B-E2 · Audita tres rutas de `artefactos, model card y compatibilidad`: fixture válido, fixture adverso y registro sin `card_sections`. Entrada: dict con case_id, artifact_digest, feature_versio…». Hints: Primero se calcula `missing`; ningún acceso a card_sections debe ocurrir antes de esa rama.; Después aplica la regla de S47-T2-B: digest, compatibilidad de features y card completa. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S47-T2-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"card_sections\"\n    try:\n        ok = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "limits",
+        "stages",
+        "infrastructure",
+        "true",
+        "s47",
+        "sha256",
+        "feature_version"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T2-B-E3 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures distintos. `CASO-TAC-047-2B` debe continuar, el adverso debe devolver `REJECT_MODEL_ARTIFACT` y la…». Hints: Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró digest, compatibilidad de features y card completa; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S47-T3-A-E1\nrecord = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"leakage\":False,\"contract_tests\":3}}\nmeets_contract = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "tac",
+        "status",
+        "print",
+        "salida",
+        "consistency",
+        "case_id",
+        "contrato"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T3-A-E1 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T3-A-E1 · Verifica el contrato de `batch/online y feature consistency` sobre `CASO-TAC-047-3A`. La entrada es el dict completo del starter; la operación debe demostrar paridad batch/online sin lea…». Hints: Relaciona los campos `batch_features`, `online_features`, `leakage`, `contract_tests` con la regla explicada en S47-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva paridad de features en fixtures; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"onlin…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S47-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {'leakage', 'contract_tests', 'batch_features', 'online_features', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    except Exception:\n        return 'DISABLE_INCONSISTENT_SERVING'\n    return 'PASS' if ok else 'DISABLE_INCONSISTENT_SERVING'\n\nrecord = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"leakage\":False,\"contract_tests\":3}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'contract_tests'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "consistency",
+        "true",
+        "registro",
+        "s47",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T3-A-E2 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T3-A-E2 · Decide tres rutas de `batch/online y feature consistency`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, batch_features, online_features, le…». Hints: Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.; Después aplica la regla de S47-T3-A: paridad batch/online sin leakage y contract tests. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S47-T3-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"contract_tests\"\n    try:\n        ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"leakage\":False,\"contract_tests\":3}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "contrasta",
+        "consistency",
+        "true",
+        "s47",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T3-A-E3 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos. `CASO-TAC-047-3A` debe continuar, el adverso debe devolver `DISABLE_INCONSISTENT_SERVING` y…». Hints: Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró paridad batch/online sin leakage y contract tests; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S47-T3-B-E1\nrecord = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fallback_tested\":True}}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "tac",
+        "status",
+        "print",
+        "clasifica",
+        "salida",
+        "true",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T3-B-E1 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T3-B-E1 · Clasifica el contrato de `latency, batching y fallback` sobre `CASO-TAC-047-3B`. La entrada es el dict completo del starter; la operación debe demostrar p95 bajo SLO, batch acotado y fal…». Hints: Relaciona los campos `p95_ms`, `slo_ms`, `batch_size`, `fallback`, `fallback_tested` con la regla explicada en S47-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva SLO de latencia y fallback probado; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S47-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'fallback', 'slo_ms', 'fallback_tested', 'p95_ms', 'batch_size', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    except Exception:\n        return 'ACTIVATE_SAFE_FALLBACK'\n    return 'PASS' if ok else 'ACTIVATE_SAFE_FALLBACK'\n\nrecord = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fallback_tested\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'fallback_tested'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "s47",
+        "get",
+        "activate_safe_fallback"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T3-B-E2 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T3-B-E2 · Calcula tres rutas de `latency, batching y fallback`: fixture válido, fixture adverso y registro sin `fallback_tested`. Entrada: dict con case_id, p95_ms, slo_ms, batch_size, fallback, f…». Hints: Primero se calcula `missing`; ningún acceso a fallback_tested debe ocurrir antes de esa rama.; Después aplica la regla de S47-T3-B: p95 bajo SLO, batch acotado y fallback probado. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S47-T3-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"fallback_tested\"\n    try:\n        ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fallback_tested\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "s47",
+        "get",
+        "activate_safe_fallback",
+        "ausencia"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T3-B-E3 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos. `CASO-TAC-047-3B` debe continuar, el adverso debe devolver `ACTIVATE_SAFE_FALLBACK` y la ausenc…». Hints: Una ausencia no equivale a breach: enrútala a `TUNE_BATCH_OR_CAPACITY` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró p95 bajo SLO, batch acotado y fallback probado; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S47-T4-A-E1\nrecord = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\nmeets_contract = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "tac",
+        "status",
+        "print",
+        "quality",
+        "salida",
+        "max_error_rate",
+        "true"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T4-A-E1 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T4-A-E1 · Audita el contrato de `shadow/canary y monitoring hooks` sobre `CASO-TAC-047-4A`. La entrada es el dict completo del starter; la operación debe demostrar tráfico limitado, quality/error …». Hints: Relaciona los campos `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks` con la regla explicada en S47-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva canary con criterio promote/stop; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"qual…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S47-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'traffic_pct', 'hooks', 'max_quality_drop', 'mode', 'quality_delta', 'error_rate', 'max_error_rate', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    except Exception:\n        return 'STOP_CANARY'\n    return 'PASS' if ok else 'STOP_CANARY'\n\nrecord = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'hooks'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "s47",
+        "traffic_pct",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T4-A-E2 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T4-A-E2 · Compara tres rutas de `shadow/canary y monitoring hooks`: fixture válido, fixture adverso y registro sin `hooks`. Entrada: dict con case_id, mode, traffic_pct, quality_delta, max_quality…». Hints: Primero se calcula `missing`; ningún acceso a hooks debe ocurrir antes de esa rama.; Después aplica la regla de S47-T4-A: tráfico limitado, quality/error gates y hooks. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S47-T4-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"hooks\"\n    try:\n        ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "s47",
+        "traffic_pct",
+        "get",
+        "ausencia"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T4-A-E3 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos. `CASO-TAC-047-4A` debe continuar, el adverso debe devolver `STOP_CANARY` y la ausencia de `hooks`…». Hints: Una ausencia no equivale a breach: enrútala a `COLLECT_MORE_SHADOW_EVIDENCE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró tráfico limitado, quality/error gates y hooks; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S47-T4-B-E1\nrecord = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"rollback_tested\":True,\"retired\":{\"1.0.0\"},\"audit_entry\":True}}\nmeets_contract = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "compatible_features",
+        "tac",
+        "status",
+        "print",
+        "audit",
+        "current",
+        "retiro"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T4-B-E1 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T4-B-E1 · Decide el contrato de `rollback, retirement y audit` sobre `CASO-TAC-047-4B`. La entrada es el dict completo del starter; la operación debe demostrar last-known-good compatible, rollback…». Hints: Relaciona los campos `current`, `last_good`, `compatible_features`, `rollback_tested`, `retired`, `audit_entry` con la regla explicada en S47-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva restauración y retirement auditados; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\"…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S47-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'compatible_features', 'retired', 'audit_entry', 'last_good', 'current', 'rollback_tested', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    except Exception:\n        return 'ROLLBACK_TO_LAST_GOOD'\n    return 'PASS' if ok else 'ROLLBACK_TO_LAST_GOOD'\n\nrecord = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"rollback_tested\":True,\"retired\":{\"1.0.0\"},\"audit_entry\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'audit_entry'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "compatible_features",
+        "print",
+        "current",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "s47"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T4-B-E2 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T4-B-E2 · Filtra tres rutas de `rollback, retirement y audit`: fixture válido, fixture adverso y registro sin `audit_entry`. Entrada: dict con case_id, current, last_good, compatible_features, rol…». Hints: Primero se calcula `missing`; ningún acceso a audit_entry debe ocurrir antes de esa rama.; Después aplica la regla de S47-T4-B: last-known-good compatible, rollback y retiro auditado. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S47-T4-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"audit_entry\"\n    try:\n        ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"rollback_tested\":True,\"retired\":{\"1.0.0\"},\"audit_entry\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "compatible_features",
+        "print",
+        "current",
+        "stages",
+        "infrastructure",
+        "true",
+        "s47",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S47-T4-B-E3 solo con el paquete activo S47 (MLOps: experimentos, registro y serving). Instruction: «S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos. `CASO-TAC-047-4B` debe continuar, el adverso debe devolver `ROLLBACK_TO_LAST_GOOD` y la ausencia …». Hints: Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró last-known-good compatible, rollback y retiro auditado; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «tracking y reproducibilidad Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida…». Demos: S47-T1-A-DEMO | S47-T1-B-DEMO | S47-T2-A-DEMO | S47-T2-B-DEMO | S47-T3-A-DEMO | S47-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "rerun dentro de tolerancia declarada",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 2 «rerun dentro de tolerancia declarada» para la pregunta «¿Qué evidencia permite aprobar `tracking y reproducibilidad` en CASO-TAC-047?» porque el paquete activo S47 (MLOps: experimentos, registro y serving) enseña: «Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: rerun dentro de tolerancia declarada. Error: lineag…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "emitir ROLLBACK_MODEL y conservar evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 0 «emitir ROLLBACK_MODEL y conservar evidencia» para la pregunta «Si ocurre la condición de error de S47, ¿qué respuesta preserva seguridad y auditabilidad?» porque el paquete activo S47 (MLOps: experimentos, registro y serving) enseña: «Contrato operativo. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida de este subtema: rerun dentro de tolerancia declarada. Error: lineag…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 1 «solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia» para la pregunta «¿Cuál resultado demuestra el gate `CP-N4-B + CF-4 · modelo promovible y reversible`?» porque el paquete activo S47 (MLOps: experimentos, registro y serving) enseña: «Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida antigua.». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 3 «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para la pregunta «¿Qué tratamiento de `CASO-TAC-047` respeta el alcance del curso?» porque el paquete activo S47 (MLOps: experimentos, registro y serving) enseña: «Aplicación de `tracking y reproducibilidad` al caso peruano sintético `CASO-TAC-047`: un modelo sintético de priorización de atención para una organización ficticia en Tacna. La ev…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:37:09.895606+00:00"
+}

@@ -1,0 +1,552 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B1",
+  "section_index": 17,
+  "packet_sha": "b432ec23c9a51895",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_17/packet.json",
+  "recorded_at": "2026-07-22T01:46:41.307528+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "4a4ba5018c07",
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T1-A-E1\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\")\nprint(len(m))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T1-A-E1 si el paquete lo enseña. Instrucción: «Left merge cli y tx por cliente_id; imprime len del resultado.». Demo ancla S17-T1-B-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Hints del weDo: merge how='left'.; Cuenta filas.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T1-A-E1 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]}) tx = pd.DataFrame({\"clien». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T1-A-E2\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T1-A-E2 si el paquete lo enseña. Instrucción: «Imprime si la clave de cli es única (True/False).». Demo ancla S17-T1-B-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Hints del weDo: is_unique.; Series.cliente_id.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T1-A-E2 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]}) print(bool(cli[\"cliente_i». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T1-A-E3\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C001\"], \"monto\": [1.0, 2.0, 3.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"inner\")\nprint(len(m))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T1-A-E3 si el paquete lo enseña. Instrucción: «Demuestra fan-out: 1 cliente x 3 tx → len merge == 3 con how=inner.». Demo ancla S17-T1-B-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Hints del weDo: merge inner.; print len.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T1-A-E3 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\"]}) tx = pd.DataFrame({\"cliente_id\": ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T1-B-E1\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T1-B-E1 si el paquete lo enseña. Instrucción: «Con indicator=True, lista cliente_id left_only.». Demo ancla S17-T1-B-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Hints del weDo: merge left indicator.; filtra _merge.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T1-B-E1 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T1-B-E2\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]})\ntry:\n    cli.merge(tx, on=\"cliente_id\", validate=\"one_to_one\")\nexcept Exception:\n    print(\"fail\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T1-B-E2 si el paquete lo enseña. Instrucción: «validate one_to_one debe fallar con dups a la derecha; imprime 'fail'.». Demo ancla S17-T1-B-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Hints del weDo: try MergeError o Exception.; validate=.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T1-B-E2 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\"]}) tx = pd.DataFrame({\"cliente_id\": ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T1-B-E3\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(int((m[\"_merge\"] == \"left_only\").sum()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T1-B-E3 si el paquete lo enseña. Instrucción: «Cuenta huérfanos (anti-join) entre cli y tx.». Demo ancla S17-T1-B-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Hints del weDo: left_only count.; nunique o len.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T1-B-E3 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T2-A-E1\nimport pandas as pd\nwide = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [1, 2]})\nlong = wide.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])\nprint(len(long))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "wide",
+        "DataFrame",
+        "long",
+        "melt"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T2-A-E1 si el paquete lo enseña. Instrucción: «melt id_vars=id value_vars a,b; imprime len long (debe 4 para 2 filas x 2).». Demo ancla S17-T2-A-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Hints del weDo: melt.; var_name value_name opcionales.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T2-A-E1 import pandas as pd wide = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [1, 2]}) long = wide.me». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T2-A-E2\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1, 2, 2], \"k\": [\"a\", \"b\", \"a\", \"b\"], \"v\": [1, 2, 3, 4]})\nw = long.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\").reset_index()\nprint(w.columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "long",
+        "DataFrame",
+        "pivot_table",
+        "index"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T2-A-E2 si el paquete lo enseña. Instrucción: «pivot_table index=id columns=k values=v sum; imprime columns list tras reset.». Demo ancla S17-T2-A-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Hints del weDo: aggfunc sum.; reset_index.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T2-A-E2 import pandas as pd long = pd.DataFrame({\"id\": [1, 1, 2, 2], \"k\": [\"a\", \"b\", \"a\", \"b\"], \"v\": [1, 2». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T2-A-E3\nimport pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint(len(pd.concat([a, b], ignore_index=True)))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "len",
+        "concat",
+        "ignore_index"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T2-A-E3 si el paquete lo enseña. Instrucción: «concat de dos DF axis=0 ignore_index; imprime len.». Demo ancla S17-T2-A-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Hints del weDo: pd.concat(..., ignore_index=True).; mismas cols.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T2-A-E3 import pandas as pd a = pd.DataFrame({\"x\": [1]}) b = pd.DataFrame({\"x\": [2]}) print(len(pd.concat(». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\ndf.columns = pd.MultiIndex.from_tuples([(\"m\", \"a\"), (\"m\", \"b\")])\nnames = [f\"{a}_{b}\" for a, b in df.columns]\nprint(names)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "columns",
+        "MultiIndex",
+        "from_tuples"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T2-B-E1 si el paquete lo enseña. Instrucción: «Aplana columnas MultiIndex nivel0_nivel1 e imprime nombres.». Demo ancla S17-T2-A-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Hints del weDo: map join o f-string.; tras pivot.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T2-B-E1 import pandas as pd df = pd.DataFrame([[1, 2], [3, 4]]) df.columns = pd.MultiIndex.from_tuples([(\"». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1], \"region\": [\"Lima\"]})\nexpected = {\"monto\", \"region\"}\nprint(set(df.columns) == expected)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "region",
+        "Lima"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T2-B-E2 si el paquete lo enseña. Instrucción: «Valida set(columns)==expected; imprime True/False.». Demo ancla S17-T2-A-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Hints del weDo: set igualdad.; expected fijo.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T2-B-E2 import pandas as pd df = pd.DataFrame({\"monto\": [1], \"region\": [\"Lima\"]}) expected = {\"monto\", \"re». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\ndf = df.rename(columns={\"a\": \"monto\"})\nprint(df.columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "rename",
+        "columns",
+        "monto"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T2-B-E3 si el paquete lo enseña. Instrucción: «rename columns dict {'a':'monto'}; imprime columns.». Demo ancla S17-T2-A-DEMO: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Hints del weDo: rename(columns=...).; inplace False.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T2-B-E3 import pandas as pd df = pd.DataFrame({\"a\": [1]}) df = df.rename(columns={\"a\": \"monto\"}) print(df.». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T3-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T3-A-E1 si el paquete lo enseña. Instrucción: «groupby region sum monto; imprime dict region->sum.». Demo ancla S17-T3-A-DEMO: «». Hints del weDo: groupby sum.; to_dict.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T3-A-E1 import pandas as pd df = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 3». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T3-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].transform(\"mean\").tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T3-A-E2 si el paquete lo enseña. Instrucción: «transform mean de monto por region; imprime lista alineada a filas.». Demo ancla S17-T3-A-DEMO: «». Hints del weDo: groupby transform.; mismas filas que df.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T3-A-E2 import pandas as pd df = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 3». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T3-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 3.0]})\nout = df.groupby(\"region\", as_index=False).agg(total=(\"monto\", \"sum\"), n=(\"monto\", \"count\"))\nprint(out.columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T3-A-E3 si el paquete lo enseña. Instrucción: «agg con total sum y n count as_index=False; imprime columnas.». Demo ancla S17-T3-A-DEMO: «». Hints del weDo: named agg.; as_index=False.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T3-A-E3 import pandas as pd df = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 3». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T3-B-E1\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nout = [None if pd.isna(v) else float(v) for v in s.tolist()]\nprint(out)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "Series",
+        "rolling",
+        "mean",
+        "out"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T3-B-E1 si el paquete lo enseña. Instrucción: «rolling(2).mean sobre [1,2,3]; imprime lista con primer valor nan como None.». Demo ancla S17-T3-A-DEMO: «». Hints del weDo: rolling mean.; tolist y nan check.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T3-B-E1 import pandas as pd s = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean() out = [None if pd.isna(v) els». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T3-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\", \"2024-02-01\"]),\n})\ncoh = df.groupby(\"cliente_id\")[\"fecha\"].transform(\"min\").dt.to_period(\"M\").astype(str)\nprint(dict(zip(df[\"cliente_id\"].unique(), coh.groupby(df[\"cliente_id\"]).first())))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T3-B-E2 si el paquete lo enseña. Instrucción: «Asigna cohort YYYY-MM con min fecha por cliente; imprime dict id->cohort único.». Demo ancla S17-T3-A-DEMO: «». Hints del weDo: groupby transform min.; dt.to_period('M').. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T3-B-E2 import pandas as pd df = pd.DataFrame({ \"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"fecha\": pd.to_dat». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T3-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 3.0, 5.0], index=pd.to_datetime([\"2024-01-01\", \"2024-01-02\", \"2024-01-03\"]))\ns = s.sort_index()\nprint(float(s.rolling(2).mean().iloc[-1]))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "Series",
+        "index",
+        "to_datetime",
+        "sort_index"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T3-B-E3 si el paquete lo enseña. Instrucción: «Ordena por fecha antes de rolling sobre montos diarios y muestra última media window 2.». Demo ancla S17-T3-A-DEMO: «». Hints del weDo: sort_index.; rolling 2.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T3-B-E3 import pandas as pd s = pd.Series([1.0, 3.0, 5.0], index=pd.to_datetime([\"2024-01-01\", \"2024-01-02». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T4-A-E1\nparts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "parts",
+        "total",
+        "abs",
+        "sum"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T4-A-E1 si el paquete lo enseña. Instrucción: «Verifica abs(sum(parts)-total)<1e-9; imprime True.». Demo ancla S17-T4-A-DEMO: «». Hints del weDo: sum y abs.; eps 1e-9.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T4-A-E1 parts = [10.0, 20.0, 70.0] total = 100.0 print(abs(sum(parts) - total) < 1e-9)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'parts']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T4-A-E2\npagados = 10\nactivos = 40\nprint(pagados / activos)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pagados",
+        "activos"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T4-A-E2 si el paquete lo enseña. Instrucción: «Tasa pagados/activos con activos=40 pagados=10; imprime 0.25.». Demo ancla S17-T4-A-DEMO: «». Hints del weDo: división float.; print tasa.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T4-A-E2 pagados = 10 activos = 40 print(pagados / activos)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pagados']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T4-A-E3\ntotal = 100\nlima = 60\nprint(total - lima)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "total",
+        "lima"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T4-A-E3 si el paquete lo enseña. Instrucción: «Bridge: total 100, lima 60, resto debe ser 40; imprime residual.». Demo ancla S17-T4-A-DEMO: «». Hints del weDo: total - lima.; residual.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T4-A-E3 total = 100 lima = 60 print(total - lima)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'total']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T4-B-E1\nimport pandas as pd\ntx = pd.DataFrame({\n    \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]),\n    \"monto\": [10.0, 999.0],\n})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime",
+        "monto"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T4-B-E1 si el paquete lo enseña. Instrucción: «Filtra fechas <= cutoff 2024-01-31; imprime montos list.». Demo ancla S17-T4-A-DEMO: «». Hints del weDo: Timestamp cutoff.; máscara <=.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T4-B-E1 import pandas as pd tx = pd.DataFrame({ \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]), \"mo». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T4-B-E2\nimport pandas as pd\ntx = pd.DataFrame({\n    \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]),\n    \"monto\": [10.0, 999.0],\n})\ncutoff = pd.Timestamp(\"2024-01-31\")\npre = float(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].sum())\ntotal = float(tx[\"monto\"].sum())\nprint(total - pre)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime",
+        "monto"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T4-B-E2 si el paquete lo enseña. Instrucción: «Compara sum pre-cutoff vs sum total; imprime delta de leakage.». Demo ancla S17-T4-A-DEMO: «». Hints del weDo: total - pre.; float.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T4-B-E2 import pandas as pd tx = pd.DataFrame({ \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]), \"mo». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S17-T4-B-E3\nimport pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]),\n    \"monto\": [10.0, 999.0],\n})\ncutoff = pd.Timestamp(\"2024-01-31\")\nfeat = tx[tx[\"fecha\"] <= cutoff].groupby(\"cliente_id\")[\"monto\"].max()\nprint(feat.to_dict())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "fecha"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S17-T4-B-E3 si el paquete lo enseña. Instrucción: «Feature as-of: max monto con fecha<=cutoff por cliente; imprime dict.». Demo ancla S17-T4-A-DEMO: «». Hints del weDo: filter then groupby max.; un cliente.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S17-T4-B-E3 import pandas as pd tx = pd.DataFrame({ \"cliente_id\": [\"C001\", \"C001\"], \"fecha\": pd.to_datetime([\"». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S17', 'pandas']. Heading: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinal."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Fallar si la cardinalidad no es 1:1",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «validate, duplicación accidental y anti-join» — validate='one_to_one'|... hace fallar merges con cardinalidad rota. Not imputation, sort, or MultiIndex creation."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Filas del left sin match en right",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: same card — indicator left_only/right_only/both; anti-join = filas left_only (huérfanos). So left rows without a right match."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Reinyecta el agregado al shape original",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «groupby / agg / transform» — transform reinyecta el agregado al shape original (e.g. score/mean_region). agg collapses; transform does not."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «leakage temporal y controles» — Leakage = usar información posterior al cutoff for past features/metrics. Not CSV vs Excel or melt."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "lane_id": "LANE-S01-P6",
+  "status": "completed",
+  "phase": "PHASE_6_ISOLATED_VALIDATION",
+  "section": "S01",
+  "section_id": "setup",
+  "generated_at": "2026-07-20T06:35:00Z",
+  "validation_status": "passed",
+  "authorized_to_close_section": true,
+  "artifact": "course-state/s01_phase6_validation.json",
+  "inventory": {
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants": 24
+  },
+  "execution": {
+    "demos_pass": 8,
+    "demos_unverified_parts": ["S01-T3-B push/PR remote (no GitHub auth)"],
+    "e2_python_pass": ["S01-T1-A-E2", "S01-T1-B-E2", "S01-T4-A-E2"],
+    "e2_bash_pass": ["S01-T2-A-E2", "S01-T2-B-E2"],
+    "exam_structure_ok": true,
+    "exam_spotcheck": "8/8",
+    "cp_n1_a_acceptance_present": true,
+    "privacy_ok": true
+  },
+  "issues_found": [],
+  "closable_existing_issues": [
+    "S01-CONTENT-001",
+    "S01-CONTENT-002"
+  ],
+  "files_written": [
+    "course-state/s01_phase6_validation.json",
+    "course-state/lanes/LANE-S01-P6.status.json"
+  ],
+  "files_not_edited": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/parallel_orchestration.json",
+    "src/lib/course/sections/s02*"
+  ],
+  "next_action": "Orchestrator: close S01-CONTENT-001/002, merge PHASE 6 into checkpoint/section_ledger, db:seed setup bank."
+}

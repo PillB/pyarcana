@@ -1,0 +1,47 @@
+{
+  "id": "CP-N2-B",
+  "version": "2.0.0",
+  "name": "Fábrica de Reportes y Tablero Accesible",
+  "level": 2,
+  "gate_section": "S21",
+  "scale": "0-3",
+  "criteria": {
+    "correctness": {
+      "weight": 0.35,
+      "focus": "Cumple el comportamiento principal en casos normales, de borde y de error."
+    },
+    "robustness": {
+      "weight": 0.2,
+      "focus": "Maneja entradas imperfectas y casos límite sin caer."
+    },
+    "maintainability": {
+      "weight": 0.25,
+      "focus": "Diseño limpio, modular, testeable y documentado."
+    },
+    "responsible_use": {
+      "weight": 0.2,
+      "focus": "Controles de seguridad, privacidad y uso responsable presentes."
+    }
+  },
+  "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0.",
+  "critical_failures": [
+    "Ejes engañosos",
+    "Codificación solo por color",
+    "Denominadores ocultos",
+    "Claims ejecutivos no soportados"
+  ],
+  "prohibitions": [
+    "No real PII",
+    "No hardcoded secrets",
+    "Synthetic or legally reusable data only",
+    "No unsupported adverse/fraud inference"
+  ],
+  "package_version": "2.0.0",
+  "tests_required": [
+    "render produce report bundle",
+    "estado vacío manejado",
+    "eje engañoso detectado por check",
+    "codificación no es solo color",
+    "cada claim tiene source_ref"
+  ]
+}

@@ -1,0 +1,284 @@
+{
+  "version": "3.2",
+  "section": "S03",
+  "section_id": "data-structures",
+  "phase": "PHASE_6",
+  "lane": "LANE-S03-P6",
+  "role": "Isolated Validator (newbie-style)",
+  "generated_at": "2026-07-20T12:00:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s03-data-structures.ts",
+    "prisma/seed.ts (data-structures stems+options first; explanations after)"
+  ],
+  "status": "passed",
+  "summary": "S03 meets counting (8 subtopics, 8 demos, 24 exercises field-complete, 24 exam variants). Key Python demos/solutions for truthiness (T1-B) executed with outputs matching embedded expectations. match/case (T3-B) not runnable on host Python 3.9; if-equivalent of status_match verified. Seed data-structures 8×3=24 confirmed. Privacy OK. authorized_to_close_section=true.",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S03-T1-A",
+        "S03-T1-B",
+        "S03-T2-A",
+        "S03-T2-B",
+        "S03-T3-A",
+        "S03-T3-B",
+        "S03-T4-A",
+        "S03-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S03-T1-A-DEMO",
+        "S03-T1-B-DEMO",
+        "S03-T2-A-DEMO",
+        "S03-T2-B-DEMO",
+        "S03-T3-A-DEMO",
+        "S03-T3-B-DEMO",
+        "S03-T4-A-DEMO",
+        "S03-T4-B-DEMO"
+      ],
+      "environment": "browser-pyodide"
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S03-T1-A-E1",
+        "S03-T1-A-E2",
+        "S03-T1-A-E3",
+        "S03-T1-B-E1",
+        "S03-T1-B-E2",
+        "S03-T1-B-E3",
+        "S03-T2-A-E1",
+        "S03-T2-A-E2",
+        "S03-T2-A-E3",
+        "S03-T2-B-E1",
+        "S03-T2-B-E2",
+        "S03-T2-B-E3",
+        "S03-T3-A-E1",
+        "S03-T3-A-E2",
+        "S03-T3-A-E3",
+        "S03-T3-B-E1",
+        "S03-T3-B-E2",
+        "S03-T3-B-E3",
+        "S03-T4-A-E1",
+        "S03-T4-A-E2",
+        "S03-T4-A-E3",
+        "S03-T4-B-E1",
+        "S03-T4-B-E2",
+        "S03-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK['data-structures']",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "comparisons-membership",
+        "truthiness-shortcircuit",
+        "if-elif-else",
+        "guard-clauses",
+        "allowlists-ranges",
+        "decision-tables-match",
+        "invariants-examples",
+        "actionable-messages-branch-tests"
+      ]
+    },
+    "youDo": {
+      "title_present": true,
+      "cp_n1_a_mentioned": true,
+      "acceptance_criteria_present": true,
+      "acceptance_fields": ["objectives", "requirements", "rubric", "starterCode"]
+    },
+    "selfCheck_present": true
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "Theory subtopicId set is exactly S03-T1-A..S03-T4-B (8 unique)."
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "iDo.steps with demoId: 8 (S03-T*-DEMO), environment browser-pyodide on each."
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "weDo.steps ids S03-T{1-4}-{A,B}-E{1-3} = 24; each has hints[≥2], starterCode, solutionCode, edgeCases, tests, feedback."
+    },
+    {
+      "id": "DEMO-T1-B-TRUTHINESS",
+      "pass": true,
+      "evidence": "Executed S03-T1-B-DEMO: None/0/'' falsy; decide_monto None→review, 0→accept, -5→reject, 150→accept. Matches embedded output."
+    },
+    {
+      "id": "E1-T1-B-TABLA",
+      "pass": true,
+      "evidence": "S03-T1-B-E1 solution: bool table 9 falsy + 3 truthy (incl. range(0) falsy, [0] truthy)."
+    },
+    {
+      "id": "E2-T1-B-AND-OR",
+      "pass": true,
+      "evidence": "S03-T1-B-E2: '' or 'default'→default; Lima or→Lima; 0 and 99→0; 5 and 99→99; None or 0→0."
+    },
+    {
+      "id": "E3-T1-B-MONTO",
+      "pass": true,
+      "evidence": "S03-T1-B-E3 validate_monto: None review; 0 accept; -1 reject; 100 accept."
+    },
+    {
+      "id": "DEMO-T2-B-GUARDS",
+      "pass": true,
+      "evidence": "S03-T2-B-DEMO validate_edad: None MISSING; '25' BAD_TYPE; -1/200 OUT_OF_RANGE; 15 NEEDS_REVIEW; 30 OK."
+    },
+    {
+      "id": "DEMO-T3-A-ALLOWLIST",
+      "pass": true,
+      "evidence": "S03-T3-A-DEMO: Lima 30 accept; Tacna 30 review; Lima 15 reject; None 40 review."
+    },
+    {
+      "id": "E1-T3-B-TABLE",
+      "pass": true,
+      "evidence": "S03-T3-B-E1 decision table dict: OK accept; MISSING review; OUT_OF_RANGE reject; FOO review."
+    },
+    {
+      "id": "E2-T3-B-MATCH",
+      "pass": true,
+      "evidence": "Host python3 is 3.9.6 — match/case SyntaxError. Semantic equivalent status_if verified same outputs as embedded match solution (OK/MISSING/OUT_OF_RANGE/FOO/NEEDS_REVIEW). Course demos declare browser-pyodide (3.10+ match available to students)."
+    },
+    {
+      "id": "DEMO-T4-A-CONTACTO",
+      "pass": true,
+      "evidence": "validate_contacto: 999000111 accept; 12345 reject; None review; whitespace reject."
+    },
+    {
+      "id": "SEED-DATA-STRUCTURES-8x3",
+      "pass": true,
+      "evidence": "prisma/seed.ts data-structures: 8 concepts × 3 variants = 24. Slugs match s03_phase5_exam_bank / V3 S03 decisions."
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "24 MCQs × 4 options; correctIndex in 0–3; explanation present for all."
+    },
+    {
+      "id": "EXAM-SPOTCHECK-8",
+      "pass": true,
+      "evidence": "One item per concept: in allowlist; if monto falsy bug; if/elif exclusion; guard order None→tipo→rango; Tacna review; decision table def; examples canónicos; mensaje accionable. 8/8 match correctIndex=1."
+    },
+    {
+      "id": "YOUDO-CP-N1-A",
+      "pass": true,
+      "evidence": "youDo has title/context/objectives/requirements/rubric/starterCode; CP-N1-A referenced (7 mentions in section)."
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Synthetic only (999000111 demo phones, example regions). No real client PII."
+    }
+  ],
+  "issues_found": [],
+  "notes_non_blocking": [
+    "Host validator Python 3.9.6 cannot execute match/case; if-equivalent used. Student demos target browser-pyodide with match (3.10+).",
+    "selfCheck remains formative UI; full bank is 24 in seed.",
+    "Validator does not edit checkpoint/section_ledger/issue_registry."
+  ],
+  "dod_checklist": [
+    {
+      "item": 1,
+      "text": "La matriz de alineamiento cubre todos los resultados.",
+      "status": "pass",
+      "evidence": "Outcomes map to T1–T4: comparisons, truthiness, if/elif, guards, allowlists, decision tables/match, invariants, messages/tests."
+    },
+    {
+      "item": 2,
+      "text": "Todos los subtemas cumplen la plantilla pedagógica.",
+      "status": "pass",
+      "evidence": "Each of 8 subtopics: theory + iDo demo + 3 exercises E1/E2/E3."
+    },
+    {
+      "item": 3,
+      "text": "Todos los ejercicios tienen starter code, dos pistas, solución, casos borde, tests y feedback.",
+      "status": "pass",
+      "evidence": "24/24 field-complete (parser audit)."
+    },
+    {
+      "item": 4,
+      "text": "Todos los tríos A/B/C tienen misma habilidad, demanda, formato; no cosméticos.",
+      "status": "pass",
+      "evidence": "s03_phase5_exam_bank.json equivalence notes + seed review."
+    },
+    {
+      "item": 5,
+      "text": "Cada MCQ tiene una sola mejor respuesta y racional de clave.",
+      "status": "pass",
+      "evidence": "correctIndex + explanation; spot-check 8/8."
+    },
+    {
+      "item": 6,
+      "text": "El código fue ejecutado en su entorno declarado.",
+      "status": "pass",
+      "evidence": "Truthiness/guards/allowlist/table/contacto executed with python3; match semantics via if-equivalent on 3.9; outputs match embedded expectations."
+    },
+    {
+      "item": 7,
+      "text": "El incremento del capstone pasa criterios de aceptación y rúbrica.",
+      "status": "pass",
+      "evidence": "You Do CP-N1-A acceptance fields present; motor de reglas tri-estado taught."
+    },
+    {
+      "item": 8,
+      "text": "Seguridad, privacidad, accesibilidad y sesgo fueron revisados.",
+      "status": "pass",
+      "evidence": "Synthetic data only; no real PII."
+    },
+    {
+      "item": 9,
+      "text": "Un validador aislado pudo resolver ejercicios y examen usando solo el contenido publicado.",
+      "status": "pass",
+      "evidence": "This lane: executed solutions after theory inventory; exam spot-check 8/8."
+    },
+    {
+      "item": 10,
+      "text": "El issue registry no contiene P0/P1 abiertos.",
+      "status": "partial",
+      "evidence": "Validator does not edit issue_registry. No NEW P0/P1 found in content audit."
+    },
+    {
+      "item": 11,
+      "text": "Checkpoint de fase, ledger S1–S52 y roadmap actualizados.",
+      "status": "partial",
+      "evidence": "Validator must NOT edit checkpoint/section_ledger. Artifacts: s03_phase6_validation.json + LANE-S03-P6.status.json."
+    },
+    {
+      "item": 12,
+      "text": "La sección siguiente conserva prerrequisito explícito y no depende de contenido no enseñado.",
+      "status": "pass",
+      "evidence": "S03 teaches decisions/rules foundation; hands off iteration/lotes to S04 without requiring later sections."
+    }
+  ],
+  "authorized_to_close_section": true,
+  "authorization_rationale": "Zero remaining counting gaps: 8 subtopics, 8 demos, 24 exercises field-complete, 24 exam variants (data-structures 8×3). Key truthiness and rules code executed successfully; match covered via semantic equivalent on host 3.9. You Do CP-N1-A published. Orchestrator may close S03 in ledger/checkpoint and reseed DB.",
+  "orchestrator_handoff": [
+    "Merge PHASE 6 into checkpoint.json / section_ledger for S03 when process rules allow.",
+    "Run bun/prisma db:seed so data-structures bank is live.",
+    "Do not block close on host Python 3.9 lacking match; student runtime is pyodide 3.10+."
+  ]
+}

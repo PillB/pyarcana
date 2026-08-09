@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 45,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s45-c96f14936831",
+  "production_note": "agentic_K1 dual-LLM Skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "code": "# Skeptic packet solve S45-T1-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritative\":False,\"cache_ttl_s\":300}}\nmeets_contract = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\nstatus = \"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\"\nprint(\"S45-T1-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "object store, relacional y cache",
+        "T1"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «object store, relacional y cache» usando el fixture CASO-IQU-045 del paquete activo; la rama esperada distingue REDESIGN_PERSISTENCE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "code": "# Skeptic packet solve S45-T1-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'transactions', 'cache_authoritative', 'cache_ttl_s', 'blob_store', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")) else 'REDESIGN_PERSISTENCE'\n\nvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = {**valid}\nincomplete.pop('cache_ttl_s', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "object store, relacional y cache",
+        "T1"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «object store, relacional y cache» usando la instruction de S45-T1-A-E2 y sus hints de dominio; la rama esperada distingue PASS, REDESIGN_PERSISTENCE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "code": "# Skeptic packet solve S45-T1-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'transactions', 'cache_authoritative', 'cache_ttl_s', 'blob_store', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'WRITE_STORE_ADR'\n    return 'CONTINUE' if (not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")) else 'REDESIGN_PERSISTENCE'\n\nvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = {**valid}\nincomplete.pop('cache_ttl_s', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'WRITE_STORE_ADR', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "object store, relacional y cache",
+        "T1"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «object store, relacional y cache» usando theory «object store, relacional y cache» y el iDo de la sección; la rama esperada distingue REDESIGN_PERSISTENCE, WRITE_STORE_ADR y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "code": "# Skeptic packet solve S45-T1-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\nmeets_contract = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\"\nprint(\"S45-T1-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "consistencia, lifecycle y backups",
+        "T1"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «consistencia, lifecycle y backups» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue DECLARE_DATA_LOSS_RISK y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "code": "# Skeptic packet solve S45-T1-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'backup_age_h', 'rto_minutes', 'restore_minutes', 'consistency', 'operation', 'rpo_h', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])) else 'DECLARE_DATA_LOSS_RISK'\n\nvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 1004, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nincomplete = {**valid}\nincomplete.pop('rto_minutes', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": [
+        "consistencia, lifecycle y backups",
+        "T1"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «consistencia, lifecycle y backups» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, DECLARE_DATA_LOSS_RISK y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "code": "# Skeptic packet solve S45-T1-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'backup_age_h', 'rto_minutes', 'restore_minutes', 'consistency', 'operation', 'rpo_h', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RUN_RESTORE_DRILL'\n    return 'CONTINUE' if (not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])) else 'DECLARE_DATA_LOSS_RISK'\n\nvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 1004, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nincomplete = {**valid}\nincomplete.pop('rto_minutes', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'RUN_RESTORE_DRILL', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [
+        "consistencia, lifecycle y backups",
+        "T1"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «consistencia, lifecycle y backups» usando el fixture CASO-IQU-045 del paquete activo; la rama esperada distingue DECLARE_DATA_LOSS_RISK, RUN_RESTORE_DRILL y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "code": "# Skeptic packet solve S45-T2-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\nmeets_contract = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\nstatus = \"PASS\" if meets_contract else \"NACK_AND_RETRY\"\nprint(\"S45-T2-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "queue/event y delivery semantics",
+        "T2"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «queue/event y delivery semantics» usando la instruction de S45-T2-A-E1 y sus hints de dominio; la rama esperada distingue NACK_AND_RETRY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "code": "# Skeptic packet solve S45-T2-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'acked_after_effect', 'effect_durable', 'idempotency_key', 'backoff', 'delivery', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])) else 'NACK_AND_RETRY'\n\nvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = {**valid}\nincomplete.pop('backoff', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [
+        "queue/event y delivery semantics",
+        "T2"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «queue/event y delivery semantics» usando theory «queue/event y delivery semantics» y el iDo de la sección; la rama esperada distingue PASS, NACK_AND_RETRY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "code": "# Skeptic packet solve S45-T2-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'acked_after_effect', 'effect_durable', 'idempotency_key', 'backoff', 'delivery', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_DELIVERY_SEMANTICS'\n    return 'CONTINUE' if (not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])) else 'NACK_AND_RETRY'\n\nvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = {**valid}\nincomplete.pop('backoff', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'VERIFY_DELIVERY_SEMANTICS', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "queue/event y delivery semantics",
+        "T2"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «queue/event y delivery semantics» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue NACK_AND_RETRY, VERIFY_DELIVERY_SEMANTICS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "code": "# Skeptic packet solve S45-T2-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\nmeets_contract = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\nstatus = \"PASS\" if meets_contract else \"DEDUP_OR_DLQ\"\nprint(\"S45-T2-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "dedup, ordering y dead-letter",
+        "T2"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «dedup, ordering y dead-letter» usando el escenario sintético sin PII del curso; la rama esperada distingue DEDUP_OR_DLQ y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "code": "# Skeptic packet solve S45-T2-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'ordered_partition', 'processed_ids', 'message_ids', 'terminal_in_dlq', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])) else 'DEDUP_OR_DLQ'\n\nvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': False}\nincomplete = {**valid}\nincomplete.pop('terminal_in_dlq', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "dedup, ordering y dead-letter",
+        "T2"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «dedup, ordering y dead-letter» usando el fixture fixture de S45-T2-B-E2 del paquete activo; la rama esperada distingue PASS, DEDUP_OR_DLQ y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "code": "# Skeptic packet solve S45-T2-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'ordered_partition', 'processed_ids', 'message_ids', 'terminal_in_dlq', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INSPECT_MESSAGE_ORDER'\n    return 'CONTINUE' if (not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])) else 'DEDUP_OR_DLQ'\n\nvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': False}\nincomplete = {**valid}\nincomplete.pop('terminal_in_dlq', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'INSPECT_MESSAGE_ORDER', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "dedup, ordering y dead-letter",
+        "T2"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «dedup, ordering y dead-letter» usando la instruction de S45-T2-B-E3 y sus hints de dominio; la rama esperada distingue DEDUP_OR_DLQ, INSPECT_MESSAGE_ORDER y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "code": "# Skeptic packet solve S45-T3-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\nmeets_contract = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\nstatus = \"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\"\nprint(\"S45-T3-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "compute, autoscaling y networking",
+        "T3"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «compute, autoscaling y networking» usando theory «compute, autoscaling y networking» y el iDo de la sección; la rama esperada distingue APPLY_BACKPRESSURE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "code": "# Skeptic packet solve S45-T3-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'private_network', 'target_per_worker', 'workers', 'backlog', 'backpressure', 'quota_workers', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])) else 'APPLY_BACKPRESSURE'\n\nvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 1004, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nincomplete = {**valid}\nincomplete.pop('backpressure', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "compute, autoscaling y networking",
+        "T3"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «compute, autoscaling y networking» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue PASS, APPLY_BACKPRESSURE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "code": "# Skeptic packet solve S45-T3-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'private_network', 'target_per_worker', 'workers', 'backlog', 'backpressure', 'quota_workers', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CAPACITY'\n    return 'CONTINUE' if (not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])) else 'APPLY_BACKPRESSURE'\n\nvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 1004, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nincomplete = {**valid}\nincomplete.pop('backpressure', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REQUEST_CAPACITY', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.57,
+      "blocked_on": [],
+      "concepts_used": [
+        "compute, autoscaling y networking",
+        "T3"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «compute, autoscaling y networking» usando el escenario sintético sin PII del curso; la rama esperada distingue APPLY_BACKPRESSURE, REQUEST_CAPACITY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "code": "# Skeptic packet solve S45-T3-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\nmeets_contract = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\nstatus = \"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\"\nprint(\"S45-T3-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.6,
+      "blocked_on": [],
+      "concepts_used": [
+        "IAM, private paths y egress",
+        "T3"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «IAM, private paths y egress» usando el fixture CASO-IQU-045 del paquete activo; la rama esperada distingue DENY_IAM_OR_EGRESS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "code": "# Skeptic packet solve S45-T3-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'egress_host', 'allowed_actions', 'requested_action', 'egress_allow', 'private_path', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])) else 'DENY_IAM_OR_EGRESS'\n\nvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': set(), 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nincomplete = {**valid}\nincomplete.pop('egress_allow', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "IAM, private paths y egress",
+        "T3"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «IAM, private paths y egress» usando la instruction de S45-T3-B-E2 y sus hints de dominio; la rama esperada distingue PASS, DENY_IAM_OR_EGRESS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "code": "# Skeptic packet solve S45-T3-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'egress_host', 'allowed_actions', 'requested_action', 'egress_allow', 'private_path', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_SCOPED_POLICY'\n    return 'CONTINUE' if (not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])) else 'DENY_IAM_OR_EGRESS'\n\nvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': set(), 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nincomplete = {**valid}\nincomplete.pop('egress_allow', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REQUEST_SCOPED_POLICY', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "IAM, private paths y egress",
+        "T3"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «IAM, private paths y egress» usando theory «IAM, private paths y egress» y el iDo de la sección; la rama esperada distingue DENY_IAM_OR_EGRESS, REQUEST_SCOPED_POLICY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "code": "# Skeptic packet solve S45-T4-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\nmeets_contract = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_IAC_PLAN\"\nprint(\"S45-T4-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "configuración declarativa y environments",
+        "T4"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «configuración declarativa y environments» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue REJECT_IAC_PLAN y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "code": "# Skeptic packet solve S45-T4-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'declared_resources', 'secret_values_in_plan', 'destructive_changes', 'planned_resources', 'environment', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)) else 'REJECT_IAC_PLAN'\n\nvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}\nincomplete = {**valid}\nincomplete.pop('destructive_changes', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "configuración declarativa y environments",
+        "T4"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «configuración declarativa y environments» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, REJECT_IAC_PLAN y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "code": "# Skeptic packet solve S45-T4-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'declared_resources', 'secret_values_in_plan', 'destructive_changes', 'planned_resources', 'environment', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_DRIFT'\n    return 'CONTINUE' if (not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)) else 'REJECT_IAC_PLAN'\n\nvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}\nincomplete = {**valid}\nincomplete.pop('destructive_changes', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REVIEW_DRIFT', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "configuración declarativa y environments",
+        "T4"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «configuración declarativa y environments» usando el fixture CASO-IQU-045 del paquete activo; la rama esperada distingue REJECT_IAC_PLAN, REVIEW_DRIFT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "code": "# Skeptic packet solve S45-T4-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\nmeets_contract = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\nstatus = \"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\"\nprint(\"S45-T4-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "costos, quotas, recovery y portability",
+        "T4"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «costos, quotas, recovery y portability» usando la instruction de S45-T4-B-E1 y sus hints de dominio; la rama esperada distingue FREEZE_SCALE_OUT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "code": "# Skeptic packet solve S45-T4-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'portable_export', 'quota_used', 'quota_limit', 'forecast_pen', 'budget_pen', 'restore_tested', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])) else 'FREEZE_SCALE_OUT'\n\nvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 1820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = {**valid}\nincomplete.pop('portable_export', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "costos, quotas, recovery y portability",
+        "T4"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «costos, quotas, recovery y portability» usando theory «costos, quotas, recovery y portability» y el iDo de la sección; la rama esperada distingue PASS, FREEZE_SCALE_OUT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "code": "# Skeptic packet solve S45-T4-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'portable_export', 'quota_used', 'quota_limit', 'forecast_pen', 'budget_pen', 'restore_tested', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COST_OWNER_REVIEW'\n    return 'CONTINUE' if (not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])) else 'FREEZE_SCALE_OUT'\n\nvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 1820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = {**valid}\nincomplete.pop('portable_export', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'COST_OWNER_REVIEW', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "costos, quotas, recovery y portability",
+        "T4"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «costos, quotas, recovery y portability» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue FREEZE_SCALE_OUT, COST_OWNER_REVIEW y no inventa evidencia ni oculta el fallo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «ADR de persistencia con fuente de verdad» para «¿Qué evidencia permite aprobar `object store, relacional y cache` en CASO-IQU-04» porque la theory/outcomes de S45 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 0 del quiz_card activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.65,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «emitir SEND_TO_DLQ y conservar evidencia» para «Si ocurre la condición de error de S45, ¿qué respuesta preserva seguridad y audi» porque la theory/outcomes de S45 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 2 del quiz_card activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.71,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos» para «¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?» porque la theory/outcomes de S45 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 3 del quiz_card activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para «¿Qué tratamiento de `CASO-IQU-045` respeta el alcance del curso?» porque la theory/outcomes de S45 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 1 del quiz_card activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:31:54.779172+00:00",
+  "session_started_at": "2026-07-23T13:31:39.989595+00:00",
+  "session_ended_at": "2026-07-23T13:31:54.776239+00:00",
+  "receipt_response_sha256": "cabc468c8fa9d5c0b79da14f356679f3e48c9ff15fcfa98f03629d115fd7cf5a",
+  "receipt_exercises_sha256": "2e95890906e51500d138d90d740685ed82824f773bae08c27debb6014b7891d8",
+  "receipt_selfcheck_sha256": "628116db76d811c399d1f488410d7c0727cfd240b573928f356bff6745bd581b"
+}

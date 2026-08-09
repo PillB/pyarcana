@@ -1,0 +1,505 @@
+{
+  "agent": "b",
+  "section_index": 3,
+  "recorded_at": "2026-08-01T15:19:05.858397+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          1.15,
+          2.15,
+          2.15,
+          1.15
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "None → review (ausente); 0 → accept si el invariante lo permite",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.15,
+          4.0,
+          3.0,
+          3.15
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Se evalúan todas las ramas y se combinan resultados",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          3.0,
+          4.15,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          3.0,
+          0.0,
+          3.15
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "chosen_text": "assert tipo == \"DNI\" como única validación de producción",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          2.0,
+          3.0,
+          7.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 0,
+        "chosen_text": "Cuando el sujeto es un literal/estado finito (códigos) y hay case _",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          8.15,
+          3.15,
+          4.0,
+          3.15
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 1,
+        "chosen_text": "Porque comparar None con < lanza TypeError; la ausencia se resuelve primero",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          9.15,
+          7.15,
+          5.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 3,
+        "chosen_text": "Campo 'edad'=-5 fuera de rango; usa un entero 0–120.",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          3.0,
+          6.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S03-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · comparaciones edad/región\n# DEFECT: resultados invertidos / literales fijos incorrectos\nedad = 25\nregion = \"R-SUR\"\nprint(edad < 18)\nprint(edad >= 65)\nprint(edad < 18 or edad > 65)\nprint(region != \"R-OESTE\")\nprint(region == \"R-NORTE\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "este",
+          "starter",
+          "cinco",
+          "imprime",
+          "abre",
+          "sustituye",
+          "deja",
+          "orden"
+        ]
+      },
+      {
+        "exercise_id": "S03-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · membership set TIPOS_DOC\n# DEFECT: compara con == lista\nTIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t == \"DNI\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cada",
+          "booleano",
+          "imprime",
+          "sustituye",
+          "mantén",
+          "recorre",
+          "iteración"
+        ]
+      },
+      {
+        "exercise_id": "S03-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · is None vs. ==\n# DEFECT: confunde is y ==\nvalor = None\nprint(\"valor is None →\", valor == None)\nprint(\"True == 1 →\", True is 1)\nprint(\"True is 1 →\", True == 1)\nprint(\"Nota:\", \"is es identidad\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "corrige",
+          "cruce",
+          "resultado",
+          "usa",
+          "cuándo",
+          "intake"
+        ]
+      },
+      {
+        "exercise_id": "S03-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · truthiness\n# DEFECT: usa is not None como bool\nvals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", v is not None)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cada",
+          "starter",
+          "revisa",
+          "imprime",
+          "paso",
+          "recorre",
+          "dada",
+          "confirma"
+        ]
+      },
+      {
+        "exercise_id": "S03-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · or/and cortocircuito\n# DEFECT: operadores invertidos (and donde va or y viceversa)\nprint(\"'' or 'default' →\", \"\" and \"default\")\nprint(\"'dato' or 'default' →\", \"dato\" and \"default\")\nprint(\"0 and 99 →\", 0 or 99)\nprint(\"5 and 99 →\", 5 or 99)\nprint(\"None or 0 →\", None and 0)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "valores",
+          "cinco",
+          "corrige",
+          "líneas",
+          "tiene",
+          "verifica",
+          "ejecuta"
+        ]
+      },
+      {
+        "exercise_id": "S03-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · validate_monto\ndef validate_monto(m):\n    # DEFECT: if not m rechaza 0\n    if not m:\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dado",
+          "otro",
+          "sustituye",
+          "incluye",
+          "prueba",
+          "compara",
+          "bucle",
+          "salida"
+        ]
+      },
+      {
+        "exercise_id": "S03-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · classify_score\ndef classify_score(score: int) -> str:\n    # DEFECT: umbrales invertidos\n    if score < 50:\n        return \"accept\"\n    elif score < 80:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "status",
+          "imprime",
+          "devuelve",
+          "bajos",
+          "scores",
+          "escribe"
+        ]
+      },
+      {
+        "exercise_id": "S03-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · if encadenados sin elif\ndef bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"  # DEFECT: pisa accept\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    # DEFECT: stub — escribe if/elif/else (no copies bad)\n    pass\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cada",
+          "implementa",
+          "valor",
+          "imprime",
+          "umbrales",
+          "política",
+          "bucle",
+          "misma"
+        ]
+      },
+      {
+        "exercise_id": "S03-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · bandas numéricas\ndef band(n):\n    # DEFECT: solo un umbral\n    if n > 50:\n        return \"alto\"\n    return \"bajo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "prueba",
+          "tiene",
+          "elif",
+          "escribe"
+        ]
+      },
+      {
+        "exercise_id": "S03-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · validate_edad guards\ndef validate_edad(edad):\n    # DEFECT: no distingue None de tipo incorrecto\n    if not edad:\n        return {\"status\": \"reject\", \"code\": \"BAD\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(repr(e), \"→\", validate_edad(e))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "int",
+          "valores",
+          "prueba",
+          "orden",
+          "devuelve",
+          "cuatro",
+          "fuera",
+          "bucle"
+        ]
+      },
+      {
+        "exercise_id": "S03-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Deja nested intacta.n2. Implementa guards: None→review; no int→reject; `<0`→reject; `<=10000`→accept; else review.n3.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S03-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · elif muerto\ndef etiqueta_bug(x):\n    if x >= 0:\n        return \"no-negativo\"\n    elif x > 5:  # DEFECT: rama muerta (nunca corre)\n        return \"grande-positivo\"\n    else:\n        return \"negativo\"\n\nfor x in [6, -2, 0]:\n    print(x, \"→\", etiqueta_bug(x))\n# Reescribe etiqueta_ok con ramas alcanzables: positivo / negativo / cero\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "implementa",
+          "observa",
+          "explica",
+          "tapa",
+          "ejecuta"
+        ]
+      },
+      {
+        "exercise_id": "S03-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · check_region allowlist\nALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    # DEFECT: None → reject y desconocido → reject (debe ser review en ambos)\n    if r not in ALLOWED:\n        return \"reject\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "else",
+          "incluido",
+          "corrige",
+          "prueba",
+          "allowlisted",
+          "manda",
+          "todo"
+        ]
+      },
+      {
+        "exercise_id": "S03-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · monto_ingreso\ndef monto_ingreso(m):\n    # DEFECT: 0 es reject\n    if m is None:\n        return \"review\"\n    if m <= 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "else",
+          "cero",
+          "cinco",
+          "montos",
+          "corrige",
+          "prueba",
+          "rechaza",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S03-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · tipo_doc_len\nALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    # DEFECT: string genérico; falta guards + dict {status, code}\n    if tipo not in ALLOWED_DOC:\n        return \"reject\"\n    return \"accept\"\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "esperada",
+          "completa",
+          "resultado",
+          "prueba",
+          "dicts",
+          "longitud"
+        ]
+      },
+      {
+        "exercise_id": "S03-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · tabla códigos\nTABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"reject\",  # DEFECT: debería review\n    \"OUT_OF_RANGE\": \"review\",  # DEFECT: debería reject\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, apply(c))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "implementa",
+          "status",
+          "imprime",
+          "corrige"
+        ]
+      },
+      {
+        "exercise_id": "S03-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · match statement\ndef status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        # DEFECT: MISSING cae en default accept\n        case _:\n            return \"accept\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "código",
+          "status",
+          "imprime",
+          "NOT_IN_ALLOWLIST",
+          "review",
+          "bucle",
+          "recorre",
+          "cases"
+        ]
+      },
+      {
+        "exercise_id": "S03-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · map_code + map_edad\ndef map_code(code: str) -> str:\n    # DEFECT: siempre accept\n    return \"accept\"\n\ndef map_edad(edad):\n    # DEFECT: None → accept\n    if isinstance(edad, int) and 18 <= edad <= 65:\n        return \"accept\"\n    return \"accept\"\n\nprint(map_code(\"MISSING\"), map_edad(None))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "else",
+          "implementa",
+          "resultados",
+          "imprime",
+          "prueba",
+          "rango",
+          "review",
+          "línea"
+        ]
+      },
+      {
+        "exercise_id": "S03-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · pipeline edad\ndef validate_edad(e):\n    # DEFECT: falta type check (isinstance); \"x\" rompe al comparar\n    if e is None:\n        return \"review\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\n# DEFECT: examples vacío — completa con {value, expected}\nexamples = []\nfor ex in examples:\n    got = validate_edad(ex[\"value\"])\n    print(ex[\"value\"], got, got == ex[\"expected\"])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "booleana",
+          "valor",
+          "imprime",
+          "tipo",
+          "guard",
+          "añade",
+          "lista",
+          "recorre"
+        ]
+      },
+      {
+        "exercise_id": "S03-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · apellidos invariante\ndef validate_apellidos(ap, am):\n    # DEFECT: exige ambos siempre\n    if not ap or not am:\n        return \"reject\"\n    return \"accept\"\n\nprint(validate_apellidos(\"Ramos\", \"\"))\nprint(validate_apellidos(\"\", \"Q\"))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "loop",
+          "verifícalos",
+          "rechaza",
+          "reescribe",
+          "arma",
+          "cualquier",
+          "escribe",
+          "falta"
+        ]
+      },
+      {
+        "exercise_id": "S03-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · strict age bug demo\ndef validate_edad_strict(e):\n    # DEFECT: None y menores → reject (sin review)\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict None\", validate_edad_strict(None))\nprint(\"strict 15\", validate_edad_strict(15))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "implementa",
+          "español",
+          "rompen",
+          "fixed",
+          "imprime",
+          "tipo",
+          "guards",
+          "invariante"
+        ]
+      },
+      {
+        "exercise_id": "S03-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · mensajes accionables\n# DEFECT: mensajes vagos\naccionables = [\n    \"Error\",\n    \"inválido\",\n    \"bad age\",\n]\nfor a in accionables:\n    print(a)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "incorrecto",
+          "starter",
+          "imprime",
+          "tipo",
+          "sustituye",
+          "tres",
+          "línea",
+          "ausencia"
+        ]
+      },
+      {
+        "exercise_id": "S03-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-003 · classify + tests por rama\ndef classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\n# DEFECT: falta lista cases + assert por rama (solo prints sin expected)\nfor s in [90, 60, 10]:\n    print(s, classify_score(s), \"Error\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cada",
+          "calcula",
+          "imprime",
+          "PASS",
+          "igualdad",
+          "pass",
+          "define"
+        ]
+      },
+      {
+        "exercise_id": "S03-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-003 · rango_edad boundary 18\n# DEFECT: 18 queda fuera (e>18 en vez de e>=18)\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\ndef rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e > 18 and e <= 65:  # BUG: 18 queda fuera\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    # assert got == expected  # descomenta tras arreglar",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "falla",
+          "rojo",
+          "observa",
+          "condición",
+          "usa",
+          "cuatro",
+          "PASS",
+          "pass"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "9760f22b533a399f"
+  }
+}

@@ -1,0 +1,541 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-dual-explorer-s15-86c448db",
+  "production_note": "agentic_G1 dual-LLM explorer: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nprint(df.index.tolist())\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "score",
+        "set_index",
+        "print",
+        "index",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T1-A-E1. Instruction pide: E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing. Subtopic S15-T1-A: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series a. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `df = df.set_index(\"cliente_id\")`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(s[\"C002\"])\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "index",
+        "C001",
+        "C002",
+        "name",
+        "score",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T1-A-E2. Instruction pide: E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T1-A: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series a. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(s[\"C002\"])`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nprint(out.to_dict())\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "index",
+        "C001",
+        "C002",
+        "out",
+        "add",
+        "fill_value",
+        "sort_index",
+        "print",
+        "to_dict"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T1-A-E3. Instruction pide: E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T1-A: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series a. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(out.to_dict())`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"a,b\\n1,NA\\n2,3\\n\"\ndf = pd.read_csv(StringIO(csv), na_values=[\"NA\"])\nprint(int(df.isna().sum().sum()))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "csv",
+        "read_csv",
+        "na_values",
+        "print",
+        "int",
+        "isna",
+        "sum"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T1-B-E1. Instruction pide: E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing. Subtopic S15-T1-B: «lectura CSV/Excel y opciones de parser»: `read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecol. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(int(df.isna().sum().sum()))`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"fecha,x\\n2024-01-01,1\\n2024-02-01,2\\n\"\ndf = pd.read_csv(StringIO(csv), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "csv",
+        "fecha",
+        "n2024",
+        "read_csv",
+        "parse_dates",
+        "print",
+        "str",
+        "dtype"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T1-B-E2. Instruction pide: E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T1-B: «lectura CSV/Excel y opciones de parser»: `read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecol. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(str(df[\"fecha\"].dtype))`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ncsv = \"cliente_id,monto,z\\nC001,1.0,99\\n\"\ndf = pd.read_csv(StringIO(csv), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "csv",
+        "cliente_id",
+        "monto",
+        "nC001",
+        "read_csv",
+        "usecols",
+        "print",
+        "columns"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T1-B-E3. Instruction pide: E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T1-B: «lectura CSV/Excel y opciones de parser»: `read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecol. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(df.columns.tolist())`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df.score >= 0.5, \"cliente_id\"].tolist())\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "score",
+        "print",
+        "loc",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T2-A-E1. Instruction pide: E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing. Subtopic S15-T2-A: «loc/iloc, filtros y assign»: **loc** etiqueta; **iloc** posición. Filtros booleanos: `df.loc[df.score < 0.5, cols]`. En. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(df.loc[df.score >= 0.5, \"cliente_id\"].tolist())`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nout = df.assign(doble=df[\"score\"] * 2)\nprint(out[\"doble\"].tolist())\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "out",
+        "assign",
+        "doble",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T2-A-E2. Instruction pide: E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T2-A: «loc/iloc, filtros y assign»: **loc** etiqueta; **iloc** posición. Filtros booleanos: `df.loc[df.score < 0.5, cols]`. En. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(out[\"doble\"].tolist())`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(df.iloc[1, 0])\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "print",
+        "iloc"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T2-A-E3. Instruction pide: E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T2-A: «loc/iloc, filtros y assign»: **loc** etiqueta; **iloc** posición. Filtros booleanos: `df.loc[df.score < 0.5, cols]`. En. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(df.iloc[1, 0])`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].fillna(\"\").tolist())\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "loc",
+        "flag",
+        "print",
+        "fillna",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T2-B-E1. Instruction pide: E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing. Subtopic S15-T2-B: «chained assignment y copy semantics»: **SettingWithCopyWarning** aparece al asignar sobre un slice que puede ser view o. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(df[\"flag\"].fillna(\"\").tolist())`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsubset = df.loc[df[\"score\"] > 0.5].copy()\nsubset[\"ok\"] = True\nprint(subset[\"ok\"].tolist())\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "subset",
+        "loc",
+        "copy",
+        "True",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T2-B-E2. Instruction pide: E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T2-B: «chained assignment y copy semantics»: **SettingWithCopyWarning** aparece al asignar sobre un slice que puede ser view o. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(subset[\"ok\"].tolist())`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nc = df.copy()\nc.iloc[0, 0] = 99\nprint(df[\"score\"].tolist())\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "copy",
+        "iloc",
+        "print",
+        "tolist"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T2-B-E3. Instruction pide: E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T2-B: «chained assignment y copy semantics»: **SettingWithCopyWarning** aparece al asignar sobre un slice que puede ser view o. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(df[\"score\"].tolist())`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\nprint(df[\"region\"].dtype.name)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "lima",
+        "str",
+        "title",
+        "astype",
+        "category",
+        "print",
+        "dtype",
+        "name"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T3-A-E1. Instruction pide: E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing. Subtopic S15-T3-A: «strings, nullable, fechas y categorías»: dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(df[\"region\"].dtype.name)`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint([float(x) if pd.notna(x) else float(\"nan\") for x in s])\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "to_numeric",
+        "Series",
+        "errors",
+        "coerce",
+        "print",
+        "float",
+        "notna",
+        "else",
+        "nan",
+        "for"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T3-A-E2. Instruction pide: E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T3-A: «strings, nullable, fechas y categorías»: dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print([float(x) if pd.notna(x) else float(\"nan\") for x in s])`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "to_datetime",
+        "Series",
+        "fecha",
+        "errors",
+        "coerce",
+        "print",
+        "int",
+        "isna",
+        "sum"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T3-A-E3. Instruction pide: E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T3-A: «strings, nullable, fechas y categorías»: dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(int(s.isna().sum()))`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = int(df[\"monto\"].isna().sum())\nafter = int(pd.to_numeric(df[\"monto\"], errors=\"coerce\").isna().sum())\nprint(after - before)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "before",
+        "int",
+        "isna",
+        "sum",
+        "after",
+        "to_numeric",
+        "errors",
+        "coerce"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T3-B-E1. Instruction pide: E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing. Subtopic S15-T3-B: «coerción explícita y schema»: Un **schema dict** declara tipos objetivo por columna. `astype` / `to_numeric` aplican co. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(after - before)`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print(\"missing\")\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "schema",
+        "monto",
+        "float64",
+        "try",
+        "for",
+        "col",
+        "not"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T3-B-E2. Instruction pide: E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T3-B: «coerción explícita y schema»: Un **schema dict** declara tipos objetivo por columna. `astype` / `to_numeric` aplican co. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(\"missing\")`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "C001",
+        "astype",
+        "string",
+        "print",
+        "str",
+        "dtype"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T3-B-E3. Instruction pide: E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T3-B: «coerción explícita y schema»: Un **schema dict** declara tipos objetivo por columna. `astype` / `to_numeric` aplican co. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(str(s.dtype))`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nback = pd.read_csv(buf)\nprint(back.columns.tolist())\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "DataFrame",
+        "buf",
+        "to_csv",
+        "index",
+        "False",
+        "seek",
+        "back",
+        "read_csv"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T4-A-E1. Instruction pide: E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing. Subtopic S15-T4-A: «CSV / Excel y contrato Parquet»: `to_csv`, `to_excel` exportan tablas. Parquet (pyarrow/fastparquet) preserva tipos; si. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(back.columns.tolist())`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import BytesIO\ndf = pd.DataFrame({\"a\": [1]})\nbuf = BytesIO()\ndf.to_excel(buf, index=False, engine=\"openpyxl\")\nprint(len(buf.getvalue()) > 0)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "BytesIO",
+        "DataFrame",
+        "buf",
+        "to_excel",
+        "index",
+        "False",
+        "engine",
+        "openpyxl",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T4-A-E2. Instruction pide: E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T4-A: «CSV / Excel y contrato Parquet»: `to_csv`, `to_excel` exportan tablas. Parquet (pyarrow/fastparquet) preserva tipos; si. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(len(buf.getvalue()) > 0)`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in df.columns}\nprint(contract)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "monto",
+        "contract",
+        "str",
+        "dtype",
+        "for",
+        "columns",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T4-A-E3. Instruction pide: E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T4-A: «CSV / Excel y contrato Parquet»: `to_csv`, `to_excel` exportan tablas. Parquet (pyarrow/fastparquet) preserva tipos; si. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(contract)`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nmem = int(df.memory_usage(deep=True).sum())\nprint(mem > 0)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "Lima",
+        "Cusco",
+        "mem",
+        "int",
+        "memory_usage",
+        "deep",
+        "True",
+        "sum",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T4-B-E1. Instruction pide: E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ing. Subtopic S15-T4-B: «índices, formatos, provenance y memoria»: Un **manifest** registra filas, columnas, dtypes, `memory_usage` y provenance. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(mem > 0)`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "manifest",
+        "rows",
+        "len",
+        "columns",
+        "tolist",
+        "print"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T4-B-E2. Instruction pide: E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T4-B: «índices, formatos, provenance y memoria»: Un **manifest** registra filas, columnas, dtypes, `memory_usage` y provenance. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(manifest[\"rows\"], manifest[\"columns\"])`. Solo usé patrones de theory/iDo del slim_packet G1."
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\nblob = df.to_csv(index=False).encode()\nprint(hashlib.sha1(blob).hexdigest()[:8])\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "hashlib",
+        "DataFrame",
+        "blob",
+        "to_csv",
+        "index",
+        "False",
+        "encode",
+        "print",
+        "sha1",
+        "hexdigest"
+      ],
+      "justification_from_packet": "[G1-Explorer] Ejercicio S15-T4-B-E3. Instruction pide: E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pan. Subtopic S15-T4-B: «índices, formatos, provenance y memoria»: Un **manifest** registra filas, columnas, dtypes, `memory_usage` y provenance. Completé el starter eliminando TODO y aplicando hints del packet; línea ancla: `print(hashlib.sha1(blob).hexdigest()[:8])`. Solo usé patrones de theory/iDo del slim_packet G1."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Explorer S15-Q0] El stem «¿Qué método de selección usa etiquetas de index/columnas?» y la teoría del paquete («Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, ) respaldan la opción «loc». Elegí índice 2 porque coincide con el lenguaje de loc/iloc, copy semantics, coerce, manifest, gates y fail-closed enseñado en theory/iDo del slim_packet activo — sin correctIndex."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Explorer S15-Q1] El stem «SettingWithCopyWarning se relaciona con:» y la teoría del paquete («Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, ) respaldan la opción «Asignación sobre slices que pueden ser view/copy (chained assignment)». Elegí índice 0 porque coincide con el lenguaje de loc/iloc, copy semantics, coerce, manifest, gates y fail-closed enseñado en theory/iDo del slim_packet activo — sin correctIndex."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Explorer S15-Q2] El stem «errors='coerce' en to_numeric:» y la teoría del paquete («Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, ) respaldan la opción «Convierte inválidos a NaN». Elegí índice 1 porque coincide con el lenguaje de loc/iloc, copy semantics, coerce, manifest, gates y fail-closed enseñado en theory/iDo del slim_packet activo — sin correctIndex."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "[G1-Explorer S15-Q3] El stem «Un manifest de export debería incluir al menos:» y la teoría del paquete («Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, ) respaldan la opción «Filas, columnas y provenance/hash del artefacto». Elegí índice 3 porque coincide con el lenguaje de loc/iloc, copy semantics, coerce, manifest, gates y fail-closed enseñado en theory/iDo del slim_packet activo — sin correctIndex."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:28:18.912190+00:00",
+  "session_started_at": "2026-07-23T06:28:18.908893+00:00",
+  "session_ended_at": "2026-07-23T06:28:18.912204+00:00"
+}

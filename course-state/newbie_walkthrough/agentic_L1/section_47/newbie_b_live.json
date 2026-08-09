@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 47,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s47-632adcfa28",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"tolerance\":0.01}}\nmeets_contract = abs(record[\"metric\"] - record[\"rerun_metric\"]) <= record[\"tolerance\"]\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T1-A-E1, no acepto el predicado defectuoso del starter: para «tracking y reproducibilidad» el paquete exige demostrar rerun dentro de tolerancia con seed/parámetros. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'metric', 'params', 'rerun_metric', 'seed', 'tolerance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = abs(record[\"metric\"] - record[\"rerun_metric\"]) <= record[\"tolerance\"]\n    return \"PASS\" if meets else 'MARK_RUN_NONREPRODUCIBLE'\n\nvalid = {\"case_id\": 'CASO-TAC-047-1A', **{'seed':42, 'params':{'depth': 4}, 'metric':0.81, 'rerun_metric':0.805, 'tolerance':0.01}}\ninvalid = {\"case_id\": 'CASO-TAC-047-1A', **{'seed':42, 'params':{'depth': 4}, 'metric':1000.81, 'rerun_metric':0.805, 'tolerance':0.01}}\nincomplete = {k: v for k, v in valid.items() if k != 'tolerance'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T1-A-E2, no acepto el predicado defectuoso del starter: para «tracking y reproducibilidad» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'metric', 'params', 'rerun_metric', 'seed', 'tolerance'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INVESTIGATE_RANDOMNESS'\n    meets = abs(record[\"metric\"] - record[\"rerun_metric\"]) <= record[\"tolerance\"]\n    return \"CONTINUE\" if meets else 'MARK_RUN_NONREPRODUCIBLE'\n\nvalid = {\"case_id\": 'CASO-TAC-047-1A', **{'seed':42, 'params':{'depth': 4}, 'metric':0.81, 'rerun_metric':0.805, 'tolerance':0.01}}\ninvalid = {\"case_id\": 'CASO-TAC-047-1A', **{'seed':42, 'params':{'depth': 4}, 'metric':1000.81, 'rerun_metric':0.805, 'tolerance':0.01}}\nuncertain = {k: v for k, v in valid.items() if k != 'tolerance'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T1-A-E3, no acepto el predicado defectuoso del starter: para «tolerance» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v1\",\"metric_definition\":\"f1-v2\",\"candidate\":0.82,\"baseline\":0.78}}\nmeets_contract = not record[\"data\"] or record[\"candidate\"] >= record[\"baseline\"]\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T1-B-E1, no acepto el predicado defectuoso del starter: para «data/code/env lineage y comparación» el paquete exige demostrar data/code/env/split/métrica versionados y candidato mejor. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'baseline', 'candidate', 'case_id', 'code', 'data', 'env', 'metric_definition', 'split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not record[\"data\"] or record[\"candidate\"] >= record[\"baseline\"]\n    return \"PASS\" if meets else 'INVALIDATE_COMPARISON'\n\nvalid = {\"case_id\": 'CASO-TAC-047-1B', **{'data':'ds-v3', 'code':'git:abc', 'env':'lock:def', 'split':'holdout-v1', 'metric_definition':'f1-v2', 'candidate':0.82, 'baseline':0.78}}\ninvalid = {\"case_id\": 'CASO-TAC-047-1B', **{'data':'ds-v3', 'code':'git:abc', 'env':'lock:def', 'split':'holdout-v1', 'metric_definition':'f1-v2', 'candidate':-1, 'baseline':0.78}}\nincomplete = {k: v for k, v in valid.items() if k != 'baseline'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T1-B-E2, no acepto el predicado defectuoso del starter: para «data/code/env lineage y comparación» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'baseline', 'candidate', 'case_id', 'code', 'data', 'env', 'metric_definition', 'split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RESTORE_LINEAGE'\n    meets = not record[\"data\"] or record[\"candidate\"] >= record[\"baseline\"]\n    return \"CONTINUE\" if meets else 'INVALIDATE_COMPARISON'\n\nvalid = {\"case_id\": 'CASO-TAC-047-1B', **{'data':'ds-v3', 'code':'git:abc', 'env':'lock:def', 'split':'holdout-v1', 'metric_definition':'f1-v2', 'candidate':0.82, 'baseline':0.78}}\ninvalid = {\"case_id\": 'CASO-TAC-047-1B', **{'data':'ds-v3', 'code':'git:abc', 'env':'lock:def', 'split':'holdout-v1', 'metric_definition':'f1-v2', 'candidate':-1, 'baseline':0.78}}\nuncertain = {k: v for k, v in valid.items() if k != 'baseline'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T1-B-E3, no acepto el predicado defectuoso del starter: para «baseline» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{\"priority\":\"float\"},\"stage\":\"staging\",\"approved\":True}}\nmeets_contract = not record[\"approved\"] or record[\"stage\"] != \"production\"\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S47-T2-A-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «firmas, stages y approvals» reconstruí la regla (firma exacta, staging y aprobación) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'approved', 'case_id', 'input_signature', 'output_signature', 'stage'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = (not record[\"approved\"] or record[\"stage\"] != \"production\") and not str(record.get('case_id','')).endswith('-ADV')\n    return \"PASS\" if meets else 'DENY_MODEL_PROMOTION'\n\nvalid = {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature':{'age': 'int', 'region': 'str'}, 'output_signature':{'priority': 'float'}, 'stage':'staging', 'approved':True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-2A-ADV', **{'input_signature':{'age': 'int', 'region': 'str'}, 'output_signature':{'priority': 'float'}, 'stage':'staging', 'approved':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'approved'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T2-A-E2, no acepto el predicado defectuoso del starter: para «firmas, stages y approvals» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'approved', 'case_id', 'input_signature', 'output_signature', 'stage'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_MODEL_APPROVAL'\n    meets = not record[\"approved\"] or record[\"stage\"] != \"production\"\n    return \"CONTINUE\" if meets else 'DENY_MODEL_PROMOTION'\n\nvalid = {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature':{'age': 'int', 'region': 'str'}, 'output_signature':{'priority': 'float'}, 'stage':'staging', 'approved':True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-2A', **{'input_signature':{'age': 'int', 'region': 'str'}, 'output_signature':{'priority': 'float'}, 'stage':'staging', 'approved':True, '_broken':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'approved'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T2-A-E3, no acepto el predicado defectuoso del starter: para «approved» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\nmeets_contract = record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) >= 4\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S47-T2-B-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «artefactos, model card y compatibilidad» reconstruí la regla (digest, compatibilidad de features y card completa) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'artifact_digest', 'card_sections', 'case_id', 'feature_version', 'serving_feature_version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) >= 4\n    return \"PASS\" if meets else 'REJECT_MODEL_ARTIFACT'\n\nvalid = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest':'sha256:model', 'feature_version':'features-v3', 'serving_feature_version':'features-v3', 'card_sections':{'limits', 'metrics', 'risks', 'use'}}}\ninvalid = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest':'sha256:model', 'feature_version':'features-v3', 'serving_feature_version':'features-v3', 'card_sections':set()}}\nincomplete = {k: v for k, v in valid.items() if k != 'card_sections'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S47-T2-B-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «artefactos, model card y compatibilidad» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'artifact_digest', 'card_sections', 'case_id', 'feature_version', 'serving_feature_version'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COMPLETE_MODEL_CARD'\n    meets = record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) >= 4\n    return \"CONTINUE\" if meets else 'REJECT_MODEL_ARTIFACT'\n\nvalid = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest':'sha256:model', 'feature_version':'features-v3', 'serving_feature_version':'features-v3', 'card_sections':{'limits', 'metrics', 'risks', 'use'}}}\ninvalid = {\"case_id\": 'CASO-TAC-047-2B', **{'artifact_digest':'sha256:model', 'feature_version':'features-v3', 'serving_feature_version':'features-v3', 'card_sections':set()}}\nuncertain = {k: v for k, v in valid.items() if k != 'card_sections'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S47 · S47-T2-B-E3: leí hints «Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el contenido.» y la teoría del subtema «card_sections». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"leakage\":False,\"contract_tests\":3}}\nmeets_contract = record[\"batch_features\"] == record[\"online_features\"] or record[\"leakage\"]\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T3-A-E1, no acepto el predicado defectuoso del starter: para «batch/online y feature consistency» el paquete exige demostrar paridad batch/online sin leakage y contract tests. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'batch_features', 'case_id', 'contract_tests', 'leakage', 'online_features'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"batch_features\"] == record[\"online_features\"] or record[\"leakage\"]\n    return \"PASS\" if meets else 'DISABLE_INCONSISTENT_SERVING'\n\nvalid = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features':[0.1, 0.4, 0.8], 'online_features':[0.1, 0.4, 0.8], 'leakage':False, 'contract_tests':3}}\ninvalid = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features':[], 'online_features':[0.1, 0.4, 0.8], 'leakage':False, 'contract_tests':3}}\nincomplete = {k: v for k, v in valid.items() if k != 'contract_tests'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S47 · S47-T3-A-E2: leí hints «Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.» y la teoría del subtema «batch/online y feature consistency». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'batch_features', 'case_id', 'contract_tests', 'leakage', 'online_features'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'TRACE_FEATURE_PIPELINE'\n    meets = record[\"batch_features\"] == record[\"online_features\"] or record[\"leakage\"]\n    return \"CONTINUE\" if meets else 'DISABLE_INCONSISTENT_SERVING'\n\nvalid = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features':[0.1, 0.4, 0.8], 'online_features':[0.1, 0.4, 0.8], 'leakage':False, 'contract_tests':3}}\ninvalid = {\"case_id\": 'CASO-TAC-047-3A', **{'batch_features':[], 'online_features':[0.1, 0.4, 0.8], 'leakage':False, 'contract_tests':3}}\nuncertain = {k: v for k, v in valid.items() if k != 'contract_tests'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S47 · S47-T3-A-E3: leí hints «Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el contenido.» y la teoría del subtema «contract_tests». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fallback_tested\":True}}\nmeets_contract = record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"fallback_tested\"]\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S47-T3-B-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «latency, batching y fallback» reconstruí la regla (p95 bajo SLO, batch acotado y fallback probado) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'batch_size', 'case_id', 'fallback', 'fallback_tested', 'p95_ms', 'slo_ms'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"fallback_tested\"]\n    return \"PASS\" if meets else 'ACTIVATE_SAFE_FALLBACK'\n\nvalid = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms':120, 'slo_ms':180, 'batch_size':16, 'fallback':'rules-v2', 'fallback_tested':True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms':1120, 'slo_ms':180, 'batch_size':16, 'fallback':'rules-v2', 'fallback_tested':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'fallback_tested'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S47-T3-B-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «latency, batching y fallback» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'batch_size', 'case_id', 'fallback', 'fallback_tested', 'p95_ms', 'slo_ms'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ACTIVATE_SAFE_FALLBACK'\n    meets = record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"fallback_tested\"]\n    return \"CONTINUE\" if meets else 'ACTIVATE_SAFE_FALLBACK'\n\nvalid = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms':120, 'slo_ms':180, 'batch_size':16, 'fallback':'rules-v2', 'fallback_tested':True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-3B', **{'p95_ms':1120, 'slo_ms':180, 'batch_size':16, 'fallback':'rules-v2', 'fallback_tested':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'fallback_tested'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S47-T3-B-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «fallback_tested» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\nmeets_contract = record[\"traffic_pct\"] <= 10 or record[\"error_rate\"] > record[\"max_error_rate\"]\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T4-A-E1, no acepto el predicado defectuoso del starter: para «shadow/canary y monitoring hooks» el paquete exige demostrar tráfico limitado, quality/error gates y hooks. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'error_rate', 'hooks', 'max_error_rate', 'max_quality_drop', 'mode', 'quality_delta', 'traffic_pct'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"traffic_pct\"] <= 10 or record[\"error_rate\"] > record[\"max_error_rate\"]\n    return \"PASS\" if meets else 'STOP_CANARY'\n\nvalid = {\"case_id\": 'CASO-TAC-047-4A', **{'mode':'canary', 'traffic_pct':5, 'quality_delta':0.01, 'max_quality_drop':0.02, 'error_rate':0.004, 'max_error_rate':0.01, 'hooks':True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-4A', **{'mode':'canary', 'traffic_pct':1005, 'quality_delta':0.01, 'max_quality_drop':0.02, 'error_rate':0.004, 'max_error_rate':0.01, 'hooks':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'hooks'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "S47 · S47-T4-A-E2: leí hints «Primero se calcula `missing`; ningún acceso a hooks debe ocurrir antes de esa rama.» y la teoría del subtema «shadow/canary y monitoring hooks». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'error_rate', 'hooks', 'max_error_rate', 'max_quality_drop', 'mode', 'quality_delta', 'traffic_pct'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COLLECT_MORE_SHADOW_EVIDENCE'\n    meets = record[\"traffic_pct\"] <= 10 or record[\"error_rate\"] > record[\"max_error_rate\"]\n    return \"CONTINUE\" if meets else 'STOP_CANARY'\n\nvalid = {\"case_id\": 'CASO-TAC-047-4A', **{'mode':'canary', 'traffic_pct':5, 'quality_delta':0.01, 'max_quality_drop':0.02, 'error_rate':0.004, 'max_error_rate':0.01, 'hooks':True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-4A', **{'mode':'canary', 'traffic_pct':1005, 'quality_delta':0.01, 'max_quality_drop':0.02, 'error_rate':0.004, 'max_error_rate':0.01, 'hooks':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'hooks'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T4-A-E3, no acepto el predicado defectuoso del starter: para «hooks» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"rollback_tested\":True,\"retired\":{\"1.0.0\"},\"audit_entry\":True}}\nmeets_contract = record['compatible_features'] is True and record['rollback_tested'] is True and record['audit_entry'] is True\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S47/S47-T4-B-E1, no acepto el predicado defectuoso del starter: para «rollback, retirement y audit» el paquete exige demostrar last-known-good compatible, rollback y retiro auditado. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'audit_entry', 'case_id', 'compatible_features', 'current', 'last_good', 'retired', 'rollback_tested'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['compatible_features'] is True and record['rollback_tested'] is True and record['audit_entry'] is True\n    return \"PASS\" if meets else 'ROLLBACK_TO_LAST_GOOD'\n\nvalid = {\"case_id\": 'CASO-TAC-047-4B', **{'current':'1.2.0', 'last_good':'1.1.0', 'compatible_features':True, 'rollback_tested':True, 'retired':{'1.0.0'}, 'audit_entry':True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-4B', **{'current':'1.2.0', 'last_good':'1.1.0', 'compatible_features':False, 'rollback_tested':True, 'retired':{'1.0.0'}, 'audit_entry':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'audit_entry'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S47-T4-B-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «rollback, retirement y audit» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'audit_entry', 'case_id', 'compatible_features', 'current', 'last_good', 'retired', 'rollback_tested'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_RETIREMENT'\n    meets = record['compatible_features'] is True and record['rollback_tested'] is True and record['audit_entry'] is True\n    return \"CONTINUE\" if meets else 'ROLLBACK_TO_LAST_GOOD'\n\nvalid = {\"case_id\": 'CASO-TAC-047-4B', **{'current':'1.2.0', 'last_good':'1.1.0', 'compatible_features':True, 'rollback_tested':True, 'retired':{'1.0.0'}, 'audit_entry':True}}\ninvalid = {\"case_id\": 'CASO-TAC-047-4B', **{'current':'1.2.0', 'last_good':'1.1.0', 'compatible_features':False, 'rollback_tested':True, 'retired':{'1.0.0'}, 'audit_entry':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'audit_entry'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S47 · S47-T4-B-E3: leí hints «Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el contenido.» y la teoría del subtema «audit_entry». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "MLOps: experimentos, registro y serving",
+        "S47-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Escéptico S47 SC0: rechazo atajos. La respuesta «rerun dentro de tolerancia declarada» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.79,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Escéptico S47 SC1: rechazo atajos. La respuesta «emitir ROLLBACK_MODEL y conservar evidencia» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Escéptico S47 SC2: rechazo atajos. La respuesta «solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.85,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Escéptico S47 SC3: rechazo atajos. La respuesta «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» coincide con el gate y con el tratamiento sintético/mínimo del CASO-LIM del curso. No elijo inventar evidencia ni borrar traces.",
+      "confidence": 0.88,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:48:17.945015+00:00",
+  "session_started_at": "2026-07-23T16:54:06.766061Z",
+  "session_ended_at": "2026-07-23T16:54:43.766061Z",
+  "receipt_response_sha256": "703b62b79d6a7057e14af91623f02e23e38fe602ff3eac8b8f0c3704742d6cd0",
+  "receipt_exercises_sha256": "95b88c6f08f81f3229fc71a6e9fd720bddab0024da72ce1efb216926be71f992",
+  "receipt_selfcheck_sha256": "8246a4e404d489ea37dead7927f3242bcc880de24ce29434d27425c39125b3a1"
+}

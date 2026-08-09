@@ -1,0 +1,45 @@
+{
+  "credential_id": "integrated_data_analyst_practice",
+  "version": "1.1.0",
+  "status": "active",
+  "credential_class": "C",
+  "credential_class_name": "Integrated Capability Badge",
+  "public_name": "Integrated Data Analysis Practice",
+  "capability_statement": "El aprendiz demostró transferencia integrada de Data Analysis mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.1.0.",
+  "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
+  "market_task_mappings": [],
+  "prerequisites": [
+    "python_data_foundations",
+    "independent_data_preparation",
+    "applied_analytical_reasoning",
+    "applied_sql_query_development"
+  ],
+  "required_sections": [
+    "S06",
+    "S07",
+    "S08",
+    "S09",
+    "S10",
+    "S19",
+    "S37"
+  ],
+  "required_activities": [
+    "S06-YOUDO",
+    "S07-YOUDO",
+    "S08-YOUDO",
+    "S09-YOUDO",
+    "S10-YOUDO",
+    "S19-YOUDO",
+    "S37-YOUDO"
+  ],
+  "critical_gates": [
+    "sql_competency",
+    "reproducibility_determinism",
+    "communication_audience_tuned",
+    "business_framing_judgment"
+  ],
+  "non_compensatory": true,
+  "minimum_overall_score": 85,
+  "verification_mode": "server_verified",
+  "specification_hash": "sha256:integrated_data_analyst_practice:1.1.0"
+}

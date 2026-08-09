@@ -1,0 +1,634 @@
+{
+  "section": 21,
+  "title": "Documentos, plantillas y reportes trazables",
+  "file": "s21-fastapi.ts",
+  "n_required": 21,
+  "n_logged": 21,
+  "generated_at": "2026-07-24T05:24:31.000+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — WT DEFECT 28 > HEAD 0",
+    "ethics": "reconciled numbers; no PII; approval before publish",
+    "v3_retarget": "reporting factory CP-N2-B close not FastAPI",
+    "expert_pass_at": "2026-07-24T05:24:31.000+00:00",
+    "theater_strip": "workbench ×24",
+    "resources_expanded": true
+  },
+  "unique_foci": 21,
+  "source_url_count": 21,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "V3 retarget reporting factory not FastAPI",
+      "research": [
+        {
+          "family": "Jinja",
+          "title": "docs",
+          "url": "https://jinja.palletsprojects.com/",
+          "note": "templates sandbox"
+        },
+        {
+          "family": "Jinja",
+          "title": "templates",
+          "url": "https://jinja.palletsprojects.com/en/stable/templates/",
+          "note": "syntax autoescape"
+        },
+        {
+          "family": "python-docx",
+          "title": "docs",
+          "url": "https://python-docx.readthedocs.io/",
+          "note": "DOCX real"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 1/21: «V3 retarget reporting factory not FastAPI» via Jinja, python-docx (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «V3 retarget reporting factory not FastAPI».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 retarget reporting factory not FastAPI»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 1/21: «V3 retarget reporting factory not FastAPI» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "Jinja data presentation separation",
+      "research": [
+        {
+          "family": "Jinja",
+          "title": "templates",
+          "url": "https://jinja.palletsprojects.com/en/stable/templates/",
+          "note": "syntax autoescape"
+        },
+        {
+          "family": "python-docx",
+          "title": "docs",
+          "url": "https://python-docx.readthedocs.io/",
+          "note": "DOCX real"
+        },
+        {
+          "family": "ReportLab",
+          "title": "userguide",
+          "url": "https://www.reportlab.com/docs/reportlab-userguide.pdf",
+          "note": "PDF digital"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 2/21: «Jinja data presentation separation» via Jinja, python-docx, ReportLab (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «Jinja data presentation separation».",
+      "expand_scope": "E1/E2/E3 + docs for «Jinja data presentation separation»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 2/21: «Jinja data presentation separation» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "autoescape no mark_safe user input",
+      "research": [
+        {
+          "family": "python-docx",
+          "title": "docs",
+          "url": "https://python-docx.readthedocs.io/",
+          "note": "DOCX real"
+        },
+        {
+          "family": "ReportLab",
+          "title": "userguide",
+          "url": "https://www.reportlab.com/docs/reportlab-userguide.pdf",
+          "note": "PDF digital"
+        },
+        {
+          "family": "pypdf",
+          "title": "docs",
+          "url": "https://pypdf.readthedocs.io/",
+          "note": "PDF extract"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 3/21: «autoescape no mark_safe user input» via python-docx, ReportLab, pypdf (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «autoescape no mark_safe user input».",
+      "expand_scope": "E1/E2/E3 + docs for «autoescape no mark_safe user input»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 3/21: «autoescape no mark_safe user input» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "table loops missing as em dash not zero",
+      "research": [
+        {
+          "family": "ReportLab",
+          "title": "userguide",
+          "url": "https://www.reportlab.com/docs/reportlab-userguide.pdf",
+          "note": "PDF digital"
+        },
+        {
+          "family": "pypdf",
+          "title": "docs",
+          "url": "https://pypdf.readthedocs.io/",
+          "note": "PDF extract"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG",
+          "url": "https://www.w3.org/WAI/standards-guidelines/wcag/",
+          "note": "a11y"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 4/21: «table loops missing as em dash not zero» via ReportLab, pypdf, W3C (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «table loops missing as em dash not zero».",
+      "expand_scope": "E1/E2/E3 + docs for «table loops missing as em dash not zero»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 4/21: «table loops missing as em dash not zero» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "python-docx styles save extract text",
+      "research": [
+        {
+          "family": "pypdf",
+          "title": "docs",
+          "url": "https://pypdf.readthedocs.io/",
+          "note": "PDF extract"
+        },
+        {
+          "family": "W3C",
+          "title": "WCAG",
+          "url": "https://www.w3.org/WAI/standards-guidelines/wcag/",
+          "note": "a11y"
+        },
+        {
+          "family": "Python",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "artifact hashes"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 5/21: «python-docx styles save extract text» via pypdf, W3C, Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «python-docx styles save extract text».",
+      "expand_scope": "E1/E2/E3 + docs for «python-docx styles save extract text»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 5/21: «python-docx styles save extract text» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "PDF digital vs image OCR distinction",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "WCAG",
+          "url": "https://www.w3.org/WAI/standards-guidelines/wcag/",
+          "note": "a11y"
+        },
+        {
+          "family": "Python",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "artifact hashes"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "run manifest"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 6/21: «PDF digital vs image OCR distinction» via W3C, Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «PDF digital vs image OCR distinction».",
+      "expand_scope": "E1/E2/E3 + docs for «PDF digital vs image OCR distinction»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 6/21: «PDF digital vs image OCR distinction» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "executive summary method findings",
+      "research": [
+        {
+          "family": "Python",
+          "title": "hashlib",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "note": "artifact hashes"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "run manifest"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 7/21: «executive summary method findings» via Python, Coursera (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «executive summary method findings».",
+      "expand_scope": "E1/E2/E3 + docs for «executive summary method findings»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 7/21: «executive summary method findings» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "embed figures tables with sources limits",
+      "research": [
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "run manifest"
+        },
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 8/21: «embed figures tables with sources limits» via Python, Coursera, MIT (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «embed figures tables with sources limits».",
+      "expand_scope": "E1/E2/E3 + docs for «embed figures tables with sources limits»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 8/21: «embed figures tables with sources limits» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "a11y drafting consistency numbers",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Python for Everybody",
+          "url": "https://www.coursera.org/specializations/python",
+          "note": "foundations"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 9/21: «a11y drafting consistency numbers» via Coursera, MIT, Harvard (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «a11y drafting consistency numbers».",
+      "expand_scope": "E1/E2/E3 + docs for «a11y drafting consistency numbers»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 9/21: «a11y drafting consistency numbers» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "reconcile n with S19 dashboard S20 excel",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "structures"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 10/21: «reconcile n with S19 dashboard S20 excel» via MIT, Harvard, Live (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «reconcile n with S19 dashboard S20 excel».",
+      "expand_scope": "E1/E2/E3 + docs for «reconcile n with S19 dashboard S20 excel»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 10/21: «reconcile n with S19 dashboard S20 excel» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "provenance hashes of DOCX PDF",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "practice"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "delivery pipelines"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 11/21: «provenance hashes of DOCX PDF» via Harvard, Live, deeplearning.ai (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «provenance hashes of DOCX PDF».",
+      "expand_scope": "E1/E2/E3 + docs for «provenance hashes of DOCX PDF»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 11/21: «provenance hashes of DOCX PDF» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "approval queue for package release",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "delivery pipelines"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 12/21: «approval queue for package release» via Live, deeplearning.ai, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «approval queue for package release».",
+      "expand_scope": "E1/E2/E3 + docs for «approval queue for package release»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 12/21: «approval queue for package release» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "synthetic Lima Cusco PEN only",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data Engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "delivery pipelines"
+        },
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "Real Python",
+          "title": "Jinja primer",
+          "url": "https://realpython.com/primer-on-jinja-templating/",
+          "note": "templating"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 13/21: «synthetic Lima Cusco PEN only» via deeplearning.ai, GitHub, Real Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «synthetic Lima Cusco PEN only».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic Lima Cusco PEN only»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 13/21: «synthetic Lima Cusco PEN only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "one run multi-artifact alignment",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "Awesome Python Learning",
+          "url": "https://github.com/skupriienko/Awesome-Python-Learning",
+          "note": "map"
+        },
+        {
+          "family": "Real Python",
+          "title": "Jinja primer",
+          "url": "https://realpython.com/primer-on-jinja-templating/",
+          "note": "templating"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 14/21: «one run multi-artifact alignment» via GitHub, Real Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «one run multi-artifact alignment».",
+      "expand_scope": "E1/E2/E3 + docs for «one run multi-artifact alignment»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 14/21: «one run multi-artifact alignment» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "checklist visual before publish",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "Jinja primer",
+          "url": "https://realpython.com/primer-on-jinja-templating/",
+          "note": "templating"
+        },
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "Python",
+          "title": "pathlib",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "note": "artifact paths"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 15/21: «checklist visual before publish» via Real Python, GitHub, Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «checklist visual before publish».",
+      "expand_scope": "E1/E2/E3 + docs for «checklist visual before publish»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 15/21: «checklist visual before publish» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "context dict run_id metrics limits",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "python-for-everybody-resources",
+          "url": "https://github.com/sersavn/python-for-everybody-resources",
+          "note": "exercises"
+        },
+        {
+          "family": "Python",
+          "title": "pathlib",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "note": "artifact paths"
+        },
+        {
+          "family": "W3C",
+          "title": "alt text",
+          "url": "https://www.w3.org/WAI/tutorials/images/",
+          "note": "text alternatives"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 16/21: «context dict run_id metrics limits» via GitHub, Python, W3C (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «context dict run_id metrics limits».",
+      "expand_scope": "E1/E2/E3 + docs for «context dict run_id metrics limits»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 16/21: «context dict run_id metrics limits» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "fail closed missing metrics",
+      "research": [
+        {
+          "family": "Python",
+          "title": "pathlib",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "note": "artifact paths"
+        },
+        {
+          "family": "W3C",
+          "title": "alt text",
+          "url": "https://www.w3.org/WAI/tutorials/images/",
+          "note": "text alternatives"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 17/21: «fail closed missing metrics» via Python, W3C, GitHub (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «fail closed missing metrics».",
+      "expand_scope": "E1/E2/E3 + docs for «fail closed missing metrics»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 17/21: «fail closed missing metrics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "no PII in report body",
+      "research": [
+        {
+          "family": "W3C",
+          "title": "alt text",
+          "url": "https://www.w3.org/WAI/tutorials/images/",
+          "note": "text alternatives"
+        },
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        },
+        {
+          "family": "OpenStax",
+          "title": "Technical Writing concepts",
+          "url": "https://openstax.org/",
+          "note": "narrative structure"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 18/21: «no PII in report body» via W3C, GitHub, OpenStax (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «no PII in report body».",
+      "expand_scope": "E1/E2/E3 + docs for «no PII in report body»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 18/21: «no PII in report body» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "render KPI template fixed fields",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "https-deeplearning-ai",
+          "url": "https://github.com/https-deeplearning-ai",
+          "note": "org"
+        },
+        {
+          "family": "OpenStax",
+          "title": "Technical Writing concepts",
+          "url": "https://openstax.org/",
+          "note": "narrative structure"
+        },
+        {
+          "family": "Python",
+          "title": "tempfile",
+          "url": "https://docs.python.org/3/library/tempfile.html",
+          "note": "safe outputs"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 19/21: «render KPI template fixed fields» via GitHub, OpenStax, Python (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «render KPI template fixed fields».",
+      "expand_scope": "E1/E2/E3 + docs for «render KPI template fixed fields»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 19/21: «render KPI template fixed fields» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "narrative no causal overclaim",
+      "research": [
+        {
+          "family": "OpenStax",
+          "title": "Technical Writing concepts",
+          "url": "https://openstax.org/",
+          "note": "narrative structure"
+        },
+        {
+          "family": "Python",
+          "title": "tempfile",
+          "url": "https://docs.python.org/3/library/tempfile.html",
+          "note": "safe outputs"
+        },
+        {
+          "family": "Jinja",
+          "title": "docs",
+          "url": "https://jinja.palletsprojects.com/",
+          "note": "templates sandbox"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 20/21: «narrative no causal overclaim» via OpenStax, Python, Jinja (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «narrative no causal overclaim».",
+      "expand_scope": "E1/E2/E3 + docs for «narrative no causal overclaim»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 20/21: «narrative no causal overclaim» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "CP-N2-B gate close evidence files",
+      "research": [
+        {
+          "family": "Python",
+          "title": "tempfile",
+          "url": "https://docs.python.org/3/library/tempfile.html",
+          "note": "safe outputs"
+        },
+        {
+          "family": "Jinja",
+          "title": "docs",
+          "url": "https://jinja.palletsprojects.com/",
+          "note": "templates sandbox"
+        },
+        {
+          "family": "Jinja",
+          "title": "templates",
+          "url": "https://jinja.palletsprojects.com/en/stable/templates/",
+          "note": "syntax autoescape"
+        }
+      ],
+      "synthesize": "S21 «Documentos, plantillas y reportes trazables» cycle 21/21: «CP-N2-B gate close evidence files» via Python, Jinja (CP-N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+domain gold for «CP-N2-B gate close evidence files».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N2-B gate close evidence files»; V3 roadmap; pair S21.",
+      "re_synthesize": "Decision 21/21: «CP-N2-B gate close evidence files» gold; Graph edge research_supports_paragraph."
+    }
+  ],
+  "domain_source_urls": [
+    "https://jinja.palletsprojects.com/",
+    "https://jinja.palletsprojects.com/en/stable/templates/",
+    "https://python-docx.readthedocs.io/",
+    "https://www.reportlab.com/docs/reportlab-userguide.pdf",
+    "https://pypdf.readthedocs.io/",
+    "https://www.w3.org/WAI/standards-guidelines/wcag/",
+    "https://docs.python.org/3/library/hashlib.html",
+    "https://docs.python.org/3/library/json.html",
+    "https://www.coursera.org/specializations/python",
+    "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+    "https://cs50.harvard.edu/python/",
+    "https://pillb.github.io/pyarcana/",
+    "https://www.deeplearning.ai/specializations/data-engineering",
+    "https://github.com/skupriienko/Awesome-Python-Learning",
+    "https://realpython.com/primer-on-jinja-templating/",
+    "https://github.com/sersavn/python-for-everybody-resources",
+    "https://docs.python.org/3/library/pathlib.html",
+    "https://www.w3.org/WAI/tutorials/images/",
+    "https://github.com/https-deeplearning-ai",
+    "https://openstax.org/",
+    "https://docs.python.org/3/library/tempfile.html"
+  ]
+}

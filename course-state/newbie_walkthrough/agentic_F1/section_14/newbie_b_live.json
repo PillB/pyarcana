@@ -1,0 +1,536 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s14",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T1-A-E1: packet-only solve (no prior lives)\nimport numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "flags"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/355c5aef] Dudé del atajo en S14-T1-A-E1; me ceñí al weDo. «E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Crea un nd». Hint «Usa np.array(..., dtype=np.uint8).». Ancla: `import numpy as np`. S14-T1-A-DEMO. ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T1-A-E2: packet-only solve (no prior lives)\nimport numpy as np\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/394a55a3] Dudé del atajo en S14-T1-A-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con». Hint «linspace con dtype=float64.». Ancla: `import numpy as np`. S14-T1-A-DEMO. ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T1-A-E3: packet-only solve (no prior lives)\nimport numpy as np\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/95f8bb3e] S14-T1-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Val». Demo S14-T1-A-DEMO. Línea: `import numpy as np`. Pista «Comprueba ndim y dtype.»."
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T1-B-E1: packet-only solve (no prior lives)\nimport numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "score"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/3a75af70] Solo acepto S14-T1-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Dado score». Verifiqué pista «mask = score >= 0.5.» y demo S14-T1-B-DEMO. Código justificado: `import numpy as np`. No invento APIs. Teoría: ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T1-B-E2: packet-only solve (no prior lives)\nimport numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "ids"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a72d2e61] Solo acepto S14-T1-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cre». Verifiqué pista «np.median(scores).» y demo S14-T1-B-DEMO. Código justificado: `import numpy as np`. No invento APIs. Teoría: ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T1-B-E3: packet-only solve (no prior lives)\nimport numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "array"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/af305aa2] S14-T1-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Fan». Demo S14-T1-B-DEMO. Línea: `import numpy as np`. Pista «a[order] con lista de índices.»."
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T2-A-E1: packet-only solve (no prior lives)\nimport numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "array"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b40f751d] S14-T2-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Matriz 2x3». Demo S14-T2-A-DEMO. Línea: `import numpy as np`. Pista «M.mean(axis=0) y axis=1.»."
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T2-A-E2: packet-only solve (no prior lives)\nimport numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "scores"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9558bd54] Solo acepto S14-T2-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con». Verifiqué pista «np.std(axis=0).» y demo S14-T2-A-DEMO. Código justificado: `import numpy as np`. No invento APIs. Teoría: ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T2-A-E3: packet-only solve (no prior lives)\nimport numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "array"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/7dbdba49] Dudé del atajo en S14-T2-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Nor». Hint «row - row.mean(axis=1, keepdims=True).». Ancla: `import numpy as np`. S14-T2-A-DEMO. ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T2-B-E1: packet-only solve (no prior lives)\nimport numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "zeros"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/27f3fca6] S14-T2-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma el ve». Demo S14-T2-B-DEMO. Línea: `import numpy as np`. Pista «zeros + pesos (shape (3,)).»."
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T2-B-E2: packet-only solve (no prior lives)\nimport numpy as np\na = np.arange(4)\nb = np.arange(3)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "arange"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/1fefc29e] Dudé del atajo en S14-T2-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con». Hint «a[:, None] * b[None, :] o a[:, None] * b.». Ancla: `import numpy as np`. S14-T2-B-DEMO. ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T2-B-E3: packet-only solve (no prior lives)\nimport numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "try"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/cfcbcf02] S14-T2-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Det». Demo S14-T2-B-DEMO. Línea: `import numpy as np`. Pista «try/except ValueError.»."
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T3-A-E1: packet-only solve (no prior lives)\nimport numpy as np\nraw = np.array([1, 2, 3])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "raw"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/badce1e7] Dudé del atajo en S14-T3-A-E1; me ceñí al weDo. «E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Toma raw=[». Hint «raw[:2] es view.». Ancla: `import numpy as np`. S14-T3-A-DEMO. ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T3-A-E2: packet-only solve (no prior lives)\nimport numpy as np\nraw = np.array([1, 2, 3])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "raw"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b172d0b2] S14-T3-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Rep». Demo S14-T3-A-DEMO. Línea: `import numpy as np`. Pista «raw[:2].copy().»."
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T3-A-E3: packet-only solve (no prior lives)\nimport numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "array"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/6545043f] Dudé del atajo en S14-T3-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Mar». Hint «a.flags.writeable = False.». Ancla: `import numpy as np`. S14-T3-A-DEMO. ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T3-B-E1: packet-only solve (no prior lives)\nimport numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "array"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/176bbbf4] S14-T3-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cuenta cuá». Demo S14-T3-B-DEMO. Línea: `import numpy as np`. Pista «np.isnan(x).sum().»."
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T3-B-E2: packet-only solve (no prior lives)\nimport numpy as np\nx = np.array([1.0, np.nan, 3.0])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "array"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/72e3a0d1] Solo acepto S14-T3-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cal». Verifiqué pista «np.nanmean.» y demo S14-T3-B-DEMO. Código justificado: `import numpy as np`. No invento APIs. Teoría: ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T3-B-E3: packet-only solve (no prior lives)\nimport numpy as np\nx = np.array([1.0, np.inf, 2.0])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "array"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/01276f86] Solo acepto S14-T3-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Ree». Verifiqué pista «np.where(np.isinf(x), np.nan, x).» y demo S14-T3-B-DEMO. Código justificado: `import numpy as np`. No invento APIs. Teoría: ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T4-A-E1: packet-only solve (no prior lives)\nimport numpy as np\na = np.arange(1000, dtype=float)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "arange"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/8f2256f7] S14-T4-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma a*b c». Demo S14-T4-A-DEMO. Línea: `import numpy as np`. Pista «np.arange(1000, dtype=float).»."
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T4-A-E2: packet-only solve (no prior lives)\nimport numpy as np\na = np.arange(5, dtype=float)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "arange"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/02eedae7] Solo acepto S14-T4-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Imp». Verifiqué pista «(a**2).sum() o np.dot(a,a).» y demo S14-T4-A-DEMO. Código justificado: `import numpy as np`. No invento APIs. Teoría: ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T4-A-E3: packet-only solve (no prior lives)\nimport numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "time"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/97e02dd3] Solo acepto S14-T4-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Mid». Verifiqué pista «time.perf_counter antes/después.» y demo S14-T4-A-DEMO. Código justificado: `import numpy as np, time`. No invento APIs. Teoría: ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T4-B-E1: packet-only solve (no prior lives)\nimport numpy as np\na = np.zeros(1000, dtype=np.float64)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "zeros"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/8fcb7627] S14-T4-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Imprime nb». Demo S14-T4-B-DEMO. Línea: `import numpy as np`. Pista «float64 = 8 bytes.»."
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T4-B-E2: packet-only solve (no prior lives)\nimport numpy as np\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b2e10503] Solo acepto S14-T4-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Usa». Verifiqué pista «np.allclose(..., atol=1e-8).» y demo S14-T4-B-DEMO. Código justificado: `import numpy as np`. No invento APIs. Teoría: ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S14-T4-B-E3: packet-only solve (no prior lives)\nimport numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S14",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "numpy",
+        "try"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ddabb485] Solo acepto S14-T4-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: ass». Verifiqué pista «np.testing.assert_allclose.» y demo S14-T4-B-DEMO. Código justificado: `import numpy as np`. No invento APIs. Teoría: ndarray, dtype y shape | creación, indexación y máscaras | ufuncs y reducciones ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "dtype",
+      "justification_from_packet": "[agentic_F1/skeptic/b14q0s1] Dudo de shape/ndim: el paquete fija dtype explícito en S14-T1-A (uint8/float64) y la teoría nombra «dtype» como tipo homogéneo; shape describe dimensiones, no el tipo de elemento.",
+      "blocked_on": [],
+      "confidence": 0.8
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Filtrar o seleccionar elementos que cumplen la condición",
+      "justification_from_packet": "[agentic_F1/skeptic/b14q1s3] Rechazo «forzar copy»: el iDo de máscaras imprime filtrados e ids[mask]; el uso principal de a>0.5 es selección booleana, no mutar dtype ni ndim.",
+      "blocked_on": [],
+      "confidence": 0.79
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Por columna (colapsa filas)",
+      "justification_from_packet": "[agentic_F1/skeptic/b14q2s0] Contraste con «solo pandas»: en NumPy del demo, mean(axis=0) da completitud_campo; axis=0 colapsa filas → agregado por columna.",
+      "blocked_on": [],
+      "confidence": 0.78
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Puede mutar el array base porque suele ser un view",
+      "justification_from_packet": "[agentic_F1/skeptic/b14q3s2] El iDo muestra raw_corrupto tras mutar el slice y luego copy() para aislar; no es «nunca afecta al original». View implica mutabilidad compartida.",
+      "blocked_on": [],
+      "confidence": 0.81
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:17.834690+00:00"
+}

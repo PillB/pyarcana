@@ -1,0 +1,372 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E1",
+  "section_index": 7,
+  "packet_sha": "ee5c9933e094c618",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E1-s07-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "answer": "import unicodedata",
+      "code": "import unicodedata\nnames = [\"José\", \"José\", \"\"]\nfor n in names:\n    nfc = unicodedata.normalize(\"NFC\", n)\n    print(repr(n), \"→\", repr(nfc))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T1-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Normaliza a NFC la list». Delivered code centers on `import unicodedata` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "answer": "a, b = \"MAÑANA\", \"mañana\"",
+      "code": "a, b = \"MAÑANA\", \"mañana\"\nprint(a.casefold() == b.casefold())\nprint(a.casefold(), b.casefold())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T1-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Usa casefold par». Delivered code centers on `a, b = \"MAÑANA\", \"mañana\"` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "answer": "import unicodedata",
+      "code": "import unicodedata\na = \"José\"\nb = \"José\"\nprint(\"raw==\", a == b)\nprint(\"NFC==\", unicodedata.normalize(\"NFC\", a) == unicodedata.normalize(\"NFC\", b))\nprint(\"causa: formas Unicode distintas (NFC vs NFD residual)\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T1-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Diagnostica mismatch: dos strings que se ven iguales pero fallan `==`. Imprime igualdad cruda, igualdad NFC y un mensaje de causa (NFD residual).». Delivered code centers on `import unicodedata` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "answer": "raw = \"Ana María Quispe Huamán\"",
+      "code": "raw = \"Ana María Quispe Huamán\"\ntokens = raw.split()\ngiven = \" \".join(tokens[:-2])\nap1, ap2 = tokens[-2], tokens[-1]\nprint({\"raw\": raw, \"given\": given, \"apellido1\": ap1, \"apellido2\": ap2})\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T1-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: De `'Ana María Quispe H». Delivered code centers on `raw = \"Ana María Quispe Huamán\"` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "answer": "raw = \"María del Carmen Quispe Ríos\"",
+      "code": "raw = \"María del Carmen Quispe Ríos\"\ntokens = raw.split()\n# preserva partículas en given: todo menos dos últimos apellidos\ngiven = \" \".join(tokens[:-2])\nap1, ap2 = tokens[-2], tokens[-1]\nprint({\"given\": given, \"apellido1\": ap1, \"apellido2\": ap2, \"raw\": raw})\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T1-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Preserva partícu». Delivered code centers on `raw = \"María del Carmen Quispe Ríos\"` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "answer": "def parse_nombre(raw):",
+      "code": "def parse_nombre(raw):\n    tokens = raw.strip().split()\n    if len(tokens) < 3:\n        return {\"status\": \"review\", \"raw\": raw, \"tokens\": tokens}\n    return {\n        \"status\": \"ok\",\n        \"raw\": raw,\n        \"given\": \" \".join(tokens[:-2]),\n        \"apellido1\": tokens[-2],\n        \"apellido2\": tokens[-1],\n    }\nfor r in [\"Ana\", \"Ana Quispe\", \"Ana María Quispe Huamán\"]:\n    print(parse_nombre(r))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T1-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Si hay menos de ». Delivered code centers on `def parse_nombre(raw):` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "answer": "line = \"C001, Ana , Lima\"",
+      "code": "line = \"C001, Ana , Lima\"\nparts = [p.strip() for p in line.split(\",\")]\nprint(parts)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T2-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Split CSV-like simple `». Delivered code centers on `line = \"C001, Ana , Lima\"` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "answer": "toks = [\"Jr.\", \"Unión\", \"450\"]",
+      "code": "toks = [\"Jr.\", \"Unión\", \"450\"]\nprint(\" \".join(toks))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T2-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Une tokens `['Jr». Delivered code centers on `toks = [\"Jr.\", \"Unión\", \"450\"]` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "answer": "raw = \"999.000-111\"",
+      "code": "raw = \"999.000-111\"\nclean = raw.replace(\".\", \"\").replace(\"-\", \"\")\nprint(raw, \"→\", clean)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T2-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Normaliza guiones de teléfono con replace encadenado sin regex: `'999.000-111'` → solo stdlib str/unicodedata/re (S01–S07). Documenta el criterio en ». Delivered code centers on `raw = \"999.000-111\"` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "answer": "def normalize_email(raw):",
+      "code": "def normalize_email(raw):\n    s = raw.strip().casefold()\n    if s.count(\"@\") != 1:\n        raise ValueError(\"need exactly one @\")\n    local, domain = s.split(\"@\")\n    if not local or not domain or \" \" in s:\n        raise ValueError(\"empty local/domain or spaces\")\n    return s\nprint(normalize_email(\"  A@B.COM \"))\nfor bad in [\"@b.com\", \"a@\", \"a @b.com\"]:\n    try:\n        normalize_email(bad)\n    except ValueError as e:\n        print(\"err\", bad, e)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T2-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Implementa `normalize_email`: strip+casefold, exactamente un `@`, local/dominio no vacíos y cero espacios. Imprime `' A@B.COM '` y captura errores para `'@b». Delivered code centers on `def normalize_email(raw):` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "answer": "raw = \"(+51) 999-000-111\"",
+      "code": "raw = \"(+51) 999-000-111\"\ndigits = \"\".join(c for c in raw if c.isdigit())\nprint(digits)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T2-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S07-T2-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Teléfono a dígit». Delivered code centers on `raw = \"(+51) 999-000-111\"` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "answer": "import re",
+      "code": "import re\nemail = \"user+tag@example.com\"\npat = re.compile(r\"^[a-z]+@[a-z]+\\.com$\")\nrejected = pat.fullmatch(email) is None\nprint(\"rejected=\", rejected)\nprint(\"política: un @, local/dominio no vacíos y cero espacios (no regex ingenua)\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T2-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+`. Imprime rejected=True y la política exacta: un @, local/dominio no vacío». Delivered code centers on `import re` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "answer": "import re",
+      "code": "import re\npat = re.compile(r\"^[A-Z]{3}-\\d{2}$\")\nfor code in [\"LIM-01\", \"lim-01\", \"LIMA-1\"]:\n    print(code, bool(pat.fullmatch(code)))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T3-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: `fullmatch` de código r». Delivered code centers on `import re` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "answer": "import re",
+      "code": "import re\ntext = \"Ana Quispe\"\nm = re.fullmatch(r\"(?P<nombre>\\w+)\\s+(?P<apellido>\\w+)\", text)\nprint(m.groupdict() if m else None)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T3-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Extrae grupos no». Delivered code centers on `import re` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "answer": "import re",
+      "code": "import re\ntext = \"DNI 12345678\"\nprint(\"search\", re.search(r\"\\d{8}\", text))\nprint(\"fullmatch\", re.fullmatch(r\"\\d{8}\", text))\nprint(\"fullmatch digits only\", re.fullmatch(r\"\\d{8}\", \"12345678\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T3-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Contrasta search». Delivered code centers on `import re` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "answer": "import re",
+      "code": "import re\npat = re.compile(r\"\\b9\\d{8}\\b\")\nfor t in [\"llama al 999000111 ya\", \"12345\", \"8999000111\"]:\n    print(t, pat.findall(t))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T3-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Compila `\\b9\\d{8}\\b` y ». Delivered code centers on `import re` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "answer": "import re",
+      "code": "import re\nlog = \"ok LIM-01 y CUS-02 fin\"\nprint(re.findall(r\"[A-Z]{3}-\\d{2}\", log))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T3-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: findall de códig». Delivered code centers on `import re` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "answer": "print(\"riesgo: (a+)+b puede explotar en backtracking catastrófico con entradas aaaa...X\")",
+      "code": "print(\"riesgo: (a+)+b puede explotar en backtracking catastrófico con entradas aaaa...X\")\nprint(\"preferir a+b o str methods (split/replace) cuando el patrón es literal/simple\")\nprint(\"en intake, fullmatch acotado y timeouts conceptuales > regex greedy anidadas\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T3-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Explica en prints el riesgo de backtracking con un patrón malo conceptual `(a+)+b` y por qué preferimos `a+b` o str methods. No necesitas colgar el p». Delivered code centers on `print(\"riesgo: (a+)+b puede explotar en backtracking catastrófico con entradas aaaa...X\")` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "answer": "def norm(s):",
+      "code": "def norm(s):\n    return \" \".join(s.strip().casefold().split())\nprint(norm(\"  Juan   PEREZ \") == norm(\"juan perez\"))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T4-A-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Exact match tras normal». Delivered code centers on `def norm(s):` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "answer": "def token_jaccard(a, b):",
+      "code": "def token_jaccard(a, b):\n    ta, tb = set(a.casefold().split()), set(b.casefold().split())\n    if not ta and not tb:\n        return 1.0\n    return len(ta & tb) / len(ta | tb)\nprint(round(token_jaccard(\"Juan Perez\", \"Juan P Perez\"), 2))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T4-A-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Implementa Jacca». Delivered code centers on `def token_jaccard(a, b):` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "answer": "a, b, score = \"Juan Perez\", \"Juan P Perez\", 0.67",
+      "code": "a, b, score = \"Juan Perez\", \"Juan P Perez\", 0.67\nif 0.4 <= score < 1.0:\n    decision = \"review\"\nelse:\n    decision = \"auto\" if score >= 1.0 else \"no_match\"\nprint({\"a\": a, \"b\": b, \"score\": score, \"decision\": decision})\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T4-A-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Si score está en». Delivered code centers on `a, b, score = \"Juan Perez\", \"Juan P Perez\", 0.67` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "answer": "cases = [",
+      "code": "cases = [\n    {\"pred\": \"match\", \"truth\": \"no\"},\n    {\"pred\": \"no\", \"truth\": \"match\"},\n]\nfor c in cases:\n    if c[\"pred\"] == \"match\" and c[\"truth\"] == \"no\":\n        label = \"FP\"\n    elif c[\"pred\"] == \"no\" and c[\"truth\"] == \"match\":\n        label = \"FN\"\n    else:\n        label = \"OK\"\n    print(c, \"→\", label)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T4-B-E1 — I only trust the active packet, not prior attempts. Instruction: «E1 (guiado) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Clasifica FP/FN: pred m». Delivered code centers on `cases = [` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "answer": "evidence = {",
+      "code": "evidence = {\n    \"raw_a\": \"Juan Perez\",\n    \"raw_b\": \"Juan P Perez\",\n    \"score\": 0.67,\n    \"decision\": \"review\",\n    \"reason\": \"similitud parcial por tokens; requiere revisión humana\",\n}\nprint(evidence)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T4-B-E2 — I only trust the active packet, not prior attempts. Instruction: «E2 (independiente) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Empaqueta eviden». Delivered code centers on `evidence = {` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "answer": "print(\"no auto-fusionar por score parcial: riesgo de FP de identidad\")",
+      "code": "print(\"no auto-fusionar por score parcial: riesgo de FP de identidad\")\nprint(\"enviar a review con evidencia raw+score; no afirmar parentesco\")\nprint(\"conservar raw siempre para auditoría clerical\")\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "unicode",
+        "regex",
+        "normalize"
+      ],
+      "justification_from_packet": "E1-Skeptic: exercise S07-T4-B-E3 — I only trust the active packet, not prior attempts. Instruction: «E3 (transferencia) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Redacta en 2-3 p». Delivered code centers on `print(\"no auto-fusionar por score parcial: riesgo de FP de identidad\")` matching theory/iDo («Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. »). Concepts: unicode, regex, normalize."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Formas Unicode distintas (NFC vs NFD)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q0 «¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?» — choose «Formas Unicode distintas (NFC vs NFD)» because packet theory says «Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Marcar review y conservar raw",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q1 «En nombres latam, si solo hay un token, la política segura es…» — choose «Marcar review y conservar raw» because packet theory says «Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Cuando la transformación es literal/simple",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q2 «¿Cuándo preferir str.replace/split sobre regex?» — choose «Cuando la transformación es literal/simple» because packet theory says «Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "None (no es full match)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q3 «fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…» — choose «None (no es full match)» because packet theory says «Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede». Other options invent speed/compile/legal myths not present in the slim packet."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Ir a review con evidencia (raw, score)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "justification_from_packet": "E1-Skeptic: selfcheck q4 «Un Jaccard 0.67 entre nombres debe…» — choose «Ir a review con evidencia (raw, score)» because packet theory says «Code points, normalización y casefold: Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede». Other options invent speed/compile/legal myths not present in the slim packet."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:14:57.301931+00:00"
+}

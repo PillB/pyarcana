@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.amazon.jobs/en/jobs/3206194/innovation-engineer-aws-apj-innovation-hub",
+    "name": "Innovation Engineer, AWS APJ Innovation Hub - Job ID",
+    "snippet": "Python Lambda backends, and CDK infrastructure, with AWS AI/ ML services (Bedrock, SageMaker , Typical build cycle is 1 to 2 weeks from concept to live demo.",
+    "host_name": "www.amazon.jobs",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://amazon.jobs/de/jobs/10452124/senior-applied-scientist-industrial-robotics-group",
+    "name": "Senior Applied Scientist, Industrial Robotics Group - Stellen-ID",
+    "snippet": "As a Senior Applied Scientist, you will develop and improve machine learning systems that enable real-time manufacturing flow decisions. You will leverage state ...",
+    "host_name": "amazon.jobs",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amazon.jobs/en-gb/jobs/10481709/senior-delivery-consultant-ai-ml-aws-professional-services",
+    "name": "AI/ML, AWS Professional Services - Job ID: 10481709",
+    "snippet": "5+ years developing predictive modeling, natural language processing, and deep learning, with experience in building and deploying ML models on cloud (e.g., ...",
+    "host_name": "www.amazon.jobs",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amazon.jobs/en/search?base_query=sagemaker&loc_query=&latitude=&longitude=&loc_group_id=&invalid_location=false&country=&city=&region=&county=",
+    "name": "Job search | Amazon.jobs",
+    "snippet": "3+ years of experience in designing, building, and/or operating cloud solutions in a production environment 2+ year experience hosting and deploying ML ...",
+    "host_name": "www.amazon.jobs",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amazon.jobs/fr/jobs/10476213/senior-applied-scientist-predictive-scoring-aws-marketing-science",
+    "name": "Predictive Scoring, AWS Marketing Science",
+    "snippet": "Collaborate with MLOp s engineers to streamline model deployment, monitoring, and retraining using tools like AWS SageMaker, or MLflow and other internal tools. ...",
+    "host_name": "www.amazon.jobs",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amazon.jobs/pt/jobs/3162762/applied-scientist-ii-gen-ai-llm-pxt",
+    "name": "Applied Scientist II - Gen AI & LLM, PXT - ID da vaga",
+    "snippet": "SageMaker , and other AWS AI/ ML tools. Experience programming in Java, C++, Python or related language - Experience with AWS AI/ ML services (Amazon Bedrock,  ...",
+    "host_name": "www.amazon.jobs",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://amazon.jobs/en-gb/jobs/10393469/applied-scientist-amazon-prime-prime-ai-ml-science",
+    "name": "Applied Scientist, Amazon Prime, Prime AI/ML Science - Job ID",
+    "snippet": "Description. Interested in modeling and understanding customer behavior through machine learning, artificial intelligence, and data mining over TB scale ...",
+    "host_name": "amazon.jobs",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amazon.jobs/en/jobs/3206196/sr-innovation-engineer-ihub-innovation-and-engagement",
+    "name": "Sr Innovation Engineer, IHub, Innovation and Engagement",
+    "snippet": "Our current reference stack is React/TypeScript frontends, Python Lambda backends , and CDK infrastructure, with AWS AI/ML services (Bedrock, SageMaker, Bedrock ... Read more",
+    "host_name": "www.amazon.jobs",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

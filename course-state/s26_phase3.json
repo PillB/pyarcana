@@ -1,0 +1,1099 @@
+{
+  "version": "3.2",
+  "section": "S26",
+  "section_id": "integrator-phase1",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S26 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S26 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s26-integrator-phase1.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "integrator-phase1",
+    "index": 26,
+    "title_platform": "Proyecto Integrador Fase 1",
+    "title_v3": "Orquestación y VP RPA + AI Analyst",
+    "title_decision": "KEEP platform id 'integrator-phase1' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo",
+    "estimatedHours": 16,
+    "level": "Competente",
+    "phase": 1,
+    "prerequisites": [
+      "S14",
+      "S15",
+      "S16",
+      "S17",
+      "S18",
+      "S19",
+      "S20",
+      "S21",
+      "S22",
+      "S23",
+      "S24",
+      "S25"
+    ],
+    "environment": "local/cloud controlado",
+    "project_capstone": "CP-N2-C (cierre) + CF-2 + Level-2 regression"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "integrator-phase1",
+    "platform_title": "Proyecto Integrador Fase 1",
+    "v3_title": "Orquestación y VP RPA + AI Analyst",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante modela tasks/flows/DAG con estados.",
+    "El estudiante configura límites, metadata y schedules.",
+    "El estudiante implementa checkpoints, retry/backoff y dead-letter.",
+    "El estudiante garantiza idempotencia, concurrencia y rollback.",
+    "El estudiante diseña revisión humana de análisis/reporte/destinatario.",
+    "El estudiante opera aprobación, rechazo, edición y auditoría.",
+    "El estudiante define SLO, alerts y runbook.",
+    "El estudiante valida E2E, seguridad, costo y métricas de valor."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S26-T1-A",
+      "slug": "tasks-flows-dag-states",
+      "title": "tasks/flows/DAG y estados"
+    },
+    {
+      "subtopic_id": "S26-T1-B",
+      "slug": "limits-metadata-schedules",
+      "title": "límites, metadata y schedules"
+    },
+    {
+      "subtopic_id": "S26-T2-A",
+      "slug": "checkpoints-retry-backoff-dlq",
+      "title": "checkpoints, retry/backoff y dead-letter"
+    },
+    {
+      "subtopic_id": "S26-T2-B",
+      "slug": "idempotency-concurrency-rollback",
+      "title": "idempotencia, concurrencia y rollback"
+    },
+    {
+      "subtopic_id": "S26-T3-A",
+      "slug": "review-analysis-report-recipient",
+      "title": "revisión de análisis/reporte/destinatario"
+    },
+    {
+      "subtopic_id": "S26-T3-B",
+      "slug": "approve-reject-edit-audit",
+      "title": "aprobación, rechazo, edición y auditoría"
+    },
+    {
+      "subtopic_id": "S26-T4-A",
+      "slug": "slo-alerts-runbook",
+      "title": "SLO, alerts y runbook"
+    },
+    {
+      "subtopic_id": "S26-T4-B",
+      "slug": "e2e-security-cost-value",
+      "title": "pruebas end-to-end, seguridad, costo y métricas de valor"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S26-T1",
+      "title": "Orquestación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S26-T1-A",
+          "slug": "tasks-flows-dag-states",
+          "title": "tasks/flows/DAG y estados",
+          "outcome": "El estudiante modela tasks/flows/DAG con estados.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "tasks/flows/DAG y estados",
+              "must_cover": [
+                "DAG",
+                "task states",
+                "flow"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S26-T1-A-DEMO",
+              "title": "Modelar DAG con estados explícitos",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S26-T1-A-E1",
+                "kind": "guided",
+                "title": "tasks/flows/DAG y estados — guided",
+                "skill": "tasks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T1-A-E2",
+                "kind": "independent",
+                "title": "tasks/flows/DAG y estados — independent",
+                "skill": "tasks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T1-A-E3",
+                "kind": "transfer",
+                "title": "tasks/flows/DAG y estados — transfer",
+                "skill": "tasks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S26-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S26-T1-B",
+          "slug": "limits-metadata-schedules",
+          "title": "límites, metadata y schedules",
+          "outcome": "El estudiante configura límites, metadata y schedules.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "límites, metadata y schedules",
+              "must_cover": [
+                "rate limits",
+                "run metadata",
+                "schedule"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S26-T1-B-DEMO",
+              "title": "Programar con límites y metadata",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S26-T1-B-E1",
+                "kind": "guided",
+                "title": "límites, metadata y schedules — guided",
+                "skill": "limits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T1-B-E2",
+                "kind": "independent",
+                "title": "límites, metadata y schedules — independent",
+                "skill": "limits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T1-B-E3",
+                "kind": "transfer",
+                "title": "límites, metadata y schedules — transfer",
+                "skill": "limits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S26-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S26-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S26-T1-EVAL-1",
+            "title": "tasks/flows/DAG y estados — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S26-T1-EVAL-2",
+            "title": "límites, metadata y schedules — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S26-T2",
+      "title": "Resiliencia",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S26-T2-A",
+          "slug": "checkpoints-retry-backoff-dlq",
+          "title": "checkpoints, retry/backoff y dead-letter",
+          "outcome": "El estudiante implementa checkpoints, retry/backoff y dead-letter.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "checkpoints, retry/backoff y dead-letter",
+              "must_cover": [
+                "checkpoint",
+                "backoff",
+                "DLQ"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S26-T2-A-DEMO",
+              "title": "Checkpoint + retry + dead-letter",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S26-T2-A-E1",
+                "kind": "guided",
+                "title": "checkpoints, retry/backoff y dead-letter — guided",
+                "skill": "checkpoints",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T2-A-E2",
+                "kind": "independent",
+                "title": "checkpoints, retry/backoff y dead-letter — independent",
+                "skill": "checkpoints",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T2-A-E3",
+                "kind": "transfer",
+                "title": "checkpoints, retry/backoff y dead-letter — transfer",
+                "skill": "checkpoints",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S26-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S26-T2-B",
+          "slug": "idempotency-concurrency-rollback",
+          "title": "idempotencia, concurrencia y rollback",
+          "outcome": "El estudiante garantiza idempotencia, concurrencia y rollback.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "idempotencia, concurrencia y rollback",
+              "must_cover": [
+                "idempotent steps",
+                "locks",
+                "rollback"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S26-T2-B-DEMO",
+              "title": "Rollback seguro bajo concurrencia",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S26-T2-B-E1",
+                "kind": "guided",
+                "title": "idempotencia, concurrencia y rollback — guided",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T2-B-E2",
+                "kind": "independent",
+                "title": "idempotencia, concurrencia y rollback — independent",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T2-B-E3",
+                "kind": "transfer",
+                "title": "idempotencia, concurrencia y rollback — transfer",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S26-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S26-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S26-T2-EVAL-1",
+            "title": "checkpoints, retry/backoff y dead-letter — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S26-T2-EVAL-2",
+            "title": "idempotencia, concurrencia y rollback — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S26-T3",
+      "title": "Human-in-the-loop",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S26-T3-A",
+          "slug": "review-analysis-report-recipient",
+          "title": "revisión de análisis/reporte/destinatario",
+          "outcome": "El estudiante diseña revisión humana de análisis/reporte/destinatario.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "revisión de análisis/reporte/destinatario",
+              "must_cover": [
+                "review queues",
+                "artifact review"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S26-T3-A-DEMO",
+              "title": "Colas de revisión multi-artefacto",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S26-T3-A-E1",
+                "kind": "guided",
+                "title": "revisión de análisis/reporte/destinatario — guided",
+                "skill": "review",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T3-A-E2",
+                "kind": "independent",
+                "title": "revisión de análisis/reporte/destinatario — independent",
+                "skill": "review",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T3-A-E3",
+                "kind": "transfer",
+                "title": "revisión de análisis/reporte/destinatario — transfer",
+                "skill": "review",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S26-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S26-T3-B",
+          "slug": "approve-reject-edit-audit",
+          "title": "aprobación, rechazo, edición y auditoría",
+          "outcome": "El estudiante opera aprobación, rechazo, edición y auditoría.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "aprobación, rechazo, edición y auditoría",
+              "must_cover": [
+                "approve/reject/edit",
+                "audit trail"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S26-T3-B-DEMO",
+              "title": "Aprobar/rechazar/editar con auditoría",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S26-T3-B-E1",
+                "kind": "guided",
+                "title": "aprobación, rechazo, edición y auditoría — guided",
+                "skill": "approve",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T3-B-E2",
+                "kind": "independent",
+                "title": "aprobación, rechazo, edición y auditoría — independent",
+                "skill": "approve",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T3-B-E3",
+                "kind": "transfer",
+                "title": "aprobación, rechazo, edición y auditoría — transfer",
+                "skill": "approve",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S26-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S26-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S26-T3-EVAL-1",
+            "title": "revisión de análisis/reporte/destinatario — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S26-T3-EVAL-2",
+            "title": "aprobación, rechazo, edición y auditoría — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S26-T4",
+      "title": "Operación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S26-T4-A",
+          "slug": "slo-alerts-runbook",
+          "title": "SLO, alerts y runbook",
+          "outcome": "El estudiante define SLO, alerts y runbook.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "SLO, alerts y runbook",
+              "must_cover": [
+                "SLO",
+                "alerts",
+                "runbook"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S26-T4-A-DEMO",
+              "title": "Definir SLO, alerts y runbook N2",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S26-T4-A-E1",
+                "kind": "guided",
+                "title": "SLO, alerts y runbook — guided",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T4-A-E2",
+                "kind": "independent",
+                "title": "SLO, alerts y runbook — independent",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T4-A-E3",
+                "kind": "transfer",
+                "title": "SLO, alerts y runbook — transfer",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S26-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S26-T4-B",
+          "slug": "e2e-security-cost-value",
+          "title": "pruebas end-to-end, seguridad, costo y métricas de valor",
+          "outcome": "El estudiante valida E2E, seguridad, costo y métricas de valor.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "pruebas end-to-end, seguridad, costo y métricas de valor",
+              "must_cover": [
+                "e2e tests",
+                "security",
+                "cost",
+                "value metrics"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S26-T4-B-DEMO",
+              "title": "E2E + seguridad + costo + valor",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S26-T4-B-E1",
+                "kind": "guided",
+                "title": "pruebas end-to-end, seguridad, costo y métricas de valor — guided",
+                "skill": "e2e",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T4-B-E2",
+                "kind": "independent",
+                "title": "pruebas end-to-end, seguridad, costo y métricas de valor — independent",
+                "skill": "e2e",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S26-T4-B-E3",
+                "kind": "transfer",
+                "title": "pruebas end-to-end, seguridad, costo y métricas de valor — transfer",
+                "skill": "e2e",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S26-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S26-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S26-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S26-T4-EVAL-1",
+            "title": "SLO, alerts y runbook — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S26-T4-EVAL-2",
+            "title": "pruebas end-to-end, seguridad, costo y métricas de valor — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S26-PROJ",
+    "title": "VP RPA + AI Analyst (cierre CP-N2-C + CF-2 + regresión N2)",
+    "replaces_legacy": "Legacy You Do de 'Proyecto Integrador Fase 1' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Pipeline: Excel/sistema → validación → análisis → IA → informe → aprobación → draft email",
+      "Evidencia de cada estado + recuperación de fallas",
+      "Datos sintéticos; sin envío real automático",
+      "CF-2: interfaces Familiarity ↔ reporting ↔ automatización",
+      "Regresión S14–S26 planificada (not passed by this lane)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-C (cierre) + CF-2 + Level-2 regression",
+    "increment_gate": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas. Promoción: CP-N2-A/B/C, regresión S14–S26 y CF-2 aprobados. CF-2 fija interfaces entre Familiarity, reporting y automatización."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'integrator-phase1' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s26-integrator-phase1.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Proyecto Integrador Fase 1' vs 'Orquestación y VP RPA + AI Analyst'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-C (cierre) + CF-2 + Level-2 regression",
+    "increment_gate": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas. Promoción: CP-N2-A/B/C, regresión S14–S26 y CF-2 aprobados. CF-2 fija interfaces entre Familiarity, reporting y automatización.",
+    "project_id": "S26-PROJ",
+    "section_passed": false,
+    "notes": "S26 contributes to CP-N2-C (cierre) + CF-2 + Level-2 regression. No passed states written by factory lane.",
+    "capstone_gate": "CP-N2-C",
+    "gate_role": "CLOSE + Level-2 regression + CF-2",
+    "promotion_requires": [
+      "CP-N2-A",
+      "CP-N2-B",
+      "CP-N2-C",
+      "regression S14–S26",
+      "CF-2"
+    ],
+    "blocks": "S27 until all pass",
+    "cp_n2_c": "PLANNED_NOT_PASSED",
+    "n2_regression": "PLANNED_NOT_PASSED",
+    "cf2": "PLANNED_NOT_PASSED"
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'Proyecto Integrador Fase 1' until product rename; large topic mismatch vs V3 'Orquestación y VP RPA + AI Analyst'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S26-T1-A first"
+  }
+}

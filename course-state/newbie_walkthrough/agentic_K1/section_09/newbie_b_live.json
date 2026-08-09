@@ -1,0 +1,307 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 9,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s09-b890510cc4",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "id": "S09-T1-A-E1",
+      "code": "try:\n    int('x')\nexcept ValueError as e:\n    print(type(e).__name__, e)\n",
+      "justification_from_packet": "try/except captura ValueError de int('x'). type(e).__name__ para diagnóstico.",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "id": "S09-T1-A-E2",
+      "code": "class IntakeError(Exception):\n    pass\ntry:\n    raise IntakeError('fila inválida')\nexcept IntakeError as e:\n    print('caught', e)\n",
+      "justification_from_packet": "Excepción de dominio propia hereda de Exception. catch específico, no bare except.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "id": "S09-T1-A-E3",
+      "code": "try:\n    try:\n        int('x')\n    except ValueError as e:\n        raise RuntimeError('cast falló en edad') from e\nexcept RuntimeError as e:\n    print(e)\n    print('cause', repr(e.__cause__))\n",
+      "justification_from_packet": "raise ... from e encadena __cause__ sin perder el ValueError original.",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "id": "S09-T1-B-E1",
+      "code": "def parse_edad(s):\n    try:\n        return int(s)\n    except ValueError as e:\n        raise ValueError(f'edad inválida {s!r}') from e\nprint(parse_edad('21'))\ntry:\n    parse_edad('x')\nexcept ValueError as e:\n    print(e)\n",
+      "justification_from_packet": "Re-raise con mensaje accionable y from e. No trago el error en silencio.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "id": "S09-T1-B-E2",
+      "code": "errors=[]\nfor s in ['1','x','3']:\n    try:\n        errors.append(('ok', int(s)))\n    except ValueError:\n        errors.append(('bad', s))\nprint(errors)\n",
+      "justification_from_packet": "En un lote, capturo por fila: una mala no aborta las demás (a menos que sea config).",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "id": "S09-T1-B-E3",
+      "code": "def load_config(delim):\n    if not delim:\n        raise ValueError('delimiter vacío: fail-fast del job')\n    return delim\ntry:\n    load_config('')\nexcept ValueError as e:\n    print('abort job', e)\n",
+      "justification_from_packet": "Config inválida (delimiter vacío) → fail-fast del job, no cuarentenar una fila y seguir.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "id": "S09-T2-A-E1",
+      "code": "import logging\nlogging.basicConfig(level=logging.INFO, format='%(levelname)s %(message)s')\nlog = logging.getLogger('intake')\nlog.info('filas=%s', 3)\nprint('logger listo')\n",
+      "justification_from_packet": "logging con nivel INFO. Mensaje con %s, no f-string de PII en producción sin cuidado.",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "id": "S09-T2-A-E2",
+      "code": "import sys\nprint('dato_json', {'id':'C1'})\nprint('diagnóstico', file=sys.stderr)\n",
+      "justification_from_packet": "CLI: datos a stdout; diagnóstico a stderr. No mezclar logs con JSON de salida.",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "id": "S09-T2-A-E3",
+      "code": "import logging\nlog=logging.getLogger('x')\nfor level in [logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR]:\n    print(logging.getLevelName(level))\n",
+      "justification_from_packet": "Niveles estándar DEBUG/INFO/WARNING/ERROR. Elegir según ruido vs señal.",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "id": "S09-T2-B-E1",
+      "code": "def mask_email(e):\n    if '@' not in e:\n        return '***'\n    local, dom = e.split('@', 1)\n    return (local[:1] + '***@' + dom) if local else '***@'+dom\nprint(mask_email('ana@ejemplo.pe'))\n",
+      "justification_from_packet": "Máscara a***@dominio. Nunca loguear email completo ni passwords.",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "id": "S09-T2-B-E2",
+      "code": "row={'id':'C001','email':'ana@ex.com','token':'secret'}\nsafe={k: ('***' if k in {'token','password'} else v) for k,v in row.items()}\nif 'email' in safe:\n    local,dom=safe['email'].split('@'); safe['email']=local[:1]+'***@'+dom\nprint(safe)\n",
+      "justification_from_packet": "Redactar secretos y enmascarar email antes de log. id puede quedarse.",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "id": "S09-T2-B-E3",
+      "code": "print('prohibido en logs: password, api_token, Authorization, PII cruda')\nprint('permitido: case_id sintético, contadores, códigos de error')\n",
+      "justification_from_packet": "Política de logging seguro del paquete: sin secretos ni PII cruda.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "id": "S09-T3-A-E1",
+      "code": "def fetch(ok=True):\n    if not ok:\n        raise TimeoutError('remote timeout')\n    return {'status': 200}\nprint(fetch(True))\ntry:\n    fetch(False)\nexcept TimeoutError as e:\n    print(type(e).__name__, e)\n",
+      "justification_from_packet": "TimeoutError modelado como falla transitoria de red.",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "id": "S09-T3-A-E2",
+      "code": "import time\n\ndef with_retries(fn, retries=3):\n    last=None\n    for i in range(retries):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last=e\n            time.sleep(0)  # backoff simbólico\n    raise last\n\nn={'c':0}\ndef flaky():\n    n['c']+=1\n    if n['c']<2:\n        raise TimeoutError('x')\n    return 'ok'\nprint(with_retries(flaky))\n",
+      "justification_from_packet": "Reintentos con backoff solo para errores transitorios (TimeoutError).",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "id": "S09-T3-A-E3",
+      "code": "print('retry: TimeoutError, ConnectionError')\nprint('no retry: ValueError de datos, KeyError de schema, 400 del cliente')\n",
+      "justification_from_packet": "Clasifico retryable vs no. ValueError de datos no se reintenta a ciegas.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "id": "S09-T3-B-E1",
+      "code": "def process_row(row):\n    if 'id' not in row:\n        return {'status':'quarantine','reason':'missing id'}\n    return {'status':'ok','id':row['id']}\nprint(process_row({}))\nprint(process_row({'id':'C1'}))\n",
+      "justification_from_packet": "Error de fila → quarantine con reason; no tumba el job entero.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "id": "S09-T3-B-E2",
+      "code": "def run_job(config):\n    if not config.get('delimiter'):\n        raise SystemExit(2)  # fail-fast config\n    return 'ran'\ntry:\n    run_job({})\nexcept SystemExit as e:\n    print('exit', e.code)\n",
+      "justification_from_packet": "Config rota aborta el job (fail-fast). Distinto de cuarentenar una fila.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "id": "S09-T3-B-E3",
+      "code": "print('matriz: config error→abort; row ValueError→quarantine; TimeoutError→retry luego fail; ok→continue')\n",
+      "justification_from_packet": "Matriz de decisión del paquete: qué aborta, qué reintenta, qué cuarentena.",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "id": "S09-T4-A-E1",
+      "code": "def buggy(xs):\n    return xs[0]\ntry:\n    buggy([])\nexcept IndexError as e:\n    print('repro', type(e).__name__, e)\n",
+      "justification_from_packet": "Minimal repro: lista vacía reproduce IndexError sin CSV de producción.",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "id": "S09-T4-A-E2",
+      "code": "print('bisect: reducir input hasta el mínimo que falla; fijar seed/datos sintéticos')\nprint('no reiniciar servidor al azar como primer paso')\n",
+      "justification_from_packet": "Estrategia de bisect/minimal repro del debugging del paquete.",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "id": "S09-T4-A-E3",
+      "code": "assert int('10')==10\nprint('test verde para el caso feliz del parser')\n",
+      "justification_from_packet": "Test mínimo del caso feliz antes de cazar el bug del caso vacío.",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "id": "S09-T4-B-E1",
+      "code": "import traceback, io\nbuf=io.StringIO()\ntry:\n    1/0\nexcept ZeroDivisionError:\n    traceback.print_exc(file=buf)\nprint('has_traceback', 'ZeroDivisionError' in buf.getvalue())\n",
+      "justification_from_packet": "traceback para localizar el stack. No lo logueo con secretos.",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "id": "S09-T4-B-E2",
+      "code": "print('postmortem breve: síntoma, repro mínimo, causa, fix, prevención')\n",
+      "justification_from_packet": "Plantilla de postmortem corto alineada al debugging profesional.",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "id": "S09-T4-B-E3",
+      "code": "print('checklist: minimal repro, logs sin PII, clasificar retryable, fail-fast config, quarantine filas')\n",
+      "justification_from_packet": "Cierre S09: debugging + logging seguro + política de errores.",
+      "confidence": 0.57,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "raise NewError from e encadena la causa en __cause__ y no pierde el traceback original.",
+      "confidence": 0.7,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Delimiter vacío es error de config del job → fail-fast (abortar), no cuarentenar una fila.",
+      "confidence": 0.57,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "CLI: solo datos a stdout; diagnóstico/logs a stderr. No mezclar ni secretos.",
+      "confidence": 0.87,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "mask_email seguro: a***@ejemplo.pe, no el email crudo ni hashes de password.",
+      "confidence": 0.63,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "TimeoutError de fetch remoto puede reintentarse con backoff; ValueError de datos no.",
+      "confidence": 0.7,
+      "blocked_on": []
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 2,
+      "justification_from_packet": "Minimal repro = la entrada más pequeña que reproduce el bug, no todo el CSV prod.",
+      "confidence": 0.67,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:17.715566+00:00",
+  "session_started_at": "2026-07-23T14:17:52.870995+00:00",
+  "session_ended_at": "2026-07-23T14:18:30.270995+00:00",
+  "receipt_response_sha256": "2bba2b9773187a2fd3324eb4e8db5536a3de8acceec1dd399453bf9b4ab18667",
+  "receipt_exercises_sha256": "229eb272f8fd190eba9085184dc75228fd7652d0c5ddea81925428487103f3a0",
+  "receipt_selfcheck_sha256": "a76349510384e31eead22e232dc302c26ddf02d281a2274447d1980532291730"
+}

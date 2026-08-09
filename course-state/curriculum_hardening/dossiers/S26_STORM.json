@@ -1,0 +1,750 @@
+{
+  "section": 26,
+  "title": "Orquestación y VP RPA + AI Analyst",
+  "file": "s26-integrator-phase1.ts",
+  "n_required": 26,
+  "n_logged": 26,
+  "generated_at": "2026-07-24T04:27:49.332+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "theory_iDo": "theory present",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "no send without approve; fraud_labels=0; matching≠fraud; synthetic only",
+    "v3_retarget": "VP RPA+AI Analyst orchestration not generic integrator only",
+    "expert_pass_at": "2026-07-24T04:27:49.332+00:00"
+  },
+  "unique_foci": 26,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "DAG approve before draft_email",
+      "research": [
+        {
+          "family": "Prefect",
+          "title": "Docs",
+          "url": "https://docs.prefect.io/",
+          "note": "orchestration"
+        },
+        {
+          "family": "Prefect",
+          "title": "Flows",
+          "url": "https://docs.prefect.io/v3/concepts/flows",
+          "note": "flows"
+        },
+        {
+          "family": "Airflow",
+          "title": "Core concepts",
+          "url": "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html",
+          "note": "DAGs"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 1/26: «DAG approve before draft_email» via Airflow, Prefect (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «DAG approve before draft_email».",
+      "expand_scope": "E1/E2/E3 + docs for «DAG approve before draft_email»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 1/26: «DAG approve before draft_email» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "task states pending running success failed skipped",
+      "research": [
+        {
+          "family": "Prefect",
+          "title": "Flows",
+          "url": "https://docs.prefect.io/v3/concepts/flows",
+          "note": "flows"
+        },
+        {
+          "family": "Airflow",
+          "title": "Core concepts",
+          "url": "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html",
+          "note": "DAGs"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs workbook",
+          "url": "https://sre.google/workbook/implementing-slos/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 2/26: «task states pending running success failed skipped» via Airflow, Google, Prefect (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «task states pending running success failed skipped».",
+      "expand_scope": "E1/E2/E3 + docs for «task states pending running success failed skipped»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 2/26: «task states pending running success failed skipped» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "topo order no cycles",
+      "research": [
+        {
+          "family": "Airflow",
+          "title": "Core concepts",
+          "url": "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html",
+          "note": "DAGs"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs workbook",
+          "url": "https://sre.google/workbook/implementing-slos/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "incidents"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 3/26: «topo order no cycles» via Airflow, Google (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «topo order no cycles».",
+      "expand_scope": "E1/E2/E3 + docs for «topo order no cycles»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 3/26: «topo order no cycles» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "rate limits max_parallel api_rpm",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs workbook",
+          "url": "https://sre.google/workbook/implementing-slos/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "incidents"
+        },
+        {
+          "family": "12factor",
+          "title": "App methodology",
+          "url": "https://12factor.net/",
+          "note": "config logs"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 4/26: «rate limits max_parallel api_rpm» via 12factor, Google (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «rate limits max_parallel api_rpm».",
+      "expand_scope": "E1/E2/E3 + docs for «rate limits max_parallel api_rpm»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 4/26: «rate limits max_parallel api_rpm» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "cron America/Lima schedule",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "incidents"
+        },
+        {
+          "family": "12factor",
+          "title": "App methodology",
+          "url": "https://12factor.net/",
+          "note": "config logs"
+        },
+        {
+          "family": "Coursera",
+          "title": "Pipeline orchestration",
+          "url": "https://www.coursera.org/courses?query=data%20pipeline%20orchestration",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 5/26: «cron America/Lima schedule» via 12factor, Coursera, Google (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cron America/Lima schedule».",
+      "expand_scope": "E1/E2/E3 + docs for «cron America/Lima schedule»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 5/26: «cron America/Lima schedule» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "disable_schedule drain on deploy",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "App methodology",
+          "url": "https://12factor.net/",
+          "note": "config logs"
+        },
+        {
+          "family": "Coursera",
+          "title": "Pipeline orchestration",
+          "url": "https://www.coursera.org/courses?query=data%20pipeline%20orchestration",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 6/26: «disable_schedule drain on deploy» via 12factor, Coursera, deeplearning.ai (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «disable_schedule drain on deploy».",
+      "expand_scope": "E1/E2/E3 + docs for «disable_schedule drain on deploy»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 6/26: «disable_schedule drain on deploy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "checkpoint skip processed ids",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Pipeline orchestration",
+          "url": "https://www.coursera.org/courses?query=data%20pipeline%20orchestration",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 7/26: «checkpoint skip processed ids» via Coursera, MIT, deeplearning.ai (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «checkpoint skip processed ids».",
+      "expand_scope": "E1/E2/E3 + docs for «checkpoint skip processed ids»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 7/26: «checkpoint skip processed ids» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "retry backoff exponential",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 8/26: «retry backoff exponential» via Harvard, MIT, deeplearning.ai (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «retry backoff exponential».",
+      "expand_scope": "E1/E2/E3 + docs for «retry backoff exponential»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 8/26: «retry backoff exponential» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "DLQ owner SLA not trash",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Nygard",
+          "title": "Release It concepts",
+          "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+          "note": "stability"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 9/26: «DLQ owner SLA not trash» via Harvard, MIT, Nygard (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «DLQ owner SLA not trash».",
+      "expand_scope": "E1/E2/E3 + docs for «DLQ owner SLA not trash»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 9/26: «DLQ owner SLA not trash» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "idempotent run_id entity_id",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Nygard",
+          "title": "Release It concepts",
+          "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+          "note": "stability"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 10/26: «idempotent run_id entity_id» via Harvard, Nygard, Py4E (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «idempotent run_id entity_id».",
+      "expand_scope": "E1/E2/E3 + docs for «idempotent run_id entity_id»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 10/26: «idempotent run_id entity_id» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "concurrency locked requeue",
+      "research": [
+        {
+          "family": "Nygard",
+          "title": "Release It concepts",
+          "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+          "note": "stability"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 11/26: «concurrency locked requeue» via Live, Nygard, Py4E (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «concurrency locked requeue».",
+      "expand_scope": "E1/E2/E3 + docs for «concurrency locked requeue»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 11/26: «concurrency locked requeue» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "compensation rollback draft report",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Prefect",
+          "title": "Docs",
+          "url": "https://docs.prefect.io/",
+          "note": "orchestration"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 12/26: «compensation rollback draft report» via Live, Prefect, Py4E (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «compensation rollback draft report».",
+      "expand_scope": "E1/E2/E3 + docs for «compensation rollback draft report»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 12/26: «compensation rollback draft report» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "HITL three queues analysis report recipient",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Prefect",
+          "title": "Docs",
+          "url": "https://docs.prefect.io/",
+          "note": "orchestration"
+        },
+        {
+          "family": "Prefect",
+          "title": "Flows",
+          "url": "https://docs.prefect.io/v3/concepts/flows",
+          "note": "flows"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 13/26: «HITL three queues analysis report recipient» via Live, Prefect (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «HITL three queues analysis report recipient».",
+      "expand_scope": "E1/E2/E3 + docs for «HITL three queues analysis report recipient»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 13/26: «HITL three queues analysis report recipient» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "blocked any pending",
+      "research": [
+        {
+          "family": "Prefect",
+          "title": "Docs",
+          "url": "https://docs.prefect.io/",
+          "note": "orchestration"
+        },
+        {
+          "family": "Prefect",
+          "title": "Flows",
+          "url": "https://docs.prefect.io/v3/concepts/flows",
+          "note": "flows"
+        },
+        {
+          "family": "Airflow",
+          "title": "Core concepts",
+          "url": "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html",
+          "note": "DAGs"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 14/26: «blocked any pending» via Airflow, Prefect (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «blocked any pending».",
+      "expand_scope": "E1/E2/E3 + docs for «blocked any pending»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 14/26: «blocked any pending» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "AI proposes not closes",
+      "research": [
+        {
+          "family": "Prefect",
+          "title": "Flows",
+          "url": "https://docs.prefect.io/v3/concepts/flows",
+          "note": "flows"
+        },
+        {
+          "family": "Airflow",
+          "title": "Core concepts",
+          "url": "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html",
+          "note": "DAGs"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs workbook",
+          "url": "https://sre.google/workbook/implementing-slos/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 15/26: «AI proposes not closes» via Airflow, Google, Prefect (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «AI proposes not closes».",
+      "expand_scope": "E1/E2/E3 + docs for «AI proposes not closes»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 15/26: «AI proposes not closes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "audit action actor ts reason",
+      "research": [
+        {
+          "family": "Airflow",
+          "title": "Core concepts",
+          "url": "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html",
+          "note": "DAGs"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs workbook",
+          "url": "https://sre.google/workbook/implementing-slos/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "incidents"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 16/26: «audit action actor ts reason» via Airflow, Google (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «audit action actor ts reason».",
+      "expand_scope": "E1/E2/E3 + docs for «audit action actor ts reason»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 16/26: «audit action actor ts reason» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "reject requires reason",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs workbook",
+          "url": "https://sre.google/workbook/implementing-slos/",
+          "note": "SLO"
+        },
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "incidents"
+        },
+        {
+          "family": "12factor",
+          "title": "App methodology",
+          "url": "https://12factor.net/",
+          "note": "config logs"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 17/26: «reject requires reason» via 12factor, Google (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reject requires reason».",
+      "expand_scope": "E1/E2/E3 + docs for «reject requires reason»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 17/26: «reject requires reason» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "append-only audit",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Postmortem culture",
+          "url": "https://sre.google/sre-book/postmortem-culture/",
+          "note": "incidents"
+        },
+        {
+          "family": "12factor",
+          "title": "App methodology",
+          "url": "https://12factor.net/",
+          "note": "config logs"
+        },
+        {
+          "family": "Coursera",
+          "title": "Pipeline orchestration",
+          "url": "https://www.coursera.org/courses?query=data%20pipeline%20orchestration",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 18/26: «append-only audit» via 12factor, Coursera, Google (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «append-only audit».",
+      "expand_scope": "E1/E2/E3 + docs for «append-only audit»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 18/26: «append-only audit» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "SLO success_rate 0.95",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "App methodology",
+          "url": "https://12factor.net/",
+          "note": "config logs"
+        },
+        {
+          "family": "Coursera",
+          "title": "Pipeline orchestration",
+          "url": "https://www.coursera.org/courses?query=data%20pipeline%20orchestration",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 19/26: «SLO success_rate 0.95» via 12factor, Coursera, deeplearning.ai (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SLO success_rate 0.95».",
+      "expand_scope": "E1/E2/E3 + docs for «SLO success_rate 0.95»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 19/26: «SLO success_rate 0.95» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "P0 sends_without_approve",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Pipeline orchestration",
+          "url": "https://www.coursera.org/courses?query=data%20pipeline%20orchestration",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 20/26: «P0 sends_without_approve» via Coursera, MIT, deeplearning.ai (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «P0 sends_without_approve».",
+      "expand_scope": "E1/E2/E3 + docs for «P0 sends_without_approve»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 20/26: «P0 sends_without_approve» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "runbook disable drain page",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 21/26: «runbook disable drain page» via Harvard, MIT, deeplearning.ai (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «runbook disable drain page».",
+      "expand_scope": "E1/E2/E3 + docs for «runbook disable drain page»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 21/26: «runbook disable drain page» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "no fraud_rate dashboard",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Nygard",
+          "title": "Release It concepts",
+          "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+          "note": "stability"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 22/26: «no fraud_rate dashboard» via Harvard, MIT, Nygard (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no fraud_rate dashboard».",
+      "expand_scope": "E1/E2/E3 + docs for «no fraud_rate dashboard»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 22/26: «no fraud_rate dashboard» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "E2E ingest to draft",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Nygard",
+          "title": "Release It concepts",
+          "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+          "note": "stability"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 23/26: «E2E ingest to draft» via Harvard, Nygard, Py4E (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2E ingest to draft».",
+      "expand_scope": "E1/E2/E3 + docs for «E2E ingest to draft»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 23/26: «E2E ingest to draft» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "fraud_labels zero",
+      "research": [
+        {
+          "family": "Nygard",
+          "title": "Release It concepts",
+          "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+          "note": "stability"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 24/26: «fraud_labels zero» via Live, Nygard, Py4E (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fraud_labels zero».",
+      "expand_scope": "E1/E2/E3 + docs for «fraud_labels zero»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 24/26: «fraud_labels zero» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "value minutes saved estimate",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Prefect",
+          "title": "Docs",
+          "url": "https://docs.prefect.io/",
+          "note": "orchestration"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 25/26: «value minutes saved estimate» via Live, Prefect, Py4E (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «value minutes saved estimate».",
+      "expand_scope": "E1/E2/E3 + docs for «value minutes saved estimate»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 25/26: «value minutes saved estimate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "N2 regression CP-N2 A B C CF-2",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Prefect",
+          "title": "Docs",
+          "url": "https://docs.prefect.io/",
+          "note": "orchestration"
+        },
+        {
+          "family": "Prefect",
+          "title": "Flows",
+          "url": "https://docs.prefect.io/v3/concepts/flows",
+          "note": "flows"
+        }
+      ],
+      "synthesize": "S26 «Orquestación y VP RPA + AI Analyst» cycle 26/26: «N2 regression CP-N2 A B C CF-2» via Live, Prefect (CP-N2-C VP close / regresión N2).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «N2 regression CP-N2 A B C CF-2».",
+      "expand_scope": "E1/E2/E3 + docs for «N2 regression CP-N2 A B C CF-2»; V3 roadmap; pair S26 closes N2 → S27 next band.",
+      "re_synthesize": "Decision 26/26: «N2 regression CP-N2 A B C CF-2» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

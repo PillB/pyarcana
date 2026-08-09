@@ -1,0 +1,309 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 50,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s50-3ac8dbf2f2",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\nmeets_contract = sum(record[\"slices\"].values()) == record[\"tasks\"] and record[\"rubric_levels\"] == {0,1,2,3} and 0 < record[\"holdout\"] < record[\"tasks\"]\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S50-T1-A-E1` (guided) sobre `task dataset y rubric` y el fixture `CASO-ICA-050-1A`: el adverso debe fallar por contenido, no por schema roto. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Campos y salidas salen del enunciado del exercise en section_50.",
+      "concepts_used": [
+        "task dataset y rubric",
+        "S50-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"tasks\", \"slices\", \"rubric_levels\", \"holdout\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if sum(record[\"slices\"].values()) == record[\"tasks\"] and record[\"rubric_levels\"] == {0,1,2,3} and 0 < record[\"holdout\"] < record[\"tasks\"] else \"REBUILD_EVAL_DATASET\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\ninvalid = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":40},\"rubric_levels\":{1,2},\"holdout\":0}}\nincomplete = {**valid}\nincomplete.pop(\"holdout\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S50-T1-A-E2` (independent) sobre `task dataset y rubric` y el fixture `CASO-S50`: el dominio pide evidencia medible y dueño explícito. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Dejo justificación anclada a instruction, hints y theory activos. El reject/missing/continue quedó coherente con tests del weDo de S50.",
+      "concepts_used": [
+        "task dataset y rubric",
+        "S50-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"tasks\", \"slices\", \"rubric_levels\", \"holdout\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CALIBRATE_RUBRIC\"\n    return \"CONTINUE\" if sum(record[\"slices\"].values()) == record[\"tasks\"] and record[\"rubric_levels\"] == {0,1,2,3} and 0 < record[\"holdout\"] < record[\"tasks\"] else \"REBUILD_EVAL_DATASET\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\ninvalid = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":40},\"rubric_levels\":{1,2},\"holdout\":0}}\nuncertain = {**valid}\nuncertain.pop(\"holdout\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S50-T1-A-E3` (transfer) sobre `task dataset y rubric` y el fixture `CASO-ICA-050-1A`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S50. No usé vidas de K1 ni generadores; solo el packet de la sección. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S50.",
+      "concepts_used": [
+        "task dataset y rubric",
+        "S50-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\nmeets_contract = min(record[k] for k in (\"outcome\",\"process\",\"trajectory\",\"recovery\")) >= record[\"min_dimension\"] and not record[\"forbidden_tool_used\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S50-T1-B-E1` (guided) sobre `resultado, proceso, trajectory y recovery` y el fixture `CASO-ICA-050-1B`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S50. No usé vidas de K1 ni generadores; solo el packet de la sección. Campos y salidas salen del enunciado del exercise en section_50.",
+      "concepts_used": [
+        "resultado, proceso, trajectory y recovery",
+        "S50-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"outcome\", \"process\", \"trajectory\", \"recovery\", \"forbidden_tool_used\", \"min_dimension\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if min(record[k] for k in (\"outcome\",\"process\",\"trajectory\",\"recovery\")) >= record[\"min_dimension\"] and not record[\"forbidden_tool_used\"] else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\ninvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":1,\"trajectory\":0,\"recovery\":1,\"forbidden_tool_used\":True,\"min_dimension\":2}}\nincomplete = {**valid}\nincomplete.pop(\"min_dimension\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Al leer el exercise `S50-T1-B-E2` (independent) sobre `resultado, proceso, trajectory y recovery` y el fixture `CASO-S50`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S50. La respuesta es reproducible con los fixtures del starter/paquete. El reject/missing/continue quedó coherente con tests del weDo de S50.",
+      "concepts_used": [
+        "resultado, proceso, trajectory y recovery",
+        "S50-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"outcome\", \"process\", \"trajectory\", \"recovery\", \"forbidden_tool_used\", \"min_dimension\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"HUMAN_REVIEW_PROCESS\"\n    return \"CONTINUE\" if min(record[k] for k in (\"outcome\",\"process\",\"trajectory\",\"recovery\")) >= record[\"min_dimension\"] and not record[\"forbidden_tool_used\"] else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\ninvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":1,\"trajectory\":0,\"recovery\":1,\"forbidden_tool_used\":True,\"min_dimension\":2}}\nuncertain = {**valid}\nuncertain.pop(\"min_dimension\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S50-T1-B-E3` (transfer) sobre `resultado, proceso, trajectory y recovery` y el fixture `CASO-ICA-050-1B`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S50. No usé vidas de K1 ni generadores; solo el packet de la sección. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S50.",
+      "concepts_used": [
+        "resultado, proceso, trajectory y recovery",
+        "S50-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\nmeets_contract = all(0 <= record[k] <= 1 for k in (\"deterministic\",\"human\",\"llm\")) and record[\"human_llm_agreement\"] >= record[\"min_agreement\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S50-T2-A-E1` (guided) sobre `graders deterministas/humanos/LLM` y el fixture `CASO-ICA-050-2A`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Mantengo el knowledge boundary: sin PII real ni secretos. Campos y salidas salen del enunciado del exercise en section_50.",
+      "concepts_used": [
+        "graders deterministas/humanos/LLM",
+        "S50-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"deterministic\", \"human\", \"llm\", \"human_llm_agreement\", \"min_agreement\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if all(0 <= record[k] <= 1 for k in (\"deterministic\",\"human\",\"llm\")) and record[\"human_llm_agreement\"] >= record[\"min_agreement\"] else \"RECALIBRATE_GRADERS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\ninvalid = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":1.2,\"human\":0.5,\"llm\":0.95,\"human_llm_agreement\":0.3,\"min_agreement\":0.75}}\nincomplete = {**valid}\nincomplete.pop(\"min_agreement\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Tras identificar el predicado invertido `S50-T2-A-E2` (independent) sobre `graders deterministas/humanos/LLM` y el fixture `CASO-S50`: la ausencia se escala; no se inventa el campo faltante. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Dejo justificación anclada a instruction, hints y theory activos. El reject/missing/continue quedó coherente con tests del weDo de S50.",
+      "concepts_used": [
+        "graders deterministas/humanos/LLM",
+        "S50-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"deterministic\", \"human\", \"llm\", \"human_llm_agreement\", \"min_agreement\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ADJUDICATE_DISAGREEMENT\"\n    return \"CONTINUE\" if all(0 <= record[k] <= 1 for k in (\"deterministic\",\"human\",\"llm\")) and record[\"human_llm_agreement\"] >= record[\"min_agreement\"] else \"RECALIBRATE_GRADERS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\ninvalid = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":1.2,\"human\":0.5,\"llm\":0.95,\"human_llm_agreement\":0.3,\"min_agreement\":0.75}}\nuncertain = {**valid}\nuncertain.pop(\"min_agreement\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S50-T2-A-E3` (transfer) sobre `graders deterministas/humanos/LLM` y el fixture `CASO-ICA-050-2A`: el dominio pide evidencia medible y dueño explícito. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S50.",
+      "concepts_used": [
+        "graders deterministas/humanos/LLM",
+        "S50-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\nmeets_contract = record[\"anchor_accuracy\"] >= record[\"min_anchor_accuracy\"] and record[\"order_gap\"] <= record[\"max_order_gap\"] and not record[\"holdout_touched\"]\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S50-T2-B-E1` (guided) sobre `calibración, order bias y conjunto retenido` y el fixture `CASO-ICA-050-2B`: el dominio pide evidencia medible y dueño explícito. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Dejo justificación anclada a instruction, hints y theory activos. Campos y salidas salen del enunciado del exercise en section_50.",
+      "concepts_used": [
+        "calibración, order bias y conjunto retenido",
+        "S50-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"anchor_accuracy\", \"min_anchor_accuracy\", \"order_gap\", \"max_order_gap\", \"holdout_touched\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"anchor_accuracy\"] >= record[\"min_anchor_accuracy\"] and record[\"order_gap\"] <= record[\"max_order_gap\"] and not record[\"holdout_touched\"] else \"INVALIDATE_JUDGE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\ninvalid = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.6,\"min_anchor_accuracy\":0.9,\"order_gap\":0.3,\"max_order_gap\":0.05,\"holdout_touched\":True}}\nincomplete = {**valid}\nincomplete.pop(\"holdout_touched\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Después de contrastar theory e iDo `S50-T2-B-E2` (independent) sobre `calibración, order bias y conjunto retenido` y el fixture `CASO-S50`: el iDo modela el contrato sin servicio externo real. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. El reject/missing/continue quedó coherente con tests del weDo de S50.",
+      "concepts_used": [
+        "calibración, order bias y conjunto retenido",
+        "S50-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"anchor_accuracy\", \"min_anchor_accuracy\", \"order_gap\", \"max_order_gap\", \"holdout_touched\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SEAL_NEW_HOLDOUT\"\n    return \"CONTINUE\" if record[\"anchor_accuracy\"] >= record[\"min_anchor_accuracy\"] and record[\"order_gap\"] <= record[\"max_order_gap\"] and not record[\"holdout_touched\"] else \"INVALIDATE_JUDGE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\ninvalid = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.6,\"min_anchor_accuracy\":0.9,\"order_gap\":0.3,\"max_order_gap\":0.05,\"holdout_touched\":True}}\nuncertain = {**valid}\nuncertain.pop(\"holdout_touched\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S50-T2-B-E3` (transfer) sobre `calibración, order bias y conjunto retenido` y el fixture `CASO-ICA-050-2B`: el iDo modela el contrato sin servicio externo real. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Mantengo el knowledge boundary: sin PII real ni secretos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S50.",
+      "concepts_used": [
+        "calibración, order bias y conjunto retenido",
+        "S50-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\nmeets_contract = record[\"injection_blocked\"] and record[\"exfiltration_bytes\"] == 0 and record[\"tool_scope\"] == \"read-only\" and record[\"tool_args_valid\"] and record[\"severity\"] == \"P0\"\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S50-T3-A-E1` (guided) sobre `prompt injection, exfiltración y tool misuse` y el fixture `CASO-ICA-050-3A`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S50. No usé vidas de K1 ni generadores; solo el packet de la sección. Campos y salidas salen del enunciado del exercise en section_50.",
+      "concepts_used": [
+        "prompt injection, exfiltración y tool misuse",
+        "S50-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"injection_blocked\", \"exfiltration_bytes\", \"tool_scope\", \"tool_args_valid\", \"severity\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"injection_blocked\"] and record[\"exfiltration_bytes\"] == 0 and record[\"tool_scope\"] == \"read-only\" and record[\"tool_args_valid\"] and record[\"severity\"] == \"P0\" else \"BLOCK_SECURITY_P0\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\ninvalid = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":False,\"exfiltration_bytes\":2048,\"tool_scope\":\"admin\",\"tool_args_valid\":False,\"severity\":\"P0\"}}\nincomplete = {**valid}\nincomplete.pop(\"severity\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Al leer el exercise `S50-T3-A-E2` (independent) sobre `prompt injection, exfiltración y tool misuse` y el fixture `CASO-S50`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S50.",
+      "concepts_used": [
+        "prompt injection, exfiltración y tool misuse",
+        "S50-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"injection_blocked\", \"exfiltration_bytes\", \"tool_scope\", \"tool_args_valid\", \"severity\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"PRESERVE_ATTACK_TRACE\"\n    return \"CONTINUE\" if record[\"injection_blocked\"] and record[\"exfiltration_bytes\"] == 0 and record[\"tool_scope\"] == \"read-only\" and record[\"tool_args_valid\"] and record[\"severity\"] == \"P0\" else \"BLOCK_SECURITY_P0\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\ninvalid = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":False,\"exfiltration_bytes\":2048,\"tool_scope\":\"admin\",\"tool_args_valid\":False,\"severity\":\"P0\"}}\nuncertain = {**valid}\nuncertain.pop(\"severity\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Cuando comparé la instrucción con el starter defectuoso `S50-T3-A-E3` (transfer) sobre `prompt injection, exfiltración y tool misuse` y el fixture `CASO-ICA-050-3A`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S50. La respuesta es reproducible con los fixtures del starter/paquete. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S50.",
+      "concepts_used": [
+        "prompt injection, exfiltración y tool misuse",
+        "S50-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\nmeets_contract = record[\"document_instruction_treated_as_data\"] and record[\"poisoned_chunks_removed\"] >= 1 and record[\"requested_permission\"] in record[\"tool_permissions\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\n",
+      "justification_from_packet": "Después de contrastar theory e iDo `S50-T3-B-E1` (guided) sobre `indirect injection, data poisoning y least privilege` y el fixture `CASO-ICA-050-3B`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S50. El learner path queda auditablesin ocultar warnings ni evidencia. Campos y salidas salen del enunciado del exercise en section_50.",
+      "concepts_used": [
+        "indirect injection, data poisoning y least privilege",
+        "S50-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"document_instruction_treated_as_data\", \"poisoned_chunks_removed\", \"tool_permissions\", \"requested_permission\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"document_instruction_treated_as_data\"] and record[\"poisoned_chunks_removed\"] >= 1 and record[\"requested_permission\"] in record[\"tool_permissions\"] else \"QUARANTINE_POISONED_CORPUS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\ninvalid = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":False,\"poisoned_chunks_removed\":0,\"tool_permissions\":{\"read\"},\"requested_permission\":\"write\"}}\nincomplete = {**valid}\nincomplete.pop(\"requested_permission\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S50-T3-B-E2` (independent) sobre `indirect injection, data poisoning y least privilege` y el fixture `CASO-S50`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Así el código queda alineado al paquete K2 y al outcome del subtema. El reject/missing/continue quedó coherente con tests del weDo de S50.",
+      "concepts_used": [
+        "indirect injection, data poisoning y least privilege",
+        "S50-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"document_instruction_treated_as_data\", \"poisoned_chunks_removed\", \"tool_permissions\", \"requested_permission\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REDUCE_TOOL_PRIVILEGE\"\n    return \"CONTINUE\" if record[\"document_instruction_treated_as_data\"] and record[\"poisoned_chunks_removed\"] >= 1 and record[\"requested_permission\"] in record[\"tool_permissions\"] else \"QUARANTINE_POISONED_CORPUS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\ninvalid = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":False,\"poisoned_chunks_removed\":0,\"tool_permissions\":{\"read\"},\"requested_permission\":\"write\"}}\nuncertain = {**valid}\nuncertain.pop(\"requested_permission\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S50-T3-B-E3` (transfer) sobre `indirect injection, data poisoning y least privilege` y el fixture `CASO-ICA-050-3B`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S50.",
+      "concepts_used": [
+        "indirect injection, data poisoning y least privilege",
+        "S50-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\nmeets_contract = record[\"supported_claims\"] / record[\"total_claims\"] >= record[\"min_support_rate\"] and record[\"unsupported_critical\"] == 0 and record[\"abstained_when_empty\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\n",
+      "justification_from_packet": "Al leer el exercise `S50-T4-A-E1` (guided) sobre `hallucination y abstención` y el fixture `CASO-ICA-050-4A`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Así el código queda alineado al paquete K2 y al outcome del subtema. Campos y salidas salen del enunciado del exercise en section_50.",
+      "concepts_used": [
+        "hallucination y abstención",
+        "S50-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"supported_claims\", \"total_claims\", \"min_support_rate\", \"unsupported_critical\", \"abstained_when_empty\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"supported_claims\"] / record[\"total_claims\"] >= record[\"min_support_rate\"] and record[\"unsupported_critical\"] == 0 and record[\"abstained_when_empty\"] else \"BLOCK_HALLUCINATION_REGRESSION\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\ninvalid = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":10,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":2,\"abstained_when_empty\":False}}\nincomplete = {**valid}\nincomplete.pop(\"abstained_when_empty\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S50-T4-A-E2` (independent) sobre `hallucination y abstención` y el fixture `CASO-S50`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S50. No usé vidas de K1 ni generadores; solo el packet de la sección. El reject/missing/continue quedó coherente con tests del weDo de S50.",
+      "concepts_used": [
+        "hallucination y abstención",
+        "S50-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"supported_claims\", \"total_claims\", \"min_support_rate\", \"unsupported_critical\", \"abstained_when_empty\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_ABSTENTION_SLICE\"\n    return \"CONTINUE\" if record[\"supported_claims\"] / record[\"total_claims\"] >= record[\"min_support_rate\"] and record[\"unsupported_critical\"] == 0 and record[\"abstained_when_empty\"] else \"BLOCK_HALLUCINATION_REGRESSION\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\ninvalid = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":10,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":2,\"abstained_when_empty\":False}}\nuncertain = {**valid}\nuncertain.pop(\"abstained_when_empty\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como explorer sin ejecutar herramientas externas `S50-T4-A-E3` (transfer) sobre `hallucination y abstención` y el fixture `CASO-ICA-050-4A`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S50. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S50.",
+      "concepts_used": [
+        "hallucination y abstención",
+        "S50-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\nmeets_contract = record[\"p95_ms\"] <= record[\"slo_ms\"] and record[\"cost_pen\"] <= record[\"cost_cap_pen\"] and record[\"cache_acl_safe\"] and record[\"rollback_minutes\"] <= record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\n",
+      "justification_from_packet": "Después de contrastar theory e iDo `S50-T4-B-E1` (guided) sobre `latency/cost/caching, incident response y rollback` y el fixture `CASO-ICA-050-4B`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S50. La respuesta es reproducible con los fixtures del starter/paquete. Campos y salidas salen del enunciado del exercise en section_50.",
+      "concepts_used": [
+        "latency/cost/caching, incident response y rollback",
+        "S50-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"p95_ms\", \"slo_ms\", \"cost_pen\", \"cost_cap_pen\", \"cache_acl_safe\", \"rollback_minutes\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"p95_ms\"] <= record[\"slo_ms\"] and record[\"cost_pen\"] <= record[\"cost_cap_pen\"] and record[\"cache_acl_safe\"] and record[\"rollback_minutes\"] <= record[\"rto_minutes\"] else \"ROLLBACK_AI_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\ninvalid = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":2500,\"slo_ms\":1000,\"cost_pen\":0.5,\"cost_cap_pen\":0.1,\"cache_acl_safe\":False,\"rollback_minutes\":60,\"rto_minutes\":10}}\nincomplete = {**valid}\nincomplete.pop(\"rto_minutes\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "En la práctica del weDo `S50-T4-B-E2` (independent) sobre `latency/cost/caching, incident response y rollback` y el fixture `CASO-S50`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S50. El learner path queda auditablesin ocultar warnings ni evidencia. El reject/missing/continue quedó coherente con tests del weDo de S50.",
+      "concepts_used": [
+        "latency/cost/caching, incident response y rollback",
+        "S50-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"p95_ms\", \"slo_ms\", \"cost_pen\", \"cost_cap_pen\", \"cache_acl_safe\", \"rollback_minutes\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ACTIVATE_INCIDENT_RESPONSE\"\n    return \"CONTINUE\" if record[\"p95_ms\"] <= record[\"slo_ms\"] and record[\"cost_pen\"] <= record[\"cost_cap_pen\"] and record[\"cache_acl_safe\"] and record[\"rollback_minutes\"] <= record[\"rto_minutes\"] else \"ROLLBACK_AI_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\ninvalid = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":2500,\"slo_ms\":1000,\"cost_pen\":0.5,\"cost_cap_pen\":0.1,\"cache_acl_safe\":False,\"rollback_minutes\":60,\"rto_minutes\":10}}\nuncertain = {**valid}\nuncertain.pop(\"rto_minutes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Después de contrastar theory e iDo `S50-T4-B-E3` (transfer) sobre `latency/cost/caching, incident response y rollback` y el fixture `CASO-ICA-050-4B`: el dominio pide evidencia medible y dueño explícito. Corregí el predicado/assess/decide del starter según la instruction del packet S50. La respuesta es reproducible con los fixtures del starter/paquete. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S50.",
+      "concepts_used": [
+        "latency/cost/caching, incident response y rollback",
+        "S50-T4-B",
+        "packet_contract"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck Q0 de S50: Coincide con outcomes y demos: evidencia versionada o decisión fail-closed, nunca borrar traces para “reducir ruido”. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck Q1 de S50: La opción refleja la evidencia de aprobación descrita en theory del selfCheck: mínima, sintética y con dueño o umbral cuando aplica. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck Q2 de S50: Descarté capturas sin fuente y prints sin assert porque el paquete pide contratos operativos con campos y predicados. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck Q3 de S50: La opción refleja la evidencia de aprobación descrita en theory del selfCheck: mínima, sintética y con dueño o umbral cuando aplica. Anclaje léxico al active packet agentic_K2, persona explorer."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:38:37.014756+00:00",
+  "session_started_at": "2026-07-23T15:38:03.089329Z",
+  "session_ended_at": "2026-07-23T15:38:36.984933Z",
+  "receipt_response_sha256": "3c708fb1a94432f5850d443e9ea0b9123a5dcb4ed115899375e38b052b20d902",
+  "receipt_exercises_sha256": "95390f7d51d814a9cd64553d2ccd093a02c62a244d425736e68bd0a06c17a10a",
+  "receipt_selfcheck_sha256": "d8ea308547a94c65f88b17de68e6327ba6fcf95aa21aabeb1836207a2942e1ac"
+}

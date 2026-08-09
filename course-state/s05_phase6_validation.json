@@ -1,0 +1,214 @@
+{
+  "version": "3.2",
+  "section": "S05",
+  "section_id": "oop",
+  "phase": "PHASE_6",
+  "lane": "LANE-N1-CLOSE",
+  "role": "Isolated Validator (lightweight)",
+  "generated_at": "2026-07-20T15:10:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s05-oop.ts",
+    "prisma/seed.ts (oop)"
+  ],
+  "status": "passed",
+  "summary": "S05 sub=8 demos=8 ex=24 exam=24; fields=24/24; snippets=3; authorized_to_close_section=True",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S05-T1-A",
+        "S05-T1-B",
+        "S05-T2-A",
+        "S05-T2-B",
+        "S05-T3-A",
+        "S05-T3-B",
+        "S05-T4-A",
+        "S05-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S05-T1-A-DEMO",
+        "S05-T1-B-DEMO",
+        "S05-T2-A-DEMO",
+        "S05-T2-B-DEMO",
+        "S05-T3-A-DEMO",
+        "S05-T3-B-DEMO",
+        "S05-T4-A-DEMO",
+        "S05-T4-B-DEMO"
+      ]
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S05-T1-A-E1",
+        "S05-T1-A-E2",
+        "S05-T1-A-E3",
+        "S05-T1-B-E1",
+        "S05-T1-B-E2",
+        "S05-T1-B-E3",
+        "S05-T2-A-E1",
+        "S05-T2-A-E2",
+        "S05-T2-A-E3",
+        "S05-T2-B-E1",
+        "S05-T2-B-E2",
+        "S05-T2-B-E3",
+        "S05-T3-A-E1",
+        "S05-T3-A-E2",
+        "S05-T3-A-E3",
+        "S05-T3-B-E1",
+        "S05-T3-B-E2",
+        "S05-T3-B-E3",
+        "S05-T4-A-E1",
+        "S05-T4-A-E2",
+        "S05-T4-A-E3",
+        "S05-T4-B-E1",
+        "S05-T4-B-E2",
+        "S05-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "field_counts": {
+        "solutionCode": 24,
+        "starterCode": 24,
+        "hints": 24,
+        "edgeCases": 24,
+        "per_exercise_complete": 24
+      },
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK['oop']",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "def-call-return",
+        "params-safe-defaults",
+        "prepost-docstrings",
+        "type-hints-domain-errors",
+        "small-functions-compose",
+        "purity-io-injection",
+        "legb-closures",
+        "examples-refactor"
+      ]
+    },
+    "youDo": {
+      "title_present": true,
+      "cp_mentions": 9,
+      "has_objectives": true,
+      "has_requirements": true,
+      "has_rubric": true,
+      "has_starterCode": true
+    },
+    "selfCheck_present": true
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "['S05-T1-A', 'S05-T1-B', 'S05-T2-A', 'S05-T2-B', 'S05-T3-A', 'S05-T3-B', 'S05-T4-A', 'S05-T4-B']"
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "['S05-T1-A-DEMO', 'S05-T1-B-DEMO', 'S05-T2-A-DEMO', 'S05-T2-B-DEMO', 'S05-T3-A-DEMO', 'S05-T3-B-DEMO', 'S05-T4-A-DEMO', 'S05-T4-B-DEMO']"
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "24; weDo solutionCode=24"
+    },
+    {
+      "id": "FIELDS-COMPLETE",
+      "pass": true,
+      "evidence": "per-exercise complete=24/24 missing=[]; sol_extracted=24; hints=24 edge=24 starter=24"
+    },
+    {
+      "id": "SEED-OOP-8x3",
+      "pass": true,
+      "evidence": "24; ['def-call-return', 'params-safe-defaults', 'prepost-docstrings', 'type-hints-domain-errors', 'small-functions-compose', 'purity-io-injection', 'legb-closures', 'examples-refactor']"
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "8×3 MCQ-4 es-PE"
+    },
+    {
+      "id": "SNIPPET-EXEC",
+      "pass": true,
+      "evidence": "3 snippets executed OK"
+    },
+    {
+      "id": "YOUDO-PRESENT",
+      "pass": true,
+      "evidence": "{'title_present': True, 'cp_mentions': 9, 'has_objectives': True, 'has_requirements': True, 'has_rubric': True, 'has_starterCode': True}"
+    },
+    {
+      "id": "SELFCHECK-PRESENT",
+      "pass": true,
+      "evidence": "True"
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Synthetic data policy OK"
+    },
+    {
+      "id": "SNIPPET-OK-1",
+      "pass": true,
+      "evidence": "S05-SOL-1: def doble(n): → '42\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-2",
+      "pass": true,
+      "evidence": "S05-SOL-2: def normalize_nombre(raw): → 'Juan Pérez\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-3",
+      "pass": true,
+      "evidence": "S05-SOL-3: def saluda(nombre): → 'Hola Ana\\n'"
+    }
+  ],
+  "snippet_execution": {
+    "solutionCode_extracted": 24,
+    "successes": [
+      {
+        "label": "S05-SOL-1",
+        "head": "def doble(n):",
+        "stdout_preview": "42\n"
+      },
+      {
+        "label": "S05-SOL-2",
+        "head": "def normalize_nombre(raw):",
+        "stdout_preview": "Juan Pérez\n"
+      },
+      {
+        "label": "S05-SOL-3",
+        "head": "def saluda(nombre):",
+        "stdout_preview": "Hola Ana\n"
+      }
+    ],
+    "failures_sample": []
+  },
+  "issues_found": [],
+  "authorized_to_close_section": true,
+  "notes_non_blocking": [
+    "Regex inventory supports single OR double quotes.",
+    "Hints ≥2 counted with string-aware bracket scan (handles ] inside hint text).",
+    "Snippets prefer solutionCode; fallbacks only if host cannot exec extracted TS templates.",
+    "Does not edit checkpoint/section_ledger."
+  ]
+}

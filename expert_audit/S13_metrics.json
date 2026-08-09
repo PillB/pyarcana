@@ -1,0 +1,735 @@
+{
+  "global": {
+    "n_paragraphs": 50,
+    "n_sentences": 151,
+    "n_words": 2614,
+    "WPS": 17.31,
+    "SPW": 1.98,
+    "FH": 70.5,
+    "INFLESZ": 66.3
+  },
+  "paragraphs": [
+    {
+      "pi": 1,
+      "n_sent": 2,
+      "wps": 27.0,
+      "spw": 2.24,
+      "FH": 44.9,
+      "INFLESZ": 40.2,
+      "issues": [],
+      "preview": "Aquí cierras CP-N1-C con un Familiarity Evidence Dashboard: entity resolution por reglas, señales de"
+    },
+    {
+      "pi": 2,
+      "n_sent": 4,
+      "wps": 11.5,
+      "spw": 2.04,
+      "FH": 72.5,
+      "INFLESZ": 68.0,
+      "issues": [],
+      "preview": "Promoción de nivel: tres capstones N1, regresión S01–S13 (level-1) y CF-1 aprobados. Solo datos sint"
+    },
+    {
+      "pi": 3,
+      "n_sent": 3,
+      "wps": 15.67,
+      "spw": 2.09,
+      "FH": 65.8,
+      "INFLESZ": 61.3,
+      "issues": [],
+      "preview": "Desde S12 ya traes HTTP con timeout/retry, SQL parametrizado y geoseñal con política de egress (solo"
+    },
+    {
+      "pi": 4,
+      "n_sent": 5,
+      "wps": 24.4,
+      "spw": 1.87,
+      "FH": 69.8,
+      "INFLESZ": 66.0,
+      "issues": [
+        {
+          "sev": "H",
+          "kind": "run-on >45w",
+          "ev": "50 words",
+          "sent": "Diccionario de la sección: blocking acota pares candidatos antes de reglas finas; cola clerical es la bandeja humana de "
+        }
+      ],
+      "preview": "Orden de estudio: T1 Identidad (ER) → T2 Relación → T3 Decisión → T4 Producto/ops + CF-1. Métrica de"
+    },
+    {
+      "pi": 5,
+      "n_sent": 3,
+      "wps": 9.67,
+      "spw": 2.24,
+      "FH": 62.5,
+      "INFLESZ": 57.5,
+      "issues": [],
+      "preview": "El objetivo de S13 es el dashboard de evidencia + cierre N1. Solo datos sintéticos; nunca PII real; "
+    },
+    {
+      "pi": 6,
+      "n_sent": 5,
+      "wps": 11.0,
+      "spw": 2.09,
+      "FH": 70.2,
+      "INFLESZ": 65.6,
+      "issues": [],
+      "preview": "Ancla: entity resolution (ER) responde ¿es la misma entidad en dos filas? No responde ¿son familia? "
+    },
+    {
+      "pi": 7,
+      "n_sent": 5,
+      "wps": 17.0,
+      "spw": 2.06,
+      "FH": 66.0,
+      "INFLESZ": 61.6,
+      "issues": [],
+      "preview": "Mecanismo — blocking: el producto cartesiano de N registros es N×N pares; con miles de filas es invi"
+    },
+    {
+      "pi": 8,
+      "n_sent": 3,
+      "wps": 23.67,
+      "spw": 1.96,
+      "FH": 65.2,
+      "INFLESZ": 61.2,
+      "issues": [],
+      "preview": "Trabajo guiado: ER determinista por reglas produce entity_resolution_score ∈ [0,1]. Contrato típico "
+    },
+    {
+      "pi": 9,
+      "n_sent": 3,
+      "wps": 16.0,
+      "spw": 1.88,
+      "FH": 78.0,
+      "INFLESZ": 74.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "No uses embeddings, sklearn ni ER probabilístico aquí (eso es tramo posterior, p."
+        }
+      ],
+      "preview": "Borde / fail-closed: si falta document_id, el nombre está vacío o el bloque queda sin tokens, no inv"
+    },
+    {
+      "pi": 10,
+      "n_sent": 2,
+      "wps": 6.0,
+      "spw": 2.0,
+      "FH": 80.7,
+      "INFLESZ": 76.2,
+      "issues": [],
+      "preview": "entity_resolution_score ≠ relationship_signal_score. La UI debe mostrarlos aparte. Blocking N1: apel"
+    },
+    {
+      "pi": 11,
+      "n_sent": 4,
+      "wps": 17.25,
+      "spw": 1.72,
+      "FH": 85.8,
+      "INFLESZ": 82.1,
+      "issues": [],
+      "preview": "Ancla: sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares sintéticos etiquetados calcu"
+    },
+    {
+      "pi": 12,
+      "n_sent": 6,
+      "wps": 11.33,
+      "spw": 1.94,
+      "FH": 78.8,
+      "INFLESZ": 74.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "Scores en banda intermedia (p."
+        },
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "0 vs 1",
+          "sent": "ej. [0.4, 0.7]) nunca auto-mergean: van a revisión."
+        }
+      ],
+      "preview": "Mecanismo y trade-off: en ER de alto riesgo (crédito, compliance) priorizas precision: un merge fals"
+    },
+    {
+      "pi": 13,
+      "n_sent": 3,
+      "wps": 18.33,
+      "spw": 1.84,
+      "FH": 78.0,
+      "INFLESZ": 74.1,
+      "issues": [],
+      "preview": "Caso trabajado: tabla de 6 pares sintéticos con 2 TP, 1 FP y 1 FN → precision 0.667 y recall 0.667. "
+    },
+    {
+      "pi": 14,
+      "n_sent": 3,
+      "wps": 18.33,
+      "spw": 1.8,
+      "FH": 80.1,
+      "INFLESZ": 76.4,
+      "issues": [],
+      "preview": "Borde ético: un FP no implica fraude. Es colisión de identidad estimada (dos personas, un score alto"
+    },
+    {
+      "pi": 15,
+      "n_sent": 1,
+      "wps": 13.0,
+      "spw": 2.31,
+      "FH": 55.1,
+      "INFLESZ": 50.1,
+      "issues": [],
+      "preview": "False positive de ER es colisión de identidad estimada, no evidencia de delito."
+    },
+    {
+      "pi": 16,
+      "n_sent": 6,
+      "wps": 8.17,
+      "spw": 2.35,
+      "FH": 57.7,
+      "INFLESZ": 52.5,
+      "issues": [],
+      "preview": "Ancla: el score de relación responde ¿hay indicios de familiaridad operativa entre dos entidades? (c"
+    },
+    {
+      "pi": 17,
+      "n_sent": 4,
+      "wps": 16.75,
+      "spw": 2.1,
+      "FH": 63.5,
+      "INFLESZ": 59.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "En ejercicios de práctica puedes usar una variante (p."
+        },
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "0 vs 1",
+          "sent": "ej. solo geo+apellido 0.6/0.4) si la instruction lo declara; no inventes una tercera fórmula sin etiquetarla."
+        }
+      ],
+      "preview": "Mecanismo — fórmula canónica N1: rel = 0.5*shared_phone + 0.3*geo_close + 0.2*surname_jaccard (pesos"
+    },
+    {
+      "pi": 18,
+      "n_sent": 3,
+      "wps": 15.67,
+      "spw": 1.98,
+      "FH": 72.1,
+      "INFLESZ": 67.9,
+      "issues": [],
+      "preview": "Caso trabajado: teléfono compartido + km=1.2 en ambos + Jaccard de tokens de apellido 0.2 → relation"
+    },
+    {
+      "pi": 19,
+      "n_sent": 3,
+      "wps": 14.67,
+      "spw": 1.95,
+      "FH": 74.6,
+      "INFLESZ": 70.4,
+      "issues": [],
+      "preview": "Borde / fail-closed: si falta el campo de una señal con peso no cero, no inventes True ni un km «pro"
+    },
+    {
+      "pi": 20,
+      "n_sent": 2,
+      "wps": 7.5,
+      "spw": 2.27,
+      "FH": 63.2,
+      "INFLESZ": 58.1,
+      "issues": [],
+      "preview": "Prohibido setear is_family automáticamente en N1. Canónico N1: rel = 0.5*phone + 0.3*geo + 0.2*jacca"
+    },
+    {
+      "pi": 21,
+      "n_sent": 2,
+      "wps": 23.0,
+      "spw": 1.98,
+      "FH": 64.7,
+      "INFLESZ": 60.6,
+      "issues": [],
+      "preview": "Ancla: transacciones directas A↔B y contrapartes comunes (A y C pagan a D) son evidencia de relación"
+    },
+    {
+      "pi": 22,
+      "n_sent": 2,
+      "wps": 25.0,
+      "spw": 2.18,
+      "FH": 50.5,
+      "INFLESZ": 46.0,
+      "issues": [],
+      "preview": "Mecanismo: modela un graphlet simple (lista de triples emisor–receptor–monto) y emite objetos con ty"
+    },
+    {
+      "pi": 23,
+      "n_sent": 3,
+      "wps": 12.0,
+      "spw": 1.83,
+      "FH": 84.6,
+      "INFLESZ": 80.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced []",
+          "ev": "1 vs 0",
+          "sent": "Caso trabajado: A↔B con 2 txs y A,C→D → lista [{type: direct_tx, …"
+        },
+        {
+          "sev": "M",
+          "kind": "unbalanced []",
+          "ev": "1 vs 2",
+          "sent": "n:2}, {type: common_counterparty, via:['D']}] y collusion_claim=False fijo en el demo."
+        }
+      ],
+      "preview": "Caso trabajado: A↔B con 2 txs y A,C→D → lista [{type: direct_tx, … n:2}, {type: common_counterparty,"
+    },
+    {
+      "pi": 24,
+      "n_sent": 2,
+      "wps": 22.0,
+      "spw": 2.05,
+      "FH": 61.7,
+      "INFLESZ": 57.4,
+      "issues": [],
+      "preview": "Borde: si el grafo está vacío o un nodo no tiene vecinos, devuelve lista vacía o via=[] — no invente"
+    },
+    {
+      "pi": 25,
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 1.92,
+      "FH": 79.6,
+      "INFLESZ": 75.4,
+      "issues": [],
+      "preview": "La UI y el runbook deben repetir: sin claim de colusión automática."
+    },
+    {
+      "pi": 26,
+      "n_sent": 3,
+      "wps": 18.0,
+      "spw": 1.85,
+      "FH": 77.4,
+      "INFLESZ": 73.5,
+      "issues": [],
+      "preview": "Ancla: la ficha de caso es el artefacto que lee un humano. No basta con un número: necesitas tres sa"
+    },
+    {
+      "pi": 27,
+      "n_sent": 3,
+      "wps": 17.67,
+      "spw": 1.81,
+      "FH": 80.1,
+      "INFLESZ": 76.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "Auditoría mínima: lista missing + rules_version (p."
+        }
+      ],
+      "preview": "Mecanismo: combina ER y relación con pesos explícitos (canónico de ficha: 0.6·ER + 0.4·REL). Uncerta"
+    },
+    {
+      "pi": 28,
+      "n_sent": 2,
+      "wps": 21.0,
+      "spw": 2.0,
+      "FH": 65.4,
+      "INFLESZ": 61.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "33 words",
+          "sent": "Caso trabajado: explain(0.9, 0.4, [\"phone\"]) → evidence_score 0.7, uncertainty med (falta teléfono; el gap |0.9−0.4|=0.5"
+        },
+        {
+          "sev": "L",
+          "kind": "high comma density",
+          "ev": "6 commas / 33w",
+          "sent": "Caso trabajado: explain(0.9, 0.4, [\"phone\"]) → evidence_score 0.7, uncertainty med (falta teléfono; el gap |0.9−0.4|=0.5"
+        }
+      ],
+      "preview": "Caso trabajado: explain(0.9, 0.4, [\"phone\"]) → evidence_score 0.7, uncertainty med (falta teléfono; "
+    },
+    {
+      "pi": 29,
+      "n_sent": 3,
+      "wps": 14.67,
+      "spw": 1.98,
+      "FH": 73.2,
+      "INFLESZ": 69.0,
+      "issues": [],
+      "preview": "Borde / fail-closed: si faltan campos obligatorios, eleva uncertainty; no inventes un teléfono o km "
+    },
+    {
+      "pi": 30,
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 1.73,
+      "FH": 92.0,
+      "INFLESZ": 88.2,
+      "issues": [],
+      "preview": "Si no puedes listar 3 bullets honestos, no publiques el score."
+    },
+    {
+      "pi": 31,
+      "n_sent": 4,
+      "wps": 12.0,
+      "spw": 2.19,
+      "FH": 63.4,
+      "INFLESZ": 58.6,
+      "issues": [],
+      "preview": "Ancla: el dashboard no «decide culpables». Decide qué hacer con un par de evidencia: invalidar entra"
+    },
+    {
+      "pi": 32,
+      "n_sent": 3,
+      "wps": 26.33,
+      "spw": 1.8,
+      "FH": 72.1,
+      "INFLESZ": 68.5,
+      "issues": [
+        {
+          "sev": "H",
+          "kind": "run-on >45w",
+          "ev": "52 words",
+          "sent": "Mecanismo (orden de evaluación): (1) score inválido (bool, no numérico, no finito, fuera de [0,1]) o uncertainty fuera d"
+        }
+      ],
+      "preview": "Mecanismo (orden de evaluación): (1) score inválido (bool, no numérico, no finito, fuera de [0,1]) o"
+    },
+    {
+      "pi": 33,
+      "n_sent": 2,
+      "wps": 20.5,
+      "spw": 1.98,
+      "FH": 67.4,
+      "INFLESZ": 63.3,
+      "issues": [],
+      "preview": "Human-in-the-loop: la acción es de datos (revisar / aceptar par / abstenerse), no veredicto legal, n"
+    },
+    {
+      "pi": 34,
+      "n_sent": 3,
+      "wps": 17.0,
+      "spw": 1.92,
+      "FH": 74.2,
+      "INFLESZ": 70.1,
+      "issues": [],
+      "preview": "Borde y auditoría de portfolio: grepea el repo y elimina cualquier path que setee is_family o auto_f"
+    },
+    {
+      "pi": 35,
+      "n_sent": 2,
+      "wps": 12.5,
+      "spw": 1.84,
+      "FH": 83.7,
+      "INFLESZ": 79.7,
+      "issues": [],
+      "preview": "Prohibido inferir parentesco o fraude. Los límites 0.40 y 0.80 son exactos: 0.40 entra a revisión y "
+    },
+    {
+      "pi": 36,
+      "n_sent": 3,
+      "wps": 17.33,
+      "spw": 2.06,
+      "FH": 65.7,
+      "INFLESZ": 61.3,
+      "issues": [],
+      "preview": "Ancla de producto: el gate de N1 no pide un design system ni Streamlit de secciones futuras. Pide un"
+    },
+    {
+      "pi": 37,
+      "n_sent": 4,
+      "wps": 14.5,
+      "spw": 2.16,
+      "FH": 62.7,
+      "INFLESZ": 58.1,
+      "issues": [],
+      "preview": "Mecanismo de privacidad en UI: pseudonimiza nombres (A*** Q***). Reutiliza la política de egress de "
+    },
+    {
+      "pi": 38,
+      "n_sent": 2,
+      "wps": 32.5,
+      "spw": 1.66,
+      "FH": 74.0,
+      "INFLESZ": 70.8,
+      "issues": [
+        {
+          "sev": "H",
+          "kind": "run-on >45w",
+          "ev": "52 words",
+          "sent": "Casos trabajados (mínimo tres): CASE-1 A*** Q*** con ER 0.92 y REL 0.41 (identidad fuerte, relación moderada); CASE-2 L*"
+        }
+      ],
+      "preview": "Casos trabajados (mínimo tres): CASE-1 A*** Q*** con ER 0.92 y REL 0.41 (identidad fuerte, relación "
+    },
+    {
+      "pi": 39,
+      "n_sent": 3,
+      "wps": 14.33,
+      "spw": 1.95,
+      "FH": 75.0,
+      "INFLESZ": 70.8,
+      "issues": [],
+      "preview": "Borde: si un caso no tiene coords o no puede pseudonimizarse, no inventes un nombre real ni un lat/l"
+    },
+    {
+      "pi": 40,
+      "n_sent": 1,
+      "wps": 15.0,
+      "spw": 1.8,
+      "FH": 83.5,
+      "INFLESZ": 79.7,
+      "issues": [],
+      "preview": "Tres casos sintéticos + mapa de puntos + ficha bastan para el gate de producto."
+    },
+    {
+      "pi": 41,
+      "n_sent": 4,
+      "wps": 17.5,
+      "spw": 1.79,
+      "FH": 81.8,
+      "INFLESZ": 78.1,
+      "issues": [],
+      "preview": "Ancla CF-1: sin operación documentada, el dashboard es un prototipo de laptop, no un cierre de nivel"
+    },
+    {
+      "pi": 42,
+      "n_sent": 2,
+      "wps": 27.0,
+      "spw": 2.0,
+      "FH": 59.3,
+      "INFLESZ": 55.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "39 words",
+          "sent": "Mecanismo de entrega: (1) tests green de ER, señales y umbrales; (2) demo de un comando (python -m demo_n1_dashboard --s"
+        }
+      ],
+      "preview": "Mecanismo de entrega: (1) tests green de ER, señales y umbrales; (2) demo de un comando (python -m d"
+    },
+    {
+      "pi": 43,
+      "n_sent": 2,
+      "wps": 23.0,
+      "spw": 2.0,
+      "FH": 63.4,
+      "INFLESZ": 59.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "33 words",
+          "sent": "En ~30 min re-ejecuta solo los checks críticos de LEVEL1_REGRESSION_MATRIX y anota pass/fail; el bloque de producto (das"
+        }
+      ],
+      "preview": "Regresión level-1 y carga cognitiva: artefactos CF-1 + checklist S01–S13 cierran el nivel. En ~30 mi"
+    },
+    {
+      "pi": 44,
+      "n_sent": 2,
+      "wps": 24.0,
+      "spw": 1.79,
+      "FH": 74.9,
+      "INFLESZ": 71.2,
+      "issues": [],
+      "preview": "Borde de gate: tu entrega documenta evidencia del producto N1; el progreso del curso se registra por"
+    },
+    {
+      "pi": 45,
+      "n_sent": 2,
+      "wps": 9.0,
+      "spw": 1.83,
+      "FH": 87.7,
+      "INFLESZ": 83.6,
+      "issues": [],
+      "preview": "CP-N1-C + regresión level-1 + CF-1. La demo evidencia el producto; no sustituye el gate formal del c"
+    },
+    {
+      "pi": 46,
+      "n_sent": 4,
+      "wps": 23.25,
+      "spw": 1.81,
+      "FH": 74.7,
+      "INFLESZ": 71.0,
+      "issues": [
+        {
+          "sev": "L",
+          "kind": "high comma density",
+          "ev": "6 commas / 32w",
+          "sent": "Cubres ER por reglas, evaluación + cola clerical, señales de relación (fórmula canónica 0.5/0.3/0.2), graphlet de txs, f"
+        }
+      ],
+      "preview": "Ocho demos del cierre N1 — uno por subtema, en el mismo orden T1→T4. Observa el código, córrelo y co"
+    },
+    {
+      "pi": 47,
+      "n_sent": 6,
+      "wps": 16.0,
+      "spw": 1.98,
+      "FH": 71.8,
+      "INFLESZ": 67.5,
+      "issues": [],
+      "preview": "Andamiaje decreciente por subtema: E1 guiado → E2 independiente → E3 transferencia (24 ejercicios, i"
+    },
+    {
+      "pi": 48,
+      "n_sent": 5,
+      "wps": 23.6,
+      "spw": 2.33,
+      "FH": 42.9,
+      "INFLESZ": 38.0,
+      "issues": [
+        {
+          "sev": "L",
+          "kind": "high comma density",
+          "ev": "4 commas / 24w",
+          "sent": "Cierras el Familiarity Evidence Dashboard (CP-N1-C): ER determinista por reglas, entity_resolution_score separado de rel"
+        },
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "36 words",
+          "sent": "Incluye notas de regresión de nivel 1 (S01–S13): en ~30 min re-ejecuta los checks críticos listados en LEVEL1_REGRESSION"
+        }
+      ],
+      "preview": "Cierras el Familiarity Evidence Dashboard (CP-N1-C): ER determinista por reglas, entity_resolution_s"
+    },
+    {
+      "pi": 49,
+      "n_sent": 2,
+      "wps": 20.5,
+      "spw": 1.93,
+      "FH": 70.3,
+      "INFLESZ": 66.3,
+      "issues": [],
+      "preview": "Portfolio N1: captura del dashboard con 3 casos, ficha con ER≠REL, privacy sheet, salida del demo co"
+    },
+    {
+      "pi": 50,
+      "n_sent": 3,
+      "wps": 36.67,
+      "spw": 2.07,
+      "FH": 45.1,
+      "INFLESZ": 41.0,
+      "issues": [
+        {
+          "sev": "H",
+          "kind": "run-on >45w",
+          "ev": "48 words",
+          "sent": "En equipos de datos de banca, telco o fintech en Perú (créditos, onboarding, compliance), el cuello de botella no es «te"
+        }
+      ],
+      "preview": "En equipos de datos de banca, telco o fintech en Perú (créditos, onboarding, compliance), el cuello "
+    }
+  ],
+  "worst": [
+    {
+      "pi": 4,
+      "wc": 50,
+      "issues": [
+        [
+          "H",
+          "run-on >45w"
+        ]
+      ],
+      "sent": "Diccionario de la sección: blocking acota pares candidatos antes de reglas finas; cola clerical es la bandeja humana de duda; fail-closed niega el merge si falta evidencia; uncertainty (low/med/high) "
+    },
+    {
+      "pi": 28,
+      "wc": 33,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ],
+        [
+          "L",
+          "high comma density"
+        ]
+      ],
+      "sent": "Caso trabajado: explain(0.9, 0.4, [\"phone\"]) → evidence_score 0.7, uncertainty med (falta teléfono; el gap |0.9−0.4|=0.5 no supera el umbral de conflicto >0.5 en este contrato), bullets con ER, REL y "
+    },
+    {
+      "pi": 32,
+      "wc": 52,
+      "issues": [
+        [
+          "H",
+          "run-on >45w"
+        ]
+      ],
+      "sent": "Mecanismo (orden de evaluación): (1) score inválido (bool, no numérico, no finito, fuera de [0,1]) o uncertainty fuera de {low, med, high} → invalid_input; (2) uncertainty high → needs_review (aunque "
+    },
+    {
+      "pi": 38,
+      "wc": 52,
+      "issues": [
+        [
+          "H",
+          "run-on >45w"
+        ]
+      ],
+      "sent": "Casos trabajados (mínimo tres): CASE-1 A*** Q*** con ER 0.92 y REL 0.41 (identidad fuerte, relación moderada); CASE-2 L*** H*** con ER medio y REL más alto — el revisor ve la tensión sin auto-etiqueta"
+    },
+    {
+      "pi": 42,
+      "wc": 39,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "Mecanismo de entrega: (1) tests green de ER, señales y umbrales; (2) demo de un comando (python -m demo_n1_dashboard --synthetic); (3) runbook con setup + playbook de incidente (token o nombre en log "
+    },
+    {
+      "pi": 43,
+      "wc": 33,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "En ~30 min re-ejecuta solo los checks críticos de LEVEL1_REGRESSION_MATRIX y anota pass/fail; el bloque de producto (dashboard + privacy) es aparte — no intentes rehacer todos los capstones en una sol"
+    },
+    {
+      "pi": 48,
+      "wc": 36,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "Incluye notas de regresión de nivel 1 (S01–S13): en ~30 min re-ejecuta los checks críticos listados en LEVEL1_REGRESSION_MATRIX sobre fixtures sintéticos y registra pass/fail en el runbook; el bloque "
+    },
+    {
+      "pi": 50,
+      "wc": 48,
+      "issues": [
+        [
+          "H",
+          "run-on >45w"
+        ]
+      ],
+      "sent": "En equipos de datos de banca, telco o fintech en Perú (créditos, onboarding, compliance), el cuello de botella no es «tener un modelo»: es saber si dos registros hablan de la misma persona y, por sepa"
+    }
+  ]
+}

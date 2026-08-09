@@ -1,0 +1,50 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "0,1,2 (empieza en 0, excluye stop)"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "n_total de registros procesados (intentados)"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Salta al siguiente ciclo del bucle"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.0,
+    "correct_preview": "O(n²)"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Actualizar el estado (p. ej. avanzar el índice) y comprobar el centinela"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "continue salta a la siguiente iteración; break termina el bucle actual"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 0.88,
+    "correct_preview": "Numera filas desde 1 para humanos sin armar el índice a mano"
+  }
+]

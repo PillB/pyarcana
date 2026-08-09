@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://cloud.google.com/discover/what-is-llmops",
+    "name": "What is LLMOps (large language model operations)?",
+    "snippet": "LLMOps , or large language model operations, refers to the practices and processes involved in managing and operating large language models (LLMs).",
+    "host_name": "cloud.google.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.humaineeti.ai/resources/llmops-production-guide",
+    "name": "LLMOps in Production — Monitoring & Guardrails (2026)",
+    "snippet": "Monitoring, evaluation, guardrails, and governance for enterprise generative AI at scale. What Is LLMOps and Why Does It Matter? LLMOps — Large Language Model Operations — applies the principles of MLOps and DevOps to the specific demands of LLM-powered applications.",
+    "host_name": "www.humaineeti.ai",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://qubittool.com/blog/enterprise-llmops-architecture-guide",
+    "name": "Enterprise LLMOps Architecture Guide [2026]: Full Lifecycle",
+    "snippet": "A comprehensive deep dive into enterprise-grade LLMOps architecture, covering the full lifecycle from Prompt Engineering, Data Governance, and Fine-tuning to Automated Evaluation and Production Observability. Learn how to build CI/CD pipelines for LLMs to ensure consistency, security, and cost control for production-ready AI applications.",
+    "host_name": "qubittool.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mlopslab.org/llmops-tutorial-a-beginners-guide-to-llm-operations-lifecycle-workflow",
+    "name": "2026 LLMOps Crash Course: Master Deployment, Monitoring",
+    "snippet": "LLMOps (Large Language Model Operations) is the practice of deploying, monitoring, and optimizing LLM applications in production. This LLMOps tutorial covers the 6 core components: prompt management, RAG evaluation, LLM observability, guardrails, cost tracking, and feedback loops.",
+    "host_name": "mlopslab.org",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/JackSteve-code/Scalable-llmop",
+    "name": "GitHub - JackSteve-code/Scalable-llmop: Production-grade",
+    "snippet": "Production-grade blueprint for building, deploying, and scaling reliable LLM-powered applications. This repository contains a comprehensive guide and reference architecture for LLMOps — the specialized extension of MLOps tailored to large language models (LLMs).",
+    "host_name": "github.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://schoolofcoreai.com/roadmaps/llmops-roadmap",
+    "name": "LLMOps Roadmap for Production AI Systems - School of Core AI",
+    "snippet": "LLMOps roadmap for engineers and builders. Learn LLM serving, RAG operations, evaluation, observability, guardrails, deployment, and production reliability in the right order.",
+    "host_name": "schoolofcoreai.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://architecturediagram.ai/blog/llmops-architecture",
+    "name": "LLMOps Architecture: Deploying and Operating LLMs in",
+    "snippet": "How to design and diagram an LLMOps architecture. Covers model versioning, prompt pipelines, guardrails, evaluation, cost management, drift detection, and the full LLM production stack — with AI prompt templates.",
+    "host_name": "architecturediagram.ai",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://llmops.si",
+    "name": "LLMOps.si - The practical guide to running LLMs in production",
+    "snippet": "Eight layers: prompt management, evaluation, observability, cost control, RAG operations, security, governance and deployment. Each answers a different production question, from \"can I roll back a prompt?\"",
+    "host_name": "llmops.si",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

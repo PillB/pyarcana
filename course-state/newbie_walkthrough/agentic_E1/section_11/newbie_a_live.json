@@ -1,0 +1,236 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 11,
+  "packet_sha": "5337c2dfbd6c4bfc",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s11-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "id": "S11-T1-A-E1",
+      "kind": "guided",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    client_id: str\n    full_name: str\nc = Client(\"C001\", \"Ana Perez\")\nprint(c)\n",
+      "justification_from_packet": "dataclass simple de cliente sintético. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T1-A-E2",
+      "kind": "independent",
+      "code": "from dataclasses import dataclass, asdict\n@dataclass\nclass Client:\n    client_id: str\n    emails: list\n    def to_dict(self):\n        return asdict(self)\nprint(Client(\"C001\", [\"a@ex.com\"]).to_dict())\n",
+      "justification_from_packet": "field(default_factory=list) evita default mutable compartido entre instancias. to_dict vía asdict.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T1-A-E3",
+      "kind": "transfer",
+      "code": "from dataclasses import dataclass, field\n@dataclass\nclass Client:\n    client_id: str\n    tags: list = field(default_factory=list)\na, b = Client(\"1\"), Client(\"2\")\na.tags.append(\"x\")\nprint(a.tags, b.tags)\n",
+      "justification_from_packet": "field(default_factory=list) evita default mutable compartido entre instancias. default_factory=list evita lista compartida.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T1-B-E1",
+      "kind": "guided",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self) -> None:\n        if not str(self.document_id).strip():\n            raise ValueError(\"document_id vacío\")\nprint(ClientRecord(\"C001\", \"DNI-100\"))\ntry:\n    ClientRecord(\"C002\", \"\")\nexcept ValueError as e:\n    print(\"rejected\", e)\n",
+      "justification_from_packet": "Fallar en construcción (__post_init__) ante objeto inválido. __post_init__ valida document_id.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T1-B-E2",
+      "kind": "independent",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Tx:\n    amount: float\n    def __post_init__(self):\n        if self.amount < 0:\n            raise ValueError(\"amount negativo\")\nprint(Tx(10))\n",
+      "justification_from_packet": "Fallar en construcción (__post_init__) ante objeto inválido. Invariante amount >= 0.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T1-B-E3",
+      "kind": "transfer",
+      "code": "print(\"invalid objects fail at construction not later\")\n",
+      "justification_from_packet": "Fallar en construcción (__post_init__) ante objeto inválido. Fallar temprano en construcción.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T2-A-E1",
+      "kind": "guided",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass ClientRecord:\n    first_name: str\n    last_name: str\n    email: str\n    @property\n    def display_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n    @property\n    def masked_email(self) -> str:\n        local, _, domain = self.email.partition(\"@\")\n        return f\"{local[:1]}***@{domain}\"\nc = ClientRecord(\"Lucía\", \"Méndez\", \"lucia@ex.com\")\nprint(c.display_name, c.masked_email)\n",
+      "justification_from_packet": "Properties display_name y masked_email. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T2-A-E2",
+      "kind": "independent",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Point:\n    x: float\n    y: float\n    @property\n    def r2(self):\n        return self.x*self.x + self.y*self.y\nprint(Point(3,4).r2)\n",
+      "justification_from_packet": "Property derivada r2. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T2-A-E3",
+      "kind": "transfer",
+      "code": "print(\"properties compute views; no store secrets in repr by default\")\n",
+      "justification_from_packet": "Properties como vistas; cuidado con repr. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T2-B-E1",
+      "kind": "guided",
+      "code": "from dataclasses import dataclass, field\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n    display_name: str = field(compare=False)\ne1 = ResolvedEntity(\"E1\", \"Ana\")\ne1b = ResolvedEntity(\"E1\", \"Ana actualizada\")\ne2 = ResolvedEntity(\"E2\", \"Luis\")\ns = {e1, e1b, e2}\nprint(\"size\", len(s))\nprint(\"e1==e1b\", e1 == e1b)\n",
+      "justification_from_packet": "frozen + compare=False en display_name; igualdad por entity_id. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T2-B-E2",
+      "kind": "independent",
+      "code": "from dataclasses import dataclass\n@dataclass(frozen=True)\nclass Key:\n    id: str\nprint({Key(\"a\"), Key(\"a\")})\n",
+      "justification_from_packet": "frozen hashable en set. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T2-B-E3",
+      "kind": "transfer",
+      "code": "print(\"frozen evidence rows prevent silent mutation\")\n",
+      "justification_from_packet": "frozen evita mutación silenciosa de evidencia. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T3-A-E1",
+      "kind": "guided",
+      "code": "from dataclasses import dataclass, field\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n@dataclass(frozen=True)\nclass RelationshipEvidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n@dataclass\nclass CaseFile:\n    entity: ResolvedEntity\n    evidences: list = field(default_factory=list)\ncf = CaseFile(ResolvedEntity(\"E1\"))\ncf.evidences.append(RelationshipEvidence(\"E1\",\"E2\",0.4))\nprint(len(cf.evidences), cf.evidences[0].signal_score)\n",
+      "justification_from_packet": "signal_score es señal numérica, no veredicto de fraude o familia. CaseFile agrega evidencias; score es señal no veredicto.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T3-A-E2",
+      "kind": "independent",
+      "code": "from dataclasses import dataclass, field\n@dataclass\nclass CaseFile:\n    case_id: str\n    notes: list = field(default_factory=list)\nc = CaseFile(\"CASE-1\")\nc.notes.append(\"review\")\nprint(c)\n",
+      "justification_from_packet": "field(default_factory=list) evita default mutable compartido entre instancias. notes con default_factory.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T3-A-E3",
+      "kind": "transfer",
+      "code": "print(\"no is_fraud on RelationshipEvidence\")\n",
+      "justification_from_packet": "El dominio de familiaridad no debe exponer is_fraud() automático. Sin is_fraud en el dominio.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T3-B-E1",
+      "kind": "guided",
+      "code": "from typing import Protocol\nclass EntityStore(Protocol):\n    def get(self, entity_id: str): ...\n    def save(self, entity: dict) -> None: ...\nclass FakeStore:\n    def __init__(self):\n        self.data = {}\n    def get(self, entity_id: str):\n        return self.data.get(entity_id)\n    def save(self, entity: dict) -> None:\n        self.data[entity[\"entity_id\"]] = entity\ndef upsert(store: EntityStore, entity: dict):\n    store.save(entity)\n    return store.get(entity[\"entity_id\"])\nfs = FakeStore()\nprint(upsert(fs, {\"entity_id\": \"E1\", \"name\": \"Ana\"}))\n",
+      "justification_from_packet": "Protocol define puerto get/save implementable por fakes y adapters. Protocol + FakeStore para tests.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T3-B-E2",
+      "kind": "independent",
+      "code": "class FakeStore:\n    def __init__(self):\n        self.data = {}\n    def get(self, entity_id):\n        return self.data.get(entity_id)\n    def save(self, entity):\n        self.data[entity[\"entity_id\"]] = entity\nprint(\"fake ready\")\n",
+      "justification_from_packet": "Protocol define puerto get/save implementable por fakes y adapters. Fake store mínimo.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T3-B-E3",
+      "kind": "transfer",
+      "code": "print(\"adapters implement Protocol without inheritance tree\")\n",
+      "justification_from_packet": "Protocol define puerto get/save implementable por fakes y adapters. Adapters por duck typing/Protocol.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T4-A-E1",
+      "kind": "guided",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    def to_dict(self):\n        return {\"client_id\": self.client_id, \"email\": self.email}\nclass InMemoryClientRepository:\n    def __init__(self):\n        self._d = {}\n    def save(self, c: ClientRecord):\n        self._d[c.client_id] = c\n    def get(self, cid: str):\n        return self._d.get(cid)\nrepo = InMemoryClientRepository()\nrepo.save(ClientRecord(\"C001\", \"a@ex.com\"))\nprint(repo.get(\"C001\").to_dict())\n",
+      "justification_from_packet": "Composición suele bastar frente a herencia frágil Person/Client. Repository in-memory + to_dict.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T4-A-E2",
+      "kind": "independent",
+      "code": "print(\"composition: Client has PersonInfo rather than deep inheritance\")\n",
+      "justification_from_packet": "Composición suele bastar frente a herencia frágil Person/Client. Preferir composición a herencia frágil.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T4-A-E3",
+      "kind": "transfer",
+      "code": "print(\"repo ports keep domain free of SQLite details\")\n",
+      "justification_from_packet": "Protocol define puerto get/save implementable por fakes y adapters. Puertos aíslan infra.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T4-B-E1",
+      "kind": "guided",
+      "code": "from dataclasses import dataclass\n@dataclass(frozen=True)\nclass RelationshipEvidence:\n    left_id: str\n    right_id: str\n    signal_score: float\ndef test_signal_bounds():\n    ev = RelationshipEvidence(\"E1\", \"E2\", 0.7)\n    assert 0 <= ev.signal_score <= 1\n    assert not hasattr(ev, \"is_fraud\")\n    return \"pass\"\nprint(test_signal_bounds())\n",
+      "justification_from_packet": "signal_score es señal numérica, no veredicto de fraude o familia. Test de bounds y ausencia de is_fraud.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T4-B-E2",
+      "kind": "independent",
+      "code": "def test_no_family_verdict():\n    class RelationshipEvidence:\n        pass\n    assert not hasattr(RelationshipEvidence, \"is_related_family\")\n    return \"pass\"\nprint(test_no_family_verdict())\n",
+      "justification_from_packet": "El dominio de familiaridad no debe exponer is_fraud() automático. No veredicto de familia en el tipo.",
+      "blocked_on": []
+    },
+    {
+      "id": "S11-T4-B-E3",
+      "kind": "transfer",
+      "code": "print(\"unit tests protect domain invariants of N1 dashboard\")\n",
+      "justification_from_packet": "El dominio de familiaridad no debe exponer is_fraud() automático. Tests unitarios de invariantes.",
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "stem": "¿Por qué `field(default_factory=list)` y no `= []`?",
+      "chosen_index": 2,
+      "chosen_text": "Evita el default mutable compartido entre instancias",
+      "justification_from_packet": "field(default_factory=list) evita default mutable compartido entre instancias. Por eso elijo la opción [2] para: ¿Por qué `field(default_factory=list)` y no `= []`?",
+      "blocked_on": [],
+      "question_index": 0
+    },
+    {
+      "stem": "RelationshipEvidence.signal_score representa…",
+      "chosen_index": 0,
+      "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+      "justification_from_packet": "signal_score es señal numérica, no veredicto de fraude o familia. Por eso elijo la opción [0] para: RelationshipEvidence.signal_score representa…",
+      "blocked_on": [],
+      "question_index": 1
+    },
+    {
+      "stem": "Un Protocol EntityStore sirve para…",
+      "chosen_index": 1,
+      "chosen_text": "Definir un puerto get/save implementable por fakes y adapters",
+      "justification_from_packet": "Protocol define puerto get/save implementable por fakes y adapters. Por eso elijo la opción [1] para: Un Protocol EntityStore sirve para…",
+      "blocked_on": [],
+      "question_index": 2
+    },
+    {
+      "stem": "Objeto inválido: ¿cuándo fallar?",
+      "chosen_index": 3,
+      "chosen_text": "En la construcción (__post_init__/validate)",
+      "justification_from_packet": "Fallar en construcción (__post_init__) ante objeto inválido. Por eso elijo la opción [3] para: Objeto inválido: ¿cuándo fallar?",
+      "blocked_on": [],
+      "question_index": 3
+    },
+    {
+      "stem": "Client hereda de Person…",
+      "chosen_index": 2,
+      "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+      "justification_from_packet": "Composición suele bastar frente a herencia frágil Person/Client. Por eso elijo la opción [2] para: Client hereda de Person…",
+      "blocked_on": [],
+      "question_index": 4
+    },
+    {
+      "stem": "¿Qué no debe tener el dominio de familiaridad?",
+      "chosen_index": 0,
+      "chosen_text": "is_fraud() automático",
+      "justification_from_packet": "El dominio de familiaridad no debe exponer is_fraud() automático. Por eso elijo la opción [0] para: ¿Qué no debe tener el dominio de familiaridad?",
+      "blocked_on": [],
+      "question_index": 5
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:47.516962+00:00"
+}

@@ -1,0 +1,47 @@
+{
+  "credential_id": "integrated_production_python_practice",
+  "version": "1.0.0",
+  "status": "pilot",
+  "credential_class": "C",
+  "credential_class_name": "Integrated Capability Badge",
+  "public_name": "Integrated Production Python Practice",
+  "capability_statement": "El aprendiz demostró transferencia integrada de Production Python mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.0.0.",
+  "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
+  "market_task_mappings": [],
+  "prerequisites": [
+    "python_data_foundations",
+    "production_python_delivery_foundations",
+    "reliable_async_python_development",
+    "production_python_hardening_practice"
+  ],
+  "required_sections": [
+    "S15",
+    "S17",
+    "S21",
+    "S27",
+    "S28",
+    "S30",
+    "S32",
+    "S38"
+  ],
+  "required_activities": [
+    "S15-YOUDO",
+    "S17-YOUDO",
+    "S21-YOUDO",
+    "S27-YOUDO",
+    "S28-YOUDO",
+    "S30-YOUDO",
+    "S32-YOUDO",
+    "S38-YOUDO"
+  ],
+  "critical_gates": [
+    "type_safety_production_hardening",
+    "reproducibility_determinism",
+    "communication_audience_tuned",
+    "business_framing_judgment"
+  ],
+  "non_compensatory": true,
+  "minimum_overall_score": 85,
+  "verification_mode": "server_verified",
+  "specification_hash": "sha256:integrated_production_python_practice:1.0.0"
+}

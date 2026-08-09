@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s15-0a854f61ff",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "id": "S15-T1-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nprint(df.index.tolist())\n",
+      "justification_from_packet": "set_index cliente_id → index labels del contrato.",
+      "confidence": 0.6,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "id": "S15-T1-A-E2",
+      "code": "import pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(s[\"C002\"])\n",
+      "justification_from_packet": "Una Series del theory T1-A es vector con Index: acceso por etiqueta del índice devuelve 0.9 en el fixture de scores, no por posición ciega.",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "id": "S15-T1-A-E3",
+      "code": "import pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nprint(s1.add(s2, fill_value=0).sort_index().to_dict())\n",
+      "justification_from_packet": "add fill_value=0 alinea índices; C001=1.0 C002=2.5.",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "id": "S15-T1-B-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"a,b\\n1,NA\\n2,3\\n\"), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))\n",
+      "justification_from_packet": "read_csv con na_values marca 'NA' como nulo (T1-B); en la columna b del fixture queda exactamente 1 null antes de imputar.",
+      "confidence": 0.6,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "id": "S15-T1-B-E2",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"fecha,v\\n2024-01-01,1\\n\"), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n",
+      "justification_from_packet": "parse_dates del parser CSV convierte la columna fecha a datetime64[ns], como documenta la lectura CSV/Excel de T1-B.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "id": "S15-T1-B-E3",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"cliente_id,monto,z\\nC001,1.0,9\\n\"), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n",
+      "justification_from_packet": "usecols limita la ingesta a las columnas necesarias: cliente_id y monto, reduciendo memoria y ruido según opciones de parser T1-B.",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "id": "S15-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df.score >= 0.5, \"cliente_id\"].tolist())\n",
+      "justification_from_packet": "loc combina máscara booleana y etiqueta de columna (T2-A): score>=0.5 selecciona cliente_id → ['C002'] en el fixture.",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "id": "S15-T2-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nprint(df.assign(doble=df[\"score\"] * 2)[\"doble\"].tolist())\n",
+      "justification_from_packet": "assign crea columnas derivadas sin mutar a ciegas: doble=score*2 produce [2.0,4.0] alineado al contrato de filtros/assign T2-A.",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "id": "S15-T2-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))\n",
+      "justification_from_packet": "iloc es puramente posicional (fila 1, col 0 → 3); no usa etiquetas del Index, contraste explícito con loc en T2-A.",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "id": "S15-T2-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]}).copy()\ndf.loc[:, \"flag\"] = \"\"\ndf.loc[df.score < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].fillna(\"\").tolist())\n",
+      "justification_from_packet": "loc + fillna('') → ['x','']. Evita SettingWithCopy.",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "id": "S15-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsub = df.loc[df.score > 0.5].copy()\nsub[\"ok\"] = True\nprint(sub[\"ok\"].tolist())\n",
+      "justification_from_packet": "Tras filtrar, .copy() + asignación de ok=True evita SettingWithCopy y deja ambas filas True, como recomienda copy semantics T2-B.",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "id": "S15-T2-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nc = df.copy()\nc.loc[0, \"score\"] = 99.0\nprint(df[\"score\"].tolist())\n",
+      "justification_from_packet": "Mutar la copia del filtro no altera el DataFrame original: scores siguen [1.0,2.0]; es el anti-patrón de chained assignment de T2-B.",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "id": "S15-T3-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"cusco\"]})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\nprint(df[\"region\"].dtype.name)\n",
+      "justification_from_packet": "Convertir a category tras title() reduce cardinalidad de strings (T3-A); dtype resultante es 'category' para la columna de títulos.",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "id": "S15-T3-A-E2",
+      "code": "import pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint([float(x) if pd.notna(x) else float(\"nan\") for x in s])\n",
+      "justification_from_packet": "to_numeric(..., errors='coerce') transforma inválidos a NaN sin tumbar el pipeline, política de coerción de T3-A/T3-B.",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "id": "S15-T3-A-E3",
+      "code": "import pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n",
+      "justification_from_packet": "Un parse de fecha inválido introduce NaT; el conteo de nulos/NaT da 1 en el fixture, coherente con dtypes datetime de T3-A.",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "id": "S15-T3-B-E1",
+      "code": "import pandas as pd\nraw = pd.Series([\"1.0\", \"x\", \"2.0\"])\nnum = pd.to_numeric(raw, errors=\"coerce\")\nprint(int(num.isna().sum() - raw.isna().sum()))\n",
+      "justification_from_packet": "Schema/coerción explícita: un valor no parseable introduce 1 NaN nuevo antes de fallar en silencio; T3-B pide contarlo.",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "id": "S15-T3-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntry:\n    _ = df[\"monto\"]\nexcept KeyError:\n    print(\"missing\")\n",
+      "justification_from_packet": "Si falta una columna del schema objetivo se reporta 'missing' (fail-closed), no se inventa con defaults (T3-B).",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "id": "S15-T3-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ndf[\"cliente_id\"] = df[\"cliente_id\"].astype(\"string\")\nprint(str(df[\"cliente_id\"].dtype))\n",
+      "justification_from_packet": "astype('string') produce StringDtype nullable del theory T3-A/B, distinto de object genérico con None mezclados.",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "id": "S15-T4-A-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nprint(pd.read_csv(buf).columns.tolist())\n",
+      "justification_from_packet": "Round-trip to_csv/read_csv sin index conserva columnas ['a','b'] del contrato de exportación T4-A; no reintroducir Unnamed:0.",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "id": "S15-T4-A-E2",
+      "code": "import pandas as pd\nfrom io import BytesIO\ndf = pd.DataFrame({\"a\": [1]})\nbio = BytesIO()\ndf.to_excel(bio, index=False, engine=\"openpyxl\")\nprint(len(bio.getvalue()) > 0)\n",
+      "justification_from_packet": "to_excel con engine openpyxl escribe un buffer con bytes>0 → True; verifica que la exportación no quedó vacía (T4-A).",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "id": "S15-T4-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nprint({c: str(df[c].dtype) for c in sorted(df.columns)})\n",
+      "justification_from_packet": "El contrato de dtypes por columna se valida ordenado frente al schema; cualquier drift se reporta antes de promover el artefacto (T4-A).",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "id": "S15-T4-B-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1], \"b\": [\"x\"]})\nprint(int(df.memory_usage(deep=True).sum()) > 0)\n",
+      "justification_from_packet": "memory_usage(deep=True).sum() > 0 documenta footprint real del DataFrame en el manifest de provenance T4-B.",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "id": "S15-T4-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n",
+      "justification_from_packet": "Manifest del gate: rows=3 y columns=['a'] del fixture; registra forma y columnas para auditoría (T4-B).",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "id": "S15-T4-B-E3",
+      "code": "import pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\nprint(hashlib.sha1(df.to_csv(index=False).encode()).hexdigest()[:8])\n",
+      "justification_from_packet": "Hash sha1 de to_csv truncado a 8 hex (462f48ef) fija provenance del snapshot; T4-B exige evidencia reproducible del artefacto.",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "loc usa etiquetas de index/columnas; iloc es posicional.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SettingWithCopy: asignación sobre slices view/copy ambiguos.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Theory T3-A/B: errors='coerce' en to_numeric convierte valores inválidos a NaN en lugar de lanzar; permite medir nulos nuevos del schema.",
+      "confidence": 0.83,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Manifest: filas, columnas y provenance/hash del artefacto.",
+      "confidence": 0.78,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:18.647998+00:00",
+  "session_started_at": "2026-07-23T14:21:50.540898+00:00",
+  "session_ended_at": "2026-07-23T14:22:52.500898+00:00",
+  "receipt_response_sha256": "bf8d33cbcb42886651fb2776bad0e6341df079f79e053875ff830e8c8ba8c030",
+  "receipt_exercises_sha256": "ea509b99898d1b14d216e8be5df2bc1bb7c9f6092b9e38fde20daa54b18d7109",
+  "receipt_selfcheck_sha256": "14c80c43135c67673d119279c336d0d042fd341e952fc84110546acf51c62559"
+}

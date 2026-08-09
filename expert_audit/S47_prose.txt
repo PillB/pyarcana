@@ -1,0 +1,827 @@
+### title @line 6
+MLOps: experimentos, registro y serving
+
+### tagline @line 8
+Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4
+
+### jobRelevance @line 15
+En un equipo de producto en Lima o Arequipa que prioriza atención con un ranker sintético, **MLOps** es el día a día: registrar el run, comparar el candidato con baseline en el mismo holdout, promover solo con firma y aprobación, y abrir canary al 5% con rollback listo. Se promueve cuando el candidato supera el baseline con datos fijos y el serving respeta el feature contract; si el canary rompe el SLO, se revierte sin borrar evidencia.
+
+### text @line 17
+Registrar un experiment run con params, métricas, seed, artefactos y versión de dataset, y re-ejecutarlo dentro de tolerancia
+
+### text @line 18
+Comparar baseline vs candidato solo cuando data, code, env, split y la definición de métrica coinciden
+
+### text @line 19
+Promover un modelo a Staging solo con firma compatible, stage correcto y aprobación explícita
+
+### text @line 20
+Publicar artefactos con digest, model card completa y compatibilidad de features train/serve
+
+### text @line 21
+Garantizar paridad batch/online de features y bloquear serving ante leakage o skew
+
+### text @line 22
+Mantener p95 bajo SLO, batch acotado y fallback probado antes de servir tráfico real
+
+### text @line 23
+Desplegar shadow/canary con presupuesto de tráfico, hooks de monitoreo y criterio promote/stop
+
+### text @line 24
+Ejecutar rollback al last-known-good, retirar versiones y dejar audit_entry sin perder evidencia
+
+### heading @line 28
+Ruta de S47: MLOps: experimentos, registro y serving
+
+### title @line 37
+s47_map_contract.py
+
+### title @line 56
+Gate de promoción
+
+### content @line 57
+CP-N4-B + CF-4 · modelo promovible y reversible: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia. Si falta evidencia, no se promociona.
+
+### heading @line 61
+S47-T1-A · Tracking y reproducibilidad de experiment runs
+
+### title @line 70
+tracking_reproducibility.py
+
+### title @line 85
+Contrato local
+
+### content @line 87
+Evidencia mínima de S47-T1-A: seed presente + params no vacíos + rerun dentro de tolerancia. Breach → `MARK_RUN_NONREPRODUCIBLE`; missing → `INVESTIGATE_RANDOMNESS`.
+
+### heading @line 91
+S47-T1-B · Lineage data/code/env y comparación honesta
+
+### title @line 100
+data_code_env_lineage_compare.py
+
+### title @line 122
+Contrato local
+
+### content @line 124
+Antes de promover S47-T1-B, audita lineage completo y comparación homogénea. Un breach activa `INVALIDATE_COMPARISON` y una ausencia activa `RESTORE_LINEAGE`.
+
+### heading @line 128
+S47-T2-A · Firmas de I/O, stages del registry y approvals
+
+### title @line 137
+signatures_stages_approvals.py
+
+### title @line 156
+Contrato local
+
+### content @line 158
+La revisión de S47-T2-A conserva firma compatible y aprobación trazada; no conviertas `DENY_MODEL_PROMOTION` ni `REQUEST_MODEL_APPROVAL` en éxito silencioso.
+
+### heading @line 162
+S47-T2-B · Artefactos, model card y compatibilidad de features
+
+### title @line 171
+artifacts_card_compat.py
+
+### title @line 186
+Contrato local
+
+### content @line 188
+Contrato S47-T2-B: demuestra digest/card/compatibilidad verificados. Falla cerrada con `REJECT_MODEL_ARTIFACT` y deriva incertidumbre mediante `COMPLETE_MODEL_CARD`.
+
+### heading @line 192
+S47-T3-A · Paridad batch/online y feature consistency
+
+### title @line 201
+batch_online_feature_consistency.py
+
+### title @line 214
+Contrato local
+
+### content @line 216
+Para S47-T3-A, el artefacto comprobable es paridad de features en fixtures. Sin él corresponde `DISABLE_INCONSISTENT_SERVING` o, si faltan datos, `TRACE_FEATURE_PIPELINE`.
+
+### heading @line 220
+S47-T3-B · Latencia, batching y fallback seguro
+
+### title @line 229
+latency_batching_fallback.py
+
+### title @line 242
+Contrato local
+
+### content @line 244
+Promoción de S47-T3-B: prueba SLO de latencia y fallback probado y registra por separado `ACTIVATE_SAFE_FALLBACK` (breach) y `TUNE_BATCH_OR_CAPACITY` (missing).
+
+### heading @line 248
+S47-T4-A · Shadow, canary y monitoring hooks
+
+### title @line 257
+shadow_canary_monitoring.py
+
+### title @line 277
+Contrato local
+
+### content @line 279
+El dueño de S47-T4-A acepta solo canary con criterio promote/stop; una violación produce `STOP_CANARY` y un registro incompleto produce `COLLECT_MORE_SHADOW_EVIDENCE`.
+
+### heading @line 283
+S47-T4-B · Rollback, retirement y audit trail
+
+### title @line 292
+rollback_retire_audit.py
+
+### title @line 305
+Contrato local
+
+### content @line 307
+Cierre de S47-T4-B: conserva restauración y retirement auditados, la evidencia de `ROLLBACK_TO_LAST_GOOD` y la ruta humana `REVIEW_RETIREMENT`.
+
+### intro @line 312
+Te muestro 8 demos de S47 (MLOps: experimentos, registro y serving) alineadas a CP-N4-B + CF-4. Cada demo calcula el predicado del subtema con un caso local pequeño — no imprime literales precomputados.
+
+### description @line 318
+Demo: tracking y reproducibilidad — delta dentro de tolerancia
+
+### title @line 321
+demo_tracking_reproducibility.py
+
+### why @line 334
+Corrige la idea de que «seed=42» basta: el demo exige seed presente, params no vacíos y |metric−rerun| ≤ tolerancia antes de tratar el run como evidencia.
+
+### description @line 340
+Demo: lineage completo y comparación candidato > baseline
+
+### title @line 343
+demo_data_code_env_lineage_compare.py
+
+### why @line 358
+Muestra por qué un score alto en train con code=latest no valida promote: sin lineage completo la comparación se invalida aunque candidate > baseline en el papel.
+
+### description @line 364
+Demo: firma vs SERVICE_SIG + staging + approved
+
+### title @line 367
+demo_signatures_stages_approvals.py
+
+### why @line 381
+Separa el digest del gate de gobernanza: la firma se compara con el contrato del servicio (SERVICE_SIG); production sin approved o firma rota deniegan promote.
+
+### description @line 387
+Demo: digest sha256, features alineadas y card mínima
+
+### title @line 390
+demo_artifacts_card_compat.py
+
+### why @line 403
+Enseña que digest `latest`, skew train/serve o card incompleta son rechazo de artefacto, no detalles cosméticos.
+
+### description @line 409
+Demo: paridad batch/online y anti-leakage
+
+### title @line 412
+demo_batch_online_feature_consistency.py
+
+### why @line 423
+Hace visible el training-serving skew: si online diverge o hay leakage, el serving se deshabilita aunque el laboratorio luzca bien.
+
+### description @line 429
+Demo: p95 bajo SLO, batch acotado y fallback probado
+
+### title @line 432
+demo_latency_batching_fallback.py
+
+### why @line 443
+Conecta latencia, batch y fallback en un solo predicado: sin fallback probado el timeout no tiene salida segura.
+
+### description @line 449
+Demo: canary ≤10% con quality_delta, error budget y hooks
+
+### title @line 452
+demo_shadow_canary_monitoring.py
+
+### why @line 470
+Modela presupuesto de tráfico, caída de calidad y hooks: mode full al 100%, quality_delta fuera de presupuesto o hooks apagados detienen el canary aunque el digest sea válido.
+
+### description @line 476
+Demo: rollback a last-good con retirement auditado
+
+### title @line 479
+demo_rollback_retire_audit.py
+
+### why @line 490
+Demuestra que rollback y retirement son predicados de seguridad: sin features compatibles ni audit entry no hay cierre CF-4.
+
+### intro @line 495
+S47 · Laboratorio Production Data/ML Platform con CF-4: 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed con ocho fixtures peruanos sintéticos distintos.
+
+### instruction @line 501
+S47-T1-A-E1 · Calcula el contrato de `tracking y reproducibilidad` sobre `CASO-TAC-047-1A`. La entrada es el dict completo del starter; la operación debe demostrar rerun dentro de tolerancia con seed/parámetros. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `MARK_RUN_NONREPRODUCIBLE` en E2.
+
+### hint @line 502
+El starter usa `>` en lugar de `≤`: invierte la dirección del comparador de tolerancia y exige seed presente + params no vacíos.
+
+### tests @line 508
+El fixture `CASO-TAC-047-1A` satisface un predicado de dominio real; imprime `S47-T1-A PASS` y el assert booleano pasa.
+
+### feedback @line 509
+S47-T1-A-E1: la dirección del comparador es ≤ tolerancia (no >). Di qué delta produce PASS en 0.81 vs 0.805 y por qué seed presente + params no vacíos son parte del contrato.
+
+### title @line 512
+s47-t1-a-e1.py
+
+### title @line 525
+s47-t1-a-e1.py
+
+### instruction @line 538
+S47-T1-A-E2 · Modela tres rutas de `tracking y reproducibilidad`: fixture válido, fixture adverso y registro sin `tolerance`. Entrada: dict con case_id, seed, params, metric, rerun_metric, tolerance. Salidas exactas: `PASS`, `MARK_RUN_NONREPRODUCIBLE`, `MISSING:tolerance`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+### hint @line 539
+Primero se calcula `missing`; ningún acceso a tolerance debe ocurrir antes de esa rama.
+
+### tests @line 545
+La tabla cubre válido/adverso/campo `tolerance` ausente y produce exactamente `PASS MARK_RUN_NONREPRODUCIBLE MISSING:tolerance`.
+
+### feedback @line 546
+S47-T1-A-E2: el orden importa — missing primero; luego contenido. ¿Por qué el adverso falla por params vacíos/delta y no por schema?
+
+### title @line 549
+s47-t1-a-e2.py
+
+### title @line 570
+s47-t1-a-e2.py
+
+### instruction @line 592
+S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos. `CASO-TAC-047-1A` debe continuar, el adverso debe devolver `MARK_RUN_NONREPRODUCIBLE` y la ausencia de `tolerance` debe devolver `INVESTIGATE_RANDOMNESS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+### hint @line 593
+Una ausencia no equivale a breach: enrútala a `INVESTIGATE_RANDOMNESS` antes de evaluar el contenido.
+
+### tests @line 599
+Fixtures `CASO-TAC-047-1A`, adverso y sin `tolerance` prueban continue/breach/uncertainty en ese orden.
+
+### feedback @line 600
+S47-T1-A-E3: missing ≠ breach. Justifica CONTINUE vs MARK_RUN_NONREPRODUCIBLE vs INVESTIGATE_RANDOMNESS con un campo cada uno.
+
+### title @line 603
+s47-t1-a-e3.py
+
+### title @line 624
+s47-t1-a-e3.py
+
+### instruction @line 646
+S47-T1-B-E1 · Compara el contrato de `data/code/env lineage y comparación` sobre `CASO-TAC-047-1B`. La entrada es el dict completo del starter; la operación debe demostrar data/code/env/split/métrica versionados y candidato mejor. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `INVALIDATE_COMPARISON` en E2.
+
+### hint @line 647
+El DEFECT niega el data o exige candidate ≤ baseline: invierte a lineage completo + versionado (no latest/train/unknown) + candidate > baseline.
+
+### tests @line 653
+El fixture `CASO-TAC-047-1B` satisface un predicado de dominio real; imprime `S47-T1-B PASS` y el assert booleano pasa.
+
+### feedback @line 654
+S47-T1-B-E1: la comparación exige lineage completo y candidate > baseline. ¿Qué campo del adverso (code=latest, split=train) invalida primero?
+
+### title @line 657
+s47-t1-b-e1.py
+
+### title @line 670
+s47-t1-b-e1.py
+
+### instruction @line 685
+S47-T1-B-E2 · Verifica tres rutas de `data/code/env lineage y comparación`: fixture válido, fixture adverso y registro sin `baseline`. Entrada: dict con case_id, data, code, env, split, metric_definition, candidate, baseline. Salidas exactas: `PASS`, `INVALIDATE_COMPARISON`, `MISSING:baseline`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+### hint @line 686
+Primero se calcula `missing`; ningún acceso a baseline debe ocurrir antes de esa rama.
+
+### tests @line 692
+La tabla cubre válido/adverso/campo `baseline` ausente y produce exactamente `PASS INVALIDATE_COMPARISON MISSING:baseline`.
+
+### feedback @line 693
+S47-T1-B-E2: missing de baseline es RESTORE_LINEAGE, no INVALIDATE. Di por qué un candidate 0.90 con split=train sigue siendo INVALIDATE.
+
+### title @line 696
+s47-t1-b-e2.py
+
+### title @line 717
+s47-t1-b-e2.py
+
+### instruction @line 741
+S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos. `CASO-TAC-047-1B` debe continuar, el adverso debe devolver `INVALIDATE_COMPARISON` y la ausencia de `baseline` debe devolver `RESTORE_LINEAGE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+### hint @line 742
+Una ausencia no equivale a breach: enrútala a `RESTORE_LINEAGE` antes de evaluar el contenido.
+
+### tests @line 748
+Fixtures `CASO-TAC-047-1B`, adverso y sin `baseline` prueban continue/breach/uncertainty en ese orden.
+
+### feedback @line 749
+S47-T1-B-E3: justifica CONTINUE / INVALIDATE_COMPARISON / RESTORE_LINEAGE. Un score alto no salva lineage incompleto.
+
+### title @line 752
+s47-t1-b-e3.py
+
+### title @line 773
+s47-t1-b-e3.py
+
+### instruction @line 797
+S47-T2-A-E1 · Filtra el contrato de `firmas, stages y approvals` sobre `CASO-TAC-047-2A`. La entrada es el dict completo del starter; la operación debe demostrar firma exacta, staging y aprobación. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `DENY_MODEL_PROMOTION` en E2.
+
+### hint @line 798
+El DEFECT aprueba cuando falta approved o stage=production: exige firma igual al contrato del servicio, stage=staging y approved=True.
+
+### tests @line 804
+El fixture `CASO-TAC-047-2A` satisface un predicado de dominio real; imprime `S47-T2-A PASS` y el assert booleano pasa.
+
+### feedback @line 805
+S47-T2-A-E1: stage=staging + approved + firma exacta. ¿Por qué production sin approve es DENY y no PASS?
+
+### title @line 808
+s47-t2-a-e1.py
+
+### title @line 821
+s47-t2-a-e1.py
+
+### instruction @line 840
+S47-T2-A-E2 · Clasifica tres rutas de `firmas, stages y approvals`: fixture válido, fixture adverso y registro sin `approved`. Entrada: dict con case_id, input_signature, output_signature, stage, approved. Salidas exactas: `PASS`, `DENY_MODEL_PROMOTION`, `MISSING:approved`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+### hint @line 841
+Primero se calcula `missing`; ningún acceso a approved debe ocurrir antes de esa rama.
+
+### tests @line 847
+La tabla cubre válido/adverso/campo `approved` ausente y produce exactamente `PASS DENY_MODEL_PROMOTION MISSING:approved`.
+
+### feedback @line 848
+S47-T2-A-E2: missing approved → REQUEST, no DENY. El adverso combina firma rota y production sin approve.
+
+### title @line 851
+s47-t2-a-e2.py
+
+### title @line 872
+s47-t2-a-e2.py
+
+### instruction @line 897
+S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos. `CASO-TAC-047-2A` debe continuar, el adverso debe devolver `DENY_MODEL_PROMOTION` y la ausencia de `approved` debe devolver `REQUEST_MODEL_APPROVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+### hint @line 898
+Una ausencia no equivale a breach: enrútala a `REQUEST_MODEL_APPROVAL` antes de evaluar el contenido.
+
+### tests @line 904
+Fixtures `CASO-TAC-047-2A`, adverso y sin `approved` prueban continue/breach/uncertainty en ese orden.
+
+### feedback @line 905
+S47-T2-A-E3: CONTINUE / DENY_MODEL_PROMOTION / REQUEST_MODEL_APPROVAL. La aprobación es independiente del digest.
+
+### title @line 908
+s47-t2-a-e3.py
+
+### title @line 929
+s47-t2-a-e3.py
+
+### instruction @line 954
+S47-T2-B-E1 · Modela el contrato de `artefactos, model card y compatibilidad` sobre `CASO-TAC-047-2B`. La entrada es el dict completo del starter; la operación debe demostrar digest, compatibilidad de features y card completa. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_MODEL_ARTIFACT` en E2.
+
+### hint @line 955
+El DEFECT aprueba con skew o card incompleta: exige digest sha256:, train_fv==serve_fv y card ⊇ {use,limits,metrics,risks}.
+
+### tests @line 961
+El fixture `CASO-TAC-047-2B` satisface un predicado de dominio real; imprime `S47-T2-B PASS` y el assert booleano pasa.
+
+### feedback @line 962
+S47-T2-B-E1: digest sha256 + features alineadas + card de 4 secciones. ¿Qué falla primero en el adverso: latest, skew o card thin?
+
+### title @line 965
+s47-t2-b-e1.py
+
+### title @line 978
+s47-t2-b-e1.py
+
+### instruction @line 991
+S47-T2-B-E2 · Audita tres rutas de `artefactos, model card y compatibilidad`: fixture válido, fixture adverso y registro sin `card_sections`. Entrada: dict con case_id, artifact_digest, feature_version, serving_feature_version, card_sections. Salidas exactas: `PASS`, `REJECT_MODEL_ARTIFACT`, `MISSING:card_sections`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+### hint @line 992
+Primero se calcula `missing`; ningún acceso a card_sections debe ocurrir antes de esa rama.
+
+### tests @line 998
+La tabla cubre válido/adverso/campo `card_sections` ausente y produce exactamente `PASS REJECT_MODEL_ARTIFACT MISSING:card_sections`.
+
+### feedback @line 999
+S47-T2-B-E2: missing card_sections → COMPLETE_MODEL_CARD. El adverso rechaza por digest/skew/card, no por schema.
+
+### title @line 1002
+s47-t2-b-e2.py
+
+### title @line 1023
+s47-t2-b-e2.py
+
+### instruction @line 1045
+S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures distintos. `CASO-TAC-047-2B` debe continuar, el adverso debe devolver `REJECT_MODEL_ARTIFACT` y la ausencia de `card_sections` debe devolver `COMPLETE_MODEL_CARD`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+### hint @line 1046
+Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el contenido.
+
+### tests @line 1052
+Fixtures `CASO-TAC-047-2B`, adverso y sin `card_sections` prueban continue/breach/uncertainty en ese orden.
+
+### feedback @line 1053
+S47-T2-B-E3: CONTINUE / REJECT_MODEL_ARTIFACT / COMPLETE_MODEL_CARD. Sin card no inventes secciones: deriva a completar.
+
+### title @line 1056
+s47-t2-b-e3.py
+
+### title @line 1077
+s47-t2-b-e3.py
+
+### instruction @line 1099
+S47-T3-A-E1 · Verifica el contrato de `batch/online y feature consistency` sobre `CASO-TAC-047-3A`. La entrada es el dict completo del starter; la operación debe demostrar paridad batch/online sin leakage y contract tests. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `DISABLE_INCONSISTENT_SERVING` en E2.
+
+### hint @line 1100
+El DEFECT aprueba skew o leakage: exige batch==online, leakage=False y contract_tests ≥ 3.
+
+### tests @line 1106
+El fixture `CASO-TAC-047-3A` satisface un predicado de dominio real; imprime `S47-T3-A PASS` y el assert booleano pasa.
+
+### feedback @line 1107
+S47-T3-A-E1: batch==online, leakage=False y ≥3 contract tests. El adverso tiene skew y leakage a la vez.
+
+### title @line 1110
+s47-t3-a-e1.py
+
+### title @line 1123
+s47-t3-a-e1.py
+
+### instruction @line 1136
+S47-T3-A-E2 · Decide tres rutas de `batch/online y feature consistency`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, batch_features, online_features, leakage, contract_tests. Salidas exactas: `PASS`, `DISABLE_INCONSISTENT_SERVING`, `MISSING:contract_tests`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+### hint @line 1137
+Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.
+
+### tests @line 1143
+La tabla cubre válido/adverso/campo `contract_tests` ausente y produce exactamente `PASS DISABLE_INCONSISTENT_SERVING MISSING:contract_tests`.
+
+### feedback @line 1144
+S47-T3-A-E2: missing contract_tests → TRACE, no DISABLE. ¿Por qué online distinto del batch es skew aunque el F1 de lab sea alto?
+
+### title @line 1147
+s47-t3-a-e2.py
+
+### title @line 1168
+s47-t3-a-e2.py
+
+### instruction @line 1190
+S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos. `CASO-TAC-047-3A` debe continuar, el adverso debe devolver `DISABLE_INCONSISTENT_SERVING` y la ausencia de `contract_tests` debe devolver `TRACE_FEATURE_PIPELINE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+### hint @line 1191
+Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el contenido.
+
+### tests @line 1197
+Fixtures `CASO-TAC-047-3A`, adverso y sin `contract_tests` prueban continue/breach/uncertainty en ese orden.
+
+### feedback @line 1198
+S47-T3-A-E3: CONTINUE / DISABLE_INCONSISTENT_SERVING / TRACE_FEATURE_PIPELINE. Training-serving skew no se «promueve con fe».
+
+### title @line 1201
+s47-t3-a-e3.py
+
+### title @line 1222
+s47-t3-a-e3.py
+
+### instruction @line 1244
+S47-T3-B-E1 · Clasifica el contrato de `latency, batching y fallback` sobre `CASO-TAC-047-3B`. La entrada es el dict completo del starter; la operación debe demostrar p95 bajo SLO, batch acotado y fallback probado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ACTIVATE_SAFE_FALLBACK` en E2.
+
+### hint @line 1245
+El DEFECT aprueba p95 alto o fallback none: exige p95≤slo, batch 1–64, fallback tipado (p. ej. rules-*) y fallback_tested=True.
+
+### tests @line 1251
+El fixture `CASO-TAC-047-3B` satisface un predicado de dominio real; imprime `S47-T3-B PASS` y el assert booleano pasa.
+
+### feedback @line 1252
+S47-T3-B-E1: p95≤slo, batch 1–64 y fallback rules-* probado. El adverso viola los tres a la vez.
+
+### title @line 1255
+s47-t3-b-e1.py
+
+### title @line 1268
+s47-t3-b-e1.py
+
+### instruction @line 1281
+S47-T3-B-E2 · Calcula tres rutas de `latency, batching y fallback`: fixture válido, fixture adverso y registro sin `fallback_tested`. Entrada: dict con case_id, p95_ms, slo_ms, batch_size, fallback, fallback_tested. Salidas exactas: `PASS`, `ACTIVATE_SAFE_FALLBACK`, `MISSING:fallback_tested`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+### hint @line 1282
+Primero se calcula `missing`; ningún acceso a fallback_tested debe ocurrir antes de esa rama.
+
+### tests @line 1288
+La tabla cubre válido/adverso/campo `fallback_tested` ausente y produce exactamente `PASS ACTIVATE_SAFE_FALLBACK MISSING:fallback_tested`.
+
+### feedback @line 1289
+S47-T3-B-E2: missing fallback_tested → TUNE_BATCH_OR_CAPACITY. Sin fallback ensayado el timeout no tiene salida segura.
+
+### title @line 1292
+s47-t3-b-e2.py
+
+### title @line 1313
+s47-t3-b-e2.py
+
+### instruction @line 1335
+S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos. `CASO-TAC-047-3B` debe continuar, el adverso debe devolver `ACTIVATE_SAFE_FALLBACK` y la ausencia de `fallback_tested` debe devolver `TUNE_BATCH_OR_CAPACITY`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+### hint @line 1336
+Una ausencia no equivale a breach: enrútala a `TUNE_BATCH_OR_CAPACITY` antes de evaluar el contenido.
+
+### tests @line 1342
+Fixtures `CASO-TAC-047-3B`, adverso y sin `fallback_tested` prueban continue/breach/uncertainty en ese orden.
+
+### feedback @line 1343
+S47-T3-B-E3: CONTINUE / ACTIVATE_SAFE_FALLBACK / TUNE_BATCH_OR_CAPACITY. Fallback none nunca es PASS.
+
+### title @line 1346
+s47-t3-b-e3.py
+
+### title @line 1367
+s47-t3-b-e3.py
+
+### instruction @line 1389
+S47-T4-A-E1 · Audita el contrato de `shadow/canary y monitoring hooks` sobre `CASO-TAC-047-4A`. La entrada es el dict completo del starter; la operación debe demostrar tráfico limitado, quality/error gates y hooks. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `STOP_CANARY` en E2.
+
+### hint @line 1390
+El DEFECT aprueba mode full o over-traffic: exige mode shadow/canary, traffic≤10%, quality_delta ≥ −max_drop, error≤max y hooks=True.
+
+### tests @line 1396
+El fixture `CASO-TAC-047-4A` satisface un predicado de dominio real; imprime `S47-T4-A PASS` y el assert booleano pasa.
+
+### feedback @line 1397
+S47-T4-A-E1: mode shadow/canary, traffic≤10%, quality y error dentro de presupuesto, hooks on. Mode full al 100% es STOP.
+
+### title @line 1400
+s47-t4-a-e1.py
+
+### title @line 1413
+s47-t4-a-e1.py
+
+### instruction @line 1426
+S47-T4-A-E2 · Compara tres rutas de `shadow/canary y monitoring hooks`: fixture válido, fixture adverso y registro sin `hooks`. Entrada: dict con case_id, mode, traffic_pct, quality_delta, max_quality_drop, error_rate, max_error_rate, hooks. Salidas exactas: `PASS`, `STOP_CANARY`, `MISSING:hooks`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+### hint @line 1427
+Primero se calcula `missing`; ningún acceso a hooks debe ocurrir antes de esa rama.
+
+### tests @line 1433
+La tabla cubre válido/adverso/campo `hooks` ausente y produce exactamente `PASS STOP_CANARY MISSING:hooks`.
+
+### feedback @line 1434
+S47-T4-A-E2: missing hooks → COLLECT_MORE_SHADOW_EVIDENCE. El adverso viola mode, traffic, quality y error a la vez.
+
+### title @line 1437
+s47-t4-a-e2.py
+
+### title @line 1458
+s47-t4-a-e2.py
+
+### instruction @line 1480
+S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos. `CASO-TAC-047-4A` debe continuar, el adverso debe devolver `STOP_CANARY` y la ausencia de `hooks` debe devolver `COLLECT_MORE_SHADOW_EVIDENCE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+### hint @line 1481
+Una ausencia no equivale a breach: enrútala a `COLLECT_MORE_SHADOW_EVIDENCE` antes de evaluar el contenido.
+
+### tests @line 1487
+Fixtures `CASO-TAC-047-4A`, adverso y sin `hooks` prueban continue/breach/uncertainty en ese orden.
+
+### feedback @line 1488
+S47-T4-A-E3: CONTINUE / STOP_CANARY / COLLECT_MORE_SHADOW_EVIDENCE. Sin hooks no inventes métricas: recolecta evidencia.
+
+### title @line 1491
+s47-t4-a-e3.py
+
+### title @line 1512
+s47-t4-a-e3.py
+
+### instruction @line 1534
+S47-T4-B-E1 · Decide el contrato de `rollback, retirement y audit` sobre `CASO-TAC-047-4B`. La entrada es el dict completo del starter; la operación debe demostrar last-known-good compatible, rollback y retiro auditado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S47-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLLBACK_TO_LAST_GOOD` en E2.
+
+### hint @line 1535
+El DEFECT ignora last-good o retired: exige current≠last_good, features compatibles, rollback_tested, retired no vacío y audit_entry.
+
+### tests @line 1541
+El fixture `CASO-TAC-047-4B` satisface un predicado de dominio real; imprime `S47-T4-B PASS` y el assert booleano pasa.
+
+### feedback @line 1542
+S47-T4-B-E1: current≠last_good, features compatibles, rollback_tested, retired y audit. ¿Qué rompe el adverso primero?
+
+### title @line 1545
+s47-t4-b-e1.py
+
+### title @line 1558
+s47-t4-b-e1.py
+
+### instruction @line 1571
+S47-T4-B-E2 · Filtra tres rutas de `rollback, retirement y audit`: fixture válido, fixture adverso y registro sin `audit_entry`. Entrada: dict con case_id, current, last_good, compatible_features, rollback_tested, retired, audit_entry. Salidas exactas: `PASS`, `ROLLBACK_TO_LAST_GOOD`, `MISSING:audit_entry`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.
+
+### hint @line 1572
+Primero se calcula `missing`; ningún acceso a audit_entry debe ocurrir antes de esa rama.
+
+### tests @line 1578
+La tabla cubre válido/adverso/campo `audit_entry` ausente y produce exactamente `PASS ROLLBACK_TO_LAST_GOOD MISSING:audit_entry`.
+
+### feedback @line 1579
+S47-T4-B-E2: missing audit_entry → REVIEW_RETIREMENT. Compatible=False o rollback no tested es breach, no uncertainty.
+
+### title @line 1582
+s47-t4-b-e2.py
+
+### title @line 1603
+s47-t4-b-e2.py
+
+### instruction @line 1625
+S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos. `CASO-TAC-047-4B` debe continuar, el adverso debe devolver `ROLLBACK_TO_LAST_GOOD` y la ausencia de `audit_entry` debe devolver `REVIEW_RETIREMENT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.
+
+### hint @line 1626
+Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el contenido.
+
+### tests @line 1632
+Fixtures `CASO-TAC-047-4B`, adverso y sin `audit_entry` prueban continue/breach/uncertainty en ese orden.
+
+### feedback @line 1633
+S47-T4-B-E3: CONTINUE / ROLLBACK_TO_LAST_GOOD / REVIEW_RETIREMENT. Borrar el trace no es rollback: es pérdida de evidencia.
+
+### title @line 1636
+s47-t4-b-e3.py
+
+### title @line 1657
+s47-t4-b-e3.py
+
+### title @line 1678
+Proyecto: plataforma MLOps de experimentos, registro y serving (CP-N4-B + CF-4)
+
+### context @line 1679
+Production Data/ML Platform con CF-4. Trabaja sobre un modelo sintético de priorización de atención para una organización ficticia en Tacna. Entrada: dataset versionado, commit, entorno fijado, parámetros y firma de features. Salida: run comparable, modelo registrado, deployment canary y decisión auditable. El gate se bloquea si un lineage incompleto, una firma incompatible, una regresión o un fallback ausente impiden la promoción.
+
+### portfolioNote @line 1741
+Evidencia de CP-N4-B + CF-4 · modelo promovible y reversible: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. Parte del scaffold con predicados reales; no pases a READY solo flipando flags sin evidencia.
+
+### criterion @line 1743
+Correctitud del contrato y gate
+
+### criterion @line 1744
+Pruebas normal/breach/uncertain y recuperación
+
+### criterion @line 1745
+Seguridad, privacidad y least privilege
+
+### criterion @line 1746
+Reproducibilidad, lineage y evidencia
+
+### criterion @line 1747
+Operación: SLO, observabilidad y rollback
+
+### criterion @line 1748
+Comunicación de trade-offs y límites
+
+### question @line 1754
+¿Qué evidencia permite aprobar tracking y reproducibilidad en CASO-TAC-047?
+
+### explanation @line 1757
+La teoría exige seed presente, params y rerun dentro de tolerancia; evidencia decorativa o PII no satisface el contrato.
+
+### question @line 1760
+Si el canary rompe el SLO o el rollback es necesario, ¿qué respuesta preserva seguridad y auditabilidad?
+
+### explanation @line 1763
+El contrato falla cerrado con ROLLBACK_TO_LAST_GOOD (u otro verbo de breach del subtema); no convierte incertidumbre o breach en éxito.
+
+### question @line 1766
+¿Cuál resultado demuestra el gate CP-N4-B + CF-4 (modelo promovible y reversible)?
+
+### explanation @line 1769
+El gate es conductual y medible: solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia.
+
+### question @line 1772
+¿Qué tratamiento de CASO-TAC-047 respeta el alcance del curso?
+
+### explanation @line 1775
+Los casos son sintéticos; una señal de prioridad no prueba fraude, parentesco ni riesgo.
+
+### question @line 1778
+Un modelo en stage production sin approved=True debe…
+
+### explanation @line 1781
+Registry fail-closed: production exige aprobación explícita y artefactos de gobernanza.
+
+### question @line 1784
+¿Cuándo se deshabilita el serving por feature consistency?
+
+### explanation @line 1787
+Training-serving skew o leakage activan DISABLE_INCONSISTENT_SERVING; un F1 alto en lab no salva features inconsistentes.
+
+### question @line 1790
+Un canary con traffic_pct=100 y hooks=False debe…
+
+### explanation @line 1793
+Canary exige presupuesto de tráfico (p. ej. ≤10%) y hooks activos; over-traffic o hooks off detienen el rollout.
+
+### question @line 1796
+¿Qué falta en un artefacto con digest `latest`, features-v3 en train y features-v2 en serving, y card solo con `use`?
+
+### explanation @line 1799
+REJECT_MODEL_ARTIFACT / COMPLETE_MODEL_CARD: digest latest, skew train/serve y card incompleta bloquean el artefacto antes del canary.
+
+### label @line 1806
+MLflow
+
+### note @line 1808
+Tracking, registry y serving
+
+### label @line 1811
+MLflow Tracking
+
+### note @line 1813
+Params, metrics, seed y artefactos
+
+### label @line 1816
+MLflow Model Registry
+
+### note @line 1818
+Stages y approvals
+
+### label @line 1821
+KServe
+
+### note @line 1823
+Serving, canary y runtimes
+
+### label @line 1826
+Feast feature store
+
+### note @line 1828
+Feature parity train/serve
+
+### label @line 1831
+Google Model Cards
+
+### note @line 1833
+Documentación de uso, métricas y límites
+
+### label @line 1836
+sklearn model evaluation
+
+### note @line 1838
+Métricas comparables entre runs
+
+### label @line 1841
+TFX / ML Metadata (concepts)
+
+### note @line 1843
+Lineage de artefactos ML
+
+### label @line 1846
+Google MLOps whitepaper
+
+### note @line 1848
+Niveles de MLOps y gates
+
+### label @line 1851
+NIST AI RMF
+
+### note @line 1853
+Gobernanza y human oversight
+
+### label @line 1857
+Building Machine Learning Powered Applications
+
+### note @line 1857
+Serving y feedback loops
+
+### label @line 1858
+Site Reliability Engineering
+
+### note @line 1858
+SLO, canary y rollback
+
+### label @line 1861
+Coursera MLOps courses
+
+### note @line 1861
+Experiment tracking y deployment
+
+### label @line 1862
+MIT 6.100L
+
+### note @line 1862
+Contratos verificables
+
+### label @line 1863
+Harvard CS50P
+
+### note @line 1863
+Tests y proyectos reproducibles
+
+### label @line 1864
+Py4E
+
+### note @line 1864
+Stdlib-first progressive disclosure
+
+### label @line 1865
+SRE release engineering
+
+### note @line 1865
+Canary y rollback conceptual

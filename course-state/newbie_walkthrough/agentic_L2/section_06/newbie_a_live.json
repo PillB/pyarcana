@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s06-f09045648843",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nprint(ventana, len(txs))\n",
+      "justification_from_packet": "Como explorer aplico «Deduplicar con set y reportar conflictos sin borrarlos». En S06-T1-A-E1 resolví: Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de l. Me guié también por «Ordenar con sorted(..., key=) de forma estable» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "code": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\nprint('KEYS', KEYS)\nprint('more', more)\nprint('KEYS intacto', KEYS)\n",
+      "justification_from_packet": "Como explorer aplico «Acceso seguro y valores faltantes». En S06-T1-A-E2 resolví: Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmut. Me guié también por «`sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(k» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('AttributeError', e)\n    ids_list = list(ids)\n    ids_list.append('C003')\n    print(ids_list)\n    print('diagnóstico: tuple es inmutable; convertir a list para mutar')\n",
+      "justification_from_packet": "Como explorer aplico «Deduplicación y operaciones de set». En S06-T1-A-E3 resolví: Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura. Me guié también por «El modelo CP-N1-B anida: `cliente = {id, nombre, contacts: [» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "code": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n",
+      "justification_from_packet": "Como explorer aplico «Ordenamiento y key». En S06-T1-B-E1 resolví: Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tr. Me guié también por «Elige estructura por **operación dominante**: muchos appends» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('tras alias', xs, copia)\ncopia.append(4)\nprint('tras copia', xs, copia)\n",
+      "justification_from_packet": "Como explorer aplico «Usar list/tuple y slicing para ventanas de registros sin copiar de más». En S06-T1-B-E2 resolví: Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar. Me guié también por «Deduplicar con set y reportar conflictos sin…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nshallow[0]['tags'].append('b')\nprint('orig tras shallow mut', rows)\nrows = [{'id': 'C1', 'tags': ['a']}]\ndeep = copy.deepcopy(rows)\ndeep[0]['tags'].append('z')\nprint('orig', rows)\nprint('deep', deep)\n",
+      "justification_from_packet": "Como explorer aplico «Estructuras anidadas y recorridos». En S06-T1-B-E3 resolví: Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la. Me guié también por «Campos opcionales: `contact.get('telefono')` puede devolver » del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n",
+      "justification_from_packet": "Como explorer aplico «Navegar list[dict] anidados cliente→contactos→txs». En S06-T2-A-E1 resolví: Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el . Me guié también por «Elegir list/dict/set y producir JSON determinista» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "code": "idx = {'C001': 'Ana'}\nprint(idx.get('C001', 'N/A'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n",
+      "justification_from_packet": "Como explorer aplico «Estructuras anidadas y recorridos». En S06-T2-A-E2 resolví: Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra u. Me guié también por «Campos opcionales: `contact.get('telefono')` puede devolver » del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intacto', defaults)\n# peligro de update in-place\nd2 = defaults.copy()\nd2.update(override)\nprint('via copy+update', d2, 'defaults', defaults)\n",
+      "justification_from_packet": "Como explorer aplico «`sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **». En S06-T2-A-E3 resolví: Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** p. Me guié también por «Usar list/tuple y slicing para ventanas de registros…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)\n",
+      "justification_from_packet": "Como explorer aplico «Ordenamiento y key». En S06-T2-B-E1 resolví: Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordena. Me guié también por «Elige estructura por **operación dominante**: muchos appends» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\nprint('sym', sorted(a ^ b))\n",
+      "justification_from_packet": "Como explorer aplico «Modelar registros con dict, get e índices id→fila». En S06-T2-B-E2 resolví: Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted d. Me guié también por «Acceder campos opcionales sin KeyError; missing vs vacío» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "code": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        k = r[key]\n        if k not in seen:\n            seen[k] = r\n            unique.append(r)\n        else:\n            if seen[k] != r:\n                conflicts.append({'id': k, 'a': seen[k], 'b': r})\n    return {'unique': unique, 'conflicts': conflicts}\n\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n",
+      "justification_from_packet": "Como explorer aplico «Elegir list/dict/set y producir JSON determinista». En S06-T2-B-E3 resolví: Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflict. Me guié también por «Unpacking, aliasing y copia» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "code": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n",
+      "justification_from_packet": "Como explorer aplico «Ordenamiento y key». En S06-T3-A-E1 resolví: Cuenta contactos por cliente e imprime `id → n`.. Me guié también por «Elige estructura por **operación dominante**: muchos appends» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = []\nfor c in clients:\n    for t in c['txs']:\n        flat.append({'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']})\nprint(flat)\n",
+      "justification_from_packet": "Como explorer aplico «Elige estructura por **operación dominante**: muchos appends → list; m». En S06-T3-A-E2 resolví: Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.. Me guié también por «Modelar registros con dict, get e índices id→fila» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "code": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\n    print(c['id'], 'ok' if ok else 'review')\n",
+      "justification_from_packet": "Como explorer aplico «**Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin ín». En S06-T3-A-E3 resolví: Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'. Me guié también por «Deduplicación y operaciones de set» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\n\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n",
+      "justification_from_packet": "Como explorer aplico «Desempaquetar secuencias y distinguir alias vs copia superficial/profu». En S06-T3-B-E1 resolví: Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en . Me guié también por «Navegar list[dict] anidados cliente→contactos→txs» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "code": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")\n",
+      "justification_from_packet": "Como explorer aplico «Modelar registros con dict, get e índices id→fila». En S06-T3-B-E2 resolví: Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o . Me guié también por «Acceder campos opcionales sin KeyError; missing vs vacío» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "code": "vals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n",
+      "justification_from_packet": "Como explorer aplico «Elige estructura por **operación dominante**: muchos appends → list; m». En S06-T3-B-E3 resolví: Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si. Me guié también por «Modelar registros con dict, get e índices id→fila» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n",
+      "justification_from_packet": "Como explorer aplico «Desempaquetar secuencias y distinguir alias vs copia superficial/profu». En S06-T4-A-E1 resolví: Ordena por monto ascendente con sorted+key e imprime ids en orden.. Me guié también por «Navegar list[dict] anidados cliente→contactos→txs» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n",
+      "justification_from_packet": "Como explorer aplico «Una **list** es mutable y ordenada: ideal para filas que crecen (`appe». En S06-T4-A-E2 resolví: key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.. Me guié también por «Diccionarios y pertenencia» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\nprint('ret', ret)\nprint('rows mutada', rows)\nprint('base intacta', base, 'copy_sorted', copy_sorted)\n",
+      "justification_from_packet": "Como explorer aplico «Estructura adecuada, complejidad y determinismo». En S06-T4-A-E3 resolví: Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la l. Me guié también por «Desempaquetar secuencias y distinguir alias vs copia superfi» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "code": "jobs = {\n    'cola de llegada de filas': 'list',\n    'lookup frecuente por id': 'dict',\n    'emails únicos de un lote': 'set',\n}\nfor j, struct in jobs.items():\n    print(j, '->', struct)\n",
+      "justification_from_packet": "Como explorer aplico «Un **set** guarda elementos únicos (hashables). Ideal para **ids/email». En S06-T4-B-E1 resolví: Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id. Me guié también por «Acceso seguro y valores faltantes» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n",
+      "justification_from_packet": "Como explorer aplico «Navegar list[dict] anidados cliente→contactos→txs». En S06-T4-B-E2 resolví: Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Impr. Me guié también por «Elegir list/dict/set y producir JSON determinista» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\nprint('list membership: O(n) por chequeo')\nprint('set membership: O(1) promedio')\nprint('C003 in set', 'C003' in s)\n",
+      "justification_from_packet": "Como explorer aplico «Listas, tuplas y slicing». En S06-T4-B-E3 resolví: Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de . Me guié también por «**Unpacking** `a, b = fila` o `head, *rest = fila` desempaqu» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «[3,4]» porque el paquete en «Listas, tuplas y slicing» lo sostiene. Pregunta: ¿Qué produce xs[-2:] si xs = [1,2,3,4]?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «a también ve el append (alias)» porque el paquete en «Unpacking, aliasing y copia» lo sostiene. Pregunta: b = a (listas) y mutas b.append(1). ¿Qué pasa con a?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Listar conflicto en conflicts sin silenciar» porque el paquete en «Diccionarios y pertenencia» lo sostiene. Pregunta: Para reportar dos filas con mismo id y payload distinto debes….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «None (muta in-place)» porque el paquete en «Deduplicación y operaciones de set» lo sostiene. Pregunta: rows.sort(key=...) retorna….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «salidas deterministas/reproducibles» porque el paquete en «Estructuras anidadas y recorridos» lo sostiene. Pregunta: json.dumps(..., sort_keys=True) ayuda a….",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:24:54.432692+00:00",
+  "session_started_at": "2026-07-23T17:30:15.064098Z",
+  "session_ended_at": "2026-07-23T17:31:01.354314Z",
+  "receipt_response_sha256": "b852bd2f709ff49d1bfbe2e4c34a5abc46946bd264f39ff8de64d9f712691893",
+  "receipt_exercises_sha256": "721618e9dfeea90cc7b258d8313547e9b4975eec88ec425b638731fac8bcb4af",
+  "receipt_selfcheck_sha256": "92164cc4aea975219c0b64bfe0b723b5f85f8384d4be9e6fffb4c2ab9cf632da"
+}

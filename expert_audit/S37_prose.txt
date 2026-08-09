@@ -1,0 +1,198 @@
+Profiling, algoritmos y rendimiento
+Profiling y rendimiento
+reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada
+Profilear wall y CPU (perf_counter / process_time) y anotar memoria con n explícito
+Benchmarkear con warmup, mediana y una nota de variabilidad (rango o IQR simple)
+Analizar complejidad O(n²) y medir reducción por blocking sin abandonar recall
+Reducir candidatos con estructuras e índices invertidos antes del scorer
+Aplicar dtypes angostos, chunks y lectura columnar mínima con bound de memoria
+Diseñar cache con invalidación por versión/cutoff y estrategia out-of-core
+Fijar performance budgets y tests de regresión que pueden fallar en CI light
+Priorizar costo total y claridad sobre microoptimización del 2% sin medición
+Gate de escala
+Wall, CPU y profiling de memoria
+Benchmark: fixture, warmup y variabilidad
+Complejidad y blocking
+Cuenta pares y recall
+Estructuras, vectorización y reducción de candidatos
+Dtypes, chunking y lectura columnar
+Chunk size y bound
+Caching, invalidación y out-of-core
+Performance budget y tests
+Costo total, claridad y no microoptimización
+Te muestro 8 demos de medición, blocking, memoria y budgets del path de escala del triage sobre CASO-LIM-037 (sintético).
+Demo: wall, CPU, pico de memoria y hot path (cProfile) del trabajo sintético con n.
+Deriva wall, CPU, pico de alocaciones y la función caliente (cProfile) del work real con n; los ms exactos varían por máquina, por eso el demo reporta predicados estables.
+Demo: warmup real + mediana y spread de 5 runs.
+Higiene de bench real: warmup, N runs, mediana y nota de variabilidad (spread) — no mediana de enteros inventados.
+Demo: all_pairs vs blocked_pairs derivados de n y bloques.
+Contar all_pairs vs blocked derivados del tamaño de bloque es la métrica #1 de escala ER.
+Demo: tamaño de bloque Lima en inverted index.
+El índice por ciudad sintética reduce candidatos antes del scorer.
+Demo: tamaños de chunk, subset columnar y bound de memoria por itemsize.
+Chunking acota el pico; el subset columnar evita blobs; el bound por itemsize justifica dtype angosto con bytes, no con intuición.
+Demo: put, hit e invalidación por cambio de versión.
+Hit/miss y versión de features son parte del diseño: el put se ve; el cambio de versión invalida.
+El test de performance compara measured contra budget acordado.
+Demo: speedup y pair_factor con same_result.
+Before/after con ratio, factor de pares y same_result; micro_only False cuando ganó el algoritmo.
+S37 · Laboratorio de escala del triage (24 retos).
+E1 repara el defecto de medición o costo, E2 fija la política y E3 transfiere el criterio al reporte before/after.
+Fixtures CASO-LIM-037; sin PII real.
+Cada reto exige un predicado calculado, no solo imprimir un lema.
+S37-T1-A-E1 · CASO-LIM-037-1A: mide wall del work sintético con time.perf_counter y reporta n=1000, metric 'wall', ok True.
+El starter ya mide wall pero reporta n=0 (defect: el n del fixture no viaja al reporte).
+Corrige el reporte de medición.
+Todo wall_ms viaja con su n.
+Salida alinea con solution output de S37-T1-A-E1; predicado de dominio sobre fixture sintético.
+S37-T1-A-E1: sin n el wall_ms no es comparable entre PRs.
+S37-T1-A-E2 · Mide wall, CPU y pico de memoria del work sintético (perf_counter + process_time + tracemalloc) con n=5000; imprime wall_ok True, cpu_ok True, peak_ok True, n 5000.
+Starter mide solo wall, fuerza cpu_ok/peak_ok en False y reporta n 0 (defect).
+Contrato wall+CPU+memoria del triage sintético CASO-LIM-037.
+Salida alinea con solution output de S37-T1-A-E2; predicado de dominio sobre fixture sintético.
+S37-T1-A-E2: wall, CPU y peak juntos evitan optimizar la métrica equivocada o ignorar OOM.
+S37-T1-A-E3 · Correctitud junto a velocidad: calcula same_result comparando before_fn y after_fn sobre el mismo input; imprime same_result, ok (igual a same_result) y n 1.
+Starter usa after_fn defectuosa que cambia el resultado (defect: same_result False).
+El gate de escala exige mismo resultado funcional en CASO-LIM-037.
+Performance sin same_result es regresión.
+Salida alinea con solution output de S37-T1-A-E3; predicado de dominio sobre fixture sintético.
+S37-T1-A-E3: same_result se calcula, no se declara por fe.
+S37-T1-B-E1 · Bench real: warmup de work(), 3 runs con perf_counter; imprime (median_ms >= 0) como True, n_runs 3, warmup True.
+Starter usa statistics.mean de una lista inventada y warmup False (defect).
+Fixture CASO-LIM-037-1B. (Los ms exactos varían por máquina; el grader usa el predicado estable.)
+median de los tiempos medidos, no mean de enteros inventados.
+Salida alinea con solution output de S37-T1-B-E1; predicado de dominio sobre fixture sintético.
+S37-T1-B-E1: mediana + warmup sobre tiempos reales es higiene mínima de bench.
+S37-T1-B-E2 · Implementa warmup real: ejecuta work() una vez (descartada), luego 3 runs y reporta n_runs, warmup True y discard_first True.
+Starter no descarta el primer run y reporta warmup False (defect).
+Descarta la primera corrida (cold start).
+Salida alinea con solution output de S37-T1-B-E2; predicado de dominio sobre fixture sintético.
+S37-T1-B-E2: discard_first evita mentir en el PR.
+S37-T1-B-E3 · Variabilidad en muestra chica: con runs=[1,2,9] imprime max=9 como proxy de cola, spread=max-min=8, proxy 'p95_small_n', ok True.
+Starter usa min y spread=0 (defect).
+Nombra el proxy para no confundirlo con p95 real en prod.
+Con N tiny, max es proxy pesimista; spread = max-min es nota de variabilidad.
+Salida alinea con solution output de S37-T1-B-E3; predicado de dominio sobre fixture sintético.
+S37-T1-B-E3: nombra el proxy y reporta spread; no lo confundes con p95 de prod.
+S37-T2-A-E1 · Pares completos para n=10: usa n*(n-1)//2 = 45 (no n*n).
+Imprime 45, n 10, ok True.
+Starter usa n*n=100 (defect).
+Contrato all_pairs del ER sintético CASO-LIM-037.
+Salida alinea con solution output de S37-T2-A-E1; predicado de dominio sobre fixture sintético.
+S37-T2-A-E1: la fórmula de pares es la base del costo.
+S37-T2-A-E2 · Reducción de pares (fracción eliminada): blocked=10, all=45 → round(1-10/45,3)=0.778.
+Imprime 0.778, ok True, blocking True.
+Starter imprime blocked/all (defect: no es reduction).
+reduction = 1 - blocked/all (fracción en [0,1]).
+Salida alinea con solution output de S37-T2-A-E2; predicado de dominio sobre fixture sintético.
+S37-T2-A-E2: sin reduction no hay evidencia de escala.
+S37-T2-A-E3 · Prioriza algoritmo: con all_pairs=4950, blocked=450 y micro_pairs=4900 (shaving 1%), elige prefer 'blocking' si blocked < micro_pairs.
+Imprime prefer, ok (blocked < all_pairs), micro False.
+Starter fija prefer='microopt' y micro=True sin comparar (defect).
+Salida alinea con solution output de S37-T2-A-E3; predicado de dominio sobre fixture sintético.
+S37-T2-A-E3: blocking primero se decide con números, no con lemas.
+S37-T2-B-E1 · Membership: con ids=[1,2,3,4,5] y target=4, construye un set, consulta membership y reporta structure 'set', found True, scan False.
+Starter consulta la lista y reporta structure 'list_scan' con scan True (defect de diseño).
+Salida alinea con solution output de S37-T2-B-E1; predicado de dominio sobre fixture sintético.
+S37-T2-B-E1: la estructura correcta es optimización de verdad.
+S37-T2-B-E2 · Inverted index: filas Lima×2 → imprime 2, city 'Lima', ok True.
+Starter deja count=0 sin filtrar por ciudad Lima (defect).
+Fixture de ciudades sintéticas sin PII real ni parentesco inferido.
+Cuenta entidades por clave de blocking.
+Salida alinea con solution output de S37-T2-B-E2; predicado de dominio sobre fixture sintético.
+S37-T2-B-E2: el tamaño del bloque predice pares locales.
+S37-T2-B-E3 · Orden operativo: con n=10, all_pairs=n*(n-1)//2 y blocked con 5 bloques, el pipeline correcto es block→score.
+Imprime order ['block','score'], pairs_after_block (blocked), ok True.
+Starter usa order score→block y pairs_after_block=all_pairs (defect).
+Salida alinea con solution output de S37-T2-B-E3; predicado de dominio sobre fixture sintético.
+S37-T2-B-E3: el orden block→score se demuestra con el conteo de pares.
+S37-T3-A-E1 · Chunks: 10 items size 4 → ceil = 3 chunks.
+Imprime 3, size 4, ok True.
+Starter usa n//size=2 (defect).
+Planifica el job out-of-core del fixture sintético.
+Salida alinea con solution output de S37-T3-A-E1; predicado de dominio sobre fixture sintético.
+S37-T3-A-E1: contar chunks planifica el job out-of-core.
+S37-T3-A-E2 · Columnar subset: del row con id/amt/blob/notes, proyecta solo ['id','amt']; imprime las claves, ok True, columnar True.
+Starter imprime todas las columnas y columnar False (defect).
+Lee solo columnas usadas por el scorer.
+Salida alinea con solution output de S37-T3-A-E2; predicado de dominio sobre fixture sintético.
+S37-T3-A-E2: columnar es reducción de I/O, no solo de RAM.
+S37-T3-A-E3 · dtype angosto: con array.array, compara itemsize de 'i' (int32) vs 'q' (int64).
+Si itemsize_i < itemsize_q, imprime dtype 'int32', mem 'lower', ok True.
+Starter fuerza int64 y mem higher (defect).
+Si el rango cabe en int32, ahorras memoria.
+Salida alinea con solution output de S37-T3-A-E3; predicado de dominio sobre fixture sintético.
+S37-T3-A-E3: dtype es decisión de presupuesto de RAM medida en bytes.
+S37-T3-B-E1 · Cache key completa: imprime ('fs-v1','cut'), hit True, ok True.
+Starter key incompleta solo ('fs-v1',) (defect: colisiones).
+Fixture de features sintéticas versionadas.
+Key = versión de features + cutoff.
+Salida alinea con solution output de S37-T3-B-E1; predicado de dominio sobre fixture sintético.
+S37-T3-B-E1: la key completa es la invalidación.
+S37-T3-B-E2 · Invalidación por versión: con store pre-cargado en fs-v1, al pedir fs-v2 imprime reason 'version_change', hit False, stale True.
+Starter imprime 'keep_forever' y stale False (defect).
+Al cambiar feature set, la key nueva no pega.
+Salida alinea con solution output de S37-T3-B-E2; predicado de dominio sobre fixture sintético.
+S37-T3-B-E2: invalidar es feature, no afterthought.
+S37-T3-B-E3 · Out-of-core: procesa range(10) en chunks de 4; imprime ooc 'chunk', max_chunk 4, ram 'bounded'.
+Starter usa ooc 'load_all' y max_chunk=len(data) (defect).
+Salida alinea con solution output de S37-T3-B-E3; predicado de dominio sobre fixture sintético.
+S37-T3-B-E3: ooc se demuestra con el tamaño máximo de chunk.
+S37-T4-A-E1 · Budget pass: measured 9 <= budget 10 → True.
+Imprime True, budget 10, measured 9.
+Starter compara al revés (defect).
+Assert del PR de performance sintético.
+Salida alinea con solution output de S37-T4-A-E1; predicado de dominio sobre fixture sintético.
+S37-T4-A-E1: el signo del budget es el assert del PR.
+S37-T4-A-E2 · Budget fail: measured 12 > budget 10 → False.
+Imprime False, budget 10, measured 12.
+Starter fuerza True (defect: test siempre verde).
+El budget debe poder fallar.
+Salida alinea con solution output de S37-T4-A-E2; predicado de dominio sobre fixture sintético.
+S37-T4-A-E2: un budget que no puede fallar no es budget.
+S37-T4-A-E3 · Budget multi-métrica: con límites {latency_p95:50, memory:512, pairs:10000} y medidos {12, 400, 8000}, imprime keys ['latency_p95','memory','pairs'], all_pass True, n 3.
+Starter solo budgetea latency y fuerza all_pass True (defect).
+Latencia sola no basta: cada dimensión debe cumplir measured <= budget.
+Salida alinea con solution output de S37-T4-A-E3; predicado de dominio sobre fixture sintético.
+S37-T4-A-E3: budget multi-métrica evita tradeoffs ocultos (bajar p95 inflando pares).
+S37-T4-B-E1 · Speedup 80/20 = 4.0 (ratio before/after, no el inverso).
+Imprime 4.0, ok True, micro_only False.
+Starter imprime after/before y marca micro_only True (defect).
+Fixture before/after sintético del path N3.
+Salida alinea con solution output de S37-T4-B-E1; predicado de dominio sobre fixture sintético.
+S37-T4-B-E1: speedup es ratio, no diferencia ni inverso.
+S37-T4-B-E2 · Claridad sobre shaving 2%: con algo_gain=0.80 y micro_gain=0.02, prefiere 'clarity' si micro_gain < 0.05 y algo_gain > micro_gain; imprime prefer, ok (algo_gain > micro_gain), shave '2pct_no'.
+Starter fija prefer='micro_shave' y shave='2pct_yes' sin aplicar la regla (defect).
+Costo total incluye bugs y review.
+Salida alinea con solution output de S37-T4-B-E2; predicado de dominio sobre fixture sintético.
+S37-T4-B-E2: claridad es performance de equipo medida con gains, no un lema.
+S37-T4-B-E3 · Claves del reporte before/after: construye un dict con before, after, dataset y hardware; imprime ['before','after','dataset','hardware'], ok True, n 4.
+Starter solo ['before','after'] (defect: omite dataset y hardware).
+Sin hardware/dataset el speedup no es comparable.
+Salida alinea con solution output de S37-T4-B-E3; predicado de dominio sobre fixture sintético.
+S37-T4-B-E3: el reporte es el entregable, no el feeling.
+Reporte antes/después de escala del triage (CP-N3-C escala)
+Alineación al gate de escala de la sección (same_result + before/after + budget)
+Correctitud técnica en entorno declarado
+Privacidad / sin PII real / sin secretos / sin inferencia de fraude
+Pruebas o casos de borde documentados
+Código legible y límites claros
+Documentación en español profesional
+Before/after con mismo resultado
+La primera corrida incluye cold start; warmup la descarta para reportar el estado estacionario del algoritmo.
+Particionar por clave reduce el número de pares que entran al scorer caro; el recall sigue siendo gate (S30).
+Performance budget en CI:
+El test de regresión de performance debe poder poner rojo el PR cuando se viola el budget.
+Microoptimizar 2% sin medición:
+El costo total incluye bugs y review; sin medición el 2% es ruido y a menudo pérdida neta.
+Un wall_ms sin n en el reporte:
+Sin el tamaño del input no puedes comparar benches ni validar que el fixture no cambió en silencio.
+Hardware ayuda, pero no sustituye n.
+Wall clock monotónico
+Nombra la función caliente tras medir wall
+Budgets y SLI
+Regresión de performance en CI
+Profiling y memoria
+Complejidad y diseño
+Big-O y costos
+Python con stdlib primero

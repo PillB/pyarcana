@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S12",
+  "section_id": "performance",
+  "phase": "PHASE_5",
+  "lane": "LANE-N1-FINISH",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "performance"
+  },
+  "retired_from_bank": [
+    "multiprocessing-vs-threads",
+    "profiling-tools",
+    "logging-best-practices",
+    "argparse-cli"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S12.",
+  "families": [
+    {
+      "family_id": "S12-T1-A-EX",
+      "concept": "requests-status-json",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S12-T1-B-EX",
+      "concept": "timeout-pagination-retry-ratelimit",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S12-T2-A-EX",
+      "concept": "auth-secrets-cache-provenance",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S12-T2-B-EX",
+      "concept": "contract-tests-fallback",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S12-T3-A-EX",
+      "concept": "schema-crud-joins",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S12-T3-B-EX",
+      "concept": "params-transactions-constraints-indexes",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S12-T4-A-EX",
+      "concept": "normalize-geocode-authorized",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S12-T4-B-EX",
+      "concept": "coord-quality-haversine-cache-policy",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (performance key)",
+    "course-state/s12_phase5_exam_bank.json"
+  ]
+}

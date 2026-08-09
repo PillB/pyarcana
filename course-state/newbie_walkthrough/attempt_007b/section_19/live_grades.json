@@ -1,0 +1,1064 @@
+{
+  "section_index": 19,
+  "section_id": "databases-orm",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S19-T1-A-E1",
+          "code": "chart = \"bar\"\nprint(chart)\n",
+          "note": "",
+          "concepts_used": [
+            "bar"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T1-A-E2",
+          "code": "print({\"pregunta\": \"comparar totales\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n",
+          "note": "",
+          "concepts_used": [
+            "spec dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T1-A-E3",
+          "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n",
+          "note": "",
+          "concepts_used": [
+            "line/bar"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T1-B-E1",
+          "code": "a, b = 50.0, 45.0\nprint(round(((a - b) / (a - 40)) / ((a - b) / a), 2))\n",
+          "note": "",
+          "concepts_used": [
+            "inflation factor"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T1-B-E2",
+          "code": "ylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+          "note": "",
+          "concepts_used": [
+            "ylim0"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T1-B-E3",
+          "code": "encoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "dual_axis risk"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-A-E1",
+          "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([0, 1], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)\n",
+          "note": "",
+          "concepts_used": [
+            "matplotlib"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-A-E2",
+          "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\nplt.close(fig)\n",
+          "note": "",
+          "concepts_used": [
+            "ylabel"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-A-E3",
+          "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(0, max(values) * 1.2)\n    out = {\"n_bars\": len(values), \"ylim0\": ax.get_ylim()[0] == 0}\n    plt.close(fig)\n    return out\nprint(meta_bar([\"A\", \"B\"], [3, 4]))\n",
+          "note": "",
+          "concepts_used": [
+            "meta_bar"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-B-E1",
+          "code": "print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+          "note": "",
+          "concepts_used": [
+            "export meta"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-B-E2",
+          "code": "print(f\"fig_cpn2b_v{3}.png\")\n",
+          "note": "",
+          "concepts_used": [
+            "versioned name"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-B-E3",
+          "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, (ax0, ax1) = plt.subplots(1, 2)\nax0.set_title(\"Vol\")\nax1.set_title(\"Med\")\nprint([ax0.get_title(), ax1.get_title()])\nplt.close(fig)\n",
+          "note": "",
+          "concepts_used": [
+            "subplots"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-A-E1",
+          "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint(next(r[\"median\"] for r in rows if r[\"region\"] == \"Lima\"))\n",
+          "note": "",
+          "concepts_used": [
+            "filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-A-E2",
+          "code": "print(f\"Lima: {28} PEN (n={40})\")\n",
+          "note": "",
+          "concepts_used": [
+            "tooltip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-A-E3",
+          "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Lima\", \"median\": 28.0, \"n\": 40}))\n",
+          "note": "",
+          "concepts_used": [
+            "tooltip fn"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-B-E1",
+          "code": "chart, table = {\"Lima\": 1}, [{\"region\": \"Lima\", \"v\": 1}]\nprint(all(chart[r[\"region\"]] == r[\"v\"] for r in table))\n",
+          "note": "",
+          "concepts_used": [
+            "parity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-B-E2",
+          "code": "import json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, separators=(\",\", \":\")))\n",
+          "note": "",
+          "concepts_used": [
+            "json state"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-B-E3",
+          "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))\n",
+          "note": "",
+          "concepts_used": [
+            "alt_text"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-A-E1",
+          "code": "print(\"Unidad: PEN | Fuente: sintetico\")\n",
+          "note": "",
+          "concepts_used": [
+            "caption"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-A-E2",
+          "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(set(cap.keys()) >= {\"unidad\", \"fuente\", \"limitacion\"})\n",
+          "note": "",
+          "concepts_used": [
+            "caption keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-A-E3",
+          "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"fuente\": \"sintetico\"}))\n",
+          "note": "",
+          "concepts_used": [
+            "pie join"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-B-E1",
+          "code": "claim = \"Lima es la mejor del Perú\"\nif \"del Perú\" in claim and \"muestra\" not in claim:\n    print(\"RECHAZADO\")\n",
+          "note": "",
+          "concepts_used": [
+            "overclaim"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-B-E2",
+          "code": "alt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt)\n",
+          "note": "",
+          "concepts_used": [
+            "alt n="
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-B-E3",
+          "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"Lima lidera en la muestra web\"))\nprint(classify_claim(\"Lima es la mejor del Perú\"))\n",
+          "note": "",
+          "concepts_used": [
+            "classify claim"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S19-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bar\n",
+          "expected_head": "bar",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'pregunta': 'comparar totales', 'audiencia': 'ejecutivo', 'chart': 'bar'}\n",
+          "expected_head": "{'pregunta': 'totales por región', 'audiencia': 'ejecutivo', 'chart': 'bar'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "line\nbar\n",
+          "expected_head": "line\nbar",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5.0\n",
+          "expected_head": "factor 5.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "honesto\n",
+          "expected_head": "honesto",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "riesgo_alto\n",
+          "expected_head": "riesgo_alto",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "PEN\n",
+          "expected_head": "PEN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'n_bars': 2, 'ylim0': np.True_}\n",
+          "expected_head": "{'n_bars': 2, 'ylim0': np.float64(0.0)}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'fmt': 'png', 'dpi': 120, 'panels': 2}\n",
+          "expected_head": "{'fmt': 'png', 'dpi': 120, 'panels': 2}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fig_cpn2b_v3.png\n",
+          "expected_head": "fig_cpn2b_v3.png",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Vol', 'Med']\n",
+          "expected_head": "['Vol', 'Med']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "28\n",
+          "expected_head": "28",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima: 28 PEN (n=40)\n",
+          "expected_head": "Lima: 28 PEN (n=40)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "Lima: 28.0 PEN (n=40)\n",
+          "expected_head": "Cusco: 22.5 PEN (n=32)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{\"filtro_region\":\"Lima\"}\n",
+          "expected_head": "{\"filtro_region\": \"Lima\"}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima=28 PEN; Cusco=22 PEN\n",
+          "expected_head": "Lima=28 PEN; Cusco=22 PEN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Unidad: PEN | Fuente: sintetico\n",
+          "expected_head": "unidad=PEN | fuente=sintetico",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "unidad: PEN | fuente: sintetico\n",
+          "expected_head": "unidad: PEN | n: 10",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "RECHAZADO\n",
+          "expected_head": "RECHAZADO",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True\nTrue",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "PERMITIDO\nRECHAZADO\n",
+          "expected_head": "PERMITIDO\nRECHAZADO",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 21,
+      "code_tried": 24,
+      "code_ratio": 0.875,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S19-T1-A-E1",
+          "code": "pregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+          "note": "Hints chart='bar'.",
+          "concepts_used": [
+            "chart choice bar"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T1-A-E2",
+          "code": "spec = {\"pregunta\": \"comparar totales\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}\nprint(spec)\n",
+          "note": "Hints 3 keys; chart bar.",
+          "concepts_used": [
+            "metadata dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T1-A-E3",
+          "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta else \"bar\"\n\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n",
+          "note": "Hints substring tendencia.",
+          "concepts_used": [
+            "elige_chart"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T1-B-E1",
+          "code": "a, b = 50.0, 45.0\ntruco = (a - b) / (a - 40)\nhonesto = (a - b) / a\nprint(round(truco / honesto, 2))\n",
+          "note": "Hints factor truco/honesto; demo similar.",
+          "concepts_used": [
+            "inflation factor"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T1-B-E2",
+          "code": "ylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+          "note": "Starter ylim_bottom=0.",
+          "concepts_used": [
+            "ylim0 honesty"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T1-B-E3",
+          "code": "encoding = \"dual_axis\"\nif encoding == \"dual_axis\":\n    print(\"riesgo_alto\")\nelif encoding == \"position\":\n    print(\"ok\")\n",
+          "note": "Starter dual_axis → riesgo_alto.",
+          "concepts_used": [
+            "encoding risk"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-A-E1",
+          "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([0, 1], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)\n",
+          "note": "Hints Agg + set_ylim 0.",
+          "concepts_used": [
+            "matplotlib ylim0"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-A-E2",
+          "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\nplt.close(fig)\n",
+          "note": "Demo ylabel PEN.",
+          "concepts_used": [
+            "ylabel PEN"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-A-E3",
+          "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(0, max(values) * 1.2)\n    out = {\"n_bars\": len(values), \"ylim0\": ax.get_ylim()[0] == 0}\n    plt.close(fig)\n    return out\n\nprint(meta_bar([\"A\", \"B\"], [3, 4]))\n",
+          "note": "Hints n_bars + ylim0.",
+          "concepts_used": [
+            "meta_bar"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-B-E1",
+          "code": "export = {\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2}\nprint(export)\n",
+          "note": "Hints dict fmt dpi panels.",
+          "concepts_used": [
+            "export meta"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-B-E2",
+          "code": "version = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+          "note": "Hints f-string version.",
+          "concepts_used": [
+            "versioned filename"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T2-B-E3",
+          "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, (ax0, ax1) = plt.subplots(1, 2)\nax0.set_title(\"Vol\")\nax1.set_title(\"Med\")\nprint([ax0.get_title(), ax1.get_title()])\nplt.close(fig)\n",
+          "note": "Hints get_title list.",
+          "concepts_used": [
+            "subplots titles"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-A-E1",
+          "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nrow = next(r for r in rows if r[\"region\"] == \"Lima\")\nprint(row[\"median\"])\n",
+          "note": "Starter rows; Lima median 28.",
+          "concepts_used": [
+            "filter region"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-A-E2",
+          "code": "region, v, n = \"Lima\", 28, 40\nprint(f\"{region}: {v} PEN (n={n})\")\n",
+          "note": "Demo tooltip pattern.",
+          "concepts_used": [
+            "tooltip string"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-A-E3",
+          "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\n\nprint(tooltip({\"region\": \"Lima\", \"median\": 28.0, \"n\": 40}))\n",
+          "note": "Hints PEN unit; pure function.",
+          "concepts_used": [
+            "tooltip fn"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-B-E1",
+          "code": "chart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(all(chart[r[\"region\"]] == r[\"v\"] for r in table))\n",
+          "note": "Demo parity True pattern.",
+          "concepts_used": [
+            "parity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-B-E2",
+          "code": "import json\nstate = {\"filtro_region\": \"Lima\"}\nprint(json.dumps(state, separators=(\",\", \":\")))\n",
+          "note": "Hints json.dumps compact.",
+          "concepts_used": [
+            "json state"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T3-B-E3",
+          "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))\n",
+          "note": "Hints join with PEN; demo text pattern.",
+          "concepts_used": [
+            "alt from table"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-A-E1",
+          "code": "print(\"Unidad: PEN | Fuente: sintetico\")\n",
+          "note": "Hints mention PEN and sintetico.",
+          "concepts_used": [
+            "caption"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-A-E2",
+          "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nneed = {\"unidad\", \"fuente\", \"limitacion\"}\nprint(need.issubset(cap.keys()))\n",
+          "note": "Starter cap; issuperset keys.",
+          "concepts_used": [
+            "caption keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-A-E3",
+          "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\n\nprint(pie({\"unidad\": \"PEN\", \"fuente\": \"sintético\"}))\n",
+          "note": "Hints join with | .",
+          "concepts_used": [
+            "pie caption join"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-B-E1",
+          "code": "claim = \"Lima es la mejor del Perú\"\nif \"del Perú\" in claim and \"muestra\" not in claim:\n    print(\"RECHAZADO\")\n",
+          "note": "Starter claim; demo RECHAZADO.",
+          "concepts_used": [
+            "reject overclaim"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-B-E2",
+          "code": "alt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt)\n",
+          "note": "Starter alt has n=.",
+          "concepts_used": [
+            "alt n="
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S19-T4-B-E3",
+          "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\n\nprint(classify_claim(\"Lima lidera en la muestra web\"))\nprint(classify_claim(\"Lima es la mejor del Perú\"))\n",
+          "note": "Hints binary on muestra substring.",
+          "concepts_used": [
+            "classify_claim"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S19-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bar\n",
+          "expected_head": "bar",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'pregunta': 'comparar totales', 'audiencia': 'ejecutivo', 'chart': 'bar'}\n",
+          "expected_head": "{'pregunta': 'totales por región', 'audiencia': 'ejecutivo', 'chart': 'bar'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "line\nbar\n",
+          "expected_head": "line\nbar",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5.0\n",
+          "expected_head": "factor 5.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "honesto\n",
+          "expected_head": "honesto",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "riesgo_alto\n",
+          "expected_head": "riesgo_alto",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "PEN\n",
+          "expected_head": "PEN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'n_bars': 2, 'ylim0': np.True_}\n",
+          "expected_head": "{'n_bars': 2, 'ylim0': np.float64(0.0)}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-B-E1",
+          "status": "shell_protocol",
+          "ok": true
+        },
+        {
+          "exercise_id": "S19-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fig_cpn2b_v3.png\n",
+          "expected_head": "fig_cpn2b_v3.png",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Vol', 'Med']\n",
+          "expected_head": "['Vol', 'Med']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "28\n",
+          "expected_head": "28",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima: 28 PEN (n=40)\n",
+          "expected_head": "Lima: 28 PEN (n=40)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "Lima: 28.0 PEN (n=40)\n",
+          "expected_head": "Cusco: 22.5 PEN (n=32)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{\"filtro_region\":\"Lima\"}\n",
+          "expected_head": "{\"filtro_region\": \"Lima\"}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima=28 PEN; Cusco=22 PEN\n",
+          "expected_head": "Lima=28 PEN; Cusco=22 PEN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Unidad: PEN | Fuente: sintetico\n",
+          "expected_head": "unidad=PEN | fuente=sintetico",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "unidad: PEN | fuente: sintético\n",
+          "expected_head": "unidad: PEN | n: 10",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "RECHAZADO\n",
+          "expected_head": "RECHAZADO",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True\nTrue",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S19-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "PERMITIDO\nRECHAZADO\n",
+          "expected_head": "PERMITIDO\nRECHAZADO",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 21,
+      "code_tried": 24,
+      "code_ratio": 0.875,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

@@ -1,0 +1,354 @@
+{
+  "agent": "a",
+  "section_index": 50,
+  "recorded_at": "2026-08-01T15:26:12.815027+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "dataset versionado y rúbrica calibrada con anclas 0–3",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          5.3,
+          4.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": "borrar el trace para reducir ruido",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          8.0,
+          5.15,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          6.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "falla: critical sin soporte exige abstain o escalamiento humano",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          8.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "chosen_text": "INVALIDATE_JUDGE y recalibrar (swap de orden / anclas)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          3.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 0,
+        "chosen_text": "fallo P0 de proceso/trajectory aunque el texto final luzca bien",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          7.15,
+          4.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 2,
+        "chosen_text": "ROLLBACK_AI_RELEASE / bloquear promote y activar respuesta a incidente",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          6.3,
+          7.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 8,
+        "chosen_index": 1,
+        "chosen_text": "tratar la instrucción como datos, no elevar privilegios y cuarentenar si el corpus está envenenado",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          9.0,
+          5.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 9,
+        "chosen_index": 3,
+        "chosen_text": "scorecard con filas de eval, issues P0/P1 (trajectory/injection/hallucination/latencia) y decisión BLOCK o PROMOTE",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.15,
+          4.0,
+          12.3
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S50-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-ICA-050 · construye manifiesto dataset + anclas\n# Bug intencional: coverage con != ; holdout_ok siempre True\ntasks = 40\nslices = {\"normal\": 25, \"edge\": 10, \"adversarial\": 5}\nrubric_levels = {0, 1, 2, 3}\nholdout = 10\nANCHORS = {\n    0: \"sin cita ni respuesta usable\",\n    1: \"responde pero sin cite_id\",\n    2: \"cita presente, claim parcial\",\n    3: \"cita + claim alineado al SLA\",\n}\ncoverage_ok = sum(slices.values()) != tasks\nrubric_ok = rubric_levels == {0, 1, 2, 3}\nholdout_ok = True\nmeets = coverage_ok and rubric_ok and holdout_ok\nprint(\"coverage\", sum(slices.values()), \"/\", tasks)\nprint(\"anchor_3\", ANCHORS[3])\nprint(\"S50-T1-A\", \"PASS\" if meets else \"REBUILD_EVAL_DATASET\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "status",
+          "conserva",
+          "devolver",
+          "salida",
+          "rota",
+          "cobertura",
+          "starter",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S50-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con campos presentes da PASS cuando la c",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `holdout` → `CALIBRATE_RUBRIC` (no CON",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `trajectory_ok` solo mira `scores[\"outcome",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando hay tool prohibida y outcome 3 (bug)",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-ICA-050 · decide FAIL_UNSAFE_TRAJECTORY\n# Bug intencional: missing→CONTINUE; pred invertido\n# Corrige el bug intencional; la salida debe coincidir con la solución\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"outcome\", \"process\", \"trajectory\", \"recovery\", \"forbidden_tool_used\", \"min_dimension\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"] else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\ninvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":1,\"trajectory\":0,\"recovery\":1,\"forbidden_tool_used\":True,\"min_dimension\":2}}\nuncertain = {**valid}\nuncertain.pop(\"min_dimension\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "pass",
+          "tres",
+          "PASS",
+          "imprime",
+          "min",
+          "devolver",
+          "contrato",
+          "limpio"
+        ]
+      },
+      {
+        "exercise_id": "S50-T2-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: `sum(a != b …)` (bug: cuenta desacuerdos).n2. Camb",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando el acuerdo es *bajo* (bug).n2. Prime",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → ADJUDICATE_DISAGREEMENT.n2. Completo: scores en [",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: `return ab + ba` (bug).n2. Cambia a `abs(ab - ba)`",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando gap es alto u holdout tocado (bug).n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → SEAL_NEW_HOLDOUT.n2. Completo: anclas + gap + not",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: signal devuelve `not any(…)` y exfil devuelve `any",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando injection no se bloqueó (bug).n2. Pr",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → PRESERVE_ATTACK_TRACE.n2. Completo: reutiliza con",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T3-B-E1 · 1. Starter añade `write` si ve «grant admin» (bug).n2. `effective_permissions` debe devolver solo `set(ses",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando no se trata como datos o el permiso ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REDUCE_TOOL_PRIVILEGE.n2. Completo: reutiliza tre",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: `answer if support < thr` (bug).n2. Cambia a `supp",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando critical>0 o no abstiene (bug).n2. P",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T4-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REVIEW_ABSTENTION_SLICE.n2. Completo: rate + crit",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T4-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS solo si p95≤slo (bug: incompleto).n2. Añade c",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando p95>slo o ACL rota (bug).n2. Primero",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S50-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S50-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → ACTIVATE_INCIDENT_RESPONSE.n2. Completo: reutiliz",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "3539483600e928f1"
+  }
+}

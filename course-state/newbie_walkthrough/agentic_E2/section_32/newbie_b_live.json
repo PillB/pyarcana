@@ -1,0 +1,490 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 32,
+  "packet_sha": "a164fd7487359385",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s32-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T1-A-E1\nrecord = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "reject_unknown_feature",
+        "status",
+        "print",
+        "categóricas",
+        "salida",
+        "true",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T1-A-E1 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T1-A-E1 · Calcula el contrato de `numéricas/categóricas/texto` sobre `CASO-LIM-032-1A`. La entrada es el dict completo del starter; la operación debe demostrar row keys ⊆ catalog con catalog_ok. R…». Hints: Relaciona los campos `schema, row, catalog_ok` con la regla explicada en S32-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva row keys ⊆ catalog con catalog_ok; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], …`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "results",
+        "rutas",
+        "invertido",
+        "reject_unknown_feature",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T1-A-E2 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T1-A-E2 · Modela tres rutas de `numéricas/categóricas/texto`: fixture válido, fixture adverso y registro sin `schema`. Entrada: dict con case_id, schema, row, catalog_ok. Salidas exactas: `PASS`, …». Hints: Primero se calcula `missing`; ningún acceso a schema debe ocurrir antes de esa rama.; Después aplica la regla de S32-T1-A: row keys ⊆ catalog con catalog_ok. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S32-T1-A-E3\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"schema\"\n    return \"CONTINUE\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "results",
+        "request_catalog",
+        "fallo",
+        "reject_unknown_feature",
+        "print",
+        "required",
+        "fixtures",
+        "incertidumbre"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T1-A-E3 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T1-A-E3 · Contrasta fallo cerrado para `numéricas/categóricas/texto` con tres fixtures distintos. `CASO-LIM-032-1A` debe continuar, el adverso debe devolver `REJECT_UNKNOWN_FEATURE` y la ausencia …». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_CATALOG` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró row keys ⊆ catalog con catalog_ok; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T1-B-E1\nrecord = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "encoding",
+        "entrada",
+        "median",
+        "status",
+        "print",
+        "indicators",
+        "none",
+        "salida"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T1-B-E1 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T1-B-E1 · Calcula el contrato de `missing indicators, escalamiento y encoding` sobre `CASO-LIM-032-1B`. La entrada es el dict completo del starter; la operación debe demostrar mediana de train con…». Hints: Relaciona los campos `values, median, silent_fill` con la regla explicada en S32-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva mediana de train con silent_fill=False; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, …`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "encoding",
+        "entrada",
+        "results",
+        "rutas",
+        "decisión",
+        "invertido",
+        "median",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T1-B-E2 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T1-B-E2 · Modela tres rutas de `missing indicators, escalamiento y encoding`: fixture válido, fixture adverso y registro sin `median`. Entrada: dict con case_id, values, median, silent_fill. Salid…». Hints: Primero se calcula `missing`; ningún acceso a median debe ocurrir antes de esa rama.; Después aplica la regla de S32-T1-B: mediana de train con silent_fill=False. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is True else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "encoding",
+        "uncertain",
+        "results",
+        "fallo",
+        "item",
+        "median",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T1-B-E3 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T1-B-E3 · Contrasta fallo cerrado para `missing indicators, escalamiento y encoding` con tres fixtures distintos. `CASO-LIM-032-1B` debe continuar, el adverso debe devolver `REJECT_SILENT_FILL` y …». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_MEDIAN` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró mediana de train con silent_fill=False; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T2-A-E1\nrecord = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "reject_label_as_feature",
+        "distance",
+        "status",
+        "print",
+        "label",
+        "shared"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T2-A-E1 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T2-A-E1 · Calcula el contrato de `shared contact/address, distance y graph features` sobre `CASO-LIM-032-2A`. La entrada es el dict completo del starter; la operación debe demostrar graph feats si…». Hints: Relaciona los campos `shared, degree, uses_label` con la regla explicada en S32-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva graph feats sin usar label de decisión; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "reject_label_as_feature",
+        "results",
+        "rutas",
+        "distance",
+        "invertido",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T2-A-E2 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T2-A-E2 · Modela tres rutas de `shared contact/address, distance y graph features`: fixture válido, fixture adverso y registro sin `degree`. Entrada: dict con case_id, shared, degree, uses_label. …». Hints: Primero se calcula `missing`; ningún acceso a degree debe ocurrir antes de esa rama.; Después aplica la regla de S32-T2-A: graph feats sin usar label de decisión. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"uses_label\"] is True else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "uncertain",
+        "reject_label_as_feature",
+        "results",
+        "distance",
+        "fallo",
+        "item",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T2-A-E3 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T2-A-E3 · Contrasta fallo cerrado para `shared contact/address, distance y graph features` con tres fixtures distintos. `CASO-LIM-032-2A` debe continuar, el adverso debe devolver `REJECT_LABEL_AS_…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_GRAPH_FEAT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró graph feats sin usar label de decisión; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T2-B-E1\nrecord = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "ventanas",
+        "entrada",
+        "status",
+        "print",
+        "half",
+        "salida",
+        "case_id",
+        "contrato"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T2-B-E1 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T2-B-E1 · Calcula el contrato de `ventanas y frecuencia` sobre `CASO-LIM-032-2B`. La entrada es el dict completo del starter; la operación debe demostrar ventana half-open sin incluir t. Reemplaza…». Hints: Relaciona los campos `events, t, w, includes_t` con la regla explicada en S32-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva ventana half-open sin incluir t; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': …`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "ventanas",
+        "entrada",
+        "results",
+        "rutas",
+        "decisión",
+        "invertido",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T2-B-E2 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T2-B-E2 · Modela tres rutas de `ventanas y frecuencia`: fixture válido, fixture adverso y registro sin `w`. Entrada: dict con case_id, events, t, w, includes_t. Salidas exactas: `PASS`, `REJECT_FU…». Hints: Primero se calcula `missing`; ningún acceso a w debe ocurrir antes de esa rama.; Después aplica la regla de S32-T2-B: ventana half-open sin incluir t. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"includes_t\"] is True else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "ventanas",
+        "uncertain",
+        "results",
+        "fallo",
+        "item",
+        "print",
+        "required",
+        "fixtures"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T2-B-E3 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T2-B-E3 · Contrasta fallo cerrado para `ventanas y frecuencia` con tres fixtures distintos. `CASO-LIM-032-2B` debe continuar, el adverso debe devolver `REJECT_FUTURE_TS` y la ausencia de `w` debe …». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_WINDOW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró ventana half-open sin incluir t; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T3-A-E1\nrecord = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "transformer",
+        "status",
+        "print",
+        "salida",
+        "true",
+        "case_id",
+        "contrato"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T3-A-E1 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T3-A-E1 · Calcula el contrato de `ColumnTransformer y custom transformers` sobre `CASO-LIM-032-3A`. La entrada es el dict completo del starter; la operación debe demostrar transformer fitted con m…». Hints: Relaciona los campos `fitted, mode, transform_before_fit` con la regla explicada en S32-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva transformer fitted con mode y sin transform prematuro; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'trans…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "results",
+        "rutas",
+        "invertido",
+        "print",
+        "required",
+        "assess"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T3-A-E2 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T3-A-E2 · Modela tres rutas de `ColumnTransformer y custom transformers`: fixture válido, fixture adverso y registro sin `fitted`. Entrada: dict con case_id, fitted, mode, transform_before_fit. Sa…». Hints: Primero se calcula `missing`; ningún acceso a fitted debe ocurrir antes de esa rama.; Después aplica la regla de S32-T3-A: transformer fitted con mode y sin transform prematuro. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is True else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "uncertain",
+        "results",
+        "fallo",
+        "item",
+        "print",
+        "required",
+        "fixtures",
+        "incertidumbre"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T3-A-E3 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T3-A-E3 · Contrasta fallo cerrado para `ColumnTransformer y custom transformers` con tres fixtures distintos. `CASO-LIM-032-3A` debe continuar, el adverso debe devolver `REJECT_TRANSFORM_BEFORE_FI…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_FIT_STATE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró transformer fitted con mode y sin transform prematuro; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T3-B-E1\nrecord = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is True and bool(record[\"version\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "bool",
+        "fit",
+        "median",
+        "status",
+        "print",
+        "persistencia",
+        "salida"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T3-B-E1 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T3-B-E1 · Calcula el contrato de `fit/transform y persistencia` sobre `CASO-LIM-032-3B`. La entrada es el dict completo del starter; la operación debe demostrar state JSON con version fs-vN. Reemp…». Hints: Relaciona los campos `state, version, versioned` con la regla explicada en S32-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva state JSON con version fs-vN; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'f…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"versioned\"] is True and bool(record[\"version\"]) else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "bool",
+        "results",
+        "rutas",
+        "fit",
+        "decisión",
+        "invertido",
+        "median"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T3-B-E2 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T3-B-E2 · Modela tres rutas de `fit/transform y persistencia`: fixture válido, fixture adverso y registro sin `version`. Entrada: dict con case_id, state, version, versioned. Salidas exactas: `PAS…». Hints: Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.; Después aplica la regla de S32-T3-B: state JSON con version fs-vN. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"versioned\"] is False or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "uncertain",
+        "results",
+        "fit",
+        "fallo",
+        "item",
+        "median",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T3-B-E3 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T3-B-E3 · Contrasta fallo cerrado para `fit/transform y persistencia` con tres fixtures distintos. `CASO-LIM-032-3B` debe continuar, el adverso debe devolver `REJECT_UNVERSIONED` y la ausencia de …». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_STATE_JSON` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró state JSON con version fs-vN; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T4-A-E1\nrecord = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = record[\"overlap\"] == 0\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "reject_entity_overlap",
+        "overlap",
+        "tiempo",
+        "status",
+        "print",
+        "salida",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T4-A-E1 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T4-A-E1 · Calcula el contrato de `split por entidad/grupo/tiempo` sobre `CASO-LIM-032-4A`. La entrada es el dict completo del starter; la operación debe demostrar split con overlap 0 y ambos lados…». Hints: Relaciona los campos `n_train, n_test, overlap` con la regla explicada en S32-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva split con overlap 0 y ambos lados no vacíos; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap':…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"overlap\"] == 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "decisión",
+        "results",
+        "rutas",
+        "reject_entity_overlap",
+        "overlap",
+        "tiempo",
+        "invertido"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T4-A-E2 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T4-A-E2 · Modela tres rutas de `split por entidad/grupo/tiempo`: fixture válido, fixture adverso y registro sin `overlap`. Entrada: dict con case_id, n_train, n_test, overlap. Salidas exactas: `PA…». Hints: Primero se calcula `missing`; ningún acceso a overlap debe ocurrir antes de esa rama.; Después aplica la regla de S32-T4-A: split con overlap 0 y ambos lados no vacíos. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"overlap\"] > 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "uncertain",
+        "results",
+        "reject_entity_overlap",
+        "fallo",
+        "overlap",
+        "tiempo",
+        "item",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T4-A-E3 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T4-A-E3 · Contrasta fallo cerrado para `split por entidad/grupo/tiempo` con tres fixtures distintos. `CASO-LIM-032-4A` debe continuar, el adverso debe devolver `REJECT_ENTITY_OVERLAP` y la ausenci…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_SPLIT_KEYS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró split con overlap 0 y ambos lados no vacíos; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T4-B-E1\nrecord = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = not record[\"leaky\"] and record[\"skew\"] is not True\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "print",
+        "versionado",
+        "skew",
+        "salida",
+        "true",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T4-B-E1 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T4-B-E1 · Calcula el contrato de `leakage, train–serve skew y versionado` sobre `CASO-LIM-032-4B`. La entrada es el dict completo del starter; la operación debe demostrar sin leaky names, sin skew…». Hints: Relaciona los campos `leaky, skew, feature_set` con la regla explicada en S32-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva sin leaky names, sin skew y con feature_set id; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"leaky\"] and record[\"skew\"] is not True else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "label_decision",
+        "results",
+        "rutas",
+        "decisión",
+        "invertido",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T4-B-E2 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T4-B-E2 · Modela tres rutas de `leakage, train–serve skew y versionado`: fixture válido, fixture adverso y registro sin `feature_set`. Entrada: dict con case_id, leaky, skew, feature_set. Salidas …». Hints: Primero se calcula `missing`; ningún acceso a feature_set debe ocurrir antes de esa rama.; Después aplica la regla de S32-T4-B: sin leaky names, sin skew y con feature_set id. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S32-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "bool",
+        "label_decision",
+        "uncertain",
+        "results",
+        "fallo",
+        "item",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S32-T4-B-E3 solo con el paquete activo S32 (Feature engineering y pipelines sin leakage). Instruction: «S32-T4-B-E3 · Contrasta fallo cerrado para `leakage, train–serve skew y versionado` con tres fixtures distintos. `CASO-LIM-032-4B` debe continuar, el adverso debe devolver `REJECT_LEAKAGE` y la ausenc…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_FEATURE_SET_ID` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró sin leaky names, sin skew y con feature_set id; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «numéricas/categóricas/texto Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, toke…». Demos: S32-T1-A-DEMO | S32-T1-B-DEMO | S32-T2-A-DEMO | S32-T2-B-DEMO | S32-T3-A-DEMO | S32-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def decide(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "El instante t y el futuro",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 3 «El instante t y el futuro» para la pregunta «Una ventana half-open [t−w, t) excluye:» porque el paquete activo S32 (Feature engineering y pipelines sin leakage) enseña: «Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el workbench sintético de Red Andina (Lima…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Fallar de forma explícita",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 1 «Fallar de forma explícita» para la pregunta «Transform antes de fit debe:» porque el paquete activo S32 (Feature engineering y pipelines sin leakage) enseña: «Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fallar de forma explícita. En el workbench…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Es leakage de identidad",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 2 «Es leakage de identidad» para la pregunta «Overlap de entidades entre train y test:» porque el paquete activo S32 (Feature engineering y pipelines sin leakage) enseña: «Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage de estadísticas de test. En el …». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Es red flag de leakage",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 0 «Es red flag de leakage» para la pregunta «Un nombre de feature con 'label' o 'decision':» porque el paquete activo S32 (Feature engineering y pipelines sin leakage) enseña: «Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog con dtype y…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:37:09.522684+00:00"
+}

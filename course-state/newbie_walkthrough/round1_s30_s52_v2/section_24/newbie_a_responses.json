@@ -1,0 +1,463 @@
+{
+  "agent": "a",
+  "section_index": 24,
+  "recorded_at": "2026-08-01T15:15:40.380687+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Inventar dígitos",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          4.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Cola de revisión / corrección",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "Los campos críticos pueden fallar aunque el global se vea bien",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          4.15,
+          8.15,
+          1.15
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "Gate reject/review por mime no permitido",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          3.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "chosen_text": "Después de corregir orientación",
+        "confidence": 0.68,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          3.0,
+          3.15
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S24-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: deja el escaneo en 96 dpi (tipografía pequeña se rompe)\ndpi = 96\nprint(dpi)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "resultante",
+          "starter",
+          "abre",
+          "entero",
+          "bug",
+          "imprime",
+          "aplica",
+          "crudo"
+        ]
+      },
+      {
+        "exercise_id": "S24-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: umbral invertido\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nskew=1.2\nprint(abs(skew) < 0.5)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "operador",
+          "alteres",
+          "cambia",
+          "solo",
+          "starter",
+          "revisa",
+          "imprime",
+          "booleano"
+        ]
+      },
+      {
+        "exercise_id": "S24-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: no eleva DPI ni marca deskew; crop con m=0\nimg = {\"w\": 1000, \"h\": 1000, \"dpi\": 96, \"skew_deg\": 1.8}\nm = 0.0\nprint(img[\"dpi\"], False, (0, 0, 1000, 1000))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "orden",
+          "calcula",
+          "imprime",
+          "ese",
+          "crudo",
+          "lee",
+          "arma"
+        ]
+      },
+      {
+        "exercise_id": "S24-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: elige min score\n# Este codigo tiene un defecto intencional que el learner debe corregir.\ns={0:0.1,90:0.8}\nprint(min(s, key=s.get))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "entera",
+          "mentalmente",
+          "cambia",
+          "starter",
+          "abre",
+          "verifica",
+          "bug"
+        ]
+      },
+      {
+        "exercise_id": "S24-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: usa len no sum\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nflags=[0,1,1,0]\nprint(len(flags))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "mutes",
+          "cambia",
+          "starter",
+          "conteo",
+          "revisa",
+          "lista",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S24-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: elige min y fuerza OCR sin gate\nscores = {0: 0.1, 90: 0.05, 180: 0.7, 270: 0.15}\nbest = min(scores, key=scores.get)\nprint(best, scores[best], \"ocr_now\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "action",
+          "imprime",
+          "else"
+        ]
+      },
+      {
+        "exercise_id": "S24-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: umbral 0.5 (demasiado bajo)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.5])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dicts",
+          "alteres",
+          "cambia",
+          "starter",
+          "abre",
+          "tokens",
+          "filtro",
+          "bug"
+        ]
+      },
+      {
+        "exercise_id": "S24-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: imprime en orden de llegada (valor primero)\ntokens = [\n    {\"text\": \"20123456789\", \"bbox\": [60, 50, 200, 70]},\n    {\"text\": \"FACTURA\", \"bbox\": [10, 10, 120, 40]},\n    {\"text\": \"RUC\", \"bbox\": [10, 50, 50, 70]},\n]\nprint([t[\"text\"] for t in tokens])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "mutes",
+          "starter",
+          "ordena",
+          "revisa",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S24-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: promedia y no lista weak\nfields = [\n    {\"name\": \"ruc\", \"conf\": 0.9},\n    {\"name\": \"total\", \"conf\": 0.75},\n    {\"name\": \"fecha\", \"conf\": 0.95},\n]\nthr = 0.8\navg = sum(f[\"conf\"] for f in fields) / len(fields)\nprint(avg, \"auto\", [])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "según",
+          "promedio",
+          "starter",
+          "elimina",
+          "imprime",
+          "nombres"
+        ]
+      },
+      {
+        "exercise_id": "S24-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: no strip\n# Este codigo tiene un defecto intencional que el learner debe corregir.\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k, v)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "rearmes",
+          "starter",
+          "sin",
+          "salida",
+          "abre",
+          "línea",
+          "aplica"
+        ]
+      },
+      {
+        "exercise_id": "S24-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: cuenta header\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nt=[['H1','H2'],['a','b']]\nprint(len(t))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "mutes",
+          "tabla",
+          "cambia",
+          "solo",
+          "starter",
+          "revisa",
+          "entero",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S24-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: solo valores, sin bbox ni orden\nlines = [\"RUC: 20123456789\", \"Total: 150.00\"]\nbboxes = {\"RUC\": [0, 0, 10, 10], \"Total\": [0, 20, 40, 30]}\nprint([ln.split(\":\", 1)[1].strip() for ln in lines])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cada",
+          "append",
+          "ordena",
+          "línea",
+          "imprime",
+          "lee",
+          "uses"
+        ]
+      },
+      {
+        "exercise_id": "S24-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: no limpia no-dígitos\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nimport re\ns='20-123'\nprint(s)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ejercicio",
+          "starter",
+          "abre",
+          "imprime",
+          "limpio",
+          "len",
+          "añadas",
+          "aplica"
+        ]
+      },
+      {
+        "exercise_id": "S24-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: formato US\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%m/%d/%Y').date().isoformat())\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fecha",
+          "cambia",
+          "solo",
+          "starter",
+          "ISO",
+          "revisa",
+          "bug",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S24-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: strip comas a ciegas (150,00 → 15000) y no valida len RUC\nimport re\nraw = {\"ruc\": \"20.123456789\", \"total\": \"150,00\"}\nruc = re.sub(r\"\\D\", \"\", raw[\"ruc\"])\ntotal = float(raw[\"total\"].replace(\",\", \"\").replace(\"PEN\", \"\").strip())\nprint(ruc, total)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "implementa",
+          "norm_ruc",
+          "imprime",
+          "letras",
+          "normalizados",
+          "corrige",
+          "norm_total",
+          "aplica"
+        ]
+      },
+      {
+        "exercise_id": "S24-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: siempre auto\n# Este codigo tiene un defecto intencional que el learner debe corregir.\ntotal, lines=10.0,[4.0,5.0]\nprint('auto')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "según",
+          "fijo",
+          "caso",
+          "fixture",
+          "starter",
+          "dado",
+          "abre",
+          "diferencia"
+        ]
+      },
+      {
+        "exercise_id": "S24-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: reasons vacío\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nruc=None\nreasons=[]\nprint(reasons)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "añade",
+          "starter",
+          "revisa",
+          "imprime",
+          "raise",
+          "uses"
+        ]
+      },
+      {
+        "exercise_id": "S24-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: etiqueta fraud y no acumula reasons\nd1 = {\"total\": 150.0, \"lines\": [100.0, 50.0], \"ruc\": \"20123456789\", \"conf_ruc\": 0.9}\nd2 = {\"total\": 150.0, \"lines\": [100.0, 40.0], \"ruc\": None, \"conf_ruc\": 0.5}\nprint(\"fraud\")\nprint(\"fraud\")\nprint(\"fraud\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "reemplaza",
+          "cuadra",
+          "tres",
+          "implementa",
+          "rules",
+          "mismatch",
+          "final",
+          "lab"
+        ]
+      },
+      {
+        "exercise_id": "S24-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: usa n-correct\n# Este codigo tiene un defecto intencional que el learner debe corregir.\ncorrect, n = 3, 4\nprint((n - correct) / n)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "alteres",
+          "cambia",
+          "starter",
+          "abre",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S24-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: siempre 1.0\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(1.0)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cuenta",
+          "mutes",
+          "starter",
+          "float",
+          "pred",
+          "revisa",
+          "coincidencias",
+          "true"
+        ]
+      },
+      {
+        "exercise_id": "S24-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: confunde coverage con review rate y hardcodea acc\ngolden = [\n    {\"ruc_pred\": \"20123456789\", \"ruc_true\": \"20123456789\"},\n    {\"ruc_pred\": \"20123456780\", \"ruc_true\": \"20123456789\"},\n]\nauto, review = 7, 3\nprint(1.0, review / (auto + review))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ambos",
+          "hardcode",
+          "elimina",
+          "floats",
+          "imprime",
+          "mide"
+        ]
+      },
+      {
+        "exercise_id": "S24-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: ramas invertidas (acepta zip)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('ok' if mime not in allowed else 'reject')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "status",
+          "starter",
+          "solo",
+          "abre",
+          "bug",
+          "lógica",
+          "cambies",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S24-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: umbral invertido\nn=6_000_000\nprint('ok' if n > 5_000_000 else 'reject')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "status",
+          "cambia",
+          "revisa",
+          "uses",
+          "bug",
+          "grande",
+          "imprime",
+          "cuando"
+        ]
+      },
+      {
+        "exercise_id": "S24-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: acepta zip y reintenta OCR\nALLOWED = {\"application/pdf\", \"image/png\", \"image/jpeg\"}\nMAX_N = 5_000_000\ncases = [\n    {\"mime\": \"application/zip\", \"n\": 10, \"status_ocr\": \"ok\"},\n    {\"mime\": \"application/pdf\", \"n\": 9_000_000, \"status_ocr\": \"ok\"},\n    {\"mime\": \"application/pdf\", \"n\": 100_000, \"status_ocr\": \"ocr_fail\"},\n]\nfor c in cases:\n    print(\"continue\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "elif",
+          "reemplaza",
+          "else",
+          "loop",
+          "imprime",
+          "reject"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "3822056da3fe99a3"
+  }
+}

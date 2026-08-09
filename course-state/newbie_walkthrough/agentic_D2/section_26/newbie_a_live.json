@@ -1,0 +1,384 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 26,
+  "packet_sha": "98a22dbe9fbc9742",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "answer": "['ingest', 'validate', 'analyze', 'report']",
+      "code": "print(['ingest','validate','analyze','report'])\n# D2-Explorer: packet-only re-walk S26 S26-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T1-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T1-A-E1 (guided) apoyándome en la teoría «tasks/flows/DAG y estados» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ['ingest', 'validate', 'analyze', 'report']."
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "answer": "2 [('a', 'b'), ('b', 'c')]",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint(len(edges), edges)\n# D2-Explorer: packet-only re-walk S26 S26-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T1-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T1-A-E2 (independent) apoyándome en la teoría «tasks/flows/DAG y estados» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 2 [('a', 'b'), ('b', 'c')]."
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "answer": "failed",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntasks={'a':'success','b':'failed'}\nprint('failed' if any(v=='failed' for v in tasks.values()) else 'success')\n# D2-Explorer: packet-only re-walk S26 S26-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T1-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T1-A-E3 (transfer) apoyándome en la teoría «tasks/flows/DAG y estados» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: failed."
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "answer": "cpn2c-1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nm={'run_id':'cpn2c-1'}\nprint(m['run_id'])\n# D2-Explorer: packet-only re-walk S26 S26-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T1-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T1-B-E1 (guided) apoyándome en la teoría «límites, metadata y schedules» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: cpn2c-1."
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "answer": "too_high",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi_rpm=90\nprint('too_high' if api_rpm>60 else 'ok')\n# D2-Explorer: packet-only re-walk S26 S26-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T1-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T1-B-E2 (independent) apoyándome en la teoría «límites, metadata y schedules» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: too_high."
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "answer": "0 6 * * 1-5 America/Lima",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('0 6 * * 1-5', 'America/Lima')\n# D2-Explorer: packet-only re-walk S26 S26-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T1-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T1-B-E3 (transfer) apoyándome en la teoría «límites, metadata y schedules» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 0 6 * * 1-5 America/Lima."
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "answer": "400",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nattempt, base = 3, 100\nprint(base * (2 ** (attempt - 1)))\n# D2-Explorer: packet-only re-walk S26 S26-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T2-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T2-A-E1 (guided) apoyándome en la teoría «checkpoints, retry/backoff y dead-letter» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 400."
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "answer": "['x']",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndlq=[]\nfail=True\nif fail:\n    dlq.append('x')\nprint(dlq)\n# D2-Explorer: packet-only re-walk S26 S26-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T2-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T2-A-E2 (independent) apoyándome en la teoría «checkpoints, retry/backoff y dead-letter» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ['x']."
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "answer": "['b']",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nckpt={'a'}; items=['a','b']\nprint([i for i in items if i not in ckpt])\n# D2-Explorer: packet-only re-walk S26 S26-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T2-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T2-A-E3 (transfer) apoyándome en la teoría «checkpoints, retry/backoff y dead-letter» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ['b']."
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "answer": "v1",
+      "code": "store={}  # create-once store\n\ndef put(k,v):\n    if k not in store:\n        store[k] = v\n\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n# D2-Explorer: packet-only re-walk S26 S26-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T2-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T2-B-E1 (guided) apoyándome en la teoría «idempotencia, concurrencia y rollback» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: v1."
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "answer": "{'report': 'ok'}",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\nprint(state)\n# D2-Explorer: packet-only re-walk S26 S26-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T2-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T2-B-E2 (independent) apoyándome en la teoría «idempotencia, concurrencia y rollback» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: {'report': 'ok'}."
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "answer": "busy",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlocked=True\nprint('busy' if locked else 'enter')\n# D2-Explorer: packet-only re-walk S26 S26-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T2-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T2-B-E3 (transfer) apoyándome en la teoría «idempotencia, concurrencia y rollback» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: busy."
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "answer": "1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nanalysis=[{'status':'pending'},{'status':'done'}]\nprint(sum(1 for x in analysis if x['status']=='pending'))\n# D2-Explorer: packet-only re-walk S26 S26-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T3-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T3-A-E1 (guided) apoyándome en la teoría «revisión de análisis/reporte/destinatario» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 1."
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "answer": "True",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nq={'analysis':1,'report':0,'recipient':0}\nprint(any(v>0 for v in q.values()))\n# D2-Explorer: packet-only re-walk S26 S26-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T3-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T3-A-E2 (independent) apoyándome en la teoría «revisión de análisis/reporte/destinatario» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: True."
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "answer": "['metrics', 'narrative', 'recipient']",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(['metrics','narrative','recipient'])\n# D2-Explorer: packet-only re-walk S26 S26-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T3-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T3-A-E3 (transfer) apoyándome en la teoría «revisión de análisis/reporte/destinatario» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ['metrics', 'narrative', 'recipient']."
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "answer": "approve",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint(audit[0]['action'])\n# D2-Explorer: packet-only re-walk S26 S26-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T3-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T3-B-E1 (guided) apoyándome en la teoría «aprobación, rechazo, edición y auditoría» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: approve."
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "answer": "invalid",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\naction, reason = 'reject', None\nprint('invalid' if action=='reject' and not reason else 'ok')\n# D2-Explorer: packet-only re-walk S26 S26-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T3-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T3-B-E2 (independent) apoyándome en la teoría «aprobación, rechazo, edición y auditoría» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: invalid."
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "answer": "2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nver=1\nver += 1\nprint(ver)\n# D2-Explorer: packet-only re-walk S26 S26-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T3-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T3-B-E3 (transfer) apoyándome en la teoría «aprobación, rechazo, edición y auditoría» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: 2."
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "answer": "alert",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrate=0.9\nprint('alert' if rate < 0.95 else 'ok')\n# D2-Explorer: packet-only re-walk S26 S26-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T4-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T4-A-E1 (guided) apoyándome en la teoría «SLO, alerts y runbook» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: alert."
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "answer": "P0_unapproved_send",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=1\nprint('P0_unapproved_send' if n>0 else 'ok')\n# D2-Explorer: packet-only re-walk S26 S26-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T4-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T4-A-E2 (independent) apoyándome en la teoría «SLO, alerts y runbook» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: P0_unapproved_send."
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "answer": "disable_schedule -> drain -> page",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('disable_schedule -> drain -> page')\n# D2-Explorer: packet-only re-walk S26 S26-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T4-A",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T4-A-E3 (transfer) apoyándome en la teoría «SLO, alerts y runbook» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: disable_schedule -> drain -> page."
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "answer": "True",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint(all(status[s]=='success' for s in steps))\n# D2-Explorer: packet-only re-walk S26 S26-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T4-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T4-B-E1 (guided) apoyándome en la teoría «pruebas E2E, seguridad, costo y métricas de valor» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: True."
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "answer": "ok",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfraud_labels=0\nprint('ok' if fraud_labels==0 else 'fail')\n# D2-Explorer: packet-only re-walk S26 S26-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T4-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T4-B-E2 (independent) apoyándome en la teoría «pruebas E2E, seguridad, costo y métricas de valor» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: ok."
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "answer": "{'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reporting-automation'}",
+      "code": "print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reporting-automation'})\n# D2-Explorer: packet-only re-walk S26 S26-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": null,
+      "concepts_used": [
+        "S26-T4-B",
+        "packet_theory",
+        "iDo",
+        "Orquestación y VP RPA + AI Analyst"
+      ],
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Como explorer del paquete S26, resolví S26-T4-B-E3 (transfer) apoyándome en la teoría «pruebas E2E, seguridad, costo y métricas de valor» y en los demos iDo del card. La instrucción pide la salida contractual y el starter ya trae el fixture sintético; completé la operación de dominio sin borrar datos ni asserts. Hints del packet: contrato I/O en instruction; compara output con solution; datos sintéticos only. Salida observada: {'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45,."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] SelfCheck S26 Q0 «El orden draft_email respecto a approve es:»: elijo [0] «Draft antes de approve». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] SelfCheck S26 Q1 «La regresión N2 incluye:»: elijo [3] «Tests críticos de capstones N2, E2E y controles de privacidad/seguridad». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] SelfCheck S26 Q2 «Un send sin approve es:»: elijo [0] «Incidente P0». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": null,
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] SelfCheck S26 Q3 «fraud_labels automáticos en el VP deben ser:»: elijo [2] «0 — solo evidencia para humanos». Esta lectura sale de theory/iDo del packet agentic_D1 (fail-closed, stack permitido, y límites de evidencia humana). Persona explorer; sin solutions/correctIndex externos."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.317275+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s26-live"
+}

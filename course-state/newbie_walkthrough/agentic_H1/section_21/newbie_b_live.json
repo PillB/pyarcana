@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 21,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s21-7cd006247fb7",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S21-T1-A-E1",
+      "code": "# dual skeptic-H1 · S21-T1-A-E1\nfrom jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T1-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: render Jinja de saludo. Fixture `S21-T1-A-E1` / datos sintéticos: print(Template(\"Hola {{ nombre }}\").render(nombre=…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, jinja2, Template; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "jinja2",
+        "Template",
+        "Hola",
+        "nombre",
+        "render"
+      ]
+    },
+    {
+      "exercise_id": "S21-T1-A-E2",
+      "code": "# dual skeptic-H1 · S21-T1-A-E2\nfrom jinja2 import Template\nprint(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T1-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: template de KPI median y n. Fixture `S21-T1-A-E2` / datos sintéticos: print(Template(\"{{ m }} PEN (n={{ n }})…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, jinja2, Template; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "jinja2",
+        "Template",
+        "PEN",
+        "render",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S21-T1-A-E3",
+      "code": "# dual skeptic-H1 · S21-T1-A-E3\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\nprint(render_kpi({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T1-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: render_kpi(ctx) reutilizable. Fixture `S21-T1-A-E3` / datos sintéticos: def render_kpi(ctx):; return Template…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, jinja2, Template; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(render_kpi({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "jinja2",
+        "Template",
+        "render_kpi",
+        "ctx",
+        "region"
+      ]
+    },
+    {
+      "exercise_id": "S21-T1-B-E1",
+      "code": "# dual skeptic-H1 · S21-T1-B-E1\nmedian = None\nprint(\"—\" if median is None else median)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T1-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: missing → em-dash —. Fixture `S21-T1-B-E1` / datos sintéticos: median = None; print(\"—\" if median is None else media…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, median, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"—\" if median is None else median)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "median",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S21-T1-B-E2",
+      "code": "# dual skeptic-H1 · S21-T1-B-E2\nx = 28.456\nprint(f\"{x:.2f}\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T1-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: formato a 2 decimales. Fixture `S21-T1-B-E2` / datos sintéticos: x = 28.456; print(f\"{x:.2f}\"). Completa el T…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, skeptic_check, form; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(f\"{x:.2f}\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract",
+        "independiente"
+      ]
+    },
+    {
+      "exercise_id": "S21-T1-B-E3",
+      "code": "# dual skeptic-H1 · S21-T1-B-E3\nfrom jinja2 import Template\ntmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\n{% endfor %}\")\nout = tmpl.render(rows=[{\"region\": \"Lima\", \"v\": 1}, {\"region\": \"Cusco\", \"v\": 2}]).strip()\nprint(out.replace(\"\\n\", \" | \"))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T1-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: for de filas region:value. Fixture `S21-T1-B-E3` / datos sintéticos: tmpl = Template(\"{% for r in rows %}{{ r…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, jinja2, Template; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(out.replace(\"\\\\n\", \" | \"))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "jinja2",
+        "Template",
+        "tmpl",
+        "rows",
+        "region"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-A-E1",
+      "code": "# dual skeptic-H1 · S21-T2-A-E1\nfrom pathlib import Path\nfrom docx import Document\n\npath = Path(\"informe.docx\")\ndoc = Document()\ndoc.add_heading(\"Informe sintético\", 0)\ndoc.add_heading(\"Resumen\", 1)\ndoc.add_paragraph(\"Texto de ejemplo.\")\ndoc.save(path)\nraw = path.read_bytes()[:2]\nreopened = Document(str(path))\ntexts = [p.text for p in reopened.paragraphs if p.text.strip()]\nprint(raw == b\"PK\", len(texts) > 0, \"|\", \"Informe\" in \" \".join(texts), len(texts) > 0)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T2-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: DOCX con heading y n=. Fixture `S21-T2-A-E1` / datos sintéticos: path = Path(\"informe.docx\"); doc = Document(). Comp…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, pathlib, Path; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(raw == b\"PK\", len(texts) > 0, \"|\", \"Informe\" in \" \".join(texts), len(texts) > 0)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "pathlib",
+        "Path",
+        "docx",
+        "Document",
+        "informe"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-A-E2",
+      "code": "# dual skeptic-H1 · S21-T2-A-E2\nfrom docx import Document\n\nlevels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]\ndoc = Document()\nfor text, level in levels:\n    doc.add_heading(text, level)\ndoc.save(\"estructura.docx\")\nreopened = Document(\"estructura.docx\")\nstyles = [p.style.name for p in reopened.paragraphs if p.style and p.style.name.startswith(\"Heading\")]\nh1 = sum(1 for s in styles if s == \"Heading 1\")\nprint(h1, \"|\", styles)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T2-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: conteo de estilos Heading. Fixture `S21-T2-A-E2` / datos sintéticos: levels = [(\"Resumen\", 1), (\"Método\", 2),…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, docx, Document; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(h1, \"|\", styles)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "docx",
+        "Document",
+        "levels",
+        "Resumen",
+        "todo"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-A-E3",
+      "code": "# dual skeptic-H1 · S21-T2-A-E3\nfrom docx import Document\n\nmetrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]\ndoc = Document()\ndoc.add_heading(\"Auditoría\", 1)\ntable = doc.add_table(rows=1, cols=2)\ntable.rows[0].cells[0].text = \"métrica\"\ntable.rows[0].cells[1].text = \"valor\"\nfor name, val in metrics:\n    row = table.add_row().cells\n    row[0].text = name\n    row[1].text = val\ndoc.save(\"tabla.docx\")\nreopened = Document(\"tabla.docx\")\nt = reopened.tables[0]\ncells = [[c.text for c in r.cells] for r in t.rows]\nprint(cells[1], \"|\", cells[2], \"—\" in cells[2][1] or cells[2][1] == \"—\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T2-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: extracción de texto al reabrir. Fixture `S21-T2-A-E3` / datos sintéticos: metrics = [(\"Ticket mediano\", \"28.0…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, docx, Document; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(cells[1], \"|\", cells[2], \"—\" in cells[2][1] or cells[2][1] == \"—\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "docx",
+        "Document",
+        "metrics",
+        "Ticket",
+        "mediano"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-B-E1",
+      "code": "# dual skeptic-H1 · S21-T2-B-E1\nfrom pathlib import Path\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npath = Path(\"digital.pdf\")\nc = canvas.Canvas(str(path))\nc.drawString(72, 760, \"Resumen sintético\")\nc.save()\nraw_ok = path.read_bytes()[:4] == b\"%PDF\"\nreader = PdfReader(str(path))\ntext = \"\".join((p.extract_text() or \"\") for p in reader.pages)\nprint(raw_ok, \"|\", len(text.strip()) > 0)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T2-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: PDF digital con texto extraíble. Fixture `S21-T2-B-E1` / datos sintéticos: path = Path(\"digital.pdf\"); c = canvas.Ca…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, pathlib, Path; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(raw_ok, \"|\", len(text.strip()) > 0)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "pathlib",
+        "Path",
+        "pypdf",
+        "PdfReader",
+        "reportlab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-B-E2",
+      "code": "# dual skeptic-H1 · S21-T2-B-E2\nfrom pathlib import Path\nimport fitz\nfrom reportlab.pdfgen import canvas\n\npdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Hallazgo\")\nc.save()\ndoc = fitz.open(str(pdf))\npage = doc.load_page(0)\npix = page.get_pixmap()\npix.save(str(png))\ndoc.close()\nprint(png.exists() and png.stat().st_size > 0, pdf.exists())\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T2-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: render página a PNG. Fixture `S21-T2-B-E2` / datos sintéticos: pdf, png = Path(\"render.pdf\"), Path(\"render-p1…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, pathlib, Path; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(png.exists() and png.stat().st_size > 0, pdf.exists())']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "pathlib",
+        "Path",
+        "fitz",
+        "reportlab",
+        "pdfgen"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-B-E3",
+      "code": "# dual skeptic-H1 · S21-T2-B-E3\nfrom pathlib import Path\nfrom PIL import Image, ImageDraw\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npng, pdf = Path(\"scan.png\"), Path(\"scan.pdf\")\nimage = Image.new(\"RGB\", (200, 80), \"white\")\ndraw = ImageDraw.Draw(image)\ndraw.text((10, 30), \"SCAN\", fill=\"black\")\nimage.save(png)\nc = canvas.Canvas(str(pdf))\nc.drawImage(str(png), 72, 700, width=200, height=80)\nc.save()\nreader = PdfReader(str(pdf))\nn_chars = len((reader.pages[0].extract_text() or \"\").strip())\nprint(png.exists(), pdf.read_bytes()[:4] == b\"%PDF\", \"|\", {\"needs_ocr\": n_chars == 0, \"n_chars\": n_chars})\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T2-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: PDF imagen-only → needs_ocr. Fixture `S21-T2-B-E3` / datos sintéticos: png, pdf = Path(\"scan.png\"), Path(\"sca…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, pathlib, Path; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(png.exists(), pdf.read_bytes()[:4] == b\"%PDF\", \"|\", {\"needs_ocr\": n_chars == 0, \"n_chars\": n_chars})']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "pathlib",
+        "Path",
+        "PIL",
+        "Image",
+        "ImageDraw"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-A-E1",
+      "code": "# dual skeptic-H1 · S21-T3-A-E1\nh = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(h[\"id\"])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T3-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: hallazgo H1 con evidencia. Fixture `S21-T3-A-E1` / datos sintéticos: h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}; print(…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, evidencia, Tabla1; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(h[\"id\"])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "evidencia",
+        "Tabla1",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-A-E2",
+      "code": "# dual skeptic-H1 · S21-T3-A-E2\ns = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T3-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: validar resumen contiene n=. Fixture `S21-T3-A-E2` / datos sintéticos: s = \"mediana 28 PEN n=40\"; print(\"n=\"…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, mediana, PEN; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"n=\" in s)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "mediana",
+        "PEN",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-A-E3",
+      "code": "# dual skeptic-H1 · S21-T3-A-E3\ndef pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"a\"], {}, []).keys()))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T3-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: pack_report tres claves. Fixture `S21-T3-A-E3` / datos sintéticos: def pack_report(resumen, metodo, hallazgos…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, pack_report, resumen; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sorted(pack_report([\"a\"], {}, []).keys()))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "pack_report",
+        "resumen",
+        "metodo",
+        "hallazgos",
+        "sorted"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-B-E1",
+      "code": "# dual skeptic-H1 · S21-T3-B-E1\ndash = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\nprint(dash == doc)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T3-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: caption alineado fuente/corte. Fixture `S21-T3-B-E1` / datos sintéticos: dash = {\"median_Lima\": 28.0}; doc = {\"media…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, dash, median_Lima; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(dash == doc)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "dash",
+        "median_Lima",
+        "doc",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-B-E2",
+      "code": "# dual skeptic-H1 · S21-T3-B-E2\ncap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T3-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: lista de limitaciones. Fixture `S21-T3-B-E2` / datos sintéticos: cap = \"Fig1 | Fuente: sintetico | n=10\"; pri…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, cap, Fig1; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"Fuente\" in cap)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "cap",
+        "Fig1",
+        "Fuente",
+        "sintetico",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-B-E3",
+      "code": "# dual skeptic-H1 · S21-T3-B-E3\ndef check_parity(a, b, c):\n    return a == b == c\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}))\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T3-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: checksum de métricas entre artefactos. Fixture `S21-T3-B-E3` / datos sintéticos: def check_parity(a, b, c):;…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, check_parity, skeptic_check; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}))', 'print(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "check_parity",
+        "skeptic_check",
+        "form",
+        "pass",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-A-E1",
+      "code": "# dual skeptic-H1 · S21-T4-A-E1\nvals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T4-A-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: redacción es-PE de hallazgo. Fixture `S21-T4-A-E1` / datos sintéticos: vals = [28.04, 28.0]; print([round(v, 1) for…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, vals, round; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print([round(v, 1) for v in vals])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "vals",
+        "round",
+        "skeptic_check",
+        "form",
+        "pass"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-A-E2",
+      "code": "# dual skeptic-H1 · S21-T4-A-E2\ndef fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\nprint(fmt_pen(28.04))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T4-A-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: checklist a11y headings/alt. Fixture `S21-T4-A-E2` / datos sintéticos: def fmt_pen(x):; return f\"{round(float…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, fmt_pen, round; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(fmt_pen(28.04))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "fmt_pen",
+        "round",
+        "float",
+        "PEN",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-A-E3",
+      "code": "# dual skeptic-H1 · S21-T4-A-E3\ndef a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"descripcion larga de figura\"]))\nprint(a11y_min(True, [\"corto\"]))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T4-A-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: precisión decimal consistente. Fixture `S21-T4-A-E3` / datos sintéticos: def a11y_min(has_h1, alts):; return…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, a11y_min, has_h1; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(a11y_min(True, [\"descripcion larga de figura\"]))', 'print(a11y_min(True, [\"corto\"]))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "a11y_min",
+        "has_h1",
+        "alts",
+        "all",
+        "len"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-B-E1",
+      "code": "# dual skeptic-H1 · S21-T4-B-E1\napproval = {\"status\": \"pending_review\"}\nprint(approval[\"status\"])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T4-B-E1: contrasté el Pass del paquete («E1 (guiado) — Concepto: manifiesto de provenance. Fixture `S21-T4-B-E1` / datos sintéticos: approval = {\"status\": \"pending_review\"}; print(a…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, approval, status; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(approval[\"status\"])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "approval",
+        "status",
+        "pending_review",
+        "skeptic_check",
+        "form"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-B-E2",
+      "code": "# dual skeptic-H1 · S21-T4-B-E2\nimport hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T4-B-E2: contrasté el Pass del paquete («E2 (independiente) — Concepto: hash sha1[:8] de payload. Fixture `S21-T4-B-E2` / datos sintéticos: print(hashlib.sha1(b\"synthetic\").hexdiges…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, hashlib, sha1; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(hashlib.sha1(b\"synthetic\").hexdigest()[:8])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "hashlib",
+        "sha1",
+        "synthetic",
+        "hexdigest",
+        "skeptic_check"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-B-E3",
+      "code": "# dual skeptic-H1 · S21-T4-B-E3\ndef ready(checklist):\n    return all(checklist.values())\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\nprint(ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S21/S21-T4-B-E3: contrasté el Pass del paquete («E3 (transferencia) — Concepto: ready(checklist) de paquete. Fixture `S21-T4-B-E3` / datos sintéticos: def ready(checklist):; return all(chec…») con theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Conceptos dual, skeptic, S21, ready, checklist; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))', 'print(ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S21",
+        "ready",
+        "checklist",
+        "all",
+        "values",
+        "dashboard"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S21#0: contrasto stem «¿Por qué separar datos y plantilla Jinja?» con párrafos theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Elijo índice 0 («Para reutilizar presentación y auditar métricas en Python») porque cuadra con el vocabulario del paquete; distractores ['Para mezclar SQL en el HTML', 'Para evitar control de versiones'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S21#1: contrasto stem «Un PDF con casi sin caracteres en capa de texto suele requerir:» con párrafos theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Elijo índice 2 («OCR / tratamiento de imagen») porque cuadra con el vocabulario del paquete; distractores ['Ignorar el archivo', 'Solo openpyxl'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S21#2: contrasto stem «Paridad en el Reporting Factory significa:» con párrafos theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Elijo índice 3 («Mismas métricas clave en dashboard, Excel y documento») porque cuadra con el vocabulario del paquete; distractores ['Mismos colores', 'Mismo número de páginas'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S21#3: contrasto stem «El cierre de contenido de CP-N2-B incluye:» con párrafos theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Elijo índice 1 («Provenance, checklist visual y hallazgos trazables») porque cuadra con el vocabulario del paquete; distractores ['Solo un print', 'Subir secretos al repo'] no sostienen el contrato."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S21#4: contrasto stem «El PDF del informe se generó dibujando texto dentro de una imagen; pypdf no extrae capa de texto. ¿Qué debe devolver el contrato d» con párrafos theory/iDo («Jinja y separación datos/presentación» Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). ). Elijo índice 0 («Marcar needs_ocr (o equivalente) y no fingir PDF digital nativo») porque cuadra con el vocabulario del paquete; distractores ['Inventar el texto del resumen a partir del título del archivo', 'Aprobar el paquete igual porque el PNG se ve legible en pantalla'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:02:30.021403+00:00",
+  "session_started_at": "2026-07-23T08:02:01.341470+00:00",
+  "session_ended_at": "2026-07-23T08:02:30.021403+00:00"
+}

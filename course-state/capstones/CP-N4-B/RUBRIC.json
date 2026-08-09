@@ -1,0 +1,49 @@
+{
+  "id": "CP-N4-B",
+  "version": "2.0.0",
+  "name": "Plataforma de Datos y ML en Producción",
+  "level": 4,
+  "gate_section": "S47",
+  "scale": "0-3",
+  "criteria": {
+    "correctness": {
+      "weight": 0.35,
+      "focus": "Cumple el comportamiento principal en casos normales, de borde y de error."
+    },
+    "robustness": {
+      "weight": 0.2,
+      "focus": "Maneja entradas imperfectas y casos límite sin caer."
+    },
+    "maintainability": {
+      "weight": 0.25,
+      "focus": "Diseño limpio, modular, testeable y documentado."
+    },
+    "responsible_use": {
+      "weight": 0.2,
+      "focus": "Controles de seguridad, privacidad y uso responsable presentes."
+    }
+  },
+  "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0.",
+  "critical_failures": [
+    "Sin rollback demostrado",
+    "Sin aprobación",
+    "Sin consistencia train/serve",
+    "Sin SLOs"
+  ],
+  "prohibitions": [
+    "No real PII",
+    "No hardcoded secrets",
+    "Synthetic or legally reusable data only",
+    "No unsupported adverse/fraud inference"
+  ],
+  "package_version": "2.0.0",
+  "tests_required": [
+    "deploy → DeployRecord con linaje",
+    "canary falla → rollback",
+    "sin aprobación → no deploy",
+    "rollback restaura last-known-good",
+    "train/serve mismo esquema",
+    "SLOs definidos y medidos",
+    "linaje de datos y modelos"
+  ]
+}

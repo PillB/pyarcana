@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s24-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T1-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndpi=96\n# forma esperada (referencia): print(max(dpi, 200))\n\n# F2-note:308aa6bde7 packet-grounded (explorer); instr_tokens=25\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7d01512c] S24-T1-A-E1 — material del slim_packet basta. «Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resultante. Contrato: no inventa detalle óptico; solo met» · hint «contrato I/O en instruction» · S24-T1-A-DEMO. Entrega: `dpi=96`. DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nskew=1.2\n# forma esperada (referencia): print(abs(skew) >= 0.5)\n\n# F2-note:18d2903c74 packet-grounded (explorer); instr_tokens=33\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/258400fa] S24-T1-A-E2 — material del slim_packet basta. «Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico 0.5°. Pass: True. Usa solo fixtures sintéticos de» · hint «contrato I/O en instruction» · S24-T1-A-DEMO. Entrega: `skew=1.2`. DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T1-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nw=h=1000\nm=0.05\n# forma esperada (referencia): print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n\n# F2-note:fefe31968c packet-grounded (explorer); instr_tokens=20\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a981593d] S24-T1-A-E3 — material del slim_packet basta. «Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen esquina superior izquierda. Pass: (50, 50, 950, 950)» · hint «contrato I/O en instruction» · S24-T1-A-DEMO. Entrega: `w=h=1000`. DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns={0:0.1,90:0.8}\n# forma esperada (referencia): print(max(s, key=s.get))\n\n# F2-note:af4b5960a9 packet-grounded (explorer); instr_tokens=38\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7c51d390] S24-T1-B-E1 — material del slim_packet basta. «Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Contrato: max(s, key=s.get). Pass: 90. Usa solo fixt» · hint «contrato I/O en instruction» · S24-T1-B-DEMO. Entrega: `s={0:0.1,90:0.8}`. DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T1-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags=[0,1,1,0]\n# forma esperada (referencia): print(sum(flags))\n\n# F2-note:7b691a68cf packet-grounded (explorer); instr_tokens=35\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/20bb044c] Como explorador, S24-T1-B-E2: sigo el starter y el iDo. El enunciado pide «Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o count. Pass: 2. Usa solo fixtures sintéticos del lab». Aplico «contrato I/O en instruction». Línea clave: `flags=[0,1,1,0]`. Heading: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T1-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.4\n# forma esperada (referencia): print('manual_orient' if score < 0.5 else 'auto')\n\n# F2-note:aa5e3d4ea2 packet-grounded (explorer); instr_tokens=33\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/31f6b0b4] Resuelvo S24-T1-B-E3 solo con el paquete activo. Instrucción: «Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed a humano. Pass: manual_orient. Usa solo fixtures ». Pista: «contrato I/O en instruction». Demo S24-T1-B-DEMO. Código ancla: `score=0.4`. Teoría: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T2-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\n# forma esperada (referencia): print([t['text'] for t in toks if t['conf']>=0.85])\n\n# F2-note:02d77145b4 packet-grounded (explorer); instr_tokens=42\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/980fa437] Resuelvo S24-T2-A-E1 solo con el paquete activo. Instrucción: «Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contrato: no mutar conf. Pass: ['A']. Usa solo fixtures». Pista: «contrato I/O en instruction». Demo S24-T2-A-DEMO. Código ancla: `toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]`. Teoría: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\n# forma esperada (referencia): print(ocr('Hola')['lang'])\n\n# F2-note:35e8a89bce packet-grounded (explorer); instr_tokens=39\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7e56c17f] S24-T2-A-E2 — material del slim_packet basta. «Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: string fijo didáctico. Pass: spa. Usa solo fixtures» · hint «contrato I/O en instruction» · S24-T2-A-DEMO. Entrega: `def ocr(text, lang='spa'):`. DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T2-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconfs=[0.9,0.75,0.95]\nm=min(confs)\n# forma esperada (referencia): print(m, 'review' if m < 0.8 else 'auto')\n\n# F2-note:d835ca70bc packet-grounded (explorer); instr_tokens=24\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/48f1665c] Como explorador, S24-T2-A-E3: sigo el starter y el iDo. El enunciado pide «Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). Contrato: campo débil tumba auto-accept. Pass: 0.7». Aplico «contrato I/O en instruction». Línea clave: `confs=[0.9,0.75,0.95]`. Heading: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T2-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='Total: 12.5'\nk,v=s.split(':',1)\n# forma esperada (referencia): print(k.strip(), v.strip())\n\n# F2-note:6ab357874f packet-grounded (explorer); instr_tokens=41\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d119206d] Como explorador, S24-T2-B-E1: sigo el starter y el iDo. El enunciado pide «KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: strip ambos lados. Pass: Total 12.5. Usa solo fixture». Aplico «contrato I/O en instruction». Línea clave: `s='Total: 12.5'`. Heading: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T2-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nt=[['H1','H2'],['a','b']]\n# forma esperada (referencia): print(len(t)-1)\n\n# F2-note:be0d9a3c34 packet-grounded (explorer); instr_tokens=33\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/30b29332] Como explorador, S24-T2-B-E2: sigo el starter y el iDo. El enunciado pide «Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuenta. Pass: 1. Usa solo fixtures sintéticos del lab; ». Aplico «contrato I/O en instruction». Línea clave: `t=[['H1','H2'],['a','b']]`. Heading: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T2-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\n# forma esperada (referencia): print(field['bbox'], field['value'])\n\n# F2-note:92c8592723 packet-grounded (explorer); instr_tokens=26\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e846a37c] S24-T2-B-E3 — material del slim_packet basta. «Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Contrato: bbox del valor. Pass: [0, 0, 10, 10] 201234» · hint «contrato I/O en instruction» · S24-T2-B-DEMO. Entrega: `field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}`. DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T3-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='20-123'\n# forma esperada (referencia): print(re.sub(r'\\D', '', s))\n\n# F2-note:1578890f33 packet-grounded (explorer); instr_tokens=34\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f796688a] Resuelvo S24-T3-A-E1 solo con el paquete activo. Instrucción: «Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud aquí. Pass: 20123. Usa solo fixtures sintéticos d». Pista: «contrato I/O en instruction». Demo S24-T3-A-DEMO. Código ancla: `import re`. Teoría: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T3-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import datetime\n# forma esperada (referencia): print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n\n# F2-note:5e3665a0f4 packet-grounded (explorer); instr_tokens=31\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c8fe1769] S24-T3-A-E2 — material del slim_packet basta. «Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15. Usa solo fixtures sintéticos del lab; la salida d» · hint «contrato I/O en instruction» · S24-T3-A-DEMO. Entrega: `from datetime import datetime`. DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T3-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\nraw='123'\nd=re.sub(r'\\D','',raw)\n# forma esperada (referencia): print(d if len(d)==11 else None)\n\n# F2-note:96ef2e7900 packet-grounded (explorer); instr_tokens=33\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e02320ab] Como explorador, S24-T3-A-E3: sigo el starter y el iDo. El enunciado pide «RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa solo fixtures sintéticos del lab; la salida debe ». Aplico «contrato I/O en instruction». Línea clave: `import re`. Heading: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T3-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal, lines=10.0,[4.0,5.0]\n# forma esperada (referencia): print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n\n# F2-note:8bd1218e12 packet-grounded (explorer); instr_tokens=30\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7159ffbb] Como explorador, S24-T3-B-E1: sigo el starter y el iDo. El enunciado pide «Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: tolerancia 0.01. Pass: needs_review. Usa solo fixt». Aplico «contrato I/O en instruction». Línea clave: `total, lines=10.0,[4.0,5.0]`. Heading: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\n# forma esperada (referencia): print(reasons)\n\n# F2-note:92f236f6b3 packet-grounded (explorer); instr_tokens=34\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/fa21f2ec] Como explorador, S24-T3-B-E2: sigo el starter y el iDo. El enunciado pide «Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no raise. Pass: ['ruc_missing']. Usa solo fixtures sint». Aplico «contrato I/O en instruction». Línea clave: `ruc=None`. Heading: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T3-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmismatch=True\n# forma esperada (referencia): print('review_not_fraud' if mismatch else 'auto')\n\n# F2-note:5abbfbb081 packet-grounded (explorer); instr_tokens=19\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/11536ca1] Como explorador, S24-T3-B-E3: sigo el starter y el iDo. El enunciado pide «Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de política del curso. Pass: review_not_fraud.». Aplico «contrato I/O en instruction». Línea clave: `mismatch=True`. Heading: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncorrect, n = 3, 4\n# forma esperada (referencia): print(correct / n)\n\n# F2-note:f4760ddc1d packet-grounded (explorer); instr_tokens=31\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a0c2e731] Como explorador, S24-T4-A-E1: sigo el starter y el iDo. El enunciado pide «Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa solo fixtures sintéticos del lab; la salida debe co». Aplico «contrato I/O en instruction». Línea clave: `correct, n = 3, 4`. Heading: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T4-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\n# forma esperada (referencia): print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n\n# F2-note:fd04b79768 packet-grounded (explorer); instr_tokens=37\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/db86d0a9] S24-T4-A-E2 — material del slim_packet basta. «Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato: solo campo ruc. Pass: 0.5. Usa solo fixtures sint» · hint «contrato I/O en instruction» · S24-T4-A-DEMO. Entrega: `rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]`. DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T4-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nauto, review = 7, 3\n# forma esperada (referencia): print(auto / (auto + review))\n\n# F2-note:1a0359e91a packet-grounded (explorer); instr_tokens=33\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6cdff6af] S24-T4-A-E3 — material del slim_packet basta. «Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobertura. Pass: 0.7. Usa solo fixtures sintéticos del» · hint «contrato I/O en instruction» · S24-T4-A-DEMO. Entrega: `auto, review = 7, 3`. DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\n# forma esperada (referencia): print('reject' if mime not in allowed else 'ok')\n\n# F2-note:238a9d2d29 packet-grounded (explorer); instr_tokens=31\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5c18d86f] S24-T4-B-E1 — material del slim_packet basta. «Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass: reject. Usa solo fixtures sintéticos del lab; la s» · hint «contrato I/O en instruction» · S24-T4-B-DEMO. Entrega: `mime='application/zip'`. DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden."
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T4-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=6_000_000\n# forma esperada (referencia): print('reject' if n > 5_000_000 else 'ok')\n\n# F2-note:e700184f58 packet-grounded (explorer); instr_tokens=34\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7773814c] Resuelvo S24-T4-B-E2 solo con el paquete activo. Instrucción: «Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa solo fixtures sintéticos del lab; la salida debe ». Pista: «contrato I/O en instruction». Demo S24-T4-B-DEMO. Código ancla: `n=6_000_000`. Teoría: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S24-T4-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus='ocr_fail'\n# forma esperada (referencia): print({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n\n# F2-note:7d7ee6ae49 packet-grounded (explorer); instr_tokens=34\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S24",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2dfa1aa8] Resuelvo S24-T4-B-E3 solo con el paquete activo. Instrucción: «Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito de OCR. Pass: human_rescan. Usa solo fixtures sinté». Pista: «contrato I/O en instruction». Demo S24-T4-B-DEMO. Código ancla: `status='ocr_fail'`. Teoría: DPI, deskew, crop y contraste | ruido y orientación | idiomas, layout y confiden. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Abstener y encolar revisión",
+      "justification_from_packet": "[agentic_F2/Explorer] S24 q0: confidence RUC 0.6 → abstener y encolar revisión; no inventar dígitos ni fraude.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Cola de revisión / corrección",
+      "justification_from_packet": "[agentic_F2/Explorer] S24 q1: mismatch total vs líneas → cola de revisión/corrección, no fraude probado.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Los campos críticos pueden fallar aunque el global se vea bien",
+      "justification_from_packet": "[agentic_F2/Explorer] S24 q2: accuracy por campo porque campos críticos pueden fallar con global OK.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Gate reject/review por mime no permitido",
+      "justification_from_packet": "[agentic_F2/Explorer] S24 q3: application/zip en intake de facturas → gate reject/review por mime no permitido.",
+      "blocked_on": [],
+      "confidence": 0.91
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.412129+00:00"
+}

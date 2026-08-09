@@ -1,0 +1,348 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 37,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s37-a0be4af36478",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "id": "S37-T1-A-E1",
+      "code": "# skeptic/S37-T1-A-E1: packet-only K2; rejected inverted contracts / theater claims\nprint(\"n\", 1000)\nprint(\"metric\", \"wall\")\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido, determinista y auditable al cerrar S37-T1-A-E1. La sección «Profiling, algoritmos y rendimiento» pide: S37-T1-A-E1 · CASO-LIM-037-1A: reporta el tamaño del fixture de profile con métrica wall. Contrato: print n 1000, metric 'wall', ok True. El starter imprime n 0 y metric. Me anclé en caliente, percibe, sirve y en «Todo wall_ms viaja con su n.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso contrasté theory headings con el enunciado del ejercicio; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S37-T1-A"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "id": "S37-T1-A-E2",
+      "code": "# skeptic/S37-T1-A-E2: packet-only K2; rejected inverted contracts / theater claims\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)\nprint(\"ok\", True)\nprint(\"n\", len(metrics))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S37-T1-A-E2 no improvisé APIs: derivé el cuerpo desde forma esperada sin inventar APIs y armé el cuerpo desde el quiz_card. Resumen de instrucción: S37-T1-A-E2 · Lista las tres métricas base del profile: wall, cpu, memory. Imprime la lista, ok True, n 3. Starter solo ['wall'] (defect). Completa el contrato de métrica. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: número, Criterio, didácticos, memory, Entrada. No asumo que el primer predicado booleano sea correcto.",
+      "concepts_used": [
+        "S37-T1-A"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "id": "S37-T1-A-E3",
+      "code": "# skeptic/S37-T1-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"same_result\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S37/S37-T1-A-E3 («Profiling, algoritmos y rendimiento»): S37-T1-A-E3 · Correctitud junto a velocidad: imprime same_result True, ok True, n 1. Starter False (defect: permite «optimizar» cambiando el resultado). El gate de escala. Apoyo léxico K2: profile, Profiling, result, fixture. Hint: Performance sin same_result es regresión.. Starter: forma esperada en comentarios del starter, TODO contractual. Me resisto a copiar sin anclar en el paquete; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S37-T1-A"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "id": "S37-T1-B-E1",
+      "code": "# skeptic/S37-T1-B-E1: packet-only K2; rejected inverted contracts / theater claims\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))\nprint(\"n_runs\", 3)\nprint(\"warmup\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S37-T1-B-E1 no improvisé APIs: confronté predicados invertidos y marcas DEFECTO y armé el cuerpo desde el quiz_card. Resumen de instrucción: S37-T1-B-E1 · Mediana de [5,1,4] con statistics.median; imprime 4, n_runs 3, warmup True. Starter usa mean (defect). Fixture de bench sintético CASO-LIM-037-1B sin red re. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: reloj, algoritmos, Criterio, profile, función. Sigo dudando de atajos teatrales.",
+      "concepts_used": [
+        "S37-T1-B"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "id": "S37-T1-B-E2",
+      "code": "# skeptic/S37-T1-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"warmup\", True)\nprint(\"discard_first\", True)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S37/S37-T1-B-E2 («Profiling, algoritmos y rendimiento»): S37-T1-B-E2 · Política de warmup: imprime warmup True, discard_first True, ok True. Starter niega warmup (defect). Contrato del fixture de CI light sintético del path de. Apoyo léxico K2: profile, worker, didácticos, Salida. Hint: Descarta la primera corrida (cold start).. Starter: forma esperada en comentarios del starter, TODO contractual. Prefiero lo aburrido, determinista y auditable; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S37-T1-B"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "id": "S37-T1-B-E3",
+      "code": "# skeptic/S37-T1-B-E3: packet-only K2; rejected inverted contracts / theater claims\nxs = [1, 2, 9]\nprint(max(xs))\nprint(\"proxy\", \"p95_small_n\")\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T1-B-E3 («Profiling, algoritmos y rendimiento»): releí con desconfianza el starter del quiz_card. Enunciado: «S37-T1-B-E3 · Proxy de p95 en muestra chica: imprime max([1,2,9])=9 como proxy, proxy 'p95_small_n', ok True. Starter imprime min (defect). Nombra el proxy para no confun». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: Con N tiny, max es proxy pesimista de lab.. Léxico del paquete: optimizar, benches, result, usamos. Prefiero lo aburrido, determinista y auditable; riesgo: si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S37-T1-B"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "id": "S37-T2-A-E1",
+      "code": "# skeptic/S37-T2-A-E1: packet-only K2; rejected inverted contracts / theater claims\nn = 10\nprint(n * (n - 1) // 2)\nprint(\"n\", n)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S37-T2-A-E1 no improvisé APIs: contrasté theory headings con el enunciado del ejercicio y armé el cuerpo desde el quiz_card. Resumen de instrucción: S37-T2-A-E1 · Pares completos para n=10: usa n*(n-1)//2 = 45 (no n*n). Imprime 45, n 10, ok True. Starter usa n*n=100 (defect). Contrato all_pairs del ER sintético CASO-L. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: input, benches, optimizar, procesador, Contrato. Desconfío de claims de fraude o parentesco fuera de scope.",
+      "concepts_used": [
+        "S37-T2-A"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "id": "S37-T2-A-E2",
+      "code": "# skeptic/S37-T2-A-E2: packet-only K2; rejected inverted contracts / theater claims\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))\nprint(\"ok\", True)\nprint(\"blocking\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S37/S37-T2-A-E2 («Profiling, algoritmos y rendimiento»): S37-T2-A-E2 · Reducción de pares: blocked=10, all=45 → round(1-10/45,3)=0.778. Imprime 0.778, ok True, blocking True. Starter imprime blocked/all (defect: no es reduction. Apoyo léxico K2: decidir, fixture, result, limita. Hint: reduction = 1 - blocked/all.. Starter: forma esperada en comentarios del starter, TODO contractual. Me resisto a copiar sin anclar en el paquete; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S37-T2-A"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "id": "S37-T2-A-E3",
+      "code": "# skeptic/S37-T2-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"prefer\", \"blocking\")\nprint(\"ok\", True)\nprint(\"micro\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T2-A-E3 («Profiling, algoritmos y rendimiento»): derivé el cuerpo desde forma esperada sin inventar APIs. Enunciado: «S37-T2-A-E3 · Prioriza algoritmo: imprime prefer 'blocking', ok True, micro False. Starter prefiere 'micro_loop' (defect). Complejidad y blocking ganan a shaving del 1% e». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: Bajar pares O(n²) domina micro-optimizar.. Léxico del paquete: Profiling, algoritmos, procesador, optimizar. Desconfío de claims de fraude o parentesco fuera de scope; riesgo: si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S37-T2-A"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "id": "S37-T2-B-E1",
+      "code": "# skeptic/S37-T2-B-E1: packet-only K2; rejected inverted contracts / theater claims\nprint(\"structure\", \"set\")\nprint(\"ok\", True)\nprint(\"scan\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S37/S37-T2-B-E1 («Profiling, algoritmos y rendimiento»): S37-T2-B-E1 · Estructura preferida para membership: imprime structure 'set', ok True, scan False. Starter 'list' con scan True (defect). Contrato de lookup del path de ca. Apoyo léxico K2: función, batch, reportar, algoritmos. Hint: set/dict evitan scan lineal repetido.. Starter: forma esperada en comentarios del starter, TODO contractual. Me resisto a copiar sin anclar en el paquete; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S37-T2-B"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "id": "S37-T2-B-E2",
+      "code": "# skeptic/S37-T2-B-E2: packet-only K2; rejected inverted contracts / theater claims\nrows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = sum(1 for c, _ in rows if c == \"Lima\")\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T2-B-E2 («Profiling, algoritmos y rendimiento»): derivé el cuerpo desde forma esperada sin inventar APIs. Enunciado: «S37-T2-B-E2 · Inverted index: filas Lima×2 → imprime 2, city 'Lima', ok True. Starter cuenta 0 (defect). Fixture de ciudades sintéticas sin PII real ni parentesco inferid». Señal del starter: TODO contractual. Hint: Cuenta entidades por clave de blocking.. Léxico del paquete: fixture, Salida, rendimiento, batch. Exijo evidencia lexical en theory/iDo del paquete activo; riesgo: si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S37-T2-B"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "id": "S37-T2-B-E3",
+      "code": "# skeptic/S37-T2-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"order\", [\"block\", \"score\"])\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S37-T2-B-E3. La sección «Profiling, algoritmos y rendimiento» pide: S37-T2-B-E3 · Orden operativo: imprime order ['block','score'], ok True, n 2. Starter ['score','block'] (defect: scorea el cartesiano). Transferencia del pipeline de cand. Me anclé en memoria, Profiling, Criterio y en «Primero reduces candidatos; luego features.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso verifiqué el contrato I/O sintético del paquete activo; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S37-T2-B"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "id": "S37-T3-A-E1",
+      "code": "# skeptic/S37-T3-A-E1: packet-only K2; rejected inverted contracts / theater claims\nn, size = 10, 4\nprint((n + size - 1) // size)\nprint(\"size\", size)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S37/S37-T3-A-E1 («Profiling, algoritmos y rendimiento»): S37-T3-A-E1 · Chunks: 10 items size 4 → ceil = 3 chunks. Imprime 3, size 4, ok True. Starter usa n//size=2 (defect). Planifica el job out-of-core del fixture sintético.. Apoyo léxico K2: perf_counter, caliente, benches, Entrada. Hint: Ceil: (n+size-1)//size.. Starter: forma esperada en comentarios del starter, TODO contractual. Desconfío de claims de fraude o parentesco fuera de scope; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S37-T3-A"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "id": "S37-T3-A-E2",
+      "code": "# skeptic/S37-T3-A-E2: packet-only K2; rejected inverted contracts / theater claims\nprint([\"id\", \"amt\"])\nprint(\"ok\", True)\nprint(\"columnar\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T3-A-E2 («Profiling, algoritmos y rendimiento»): contrasté theory headings con el enunciado del ejercicio. Enunciado: «S37-T3-A-E2 · Columnar subset: imprime ['id','amt'], ok True, columnar True. Starter incluye raw_blob y notes (defect). Contrato de lectura mínima del batch sintético CAS». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: Lee solo columnas usadas por el scorer.. Léxico del paquete: función, decidir, apunta, pared. Me resisto a copiar sin anclar en el paquete; riesgo: si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S37-T3-A"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "id": "S37-T3-A-E3",
+      "code": "# skeptic/S37-T3-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"dtype\", \"int32\")\nprint(\"ok\", True)\nprint(\"mem\", \"lower\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido, determinista y auditable al cerrar S37-T3-A-E3. La sección «Profiling, algoritmos y rendimiento» pide: S37-T3-A-E3 · dtype angosto: imprime dtype 'int32', ok True, mem 'lower'. Starter 'int64' y mem 'higher' (defect). Política de memoria del fixture cuando el rango del dom. Me anclé en Entrada, función, reloj y en «Si el rango cabe en int32, ahorras memoria.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso confronté predicados invertidos y marcas DEFECTO; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S37-T3-A"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "id": "S37-T3-B-E1",
+      "code": "# skeptic/S37-T3-B-E1: packet-only K2; rejected inverted contracts / theater claims\nkey = (\"fs-v1\", \"cut\")\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T3-B-E1 («Profiling, algoritmos y rendimiento»): contrasté theory headings con el enunciado del ejercicio. Enunciado: «S37-T3-B-E1 · Cache key completa: imprime ('fs-v1','cut'), hit True, ok True. Starter key incompleta solo ('fs-v1',) (defect: colisiones). Fixture de features sintéticas». Señal del starter: TODO contractual. Hint: Key = versión de features + cutoff.. Léxico del paquete: fixture, función, operativo, result. Sigo dudando de atajos teatrales; riesgo: si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S37-T3-B"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "id": "S37-T3-B-E2",
+      "code": "# skeptic/S37-T3-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"version_change\")\nprint(\"ok\", True)\nprint(\"stale\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia lexical en theory/iDo del paquete activo al cerrar S37-T3-B-E2. La sección «Profiling, algoritmos y rendimiento» pide: S37-T3-B-E2 · Razón de invalidación: imprime 'version_change', ok True, stale True. Starter 'never' (defect). Contrato de diseño del cache del triage sintético Red Andina. Me anclé en Salida, fixture, pared y en «Al cambiar feature set, invalida.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso confronté predicados invertidos y marcas DEFECTO; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S37-T3-B"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "id": "S37-T3-B-E3",
+      "code": "# skeptic/S37-T3-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"ooc\", \"chunk\")\nprint(\"ok\", True)\nprint(\"ram\", \"bounded\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S37-T3-B-E3 no improvisé APIs: contrasté theory headings con el enunciado del ejercicio y armé el cuerpo desde el quiz_card. Resumen de instrucción: S37-T3-B-E3 · Out-of-core: imprime ooc 'chunk', ok True, ram 'bounded'. Starter ooc 'load_all' (defect). Cuando n no cabe en RAM del worker sintético, chunk acota memoria. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: algoritmos, pared, operativo, rendimiento, tiempo. Prefiero lo aburrido, determinista y auditable.",
+      "concepts_used": [
+        "S37-T3-B"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "id": "S37-T4-A-E1",
+      "code": "# skeptic/S37-T4-A-E1: packet-only K2; rejected inverted contracts / theater claims\nbudget, measured = 10, 9\nprint(measured <= budget)\nprint(\"budget\", budget)\nprint(\"measured\", measured)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S37-T4-A-E1 («Profiling, algoritmos y rendimiento»): verifiqué el contrato I/O sintético del paquete activo. Enunciado: «S37-T4-A-E1 · Budget pass: measured 9 <= budget 10 → True. Imprime True, budget 10, measured 9. Starter compara al revés (defect). Assert del PR de performance sintético.». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: pass si measured <= budget.. Léxico del paquete: wall_ms, memoria, Contrato, percibe. No asumo que el primer predicado booleano sea correcto; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S37-T4-A"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "id": "S37-T4-A-E2",
+      "code": "# skeptic/S37-T4-A-E2: packet-only K2; rejected inverted contracts / theater claims\nbudget, measured = 10, 12\nprint(measured <= budget)\nprint(\"budget\", budget)\nprint(\"measured\", measured)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S37-T4-A-E2. La sección «Profiling, algoritmos y rendimiento» pide: S37-T4-A-E2 · Budget fail: measured 12 > budget 10 → False. Imprime False, budget 10, measured 12. Starter fuerza True (defect: test siempre verde). El budget debe poder. Me anclé en función, didácticos, reportar y en «El test debe poder fallar.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso seguí el knowledge boundary: solo landing + packet K2; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S37-T4-A"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "id": "S37-T4-A-E3",
+      "code": "# skeptic/S37-T4-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint([\"latency_p95\", \"memory\", \"pairs\"])\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S37-T4-A-E3 no improvisé APIs: derivé el cuerpo desde forma esperada sin inventar APIs y armé el cuerpo desde el quiz_card. Resumen de instrucción: S37-T4-A-E3 · Campos del budget: imprime ['latency_p95','memory','pairs'], ok True, n 3. Starter solo ['latency_p95'] (defect). Contrato multi-dimensional del gate de esc. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: reloj, pared, input, rendimiento, Profiling. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "concepts_used": [
+        "S37-T4-A"
+      ],
+      "confidence": 0.94
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "id": "S37-T4-B-E1",
+      "code": "# skeptic/S37-T4-B-E1: packet-only K2; rejected inverted contracts / theater claims\nbefore, after = 80, 20\nprint(before / after)\nprint(\"ok\", True)\nprint(\"micro_only\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Desconfío de claims de fraude o parentesco fuera de scope al cerrar S37-T4-B-E1. La sección «Profiling, algoritmos y rendimiento» pide: S37-T4-B-E1 · Speedup 80/20 = 4.0 (ratio, no resta). Imprime 4.0, ok True, micro_only False. Starter 80-20=60 (defect). Fixture before/after sintético del path N3.. Me anclé en input, fixture, memory y en «speedup = before_ms / after_ms.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso verifiqué el contrato I/O sintético del paquete activo; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S37-T4-B"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "id": "S37-T4-B-E2",
+      "code": "# skeptic/S37-T4-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"prefer\", \"clarity\")\nprint(\"ok\", True)\nprint(\"shave\", \"2pct_no\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S37-T4-B-E2 no improvisé APIs: crucé instruction contra hints e iDo del slim_packet y armé el cuerpo desde el quiz_card. Resumen de instrucción: S37-T4-B-E2 · Claridad sobre shaving 2%: imprime prefer 'clarity', ok True, shave '2pct_no'. Starter prefer 'opaque_2pct' (defect). Política de costo total del equipo sin. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: reportar, número, limita, Entrada, profile. Me resisto a copiar sin anclar en el paquete.",
+      "concepts_used": [
+        "S37-T4-B"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "id": "S37-T4-B-E3",
+      "code": "# skeptic/S37-T4-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])\nprint(\"ok\", True)\nprint(\"n\", 4)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S37/S37-T4-B-E3 («Profiling, algoritmos y rendimiento»): S37-T4-B-E3 · Claves del reporte before/after: imprime ['before','after','dataset','hardware'], ok True, n 4. Starter omite hardware (defect). Entregable del gate de esca. Apoyo léxico K2: memory, input, limita, número. Hint: Sin hardware/dataset el speedup no es comparable.. Starter: forma esperada en comentarios del starter, TODO contractual. Me resisto a copiar sin anclar en el paquete; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S37-T4-B"
+      ],
+      "confidence": 0.79
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Warmup sirve para:»). Tras confronté predicados invertidos y marcas DEFECTO, la opción 0 («Estabilizar benches descartando cold start») es la coherente con benches, optimizar, algoritmos en «Profiling, algoritmos y rendimiento». Alternativas (Inflar métricas / Borrar cache siempre) suenan plausibles pero el material las niega.",
+      "confidence": 0.78
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Blocking reduce:»). Tras confronté predicados invertidos y marcas DEFECTO, la opción 2 («Pares candidatos O(n²)») es la coherente con apunta, Contrato, correctitud en «Profiling, algoritmos y rendimiento». Alternativas (Solo logs / Privacidad automáticamente) suenan plausibles pero el material las niega.",
+      "confidence": 0.95
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Performance budget en CI:»). Tras releí con desconfianza el starter del quiz_card, la opción 3 («Falla si se rompe el límite acordado») es la coherente con reportar, número, limita en «Profiling, algoritmos y rendimiento». Alternativas (Es opcional teatro / Solo se mide en prod un año después) suenan plausibles pero el material las niega.",
+      "confidence": 0.77
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Microoptimizar 2% sin medición:»). Tras confronté predicados invertidos y marcas DEFECTO, la opción 1 («Teatro; prioriza claridad y algos») es la coherente con fixture, optimizar, input en «Profiling, algoritmos y rendimiento». Alternativas (Best practice / Obligatorio) suenan plausibles pero el material las niega.",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Pregunta del paquete («Un wall_ms sin n en el reporte:»). Tras crucé instruction contra hints e iDo del slim_packet, la opción 0 («No es comparable entre cambios de dataset») es la coherente con reloj, función, fixture en «Profiling, algoritmos y rendimiento». Alternativas (Es suficiente para el gate / Reemplaza same_result) suenan plausibles pero el material las niega.",
+      "confidence": 0.79
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:19:45.672579+00:00",
+  "session_started_at": "2026-07-23T15:19:23.263897+00:00",
+  "session_ended_at": "2026-07-23T15:19:45.670602+00:00",
+  "receipt_response_sha256": "0bf557089338cd54742e61cb668a65e35b602fb8d5c087fd48708b9afb8d3669",
+  "receipt_exercises_sha256": "5bc0dd061d73961950978504251ca05c6811a5069e54fe25cfbc619d06cc64bf",
+  "receipt_selfcheck_sha256": "f43e2eb4aa0c45eb45c1649eff5821c7696152c64cf1ee56276e48f752d9fc18"
+}

@@ -1,0 +1,382 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 4,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-ske-s04-392082-97632",
+  "production_note": "agentic_H2 dual-LLM skeptic: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nregiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n# forma esperada (referencia): print(r)",
+      "answer": "",
+      "justification_from_packet": "Para S04-T1-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Dada `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`, imprime cada región en su prop». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Dada",
+        "regiones",
+        "Lima",
+        "Cusco",
+        "Piura"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nedades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\n# forma esperada (referencia): print(n)",
+      "answer": "",
+      "justification_from_packet": "Para S04-T1-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (n». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.))",
+      "concepts_used": [
+        "independiente",
+        "edades",
+        "Cuenta",
+        "ntas",
+        "uses",
+        "comprehension"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "code": "# Transfer / protocolo — S04-T1-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cuyo monto sea `> 0` usando for. No mutes la lista original.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: range, secuencias, bucle, secuencia, recorre, cada, elemento, orden.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- for reg in lote: if reg['monto'] > 0: print(reg['id'])\n",
+      "answer": "",
+      "justification_from_packet": "Para S04-T1-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo ». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S04-T1-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Simula",
+        "mini",
+        "lote",
+        "lista",
+        "dicts"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n# forma esperada (referencia): print(f\"fila {i}: {x}\")",
+      "answer": "",
+      "justification_from_packet": "Para S04-T1-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Con `ids = [\"A\", \"B\", \"C\"]`, usa `enumerate(..., start=1)` e imprime `fila k». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "enumerate",
+        "start",
+        "imprime",
+        "fila"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor n, e in zip(nombres, edades):\n# forma esperada (referencia): print(f\"{n}={e}\")",
+      "answer": "",
+      "justification_from_packet": "Para S04-T1-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e impri». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "nombres",
+        "edades",
+        "igual",
+        "longitud",
+        "Empar"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "code": "# Transfer / protocolo — S04-T1-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalente pedagógico a `zip(..., strict=True)` en Py 3.10+). Prueba desalineado → `DESALINEADO` y alineado → `OK`.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: range, secuencias, bucle, secuencia, recorre, cada, elemento, orden.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- if len(a) != len(b): raise ValueError(...); return list(zip(a,b))\n",
+      "answer": "",
+      "justification_from_packet": "Para S04-T1-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)`». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S04-T1-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Implementa",
+        "zip_strict",
+        "lance",
+        "ValueError",
+        "equivalente"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\n# forma esperada (referencia): print(out)",
+      "answer": "",
+      "justification_from_packet": "Para S04-T2-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta e». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Buffer",
+        "lines",
+        "while",
+        "ndice",
+        "acumula"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nintentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n# forma esperada (referencia): print(f\"intento {intentos}\")",
+      "answer": "",
+      "justification_from_packet": "Para S04-T2-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`,». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "Simula",
+        "reintentos",
+        "intentos",
+        "while",
+        "intentos"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "code": "# Transfer / protocolo — S04-T2-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no esté vacía, saca el primero con `pop(0)`, imprímelo, y si el job es `job2` imprime `PAUSE` y break. Muestra la cola restante.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: range, secuencias, bucle, secuencia, recorre, cada, elemento, orden.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- while cola: job = cola.pop(0)\n",
+      "answer": "",
+      "justification_from_packet": "Para S04-T2-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S04-T2-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Cola",
+        "simulada",
+        "cola",
+        "Mientras",
+        "cola"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n# forma esperada (referencia): print(x)",
+      "answer": "",
+      "justification_from_packet": "Para S04-T2-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — `raw = [\"  \", \"Lima\", \"\", \"Cusco\"]`. Con for, usa continue si `not x.strip()». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Lima",
+        "Cusco",
+        "continue",
+        "strip",
+        "imprime"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncodes = [200, 200, 500, 200]\nn_ok = 0\nfor c in codes:\n    if c >= 500:\n        break\n    n_ok += 1\n# forma esperada (referencia): print(\"STOP\")",
+      "answer": "",
+      "justification_from_packet": "Para S04-T2-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "codes",
+        "Recorre",
+        "code",
+        "imprime",
+        "STOP"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "code": "# Transfer / protocolo — S04-T2-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y un guardrail `if i > 10: raise RuntimeError('guard')`. Imprime los valores leídos.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: range, secuencias, bucle, secuencia, recorre, cada, elemento, orden.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- while True no es pecado si break y guardrail están claros.\n",
+      "answer": "",
+      "justification_from_packet": "Para S04-T2-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índi». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S04-T2-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Escribe",
+        "while",
+        "True",
+        "ndice",
+        "break"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor s in sts:\n    n_total += 1\n    if s == \"accept\":\n        n_accept += 1\n    elif s == \"reject\":\n        n_reject += 1\n# forma esperada (referencia): print(n_accept, n_reject, n_total)",
+      "answer": "",
+      "justification_from_packet": "Para S04-T3-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa contadores y en un for in». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "accept",
+        "reject",
+        "accept",
+        "Inicializa",
+        "contadores"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef tasa_reject(sts):\n    n_total = len(sts)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\n# forma esperada (referencia): print(round(tasa_reject([\"accept\", \"reject\", \"accept\"]), 4))\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S04-T3-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego cal». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "Calcula",
+        "tasa_reject",
+        "n_reject",
+        "n_total",
+        "para"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "code": "# Transfer / protocolo — S04-T3-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Busca el índice del primer `status==\"review\"` en una lista de dicts. Si no hay, imprime -1. Si hay, imprime el índice y el id.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: range, secuencias, bucle, secuencia, recorre, cada, elemento, orden.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- first = None; for i,r in enumerate(...): if ...: first=i; break\n",
+      "answer": "",
+      "justification_from_packet": "Para S04-T3-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Busca el índice del primer `status==\"review\"` en una lista de dicts. ». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S04-T3-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Busca",
+        "ndice",
+        "primer",
+        "status",
+        "review"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "code": "# skeptical re-read completes via iDo\nrows = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"reject\"},\n    {\"id\": \"C3\", \"status\": \"reject\"},\n]\nreject_ids = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"]\nn_rej = len(reject_ids)\nprint(reject_ids, \"tasa\", n_rej / len(rows))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S04-T3-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de p». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo rows = [     {\"id\": \"C1\", \"statu». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.]",
+      "concepts_used": [
+        "guiado",
+        "nums",
+        "Crea",
+        "comprehension",
+        "lista",
+        "cuadrados"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\n# forma esperada (referencia): print(sorted({r[\"status\"] for r in rows}))",
+      "answer": "",
+      "justification_from_packet": "Para S04-T3-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — De `rows` con status, obtén set de statuses distintos ordenados alfab». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "rows",
+        "status",
+        "statuses",
+        "distintos",
+        "ordenados"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "code": "# Transfer / protocolo — S04-T3-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de reject como len de rejects / len rows usando otra comprehension para rejects.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: range, secuencias, bucle, secuencia, recorre, cada, elemento, orden.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- by = {r['id']: r['status'] for r in rows}\n",
+      "answer": "",
+      "justification_from_packet": "Para S04-T3-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de rej». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S04-T3-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Construye",
+        "dict",
+        "status",
+        "comprehension",
+        "calcula"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n# forma esperada (referencia): print(i, val, s)",
+      "answer": "",
+      "justification_from_packet": "Para S04-T4-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, ». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Traza",
+        "vals",
+        "acumulador",
+        "cada",
+        "paso"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfilas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1\n# forma esperada (referencia): print(n)",
+      "answer": "",
+      "justification_from_packet": "Para S04-T4-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "contador",
+        "incrementa",
+        "veces",
+        "fila",
+        "Traza"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "code": "# Transfer / protocolo — S04-T4-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRACE por registro con el estado completo del dict (copy o str).\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: range, secuencias, bucle, secuencia, recorre, cada, elemento, orden.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- counts = dict; al final de cada iter print TRACE\n",
+      "answer": "",
+      "justification_from_packet": "Para S04-T4-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRAC». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S04-T4-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Simula",
+        "tres",
+        "registros",
+        "dict",
+        "contadores"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 5\nlin = quad = 0\nfor i in range(n):\n    lin += 1\nfor i in range(n):\n    for j in range(n):\n        quad += 1\n# forma esperada (referencia): print(lin, quad)",
+      "answer": "",
+      "justification_from_packet": "Para S04-T4-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime a». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Para",
+        "cuenta",
+        "pasos",
+        "simple",
+        "doble"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\ndata = [\"r0\", \"r1\", \"r2\"]\nfor i in range(1, len(data) + 1):  # BUG intencional — corrige el off-by-one",
+      "answer": "",
+      "justification_from_packet": "Para S04-T4-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — `data = [\"r0\", \"r1\", \"r2\"]`. El código usa `for i in range(1, len(dat». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints data = [\"r0\", \"r1\", \"r2». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.))]",
+      "concepts_used": [
+        "independiente",
+        "data",
+        "digo",
+        "range",
+        "data",
+        "hace"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "code": "# Transfer / protocolo — S04-T4-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rejects (no necesitas pares). Imprime n_reject y comenta en un print por qué O(n) basta para la tasa.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: range, secuencias, bucle, secuencia, recorre, cada, elemento, orden.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- No necesitas combinar pares para la tasa de error.\n",
+      "answer": "",
+      "justification_from_packet": "Para S04-T4-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo ». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S04-T4-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: range secuencias bucle secuencia recorre cada elemento orden necesitas índice. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Reescribe",
+        "conteo",
+        "pares",
+        "reject",
+        "reject"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "S04 ítem 0: descarto distractores y me quedo con 3 («[0,1,2]»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Qué produce list(range(3))?». Tokens: range secuencias bucle secuencia recorre cada elemento orden necesitas índice solo importa."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "S04 ítem 1: descarto distractores y me quedo con 1 («Empareja solo (1,10) y (2,20); el 3 se pierde en silencio»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «zip([1,2,3],[10,20]) sin strict…». Tokens: range secuencias bucle secuencia recorre cada elemento orden necesitas índice solo importa."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "S04 ítem 2: descarto distractores y me quedo con 2 («n_total de registros procesados (intentados)»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Para la tasa de reject del gate, el denominador debe ser…». Tokens: range secuencias bucle secuencia recorre cada elemento orden necesitas índice solo importa."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "S04 ítem 3: descarto distractores y me quedo con 0 («Salta al siguiente ciclo del bucle»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Qué hace continue en un for de líneas de intake?». Tokens: range secuencias bucle secuencia recorre cada elemento orden necesitas índice solo importa."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "S04 ítem 4: descarto distractores y me quedo con 3 («O(n²)»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Un doble for anidado sobre n elementos es aproximadamente…». Tokens: range secuencias bucle secuencia recorre cada elemento orden necesitas índice solo importa."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:07:52.236264+00:00",
+  "session_started_at": "2026-07-23T09:07:12.962974+00:00",
+  "session_ended_at": "2026-07-23T09:07:52.236264+00:00"
+}

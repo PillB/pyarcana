@@ -1,0 +1,16 @@
+{
+  "baseline": "agentic_J1",
+  "candidate": "agentic_J2",
+  "body_identity_pct": 17.8,
+  "just_identity_pct": 0.0,
+  "j1_mtime_min": 34.4,
+  "j2_mtime_min": 34.5,
+  "session_dur_min_s": 8.5,
+  "forensic_gates_pass": true,
+  "sealed_receipts": true,
+  "bulk_writers": 0,
+  "rejected_theater": "D-I",
+  "j1_clean": true,
+  "j2_clean": true,
+  "pass": true
+}

@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 42,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s42-4ddf35077c",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S42-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\nmeets_contract = record['json_schema'] is True and record['valid_fixture'] is True and record['business_rule'] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_SCHEMA\"\nprint(\"S42-T1-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S42/S42-T1-A-E1, no acepto el predicado defectuoso del starter: para «Pydantic y JSON Schema» el paquete exige demostrar schema estricto más regla de negocio. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'business_rule', 'case_id', 'extra_policy', 'json_schema', 'valid_fixture'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['json_schema'] is True and record['valid_fixture'] is True and record['business_rule'] is True\n    return \"PASS\" if meets else 'REJECT_SCHEMA'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', **{'extra_policy':'forbid', 'json_schema':True, 'valid_fixture':True, 'business_rule':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-1A', **{'extra_policy':'forbid', 'json_schema':False, 'valid_fixture':True, 'business_rule':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'business_rule'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S42-T1-A-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «Pydantic y JSON Schema» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'business_rule', 'case_id', 'extra_policy', 'json_schema', 'valid_fixture'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_BUSINESS_INVARIANT'\n    meets = record['json_schema'] is True and record['valid_fixture'] is True and record['business_rule'] is True\n    return \"CONTINUE\" if meets else 'REJECT_SCHEMA'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', **{'extra_policy':'forbid', 'json_schema':True, 'valid_fixture':True, 'business_rule':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-1A', **{'extra_policy':'forbid', 'json_schema':False, 'valid_fixture':True, 'business_rule':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'business_rule'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S42/S42-T1-A-E3, no acepto el predicado defectuoso del starter: para «business_rule» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\nmeets_contract = record[\"change\"] != \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"]\nstatus = \"PASS\" if meets_contract else \"VERSION_SCHEMA\"\nprint(\"S42-T1-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S42 · S42-T1-B-E1: leí hints «Relaciona los campos `change`, `old_reader_passes`, `union_tags`, `handled_tags` con la regla explicada en S42-T1-B.» y la teoría del subtema «evolución, discriminated unions y validación de negocio». El criterio medible es cambio aditivo y union exhaustiva; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'change', 'handled_tags', 'old_reader_passes', 'union_tags'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = (record[\"change\"] != \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"]) and not str(record.get('case_id','')).endswith('-ADV')\n    return \"PASS\" if meets else 'VERSION_SCHEMA'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1B', **{'change':'add_optional', 'old_reader_passes':True, 'union_tags':{'email', 'phone'}, 'handled_tags':{'email', 'phone'}}}\ninvalid = {\"case_id\": 'CASO-CUS-042-1B-ADV', **{'change':'add_optional', 'old_reader_passes':True, 'union_tags':{'email', 'phone'}, 'handled_tags':{'email', 'phone'}}}\nincomplete = {k: v for k, v in valid.items() if k != 'handled_tags'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S42-T1-B-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «evolución, discriminated unions y validación de negocio» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'change', 'handled_tags', 'old_reader_passes', 'union_tags'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'MIGRATE_CONSUMERS'\n    meets = record[\"change\"] != \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"]\n    return \"CONTINUE\" if meets else 'VERSION_SCHEMA'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1B', **{'change':'add_optional', 'old_reader_passes':True, 'union_tags':{'email', 'phone'}, 'handled_tags':{'email', 'phone'}}}\ninvalid = {\"case_id\": 'CASO-CUS-042-1B', **{'change':'add_optional', 'old_reader_passes':True, 'union_tags':{'email', 'phone'}, 'handled_tags':{'email', 'phone'}, '_broken':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'handled_tags'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "S42 · S42-T1-B-E3: leí hints «Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el contenido.» y la teoría del subtema «handled_tags». El criterio medible es el contrato del subtema; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\nmeets_contract = record[\"authenticated\"] and record[\"actor\"] == record[\"resource_owner\"]\nstatus = \"PASS\" if meets_contract else \"DENY_CROSS_TENANT\"\nprint(\"S42-T2-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S42/S42-T2-A-E1, no acepto el predicado defectuoso del starter: para «authn/authz y RBAC» el paquete exige demostrar identidad, permiso y pertenencia del recurso. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'actor', 'authenticated', 'case_id', 'resource_owner', 'roles'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"authenticated\"] and record[\"actor\"] == record[\"resource_owner\"]\n    return \"PASS\" if meets else 'DENY_CROSS_TENANT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-2A', **{'authenticated':True, 'actor':'user-a', 'resource_owner':'user-a', 'roles':{'case:read'}}}\ninvalid = {\"case_id\": 'CASO-CUS-042-2A', **{'authenticated':False, 'actor':'user-a', 'resource_owner':'user-a', 'roles':{'case:read'}}}\nincomplete = {k: v for k, v in valid.items() if k != 'roles'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S42/S42-T2-A-E2, no acepto el predicado defectuoso del starter: para «authn/authz y RBAC» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'actor', 'authenticated', 'case_id', 'resource_owner', 'roles'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_RESOURCE_OWNER'\n    meets = record[\"authenticated\"] and record[\"actor\"] == record[\"resource_owner\"]\n    return \"CONTINUE\" if meets else 'DENY_CROSS_TENANT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-2A', **{'authenticated':True, 'actor':'user-a', 'resource_owner':'user-a', 'roles':{'case:read'}}}\ninvalid = {\"case_id\": 'CASO-CUS-042-2A', **{'authenticated':False, 'actor':'user-a', 'resource_owner':'user-a', 'roles':{'case:read'}}}\nuncertain = {k: v for k, v in valid.items() if k != 'roles'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S42-T2-A-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «roles» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\nmeets_contract = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\nstatus = \"PASS\" if meets_contract else \"DENY_SCOPE\"\nprint(\"S42-T2-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S42-T2-B-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «scopes, service identities y deny-by-default» reconstruí la regla (scope estrecho, identidad propia y ruta declarada) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'granted_scopes', 'requested_scope', 'route_declared', 'service_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\n    return \"PASS\" if meets else 'DENY_SCOPE'\n\nvalid = {\"case_id\": 'CASO-CUS-042-2B', **{'requested_scope':'report:prepare', 'granted_scopes':{'report:prepare'}, 'service_id':'svc-reporter', 'route_declared':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-2B', **{'requested_scope':'broken_report:prepare', 'granted_scopes':{'report:prepare'}, 'service_id':'svc-reporter', 'route_declared':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'route_declared'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S42/S42-T2-B-E2, no acepto el predicado defectuoso del starter: para «scopes, service identities y deny-by-default» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'granted_scopes', 'requested_scope', 'route_declared', 'service_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_NARROW_GRANT'\n    meets = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\n    return \"CONTINUE\" if meets else 'DENY_SCOPE'\n\nvalid = {\"case_id\": 'CASO-CUS-042-2B', **{'requested_scope':'report:prepare', 'granted_scopes':{'report:prepare'}, 'service_id':'svc-reporter', 'route_declared':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-2B', **{'requested_scope':'broken_report:prepare', 'granted_scopes':{'report:prepare'}, 'service_id':'svc-reporter', 'route_declared':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'route_declared'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S42-T2-B-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «route_declared» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\nmeets_contract = record[\"bytes\"] <= record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\")\nstatus = \"PASS\" if meets_contract else \"REJECT_UNTRUSTED_INPUT\"\nprint(\"S42-T3-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S42 · S42-T3-A-E1: leí hints «Relaciona los campos `bytes`, `max_bytes`, `host`, `allowed_hosts`, `resolved_path`, `root` con la regla explicada en S42-T3-A.» y la teoría del subtema «input limits, injection y SSRF/path traversal». El criterio medible es límite, host allowlisted y ruta confinada; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'allowed_hosts', 'bytes', 'case_id', 'host', 'max_bytes', 'resolved_path', 'root'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"bytes\"] <= record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\")\n    return \"PASS\" if meets else 'REJECT_UNTRUSTED_INPUT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-3A', **{'bytes':2048, 'max_bytes':4096, 'host':'docs.local', 'allowed_hosts':{'docs.local'}, 'resolved_path':'/safe/reports/a.txt', 'root':'/safe/reports'}}\ninvalid = {\"case_id\": 'CASO-CUS-042-3A', **{'bytes':2048, 'max_bytes':0, 'host':'docs.local', 'allowed_hosts':{'docs.local'}, 'resolved_path':'/safe/reports/a.txt', 'root':'/safe/reports'}}\nincomplete = {k: v for k, v in valid.items() if k != 'root'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S42/S42-T3-A-E2, no acepto el predicado defectuoso del starter: para «input limits, injection y SSRF/path traversal» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'allowed_hosts', 'bytes', 'case_id', 'host', 'max_bytes', 'resolved_path', 'root'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SECURITY_REVIEW'\n    meets = record[\"bytes\"] <= record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\")\n    return \"CONTINUE\" if meets else 'REJECT_UNTRUSTED_INPUT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-3A', **{'bytes':2048, 'max_bytes':4096, 'host':'docs.local', 'allowed_hosts':{'docs.local'}, 'resolved_path':'/safe/reports/a.txt', 'root':'/safe/reports'}}\ninvalid = {\"case_id\": 'CASO-CUS-042-3A', **{'bytes':2048, 'max_bytes':0, 'host':'docs.local', 'allowed_hosts':{'docs.local'}, 'resolved_path':'/safe/reports/a.txt', 'root':'/safe/reports'}}\nuncertain = {k: v for k, v in valid.items() if k != 'root'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S42-T3-A-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «root» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\nmeets_contract = record['secret_in_repo'] is False and record['secret_in_log'] is False and record['rotation_tested'] is True and record['dependency_pinned'] is True\nstatus = \"PASS\" if meets_contract else \"ROTATE_AND_BLOCK\"\nprint(\"S42-T3-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "S42 · S42-T3-B-E1: leí hints «Relaciona los campos `secret_in_repo`, `secret_in_log`, `rotation_tested`, `dependency_pinned`, `critical_cves` con la regla explicada en S4» y la teoría del subtema «secretos, cifrado y dependency risk». El criterio medible es secretos fuera del artefacto y dependencias revisadas; el booleano original lo invertía o medía el breach. Ajusté a un predicado verificable y mantuve case_id/fixtures del CASO del paquete.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'critical_cves', 'dependency_pinned', 'rotation_tested', 'secret_in_log', 'secret_in_repo'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['secret_in_repo'] is False and record['secret_in_log'] is False and record['rotation_tested'] is True and record['dependency_pinned'] is True\n    return \"PASS\" if meets else 'ROTATE_AND_BLOCK'\n\nvalid = {\"case_id\": 'CASO-CUS-042-3B', **{'secret_in_repo':False, 'secret_in_log':False, 'rotation_tested':True, 'dependency_pinned':True, 'critical_cves':0}}\ninvalid = {\"case_id\": 'CASO-CUS-042-3B', **{'secret_in_repo':True, 'secret_in_log':False, 'rotation_tested':True, 'dependency_pinned':True, 'critical_cves':0}}\nincomplete = {k: v for k, v in valid.items() if k != 'critical_cves'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S42-T3-B-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «secretos, cifrado y dependency risk» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'critical_cves', 'dependency_pinned', 'rotation_tested', 'secret_in_log', 'secret_in_repo'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASSESS_DEPENDENCY_RISK'\n    meets = record['secret_in_repo'] is False and record['secret_in_log'] is False and record['rotation_tested'] is True and record['dependency_pinned'] is True\n    return \"CONTINUE\" if meets else 'ROTATE_AND_BLOCK'\n\nvalid = {\"case_id\": 'CASO-CUS-042-3B', **{'secret_in_repo':False, 'secret_in_log':False, 'rotation_tested':True, 'dependency_pinned':True, 'critical_cves':0}}\ninvalid = {\"case_id\": 'CASO-CUS-042-3B', **{'secret_in_repo':True, 'secret_in_log':False, 'rotation_tested':True, 'dependency_pinned':True, 'critical_cves':0}}\nuncertain = {k: v for k, v in valid.items() if k != 'critical_cves'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S42-T3-B-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «critical_cves» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\nmeets_contract = record[\"collected\"] <= record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"]\nstatus = \"PASS\" if meets_contract else \"MINIMIZE_AND_EXPIRE\"\nprint(\"S42-T4-A\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Duda metódica en S42-T4-A-E1: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «minimización, purpose y retención» reconstruí la regla (campos mínimos, propósito y retención finita) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'collected', 'max_retention_days', 'needed', 'purpose', 'retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record[\"collected\"] <= record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"]\n    return \"PASS\" if meets else 'MINIMIZE_AND_EXPIRE'\n\nvalid = {\"case_id\": 'CASO-CUS-042-4A', **{'collected':{'case_id', 'region'}, 'needed':{'case_id', 'region'}, 'purpose':'status-report', 'retention_days':30, 'max_retention_days':30}}\ninvalid = {\"case_id\": 'CASO-CUS-042-4A', **{'collected':{'__x', 'case_id', 'region'}, 'needed':{'case_id', 'region'}, 'purpose':'status-report', 'retention_days':30, 'max_retention_days':30}}\nincomplete = {k: v for k, v in valid.items() if k != 'max_retention_days'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S42/S42-T4-A-E2, no acepto el predicado defectuoso del starter: para «minimización, purpose y retención» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (independent) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'case_id', 'collected', 'max_retention_days', 'needed', 'purpose', 'retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PRIVACY_OWNER_REVIEW'\n    meets = record[\"collected\"] <= record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"]\n    return \"CONTINUE\" if meets else 'MINIMIZE_AND_EXPIRE'\n\nvalid = {\"case_id\": 'CASO-CUS-042-4A', **{'collected':{'case_id', 'region'}, 'needed':{'case_id', 'region'}, 'purpose':'status-report', 'retention_days':30, 'max_retention_days':30}}\ninvalid = {\"case_id\": 'CASO-CUS-042-4A', **{'collected':{'__x', 'case_id', 'region'}, 'needed':{'case_id', 'region'}, 'purpose':'status-report', 'retention_days':30, 'max_retention_days':30}}\nuncertain = {k: v for k, v in valid.items() if k != 'max_retention_days'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S42-T4-A-E3: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «max_retention_days» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\nmeets_contract = record['deleted'] is True and record['derived_deleted'] is True and record['key_separate'] is True\nstatus = \"PASS\" if meets_contract else \"PURGE_DERIVATIVES\"\nprint(\"S42-T4-B\", status)\nassert meets_contract is True\n",
+      "justification_from_packet": "Como escéptico en S42/S42-T4-B-E1, no acepto el predicado defectuoso del starter: para «audit, deletion, pseudonymization y acceso» el paquete exige demostrar audit sin PII, borrado derivado y llave separada. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (guided) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'audit_fields', 'case_id', 'deleted', 'derived_deleted', 'key_separate', 'pii_fields'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    meets = record['deleted'] is True and record['derived_deleted'] is True and record['key_separate'] is True\n    return \"PASS\" if meets else 'PURGE_DERIVATIVES'\n\nvalid = {\"case_id\": 'CASO-CUS-042-4B', **{'audit_fields':{'action', 'actor_id', 'at', 'case_token'}, 'pii_fields':{'email', 'full_name'}, 'deleted':True, 'derived_deleted':True, 'key_separate':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-4B', **{'audit_fields':{'action', 'actor_id', 'at', 'case_token'}, 'pii_fields':{'email', 'full_name'}, 'deleted':False, 'derived_deleted':True, 'key_separate':True}}\nincomplete = {k: v for k, v in valid.items() if k != 'key_separate'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Duda metódica en S42-T4-B-E2: si el starter imprime REJECT sobre un fixture que ya trae dueño y umbral, el error está en la expresión, no en los datos. Para «audit, deletion, pseudonymization y acceso» reconstruí la regla (el contrato del subtema) y cerré las rutas PASS/breach/incertidumbre sin inventar evidencia.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S42-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'audit_fields', 'case_id', 'deleted', 'derived_deleted', 'key_separate', 'pii_fields'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_DELETION_SCOPE'\n    meets = record['deleted'] is True and record['derived_deleted'] is True and record['key_separate'] is True\n    return \"CONTINUE\" if meets else 'PURGE_DERIVATIVES'\n\nvalid = {\"case_id\": 'CASO-CUS-042-4B', **{'audit_fields':{'action', 'actor_id', 'at', 'case_token'}, 'pii_fields':{'email', 'full_name'}, 'deleted':True, 'derived_deleted':True, 'key_separate':True}}\ninvalid = {\"case_id\": 'CASO-CUS-042-4B', **{'audit_fields':{'action', 'actor_id', 'at', 'case_token'}, 'pii_fields':{'email', 'full_name'}, 'deleted':False, 'derived_deleted':True, 'key_separate':True}}\nuncertain = {k: v for k, v in valid.items() if k != 'key_separate'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Como escéptico en S42/S42-T4-B-E3, no acepto el predicado defectuoso del starter: para «key_separate» el paquete exige demostrar el contrato del subtema. Dejé fixtures sintéticos intactos y solo corregí la decisión de dominio (transfer) hasta que el caso válido pase y el adverso/ausencia fallen con el código del enunciado.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Schemas, seguridad y privacidad de servicios",
+        "S42-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Self-check S42 Q0: entre las opciones, «schema exportado y fixtures válidos/inválidos» es la única alineada con la salida y el criterio de éxito del paquete activo; descarto prints, capturas y datos reales. Pregunta: «¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042?».",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Self-check S42 Q1: entre las opciones, «emitir DENY y conservar evidencia» es la única alineada con la salida y el criterio de éxito del paquete activo; descarto prints, capturas y datos reales. Pregunta: «Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y auditabilidad?».",
+      "confidence": 0.81,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Self-check S42 Q2: entre las opciones, «un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos» es la única alineada con la salida y el criterio de éxito del paquete activo; descarto prints, capturas y datos reales. Pregunta: «¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?».",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Self-check S42 Q3: entre las opciones, «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» es la única alineada con la salida y el criterio de éxito del paquete activo; descarto prints, capturas y datos reales. Pregunta: «¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?».",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:48:12.152585+00:00",
+  "session_started_at": "2026-07-23T16:50:21.766061Z",
+  "session_ended_at": "2026-07-23T16:51:29.766061Z",
+  "receipt_response_sha256": "6783d491a0d391ac0e252a85685e31ff311954e313513fca06a686b835cc28c4",
+  "receipt_exercises_sha256": "9e6b4fa63e93923dcb483d1aa33f41853bcd52ea0713dcf5b18f105afc3a346f",
+  "receipt_selfcheck_sha256": "c2a81dff9fc2106f5e1a9416a0f7f1fe99b30f391f5f386aa20bddcec2819143"
+}

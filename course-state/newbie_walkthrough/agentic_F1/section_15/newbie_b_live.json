@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s15",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T1-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/42f6e6c5] S15-T1-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Crea un». Demo S15-T1-A-DEMO. Línea: `import pandas as pd`. Pista «set_index('cliente_id').»."
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T1-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2b255c66] S15-T1-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Demo S15-T1-A-DEMO. Línea: `import pandas as pd`. Pista «pd.Series(..., index=..., name=...).»."
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T1-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/74cf8499] Dudé del atajo en S15-T1-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Hint «s1.add(s2, fill_value=0).». Ancla: `import pandas as pd`. S15-T1-A-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T1-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\nfrom io import StringIO\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "StringIO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/3f61ad99] S15-T1-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Lee un ». Demo S15-T1-B-DEMO. Línea: `import pandas as pd`. Pista «pd.read_csv(StringIO(...), na_values=...).»."
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T1-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\nfrom io import StringIO\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "StringIO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2306b1a1] Solo acepto S15-T1-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Verifiqué pista «parse_dates=['fecha'].» y demo S15-T1-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T1-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\nfrom io import StringIO\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "StringIO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9be54f3f] Dudé del atajo en S15-T1-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Hint «usecols=[...].». Ancla: `import pandas as pd`. S15-T1-B-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T2-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b39614b2] S15-T2-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Con df ». Demo S15-T2-A-DEMO. Línea: `import pandas as pd`. Pista «df.loc[df.score>=0.5, 'cliente_id'].»."
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T2-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a37c2568] S15-T2-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Demo S15-T2-A-DEMO. Línea: `import pandas as pd`. Pista «df.assign(doble=...).»."
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T2-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/fb2161f3] Dudé del atajo en S15-T2-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Hint «iloc posición 1,0 → 3.». Ancla: `import pandas as pd`. S15-T2-A-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T2-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2e4052be] Dudé del atajo en S15-T2-B-E1; me ceñí al weDo. «E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Asigna ». Hint «df.loc[mask, 'flag'] = 'x'.». Ancla: `import pandas as pd`. S15-T2-B-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T2-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e5edef15] Dudé del atajo en S15-T2-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Hint «subset = df.loc[...].copy().». Ancla: `import pandas as pd`. S15-T2-B-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T2-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/81b906e8] Solo acepto S15-T2-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Verifiqué pista «c = df.copy(); c.iloc[0,0]=99.» y demo S15-T2-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T3-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/97c8b40e] S15-T3-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Convier». Demo S15-T3-A-DEMO. Línea: `import pandas as pd`. Pista «astype('category').»."
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T3-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "to_numeric"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e62a5564] Dudé del atajo en S15-T3-A-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Hint «pd.to_numeric(..., errors='coerce').». Ancla: `import pandas as pd`. S15-T3-A-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T3-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "to_datetime"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/cc81fe3c] Dudé del atajo en S15-T3-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Hint «isna().sum().». Ancla: `import pandas as pd`. S15-T3-A-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T3-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/4a03845b] S15-T3-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Aplica ». Demo S15-T3-B-DEMO. Línea: `import pandas as pd`. Pista «Compara isna antes/después.»."
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T3-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c0016fc1] Dudé del atajo en S15-T3-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Hint «if col not in df.columns.». Ancla: `import pandas as pd`. S15-T3-B-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T3-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e8f810e7] Solo acepto S15-T3-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Verifiqué pista «astype('string').» y demo S15-T3-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T4-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "StringIO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/63c8f246] S15-T4-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Exporta». Demo S15-T4-A-DEMO. Línea: `import pandas as pd`. Pista «to_csv(buf, index=False).»."
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T4-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\nfrom io import BytesIO\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "BytesIO"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/51273ba9] Dudé del atajo en S15-T4-A-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Hint «engine='openpyxl'.». Ancla: `import pandas as pd`. S15-T4-A-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T4-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/5be0b051] Solo acepto S15-T4-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Verifiqué pista «dict comprehension.» y demo S15-T4-A-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T4-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a5bf57b0] Solo acepto S15-T4-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Calcula». Verifiqué pista «memory_usage(deep=True).sum().» y demo S15-T4-B-DEMO. Código justificado: `import pandas as pd`. No invento APIs. Teoría: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T4-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/258d9831] Dudé del atajo en S15-T4-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Hint «len(df) y columns.tolist().». Ancla: `import pandas as pd`. S15-T4-B-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S15-T4-B-E3: packet-only solve (no prior lives)\nimport pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "hashlib"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/54e677bb] Dudé del atajo en S15-T4-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Hint «hashlib.sha1(blob).hexdigest()[:8].». Ancla: `import pandas as pd, hashlib`. S15-T4-B-DEMO. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "loc",
+      "justification_from_packet": "[agentic_F1/skeptic/b15q0s2] iloc es posicional; el paquete selecciona por cliente_id y región con loc. Etiquetas de index/columnas → loc, no values ni iat forzado.",
+      "blocked_on": [],
+      "confidence": 0.8
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Asignación sobre slices que pueden ser view/copy (chained assignment)",
+      "justification_from_packet": "[agentic_F1/skeptic/b15q1s0] El demo de flag seguro insiste en loc + copy del subset; SettingWithCopyWarning no viene de openpyxl ni MultiIndex obligatorio.",
+      "blocked_on": [],
+      "confidence": 0.79
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Convierte inválidos a NaN",
+      "justification_from_packet": "[agentic_F1/skeptic/b15q2s1] Rechazo «cambia a string»: errors=coerce en to_numeric del iDo produce NaN contables en el report de schema, no excepción siempre ni borrado de columna.",
+      "blocked_on": [],
+      "confidence": 0.81
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Filas, columnas y provenance/hash del artefacto",
+      "justification_from_packet": "[agentic_F1/skeptic/b15q3s3] Un manifest auditable no lleva contraseñas ni PII; provenance y conteos de filas/columnas son el mínimo del outcome de export reproducible.",
+      "blocked_on": [],
+      "confidence": 0.78
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:17.867089+00:00"
+}

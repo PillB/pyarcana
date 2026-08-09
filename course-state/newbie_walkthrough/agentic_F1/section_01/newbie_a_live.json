@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F1",
+  "section_index": 1,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-agentic_F1-s01",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T1-A-E1: packet-only solve (no prior lives)\n# Transcript REPL (línea por línea; no archivo .py)\n# >>> 2 + 2\n# 4\n# >>> type(\"Hola\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n# >>> quit()\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "REPL"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/30717cc5] S01-T1-A-E1 — material del slim_packet basta. «E1 (guiado) — Completa el transcript de una sesión REPL: suma, type() e import de sys. No crees un archivo .py; simula el diálogo en comentarios y luego pruébal» · hint «En el REPL el prompt es >>>. Tras import sys, usa sys.version.split()[0] para la versión c» · S01-T1-A-DEMO. Entrega: `# agentic_F1-explorer/S01-T1-A-E1: packet-only solve (no prior lives)`. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T1-A-E2: packet-only solve (no prior lives)\n# Transcript REPL (línea por línea; no archivo .py)\n# >>> 2 + 2\n# 4\n# >>> type(\"Hola\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n# >>> quit()\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "REPL"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b265a72d] Resuelvo S01-T1-A-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con sys. Debe usar `if __name__ == \"__main__\":` y salir con códi». Pista: «Importa sys. La versión corta es sys.version.split()[0]. Envuelve la lógica en main().». Demo S01-T1-A-DEMO. Código ancla: `# agentic_F1-explorer/S01-T1-A-E2: packet-only solve (no prior lives)`. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T1-A-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/d2d3af0d] Como explorador, S01-T1-A-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtiene \"no se reconoce como comando\". En macOS, `python` falla ». Aplico «En Windows el culpable típico es el PATH o el alias de la Microsoft Store. En macOS/Linux ». Línea clave: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Heading: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T1-B-E1: packet-only solve (no prior lives)\n# Transcript REPL (línea por línea; no archivo .py)\n# >>> 2 + 2\n# 4\n# >>> type(\"Hola\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n# >>> quit()\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "REPL"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/ab30f6ae] Como explorador, S01-T1-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1, y anota `$?` (bash/zsh) o `$LASTEXITCODE` (PowerShell). No subas». Aplico «Tras cada comando, imprime el código de salida. En bash: echo $?. En PowerShell: echo $LAS». Línea clave: `# agentic_F1-explorer/S01-T1-B-E1: packet-only solve (no prior lives)`. Heading: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T1-B-E2: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/3e7a3a6b] Resuelvo S01-T1-B-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos, imprime `OK:<arg>` y termina con código 0; si no hay argum». Pista: «sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1].». Demo S01-T1-B-DEMO. Código ancla: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T1-B-E3: packet-only solve (no prior lives)\n# From iDo demo in active packet\n# Éxito: el proceso Python termina con 0\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"exit_ok=$?\"\n# PowerShell:\n# python -c \"import sys; print('ok'); sys.exit(0)\"; echo \"exit_ok=$LASTEXITCODE\"\n\n# Fallo controlado: termina con 1 (la shell sigue viva)\npython3 -c \"import sys; print('fallo controlado'); sys.exit(1)\"\necho \"exit_fail=$?\"\n\n# Comando inexistente → también no-cero (mensaje distinto, mismo tipo de señal a CI)\nfalse\necho \"exit_false=$?\"\n\n# Rutas: cwd vs carpeta\npwd\nmkdir -p /tmp/s01_t1b_demo && cd /tmp/s01_t1b_demo\npwd\n# Estar en /tmp/s01_t1b_demo NO \"arregla\" un Python ausente del PATH\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "iDo",
+        "demo"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/962363f8] S01-T1-B-E3 — material del slim_packet basta. «E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaje es \"pip no se reconoce como comando\"; en otro, pip corre » · hint «Pregunta siempre: ¿qué ejecutable falló? ¿qué python usa import? Preferir python -m pip pa» · S01-T1-B-DEMO. Entrega: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T2-A-E1: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/70d434bc] Resuelvo S01-T2-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actívalo y verifica que `sys.prefix` apunta a esa carpeta. Luego ejecuta». Pista: «Comando de creación: python3 -m venv .venv. Activación Unix: source .venv/bin/activate. Wi». Demo S01-T2-A-DEMO. Código ancla: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T2-A-E2: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/eee1da7e] Resuelvo S01-T2-A-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (o renómbrala) y recrea un `.venv` limpio sin tocar tu código». Pista: «El código (.py, README) vive fuera de .venv. Borrar .venv no borra tus scripts si están en». Demo S01-T2-A-DEMO. Código ancla: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T2-A-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/8925eb06] S01-T2-A-E3 — material del slim_packet basta. «E3 (transferencia) — Un colega propone instalar pandas con `pip install pandas` en el Python global “para no perder tiempo con venv”. Escribe un párrafo (5–8 or» · hint «Usa el escenario: Proyecto A necesita pandas 1.x; Proyecto B necesita 2.x. Un solo site-pa» · S01-T2-A-DEMO. Entrega: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T2-B-E1: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/be0ff780] S01-T2-B-E1 — material del slim_packet basta. «E1 (guiado) — Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.32.3`), genera `requirements.txt` con freeze y verifica que el arc» · hint «Siempre: python -m pip install ... y python -m pip freeze > requirements.txt» · S01-T2-B-DEMO. Entrega: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T2-B-E2: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/a96fb4d8] S01-T2-B-E2 — material del slim_packet basta. «E2 (independiente) — Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo** entorno limpio (`.venv_replica` o borra y recrea `.venv`)» · hint «No copies site-packages a mano. El contrato es el archivo -r.» · S01-T2-B-DEMO. Entrega: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T2-B-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/25872ae6] Como explorador, S01-T2-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y falla. En un caso, nunca instaló el paquete; en otro, lo inst». Aplico «Primero identifica el intérprete; luego pregunta si el módulo es stdlib; luego instala con». Línea clave: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Heading: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T3-A-E1: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/bfdc1813] Como explorador, S01-T3-A-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensaje Conventional Commits (`docs:` o `feat:`). Verifica con `git log». Aplico «git add <archivo> && git commit -m \"docs: ...\" — el prefijo va en minúsculas seguido de do». Línea clave: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Heading: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T3-A-E2: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/e60b9062] Resuelvo S01-T3-A-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Modifica un README ya commiteado (agrega una línea), haz commit, y responde en un markdown corto: (1) qué muestra `git show HEAD` en líneas». Pista: «Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD». Demo S01-T3-A-DEMO. Código ancla: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T3-A-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b517e0d5] Resuelvo S01-T3-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello_env.py` que imprime la versión de Python): (A) `wip`, (B) ». Pista: «El mejor es claro, con prefijo de tipo y descripción imperativa del *porqué/qué* observabl». Demo S01-T3-A-DEMO. Código ancla: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T3-B-E1: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/c6381b9d] S01-T3-B-E1 — material del slim_packet basta. «E1 (guiado) — Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`, añade un archivo pequeño, commit con `feat:` y lista las ramas. » · hint «git switch -c feat/practica-s01  (equivalente moderno a checkout -b)» · S01-T3-B-DEMO. Entrega: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T3-B-E2: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/5028a0da] Resuelvo S01-T3-B-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Redacta la descripción de un Pull Request (markdown) para una rama que agrega `scripts/hello_env.py` y actualiza el README de instalación. ». Pista: «Título al estilo Conventional Commits; cuerpo orientado al revisor, no a ti.». Demo S01-T3-B-DEMO. Código ancla: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T3-B-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/ee3b5992] Como explorador, S01-T3-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te dice “usa `reset --hard`” y otro “`push --force` a main”. Esc». Aplico «restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno r». Línea clave: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Heading: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\n[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/10e72a08] Resuelvo S01-T4-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-version) y `[tool.ruff.lint] select = [\"E\", \"F\", \"I\"]`. No hace falt». Pista: «TOML usa secciones entre corchetes y listas con corchetes para select.». Demo S01-T4-A-DEMO. Código ancla: `[tool.ruff]`. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T4-A-E2: packet-only solve (no prior lives)\nimport sys\nimport os\nfrom datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n\n# Tarea del estudiante: ruff check → quitar imports sin usar (sys, os)",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sys",
+        "datetime"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/ea71bb32] S01-T4-A-E2 — material del slim_packet basta. «E2 (independiente) — Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -m ruff check` y corrige hasta exit 0. Entrega el script limp» · hint «F401 = imported but unused. La corrección habitual es borrar el import.» · S01-T4-A-DEMO. Entrega: `import sys`. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T4-A-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/2d9e8d86] S01-T4-A-E3 — material del slim_packet basta. «E3 (transferencia) — Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebooks. Justifica por escrito un `select` mínimo (E/F/I u otro s» · hint «ALL genera cientos de hallazgos; el equipo deja de mirar el linter. Empieza por errores re» · S01-T4-A-DEMO. Entrega: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\n# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/1673b5ac] Como explorador, S01-T4-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env` e ipynb checkpoints. Verifica con `g». Aplico «Una entrada por línea. Las barras finales marcan directorios.». Línea clave: `.venv/`. Heading: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T4-B-E2: packet-only solve (no prior lives)\n# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=\nDB_HOST=\nLOG_LEVEL=\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Copia",
+        "env"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/da6e4472] Resuelvo S01-T4-B-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_URL`, `DB_HOST`, `LOG_LEVEL`) con valores vacíos o ficticios n». Pista: «Clave=valor; el valor en example es placeholder. El .env local puede tener secretos pero q». Demo S01-T4-B-DEMO. Código ancla: `API_URL=`. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S01-T4-B-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/0187031d] Resuelvo S01-T4-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verificables (clon → venv → install -r → smoke → ignore de .env) q». Pista: «Cada ítem debe ser observable (comando + resultado esperado), no “que se vea bonito”.». Demo S01-T4-B-DEMO. Código ancla: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+      "justification_from_packet": "El outcome habla de crear y activar un entorno virtual con venv como carpeta .venv por proyecto, aislada del Python global. La demo S01-T2-A describe crear y activar .venv; el heading «Entornos virtuales con venv» apunta al aislamiento de paquetes, no a acelerar o compilar código.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": ".venv/ (o venv/)",
+      "justification_from_packet": "El paquete pide un .gitignore que diga qué no subir a Git y trata .venv como entorno local por proyecto. requirements.txt y README sí se versionan para reproducibilidad; la carpeta del venv no debe ir al repositorio porque se recrea con venv e install.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "\"feat: agregar cálculo de churn por segmento\"",
+      "justification_from_packet": "En S01-T3-A-DEMO los commits usan Conventional Commits como «docs: agregar README inicial» y «feat: agregar smoke hello_env». El mensaje con prefijo feat: describe el cambio de forma accionable; «cambios» o «wip» no siguen esa convención del iDo.",
+      "blocked_on": [],
+      "confidence": 0.92
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "pip install -r requirements.txt",
+      "justification_from_packet": "El heading «pip, freeze y requirements.txt» y la demo S01-T2-B muestran python -m pip freeze > requirements.txt y luego install -r en un entorno limpio para replicar dependencias. Solo crear venv o clonar el repo no instala los paquetes fijados.",
+      "blocked_on": [],
+      "confidence": 0.93
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+      "justification_from_packet": "El outcome y el heading de archivos de calidad cubren ignore, secretos y README: .env guarda secretos de configuración. Subirlo a GitHub expondría API keys y tokens; no es un tema de peso del archivo ni de extensión.",
+      "blocked_on": [],
+      "confidence": 0.92
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:17.494622+00:00"
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Para reutilizar presentación y auditar métricas en Python"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "OCR / tratamiento de imagen"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Mismas métricas clave en dashboard, Excel y documento"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Provenance, checklist visual y hallazgos trazables"
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.instagram.com/p/DWCDGPgj9bD",
+    "name": "NULL Check Detect missing values in important columns",
+    "snippet": "NULL Check Detect missing values in important columns like IDs, dates, or keys. Missing values often indicate incomplete ingestion or pipeline ...",
+    "host_name": "www.instagram.com",
+    "rank": 0,
+    "date": "Mar 30, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/sumonigupta_it-starts-with-one-missing-value-one-duplicate-activity-7483087406267621376-VF71",
+    "name": "7 Data Checks to Ensure Pipeline Reliability",
+    "snippet": "Null value checks Missing fields in key columns can quietly break logic and downstream outputs. - Duplicate checks Repeated records distort ...\nNull value checks Missing fields in key columns can quietly break logic and downstream outputs. - Duplicate checks Repeated records distort ...",
+    "host_name": "www.linkedin.com",
+    "rank": 1,
+    "date": "Jul 21, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@reliabledataengineering/20-data-validation-rules-every-pipeline-should-have-2e332e4f74eb",
+    "name": "20 Data Validation Rules Every Pipeline Should Have",
+    "snippet": "Most data pipelines check that code runs successfully but don't validate that data is actually correct. Null values in key fields break ...",
+    "host_name": "medium.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://skillshub.wtf/TerminalSkills/skills/data-validator",
+    "name": "data-validator — TerminalSkills/skills - SkillsHub",
+    "snippet": "Validate data quality in CSV, JSON, and database exports by checking for missing values, type mismatches, duplicates, outliers, and schema violations.",
+    "host_name": "skillshub.wtf",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=zxJoN3xMz0E",
+    "name": "Your Data Pipeline Is Lying | 10 Data Quality Checks Every Data",
+    "snippet": "Real pipelines need duplicate checks, null checks, schema validation, freshness checks, quarantine tables, safe reruns, and alerts before bad ...",
+    "host_name": "www.youtube.com",
+    "rank": 4,
+    "date": "Jul 21, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/sumonigupta_bad-data-breaks-good-systems-dashboards-activity-7439286685198094336-__oT",
+    "name": "Data Quality Checks for Reliable Systems",
+    "snippet": "NULL Check Detect missing values in important columns like IDs, dates, or keys. Missing values often indicate incomplete ingestion or pipeline ...",
+    "host_name": "www.linkedin.com",
+    "rank": 5,
+    "date": "Mar 30, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://ubc-dsci.github.io/reproducible-and-trustworthy-workflows-for-data-science/lectures/130-data-validation.html",
+    "name": "16 Data validation",
+    "snippet": "It is important to note that data validation is not sufficient for a correct, robust and of high quality analysis, but it is necessary.",
+    "host_name": "ubc-dsci.github.io",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dev.to/sumit_agarwal_9af86ae465b/schema-validation-passed-so-why-did-my-pipeline-fail-2coj",
+    "name": "Schema Validation Passed - So Why Did My Pipeline Fail?",
+    "snippet": "One data engineer described the pain clearly: \"High null or duplicate record ratios silently corrupt downstream dashboards and analytics without ...",
+    "host_name": "dev.to",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.fivetran.com/learn/data-integrity-issues",
+    "name": "How to Overcome Data Integrity Issues",
+    "snippet": "This section discusses 7 common data integrity challenges teams face, from duplicates to outdated records. We'll also explain how data pipeline ...\nAug 1, 2025 — This section discusses 7 common data integrity challenges teams face, from duplicates to outdated records. We'll also explain how data pipeline ...",
+    "host_name": "www.fivetran.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@georgemichaeldagogomaynard/data-integrity-in-a-data-pipeline-best-practices-and-strategies-for-data-quality-checks-dim-71af7a3bf21e",
+    "name": "Data Integrity in a Data Pipeline: Best Practices and",
+    "snippet": "Null Checks : Ensures fields that must not be null or. Duplicate Records Check : Identifies and removes duplicate entries that violate uniqueness ...",
+    "host_name": "medium.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

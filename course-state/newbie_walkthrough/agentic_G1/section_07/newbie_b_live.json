@@ -1,0 +1,328 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 7,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-skeptic-s07-b37d4a25",
+  "production_note": "agentic_G1 dual-LLM Skeptic: packet-only; no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "answer": "import unicodedata\nnames = [\"José\", \"Jose\" + \"\\u0301\", \"\"]\n# Build NFD form of Jose + combining acute\nnames = [\"José\", \"Jose\" + chr(0x0301), \"\"]\nfor s in names:\n    print(repr(unicodedata.normalize(\"NFC\", s)))\n",
+      "code": "import unicodedata\nnames = [\"José\", \"Jose\" + \"\\u0301\", \"\"]\n# Build NFD form of Jose + combining acute\nnames = [\"José\", \"Jose\" + chr(0x0301), \"\"]\nfor s in names:\n    print(repr(unicodedata.normalize(\"NFC\", s)))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S07-T1-A-E1: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "answer": "a, b = \"MAÑANA\", \"mañana\"\nprint(a.casefold() == b.casefold())\n",
+      "code": "a, b = \"MAÑANA\", \"mañana\"\nprint(a.casefold() == b.casefold())\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S07-T1-A-E2: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "answer": "import unicodedata\na = \"José\"\nb = \"Jose\" + chr(0x0301)\nprint(\"raw ==\", a == b)\nprint(\"nfc ==\", unicodedata.normalize(\"NFC\", a) == unicodedata.normalize(\"NFC\", b))\nprint(\"causa: formas Unicode distintas (NFC vs NFD residual); normalizar antes de comparar\")\n",
+      "code": "import unicodedata\na = \"José\"\nb = \"Jose\" + chr(0x0301)\nprint(\"raw ==\", a == b)\nprint(\"nfc ==\", unicodedata.normalize(\"NFC\", a) == unicodedata.normalize(\"NFC\", b))\nprint(\"causa: formas Unicode distintas (NFC vs NFD residual); normalizar antes de comparar\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S07-T1-A-E3: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "answer": "full = \"Ana María Quispe Huamán\"\ntokens = full.split()\ngiven = \" \".join(tokens[:-2]) if len(tokens) >= 3 else full\napellidos = \" \".join(tokens[-2:]) if len(tokens) >= 2 else \"\"\nprint(given)\nprint(apellidos)\n",
+      "code": "full = \"Ana María Quispe Huamán\"\ntokens = full.split()\ngiven = \" \".join(tokens[:-2]) if len(tokens) >= 3 else full\napellidos = \" \".join(tokens[-2:]) if len(tokens) >= 2 else \"\"\nprint(given)\nprint(apellidos)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S07-T1-B-E1: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "answer": "full = \"María del Carmen Quispe Huamán\"\ntokens = full.split()\n# Preservar partículas del medio al cortar solo los 2 apellidos finales\napellidos = tokens[-2:]\nnombres = tokens[:-2]\nprint(\" \".join(nombres))\nprint(\" \".join(apellidos))\n",
+      "code": "full = \"María del Carmen Quispe Huamán\"\ntokens = full.split()\n# Preservar partículas del medio al cortar solo los 2 apellidos finales\napellidos = tokens[-2:]\nnombres = tokens[:-2]\nprint(\" \".join(nombres))\nprint(\" \".join(apellidos))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S07-T1-B-E2: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "answer": "def parse_nombre_latam(raw: str) -> dict:\n    toks = raw.strip().split()\n    if len(toks) < 3:\n        return {\"status\": \"review\", \"raw\": raw, \"tokens\": toks}\n    return {\n        \"status\": \"ok\",\n        \"raw\": raw,\n        \"nombres\": \" \".join(toks[:-2]),\n        \"apellidos\": \" \".join(toks[-2:]),\n    }\n\nprint(parse_nombre_latam(\"Ana\"))\nprint(parse_nombre_latam(\"Ana María Quispe Huamán\"))\n",
+      "code": "def parse_nombre_latam(raw: str) -> dict:\n    toks = raw.strip().split()\n    if len(toks) < 3:\n        return {\"status\": \"review\", \"raw\": raw, \"tokens\": toks}\n    return {\n        \"status\": \"ok\",\n        \"raw\": raw,\n        \"nombres\": \" \".join(toks[:-2]),\n        \"apellidos\": \" \".join(toks[-2:]),\n    }\n\nprint(parse_nombre_latam(\"Ana\"))\nprint(parse_nombre_latam(\"Ana María Quispe Huamán\"))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S07-T1-B-E3: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "answer": "line = \"C001, Ana , Lima\"\nparts = [p.strip() for p in line.split(\",\")]\nprint(parts)\n",
+      "code": "line = \"C001, Ana , Lima\"\nparts = [p.strip() for p in line.split(\",\")]\nprint(parts)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S07-T2-A-E1: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "answer": "tokens = [\"Juan\", \"Pérez\"]\nprint(\" \".join(tokens))\nprint(\"-\".join(tokens))\n",
+      "code": "tokens = [\"Juan\", \"Pérez\"]\nprint(\" \".join(tokens))\nprint(\"-\".join(tokens))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S07-T2-A-E2: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "answer": "raw = \"999.000-111\"\nclean = raw.replace(\".\", \"\").replace(\"-\", \"\")\nprint(clean)\n# criterio: transformación literal simple → str.replace; regex solo si el patrón es estructural\n",
+      "code": "raw = \"999.000-111\"\nclean = raw.replace(\".\", \"\").replace(\"-\", \"\")\nprint(clean)\n# criterio: transformación literal simple → str.replace; regex solo si el patrón es estructural\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S07-T2-A-E3: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "answer": "def normalize_email(raw: str):\n    s = raw.strip().casefold()\n    if s.count(\"@\") != 1 or \" \" in s:\n        return {\"status\": \"review_error\", \"value\": None, \"raw\": raw}\n    local, domain = s.split(\"@\")\n    if not local or not domain:\n        return {\"status\": \"review_error\", \"value\": None, \"raw\": raw}\n    return {\"status\": \"ok\", \"value\": s, \"raw\": raw}\n\nfor e in [\"  A@B.COM \", \"a b@c.com\", \"@nodomain\", \"user+tag@example.com\"]:\n    print(e, \"→\", normalize_email(e))\n",
+      "code": "def normalize_email(raw: str):\n    s = raw.strip().casefold()\n    if s.count(\"@\") != 1 or \" \" in s:\n        return {\"status\": \"review_error\", \"value\": None, \"raw\": raw}\n    local, domain = s.split(\"@\")\n    if not local or not domain:\n        return {\"status\": \"review_error\", \"value\": None, \"raw\": raw}\n    return {\"status\": \"ok\", \"value\": s, \"raw\": raw}\n\nfor e in [\"  A@B.COM \", \"a b@c.com\", \"@nodomain\", \"user+tag@example.com\"]:\n    print(e, \"→\", normalize_email(e))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S07-T2-B-E1: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "answer": "raw = \"+51 999-000-111\"\ndigits = \"\".join(ch for ch in raw if ch.isdigit())\nprint(digits)\n",
+      "code": "raw = \"+51 999-000-111\"\ndigits = \"\".join(ch for ch in raw if ch.isdigit())\nprint(digits)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S07-T2-B-E2: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "answer": "import re\nemail = \"user+tag@example.com\"\npat = r\"^[a-z]+@[a-z]+\\.com$\"\nrejected = re.fullmatch(pat, email.lower()) is None\nprint(\"rejected\", rejected)\nprint(\"política exacta: un @, local/dominio no vacíos, sin espacios; no exigir solo [a-z] que rechaza '+'\")\n",
+      "code": "import re\nemail = \"user+tag@example.com\"\npat = r\"^[a-z]+@[a-z]+\\.com$\"\nrejected = re.fullmatch(pat, email.lower()) is None\nprint(\"rejected\", rejected)\nprint(\"política exacta: un @, local/dominio no vacíos, sin espacios; no exigir solo [a-z] que rechaza '+'\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S07-T2-B-E3: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "answer": "import re\nprint(bool(re.fullmatch(r\"\\d{8}\", \"12345678\")))\nprint(bool(re.fullmatch(r\"\\d{8}\", \"DNI 12345678\")))\n",
+      "code": "import re\nprint(bool(re.fullmatch(r\"\\d{8}\", \"12345678\")))\nprint(bool(re.fullmatch(r\"\\d{8}\", \"DNI 12345678\")))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S07-T3-A-E1: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "answer": "import re\nm = re.fullmatch(r\"(?P<nom>\\w+)\\s+(?P<ap>\\w+)\", \"Ana Quispe\")\nprint(m.groupdict() if m else None)\n",
+      "code": "import re\nm = re.fullmatch(r\"(?P<nom>\\w+)\\s+(?P<ap>\\w+)\", \"Ana Quispe\")\nprint(m.groupdict() if m else None)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S07-T3-A-E2: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "answer": "import re\ns = \"DNI 12345678\"\nprint(\"search\", bool(re.search(r\"\\d{8}\", s)))\nprint(\"fullmatch\", re.fullmatch(r\"\\d{8}\", s) is None)\nprint(\"nota: search encuentra subcadena; fullmatch exige que TODO el string cumpla el patrón\")\n",
+      "code": "import re\ns = \"DNI 12345678\"\nprint(\"search\", bool(re.search(r\"\\d{8}\", s)))\nprint(\"fullmatch\", re.fullmatch(r\"\\d{8}\", s) is None)\nprint(\"nota: search encuentra subcadena; fullmatch exige que TODO el string cumpla el patrón\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S07-T3-A-E3: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "answer": "import re\npat = re.compile(r\"\\b9\\d{8}\\b\")\nprint(pat.findall(\"llama al 999000111 por favor\"))\nprint(pat.findall(\"sin telefono aqui\"))\n",
+      "code": "import re\npat = re.compile(r\"\\b9\\d{8}\\b\")\nprint(pat.findall(\"llama al 999000111 por favor\"))\nprint(pat.findall(\"sin telefono aqui\"))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S07-T3-B-E1: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "answer": "import re\nlog = \"ok LIM-01 done CUS-02 pending\"\nprint(re.findall(r\"[A-Z]{3}-\\d{2}\", log))\n",
+      "code": "import re\nlog = \"ok LIM-01 done CUS-02 pending\"\nprint(re.findall(r\"[A-Z]{3}-\\d{2}\", log))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S07-T3-B-E2: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "answer": "print(\"Riesgo: patrón (a+)+b puede explotar en backtracking catastrófico sobre 'aaaa...X'\")\nprint(\"Mitigación: preferir a+b, anclas claras, o str methods (replace/split) para literales\")\nprint(\"En intake: fullmatch acotado y timeouts conceptuales; no cuantificadores anidados ambiguos\")\n",
+      "code": "print(\"Riesgo: patrón (a+)+b puede explotar en backtracking catastrófico sobre 'aaaa...X'\")\nprint(\"Mitigación: preferir a+b, anclas claras, o str methods (replace/split) para literales\")\nprint(\"En intake: fullmatch acotado y timeouts conceptuales; no cuantificadores anidados ambiguos\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S07-T3-B-E3: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "answer": "def norm(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\na = \"  Juan   Perez \"\nb = \"juan perez\"\nprint(norm(a) == norm(b))\n",
+      "code": "def norm(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\na = \"  Juan   Perez \"\nb = \"juan perez\"\nprint(norm(a) == norm(b))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-A-E1"
+      ],
+      "justification_from_packet": "Skeptic en S07-T4-A-E1: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "answer": "def token_jaccard(a: str, b: str) -> float:\n    A = set(a.casefold().split())\n    B = set(b.casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\n\nprint(round(token_jaccard(\"Juan Perez\", \"Juan P Perez\"), 3))\n",
+      "code": "def token_jaccard(a: str, b: str) -> float:\n    A = set(a.casefold().split())\n    B = set(b.casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\n\nprint(round(token_jaccard(\"Juan Perez\", \"Juan P Perez\"), 3))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-A-E2"
+      ],
+      "justification_from_packet": "Skeptic en S07-T4-A-E2: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "answer": "def decide(score: float) -> str:\n    if score >= 0.95:\n        return \"exact\"\n    if score >= 0.5:\n        return \"review\"\n    return \"no_match\"\n\nprint(decide(0.67))\n",
+      "code": "def decide(score: float) -> str:\n    if score >= 0.95:\n        return \"exact\"\n    if score >= 0.5:\n        return \"review\"\n    return \"no_match\"\n\nprint(decide(0.67))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-A-E3"
+      ],
+      "justification_from_packet": "Skeptic en S07-T4-A-E3: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "answer": "# predicho match? / realidad match?\n# FP: predice match y NO debería\n# FN: predice no-match y SÍ debería\nprint(\"caso homónimo distinto: pred=match real=no → FP\")\nprint(\"caso tilde NFC/NFD fallido: pred=no real=sí → FN\")\n",
+      "code": "# predicho match? / realidad match?\n# FP: predice match y NO debería\n# FN: predice no-match y SÍ debería\nprint(\"caso homónimo distinto: pred=match real=no → FP\")\nprint(\"caso tilde NFC/NFD fallido: pred=no real=sí → FN\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-B-E1"
+      ],
+      "justification_from_packet": "Skeptic en S07-T4-B-E1: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "answer": "evidence = {\n    \"raw_a\": \"José Pérez\",\n    \"raw_b\": \"Jose Perez\",\n    \"score\": 0.9,\n    \"decision\": \"review\",\n    \"reason\": \"score intermedio; sin claim de parentesco\",\n}\nprint(evidence)\nprint(\"keys\", len(evidence))\n",
+      "code": "evidence = {\n    \"raw_a\": \"José Pérez\",\n    \"raw_b\": \"Jose Perez\",\n    \"score\": 0.9,\n    \"decision\": \"review\",\n    \"reason\": \"score intermedio; sin claim de parentesco\",\n}\nprint(evidence)\nprint(\"keys\", len(evidence))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-B-E2"
+      ],
+      "justification_from_packet": "Skeptic en S07-T4-B-E2: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "answer": "print(\"1) Falta fuente autoritativa de identidad/parentesco en el intake sintético.\")\nprint(\"2) Afirmar parentesco o fusión automática tiene riesgo ético/legal y no es el gate de S07.\")\nprint(\"3) Un Jaccard 0.67 no es prueba: va a review con evidencia (raw, score), fail-closed si falta schema.\")\n",
+      "code": "print(\"1) Falta fuente autoritativa de identidad/parentesco en el intake sintético.\")\nprint(\"2) Afirmar parentesco o fusión automática tiene riesgo ético/legal y no es el gate de S07.\")\nprint(\"3) Un Jaccard 0.67 no es prueba: va a review con evidencia (raw, score), fail-closed si falta schema.\")\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-B-E3"
+      ],
+      "justification_from_packet": "Skeptic en S07-T4-B-E3: contrasté con theory+tests del quiz_card S07; sin atajos fuera del packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Formas Unicode distintas (NFC vs NFD)",
+      "justification_from_packet": "Python sí soporta tildes; el fallo es de normalización Unicode del packet, no de casefold borrando é.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Marcar review y conservar raw",
+      "justification_from_packet": "Inventar apellido2 vacío o asumir first/last US viola la política segura latam del packet.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Cuando la transformación es literal/simple",
+      "justification_from_packet": "No es “nunca regex”: el criterio del packet es preferir str.replace/split cuando la transformación es literal/simple.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "None (no es full match)",
+      "justification_from_packet": "fullmatch no devuelve True booleano del match parcial; search sí hallaría dígitos, fullmatch no.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Ir a review con evidencia (raw, score)",
+      "justification_from_packet": "Fusionar identidades o borrar registros con 0.67 es inaceptable; review+evidencia es el contrato.",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [
+    "Confirmé que fullmatch sobre 'DNI 12345678' devuelve None, no match parcial."
+  ],
+  "recorded_at": "2026-07-23T07:04:28.782781+00:00",
+  "session_started_at": "2026-07-23T07:03:13.782781+00:00",
+  "session_ended_at": "2026-07-23T07:04:28.782781+00:00"
+}

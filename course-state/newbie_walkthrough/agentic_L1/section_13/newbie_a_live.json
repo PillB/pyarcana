@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 13,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s13-fac3e7c185",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S13-T1-A-E1",
+      "code": "import re\ndef norm_name(n):\n    return \" \".join(n.casefold().split())\n\nprint(norm_name(\"  Ana  QUISPE \"))\nprint(norm_name(\"ana quispe\"))\n",
+      "justification_from_packet": "Para S13-T1-A-E1 me apoyé en «Normalización, blocking y entity resolution»: Normaliza nombres y document_id (casefold, quitar espacios/guiones) antes de comparar. Blocking reduce pares candidatos (p. ej. apellido+región). En entity reso… En el ejercicio usé norm_name casefold. collapse de espacios. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T1-A."
+    },
+    {
+      "exercise_id": "S13-T1-A-E2",
+      "code": "def blocking_key(rec):\n    ap = rec.get(\"apellido\", \"\").casefold().strip()\n    reg = rec.get(\"region\", \"\").casefold().strip()\n    return f\"{ap}|{reg}\"\n\nprint(blocking_key({\"apellido\": \"Quispe\", \"region\": \"LIM\"}))\n",
+      "justification_from_packet": "Para S13-T1-A-E2 me apoyé en «Normalización, blocking y entity resolution»: Normaliza nombres y document_id (casefold, quitar espacios/guiones) antes de comparar. Blocking reduce pares candidatos (p. ej. apellido+región). En entity reso… En el ejercicio usé blocking_key apellido|región. reduce pares candidatos. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T1-A."
+    },
+    {
+      "exercise_id": "S13-T1-A-E3",
+      "code": "import re\ndef norm_doc(d):\n    return re.sub(r\"[^0-9a-z]\", \"\", d.casefold())\n\ndef blocking_key(rec):\n    return rec.get(\"apellido\", \"\").casefold() + \"|\" + rec.get(\"region\", \"\").casefold()\n\ndef er_score(a, b):\n    if norm_doc(a.get(\"doc\", \"\")) and norm_doc(a.get(\"doc\", \"\")) == norm_doc(b.get(\"doc\", \"\")):\n        if blocking_key(a) == blocking_key(b):\n            return 1.0\n    if blocking_key(a) == blocking_key(b):\n        return 0.5\n    return 0.0\n\na = {\"doc\": \"12345678\", \"apellido\": \"Quispe\", \"region\": \"LIM\"}\nb = {\"doc\": \"1234-5678\", \"apellido\": \"Quispe\", \"region\": \"LIM\"}\nprint(er_score(a, b))\n",
+      "justification_from_packet": "Para S13-T1-A-E3 me apoyé en «Normalización, blocking y entity resolution»: Normaliza nombres y document_id (casefold, quitar espacios/guiones) antes de comparar. Blocking reduce pares candidatos (p. ej. apellido+región). En entity reso… En el ejercicio usé er_score doc+block. 1.0 si doc y block coinciden. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T1-A."
+    },
+    {
+      "exercise_id": "S13-T1-B-E1",
+      "code": "tp, fp, fn = 8, 2, 2\nprecision = tp / (tp + fp)\nrecall = tp / (tp + fn)\nprint(round(precision, 3), round(recall, 3))\n",
+      "justification_from_packet": "Para S13-T1-B-E1 me apoyé en «Verdad etiquetada, precision/recall y revisión clerical»: Con pares etiquetados sintéticos calculas TP/FP/FN → precision/recall simples. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en … En el ejercicio usé precision/recall. tp/fp/fn sintéticos. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T1-B."
+    },
+    {
+      "exercise_id": "S13-T1-B-E2",
+      "code": "pairs = [\n    {\"id\": \"P1\", \"score\": 0.2},\n    {\"id\": \"P2\", \"score\": 0.55},\n    {\"id\": \"P3\", \"score\": 0.9},\n]\ndef route(score):\n    if score < 0.4:\n        return \"auto_no\"\n    if score < 0.8:\n        return \"clerical_review\"\n    return \"auto_yes\"\n\nfor p in pairs:\n    print(p[\"id\"], route(p[\"score\"]))\n",
+      "justification_from_packet": "Para S13-T1-B-E2 me apoyé en «Verdad etiquetada, precision/recall y revisión clerical»: Con pares etiquetados sintéticos calculas TP/FP/FN → precision/recall simples. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en … En el ejercicio usé routing por score. auto_no / clerical / auto_yes. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T1-B."
+    },
+    {
+      "exercise_id": "S13-T1-B-E3",
+      "code": "print(\"precision/recall sobre pares etiquetados sintéticos\")\nprint(\"FP de ER no es veredicto legal de fraude\")\nprint(\"cola clerical para zona gris\")\n",
+      "justification_from_packet": "Para S13-T1-B-E3 me apoyé en «Verdad etiquetada, precision/recall y revisión clerical»: Con pares etiquetados sintéticos calculas TP/FP/FN → precision/recall simples. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en … En el ejercicio usé FP ≠ fraude legal. revisión clerical. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T1-B."
+    },
+    {
+      "exercise_id": "S13-T2-A-E1",
+      "code": "def shared_email(a, b):\n    ea = (a.get(\"email\") or \"\").casefold().strip()\n    eb = (b.get(\"email\") or \"\").casefold().strip()\n    return bool(ea) and ea == eb\n\nprint(shared_email({\"email\": \"A@B.com\"}, {\"email\": \"a@b.com\"}))\nprint(shared_email({\"email\": \"x@y.com\"}, {\"email\": \"z@y.com\"}))\n",
+      "justification_from_packet": "Para S13-T2-A-E1 me apoyé en «Email/teléfono/dirección compartidos, distancia y apellidos»: Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido. En entity resolution y evidencia, el *porqu… En el ejercicio usé shared_email. casefold igualdad. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T2-A."
+    },
+    {
+      "exercise_id": "S13-T2-A-E2",
+      "code": "def rel_score(km, surname_jaccard):\n    geo = 1.0 if km is not None and km <= 2.0 else 0.0\n    return round(0.5 * geo + 0.5 * surname_jaccard, 3)\n\nprint(rel_score(1.2, 0.5))\nprint(rel_score(10.0, 0.5))\n",
+      "justification_from_packet": "Para S13-T2-A-E2 me apoyé en «Email/teléfono/dirección compartidos, distancia y apellidos»: Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido. En entity resolution y evidencia, el *porqu… En el ejercicio usé rel_score geo+jaccard. ponderación 0.5/0.5. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T2-A."
+    },
+    {
+      "exercise_id": "S13-T2-A-E3",
+      "code": "print(\"shared email/phone/address son señales, no identidad legal\")\nprint(\"distancia y apellidos refuerzan relationship_signal_score\")\nprint(\"mantener separado de entity_resolution_score\")\n",
+      "justification_from_packet": "Para S13-T2-A-E3 me apoyé en «Email/teléfono/dirección compartidos, distancia y apellidos»: Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido. En entity resolution y evidencia, el *porqu… En el ejercicio usé señales separadas de ER. policy print. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T2-A."
+    },
+    {
+      "exercise_id": "S13-T2-B-E1",
+      "code": "txs = [(\"A\",\"B\",10), (\"C\",\"D\",1), (\"B\",\"A\",5)]\ndef direct_txs(txs, a, b):\n    out = []\n    for x, y, m in txs:\n        if {x, y} == {a, b}:\n            out.append(m)\n    return out\n\nprint(direct_txs(txs, \"A\", \"B\"))\n",
+      "justification_from_packet": "Para S13-T2-B-E1 me apoyé en «Transacciones directas y contrapartes comunes»: Txs directas A↔B y contrapartes comunes (A y C pagan a D) son evidencia de relación operativa, no de colusión. En entity resolution y evidencia, el *porqué* es … En el ejercicio usé direct_txs bidirectional. [10,5]. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T2-B."
+    },
+    {
+      "exercise_id": "S13-T2-B-E2",
+      "code": "txs = [(\"A\",\"D\",1), (\"C\",\"D\",1), (\"A\",\"E\",1), (\"C\",\"F\",1)]\ndef neighbors(txs, node):\n    s = set()\n    for x, y, _ in txs:\n        if x == node:\n            s.add(y)\n        elif y == node:\n            s.add(x)\n    return s\n\ndef common_counterparties(txs, a, c):\n    return sorted(neighbors(txs, a) & neighbors(txs, c) - {a, c})\n\nprint(common_counterparties(txs, \"A\", \"C\"))\n",
+      "justification_from_packet": "Para S13-T2-B-E2 me apoyé en «Transacciones directas y contrapartes comunes»: Txs directas A↔B y contrapartes comunes (A y C pagan a D) son evidencia de relación operativa, no de colusión. En entity resolution y evidencia, el *porqué* es … En el ejercicio usé common counterparties. intersección vecinos → D. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T2-B."
+    },
+    {
+      "exercise_id": "S13-T2-B-E3",
+      "code": "print(\"no_collusion: contraparte común no prueba acuerdo ilícito\")\nprint(\"no_kinship: contraparte común no prueba parentesco\")\n",
+      "justification_from_packet": "Para S13-T2-B-E3 me apoyé en «Transacciones directas y contrapartes comunes»: Txs directas A↔B y contrapartes comunes (A y C pagan a D) son evidencia de relación operativa, no de colusión. En entity resolution y evidencia, el *porqué* es … En el ejercicio usé no collusion/kinship. disclaimers. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T2-B."
+    },
+    {
+      "exercise_id": "S13-T3-A-E1",
+      "code": "def explanation_bullets(er, rel, missing):\n    return [\n        f\"entity_resolution_score={er}\",\n        f\"relationship_signal_score={rel}\",\n        f\"missing={missing}\",\n    ]\n\nprint(explanation_bullets(0.9, 0.4, [\"phone\"]))\n",
+      "justification_from_packet": "Para S13-T3-A-E1 me apoyé en «Score de evidencia, incertidumbre y explicación»: Agrega ER + señales de relación con pesos y produce evidence_score, banda de incertidumbre (low/med/high) y bullets legibles. En entity resolution y evidencia, … En el ejercicio usé explanation_bullets. 3 strings. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T3-A."
+    },
+    {
+      "exercise_id": "S13-T3-A-E2",
+      "code": "def uncertainty_band(missing, conflict):\n    if conflict or len(missing) >= 2:\n        return \"high\"\n    if missing:\n        return \"med\"\n    return \"low\"\n\nprint(uncertainty_band([], False), \"|\", uncertainty_band([\"a\"], False), \"|\",\n      uncertainty_band([\"a\", \"b\"], False), \"|\", uncertainty_band([], True))\n",
+      "justification_from_packet": "Para S13-T3-A-E2 me apoyé en «Score de evidencia, incertidumbre y explicación»: Agrega ER + señales de relación con pesos y produce evidence_score, banda de incertidumbre (low/med/high) y bullets legibles. En entity resolution y evidencia, … En el ejercicio usé uncertainty_band. low/med/high. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T3-A."
+    },
+    {
+      "exercise_id": "S13-T3-A-E3",
+      "code": "er, rel = 0.9, 0.1\nscore = round(0.6 * er + 0.4 * rel, 2)\nconflict = abs(er - rel) > 0.5\nunc = \"high\" if conflict else \"low\"\nprint(f\"evidence_score {score} | uncertainty {unc} | note señales conflictivas\")\n",
+      "justification_from_packet": "Para S13-T3-A-E3 me apoyé en «Score de evidencia, incertidumbre y explicación»: Agrega ER + señales de relación con pesos y produce evidence_score, banda de incertidumbre (low/med/high) y bullets legibles. En entity resolution y evidencia, … En el ejercicio usé score ponderado + conflict. 0.58 high. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T3-A."
+    },
+    {
+      "exercise_id": "S13-T3-B-E1",
+      "code": "thresholds = {\n    \"accept_min\": 0.8,\n    \"review_low\": 0.4,\n}\nassert 0 <= thresholds[\"review_low\"] < thresholds[\"accept_min\"] <= 1\nprint(sorted(thresholds.items()))\n",
+      "justification_from_packet": "Para S13-T3-B-E1 me apoyé en «Umbral de revisión, abstención y no inferencia automática»: Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → invalid_input; uncertainty high → needs_review; score < 0.40 → abstain; 0.40 ≤ s… En el ejercicio usé thresholds contiguos. 0.4 y 0.8. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T3-B."
+    },
+    {
+      "exercise_id": "S13-T3-B-E2",
+      "code": "from math import isfinite\n\nth = {\"accept_min\": 0.8, \"review_low\": 0.4}\n\ndef decide_ops_status(score, unc, th):\n    if not isinstance(score, (int, float)) or isinstance(score, bool):\n        return \"invalid_input\"\n    if not isfinite(score) or not (0.0 <= float(score) <= 1.0):\n        return \"invalid_input\"\n    if unc not in {\"low\", \"med\", \"high\"}:\n        return \"invalid_input\"\n    if unc == \"high\":\n        return \"needs_review\"\n    if score < th[\"review_low\"]:\n        return \"abstain\"\n    if score < th[\"accept_min\"]:\n        return \"needs_review\"\n    return \"accept_pair\"\n\ncases = [\n    (-0.1, \"low\"),\n    (0.399, \"low\"),\n    (0.4, \"low\"),\n    (0.799, \"low\"),\n    (0.8, \"low\"),\n    (1.0, \"low\"),\n    (0.9, \"high\"),\n    (float(\"nan\"), \"low\"),\n    (0.5, \"?\"),\n]\nfor s, u in cases:\n    print(s, u, decide_ops_status(s, u, th))\n",
+      "justification_from_packet": "Para S13-T3-B-E2 me apoyé en «Umbral de revisión, abstención y no inferencia automática»: Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → invalid_input; uncertainty high → needs_review; score < 0.40 → abstain; 0.40 ≤ s… En el ejercicio usé matriz decide_ops_status. invalid/abstain/review/accept. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T3-B."
+    },
+    {
+      "exercise_id": "S13-T3-B-E3",
+      "code": "out = {\"score\": 0.7, \"status\": \"needs_review\", \"is_family\": True, \"auto_fraud\": False}\nfor k in (\"is_family\", \"auto_fraud\"):\n    out.pop(k, None)\nprint(sorted(out.keys()))\n",
+      "justification_from_packet": "Para S13-T3-B-E3 me apoyé en «Umbral de revisión, abstención y no inferencia automática»: Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → invalid_input; uncertainty high → needs_review; score < 0.40 → abstain; 0.40 ≤ s… En el ejercicio usé strip is_family/auto_fraud. keys score/status. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T3-B."
+    },
+    {
+      "exercise_id": "S13-T4-A-E1",
+      "code": "def pseudonymize(name):\n    return \" \".join((t[0].upper() + \"***\") if t else t for t in name.split())\n\nprint(pseudonymize(\"Ana Quispe Rojas\"))\n",
+      "justification_from_packet": "Para S13-T4-A-E1 me apoyé en «Dashboard/mapa pseudonimizado y ficha de caso»: Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable. En entity resolution y evidencia… En el ejercicio usé pseudonymize tokens. A*** Q*** R***. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T4-A."
+    },
+    {
+      "exercise_id": "S13-T4-A-E2",
+      "code": "def case_sheet(er, rel):\n    sheet = {\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n    }\n    assert \"entity_resolution_score\" != \"relationship_signal_score\"\n    return sheet\n\nprint(case_sheet(0.9, 0.4))\n",
+      "justification_from_packet": "Para S13-T4-A-E2 me apoyé en «Dashboard/mapa pseudonimizado y ficha de caso»: Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable. En entity resolution y evidencia… En el ejercicio usé case_sheet dos scores. claves separadas. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T4-A."
+    },
+    {
+      "exercise_id": "S13-T4-A-E3",
+      "code": "def map_tooltip(lat, lon, km, source):\n    return f\"lat={lat},lon={lon},geo_distance_km={km},source={source}\"\n\nprint(map_tooltip(-12.04, -77.04, 1.2, \"mock\"))\n",
+      "justification_from_packet": "Para S13-T4-A-E3 me apoyé en «Dashboard/mapa pseudonimizado y ficha de caso»: Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable. En entity resolution y evidencia… En el ejercicio usé map_tooltip source=mock. geoseñal trazable. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T4-A."
+    },
+    {
+      "exercise_id": "S13-T4-B-E1",
+      "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nprint(sorted(privacy.keys()), \"|\", privacy[\"pii_real\"])\n",
+      "justification_from_packet": "Para S13-T4-B-E1 me apoyé en «Privacidad, acceso, pruebas, demo y runbook»: Privacy sheet: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer). En entity resolution y evidencia, el *porqué* e… En el ejercicio usé privacy sheet CF-1. synthetic_only pii_real False. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T4-B."
+    },
+    {
+      "exercise_id": "S13-T4-B-E2",
+      "code": "def demo_command():\n    return \"python -m demo_n1_dashboard --synthetic\"\n\nprint(demo_command())\n",
+      "justification_from_packet": "Para S13-T4-B-E2 me apoyé en «Privacidad, acceso, pruebas, demo y runbook»: Privacy sheet: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer). En entity resolution y evidencia, el *porqué* e… En el ejercicio usé demo_command. módulo synthetic. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T4-B."
+    },
+    {
+      "exercise_id": "S13-T4-B-E3",
+      "code": "actions = [\"rotate_secret\", \"redact_logs\", \"postmortem\"]\nprint(\"|\".join(actions))\nprint(\"level1_regression: re-chequear paths críticos S01–S13 en runbook\")\n",
+      "justification_from_packet": "Para S13-T4-B-E3 me apoyé en «Privacidad, acceso, pruebas, demo y runbook»: Privacy sheet: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer). En entity resolution y evidencia, el *porqué* e… En el ejercicio usé runbook incidente. 3 acciones + regression note. Así el código del paquete activo se alinea con la instruction y el demo iDo de S13-T4-B."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #0: «entity_resolution_score y relationship_signal_score deben…». Elijo «Mantenerse separados en la ficha de caso» porque en «Normalización, blocking y entity resolution» el paquete indica: Normaliza nombres y document_id (casefold, quitar espacios/guiones) antes de comparar. Blocking reduce pares candidatos (p. ej. apellido+región). En entity resolution y evide. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #1: «Un false positive de ER implica…». Elijo «Error de matching; no es veredicto legal de fraude» porque en «Normalización, blocking y entity resolution» el paquete indica: Normaliza nombres y document_id (casefold, quitar espacios/guiones) antes de comparar. Blocking reduce pares candidatos (p. ej. apellido+región). En entity resolution y evide. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #2: «En zona gris de score el sistema debe…». Elijo «Encolar needs_review / abstenerse según política» porque en «Umbral de revisión, abstención y no inferencia automática» el paquete indica: Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → invalid_input; uncertainty high → needs_review; score < 0.40 → abstain; 0.40 ≤ score < 0.80 → . Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #3: «CF-1 en S13 incluye…». Elijo «Privacy sheet, acceso, tests, demo y runbook» porque en «Verdad etiquetada, precision/recall y revisión clerical» el paquete indica: Con pares etiquetados sintéticos calculas TP/FP/FN → precision/recall simples. En entity resolution y evidencia, el *porqué* es operativo: reduce ambigüedad en pipelines locale. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #4: «Level-1 regression notes en el You Do exigen…». Elijo «Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)» porque en «Normalización, blocking y entity resolution» el paquete indica: Normaliza nombres y document_id (casefold, quitar espacios/guiones) antes de comparar. Blocking reduce pares candidatos (p. ej. apellido+región). En entity resolution y evide. Las otras opciones chocan con esa política del theory activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:28:58.575745+00:00",
+  "session_started_at": "2026-07-23T16:27:43.708754+00:00",
+  "session_ended_at": "2026-07-23T16:28:23.589754+00:00",
+  "receipt_response_sha256": "db85defb4de256db245f0699d5ca9b81858d86f42f5fd0d6f7ed0064c6e312ae",
+  "receipt_exercises_sha256": "45b616e456bfba2b0d6ac0320ddf97bc8592395cc3da852b9bb7b89e634767b0",
+  "receipt_selfcheck_sha256": "fdb784f4462d1cf8bf96b93050a2a92a5167827d70bc693575197905a59eeb68"
+}

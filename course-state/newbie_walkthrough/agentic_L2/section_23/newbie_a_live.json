@@ -1,0 +1,261 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-a-7c91e2f4b8-s23",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "id": "S23-T1-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T1-A-E1 leyendo la instrucción del paquete L2: Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime id. Contrato: next/generador o loop; Lookup si no. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "id": "S23-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T1-A-E2 leyendo la instrucción del paquete L2: Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred index). Imprime lista ordenada. Contrato: sorted key. . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(sorted(strats, key=lambda s: order[s]))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "id": "S23-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T1-A-E3 leyendo la instrucción del paquete L2: Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si hubiera, su name. Contrato: fail-closed a testid. . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(hits[0]['name'] if hits else 'need_testid')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "id": "S23-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        break\nprint(i)\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T1-B-E1 leyendo la instrucción del paquete L2: Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando ready. Contrato: sin sleep real. Pass: 2.. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(i)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "id": "S23-T1-B-E2",
+      "code": "ready = False\nfor i in range(3):\n    if ready:\n        break\nelse:\n    print('timeout')\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T1-B-E2 leyendo la instrucción del paquete L2: Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infinito. Pass: timeout. Usa solo fixtures sintéticos . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento:     print('timeout')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "id": "S23-T1-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T1-B-E3 leyendo la instrucción del paquete L2: Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondición de navegación. Pass: pass. Usa solo fixtures . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('pass' if expected == actual else 'fail')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "id": "S23-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nform = {}\nform['usuario'] = 'ana'\nprint(form)\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T2-A-E1 leyendo la instrucción del paquete L2: Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass: {'usuario': 'ana'}. Usa solo fixtures sintéticos d. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(form)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "id": "S23-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T2-A-E2 leyendo la instrucción del paquete L2: Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8]. Pass: 3a6eb079. Usa solo fixtures sintéticos del l. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(hashlib.sha256(b'data').hexdigest()[:8])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "id": "S23-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T2-A-E3 leyendo la instrucción del paquete L2: Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state conceptual. Pass: reuse. Usa solo fixtures sintét. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('reuse' if state.get('token') else 'login')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "id": "S23-T2-B-E1",
+      "code": "class LoginPage:\n    def __init__(self):\n        self.auth = False\n    def submit(self, user, password):\n        if password == 'sandbox':\n            self.auth = True\np = LoginPage()\np.submit('demo', 'sandbox')\nprint(p.auth)\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T2-B-E1 leyendo la instrucción del paquete L2: Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contrato: clase con estado. Pass: True. Usa solo fixture. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(p.auth)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "id": "S23-T2-B-E2",
+      "code": "ctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\nexcept PermissionError:\n    print('denied')\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T2-B-E2 leyendo la instrucción del paquete L2: ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato: no continuar al reporte. Pass: denied. Usa solo fi. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento:     print('denied')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "id": "S23-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T2-B-E3 leyendo la instrucción del paquete L2: Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de estados. Pass: authenticated. Usa solo fixtures sint. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(state)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "id": "S23-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T3-A-E1 leyendo la instrucción del paquete L2: Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI. Pass: ['error', 'screenshot', 'trace']. Usa solo f. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(sorted(ev.keys()))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "id": "S23-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T3-A-E2 leyendo la instrucción del paquete L2: Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list comp. Pass: ['ERR timeout']. Usa solo fixtures sinté. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print([l for l in logs if 'ERR' in l])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "id": "S23-T3-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T3-A-E3 leyendo la instrucción del paquete L2: Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Contrato: path determinista. Pass: dict de solution.. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(pkg)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "id": "S23-T3-B-E1",
+      "code": "def should_retry(k):\n    return k in ('timeout', '429')\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T3-B-E1 leyendo la instrucción del paquete L2: Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas kind bool. Contrato: captcha no retry. Pass multi-lí. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento:     print(k, should_retry(k))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "id": "S23-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T3-B-E2 leyendo la instrucción del paquete L2: Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle viejo. Pass: goto_home. Usa solo fixtures sintéticos . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('goto_home' if err=='stale' else 'continue')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "id": "S23-T3-B-E3",
+      "code": "errors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        break\n    if i==3:\n        print('fail', i)\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T3-B-E3 leyendo la instrucción del paquete L2: Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass: fail 3. Usa solo fixtures sintéticos del lab; la . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento:         print('fail', i)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "id": "S23-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi=True\nprint('api' if api else 'rpa')\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T4-A-E1 leyendo la instrucción del paquete L2: API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: preferencia sobre RPA. Pass: api. Usa solo fixtures sint. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('api' if api else 'rpa')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "id": "S23-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T4-A-E2 leyendo la instrucción del paquete L2: Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible en la jerarquía. Pass: export. Usa solo fixtures s. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(c)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "id": "S23-T4-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T4-A-E3 leyendo la instrucción del paquete L2: Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qué RPA. Pass: {'method': 'rpa', 'reason': 'no_api'}. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(decision)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "id": "S23-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T4-B-E1 leyendo la instrucción del paquete L2: CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handoff humano obligatorio. Pass: human_handoff.. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('human_handoff' if captcha else 'continue')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "id": "S23-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T4-B-E2 leyendo la instrucción del paquete L2: ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Pass: abort. Usa solo fixtures sintéticos del la. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('abort' if sig.get('tos_forbidden') else 'human_handoff')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "id": "S23-T4-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n",
+      "justification_from_packet": "Como explorer en Browser RPA con Playwright, resolví S23-T4-B-E3 leyendo la instrucción del paquete L2: Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution output. Contrato: evidencia para analista humano. . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(sorted(payload.keys()), payload['step'])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "En Browser RPA con Playwright (S23) elijo la opción «Refleja la UI accesible y suele ser más estable» para la pregunta «¿Por qué preferir get_by_role a CSS nth-child?» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "En Browser RPA con Playwright (S23) elijo la opción «Detenerse y hacer handoff humano» para la pregunta «Ante un CAPTCHA el robot debe:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "En Browser RPA con Playwright (S23) elijo la opción «Buscar integración no-UI antes de automatizar el browser» para la pregunta «API/export primero significa:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "En Browser RPA con Playwright (S23) elijo la opción «Solo fallas transitorias (timeout/red), no captcha/403 de negocio» para la pregunta «Un retry seguro reintenta:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:15.569039+00:00",
+  "session_started_at": "2026-07-23T17:34:19.876373Z",
+  "session_ended_at": "2026-07-23T17:34:44.591805Z",
+  "receipt_response_sha256": "2f9568f2e48057865a60346affbeda5aa9d581f5498245ac7cc50e9ec9a45bab",
+  "receipt_exercises_sha256": "1560756c38416a6bdb6d730849bd38df2ef3831fdc5677933497220b6929a4e6",
+  "receipt_selfcheck_sha256": "0a20598e2e02c4e2bcae809960e8335af0e3c5af7a39ed966ff37d3280a2c58c"
+}

@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S30",
+  "section_id": "security-infra",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S27-S30-P4",
+  "generated_at": "2026-07-20T08:10:42Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget security-infra section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s30-security-infra.ts",
+      "course-state/s30_phase4_progress.json",
+      "course-state/lanes/LANE-S27-S30-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "security-infra",
+    "index": 30,
+    "title": "Entity resolution probabilístico",
+    "shortTitle": "ER probabilístico",
+    "tagline": "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
+    "estimatedHours": 16,
+    "learningOutcomes": 8,
+    "youDo": "Testable Entity Resolution Engine — cierre CP-N3-A",
+    "icon": "GitMerge",
+    "legacy_note": "security-infra retargeted to probabilistic ER / CP-N3-A close",
+    "capstone": "CP-N3-A (cierre)"
+  },
+  "subtopics_authored": {
+    "S30-T1-A": {
+      "slug": "exact-edit-token-date",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S30-T1-A-DEMO",
+      "exercises": [
+        "S30-T1-A-E1",
+        "S30-T1-A-E2",
+        "S30-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S30-T1-B": {
+      "slug": "missingness-frequency",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S30-T1-B-DEMO",
+      "exercises": [
+        "S30-T1-B-E1",
+        "S30-T1-B-E2",
+        "S30-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S30-T2-A": {
+      "slug": "rules-candidate-recall",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S30-T2-A-DEMO",
+      "exercises": [
+        "S30-T2-A-E1",
+        "S30-T2-A-E2",
+        "S30-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S30-T2-B": {
+      "slug": "combos-cost-impossible",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S30-T2-B-DEMO",
+      "exercises": [
+        "S30-T2-B-E1",
+        "S30-T2-B-E2",
+        "S30-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S30-T3-A": {
+      "slug": "weights-prob-thresholds",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S30-T3-A-DEMO",
+      "exercises": [
+        "S30-T3-A-E1",
+        "S30-T3-A-E2",
+        "S30-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S30-T3-B": {
+      "slug": "train-clerical-cluster",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S30-T3-B-DEMO",
+      "exercises": [
+        "S30-T3-B-E1",
+        "S30-T3-B-E2",
+        "S30-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S30-T4-A": {
+      "slug": "labeled-splits-by-entity",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S30-T4-A-DEMO",
+      "exercises": [
+        "S30-T4-A-E1",
+        "S30-T4-A-E2",
+        "S30-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S30-T4-B": {
+      "slug": "pr-pairwise-cluster-slices",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S30-T4-B-DEMO",
+      "exercises": [
+        "S30-T4-B-E1",
+        "S30-T4-B-E2",
+        "S30-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Testable Entity Resolution Engine — cierre CP-N3-A",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S30-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S30-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "ER/matching y scores no implican fraude, parentesco ni colusión. Solo decide 'misma entidad' cuando aplique."
+}

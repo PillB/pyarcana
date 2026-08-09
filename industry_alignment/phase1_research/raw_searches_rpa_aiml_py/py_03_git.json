@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://github.com/orgs/community/discussions/183788",
+    "name": "Best Practices for Hiring Skilled Software Developers for GitHub",
+    "snippet": "Code Review: Look at PRs where they reviewed others' code. Are they polite? Do they catch bugs? Do they suggest improvements constructively? ...",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/smithtripp_last-week-i-said-github-is-one-of-the-strongest-activity-7485056225806749697-DcPE",
+    "name": "GitHub signals for early-career SWE/FDE candidates: business case",
+    "snippet": "Last week I said GitHub is one of the strongest signals for early-career SWE/FDE candidates. Good follow-up question in my inbox: what ...",
+    "host_name": "www.linkedin.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/ExperiencedDevs/comments/uedzmu/code_review_interview",
+    "name": "Code review interview : r/ExperiencedDevs - Reddit",
+    "snippet": "I would explain the requirements to the candidate, quickly show the code and ask to review it and give recommendations. That should be a conversation without ... Do employers actually look at the github in today's market? GitHub projects to get hired : r/brdev More results from www.reddit.com",
+    "host_name": "www.reddit.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://python.plainenglish.io/7-python-github-projects-that-opened-career-doors-i-never-even-thought-to-knock-on-32fae410890a",
+    "name": "7 Python GitHub Projects That Opened Career Doors I Never Even",
+    "snippet": "A GitHub project proves it, shows how you think, reveals whether you write code other people can understand, and stays visible indefinitely to ...",
+    "host_name": "python.plainenglish.io",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/icthubkenya/posts/3842603909216267",
+    "name": "Why a quiet GitHub profile doesn't define a developer's skill",
+    "snippet": "Try to: -Push code regularly -Contribute to open source -Review others' code -Create or respond to issues Pro Tips: If you wanna do it with a ...",
+    "host_name": "www.facebook.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://softjourn.com/insights/hiring-python-developers",
+    "name": "How to Hire a Python Developer: Complete Guide for  - Softjourn",
+    "snippet": "This guide covers everything you need to successfully hire a Python developer: where to find top talent, how to evaluate candidates, different ...",
+    "host_name": "softjourn.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://softwarerecs.stackexchange.com/questions/6900/code-review-tools-that-support-changes-to-multiple-projects",
+    "name": "Code review tools that support changes to multiple projects",
+    "snippet": "I'm looking for something that supports a single code review request that includes changes to multiple packages (in separate repositories)",
+    "host_name": "softwarerecs.stackexchange.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.gitkraken.com/features/code-review",
+    "name": "Code Reviews for Git Workflows - GitKraken",
+    "snippet": "GitKraken Code Review is built for developers and engineering teams overwhelmed by noisy pull requests, growing PR volume, AI-generated code, and review fatigue",
+    "host_name": "www.gitkraken.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

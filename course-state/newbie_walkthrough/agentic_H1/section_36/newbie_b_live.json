@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s36-4e7f89ccf340",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "code": "# dual skeptic-H1 · S36-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nprint(sum(xs)/len(xs))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T1-A-E1: contrasté el Pass del paquete («S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clusteri…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sum(xs)/len(xs))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "code": "# dual skeptic-H1 · S36-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T1-A-E2: contrasté el Pass del paquete («S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Esca…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print((x - mu) / sd)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "code": "# dual skeptic-H1 · S36-T1-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T1-A-E3: contrasté el Pass del paquete («S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en c…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"verdict\", False)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "code": "# dual skeptic-H1 · S36-T1-B-E1\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T1-B-E1: contrasté el Pass del paquete («S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Starter elige min (defe…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, scores, best; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(best)', 'print(\"score\", scores[best])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "scores",
+        "best",
+        "max",
+        "key",
+        "get"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "code": "# dual skeptic-H1 · S36-T1-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T1-B-E2: contrasté el Pass del paquete («S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"seeds\", [0, 1, 2])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "code": "# dual skeptic-H1 · S36-T1-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T1-B-E3: contrasté el Pass del paquete («S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette).…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"limit\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "code": "# dual skeptic-H1 · S36-T2-A-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T2-A-E1: contrasté el Pass del paquete («S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CA…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(round(0.5*2 + 0.5*4, 1))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "code": "# dual skeptic-H1 · S36-T2-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T2-A-E2: contrasté el Pass del paquete («S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrato del dossier de señ…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"decision_model\", False)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "code": "# dual skeptic-H1 · S36-T2-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T2-A-E3: contrasté el Pass del paquete («S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(2)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "code": "# dual skeptic-H1 · S36-T2-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T2-B-E1: contrasté el Pass del paquete («S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudenc…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(False)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "code": "# dual skeptic-H1 · S36-T2-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T2-B-E2: contrasté el Pass del paquete («S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"check_scale\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "code": "# dual skeptic-H1 · S36-T2-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T2-B-E3: contrasté el Pass del paquete («S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Transferencia de etiquet…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"exploratory\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "code": "# dual skeptic-H1 · S36-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nprint(sum(flags))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T3-A-E1: contrasté el Pass del paquete («S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ condu…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sum(flags))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "code": "# dual skeptic-H1 · S36-T3-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T3-A-E2: contrasté el Pass del paquete («S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print([\"rule\", \"score\"])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "code": "# dual skeptic-H1 · S36-T3-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T3-A-E3: contrasté el Pass del paquete («S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-cl…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"guilt\", False)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "code": "# dual skeptic-H1 · S36-T3-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T3-B-E1: contrasté el Pass del paquete («S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en tr…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print([\"outlier\", \"novelty\"])']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "code": "# dual skeptic-H1 · S36-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nprint(int(n * c))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T3-B-E2: contrasté el Pass del paquete («S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Con…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(int(n * c))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "code": "# dual skeptic-H1 · S36-T3-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T3-B-E3: contrasté el Pass del paquete («S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags de…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"capacity_link\", True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "code": "# dual skeptic-H1 · S36-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T4-A-E1: contrasté el Pass del paquete («S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintét…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sum(rates)/len(rates))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "code": "# dual skeptic-H1 · S36-T4-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T4-A-E2: contrasté el Pass del paquete («S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato t…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"leakage\", False)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "code": "# dual skeptic-H1 · S36-T4-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T4-A-E3: contrasté el Pass del paquete («S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizant…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(3)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "code": "# dual skeptic-H1 · S36-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T4-B-E1: contrasté el Pass del paquete («S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de uti…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, del; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(sum(ranked[:k])/k)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "del",
+        "paquete",
+        "conserva",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "code": "# dual skeptic-H1 · S36-T4-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T4-B-E2: contrasté el Pass del paquete («S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(True)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "code": "# dual skeptic-H1 · S36-T4-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S36/S36-T4-B-E3: contrasté el Pass del paquete («S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect). Transferencia: con…») con theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Conceptos dual, skeptic, S36, Fixture, sint; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"precision_at_k\")']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S36",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S36#0: contrasto stem «Una anomalía en el triage significa:» con párrafos theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Elijo índice 3 («Señal de rareza a revisar») porque cuadra con el vocabulario del paquete; distractores ['Fraude probado', 'Parentesco'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S36#1: contrasto stem «contamination representa:» con párrafos theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Elijo índice 1 («Hipótesis de fracción rara a flaggear») porque cuadra con el vocabulario del paquete; distractores ['Tasa de fraude real', 'Accuracy'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S36#2: contrasto stem «PCA en este curso se usa para:» con párrafos theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Elijo índice 2 («Exploración/visualización prudente») porque cuadra con el vocabulario del paquete; distractores ['Etiquetar culpa', 'Reemplazar el workbench'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S36#3: contrasto stem «Con labels escasos prioriza:» con párrafos theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Elijo índice 0 («precision@k y feedback humano») porque cuadra con el vocabulario del paquete; distractores ['Solo accuracy global', 'Aumentar contamination a 0.9'] no sostienen el contrato."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S36#4: contrasto stem «Un fit de normalidad que incluye el mes evaluado comete:» con párrafos theory/iDo («escalamiento y k-means/density» Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (c). Elijo índice 3 («Leakage temporal») porque cuadra con el vocabulario del paquete; distractores ['Warmup', 'Blocking'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:27:23.925197+00:00",
+  "session_started_at": "2026-07-23T08:26:57.104579+00:00",
+  "session_ended_at": "2026-07-23T08:27:23.925197+00:00"
+}

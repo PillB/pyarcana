@@ -1,0 +1,9 @@
+{
+  "section": 12,
+  "id": "performance",
+  "file": "src/lib/course/sections/s12-performance.ts",
+  "score_1_to_10": 6.4,
+  "issue_count": 28,
+  "meta_leak_count": 6,
+  "status": "complete"
+}

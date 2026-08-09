@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Fallar si la cardinalidad no es 1:1"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Filas del left sin match en right"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Validar set de columnas esperado (p. ej. monto_ene, monto_feb)"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "El periodo de la primera observación válida (p. ej. mes de primera compra)"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Incluyes datos posteriores al cutoff en features/métricas del pasado"
+  }
+]

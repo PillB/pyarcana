@@ -1,0 +1,286 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 33,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-exp-s33-ede8a0c5c885",
+  "production_note": "agentic_G2 dual-LLM explorer: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S33-T1-A-E1",
+      "code": "# explorer S33-T1-A-E1\nrecord = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\nmeets_contract = \"fraud\" not in record[\"target\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_FRAUD_TARGET\"\nprint(\"S33-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T1-A-E1: leí instruction «S33-T1-A-E1 · Calcula el contrato de `unidad, target y horizonte` sobre `CASO-LIM-033-1A`. La entrada es el dict complet…» y theory «unidad, target y horizonte»: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es un breach . Completé el starter del paquete; línea clave: `record = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'nee`. Hints/iDo del subtopic S33-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T1-A-E2",
+      "code": "# explorer S33-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if \"fraud\" not in record[\"target\"] else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nincomplete = {**valid}\nincomplete.pop(\"horizon\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T1-A-E2: leí instruction «S33-T1-A-E2 · Modela tres rutas de `unidad, target y horizonte`: fixture válido, fixture adverso y registro sin `horizon…» y theory «unidad, target y horizonte»: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es un breach . Completé el starter del paquete; línea clave: `def assess(record: dict) -> str:`. Hints/iDo del subtopic S33-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T1-A-E3",
+      "code": "# explorer S33-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_HORIZON\"\n    return \"CONTINUE\" if \"fraud\" not in record[\"target\"] else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nuncertain = {**valid}\nuncertain.pop(\"horizon\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T1-A-E3: leí instruction «S33-T1-A-E3 · Contrasta fallo cerrado para `unidad, target y horizonte` con tres fixtures distintos. `CASO-LIM-033-1A` d…» y theory «unidad, target y horizonte»: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es un breach . Completé el starter del paquete; línea clave: `def decide(record: dict) -> str:`. Hints/iDo del subtopic S33-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T1-B-E1",
+      "code": "# explorer S33-T1-B-E1\nrecord = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\nmeets_contract = record[\"has_baseline\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_NO_BASELINE\"\nprint(\"S33-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T1-B-E1: leí instruction «S33-T1-B-E1 · Calcula el contrato de `costos, baseline de regla y dummy estimator` sobre `CASO-LIM-033-1B`. La entrada e…» y theory «costos, baseline de regla y dummy estimator»: El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral de fraude. E. Completé el starter del paquete; línea clave: `record = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_b`. Hints/iDo del subtopic S33-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T1-B-E2",
+      "code": "# explorer S33-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"has_baseline\"] is True else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T1-B-E2: leí instruction «S33-T1-B-E2 · Modela tres rutas de `costos, baseline de regla y dummy estimator`: fixture válido, fixture adverso y regi…» y theory «costos, baseline de regla y dummy estimator»: El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral de fraude. E. Completé el starter del paquete; línea clave: `def assess(record: dict) -> str:`. Hints/iDo del subtopic S33-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T1-B-E3",
+      "code": "# explorer S33-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_COST\"\n    return \"CONTINUE\" if record[\"has_baseline\"] is True else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nuncertain = {**valid}\nuncertain.pop(\"cost\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T1-B-E3: leí instruction «S33-T1-B-E3 · Contrasta fallo cerrado para `costos, baseline de regla y dummy estimator` con tres fixtures distintos. `C…» y theory «costos, baseline de regla y dummy estimator»: El dummy majority y una regla simple (x>=thr) anclan el valor mínimo. El costo fp*c_fp+fn*c_fn traduce errores a impacto de cola, no a moral de fraude. E. Completé el starter del paquete; línea clave: `def decide(record: dict) -> str:`. Hints/iDo del subtopic S33-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T2-A-E1",
+      "code": "# explorer S33-T2-A-E1\nrecord = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\nmeets_contract = record[\"l2\"] == 0\nstatus = \"PASS\" if meets_contract else \"REJECT_UNREGULARIZED\"\nprint(\"S33-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T2-A-E1: leí instruction «S33-T2-A-E1 · Calcula el contrato de `regresión/logística y regularización` sobre `CASO-LIM-033-2A`. La entrada es el di…» y theory «regresión/logística y regularización»: La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en veredicto. En el workb. Completé el starter del paquete; línea clave: `record = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}`. Hints/iDo del subtopic S33-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T2-A-E2",
+      "code": "# explorer S33-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"l2\"] == 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nincomplete = {**valid}\nincomplete.pop(\"p\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T2-A-E2: leí instruction «S33-T2-A-E2 · Modela tres rutas de `regresión/logística y regularización`: fixture válido, fixture adverso y registro si…» y theory «regresión/logística y regularización»: La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en veredicto. En el workb. Completé el starter del paquete; línea clave: `def assess(record: dict) -> str:`. Hints/iDo del subtopic S33-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T2-A-E3",
+      "code": "# explorer S33-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SIGMOID\"\n    return \"CONTINUE\" if record[\"l2\"] == 0 else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nuncertain = {**valid}\nuncertain.pop(\"p\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T2-A-E3: leí instruction «S33-T2-A-E3 · Contrasta fallo cerrado para `regresión/logística y regularización` con tres fixtures distintos. `CASO-LIM…» y theory «regresión/logística y regularización»: La logística con sigmoid y regularización L2 limita coeficientes grandes. Un umbral convierte probabilidad en priorización de cola, no en veredicto. En el workb. Completé el starter del paquete; línea clave: `def decide(record: dict) -> str:`. Hints/iDo del subtopic S33-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T2-B-E1",
+      "code": "# explorer S33-T2-B-E1\nrecord = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\nmeets_contract = record[\"scaled\"] is True or record[\"causal\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSCALED_COEF\"\nprint(\"S33-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T2-B-E1: leí instruction «S33-T2-B-E1 · Calcula el contrato de `coeficientes, supuestos y scaling` sobre `CASO-LIM-033-2B`. La entrada es el dict …» y theory «coeficientes, supuestos y scaling»: Comparar |coef| exige features escaladas. El signo indica dirección de asociación en el modelo, no causalidad social ni fraude probado. En el workbench sintético d. Completé el starter del paquete; línea clave: `record = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scal`. Hints/iDo del subtopic S33-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T2-B-E2",
+      "code": "# explorer S33-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"scaled\"] is True or record[\"causal\"] is False else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"scaled\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T2-B-E2: leí instruction «S33-T2-B-E2 · Modela tres rutas de `coeficientes, supuestos y scaling`: fixture válido, fixture adverso y registro sin `…» y theory «coeficientes, supuestos y scaling»: Comparar |coef| exige features escaladas. El signo indica dirección de asociación en el modelo, no causalidad social ni fraude probado. En el workbench sintético d. Completé el starter del paquete; línea clave: `def assess(record: dict) -> str:`. Hints/iDo del subtopic S33-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T2-B-E3",
+      "code": "# explorer S33-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SCALE_FLAG\"\n    return \"CONTINUE\" if record[\"scaled\"] is True or record[\"causal\"] is False else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nuncertain = {**valid}\nuncertain.pop(\"scaled\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T2-B-E3: leí instruction «S33-T2-B-E3 · Contrasta fallo cerrado para `coeficientes, supuestos y scaling` con tres fixtures distintos. `CASO-LIM-03…» y theory «coeficientes, supuestos y scaling»: Comparar |coef| exige features escaladas. El signo indica dirección de asociación en el modelo, no causalidad social ni fraude probado. En el workbench sintético d. Completé el starter del paquete; línea clave: `def decide(record: dict) -> str:`. Hints/iDo del subtopic S33-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T3-A-E1",
+      "code": "# explorer S33-T3-A-E1\nrecord = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\nmeets_contract = record[\"depth_unlimited\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_DEPTH_UNLIMITED\"\nprint(\"S33-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T3-A-E1: leí instruction «S33-T3-A-E1 · Calcula el contrato de `decisiones y random forest/boosting` sobre `CASO-LIM-033-3A`. La entrada es el dic…» y theory «decisiones y random forest/boosting»: Un stump (árbol profundidad 1) y el voto de varios stumps ilustran ensambles sin APIs pesadas. Profundidad ilimitada overfittea el workbench sintético. En el wor. Completé el starter del paquete; línea clave: `record = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1,`. Hints/iDo del subtopic S33-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T3-A-E2",
+      "code": "# explorer S33-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"depth_unlimited\"] is False else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nincomplete = {**valid}\nincomplete.pop(\"stump_preds\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T3-A-E2: leí instruction «S33-T3-A-E2 · Modela tres rutas de `decisiones y random forest/boosting`: fixture válido, fixture adverso y registro sin…» y theory «decisiones y random forest/boosting»: Un stump (árbol profundidad 1) y el voto de varios stumps ilustran ensambles sin APIs pesadas. Profundidad ilimitada overfittea el workbench sintético. En el wor. Completé el starter del paquete; línea clave: `def assess(record: dict) -> str:`. Hints/iDo del subtopic S33-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T3-A-E3",
+      "code": "# explorer S33-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STUMP\"\n    return \"CONTINUE\" if record[\"depth_unlimited\"] is False else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nuncertain = {**valid}\nuncertain.pop(\"stump_preds\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T3-A-E3: leí instruction «S33-T3-A-E3 · Contrasta fallo cerrado para `decisiones y random forest/boosting` con tres fixtures distintos. `CASO-LIM-…» y theory «decisiones y random forest/boosting»: Un stump (árbol profundidad 1) y el voto de varios stumps ilustran ensambles sin APIs pesadas. Profundidad ilimitada overfittea el workbench sintético. En el wor. Completé el starter del paquete; línea clave: `def decide(record: dict) -> str:`. Hints/iDo del subtopic S33-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T3-B-E1",
+      "code": "# explorer S33-T3-B-E1\nrecord = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\nmeets_contract = record[\"train_acc\"] - record[\"valid_acc\"] > 0.2\nstatus = \"PASS\" if meets_contract else \"REJECT_OVERFIT\"\nprint(\"S33-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T3-B-E1: leí instruction «S33-T3-B-E1 · Calcula el contrato de `overfit, profundidad y reproducibilidad` sobre `CASO-LIM-033-3B`. La entrada es el…» y theory «overfit, profundidad y reproducibilidad»: Gap train−valid > umbral señala overfit. Fijar seed hace comparable la corrida. Sin seed, el workbench no puede auditar regresiones. En el workbench sintétic. Completé el starter del paquete; línea clave: `record = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, `. Hints/iDo del subtopic S33-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T3-B-E2",
+      "code": "# explorer S33-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"train_acc\"] - record[\"valid_acc\"] > 0.2 else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nincomplete = {**valid}\nincomplete.pop(\"seed\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T3-B-E2: leí instruction «S33-T3-B-E2 · Modela tres rutas de `overfit, profundidad y reproducibilidad`: fixture válido, fixture adverso y registro…» y theory «overfit, profundidad y reproducibilidad»: Gap train−valid > umbral señala overfit. Fijar seed hace comparable la corrida. Sin seed, el workbench no puede auditar regresiones. En el workbench sintétic. Completé el starter del paquete; línea clave: `def assess(record: dict) -> str:`. Hints/iDo del subtopic S33-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T3-B-E3",
+      "code": "# explorer S33-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SEED\"\n    return \"CONTINUE\" if record[\"train_acc\"] - record[\"valid_acc\"] > 0.2 else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nuncertain = {**valid}\nuncertain.pop(\"seed\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T3-B-E3: leí instruction «S33-T3-B-E3 · Contrasta fallo cerrado para `overfit, profundidad y reproducibilidad` con tres fixtures distintos. `CASO-…» y theory «overfit, profundidad y reproducibilidad»: Gap train−valid > umbral señala overfit. Fijar seed hace comparable la corrida. Sin seed, el workbench no puede auditar regresiones. En el workbench sintétic. Completé el starter del paquete; línea clave: `def decide(record: dict) -> str:`. Hints/iDo del subtopic S33-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T4-A-E1",
+      "code": "# explorer S33-T4-A-E1\nrecord = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\nmeets_contract = not record[\"metrics\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNLOGGED_RUN\"\nprint(\"S33-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T4-A-E1: leí instruction «S33-T4-A-E1 · Calcula el contrato de `pipeline y tracking mínimo` sobre `CASO-LIM-033-4A`. La entrada es el dict complet…» y theory «pipeline y tracking mínimo»: Un run mínimo registra metrics keys, params y si beats_dummy. Sin log, no hay comparación responsable entre experimentos del workbench. En el workbench sintético de Red A. Completé el starter del paquete; línea clave: `record = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.`. Hints/iDo del subtopic S33-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T4-A-E2",
+      "code": "# explorer S33-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"metrics\"] else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nincomplete = {**valid}\nincomplete.pop(\"metrics\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T4-A-E2: leí instruction «S33-T4-A-E2 · Modela tres rutas de `pipeline y tracking mínimo`: fixture válido, fixture adverso y registro sin `metrics…» y theory «pipeline y tracking mínimo»: Un run mínimo registra metrics keys, params y si beats_dummy. Sin log, no hay comparación responsable entre experimentos del workbench. En el workbench sintético de Red A. Completé el starter del paquete; línea clave: `def assess(record: dict) -> str:`. Hints/iDo del subtopic S33-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T4-A-E3",
+      "code": "# explorer S33-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_METRICS\"\n    return \"CONTINUE\" if not record[\"metrics\"] else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nuncertain = {**valid}\nuncertain.pop(\"metrics\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T4-A-E3: leí instruction «S33-T4-A-E3 · Contrasta fallo cerrado para `pipeline y tracking mínimo` con tres fixtures distintos. `CASO-LIM-033-4A` d…» y theory «pipeline y tracking mínimo»: Un run mínimo registra metrics keys, params y si beats_dummy. Sin log, no hay comparación responsable entre experimentos del workbench. En el workbench sintético de Red A. Completé el starter del paquete; línea clave: `def decide(record: dict) -> str:`. Hints/iDo del subtopic S33-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S33-T4-B-E1",
+      "code": "# explorer S33-T4-B-E1\nrecord = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\nmeets_contract = record[\"random_split\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_RANDOM_LEAK\"\nprint(\"S33-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T4-B-E1: leí instruction «S33-T4-B-E1 · Calcula el contrato de `validación cruzada apropiada y error analysis` sobre `CASO-LIM-033-4B`. La entrada…» y theory «validación cruzada apropiada y error analysis»: Group CV por entidad evita leakage entre folds. El análisis de errores mira el slice con más FN, no solo la media global de folds. En el workbench sint. Completé el starter del paquete; línea clave: `record = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities'`. Hints/iDo del subtopic S33-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T4-B-E2",
+      "code": "# explorer S33-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"random_split\"] is False else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nincomplete = {**valid}\nincomplete.pop(\"entities\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T4-B-E2: leí instruction «S33-T4-B-E2 · Modela tres rutas de `validación cruzada apropiada y error analysis`: fixture válido, fixture adverso y re…» y theory «validación cruzada apropiada y error analysis»: Group CV por entidad evita leakage entre folds. El análisis de errores mira el slice con más FN, no solo la media global de folds. En el workbench sint. Completé el starter del paquete; línea clave: `def assess(record: dict) -> str:`. Hints/iDo del subtopic S33-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S33-T4-B-E3",
+      "code": "# explorer S33-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GROUP_IDS\"\n    return \"CONTINUE\" if record[\"random_split\"] is False else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nuncertain = {**valid}\nuncertain.pop(\"entities\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S33-T4-B-E3: leí instruction «S33-T4-B-E3 · Contrasta fallo cerrado para `validación cruzada apropiada y error analysis` con tres fixtures distintos. …» y theory «validación cruzada apropiada y error analysis»: Group CV por entidad evita leakage entre folds. El análisis de errores mira el slice con más FN, no solo la media global de folds. En el workbench sint. Completé el starter del paquete; línea clave: `def decide(record: dict) -> str:`. Hints/iDo del subtopic S33-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S33-T4-B"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S33 Q0: elegí índice 0 «Ser needs_review con horizonte» porque la theory del paquete dice: «unidad, target y horizonte»: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es un breach de producto. En el w. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S33 Q1: elegí índice 2 «Dummy/regla y costos» porque la theory del paquete dice: «unidad, target y horizonte»: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es un breach de producto. En el w. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S33 Q2: elegí índice 3 «Features scaled y causal=False» porque la theory del paquete dice: «unidad, target y horizonte»: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es un breach de producto. En el w. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S33 Q3: elegí índice 1 «Leakage de la misma entidad entre folds» porque la theory del paquete dice: «unidad, target y horizonte»: La unidad (par de entidades, caso, cuenta en t), el target observable y el horizonte temporal cierran el problema. Un target llamado fraud en este workbench es un breach de producto. En el w. Coherente con learning outcomes y iDo de la sección."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:33:42.466739+00:00",
+  "session_started_at": "2026-07-23T06:32:22.466739+00:00",
+  "session_ended_at": "2026-07-23T06:33:42.466739+00:00"
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Refleja la UI accesible y suele ser más estable ante cambios de layout"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Detenerse y hacer handoff humano"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Buscar integración no-UI antes de automatizar el browser"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Solo fallas transitorias (timeout/red/429), no captcha ni 403 de negocio"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "trace + screenshot + error tipado (y step id)"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Para encapsular selectores y acciones de una pantalla y reducir acoplamiento"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Hash (p. ej. sha256) o tamaño/extensión del binario"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 0.86,
+    "correct_preview": "form (el siguiente step), evitando el doble envío del login"
+  },
+  {
+    "i": 8,
+    "ok": true,
+    "support_ratio": 0.91,
+    "correct_preview": "Para reusar la sesión autenticada y no volver a iniciar sesión en cada caso (men"
+  }
+]

@@ -1,0 +1,773 @@
+{
+  "version": "3.2",
+  "section": "S03",
+  "section_id": "data-structures",
+  "phase": "PHASE_2_COMPLETE",
+  "generated_at": "2026-07-20T13:00:00Z",
+  "lane": "LANE-S03",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "research_agent": "Pre-Round Research + four-round dossier per subtopic",
+    "report_agent": "Artifacts, ledger status via LANE-S03.status.json"
+  },
+
+  "preamble": {
+    "objective": "Completar PHASE 2 (investigación pre-sección) de S03: research dossier de 8 subtemas (4×2) listo para PHASE 3 blueprint.",
+    "scope_in": [
+      "S03 únicamente",
+      "Research dossier con fuentes oficiales 2025-2026 no obsoletas",
+      "Mapeo de 8 subtemas V3 'Decisiones y reglas de validación'",
+      "Inventario de contradicción título plataforma vs V3",
+      "Decisiones técnicas para motor de reglas accept/reject/review"
+    ],
+    "scope_out": [
+      "Autoría de contenido largo (PHASE 4)",
+      "Banco A/B/C completo (PHASE 5)",
+      "Edits a s01-setup.ts, s02-basics.ts, prisma/seed.ts, checkpoint/ledger/orchestration",
+      "Borrado de s03-data-structures.ts",
+      "Marcar sección passed"
+    ],
+    "stop_criterion": "Cada uno de los 8 subtemas tiene: fuentes primarias, benchmark curricular, patrones prácticos, notas pedagógicas, riesgos de deprecación y notas de autoría. Gate PHASE 2 sin P0/P1 nuevos de investigación.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md (S3 T1–T4)",
+      "learning_roadmap.md (§3 Data Structures & File Handling)",
+      "src/lib/course/sections/s03-data-structures.ts (585 líneas)",
+      "src/lib/course/sections/s02-basics.ts (overlap truthiness/if)",
+      "prisma/seed.ts data-structures + basics",
+      "course-state/s01_phase0|1|2.json (plantilla)",
+      "course-state/s03_phase0.json",
+      "course-state/s03_phase1.json",
+      "docs.python.org (stdtypes, controlflow, unittest, PEPs match)"
+    ]
+  },
+
+  "pre_round_research": {
+    "executed_at": "2026-07-20",
+    "rounds": [
+      {
+        "name": "Documentación oficial actualizada",
+        "findings": [
+          "docs.python.org/3/library/stdtypes.html — Truth Value Testing: false = None, False, 0/0.0/0j, '', (), [], {}, set(), range(0). Por defecto true salvo __bool__ False o __len__ 0.",
+          "Boolean operations: and/or son short-circuit y DEVUELVEN un operando (no necesariamente bool); not siempre devuelve True/False. Prioridad: not < and < or; not a == b se parsea como not (a == b).",
+          "Comparisons: < <= > >= == != is is not; encadenamiento x < y <= z; in / not in para membership.",
+          "docs.python.org/3/tutorial/controlflow.html — if/elif/else; match/case desde 3.10 con wildcard _, OR patterns, unpacking; primer case que matchea gana.",
+          "PEP 636 tutorial de structural pattern matching; match no deprecado; no sustituye if en reglas simples.",
+          "unittest / assert — patrón de pruebas de ramas; doctest para ejemplos ejecutables de invariantes (nivel intro)."
+        ]
+      },
+      {
+        "name": "Repositorios y specs activas 2025-2026",
+        "findings": [
+          "Python 3.10+ match es estable en 3.12–3.14 docs (Jul 2026). Curso asume 3.12+ (alineado S01).",
+          "Patrones de validación de intake en industria: allowlist + rangos + estados tri-state (accept/reject/review) antes de Pydantic (Pydantic llega más tarde en V3).",
+          "Decision tables como artefacto de negocio (filas de condición → acción) se implementan con if/elif o dict de reglas antes de engines externos."
+        ]
+      },
+      {
+        "name": "Tutoriales y master classes recientes",
+        "findings": [
+          "CS50P Lecture control flow / conditionals — secuencia pedagógica if → nested → edge cases; no copiar problem sets.",
+          "Python Tutorial ch.4 — canónico para if y match en el mismo capítulo.",
+          "Real Python / OCW: énfasis en bugs de truthiness (if data: cuando data puede ser 0 válido)."
+        ]
+      },
+      {
+        "name": "Patrones pedagógicos validación de datos",
+        "findings": [
+          "Orden de andamiaje: booleanos puros → if → guards → reglas de dominio → verificación con ejemplos/pruebas.",
+          "Error novato canónico V3 gate: tratar None/ausente como False o 0, rechazando valores falsy válidos o aceptando huecos.",
+          "Motor de reglas didáctico: función validate_field(name, value, rules) → {status, code, message} con status ∈ {accept, reject, review}.",
+          "Guard clauses (early return) mejoran legibilidad vs anidamiento profundo — enseñar como skill de diseño, no solo sintaxis."
+        ]
+      }
+    ],
+    "deprecation_check": {
+      "if_elif_else": "NO deprecado — control flow canónico",
+      "match_case": "Vigente desde 3.10; no deprecado. Enseñar cuando aporta claridad (estado/código/tipo), no como reemplazo universal de if",
+      "truthiness": "NO deprecado — semántica del lenguaje",
+      "and_or_short_circuit": "NO deprecado",
+      "bool_as_int_subtype": "Vigente (True==1); enseñar con cuidado, no abusar",
+      "switch_statement": "Python no tiene switch C-style; if/elif o match — no enseñar switch inexistente",
+      "assert_for_production_validation": "assert se puede desactivar con -O; NO usarlo como única validación de intake en producción — OK para invariantes de desarrollo/tests"
+    }
+  },
+
+  "canonical_subtopic_map": {
+    "source": "learning_roadmap_52_V3.md §S3",
+    "platform_id_authority": "learning_roadmap.md → data-structures",
+    "v3_title": "Decisiones y reglas de validación",
+    "platform_title": "Data Structures & File Handling",
+    "topics": [
+      {
+        "topic_id": "S03-T1",
+        "title": "Booleanos",
+        "subtopics": [
+          {
+            "subtopic_id": "S03-T1-A",
+            "slug": "comparisons-membership",
+            "title": "Comparaciones y pertenencia",
+            "v3_text": "comparaciones y pertenencia",
+            "exam_skill": "elegir operador correcto (==, !=, <, in) y predecir resultado",
+            "exists_in_content": "partial_in_s02",
+            "exists_in_exam": false,
+            "note": "S02 menciona operadores; S03 debe formalizar membership y cadenas de comparación"
+          },
+          {
+            "subtopic_id": "S03-T1-B",
+            "slug": "truthiness-shortcircuit",
+            "title": "Truthiness y short-circuit",
+            "v3_text": "truthiness y short-circuit",
+            "exam_skill": "distinguir ausencia/None de False/0/''; predecir and/or short-circuit",
+            "exists_in_content": "partial_in_s02",
+            "exists_in_exam": "basics:truthiness",
+            "note": "CRITICAL for V3 gate — no confundir ausencia con valor falso válido"
+          }
+        ]
+      },
+      {
+        "topic_id": "S03-T2",
+        "title": "Control",
+        "subtopics": [
+          {
+            "subtopic_id": "S03-T2-A",
+            "slug": "if-elif-else",
+            "title": "if/elif/else",
+            "v3_text": "if/elif/else",
+            "exam_skill": "trazar qué rama se ejecuta; elif vs if secuenciales",
+            "exists_in_content": "partial_in_s02",
+            "exists_in_exam": "basics:assignment-vs-equality (related)",
+            "note": "Ownership canónico V3 → S03"
+          },
+          {
+            "subtopic_id": "S03-T2-B",
+            "slug": "guard-clauses",
+            "title": "Guard clauses, anidamiento y ramas alcanzables",
+            "v3_text": "guard clauses, anidamiento y ramas alcanzables",
+            "exam_skill": "reconocer dead branches y preferir early return",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S03-T3",
+        "title": "Reglas",
+        "subtopics": [
+          {
+            "subtopic_id": "S03-T3-A",
+            "slug": "allowlists-ranges",
+            "title": "Rangos, listas permitidas y combinaciones",
+            "v3_text": "rangos, listas permitidas y combinaciones",
+            "exam_skill": "aplicar min/max y allowlist; combinar con and/or sin ambigüedad",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S03-T3-B",
+            "slug": "decision-tables-match",
+            "title": "Decision tables y match",
+            "v3_text": "decision tables y match cuando aporta claridad",
+            "exam_skill": "leer tabla de decisión; elegir if vs match apropiado",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S03-T4",
+        "title": "Verificación",
+        "subtopics": [
+          {
+            "subtopic_id": "S03-T4-A",
+            "slug": "invariants-examples",
+            "title": "Invariantes y ejemplos",
+            "v3_text": "invariantes y ejemplos",
+            "exam_skill": "enunciar invariante de un campo y proponer ejemplos accept/reject/review",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S03-T4-B",
+            "slug": "actionable-messages-branch-tests",
+            "title": "Mensajes accionables y pruebas de ramas",
+            "v3_text": "mensajes accionables y pruebas de ramas",
+            "exam_skill": "redactar mensaje que diga qué corregir; identificar caso de prueba por rama",
+            "exists_in_content": "partial",
+            "exists_in_exam": false,
+            "note": "We Do config keys y try/except messages son precursor débil"
+          }
+        ]
+      }
+    ]
+  },
+
+  "research_dossier": {
+    "S03-T1-A": {
+      "title": "Comparaciones y pertenencia",
+      "round_1_primary": [
+        {
+          "source": "Python Library — Built-in Types — Comparisons",
+          "url": "https://docs.python.org/3/library/stdtypes.html#comparisons",
+          "date_accessed": "2026-07-20",
+          "version_note": "Python 3.14.6 docs as of Jul 2026",
+          "key_facts": [
+            "Ocho comparaciones: < <= > >= == != is is not",
+            "Misma prioridad entre sí; mayor que Boolean ops",
+            "Encadenamiento: x < y <= z ≈ x < y and y <= z con y evaluado una vez",
+            "in / not in para membership en iterables o __contains__"
+          ]
+        },
+        {
+          "source": "Python Library — Membership test operations",
+          "url": "https://docs.python.org/3/library/stdtypes.html#common-sequence-operations",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "x in s verdadero si algún ítem igual a x",
+            "Útil para allowlists: if region in ALLOWED_REGIONS"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        {
+          "source": "CS50P — conditionals / comparisons pattern",
+          "url": "https://cs50.harvard.edu/python",
+          "date_accessed": "2026-07-20",
+          "use": "Secuencia: comparación simple antes de lógica booleana compuesta; no copiar exercises"
+        }
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Usar == para igualdad de valor; is solo para None/singletons (is None)",
+          "anti_pattern": "if x is 5  # identidad de int no es portable pedagógicamente; preferir =="
+        },
+        {
+          "pattern": "Pertenencia en set/list para allowlist: if status in {'activo', 'pendiente'}",
+          "anti_pattern": "cadenas de or interminables: status=='a' or status=='b' or ..."
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: comparar montos, edades, códigos de región con ==/<=/in",
+        "E1 guiado: completar expresiones de comparación",
+        "E2: validar si un código postal sintético está en lista permitida",
+        "E3 transferencia: diagnosticar por qué 1 == True es True pero no usar True como número en reglas de negocio"
+      ],
+      "authoring_notes": [
+        "Español: 'pertenencia' + glosa 'operador in'",
+        "Contexto intake: región, tipo_documento, estado_civil sintéticos",
+        "No profundizar en __eq__ custom (fuera de nivel)"
+      ],
+      "risks": ["No deprecado. Evitar enseñar is para igualdad de strings/números."]
+    },
+
+    "S03-T1-B": {
+      "title": "Truthiness y short-circuit",
+      "round_1_primary": [
+        {
+          "source": "Python Library — Truth Value Testing",
+          "url": "https://docs.python.org/3/library/stdtypes.html#truth-value-testing",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Cualquier objeto testeable en if/while",
+            "False: None, False, ceros numéricos, secuencias/colecciones vacías",
+            "Por defecto True si no __bool__/__len__ dicen lo contrario"
+          ]
+        },
+        {
+          "source": "Python Library — Boolean Operations and, or, not",
+          "url": "https://docs.python.org/3/library/stdtypes.html#boolean-operations-and-or-not",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "x or y: si x truthy → x, else y (short-circuit)",
+            "x and y: si x falsy → x, else y (short-circuit)",
+            "and/or devuelven operando, no necesariamente bool",
+            "not siempre True/False; not a == b es not (a == b)"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Bug pedagógico clásico: if monto: rechaza monto==0 cuando 0 es válido (ej. descuento cero)",
+        "V3 gate explícito: ninguna ausencia se confunde con valor falso válido"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Ausencia: value is None or key not in record",
+          "pattern_valid_falsy": "value == 0 or value == '' con reglas explícitas de dominio",
+          "anti_pattern": "if not value: reject  # confunde None, 0, '', False"
+        },
+        {
+          "demo_short_circuit": "condiciones caras o inseguras solo si la previa es true: if present and int(s) > 0"
+        }
+      ],
+      "round_4_pedagogy": [
+        "Tabla de verdad didáctica: valor | bool(v) | válido en campo X?",
+        "I Do: tres casos de campo 'dependientes': None → review, 0 → accept, '' → reject según regla",
+        "Examen: predecir resultado de a and b / a or b con strings/números"
+      ],
+      "authoring_notes": [
+        "Reutilizar idea de s02 pero con framing de validación de intake",
+        "Migrar ownership del slug truthiness desde basics en plan de seed (no editar seed aquí)",
+        "Nunca usar datos PII reales"
+      ],
+      "risks": [
+        "Overclaim: 'todo vacío es inválido' — depende del campo",
+        "and/or no convierten a bool — mencionar bool() cuando se necesite booleano estricto"
+      ]
+    },
+
+    "S03-T2-A": {
+      "title": "if/elif/else",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — 4.1 if Statements",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#if-statements",
+          "date_accessed": "2026-07-20",
+          "version_note": "Python 3.14.6 tutorial",
+          "key_facts": [
+            "0+ elif; else opcional",
+            "elif evita indentación excesiva",
+            "Secuencia if/elif como sustituto histórico de switch",
+            "Docs remiten a match cuando se compara mismo valor a constantes/tipos"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "CS50P: indentación como parte de la semántica",
+        "Enseñar traza mental: primera condición verdadera gana; else es catch-all"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Estados de validación con if/elif/else: accept / review / reject",
+          "anti_pattern": "múltiples if independientes que se pisan sin elif cuando se deseaba exclusión mutua"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: clasificar score de calidad de campo en tres bandas",
+        "E1: completar ramas; E2: reescribir ifs sueltos a if/elif; E3: trazar código con output"
+      ],
+      "authoring_notes": [
+        "Contenido de s02-basics 'Condicionales' es seed textual a no copiar literalmente; reescribir con dominio intake",
+        "Mencionar indentación 4 espacios (ya en cultura del curso)"
+      ],
+      "risks": ["No deprecado. No enseñar switch de otros lenguajes como si existiera en Python."]
+    },
+
+    "S03-T2-B": {
+      "title": "Guard clauses, anidamiento y ramas alcanzables",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — control flow (composition with if)",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Anidamiento es legal pero reduce legibilidad",
+            "No hay keyword 'guard' — es un patrón de early return/continue"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Patrón industria: validar precondiciones primero y salir; happy path al final (guard clause / early return)",
+        "Análisis de ramas alcanzables: condiciones contradictorias (edad < 0 y edad > 200 mutua en elif mal ordenado)"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "def validate(x):\\n  if x is None: return review\\n  if x in BLOCKLIST: return reject\\n  return accept",
+          "anti_pattern": "if x is not None:\\n  if x not in BLOCK:\\n    if ... # pirámide"
+        },
+        {
+          "reachable_branches": "Ordenar de más específico a más general; else final obligatorio en motor de reglas si se requiere decisión total"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: refactor de función anidada a guards",
+        "E3: detectar rama muerta (if x>10 ... elif x>100 nunca se alcanza si x>10 primero — wait, x>100 is subset of x>10 so second never if first catches — classic ordering bug)"
+      ],
+      "authoring_notes": [
+        "Introducir return temprano aunque funciones formales se profundizan en S5 V3 — usar funciones simples ya vistas en S02 provisional o lambdas no; def simple OK si S02 las tiene",
+        "V3 S2 no tiene funciones profundas; si S02 reescrito sin funciones, usar solo bloques if con flags status=..."
+      ],
+      "risks": [
+        "No exigir OOP. No enseñar exceptions como único control flow (S legacy exceptions; V3 S3 usa status codes de regla)"
+      ]
+    },
+
+    "S03-T3-A": {
+      "title": "Rangos, listas permitidas y combinaciones",
+      "round_1_primary": [
+        {
+          "source": "Comparisons + membership (stdtypes)",
+          "url": "https://docs.python.org/3/library/stdtypes.html#comparisons",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Rangos: min_v <= x <= max_v (chained)",
+            "Allowlist: x in ALLOWED",
+            "Blocklist: x not in FORBIDDEN"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Data quality 101: domain constraints antes de ML",
+        "Combinaciones: (región in PERU_REGIONS) and (18 <= edad <= 120)"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Constantes en UPPER_CASE al inicio del módulo: ALLOWED_DOC_TYPES = {'DNI', 'CE', 'PAS'}",
+          "anti_pattern": "números mágicos sin nombre en if"
+        },
+        {
+          "tri_state": "Fuera de rango → reject; en rango pero flag de calidad baja → review; ok → accept"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: regla de edad + tipo de documento sintéticos",
+        "E1: implement allowlist; E2: combinar rango+allowlist; E3: tabla de casos con outputs esperados"
+      ],
+      "authoring_notes": [
+        "Datos sintéticos: DNI ficticios no reales; nombres tipo 'María Quispe' ya usados en curso",
+        "No invocar APIs externas de validación de documentos"
+      ],
+      "risks": ["No confundir allowlist de negocio con seguridad de auth (S14+)."]
+    },
+
+    "S03-T3-B": {
+      "title": "Decision tables y match",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — match Statements",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#match-statements",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "match subject + case patterns; primer match gana",
+            "case _: wildcard",
+            "case 401 | 403 | 404: OR de literales",
+            "Puede bindear componentes; si nada matchea, no ejecuta rama"
+          ]
+        },
+        {
+          "source": "PEP 636 — Structural Pattern Matching Tutorial",
+          "url": "https://peps.python.org/pep-0636/",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Tutorial oficial del diseño de match",
+            "Útil para claridad cuando el sujeto es estado/código estructurado"
+          ]
+        },
+        {
+          "source": "Language reference — match statement",
+          "url": "https://docs.python.org/3/reference/compound_stmts.html#the-match-statement",
+          "date_accessed": "2026-07-20",
+          "key_facts": ["Added in 3.10", "See also PEP 634/635/636"]
+        }
+      ],
+      "round_2_curricular": [
+        "Decision table (negocio): columnas de condiciones, filas de casos, columna de acción — implementar con if o match",
+        "Enseñar match como opción de claridad, no obligación"
+      ],
+      "round_3_practical": [
+        {
+          "when_match": "status codes, enums de estado de campo, literales finitos",
+          "when_if": "rangos numéricos, combinaciones and/or complejas, guards con side conditions"
+        },
+        {
+          "decision_table_example": [
+            "doc_type=DNI, len=8 → accept",
+            "doc_type=DNI, len!=8 → reject",
+            "doc_type=CE, len in 9..12 → accept",
+            "doc_type desconocido → review"
+          ]
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: misma tabla en if/elif y en match para comparar legibilidad",
+        "E2: traducir 4 filas de tabla a código; E3: elegir if vs match con justificación breve"
+      ],
+      "authoring_notes": [
+        "Requiere Python 3.10+; alinear con S01 (3.12+)",
+        "No enseñar class patterns profundos ni __match_args__ en S03",
+        "Browser-pyodide: verificar soporte match en runtime de playground en PHASE 4"
+      ],
+      "risks": [
+        "No presentar match como switch de C",
+        "case sin match exhaustivo puede 'no hacer nada' — para motor de reglas preferir case _ → review/reject explícito"
+      ]
+    },
+
+    "S03-T4-A": {
+      "title": "Invariantes y ejemplos",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — doctest culture / examples as contracts (conceptual via docs examples)",
+          "url": "https://docs.python.org/3/library/doctest.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Ejemplos ejecutables documentan comportamiento esperado",
+            "Nivel S03: ejemplos en docstring o tabla de casos, no suite enterprise"
+          ]
+        },
+        {
+          "source": "unittest — basic assertions (branch thinking)",
+          "url": "https://docs.python.org/3/library/unittest.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "assertEqual / assertIsNone para fijar invariantes en tests",
+            "Testing profundo es S posterior; aquí solo idea de ejemplo como prueba"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Invariante de campo: 'si el campo está presente y es numérico, entonces 0 <= x <= 100 o status=reject'",
+        "Ejemplos canónicos por estado: al menos 1 accept, 1 reject, 1 review, 1 ausencia"
+      ],
+      "round_3_practical": [
+        {
+          "artifact": "FieldRule = {name, invariant_text, examples: [{input, expected_status, note}]}",
+          "capstone_link": "CP-N1-A reutilizará estas reglas en script stdin/stdout en S4"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: escribir invariante en español + 4 ejemplos para campo 'monto_ingreso'",
+        "E1: completar ejemplos faltantes; E2: detectar invariante roto por un ejemplo; E3: proponer invariante para nuevo campo"
+      ],
+      "authoring_notes": [
+        "Invariantes en español profesional; código en inglés snake_case",
+        "No salariales reales; no PII"
+      ],
+      "risks": [
+        "assert no es validación de producción (se desactiva con -O) — enseñar como ayuda de desarrollo, no como motor de reglas"
+      ]
+    },
+
+    "S03-T4-B": {
+      "title": "Mensajes accionables y pruebas de ramas",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Errors and Exceptions (messaging culture)",
+          "url": "https://docs.python.org/3/tutorial/errors.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Mensajes de error deben informar qué falló",
+            "En S03 el 'error' es status reject/review con message, no necesariamente exception"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Mensaje accionable: qué campo, qué valor (sanitizado), qué se esperaba, qué hacer",
+        "Prueba de rama: un caso por outcome de cada if/elif/else o case"
+      ],
+      "round_3_practical": [
+        {
+          "good_message": "Campo 'edad': recibido None (ausente). Se requiere entero 18–120 o marcar revisión manual.",
+          "bad_message": "Error. Inválido."
+        },
+        {
+          "branch_tests": "Lista de dicts: [{input, expected_status, expected_code}] y loop assert"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: mejorar mensajes de un validador ruidoso",
+        "E1: reescribir 3 mensajes; E2: añadir tests por rama; E3: fallar un test a propósito y arreglar regla"
+      ],
+      "authoring_notes": [
+        "No loguear secretos ni documentos reales en mensajes",
+        "Códigos estables: e.g. MISSING, OUT_OF_RANGE, NOT_IN_ALLOWLIST, NEEDS_REVIEW"
+      ],
+      "risks": [
+        "No convertir todo en excepciones; el gate V3 pide decisiones de campo explicables (status), no solo raise"
+      ]
+    }
+  },
+
+  "source_registry": [
+    {
+      "id": "SRC-S03-001",
+      "title": "Built-in Types — Truth Value Testing & Boolean Operations & Comparisons",
+      "url": "https://docs.python.org/3/library/stdtypes.html#truth-value-testing",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S03-T1-A", "S03-T1-B", "S03-T3-A"]
+    },
+    {
+      "id": "SRC-S03-002",
+      "title": "Python Tutorial — More Control Flow Tools (if, match)",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S03-T2-A", "S03-T2-B", "S03-T3-B"]
+    },
+    {
+      "id": "SRC-S03-003",
+      "title": "PEP 636 — Structural Pattern Matching: Tutorial",
+      "url": "https://peps.python.org/pep-0636/",
+      "type": "pep",
+      "accessed": "2026-07-20",
+      "subtopics": ["S03-T3-B"]
+    },
+    {
+      "id": "SRC-S03-004",
+      "title": "Language Reference — The match statement",
+      "url": "https://docs.python.org/3/reference/compound_stmts.html#the-match-statement",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S03-T3-B"]
+    },
+    {
+      "id": "SRC-S03-005",
+      "title": "doctest — Test interactive Python examples",
+      "url": "https://docs.python.org/3/library/doctest.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S03-T4-A"]
+    },
+    {
+      "id": "SRC-S03-006",
+      "title": "unittest — Unit testing framework",
+      "url": "https://docs.python.org/3/library/unittest.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S03-T4-A", "S03-T4-B"]
+    },
+    {
+      "id": "SRC-S03-007",
+      "title": "Python Tutorial — Errors and Exceptions",
+      "url": "https://docs.python.org/3/tutorial/errors.html",
+      "type": "official_docs",
+      "accessed": "2026-07-20",
+      "subtopics": ["S03-T4-B"]
+    },
+    {
+      "id": "SRC-S03-008",
+      "title": "CS50's Introduction to Programming with Python",
+      "url": "https://cs50.harvard.edu/python",
+      "type": "opencourseware",
+      "accessed": "2026-07-20",
+      "subtopics": ["S03-T1-A", "S03-T2-A", "pedagogy"]
+    },
+    {
+      "id": "SRC-S03-009",
+      "title": "learning_roadmap_52_V3.md S3 + CP-N1-A",
+      "url": "file://learning_roadmap_52_V3.md",
+      "type": "course_authority",
+      "accessed": "2026-07-20",
+      "subtopics": ["all", "capstone"]
+    },
+    {
+      "id": "SRC-S03-010",
+      "title": "learning_roadmap.md §3 Data Structures (platform id authority)",
+      "url": "file://learning_roadmap.md",
+      "type": "course_authority",
+      "accessed": "2026-07-20",
+      "subtopics": ["platform_id", "legacy_content"]
+    }
+  ],
+
+  "decisions_for_blueprint": [
+    {
+      "id": "DEC-S03-R01",
+      "decision": "Estructura canónica 4×2 con slugs: comparisons-membership, truthiness-shortcircuit, if-elif-else, guard-clauses, allowlists-ranges, decision-tables-match, invariants-examples, actionable-messages-branch-tests",
+      "authority": "V3 roadmap S3"
+    },
+    {
+      "id": "DEC-S03-R02",
+      "decision": "Mantener section_id de plataforma 'data-structures' y título de UI actual hasta migración coordinada; V3 title como learning focus / tagline secundario en blueprint",
+      "authority": "course_requirements authority_hierarchy + CONTRADICTION-S03-001"
+    },
+    {
+      "id": "DEC-S03-R03",
+      "decision": "API didáctica del motor: validate_field(...) → {status: accept|reject|review, code: str, message: str}; ausencia (None/missing key) nunca se colapsa con if not value",
+      "authority": "V3 S3 Incremento/gate"
+    },
+    {
+      "id": "DEC-S03-R04",
+      "decision": "match/case se enseña en T3-B como herramienta de claridad con case _ obligatorio en demos de reglas; if/elif sigue siendo default para rangos",
+      "authority": "docs.python.org controlflow + PEP 636 (2026-07-20)"
+    },
+    {
+      "id": "DEC-S03-R05",
+      "decision": "You Do TARGET = motor de reglas del intake (no Sales Log Parser). Legacy You Do se inventaría y se reubica (S4/S6), no se borra en research",
+      "authority": "V3 S3 project + CP-N1-A"
+    },
+    {
+      "id": "DEC-S03-R06",
+      "decision": "Entorno: browser-pyodide + local-python (stdlib only). Verificar match en pyodide en PHASE 4",
+      "authority": "V3 S3 environment"
+    },
+    {
+      "id": "DEC-S03-R07",
+      "decision": "No copiar ejercicios de CS50P; solo patrones de secuencia. No editar s02/seed en esta lane",
+      "authority": "Prompt invariante + Do NOT edit list"
+    },
+    {
+      "id": "DEC-S03-R08",
+      "decision": "Contenido legado de s03-data-structures.ts se planifica hacia V3 S6 (colecciones) y no se elimina en PHASE 2–3",
+      "authority": "LANE-S03 instructions + V3 S6"
+    }
+  ],
+
+  "misconceptions_to_address": [
+    "if value: como único test de presencia (rompe con 0 y '')",
+    "Confundir = con == (también en S02; reforzar en contexto if)",
+    "Creer que and/or siempre devuelven True/False",
+    "Usar is para comparar números o strings",
+    "Ramas elif inalcanzables por mal orden de condiciones",
+    "match es un switch de C o reemplaza todos los if",
+    "Mensajes 'Error' sin decir qué campo ni cómo corregir",
+    "Usar assert como validación de datos de usuario en producción",
+    "Ausencia (None) = rechazo automático sin política review",
+    "Confundir coincidencia de valores con parentesco/fraude (N/A contenido pero principio global)"
+  ],
+
+  "capstone_increment_research": {
+    "active_capstone": "CP-N1-A — Client Intake & Data Quality Script",
+    "gate_section": "S04",
+    "s03_increment": "Motor de reglas del intake: validar campos sintéticos (nombre, apellidos, contacto, región, tipo_doc, monto) con estados accept/reject/review, mensajes accionables y suite de ejemplos/pruebas de ramas",
+    "acceptance_seeds": [
+      "Al menos 3 reglas de campo con tri-estado",
+      "Caso None/missing → review o reject según política documentada, NUNCA colapsado vía if not value cuando 0/'' son válidos en otro campo",
+      "Caso 0 o '' válido no se rechaza por truthiness genérica",
+      "Salida estructurada (dict/JSON) con status+code+message",
+      "README o docstring lista invariantes en español",
+      "Datos sintéticos sin PII real"
+    ],
+    "handoff_to_s04": "S4 itera múltiples registros, resume tasas de error y cierra CP-N1-A CLI/pipeline"
+  },
+
+  "legacy_content_preservation": {
+    "file": "src/lib/course/sections/s03-data-structures.ts",
+    "action_in_phase_2": "inventory_only",
+    "do_not_delete": true,
+    "recommended_future_homes": {
+      "list_dict_set_theory": "V3 S6 Colecciones",
+      "nested_structures": "V3 S6 T3 Composición",
+      "csv_json_files": "secciones de I/O / data acquisition posteriores",
+      "try_except": "errores o mensajes T4 (parcial) / sección de robustez",
+      "sales_log_parser_youdo": "V3 S4 resúmenes transaccionales o S6 proyecto"
+    }
+  },
+
+  "phase_2_gate": {
+    "four_rounds_per_subtopic": true,
+    "subtopics_covered": 8,
+    "sources_registered": 10,
+    "deprecation_checked": true,
+    "decisions_ready_for_blueprint": true,
+    "new_p0_p1_from_research": 0,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3_BLUEPRINT",
+    "section_marked_passed": false,
+    "notes": "Research complete. P0 temático S03-CONTENT-001 sigue open (contenido legacy). No content authored. Ready for blueprint."
+  },
+
+  "retrospection": {
+    "what_worked": [
+      "V3 S3 T1–T4 es nítido para 4×2 y slugs estables",
+      "Docs oficiales stdtypes+controlflow cubren 90% de T1–T3 sin material secundario",
+      "Gate V3 (ausencia vs falsy) da un hilo conductor fuerte para todo el dossier"
+    ],
+    "what_to_improve": [
+      "Coordinar con LANE-S02 el ownership de truthiness/if en seed",
+      "Smoke-test match en pyodide antes de demos browser en PHASE 4"
+    ],
+    "evidence_quality": "Fuentes primarias oficiales + PEP + OCW; sin copiar ejercicios; access dates 2026-07-20",
+    "next_single_action": "PHASE 3 — Blueprint S03: 4×2 con outcomes, 8 demos, 24 ejercicios, 4 topic evals, 24 A/B/C slots, incremento CP-N1-A; validar conteos."
+  }
+}

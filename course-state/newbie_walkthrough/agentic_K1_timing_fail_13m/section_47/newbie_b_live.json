@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 47,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s47-1046cfbfb637",
+  "production_note": "agentic_K1 dual-LLM Skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "code": "# Skeptic packet solve S47-T1-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"tolerance\":0.01}}\nmeets_contract = abs(record[\"metric\"] - record[\"rerun_metric\"]) <= record[\"tolerance\"]\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "tracking y reproducibilidad",
+        "T1"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «tracking y reproducibilidad» usando el fixture CASO-TAC-047 del paquete activo; la rama esperada distingue MARK_RUN_NONREPRODUCIBLE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "code": "# Skeptic packet solve S47-T1-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'params', 'metric', 'seed', 'tolerance', 'rerun_metric', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (abs(record[\"metric\"] - record[\"rerun_metric\"]) <= record[\"tolerance\"]) else 'MARK_RUN_NONREPRODUCIBLE'\n\nvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 100.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\nincomplete = {**valid}\nincomplete.pop('tolerance', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "tracking y reproducibilidad",
+        "T1"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «tracking y reproducibilidad» usando la instruction de S47-T1-A-E2 y sus hints de dominio; la rama esperada distingue PASS, MARK_RUN_NONREPRODUCIBLE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "code": "# Skeptic packet solve S47-T1-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'params', 'metric', 'seed', 'tolerance', 'rerun_metric', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INVESTIGATE_RANDOMNESS'\n    return 'CONTINUE' if (abs(record[\"metric\"] - record[\"rerun_metric\"]) <= record[\"tolerance\"]) else 'MARK_RUN_NONREPRODUCIBLE'\n\nvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 100.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\nincomplete = {**valid}\nincomplete.pop('tolerance', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'INVESTIGATE_RANDOMNESS', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [
+        "tracking y reproducibilidad",
+        "T1"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «tracking y reproducibilidad» usando theory «tracking y reproducibilidad» y el iDo de la sección; la rama esperada distingue MARK_RUN_NONREPRODUCIBLE, INVESTIGATE_RANDOMNESS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "code": "# Skeptic packet solve S47-T1-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v1\",\"metric_definition\":\"f1-v2\",\"candidate\":0.82,\"baseline\":0.78}}\nmeets_contract = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.6,
+      "blocked_on": [],
+      "concepts_used": [
+        "data/code/env lineage y comparación",
+        "T1"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «data/code/env lineage y comparación» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue INVALIDATE_COMPARISON y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "code": "# Skeptic packet solve S47-T1-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'code', 'split', 'candidate', 'metric_definition', 'env', 'baseline', 'data', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])) else 'INVALIDATE_COMPARISON'\n\nvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 100.78}\nincomplete = {**valid}\nincomplete.pop('baseline', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [
+        "data/code/env lineage y comparación",
+        "T1"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «data/code/env lineage y comparación» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, INVALIDATE_COMPARISON y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "code": "# Skeptic packet solve S47-T1-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'code', 'split', 'candidate', 'metric_definition', 'env', 'baseline', 'data', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RESTORE_LINEAGE'\n    return 'CONTINUE' if (not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])) else 'INVALIDATE_COMPARISON'\n\nvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 100.78}\nincomplete = {**valid}\nincomplete.pop('baseline', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'RESTORE_LINEAGE', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "data/code/env lineage y comparación",
+        "T1"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «data/code/env lineage y comparación» usando el fixture CASO-TAC-047 del paquete activo; la rama esperada distingue INVALIDATE_COMPARISON, RESTORE_LINEAGE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "code": "# Skeptic packet solve S47-T2-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{\"priority\":\"float\"},\"stage\":\"staging\",\"approved\":True}}\nmeets_contract = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "firmas, stages y approvals",
+        "T2"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «firmas, stages y approvals» usando la instruction de S47-T2-A-E1 y sus hints de dominio; la rama esperada distingue DENY_MODEL_PROMOTION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "code": "# Skeptic packet solve S47-T2-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'approved', 'input_signature', 'output_signature', 'stage', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"approved\"] or record[\"stage\"] == \"production\")) else 'DENY_MODEL_PROMOTION'\n\nvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = {**valid}\nincomplete.pop('approved', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "firmas, stages y approvals",
+        "T2"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «firmas, stages y approvals» usando theory «firmas, stages y approvals» y el iDo de la sección; la rama esperada distingue PASS, DENY_MODEL_PROMOTION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "code": "# Skeptic packet solve S47-T2-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'approved', 'input_signature', 'output_signature', 'stage', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_MODEL_APPROVAL'\n    return 'CONTINUE' if (not (not record[\"approved\"] or record[\"stage\"] == \"production\")) else 'DENY_MODEL_PROMOTION'\n\nvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = {**valid}\nincomplete.pop('approved', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REQUEST_MODEL_APPROVAL', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "firmas, stages y approvals",
+        "T2"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «firmas, stages y approvals» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue DENY_MODEL_PROMOTION, REQUEST_MODEL_APPROVAL y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "code": "# Skeptic packet solve S47-T2-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\nmeets_contract = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "artefactos, model card y compatibilidad",
+        "T2"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «artefactos, model card y compatibilidad» usando el escenario sintético sin PII del curso; la rama esperada distingue REJECT_MODEL_ARTIFACT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "code": "# Skeptic packet solve S47-T2-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'card_sections', 'feature_version', 'serving_feature_version', 'artifact_digest', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)) else 'REJECT_MODEL_ARTIFACT'\n\nvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\ninvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3_ADV', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\nincomplete = {**valid}\nincomplete.pop('card_sections', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "artefactos, model card y compatibilidad",
+        "T2"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «artefactos, model card y compatibilidad» usando el fixture fixture de S47-T2-B-E2 del paquete activo; la rama esperada distingue PASS, REJECT_MODEL_ARTIFACT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "code": "# Skeptic packet solve S47-T2-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'card_sections', 'feature_version', 'serving_feature_version', 'artifact_digest', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COMPLETE_MODEL_CARD'\n    return 'CONTINUE' if (not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)) else 'REJECT_MODEL_ARTIFACT'\n\nvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\ninvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3_ADV', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\nincomplete = {**valid}\nincomplete.pop('card_sections', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'COMPLETE_MODEL_CARD', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "artefactos, model card y compatibilidad",
+        "T2"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «artefactos, model card y compatibilidad» usando la instruction de S47-T2-B-E3 y sus hints de dominio; la rama esperada distingue REJECT_MODEL_ARTIFACT, COMPLETE_MODEL_CARD y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "code": "# Skeptic packet solve S47-T3-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"leakage\":False,\"contract_tests\":3}}\nmeets_contract = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [
+        "batch/online y feature consistency",
+        "T3"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «batch/online y feature consistency» usando theory «batch/online y feature consistency» y el iDo de la sección; la rama esperada distingue DISABLE_INCONSISTENT_SERVING y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "code": "# Skeptic packet solve S47-T3-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'leakage', 'contract_tests', 'batch_features', 'online_features', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])) else 'DISABLE_INCONSISTENT_SERVING'\n\nvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\nincomplete = {**valid}\nincomplete.pop('contract_tests', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "concepts_used": [
+        "batch/online y feature consistency",
+        "T3"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «batch/online y feature consistency» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue PASS, DISABLE_INCONSISTENT_SERVING y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "code": "# Skeptic packet solve S47-T3-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'leakage', 'contract_tests', 'batch_features', 'online_features', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'TRACE_FEATURE_PIPELINE'\n    return 'CONTINUE' if (not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])) else 'DISABLE_INCONSISTENT_SERVING'\n\nvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\nincomplete = {**valid}\nincomplete.pop('contract_tests', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'TRACE_FEATURE_PIPELINE', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "batch/online y feature consistency",
+        "T3"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «batch/online y feature consistency» usando el escenario sintético sin PII del curso; la rama esperada distingue DISABLE_INCONSISTENT_SERVING, TRACE_FEATURE_PIPELINE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "code": "# Skeptic packet solve S47-T3-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fallback_tested\":True}}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "latency, batching y fallback",
+        "T3"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «latency, batching y fallback» usando el fixture CASO-TAC-047 del paquete activo; la rama esperada distingue ACTIVATE_SAFE_FALLBACK y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "code": "# Skeptic packet solve S47-T3-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'batch_size', 'p95_ms', 'slo_ms', 'fallback_tested', 'fallback', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])) else 'ACTIVATE_SAFE_FALLBACK'\n\nvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 1120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\nincomplete = {**valid}\nincomplete.pop('fallback_tested', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "latency, batching y fallback",
+        "T3"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «latency, batching y fallback» usando la instruction de S47-T3-B-E2 y sus hints de dominio; la rama esperada distingue PASS, ACTIVATE_SAFE_FALLBACK y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "code": "# Skeptic packet solve S47-T3-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'batch_size', 'p95_ms', 'slo_ms', 'fallback_tested', 'fallback', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'TUNE_BATCH_OR_CAPACITY'\n    return 'CONTINUE' if (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])) else 'ACTIVATE_SAFE_FALLBACK'\n\nvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 1120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\nincomplete = {**valid}\nincomplete.pop('fallback_tested', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'TUNE_BATCH_OR_CAPACITY', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "latency, batching y fallback",
+        "T3"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «latency, batching y fallback» usando theory «latency, batching y fallback» y el iDo de la sección; la rama esperada distingue ACTIVATE_SAFE_FALLBACK, TUNE_BATCH_OR_CAPACITY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "code": "# Skeptic packet solve S47-T4-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\nmeets_contract = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "shadow/canary y monitoring hooks",
+        "T4"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «shadow/canary y monitoring hooks» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue STOP_CANARY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "code": "# Skeptic packet solve S47-T4-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'error_rate', 'max_error_rate', 'mode', 'traffic_pct', 'max_quality_drop', 'quality_delta', 'hooks', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])) else 'STOP_CANARY'\n\nvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 1005, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = {**valid}\nincomplete.pop('hooks', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "shadow/canary y monitoring hooks",
+        "T4"
+      ],
+      "justification_from_packet": "Confirmé fallo cerrado en «shadow/canary y monitoring hooks» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, STOP_CANARY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "code": "# Skeptic packet solve S47-T4-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'error_rate', 'max_error_rate', 'mode', 'traffic_pct', 'max_quality_drop', 'quality_delta', 'hooks', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COLLECT_MORE_SHADOW_EVIDENCE'\n    return 'CONTINUE' if (not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])) else 'STOP_CANARY'\n\nvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 1005, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = {**valid}\nincomplete.pop('hooks', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'COLLECT_MORE_SHADOW_EVIDENCE', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "shadow/canary y monitoring hooks",
+        "T4"
+      ],
+      "justification_from_packet": "Revalidé con escepticismo el contrato de «shadow/canary y monitoring hooks» usando el fixture CASO-TAC-047 del paquete activo; la rama esperada distingue STOP_CANARY, COLLECT_MORE_SHADOW_EVIDENCE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "code": "# Skeptic packet solve S47-T4-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"rollback_tested\":True,\"retired\":{\"1.0.0\"},\"audit_entry\":True}}\nmeets_contract = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\nassert status == \"PASS\", status\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "rollback, retirement y audit",
+        "T4"
+      ],
+      "justification_from_packet": "Comprobé que el predicado de «rollback, retirement y audit» usando la instruction de S47-T4-B-E1 y sus hints de dominio; la rama esperada distingue ROLLBACK_TO_LAST_GOOD y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "code": "# Skeptic packet solve S47-T4-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'compatible_features', 'audit_entry', 'retired', 'last_good', 'current', 'rollback_tested', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])) else 'ROLLBACK_TO_LAST_GOOD'\n\nvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = {**valid}\nincomplete.pop('audit_entry', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\nassert results[0] == 'PASS' and results[2].startswith('MISSING'), results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.58,
+      "blocked_on": [],
+      "concepts_used": [
+        "rollback, retirement y audit",
+        "T4"
+      ],
+      "justification_from_packet": "Crucé hints y theory para «rollback, retirement y audit» usando theory «rollback, retirement y audit» y el iDo de la sección; la rama esperada distingue PASS, ROLLBACK_TO_LAST_GOOD y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "code": "# Skeptic packet solve S47-T4-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'compatible_features', 'audit_entry', 'retired', 'last_good', 'current', 'rollback_tested', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_RETIREMENT'\n    return 'CONTINUE' if (not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])) else 'ROLLBACK_TO_LAST_GOOD'\n\nvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = {**valid}\nincomplete.pop('audit_entry', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\nassert results[0] == 'CONTINUE' and results[2] == 'REVIEW_RETIREMENT', results\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "rollback, retirement y audit",
+        "T4"
+      ],
+      "justification_from_packet": "Audité la salida del gate de «rollback, retirement y audit» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue ROLLBACK_TO_LAST_GOOD, REVIEW_RETIREMENT y no inventa evidencia ni oculta el fallo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.58,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «rerun dentro de tolerancia declarada» para «¿Qué evidencia permite aprobar `tracking y reproducibilidad` en CASO-TAC-047?» porque la theory/outcomes de S47 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 2 del quiz_card activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.69,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «emitir ROLLBACK_MODEL y conservar evidencia» para «Si ocurre la condición de error de S47, ¿qué respuesta preserva seguridad y audi» porque la theory/outcomes de S47 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 0 del quiz_card activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.8,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia» para «¿Cuál resultado demuestra el gate `CP-N4-B + CF-4 · modelo promovible y reversib» porque la theory/outcomes de S47 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 1 del quiz_card activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.55,
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic confirmo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para «¿Qué tratamiento de `CASO-TAC-047` respeta el alcance del curso?» porque la theory/outcomes de S47 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 3 del quiz_card activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:32:58.345698+00:00",
+  "session_started_at": "2026-07-23T13:32:42.944255+00:00",
+  "session_ended_at": "2026-07-23T13:32:58.343034+00:00",
+  "receipt_response_sha256": "f8bc64f0bc95fdda2d680d89d0872139cf036e9ede54044f5b7e777d276cae83",
+  "receipt_exercises_sha256": "6b27dc2311e226a5267bd9f5fb52db42db9858c59e1437e68680a3f1fd13e49c",
+  "receipt_selfcheck_sha256": "a83f77844f9926062ae571162ac797d2dc7de836afbc550d3a987d25dacc8400"
+}

@@ -1,0 +1,5 @@
+# S35 DONE — S23–S35 band close
+When: 2026-07-24T04:45:39.504+00:00
+STORM n=35
+PA ≥9.55
+soft=0 DEFECT=48

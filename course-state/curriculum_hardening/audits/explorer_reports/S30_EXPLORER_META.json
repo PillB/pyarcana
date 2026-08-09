@@ -1,0 +1,9 @@
+{
+  "section": 30,
+  "id": "security-infra",
+  "file": "src/lib/course/sections/s30-security-infra.ts",
+  "score_1_to_10": 4.2,
+  "issue_count": 25,
+  "meta_leak_count": 11,
+  "status": "complete"
+}

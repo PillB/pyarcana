@@ -1,0 +1,93 @@
+{
+  "id": "CP-FINAL",
+  "gate_section": "S52",
+  "package_version": "2.0.0",
+  "files": [
+    "gate.json",
+    "demo.py",
+    "evidence_manifest.json",
+    "RUN.md",
+    "system_or_data_card.md",
+    "execution.json",
+    "BRIEF.md",
+    "RUBRIC.json",
+    "ARCHITECTURE.md",
+    "FINAL_INTERFACE.md",
+    "SECURITY.md",
+    "PRIVACY.md",
+    "ACCESSIBILITY.md",
+    "RESPONSIBLE_USE.md",
+    "IDO.md",
+    "WEDO.md",
+    "YOUDO.md",
+    "data/generate.py",
+    "STARTER/scaffold.py",
+    "STARTER/README.md",
+    "integration/__init__.py",
+    "integration/contracts.py",
+    "integration/shared_scenario.py",
+    "integration/dependency_graph.py",
+    "integration/platform.py",
+    "integration/intake.py",
+    "integration/etl.py",
+    "integration/familiarity.py",
+    "integration/eda.py",
+    "integration/reports.py",
+    "integration/rpa.py",
+    "integration/er.py",
+    "integration/graph.py",
+    "integration/triage.py",
+    "integration/service.py",
+    "integration/platform_ml.py",
+    "integration/copilot.py",
+    "integration/no_go.py",
+    "integration/backup_restore.py",
+    "integration/rollback.py",
+    "integration/contract_tests.py",
+    "integration/e2e_test.py"
+  ],
+  "commands": [
+    {
+      "cmd": "python3 demo.py",
+      "cwd": "course-state/capstones/CP-FINAL",
+      "expected_exit_code": 0,
+      "expected_stdout_contains": [
+        "METRICS_JSON:",
+        "CP-FINAL",
+        "\"status\": \"pass\"",
+        "\"subsystem_count\": 12"
+      ]
+    },
+    {
+      "cmd": "python3 -m unittest integration.contract_tests integration.e2e_test -v",
+      "cwd": "course-state/capstones/CP-FINAL",
+      "expected_exit_code": 0,
+      "expected_stdout_contains": [
+        "OK"
+      ]
+    },
+    {
+      "cmd": "python3 ../tests/adversarial/test_cp_final_integration.py",
+      "cwd": "course-state/capstones/CP-FINAL",
+      "expected_exit_code": 0,
+      "expected_stdout_contains": [
+        "PASS",
+        "cp_final"
+      ]
+    }
+  ],
+  "expected_outcomes": [
+    "Proceso termina con exit code 0",
+    "Línea METRICS_JSON con status=pass y subsystem_count=12",
+    "Sin PII real en salida",
+    "Sin red ni dependencias de pago obligatorias",
+    "12 contratos compatibles (contract_id + contract_version)",
+    "Traza end-to-end presente y ordenada",
+    "Evidence bundle con contratos + traza + grafo + tarjetas",
+    "Rollback demostrado y no-go condition funcional",
+    "Reproducible dada la misma semilla del escenario"
+  ],
+  "optional_deps": [],
+  "optional_deps_policy": "El demo usa únicamente stdlib de Python; no hay dependencias opcionales.",
+  "generated_at": "2026-07-20T14:53:43Z"
+}

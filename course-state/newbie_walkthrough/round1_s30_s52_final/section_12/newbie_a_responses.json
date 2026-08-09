@@ -1,0 +1,504 @@
+{
+  "agent": "a",
+  "section_index": 12,
+  "recorded_at": "2026-08-01T15:19:25.816153+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "chosen_text": "Tratarse como error de cliente (no retry ciego)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          1.0,
+          2.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "En variable de entorno / secret store",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          4.0,
+          2.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "Inyección / inseguro; usar placeholders `?`",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          2.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Está permitido si hay timeout",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "chosen_text": "Una geoseñal de relación, no un veredicto",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          1.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "chosen_text": "Nunca: hay que traer todo en un solo GET",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          5.15,
+          2.0,
+          7.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 1,
+        "chosen_text": "Solo la última fila ofensora",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          4.0,
+          3.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S12-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · get_entity\n# DEFECT: siempre 200 y body vacío\nstore = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\ndef get_entity(store, entity_id):\n    return 200, {}\nprint(get_entity(store, \"C001\"))\nprint(get_entity(store, \"C999\"))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "abre",
+          "sin",
+          "ambos",
+          "está",
+          "texto",
+          "existe"
+        ]
+      },
+      {
+        "exercise_id": "S12-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · parse_entity\n# DEFECT: no valida keys; devuelve payload crudo\ndef parse_entity(payload):\n    return payload\nprint(parse_entity({\"id\": \"C001\", \"region\": \"Lima\", \"extra\": 1}))\nprint(parse_entity({\"id\": \"C001\"}))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "exige",
+          "claves",
+          "starter",
+          "dos",
+          "revisa",
+          "imprime",
+          "sin",
+          "tipo"
+        ]
+      },
+      {
+        "exercise_id": "S12-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · status_action (política N1)\n# DEFECT: 429 y 500 van a fail_client; 503 no contemplado\ndef status_action(code):\n    if code == 200:\n        return \"use_body\"\n    if code == 404:\n        return \"missing\"\n    if code in (429, 500):\n        return \"fail_client\"\n    if code == 400:\n        return \"fix_client\"\n    return \"unknown\"\nfor code in [200, 404, 429, 400, 500, 503]:\n    print(code, status_action(code))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "código",
+          "mapa",
+          "corrige",
+          "imprime",
+          "acciones",
+          "está",
+          "fail_server",
+          "acción"
+        ]
+      },
+      {
+        "exercise_id": "S12-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · timeout\n# DEFECT: compara al revés (cost < timeout es timeout)\ndef fetch(timeout_s, cost_s):\n    if cost_s < timeout_s:\n        return \"timeout\"\n    return \"ok\"\nprint(fetch(2.0, 0.5))\nprint(fetch(1.0, 3.0))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dos",
+          "contrario",
+          "starter",
+          "imprime",
+          "límite",
+          "condición",
+          "invierte",
+          "costo"
+        ]
+      },
+      {
+        "exercise_id": "S12-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · paginación\n# DEFECT: solo primera página\napi = {\n    1: {\"items\": [\"a\"], \"next\": 2},\n    2: {\"items\": [\"b\", \"c\"], \"next\": None},\n}\ndef collect_all(api):\n    return list(api[1][\"items\"])\nprint(collect_all(api))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "plana",
+          "starter",
+          "imprime",
+          "sin",
+          "avanza",
+          "paso",
+          "devuelve",
+          "parte"
+        ]
+      },
+      {
+        "exercise_id": "S12-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · should_retry\n# DEFECT: reintenta 4xx de cliente\ndef should_retry(status):\n    return status >= 400\nfor s in [400, 404, 429, 503, 200]:\n    print(s, should_retry(s))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "booleano",
+          "imprime",
+          "false",
+          "retry",
+          "todo",
+          "lista",
+          "marca"
+        ]
+      },
+      {
+        "exercise_id": "S12-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · require_token\n# DEFECT: devuelve \"\" en vez de raise\ndef require_token(env):\n    return env.get(\"API_TOKEN\", \"\")\nprint(require_token({\"API_TOKEN\": \"abc\"}))\ntry:\n    print(require_token({}))\nexcept ValueError as e:\n    print(str(e))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "devuélvelo",
+          "ver",
+          "falsy",
+          "usa",
+          "deja",
+          "nunca",
+          "missing"
+        ]
+      },
+      {
+        "exercise_id": "S12-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · Cache get/set\n# DEFECT: get siempre miss; set no-op\nclass Cache:\n    def __init__(self):\n        self._data = {}\n    def get(self, url):\n        return None, False\n    def set(self, url, body):\n        pass\nc = Cache()\nc.set(\"u1\", {\"ok\": True})\nprint(c.get(\"u1\"))\nprint(c.get(\"missing\"))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "hit",
+          "clave",
+          "existe"
+        ]
+      },
+      {
+        "exercise_id": "S12-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · provenance mínima\n# DEFECT: omite status y cache_hit\ndef min_provenance(url, status, cache_hit):\n    return {\"source_url\": url, \"fetched_at\": \"2026-07-20T00:00:00Z\"}\nprint(sorted(min_provenance(\"https://x\", 200, False).items()))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "timestamp",
+          "starter",
+          "imprime",
+          "desde",
+          "parámetros",
+          "devuelve",
+          "clave",
+          "hay"
+        ]
+      },
+      {
+        "exercise_id": "S12-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · assert_keys\n# DEFECT: no valida; siempre pasa\ndef assert_keys(payload, required):\n    return True\nassert_keys({\"lat\": 1, \"lon\": 2}, [\"lat\", \"lon\"])\nprint(\"ok\")\ntry:\n    assert_keys({\"lat\": 1}, [\"lat\", \"lon\"])\n    print(\"passed_bad\")\nexcept AssertionError as e:\n    print(e)\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "raise",
+          "luego",
+          "deja",
+          "set",
+          "pedido",
+          "incompleto",
+          "runner"
+        ]
+      },
+      {
+        "exercise_id": "S12-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · fallback offline\n# DEFECT: ignora status; siempre online\ndef fetch_with_fallback(status, local_body):\n    return {\"online\": True}, \"online\"\nprint(fetch_with_fallback(200, {\"lat\": 0}))\nprint(fetch_with_fallback(503, {\"lat\": -12.0}))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "ambos",
+          "devuelve",
+          "contrario",
+          "casos"
+        ]
+      },
+      {
+        "exercise_id": "S12-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · operation_mode\n# DEFECT: siempre live_api aunque online=False\ndef operation_mode(online):\n    return \"live_api\"\nfor online in (True, False):\n    print(online, operation_mode(online))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fijo",
+          "starter",
+          "dejes",
+          "función",
+          "imprime",
+          "sin",
+          "devuelve",
+          "recorre"
+        ]
+      },
+      {
+        "exercise_id": "S12-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · CREATE evidence\n# DEFECT: tabla sin PRIMARY KEY; no inserta\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE evidence(id TEXT, entity_id TEXT, kind TEXT)\")\ncon.commit()\nprint(con.execute(\"SELECT COUNT(*) FROM evidence\").fetchone()[0])\ncon.close()\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "entero",
+          "c001",
+          "imprime",
+          "marcador",
+          "crea",
+          "añade",
+          "solo"
+        ]
+      },
+      {
+        "exercise_id": "S12-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · UPDATE/DELETE\n# DEFECT: no actualiza; count final incorrecto\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES (?,?)\", (\"C001\", \"Ana\"))\nprint(con.execute(\"SELECT name FROM clients WHERE id=?\", (\"C001\",)).fetchone()[0])\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "sin",
+          "inserta",
+          "cierra",
+          "conexión",
+          "set",
+          "haz"
+        ]
+      },
+      {
+        "exercise_id": "S12-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · JOIN\n# DEFECT: select sin JOIN; mezcla ids\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript(\"\"\"\nCREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\nINSERT INTO clients VALUES ('C001','Ana');\nINSERT INTO evidence VALUES ('E1','C001','geo');\nINSERT INTO evidence VALUES ('E2','C001','phone');\nINSERT INTO evidence VALUES ('E3','C002','geo');\n\"\"\")\nrows = con.execute(\"SELECT kind FROM evidence ORDER BY kind\").fetchall()\nprint([r[0] for r in rows])\ncon.close()\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "kinds",
+          "starter",
+          "imprime",
+          "tuplas",
+          "crudas",
+          "strings",
+          "lista",
+          "reescribe"
+        ]
+      },
+      {
+        "exercise_id": "S12-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · SQL injection safe\n# DEFECT: f-string concat (vulnerable)\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\nuser_id = \"C001' OR '1'='1\"\nprint(con.execute(f\"SELECT name FROM clients WHERE id = '{user_id}'\").fetchone())\ncon.close()\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "none",
+          "sanitices",
+          "imprime",
+          "cambia",
+          "mano",
+          "replace",
+          "debe"
+        ]
+      },
+      {
+        "exercise_id": "S12-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · transaction rollback\n# DEFECT: no rollback tras IntegrityError\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ntry:\n    con.execute(\"BEGIN\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.commit()\nexcept sqlite3.IntegrityError:\n    pass\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "atomic_batch",
+          "imprime",
+          "demo",
+          "dentro",
+          "captura",
+          "compara",
+          "revierte"
+        ]
+      },
+      {
+        "exercise_id": "S12-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · index\n# DEFECT: no crea índice document_id\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)\")\nnames = [r[1] for r in con.execute(\"PRAGMA index_list('clients')\").fetchall()]\nprint(sorted(names))\ncon.close()\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "idx_document_id",
+          "completa",
+          "imprime",
+          "sin",
+          "crear",
+          "haz",
+          "INDEX"
+        ]
+      },
+      {
+        "exercise_id": "S12-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · normalize_address\n# DEFECT: solo strip; no colapsa espacios\nimport re\ndef normalize_address(s):\n    return s.strip()\nprint(repr(normalize_address(\"  Jr.  de  la  Unión  100 \")))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "hace",
+          "imprime",
+          "cambies",
+          "aplica",
+          "ver",
+          "dobles",
+          "deja"
+        ]
+      },
+      {
+        "exercise_id": "S12-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · MockGeocoder\n# DEFECT: siempre coords de Lima (ignora la ciudad pedida)\nclass MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Madrid\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        lat, lon = self.DB[\"Lima\"]\n        return {\"city\": city, \"lat\": lat, \"lon\": lon, \"provider\": \"mock\"}\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"lat\"])\nprint(g.geocode(\"Cusco\"))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "usa",
+          "imprime",
+          "resultado"
+        ]
+      },
+      {
+        "exercise_id": "S12-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · allowlist payload\n# DEFECT: siempre True\nALLOWED = {\"address\", \"city\", \"country\"}\ndef allowed_for_public_geocoder(payload):\n    return True\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"address\": \"Av 1\"}))\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"document_id\": \"D1\"}))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "conjuntos",
+          "deben",
+          "estar",
+          "imprime",
+          "mano",
+          "ambos",
+          "usa"
+        ]
+      },
+      {
+        "exercise_id": "S12-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · valid lat/lon\n# DEFECT: no chequea lon\ndef valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90\nfor p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:\n    print(p, valid_lat_lon(*p))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "pares",
+          "cero",
+          "starter",
+          "inválidos",
+          "conviertas",
+          "rango",
+          "cuatro",
+          "recorre"
+        ]
+      },
+      {
+        "exercise_id": "S12-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · haversine\n# DEFECT: distancia euclídea * 111 (no haversine)\nimport math\ndef haversine_km(a, b):\n    return abs(a[1] - b[1]) * 111.0\nd = haversine_km((0.0, 0.0), (0.0, 1.0))\nprint(round(d, 2))\nassert abs(d - 111.19) < 0.05\nprint(\"tolerance_ok\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "pasa",
+          "starter",
+          "implementa",
+          "imprime",
+          "conserva",
+          "multiplica",
+          "estrecha",
+          "theory"
+        ]
+      },
+      {
+        "exercise_id": "S12-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-012 · relationship signal\n# DEFECT: inventa kinship_verdict True\ndef as_relationship_signal(km):\n    return {\n        \"type\": \"geo_distance_km\",\n        \"value\": km,\n        \"kinship_verdict\": True,\n    }\nprint(as_relationship_signal(1.2))\nprint('ok', True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "completo",
+          "ético",
+          "mantén",
+          "dict",
+          "fuerza",
+          "cambia"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "f79390ece9982be6"
+  }
+}

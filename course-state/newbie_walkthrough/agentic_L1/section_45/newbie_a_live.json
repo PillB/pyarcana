@@ -1,0 +1,449 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 45,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s45-5beb9055c8",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "code": "# Explorer · S45-T1-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\nmeets_contract = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\nstatus = \"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\"\nprint(\"S45-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «object store, relacional y cache» («Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache como registro autoritativo.»), el contrato de S45-T1-A-E1 exige demostrar object/relational por semántica y cache descartable. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REDESIGN_PERSISTENCE`.",
+      "concepts_used": [
+        "object",
+        "relational",
+        "por",
+        "semántica",
+        "cache",
+        "descartable"
+      ],
+      "confidence": 0.843
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "code": "# Explorer · S45-T1-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'blob_store', 'transactions', 'cache_authoritative', 'cache_ttl_s'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")) else \"REDESIGN_PERSISTENCE\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {\"case_id\": 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = {\"case_id\": 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «object store, relacional y cache» el paquete pide tres rutas; la teoría subraya: «Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache como registro autoritativo.». Para S45-T1-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple object/relational por semántica y cache descartable, y `REDESIGN_PERSISTENCE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "object",
+        "relational",
+        "por",
+        "semántica",
+        "cache",
+        "descartable"
+      ],
+      "confidence": 0.848
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "code": "# Explorer · S45-T1-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'blob_store', 'transactions', 'cache_authoritative', 'cache_ttl_s'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WRITE_STORE_ADR\"\n    return \"CONTINUE\" if (not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")) else \"REDESIGN_PERSISTENCE\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {\"case_id\": 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = {\"case_id\": 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «object store, relacional y cache» («Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses cache como registro autoritativo.») separa incertidumbre de breach. En S45-T1-A-E3 la ausencia enruta a `WRITE_STORE_ADR`, CONTINUE solo con object/relational por semántica y cache descartable, y el adverso a `REDESIGN_PERSISTENCE`, sin rellenar evidencia en Cloud, almacenamiento, colas e infraestructura.",
+      "concepts_used": [
+        "object",
+        "relational",
+        "por",
+        "semántica",
+        "cache",
+        "descartable"
+      ],
+      "confidence": 0.819
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "code": "# Explorer · S45-T1-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nmeets_contract = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\"\nprint(\"S45-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «consistencia, lifecycle y backups» («Consistencia se define por operación; lifecycle expira copias y backup solo cuenta cuando un restore medido cumple RPO/RTO.»), el contrato de S45-T1-B-E1 exige demostrar consistencia explícita y restore dentro de RPO/RTO. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DECLARE_DATA_LOSS_RISK`.",
+      "concepts_used": [
+        "consistencia",
+        "explícita",
+        "restore",
+        "dentro",
+        "RPO",
+        "RTO"
+      ],
+      "confidence": 0.803
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "code": "# Explorer · S45-T1-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'operation', 'consistency', 'backup_age_h', 'rpo_h', 'restore_minutes', 'rto_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])) else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {\"case_id\": 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 180, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nincomplete = {\"case_id\": 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «consistencia, lifecycle y backups» el paquete pide tres rutas; la teoría subraya: «Consistencia se define por operación; lifecycle expira copias y backup solo cuenta cuando un restore medido cumple RPO/RTO.». Para S45-T1-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple consistencia explícita y restore dentro de RPO/RTO, y `DECLARE_DATA_LOSS_RISK` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "consistencia",
+        "explícita",
+        "restore",
+        "dentro",
+        "RPO",
+        "RTO"
+      ],
+      "confidence": 0.772
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "code": "# Explorer · S45-T1-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'operation', 'consistency', 'backup_age_h', 'rpo_h', 'restore_minutes', 'rto_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RUN_RESTORE_DRILL\"\n    return \"CONTINUE\" if (not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])) else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {\"case_id\": 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 180, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nincomplete = {\"case_id\": 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «consistencia, lifecycle y backups» («Consistencia se define por operación; lifecycle expira copias y backup solo cuenta cuando un restore medido cumple RPO/RTO.») separa incertidumbre de breach. En S45-T1-B-E3 la ausencia enruta a `RUN_RESTORE_DRILL`, CONTINUE solo con consistencia explícita y restore dentro de RPO/RTO, y el adverso a `DECLARE_DATA_LOSS_RISK`, sin rellenar evidencia en Cloud, almacenamiento, colas e infraestructura.",
+      "concepts_used": [
+        "consistencia",
+        "explícita",
+        "restore",
+        "dentro",
+        "RPO",
+        "RTO"
+      ],
+      "confidence": 0.834
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "code": "# Explorer · S45-T2-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nmeets_contract = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\nstatus = \"PASS\" if meets_contract else \"NACK_AND_RETRY\"\nprint(\"S45-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «queue/event y delivery semantics» («Queue desacopla productor/consumidor; at-least-once exige ack después del efecto durable, retry con backoff y handlers idempotentes.»), el contrato de S45-T2-A-E1 exige demostrar ack posterior al efecto, key idempotente y backoff. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `NACK_AND_RETRY`.",
+      "concepts_used": [
+        "ack",
+        "posterior",
+        "efecto",
+        "key",
+        "idempotente",
+        "backoff"
+      ],
+      "confidence": 0.787
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "code": "# Explorer · S45-T2-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'delivery', 'effect_durable', 'acked_after_effect', 'idempotency_key', 'backoff'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])) else \"NACK_AND_RETRY\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {\"case_id\": 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = {\"case_id\": 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «queue/event y delivery semantics» el paquete pide tres rutas; la teoría subraya: «Queue desacopla productor/consumidor; at-least-once exige ack después del efecto durable, retry con backoff y handlers idempotentes.». Para S45-T2-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple ack posterior al efecto, key idempotente y backoff, y `NACK_AND_RETRY` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "ack",
+        "posterior",
+        "efecto",
+        "key",
+        "idempotente",
+        "backoff"
+      ],
+      "confidence": 0.843
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "code": "# Explorer · S45-T2-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'delivery', 'effect_durable', 'acked_after_effect', 'idempotency_key', 'backoff'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"VERIFY_DELIVERY_SEMANTICS\"\n    return \"CONTINUE\" if (not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])) else \"NACK_AND_RETRY\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {\"case_id\": 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = {\"case_id\": 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «queue/event y delivery semantics» («Queue desacopla productor/consumidor; at-least-once exige ack después del efecto durable, retry con backoff y handlers idempotentes.») separa incertidumbre de breach. En S45-T2-A-E3 la ausencia enruta a `VERIFY_DELIVERY_SEMANTICS`, CONTINUE solo con ack posterior al efecto, key idempotente y backoff, y el adverso a `NACK_AND_RETRY`, sin rellenar evidencia en Cloud, almacenamiento, colas e infraestructura.",
+      "concepts_used": [
+        "ack",
+        "posterior",
+        "efecto",
+        "key",
+        "idempotente",
+        "backoff"
+      ],
+      "confidence": 0.794
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "code": "# Explorer · S45-T2-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\nmeets_contract = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\nstatus = \"PASS\" if meets_contract else \"DEDUP_OR_DLQ\"\nprint(\"S45-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «dedup, ordering y dead-letter» («Dedup usa clave estable, ordering solo donde importa y DLQ conserva razón/intentos/payload seguro para replay controlado.»), el contrato de S45-T2-B-E1 exige demostrar deduplicación, ordering acotado y terminal en DLQ. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DEDUP_OR_DLQ`.",
+      "concepts_used": [
+        "deduplicación",
+        "ordering",
+        "acotado",
+        "terminal",
+        "DLQ"
+      ],
+      "confidence": 0.833
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "code": "# Explorer · S45-T2-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'message_ids', 'processed_ids', 'ordered_partition', 'terminal_in_dlq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])) else \"DEDUP_OR_DLQ\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {\"case_id\": 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': False}\nincomplete = {\"case_id\": 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «dedup, ordering y dead-letter» el paquete pide tres rutas; la teoría subraya: «Dedup usa clave estable, ordering solo donde importa y DLQ conserva razón/intentos/payload seguro para replay controlado.». Para S45-T2-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple deduplicación, ordering acotado y terminal en DLQ, y `DEDUP_OR_DLQ` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "deduplicación",
+        "ordering",
+        "acotado",
+        "terminal",
+        "DLQ"
+      ],
+      "confidence": 0.725
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "code": "# Explorer · S45-T2-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'message_ids', 'processed_ids', 'ordered_partition', 'terminal_in_dlq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INSPECT_MESSAGE_ORDER\"\n    return \"CONTINUE\" if (not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])) else \"DEDUP_OR_DLQ\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {\"case_id\": 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': False}\nincomplete = {\"case_id\": 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «dedup, ordering y dead-letter» («Dedup usa clave estable, ordering solo donde importa y DLQ conserva razón/intentos/payload seguro para replay controlado.») separa incertidumbre de breach. En S45-T2-B-E3 la ausencia enruta a `INSPECT_MESSAGE_ORDER`, CONTINUE solo con deduplicación, ordering acotado y terminal en DLQ, y el adverso a `DEDUP_OR_DLQ`, sin rellenar evidencia en Cloud, almacenamiento, colas e infraestructura.",
+      "concepts_used": [
+        "deduplicación",
+        "ordering",
+        "acotado",
+        "terminal",
+        "DLQ"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "code": "# Explorer · S45-T3-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nmeets_contract = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\nstatus = \"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\"\nprint(\"S45-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «compute, autoscaling y networking» («Autoscaling usa una señal vinculada al backlog/SLO, networking segmenta y capacidad máxima considera cuotas, warm-up y backpressure.»), el contrato de S45-T3-A-E1 exige demostrar workers dentro de cuota y backlog por worker bajo objetivo. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `APPLY_BACKPRESSURE`.",
+      "concepts_used": [
+        "workers",
+        "dentro",
+        "cuota",
+        "backlog",
+        "por",
+        "worker",
+        "bajo",
+        "objetivo"
+      ],
+      "confidence": 0.771
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "code": "# Explorer · S45-T3-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'backlog', 'workers', 'target_per_worker', 'quota_workers', 'private_network', 'backpressure'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])) else \"APPLY_BACKPRESSURE\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {\"case_id\": 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': False}\nincomplete = {\"case_id\": 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «compute, autoscaling y networking» el paquete pide tres rutas; la teoría subraya: «Autoscaling usa una señal vinculada al backlog/SLO, networking segmenta y capacidad máxima considera cuotas, warm-up y backpressure.». Para S45-T3-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple workers dentro de cuota y backlog por worker bajo objetivo, y `APPLY_BACKPRESSURE` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "workers",
+        "dentro",
+        "cuota",
+        "backlog",
+        "por",
+        "worker",
+        "bajo",
+        "objetivo"
+      ],
+      "confidence": 0.84
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "code": "# Explorer · S45-T3-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'backlog', 'workers', 'target_per_worker', 'quota_workers', 'private_network', 'backpressure'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CAPACITY\"\n    return \"CONTINUE\" if (not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])) else \"APPLY_BACKPRESSURE\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {\"case_id\": 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': False}\nincomplete = {\"case_id\": 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «compute, autoscaling y networking» («Autoscaling usa una señal vinculada al backlog/SLO, networking segmenta y capacidad máxima considera cuotas, warm-up y backpressure.») separa incertidumbre de breach. En S45-T3-A-E3 la ausencia enruta a `REQUEST_CAPACITY`, CONTINUE solo con workers dentro de cuota y backlog por worker bajo objetivo, y el adverso a `APPLY_BACKPRESSURE`, sin rellenar evidencia en Cloud, almacenamiento, colas e infraestructura.",
+      "concepts_used": [
+        "workers",
+        "dentro",
+        "cuota",
+        "backlog",
+        "por",
+        "worker",
+        "bajo",
+        "objetivo"
+      ],
+      "confidence": 0.895
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "code": "# Explorer · S45-T3-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nmeets_contract = (not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])) and not record.get(\"__adv\")\nstatus = \"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\"\nprint(\"S45-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «IAM, private paths y egress» («IAM concede acción/recurso mínimos, paths privados evitan internet y egress se allowlistea y registra para impedir exfiltración.»), el contrato de S45-T3-B-E1 exige demostrar acción IAM mínima, path privado y egress allowlisted. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `DENY_IAM_OR_EGRESS`.",
+      "concepts_used": [
+        "acción",
+        "IAM",
+        "mínima",
+        "path",
+        "privado",
+        "egress",
+        "allowlisted"
+      ],
+      "confidence": 0.779
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "code": "# Explorer · S45-T3-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'allowed_actions', 'requested_action', 'private_path', 'egress_host', 'egress_allow'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])) and not record.get(\"__adv\")) else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {\"case_id\": 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}, '__adv': True}\nincomplete = {\"case_id\": 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «IAM, private paths y egress» el paquete pide tres rutas; la teoría subraya: «IAM concede acción/recurso mínimos, paths privados evitan internet y egress se allowlistea y registra para impedir exfiltración.». Para S45-T3-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple acción IAM mínima, path privado y egress allowlisted, y `DENY_IAM_OR_EGRESS` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "acción",
+        "IAM",
+        "mínima",
+        "path",
+        "privado",
+        "egress",
+        "allowlisted"
+      ],
+      "confidence": 0.754
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "code": "# Explorer · S45-T3-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'allowed_actions', 'requested_action', 'private_path', 'egress_host', 'egress_allow'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SCOPED_POLICY\"\n    return \"CONTINUE\" if ((not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])) and not record.get(\"__adv\")) else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {\"case_id\": 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}, '__adv': True}\nincomplete = {\"case_id\": 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal'}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «IAM, private paths y egress» («IAM concede acción/recurso mínimos, paths privados evitan internet y egress se allowlistea y registra para impedir exfiltración.») separa incertidumbre de breach. En S45-T3-B-E3 la ausencia enruta a `REQUEST_SCOPED_POLICY`, CONTINUE solo con acción IAM mínima, path privado y egress allowlisted, y el adverso a `DENY_IAM_OR_EGRESS`, sin rellenar evidencia en Cloud, almacenamiento, colas e infraestructura.",
+      "concepts_used": [
+        "acción",
+        "IAM",
+        "mínima",
+        "path",
+        "privado",
+        "egress",
+        "allowlisted"
+      ],
+      "confidence": 0.773
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "code": "# Explorer · S45-T4-A-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\nmeets_contract = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_IAC_PLAN\"\nprint(\"S45-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «configuración declarativa y environments» («IaC declara el estado deseado, parametriza entornos sin copiar secretos y un plan revisado precede apply.»), el contrato de S45-T4-A-E1 exige demostrar plan coincide, entorno válido, sin secretos ni destrucción. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `REJECT_IAC_PLAN`.",
+      "concepts_used": [
+        "plan",
+        "coincide",
+        "entorno",
+        "válido",
+        "sin",
+        "secretos",
+        "destrucción"
+      ],
+      "confidence": 0.843
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "code": "# Explorer · S45-T4-A-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'declared_resources', 'planned_resources', 'environment', 'secret_values_in_plan', 'destructive_changes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)) else \"REJECT_IAC_PLAN\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {\"case_id\": 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}\nincomplete = {\"case_id\": 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «configuración declarativa y environments» el paquete pide tres rutas; la teoría subraya: «IaC declara el estado deseado, parametriza entornos sin copiar secretos y un plan revisado precede apply.». Para S45-T4-A-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple plan coincide, entorno válido, sin secretos ni destrucción, y `REJECT_IAC_PLAN` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "plan",
+        "coincide",
+        "entorno",
+        "válido",
+        "sin",
+        "secretos",
+        "destrucción"
+      ],
+      "confidence": 0.824
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "code": "# Explorer · S45-T4-A-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'declared_resources', 'planned_resources', 'environment', 'secret_values_in_plan', 'destructive_changes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_DRIFT\"\n    return \"CONTINUE\" if (not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)) else \"REJECT_IAC_PLAN\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {\"case_id\": 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}\nincomplete = {\"case_id\": 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «configuración declarativa y environments» («IaC declara el estado deseado, parametriza entornos sin copiar secretos y un plan revisado precede apply.») separa incertidumbre de breach. En S45-T4-A-E3 la ausencia enruta a `REVIEW_DRIFT`, CONTINUE solo con plan coincide, entorno válido, sin secretos ni destrucción, y el adverso a `REJECT_IAC_PLAN`, sin rellenar evidencia en Cloud, almacenamiento, colas e infraestructura.",
+      "concepts_used": [
+        "plan",
+        "coincide",
+        "entorno",
+        "válido",
+        "sin",
+        "secretos",
+        "destrucción"
+      ],
+      "confidence": 0.734
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "code": "# Explorer · S45-T4-B-E1: predicado de dominio alineado al fixture del paquete\nrecord = {\"case_id\": 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nmeets_contract = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\nstatus = \"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\"\nprint(\"S45-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Según la teoría de «costos, quotas, recovery y portability» («Presupuesto y quotas son controles operativos; recovery y portability se ensayan con exportaciones/formatos abiertos, no se prometen.»), el contrato de S45-T4-B-E1 exige demostrar costo/cuota bajo límite y recovery/portability ensayados. Corregí el booleano defectuoso del starter para que el fixture válido imprima PASS y el incumplimiento active `FREEZE_SCALE_OUT`.",
+      "concepts_used": [
+        "costo",
+        "cuota",
+        "bajo",
+        "límite",
+        "recovery",
+        "portability",
+        "ensayados"
+      ],
+      "confidence": 0.754
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "code": "# Explorer · S45-T4-B-E2: rutas PASS / breach / MISSING según instruction\ndef assess(record: dict) -> str:\n    required = {'case_id', 'forecast_pen', 'budget_pen', 'quota_used', 'quota_limit', 'restore_tested', 'portable_export'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])) else \"FREEZE_SCALE_OUT\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {\"case_id\": 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 1540, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = {\"case_id\": 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «costos, quotas, recovery y portability» el paquete pide tres rutas; la teoría subraya: «Presupuesto y quotas son controles operativos; recovery y portability se ensayan con exportaciones/formatos abiertos, no se prometen.». Para S45-T4-B-E2 calculo missing antes de leer el campo crítico, devuelvo PASS solo si se cumple costo/cuota bajo límite y recovery/portability ensayados, y `FREEZE_SCALE_OUT` cuando el adverso falla por contenido.",
+      "concepts_used": [
+        "costo",
+        "cuota",
+        "bajo",
+        "límite",
+        "recovery",
+        "portability",
+        "ensayados"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "code": "# Explorer · S45-T4-B-E3: CONTINUE / breach / incertidumbre (ausencia ≠ breach)\ndef decide(record: dict) -> str:\n    required = {'case_id', 'forecast_pen', 'budget_pen', 'quota_used', 'quota_limit', 'restore_tested', 'portable_export'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COST_OWNER_REVIEW\"\n    return \"CONTINUE\" if (not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])) else \"FREEZE_SCALE_OUT\"\n\nvalid = {\"case_id\": 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {\"case_id\": 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 1540, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = {\"case_id\": 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True}\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "El fallo cerrado de «costos, quotas, recovery y portability» («Presupuesto y quotas son controles operativos; recovery y portability se ensayan con exportaciones/formatos abiertos, no se prometen.») separa incertidumbre de breach. En S45-T4-B-E3 la ausencia enruta a `COST_OWNER_REVIEW`, CONTINUE solo con costo/cuota bajo límite y recovery/portability ensayados, y el adverso a `FREEZE_SCALE_OUT`, sin rellenar evidencia en Cloud, almacenamiento, colas e infraestructura.",
+      "concepts_used": [
+        "costo",
+        "cuota",
+        "bajo",
+        "límite",
+        "recovery",
+        "portability",
+        "ensayados"
+      ],
+      "confidence": 0.764
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Q0: elijo «ADR de persistencia con fuente de verdad» anclado en «object store, relacional y cache» («Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartable»), frente a «¿Qué evidencia permite aprobar `object store, relacional y cache` en CASO-IQU-045?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.818,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Q1: elijo «emitir SEND_TO_DLQ y conservar evidencia» anclado en «consistencia, lifecycle y backups» («Consistencia se define por operación; lifecycle expira copias y backup solo cuenta cuando un restore»), frente a «Si ocurre la condición de error de S45, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.811,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Q2: elijo «reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos» anclado en «queue/event y delivery semantics» («Queue desacopla productor/consumidor; at-least-once exige ack después del efecto durable, retry con »), frente a «¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.845,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Q3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» anclado en «dedup, ordering y dead-letter» («Dedup usa clave estable, ordering solo donde importa y DLQ conserva razón/intentos/payload seguro pa»), frente a «¿Qué tratamiento de `CASO-IQU-045` respeta el alcance del curso?»; descarto prints decorativos, PII real y ocultar fallos.",
+      "confidence": 0.828,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:45:45.316361+00:00",
+  "session_started_at": "2026-07-23T16:49:04.843093+00:00",
+  "session_ended_at": "2026-07-23T16:50:07.007493+00:00",
+  "receipt_response_sha256": "eabb57a4a9590d2378c3712f35b08f81252b5d0f89e3eb0685484eeaec3f9620",
+  "receipt_exercises_sha256": "dbb9f327ecc689f47d2117907863961e5575260d09503c69b28e0e5fb2f2db3c",
+  "receipt_selfcheck_sha256": "7134103d79a4b362fd6a9e2ea8306d5483789f3d776ac32fea7d5f95b1c80a66"
+}

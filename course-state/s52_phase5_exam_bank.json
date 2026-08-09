@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S52",
+  "section_id": "career-strategy",
+  "phase": "PHASE_5",
+  "lane": "LANE-S40-S52-CLOSE",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "career-strategy",
+    "title_v3": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "construir-un-portfolio-site-pr",
+    "optimizar-linkedin-para-visibi",
+    "escribir-un-cv-técnico-que-pas",
+    "prepararse-para-entrevistas-té"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S52 (Enterprise Relationship & Operations Intelligence Platform: capstone final).",
+  "families": [
+    {
+      "family_id": "S52-T1-A-EX",
+      "concept": "stakeholders-jobs-success-cf1",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S52-T1-B-EX",
+      "concept": "changes-constraints-risks-nogo",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S52-T2-A-EX",
+      "concept": "bounded-apis-events",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S52-T2-B-EX",
+      "concept": "data-models-rpa-rag-human",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S52-T3-A-EX",
+      "concept": "tests-evals-redteam-perf",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S52-T3-B-EX",
+      "concept": "slo-backup-rollback-disaster",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S52-T4-A-EX",
+      "concept": "demo-cv-narrative",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S52-T4-B-EX",
+      "concept": "arch-readme-cards-license-video-defense",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (career-strategy key)",
+    "course-state/s52_phase5_exam_bank.json"
+  ]
+}

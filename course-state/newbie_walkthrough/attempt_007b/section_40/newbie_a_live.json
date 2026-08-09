@@ -1,0 +1,257 @@
+{
+  "attempt_id": "attempt_007b",
+  "method": "llm_packet_only_no_generator",
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 40,
+  "packet_source": "course-state/newbie_walkthrough/attempt_007b/section_40/packet.json",
+  "packet_sha": "66b84c113c64d265",
+  "recorded_at": "2026-07-21T21:30:00+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "qas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["owners", "budget_ok", "qa_n", "iDo_S40-T1-A"]
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "qas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["owners", "budget_ok", "qa_n", "iDo_S40-T1-A"]
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "qas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["owners", "budget_ok", "qa_n", "iDo_S40-T1-A"]
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["risks", "sevs", "measurable", "iDo_S40-T1-B"]
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["risks", "sevs", "measurable", "iDo_S40-T1-B"]
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["risks", "sevs", "measurable", "iDo_S40-T1-B"],
+      "note": "Starter body drifted to mods demo; completed from iDo outcome S40-T1-B (full demo oracle)."
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["bc_count", "er_n", "no_mixed", "iDo_S40-T2-A"]
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["bc_count", "er_n", "no_mixed", "iDo_S40-T2-A"]
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["bc_count", "er_n", "no_mixed", "iDo_S40-T2-A"]
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["adapter", "ports", "iDo_S40-T2-B"]
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["adapter", "ports", "iDo_S40-T2-B"]
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["adapter", "ports", "iDo_S40-T2-B"],
+      "note": "Starter body drifted; used full iDo demo for S40-T2-B (oracle)."
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["acl", "no_leak", "iDo_S40-T3-A"]
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["acl", "no_leak", "iDo_S40-T3-A"]
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["acl", "no_leak", "iDo_S40-T3-A"],
+      "note": "Starter body drifted; used full iDo demo for S40-T3-A (oracle)."
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["merged", "service", "not_entity", "iDo_S40-T3-B"]
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["merged", "service", "not_entity", "iDo_S40-T3-B"]
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["merged", "service", "not_entity", "iDo_S40-T3-B"]
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["steps", "C4", "ADR", "iDo_S40-T4-A"]
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["steps", "C4", "ADR", "iDo_S40-T4-A"]
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["steps", "C4", "ADR", "iDo_S40-T4-A"],
+      "note": "Starter body drifted to debt demo; used full iDo for S40-T4-A (oracle)."
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": ["debt", "paydown", "events", "iDo_S40-T4-B"]
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": ["debt", "paydown", "events", "iDo_S40-T4-B"]
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": ["debt", "paydown", "events", "iDo_S40-T4-B"]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "agentic-architecture",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance: id de plataforma `agentic-architecture` conservado; stem pregunta el id preservado."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "CP-N4-A (inicio)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance/youDo: Contribuye a **CP-N4-A (inicio)**; gate en portfolioNote."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Datos sintéticos",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance + youDo: Datos sintéticos; sin PII real — no PII real de clientes."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Misma entidad cuando aplique",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance: ER/matching no implica fraude ni parentesco → misma entidad cuando aplique."
+    }
+  ],
+  "confusion_points": [
+    "Algunos starters E3 y T4-B vacíos no alinean 1:1 al subtopicId de la instruction; usé el demo iDo del outcome (why) del subtopicId.",
+    "demoId labels en packet a veces están desfasados vs why; mapeo por why outcome S40-Tx-Y."
+  ],
+  "retrospection": "Explorer S40: 24 weDo completed as full iDo demos per subtopicId (FIX_002 oracle). SelfCheck from jobRelevance id/gate/synthetic/ER. blocked exercises=0, blocked selfcheck=0.",
+  "summary": {
+    "n_exercises": 24,
+    "n_exercises_answered": 24,
+    "n_blocked_exercises": 0,
+    "n_selfcheck": 4,
+    "n_blocked_selfcheck": 0,
+    "selfcheck_choice_indices": [0, 0, 1, 2]
+  }
+}

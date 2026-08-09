@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-07-20T17:02:42.920745+00:00",
+  "base": "http://localhost:3000",
+  "results": [
+    {
+      "name": "home_page",
+      "status": "PASS",
+      "http": 200,
+      "body": "<!DOCTYPE html><html lang=\"es-PE\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/%5Broot-of-the-server%5D__1n8wyjh._.css\" data-precedence=\"next_static/chunks/[root-of-the-server]__1n8wyjh._.css\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js\"/><script src=\"/_next/static/chunks/node_modules_next_dist"
+    },
+    {
+      "name": "api_root",
+      "status": "PASS",
+      "http": 200,
+      "body": "{\"message\":\"Hello, world!\"}"
+    },
+    {
+      "name": "subscription_plans",
+      "status": "PASS",
+      "http": 200,
+      "body": "{\"plans\":[{\"id\":\"cmrmyjjod00hcmo36ar6x4b6e\",\"code\":\"free\",\"name\":\"Free\",\"description\":\"Acceso limitado para probar el curso\",\"pricingJSON\":\"{\\\"PE\\\":{\\\"monthly\\\":0,\\\"yearly\\\":0,\\\"currency\\\":\\\"PEN\\\"},\\\"US\\\":{\\\"monthly\\\":0,\\\"yearly\\\":0,\\\"currency\\\":\\\"USD\\\"},\\\"EU\\\":{\\\"monthly\\\":0,\\\"yearly\\\":0,\\\"currency\\\":\\\"EUR\\\"},\\\"REST\\\":{\\\"monthly\\\":0,\\\"yearly\\\":0,\\\"currency\\\":\\\"USD\\\"}}\",\"featuresJSON\":\"[\\\"Secciones 1-5 (Fundamentos b\u00e1sicos)\\\",\\\"Editor interactivo Pyodide\\\",\\\"Quizzes de auto-evaluaci\u00f3n\\\",\\\"Progre"
+    },
+    {
+      "name": "exam_start_unauth",
+      "status": "PASS",
+      "http": 401,
+      "body": "{\"error\":\"No autenticado\"}"
+    },
+    {
+      "name": "register",
+      "status": "PASS",
+      "http": 200,
+      "body": "{\"id\":\"cmrth3bow0000rxqafc4vrsp9\",\"email\":\"skeptical_1784566960@test.local\",\"name\":\"Skeptical Tester\",\"role\":\"STUDENT\",\"message\":\"Cuenta creada\"}"
+    },
+    {
+      "name": "progress_unauth",
+      "status": "PASS",
+      "http": 401,
+      "body": "{\"error\":\"No autenticado\"}"
+    },
+    {
+      "name": "login_credentials",
+      "status": "PASS",
+      "http": 200,
+      "body": "{\"url\":\"http://localhost:3000\"}"
+    },
+    {
+      "name": "session_after_login",
+      "status": "PASS",
+      "body": "{\"user\":{\"name\":\"Skeptical Tester\",\"email\":\"skeptical_1784566960@test.local\",\"id\":\"cmrth3bow0000rxqafc4vrsp9\",\"role\":\"STUDENT\"},\"expires\":\"2026-07-27T17:02:42.720Z\"}"
+    },
+    {
+      "name": "exam_start_auth",
+      "status": "PASS",
+      "http": 200,
+      "questions": 8,
+      "body": "{\"attemptId\":\"cmrth3d4o0002rxqa1thyhnnz\",\"attemptNumber\":1,\"questions\":[{\"id\":\"cmrsza3d6000lrxfr56alsqnu\",\"concept\":\"gitignore\",\"question\":\"\u00bfCu\u00e1l de estos S\u00cd debe listarse en `.gitignore` de un proyecto Python t\u00edpico?\",\"options\":[\"requirements.txt\",\"README.md\",\".venv/\",\"src/main.py\"]},{\"id\":\"cmrsza3cs000erxfrvpha5fde\",\"concept\":\"commit-message\",\"question\":\"Corregiste un fallo que devolv\u00eda NaN en e"
+    },
+    {
+      "name": "sub_status_unauth",
+      "status": "PASS",
+      "http": 401,
+      "body": "{\"error\":\"No autenticado\"}"
+    }
+  ],
+  "pass_count": 10,
+  "fail_count": 0
+}

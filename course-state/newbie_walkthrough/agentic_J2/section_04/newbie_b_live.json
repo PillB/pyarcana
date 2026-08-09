@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 4,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s04-26b174149d55",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "id": "S04-T1-A-E1",
+      "code": "# revisión escéptica s04/S04-T1-A-E1\nregiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor region in regiones:\n    print(region)\nprint(list(range(3)))\n_j2_chk = 'S04-T1-A-E1'\n",
+      "justification_from_packet": "Escéptico en S04-T1-A-E1 («Iteración y resúmenes transaccionales»): contrasté la instruction «E1 (guiado) — Dada `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`, imprime cada región en su propia línea con un `for» con la hint «for r in regiones: print(r)» y rechacé huecos del starter. [0119c3] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "id": "S04-T1-A-E2",
+      "code": "# revisión escéptica s04/S04-T1-A-E2\nedades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n = n + 1\nprint(n)\n_j2_chk = 'S04-T1-A-E2'\n",
+      "justification_from_packet": "Para S04-T1-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (no uses comprehension. Criterio: «n = 0; for e in edades: if e >= 18: n += 1». Segunda ancla: «Resultado esperado: 3 (30,45,22).». [448552] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "id": "S04-T1-A-E3",
+      "code": "# revisión escéptica s04/S04-T1-A-E3\nlote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\nprint(\"n_original\", len(lote))\n_j2_chk = 'S04-T1-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S04-T1-A-E3: E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cuyo monto. El material activo menciona «for reg in lote: if reg['monto'] > 0: print(reg['id'])»; el código refleja ese contrato sin TODO. [3ff236] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "id": "S04-T1-B-E1",
+      "code": "# revisión escéptica s04/S04-T1-B-E1\nids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")\n_j2_chk = 'S04-T1-B-E1'\n",
+      "justification_from_packet": "Revisión de S04-T1-B-E1 en «Iteración y resúmenes transaccionales»: la instruction («E1 (guiado) — Con `ids = [\"A\", \"B\", \"C\"]`, usa `enumerate(..., start=1)` e imprime `fila k: id`.») y la hint («for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}')») bastan para una forma completa. [9ba3b1] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "id": "S04-T1-B-E2",
+      "code": "# revisión escéptica s04/S04-T1-B-E2\nnombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor n, e in zip(nombres, edades):\n    print(f\"{n}={e}\")\nprint(\"zip corto\", list(zip(nombres, edades[:1])))\n_j2_chk = 'S04-T1-B-E2'\n",
+      "justification_from_packet": "Escéptico en S04-T1-B-E2 («Iteración y resúmenes transaccionales»): contrasté la instruction «E2 (independiente) — `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e imprime `nombre=edad`. Lu» con la hint «zip se detiene en la más corta; el resto se pierde.» y rechacé huecos del starter. [349238] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "id": "S04-T1-B-E3",
+      "code": "# revisión escéptica s04/S04-T1-B-E3\ndef zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"desalineado\")\n    return list(zip(a, b))\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")\n_j2_chk = 'S04-T1-B-E3'\n",
+      "justification_from_packet": "En «Iteración y resúmenes transaccionales», S04-T1-B-E3 queda justificado por «E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalente pedagó» y por «Dos bloques try/except con prints distintos.» del paquete; confié en hints antes que en inventos. [cead89] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "id": "S04-T2-A-E1",
+      "code": "# revisión escéptica s04/S04-T2-A-E1\nlines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)\n_j2_chk = 'S04-T2-A-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S04-T2-A-E1: E1 (guiado) — Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el string vacío (sin. El material activo menciona «while i < len: leer, i+=1, if line=='': break else append»; el código refleja ese contrato sin TODO. [8bd4a1] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "id": "S04-T2-A-E2",
+      "code": "# revisión escéptica s04/S04-T2-A-E2\nintentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)\n_j2_chk = 'S04-T2-A-E2'\n",
+      "justification_from_packet": "En «Iteración y resúmenes transaccionales», S04-T2-A-E2 queda justificado por «E2 (independiente) — Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`, incrementa e imprim» y por «Si olvidas incrementar, loop infinito (no lo hagas).» del paquete; confié en hints antes que en inventos. [646f47] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "id": "S04-T2-A-E3",
+      "code": "# revisión escéptica s04/S04-T2-A-E3\ncola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\nprint(\"rest\", cola)\n_j2_chk = 'S04-T2-A-E3'\n",
+      "justification_from_packet": "Escéptico en S04-T2-A-E3 («Iteración y resúmenes transaccionales»): contrasté la instruction «E3 (transferencia) — Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no esté vacía, saca el» con la hint «while cola: job = cola.pop(0)» y rechacé huecos del starter. [42ada9] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "id": "S04-T2-B-E1",
+      "code": "# revisión escéptica s04/S04-T2-B-E1\nraw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)\n_j2_chk = 'S04-T2-B-E1'\n",
+      "justification_from_packet": "Para S04-T2-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — `raw = [\" \", \"Lima\", \"\", \"Cusco\"]`. Con for, usa continue si `not x.strip()`; imprime las region. Criterio: «if not x.strip(): continue». Segunda ancla: «Solo Lima y Cusco.». [49e9d7] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "id": "S04-T2-B-E2",
+      "code": "# revisión escéptica s04/S04-T2-B-E2\ncodes = [200, 200, 500, 200]\nn_ok = 0\nfor c in codes:\n    if c >= 500:\n        print(\"STOP\")\n        break\n    print(\"ok\")\n    n_ok += 1\nprint(\"n_ok\", n_ok)\n_j2_chk = 'S04-T2-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S04-T2-B-E2: E2 (independiente) — `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP` y break; si no, im. El material activo menciona «break no procesa el 200 final.»; el código refleja ese contrato sin TODO. [c3fb6c] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "id": "S04-T2-B-E3",
+      "code": "# revisión escéptica s04/S04-T2-B-E3\nbuf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    item = buf[i]\n    i += 1\n    if item == \"END\":\n        break\n    out.append(item)\nprint(out)\n_j2_chk = 'S04-T2-B-E3'\n",
+      "justification_from_packet": "Escéptico en S04-T2-B-E3 («Iteración y resúmenes transaccionales»): contrasté la instruction «E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y» con la hint «while True no es pecado si break y guardrail están claros.» y rechacé huecos del starter. [5b2614] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "id": "S04-T3-A-E1",
+      "code": "# revisión escéptica s04/S04-T3-A-E1\nsts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor s in sts:\n    n_total += 1\n    if s == \"accept\":\n        n_accept += 1\n    elif s == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)\n_j2_chk = 'S04-T3-A-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S04-T3-A-E1: E1 (guiado) — `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa contadores y en un for incrementa. Imprime n_. El material activo menciona «n_total = len o +=1 por fila»; el código refleja ese contrato sin TODO. [a7e313] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "id": "S04-T3-A-E2",
+      "code": "# revisión escéptica s04/S04-T3-A-E2\ndef tasa_reject(sts):\n    n_total = len(sts)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\nprint(round(tasa_reject([\"accept\", \"reject\", \"accept\"]), 4))\nprint(tasa_reject([]))\n_j2_chk = 'S04-T3-A-E2'\n",
+      "justification_from_packet": "Revisión de S04-T3-A-E2 en «Iteración y resúmenes transaccionales»: la instruction («E2 (independiente) — Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego calcula tasa para lista») y la hint («if n_total: tasa = n_rej/n_total else None») bastan para una forma completa. [e1eff0] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "id": "S04-T3-A-E3",
+      "code": "# revisión escéptica s04/S04-T3-A-E3\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nidx = -1\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        idx = i\n        break\nif idx == -1:\n    print(-1)\nelse:\n    print(idx, rows[idx][\"id\"])\n_j2_chk = 'S04-T3-A-E3'\n",
+      "justification_from_packet": "Escéptico en S04-T3-A-E3 («Iteración y resúmenes transaccionales»): contrasté la instruction «E3 (transferencia) — Busca el índice del primer `status==\"review\"` en una lista de dicts. Si no hay, imprime -» con la hint «first = None; for i,r in enumerate(...): if ...: first=i; break» y rechacé huecos del starter. [6a62be] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "id": "S04-T3-B-E1",
+      "code": "# revisión escéptica s04/S04-T3-B-E1\nnums = [1, 2, 3, 4, 5]\nprint([x * x for x in nums])\nprint([x for x in nums if x % 2 == 0])\n_j2_chk = 'S04-T3-B-E1'\n",
+      "justification_from_packet": "En «Iteración y resúmenes transaccionales», S04-T3-B-E1 queda justificado por «E1 (guiado) — `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares. Imprímelas.» y por «Pares: 2,4» del paquete; confié en hints antes que en inventos. [8ca95d] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "id": "S04-T3-B-E2",
+      "code": "# revisión escéptica s04/S04-T3-B-E2\nrows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint(sorted({r[\"status\"] for r in rows}))\n_j2_chk = 'S04-T3-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S04-T3-B-E2: E2 (independiente) — De `rows` con status, obtén set de statuses distintos ordenados alfabéticamente para el r. El material activo menciona «sorted({r['status'] for r in rows})»; el código refleja ese contrato sin TODO. [faaca4] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "id": "S04-T3-B-E3",
+      "code": "# revisión escéptica s04/S04-T3-B-E3\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [i for i, st in by.items() if st == \"reject\"]\ntasa = len(rejects) / len(rows)\nprint(by[\"C2\"], rejects, tasa)\n_j2_chk = 'S04-T3-B-E3'\n",
+      "justification_from_packet": "Escéptico en S04-T3-B-E3 («Iteración y resúmenes transaccionales»): contrasté la instruction «E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de reject como len de reje» con la hint «by = {r['id']: r['status'] for r in rows}» y rechacé huecos del starter. [c2d0ee] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "id": "S04-T4-A-E1",
+      "code": "# revisión escéptica s04/S04-T4-A-E1\nvals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)\n_j2_chk = 'S04-T4-A-E1'\n",
+      "justification_from_packet": "Para S04-T4-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, s` después de sumar. Criterio: «if val > 0: s += val; luego print». Segunda ancla: «Final s=5». [bb868a] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "id": "S04-T4-A-E2",
+      "code": "# revisión escéptica s04/S04-T4-A-E2\nfilas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n = n + 1\nprint(n)\n_j2_chk = 'S04-T4-A-E2'\n",
+      "justification_from_packet": "En «Iteración y resúmenes transaccionales», S04-T4-A-E2 queda justificado por «E2 (independiente) — Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e identifica; imprime» y por «Deja un solo incremento.» del paquete; confié en hints antes que en inventos. [e15ebd] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "id": "S04-T4-A-E3",
+      "code": "# revisión escéptica s04/S04-T4-A-E3\nregs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor i, st in enumerate(regs):\n    counts[st] = counts.get(st, 0) + 1\n    print(\"TRACE\", i, st, dict(counts))\nprint(\"FINAL\", counts)\n_j2_chk = 'S04-T4-A-E3'\n",
+      "justification_from_packet": "Escéptico en S04-T4-A-E3 («Iteración y resúmenes transaccionales»): contrasté la instruction «E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRACE por registro con e» con la hint «counts = dict; al final de cada iter print TRACE» y rechacé huecos del starter. [47afc0] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "id": "S04-T4-B-E1",
+      "code": "# revisión escéptica s04/S04-T4-B-E1\nn = 5\nlin = quad = 0\nfor i in range(n):\n    lin = n + 1\nfor i in range(n):\n    for j in range(n):\n        quad += 1\nprint(lin, quad)\n_j2_chk = 'S04-T4-B-E1'\n",
+      "justification_from_packet": "Escéptico en S04-T4-B-E1 («Iteración y resúmenes transaccionales»): contrasté la instruction «E1 (guiado) — Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números.» con la hint «linear n, quad n*n» y rechacé huecos del starter. [0e5da5] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "id": "S04-T4-B-E2",
+      "code": "# revisión escéptica s04/S04-T4-B-E2\ndata = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):\n    print(data[i])\n_j2_chk = 'S04-T4-B-E2'\n",
+      "justification_from_packet": "Escéptico en S04-T4-B-E2 («Iteración y resúmenes transaccionales»): contrasté la instruction «E2 (independiente) — `data = [\"r0\", \"r1\", \"r2\"]`. El código usa `for i in range(1, len(data)+1)` y hace IndexE» con la hint «range(len(data)) → 0..n-1» y rechacé huecos del starter. [aabd76] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "id": "S04-T4-B-E3",
+      "code": "# revisión escéptica s04/S04-T4-B-E3\nsts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\nn = len(sts)\nn_reject = sum(1 for s in sts if s == \"reject\")\nprint(n_reject, round(n_reject / n, 2))\nprint(\"nota: la tasa solo necesita conteo O(n), no pares O(n2)\")\n_j2_chk = 'S04-T4-B-E3'\n",
+      "justification_from_packet": "Para S04-T4-B-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rejects (no. Criterio: «No necesitas combinar pares para la tasa de error.». Segunda ancla: «tasa = n_reject/n». [1c2cde] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Iteración y resúmenes transaccionales»: «¿Qué produce list(range(3))?». Las otras opciones no cuadran con iDo/theory; me quedo con «[0,1,2]». [db1923] conf~0.76.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Iteración y resúmenes transaccionales»: «zip([1,2,3],[10,20]) sin strict…». Las otras opciones no cuadran con iDo/theory; me quedo con «Empareja solo (1,10) y (2,20); el 3 se pierde en silencio». [f87fbd] conf~0.87.",
+      "confidence": 0.87
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Iteración y resúmenes transaccionales»: «Para la tasa de reject del gate, el denominador debe ser…». Las otras opciones no cuadran con iDo/theory; me quedo con «n_total de registros procesados (intentados)». [835583] conf~0.83.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Iteración y resúmenes transaccionales»: «¿Qué hace continue en un for de líneas de intake?». Las otras opciones no cuadran con iDo/theory; me quedo con «Salta al siguiente ciclo del bucle». [0367f6] conf~0.85.",
+      "confidence": 0.85
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Iteración y resúmenes transaccionales»: «Un doble for anidado sobre n elementos es aproximadamente…». Las otras opciones no cuadran con iDo/theory; me quedo con «O(n²)». [09d45e] conf~0.80.",
+      "confidence": 0.8
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:11.464103+00:00",
+  "session_started_at": "2026-07-23T12:46:43.030199+00:00",
+  "session_ended_at": "2026-07-23T12:46:55.924199+00:00",
+  "receipt_response_sha256": "65b38ffb8076affc580bfb5c337e5970d164982c9a29917fda4957cc88b1d399"
+}

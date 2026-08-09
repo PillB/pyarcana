@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title description">
+  <title id="title">PyArcana</title>
+  <desc id="description">P dorada dentro de un brote Art Nouveau verde esmeralda</desc>
+  <defs>
+    <linearGradient id="night-garden" x1="8" y1="4" x2="58" y2="62" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#315b4a"/>
+      <stop offset="1" stop-color="#132f28"/>
+    </linearGradient>
+    <linearGradient id="arcana-gold" x1="16" y1="10" x2="48" y2="54" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f6df9d"/>
+      <stop offset=".55" stop-color="#d4ae3f"/>
+      <stop offset="1" stop-color="#987019"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="17" fill="url(#night-garden)"/>
+  <path d="M32 6C19 6 8 16 7 30c-1 11 5 22 15 27 6 3 14 3 20 0 10-5 16-16 15-27C56 16 45 6 32 6Z" fill="none" stroke="url(#arcana-gold)" stroke-width="2"/>
+  <path d="M15 43c-4-7-4-15 0-22m34 22c4-7 4-15 0-22" fill="none" stroke="#dfbd58" stroke-width="1.7" stroke-linecap="round"/>
+  <g fill="#dfbd58">
+    <path d="M15 35c-6-1-8-5-7-10 5 1 8 5 7 10Z"/>
+    <path d="M16 25c-4-3-3-8-1-11 4 3 5 7 1 11Z"/>
+    <path d="M49 35c6-1 8-5 7-10-5 1-8 5-7 10Z"/>
+    <path d="M48 25c4-3 3-8 1-11-4 3-5 7-1 11Z"/>
+  </g>
+  <path d="M23 48V16h12c8 0 13 5 13 12s-5 12-13 12h-5v8h-7Zm7-15h5c4 0 6-2 6-5s-2-5-6-5h-5v10Z" fill="#fff8e7"/>
+  <path d="M25 53c5 3 9 3 14 0" fill="none" stroke="#dfbd58" stroke-width="1.7" stroke-linecap="round"/>
+  <circle cx="32" cy="53" r="1.8" fill="#dfbd58"/>
+</svg>

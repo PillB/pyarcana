@@ -1,0 +1,734 @@
+{
+  "attempt_id": "agentic_B1",
+  "section_index": 12,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "El instructor modela el proceso completo"
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Resuelves con pistas progresivas"
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Proyecto autónomo con rúbrica"
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Autoevaluación y examen por sección"
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Alineado al mercado peruano 2025-2026"
+      },
+      {
+        "title": "Proyectos que pesan en entrevistas"
+      },
+      {
+        "title": "Basado en 4 libros + investigación"
+      },
+      {
+        "title": "100% autónomo"
+      }
+    ],
+    "brand": "PyArcana"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Setup & Entorno de Desarrollo",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    }
+  ],
+  "active": {
+    "id": "performance",
+    "index": 12,
+    "title": "APIs, SQL y geodatos responsables",
+    "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+    "jobRelevance": "En onboarding, compliance y data quality en bancos, fintech y retail en Perú, necesitas **adaptadores HTTP resilientes**, **SQL parametrizado** y **geoevidencia controlada** sin filtrar PII bancaria a geocoders públicos. Esta sección (id de plataforma `performance` conservado) retematiza a V3 **APIs + SQL + geodatos** e incrementa **CP-N1-C** (adquisición + geoevidencia) con mocks locales y datos sintéticos.",
+    "learningOutcomes": [
+      "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+      "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+      "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+      "Escribir contract tests del adaptador y fallback degradado offline",
+      "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+      "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+      "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+      "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+    ],
+    "theory": [
+      {
+        "heading": "De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)",
+        "paragraphs": [
+          "En V3, **S12 no es el path principal de multiprocessing, profiling ni logging de producción**. Ese material se reubica conceptualmente hacia el tramo de sistemas/ops. Aquí construyes el **incremento CP-N1-C de adquisición y geoevidencia**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**.",
+          "El hilo conductor es un **adaptador de señales sintéticas** (listas de entidades, evidencias y coordenadas) con timeout, cache, provenance y fallback offline. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`).",
+          "Orden: **T1 HTTP** → **T2 Auth/cache/contracts** → **T3 SQL** → **T4 Geodatos responsables**."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "requests/responses, status y JSON",
+        "paragraphs": [
+          "Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtures: la pedagogía es status + parse, no la librería de red.",
+          "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas); **5xx** = error del servidor (candidatos a retry con límite). Siempre parsea con manejo de cuerpo vacío o JSON inválido.",
+          "**Timeout es obligatorio**: sin `timeout=` un socket colgado congela el pipeline. Headers (`Accept`, `User-Agent`) documentan el contrato del adaptador."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Timeout, paginación, retry/backoff y rate limit",
+        "paragraphs": [
+          "**Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez.",
+          "**Retry/backoff** solo en errores **transitorios** (429, 503, timeouts). Un **400** o **404** no se reintenta. Respeta `Retry-After` y un **max_retries** duro.",
+          "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos `sleep` simbólico o contador de delays."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Auth, secretos, cache y provenance",
+        "paragraphs": [
+          "Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro.",
+          "**Cache de GET** por hash de URL con **TTL** reduce costo y latencia; no caches respuestas de escritura ni datos sensibles sin política.",
+          "**Provenance**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit`. **Nunca loguees el token**."
+        ],
+        "code": "import os, hashlib, time, json\n\nos.environ[\"API_TOKEN\"] = \"demo-token-not-real\"\n\ndef get_token():\n    tok = os.environ.get(\"API_TOKEN\")\n    if not tok:\n        raise RuntimeError(\"API_TOKEN missing\")\n    return tok\n\nCACHE = {}\ndef cached_get(url, ttl=60):\n    key = hashlib.sha256(url.encode()).hexdigest()[:12]\n    now = time.time()\n    if key in CACHE and now - CACHE[key][\"ts\"] < ttl:\n        return CACHE[key][\"body\"], True\n    body = {\"url\": url, \"ok\": True}\n    CACHE[key] = {\"ts\": now, \"body\": body}\n    return body, False\n\ntoken = get_token()\nbody, hit = cached_get(\"https://api.example.com/signals\")\nprov = {\n    \"source_url\": \"https://api.example.com/signals\",\n    \"fetched_at\": \"2026-07-20T12:00:00Z\",\n    \"cache_hit\": hit,\n    \"auth\": \"bearer\",\n    # token NEVER in provenance dump\n}\nprint(\"token_len\", len(token))\nprint(\"cache_hit\", hit)\nprint(\"provenance\", json.dumps(prov, sort_keys=True))\nbody2, hit2 = cached_get(\"https://api.example.com/signals\")\nprint(\"second_hit\", hit2)",
+        "code_output": "token_len 19\ncache_hit False\nprovenance {\"auth\": \"bearer\", \"cache_hit\": false, \"fetched_at\": \"2026-07-20T12:00:00Z\", \"source_url\": \"https://api.example.com/signals\"}\nsecond_hit True"
+      },
+      {
+        "heading": "Contract tests y fallback",
+        "paragraphs": [
+          "Un **contract test** fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción.",
+          "**Fallback degradado**: si 5xx o red caída, lee coordenadas/precomputados locales y marca `mode=offline` en provenance.",
+          "Feature flag offline permite demos reproducibles sin red — obligatorio en CP-N1-C."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Esquema, CRUD y joins",
+        "paragraphs": [
+          "SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence`.",
+          "CRUD = CREATE/INSERT/SELECT/UPDATE (y DELETE con cuidado). **JOIN** une evidencias a entidades por `entity_id`.",
+          "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Parámetros, transacciones, constraints e índices",
+        "paragraphs": [
+          "Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input de usuario: es inyección.",
+          "`executemany` + `BEGIN`/`COMMIT` hacen batch atómico; un UNIQUE roto → `ROLLBACK` y reporte de fila.",
+          "`UNIQUE`/`NOT NULL` e **índices** en `document_id` / `entity_id` aceleran lookups del dashboard."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "Normalización y geocoding autorizado",
+        "paragraphs": [
+          "Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron.",
+          "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos) a proveedores públicos.",
+          "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles."
+        ],
+        "code": "import re\n\ndef normalize_address(s: str) -> str:\n    s = re.sub(r\"\\s+\", \" \", s.strip())\n    return s.title()\n\nclass MockGeocoder:\n    TABLE = {\n        \"Lima\": (-12.0464, -77.0428),\n        \"Arequipa\": (-16.4090, -71.5375),\n    }\n    def geocode(self, city: str):\n        coords = self.TABLE.get(city.title())\n        if not coords:\n            return None\n        lat, lon = coords\n        return {\"city\": city.title(), \"lat\": lat, \"lon\": lon, \"provider\": \"mock\"}\n\naddr = normalize_address(\"  av.  larco  123  \")\ngeo = MockGeocoder().geocode(\"lima\")\nprint(\"addr\", addr)\nprint(\"geo\", geo)",
+        "code_output": "addr Av. Larco 123\ngeo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}"
+      },
+      {
+        "heading": "Calidad de coordenada, Haversine, caching y política",
+        "paragraphs": [
+          "Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas basura no entran al mapa.",
+          "**Haversine** estima km entre dos puntos; sirve como **geoseñal de relación**, no como veredicto de parentesco o fraude.",
+          "Cachea geocodes bajo TTL/política del proveedor. Documenta que distancia es **señal**, no kinship."
+        ],
+        "code": "import math\n\ndef valid_coord(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\n\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nprint(\"valid\", valid_coord(*lima))\nprint(\"invalid\", valid_coord(91, 0))\nd = haversine_km(lima, callao)\nprint(\"km_approx\", round(d, 2))\nprint(\"signal_only\", \"relationship_signal not kinship\")",
+        "code_output": "valid True\ninvalid False\nkm_approx 8.95\nsignal_only relationship_signal not kinship"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S12-T1-B-DEMO",
+          "description": "Cliente mock HTTP que devuelve lista de señales sintéticas con status 200 y parse JSON.",
+          "why": "El adaptador ve el contrato real (status + JSON) sin red externa.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S12-T2-A-DEMO",
+          "description": "Paginar 3 páginas de API mock con contador de rate-limit (sin sleep real largo).",
+          "why": "Paginación + respeto de ritmo son el esqueleto de adquisición resiliente.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S12-T2-B-DEMO",
+          "description": "Fetch con token de env + manifest de provenance (token no se imprime).",
+          "why": "Provenance auditable sin filtrar secretos.",
+          "code": "import os, json, hashlib\nos.environ[\"SIG_API_TOKEN\"] = \"syn-token-000\"\ntoken = os.environ[\"SIG_API_TOKEN\"]\nurl = \"https://api.example.com/v1/signals/C001\"\nbody = {\"entity_id\": \"C001\", \"signals\": [\"geo\"]}\nmanifest = {\n    \"source_url\": url,\n    \"fetched_at\": \"2026-07-20T15:00:00Z\",\n    \"status_code\": 200,\n    \"body_sha12\": hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12],\n    \"auth_scheme\": \"bearer\",\n    \"token_present\": bool(token),\n}\nprint(json.dumps(manifest, sort_keys=True))\nprint(\"token_logged\", False)",
+          "language": "python",
+          "output": "{\"auth_scheme\": \"bearer\", \"body_sha12\": \"5acbf63b7a4b\", \"fetched_at\": \"2026-07-20T15:00:00Z\", \"source_url\": \"https://api.example.com/v1/signals/C001\", \"status_code\": 200, \"token_present\": true}\ntoken_logged False"
+        },
+        {
+          "demoId": "S12-T3-A-DEMO",
+          "description": "Contract test del geocoder mock + fallback a coordenadas precalculadas.",
+          "why": "Contrato + fallback hacen demos reproducibles cuando el proveedor no responde.",
+          "code": "REQUIRED = {\"lat\", \"lon\", \"provider\"}\nPRECALC = {\"Lima\": {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\": \"precalc\"}}\n\ndef contract_ok(d):\n    return not (REQUIRED - set(d.keys()))\n\ndef geocode(city, fail_online=False):\n    if fail_online:\n        return {**PRECALC[city], \"mode\": \"offline_fallback\"}\n    online = {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\": \"mock\", \"mode\": \"online\"}\n    assert contract_ok(online)\n    return online\n\nprint(\"online\", geocode(\"Lima\"))\nprint(\"fallback\", geocode(\"Lima\", fail_online=True))\nprint(\"contract_precalc\", contract_ok(PRECALC[\"Lima\"]))",
+          "language": "python",
+          "output": "online {'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock', 'mode': 'online'}\nfallback {'lat': -12.0464, 'lon': -77.0428, 'provider': 'precalc', 'mode': 'offline_fallback'}\ncontract_precalc True"
+        },
+        {
+          "demoId": "S12-T3-B-DEMO",
+          "description": "Tablas clients, transactions, evidence con join de caso sintético.",
+          "why": "El join de caso es el corazón del almacén local del dashboard.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S12-T4-A-DEMO",
+          "description": "Insert batch atómico; rollback si una fila viola UNIQUE.",
+          "why": "Transacciones evitan estados a medias cuando hay conflicto de negocio.",
+          "code": null,
+          "language": null,
+          "output": null
+        },
+        {
+          "demoId": "S12-T4-B-DEMO",
+          "description": "MockGeocoder devuelve lat/lon sintéticos para Lima/Arequipa.",
+          "why": "Geocoder intercambiable y offline para demos sin egress de PII.",
+          "code": "class MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {\"city\": city, \"lat\": lat, \"lon\": lon, \"provider\": \"authorized_mock\"}\n\ng = MockGeocoder()\nfor c in (\"Lima\", \"Arequipa\", \"Iquitos\"):\n    print(c, g.geocode(c))",
+          "language": "python",
+          "output": "Lima {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'authorized_mock'}\nArequipa {'city': 'Arequipa', 'lat': -16.409, 'lon': -71.5375, 'provider': 'authorized_mock'}\nIquitos None"
+        },
+        {
+          "demoId": null,
+          "description": "Distancia entre dos puntos sintéticos Lima–Callao como geoseñal.",
+          "why": "La distancia alimenta relationship_signal_score, no un veredicto legal.",
+          "code": "import math\n\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nkm = haversine_km(lima, callao)\nsignal = {\"type\": \"geo_distance_km\", \"value\": round(km, 2), \"verdict\": None}\nprint(signal)\nprint(\"disclaimer\", \"signal != kinship\")",
+          "language": "python",
+          "output": "{'type': 'geo_distance_km', 'value': 8.95, 'verdict': None}\ndisclaimer signal != kinship"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S12-T1-A-E1",
+          "instruction": "E1 (guiado) — Implementa `get_entity(store, entity_id)` que devuelva (status, body). 200 con el dict si existe; 404 con `{'error':'not_found'}` si no.",
+          "hints": [
+            "Devuelve una tupla (status_code, dict).",
+            "404 no lanza excepción: el adaptador decide la acción."
+          ],
+          "kind": "guided",
+          "tests": "200 con dict; 404 con error",
+          "starterCode": "store = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\ndef get_entity(store, entity_id):\n    # TODO\n    ...\nprint(get_entity(store, \"C001\"))\nprint(get_entity(store, \"C999\"))"
+        },
+        {
+          "id": "S12-T1-A-E2",
+          "instruction": "E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exija claves `id` y `region` y devuelva solo esas claves. Si falta alguna, devuelve None.",
+          "hints": [
+            "Usa set de required keys.",
+            "No mutes el payload original; construye un dict nuevo."
+          ],
+          "kind": "independent",
+          "tests": "dict tipado o None",
+          "starterCode": "def parse_entity(payload):\n    # TODO\n    ...\nprint(parse_entity({\"id\": \"C001\", \"region\": \"Lima\", \"extra\": 1}))\nprint(parse_entity({\"id\": \"C001\"}))"
+        },
+        {
+          "id": "S12-T1-A-E3",
+          "instruction": "E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 500→'retry', 400→'fix_client'. Imprime la acción para [200,404,429,400,500].",
+          "hints": [
+            "dict.get(code, 'unknown')",
+            "400 no es retry."
+          ],
+          "kind": "transfer",
+          "tests": "tabla status→acción",
+          "starterCode": "STATUS_ACTION = {\n    # TODO\n}\nfor code in [200, 404, 429, 400, 500]:\n    print(code, STATUS_ACTION.get(code, \"unknown\"))"
+        },
+        {
+          "id": "S12-T1-B-E1",
+          "instruction": "E1 (guiado) — Simula timeout: `fetch(timeout_s, cost_s)` devuelve 'ok' si cost_s <= timeout_s, si no lanza TimeoutError capturado y devuelve 'timeout'.",
+          "hints": [
+            "if cost > timeout: return 'timeout'",
+            "No uses red real; compara números."
+          ],
+          "kind": "guided",
+          "tests": "ok y timeout",
+          "starterCode": "def fetch(timeout_s, cost_s):\n    # TODO\n    ...\nprint(fetch(2.0, 0.5))\nprint(fetch(1.0, 3.0))"
+        },
+        {
+          "id": "S12-T1-B-E2",
+          "instruction": "E2 (independiente) — `collect_all(api)` pagina desde 1 hasta next is None y devuelve lista plana de items.",
+          "hints": [
+            "while page is not None",
+            "api[page]['items'] y api[page]['next']"
+          ],
+          "kind": "independent",
+          "tests": "lista plana a,b,c",
+          "starterCode": "api = {\n    1: {\"items\": [\"a\"], \"next\": 2},\n    2: {\"items\": [\"b\", \"c\"], \"next\": None},\n}\ndef collect_all(api):\n    # TODO\n    ...\nprint(collect_all(api))"
+        },
+        {
+          "id": "S12-T1-B-E3",
+          "instruction": "E3 (transferencia) — `should_retry(status)` True solo para 429 y 503. Imprime para 400,404,429,503,200.",
+          "hints": [
+            "return status in {429, 503}",
+            "200 y 4xx de cliente no reintentan."
+          ],
+          "kind": "transfer",
+          "tests": "política retry transitorio",
+          "starterCode": "def should_retry(status):\n    # TODO\n    ...\nfor s in [400, 404, 429, 503, 200]:\n    print(s, should_retry(s))"
+        },
+        {
+          "id": "S12-T2-A-E1",
+          "instruction": "E1 (guiado) — `require_token(env)` lee API_TOKEN del dict env; si falta o vacío, lanza ValueError('API_TOKEN missing'); si no, devuelve el token.",
+          "hints": [
+            "tok = env.get('API_TOKEN')",
+            "if not tok: raise ValueError(...)"
+          ],
+          "kind": "guided",
+          "tests": "abc + error message",
+          "starterCode": "def require_token(env):\n    # TODO\n    ...\nprint(require_token({\"API_TOKEN\": \"abc\"}))\ntry:\n    require_token({})\nexcept ValueError as e:\n    print(str(e))"
+        },
+        {
+          "id": "S12-T2-A-E2",
+          "instruction": "E2 (independiente) — Cache GET: `Cache` con get/set por url; segunda get del mismo url devuelve cache_hit True. Usa dict interno.",
+          "hints": [
+            "key = url",
+            "almacenar body y devolver (body, hit)"
+          ],
+          "kind": "independent",
+          "tests": "hit y miss",
+          "starterCode": "class Cache:\n    def __init__(self):\n        self._data = {}\n    def get(self, url):\n        # TODO return (body, hit) o (None, False)\n        ...\n    def set(self, url, body):\n        # TODO\n        ...\nc = Cache()\nc.set(\"u1\", {\"ok\": True})\nprint(c.get(\"u1\"))\nprint(c.get(\"missing\"))"
+        },
+        {
+          "id": "S12-T2-A-E3",
+          "instruction": "E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_at fijo '2026-07-20T00:00:00Z', status_code, cache_hit. Sin token.",
+          "hints": [
+            "Campos mínimos de auditoría.",
+            "No incluyas Authorization."
+          ],
+          "kind": "transfer",
+          "tests": "4 campos de provenance",
+          "starterCode": "def min_provenance(url, status, cache_hit):\n    # TODO\n    ...\nprint(sorted(min_provenance(\"https://x\", 200, False).items()))"
+        },
+        {
+          "id": "S12-T2-B-E1",
+          "instruction": "E1 (guiado) — `assert_keys(payload, required)` lanza AssertionError con missing sorted si faltan claves; si ok imprime 'ok'.",
+          "hints": [
+            "missing = set(required) - set(payload)",
+            "raise AssertionError si missing"
+          ],
+          "kind": "guided",
+          "tests": "ok + AssertionError",
+          "starterCode": "def assert_keys(payload, required):\n    # TODO\n    ...\nassert_keys({\"lat\": 1, \"lon\": 2}, [\"lat\", \"lon\"])\nprint(\"ok\")\ntry:\n    assert_keys({\"lat\": 1}, [\"lat\", \"lon\"])\nexcept AssertionError as e:\n    print(e)"
+        },
+        {
+          "id": "S12-T2-B-E2",
+          "instruction": "E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, 'offline'); si 200 devuelve ({'online':True}, 'online').",
+          "hints": [
+            "if status >= 500",
+            "retorna tupla (body, mode)"
+          ],
+          "kind": "independent",
+          "tests": "online/offline modes",
+          "starterCode": "def fetch_with_fallback(status, local_body):\n    # TODO\n    ...\nprint(fetch_with_fallback(200, {\"lat\": 0}))\nprint(fetch_with_fallback(503, {\"lat\": -12.0}))"
+        },
+        {
+          "id": "S12-T2-B-E3",
+          "instruction": "E3 (transferencia) — Matriz online/offline: dict con claves ('online', True/False) → comportamiento 'live_api' o 'local_file'. Imprime ambos.",
+          "hints": [
+            "Usa tuplas como clave de dict.",
+            "offline siempre local_file."
+          ],
+          "kind": "transfer",
+          "tests": "matriz de operación",
+          "starterCode": "matrix = {\n    # TODO\n}\nfor online in (True, False):\n    print(online, matrix[online])"
+        },
+        {
+          "id": "S12-T3-A-E1",
+          "instruction": "E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL). Inserta E1/C001/geo y cuenta filas.",
+          "hints": [
+            "CREATE TABLE evidence (...)",
+            "INSERT + SELECT COUNT(*)"
+          ],
+          "kind": "guided",
+          "tests": "count 1",
+          "starterCode": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\n# TODO create + insert\nprint(con.execute(\"SELECT COUNT(*) FROM evidence\").fetchone()[0])\ncon.close()"
+        },
+        {
+          "id": "S12-T3-A-E2",
+          "instruction": "E2 (independiente) — CRUD de client: insert C001, update name a 'Ana Q', select name, delete, count 0.",
+          "hints": [
+            "UPDATE clients SET name=? WHERE id=?",
+            "Orden: insert → update → select → delete → count"
+          ],
+          "kind": "independent",
+          "tests": "Ana Q y 0",
+          "starterCode": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\n# TODO CRUD\ncon.close()"
+        },
+        {
+          "id": "S12-T3-A-E3",
+          "instruction": "E3 (transferencia) — Join: clients + evidence; imprime kinds de C001 ordenados.",
+          "hints": [
+            "JOIN ON c.id = e.entity_id",
+            "WHERE c.id = ?"
+          ],
+          "kind": "transfer",
+          "tests": "['geo','phone']",
+          "starterCode": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\nINSERT INTO clients VALUES ('C001','Ana');\nINSERT INTO evidence VALUES ('E1','C001','geo');\nINSERT INTO evidence VALUES ('E2','C001','phone');\nINSERT INTO evidence VALUES ('E3','C002','geo');\n''')\n# TODO query kinds for C001 sorted\ncon.close()"
+        },
+        {
+          "id": "S12-T3-B-E1",
+          "instruction": "E1 (guiado) — Reescribe búsqueda insegura: en lugar de f-string, usa `?` y muestra que input malicioso no inyecta.",
+          "hints": [
+            "WHERE id = ?",
+            "No uses f'...{user_id}'"
+          ],
+          "kind": "guided",
+          "tests": "None (no match literal)",
+          "starterCode": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\nuser_id = \"C001' OR '1'='1\"\n# TODO safe query\nprint(con.execute(\"SELECT name FROM clients WHERE id = ?\", (user_id,)).fetchone())\ncon.close()"
+        },
+        {
+          "id": "S12-T3-B-E2",
+          "instruction": "E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 si todo el batch falla junto (usa un solo BEGIN con dos inserts, el segundo duplicado).",
+          "hints": [
+            "BEGIN; insert; insert duplicado; except rollback",
+            "Tras rollback count 0"
+          ],
+          "kind": "independent",
+          "tests": "count 0",
+          "starterCode": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ntry:\n    # TODO atomic batch with duplicate\n    ...\nexcept sqlite3.IntegrityError:\n    con.rollback()\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()"
+        },
+        {
+          "id": "S12-T3-B-E3",
+          "instruction": "E3 (transferencia) — Crea índice idx_document_id en clients(document_id) y lista nombres de índices de la tabla via PRAGMA index_list.",
+          "hints": [
+            "CREATE INDEX idx_document_id ON clients(document_id)",
+            "PRAGMA index_list('clients')"
+          ],
+          "kind": "transfer",
+          "tests": "idx_document_id presente",
+          "starterCode": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)\")\n# TODO index + pragma\ncon.close()"
+        },
+        {
+          "id": "S12-T4-A-E1",
+          "instruction": "E1 (guiado) — `normalize_address` colapsa espacios y hace strip; imprime resultado de '  Jr.  de  la  Unión  100 '.",
+          "hints": [
+            "re.sub(r'\\s+', ' ', s.strip())",
+            "No uses title si no se pide; solo espacios."
+          ],
+          "kind": "guided",
+          "tests": "string normalizado",
+          "starterCode": "import re\ndef normalize_address(s):\n    # TODO\n    ...\nprint(repr(normalize_address(\"  Jr.  de  la  Unión  100 \")))"
+        },
+        {
+          "id": "S12-T4-A-E2",
+          "instruction": "E2 (independiente) — Interfaz mínima: clase MockGeocoder con geocode(city)→dict|None para Lima y Arequipa.",
+          "hints": [
+            "Tabla city→(lat,lon)",
+            "provider='mock'"
+          ],
+          "kind": "independent",
+          "tests": "-12.0464 y None",
+          "starterCode": "class MockGeocoder:\n    # TODO\n    ...\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"lat\"])\nprint(g.geocode(\"Cusco\"))"
+        },
+        {
+          "id": "S12-T4-A-E3",
+          "instruction": "E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo si las claves ⊆ {'address','city','country'} (sin document_id, account, amount).",
+          "hints": [
+            "set(payload) <= allowed",
+            "document_id debe fallar"
+          ],
+          "kind": "transfer",
+          "tests": "True/False",
+          "starterCode": "ALLOWED = {\"address\", \"city\", \"country\"}\ndef allowed_for_public_geocoder(payload):\n    # TODO\n    ...\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"address\": \"Av 1\"}))\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"document_id\": \"D1\"}))"
+        },
+        {
+          "id": "S12-T4-B-E1",
+          "instruction": "E1 (guiado) — `valid_lat_lon(lat, lon)` True solo en rangos válidos. Prueba (0,0), (91,0), (0,181), (-12.04,-77.04).",
+          "hints": [
+            "-90<=lat<=90 and -180<=lon<=180",
+            "Imprime cuatro booleanos"
+          ],
+          "kind": "guided",
+          "tests": "True False False True",
+          "starterCode": "def valid_lat_lon(lat, lon):\n    # TODO\n    ...\nfor p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:\n    print(p, valid_lat_lon(*p))"
+        },
+        {
+          "id": "S12-T4-B-E2",
+          "instruction": "E2 (independiente) — `haversine_km` entre (0,0) y (0,1) debe ser ~111.19 km; imprime round(d, 2) y assert abs(d-111.19)<1.",
+          "hints": [
+            "Fórmula Haversine con R=6371",
+            "math.radians, sin, cos, asin, sqrt"
+          ],
+          "kind": "independent",
+          "tests": "~111.19 + tolerance_ok",
+          "starterCode": "import math\ndef haversine_km(a, b):\n    # TODO\n    ...\nd = haversine_km((0.0, 0.0), (0.0, 1.0))\nprint(round(d, 2))\nassert abs(d - 111.19) < 1\nprint(\"tolerance_ok\")"
+        },
+        {
+          "id": "S12-T4-B-E3",
+          "instruction": "E3 (transferencia) — `as_relationship_signal(km)` devuelve dict type=geo_distance_km, value=km, kinship_verdict=None. Imprime para 1.2.",
+          "hints": [
+            "Nunca setees is_family",
+            "kinship_verdict siempre None en N1"
+          ],
+          "kind": "transfer",
+          "tests": "verdict None",
+          "starterCode": "def as_relationship_signal(km):\n    # TODO\n    ...\nprint(as_relationship_signal(1.2))"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Adaptadores HTTP + SQLite + geoevidencia (CP-N1-C)",
+      "context": "Incrementas **CP-N1-C** con adquisición responsable: cliente HTTP mock con timeout/paginación/retry selectivo, secretos por env, cache GET, provenance sin tokens, SQLite parametrizado (clients/transactions/evidence) y **MockGeocoder** con política de no egress de PII bancaria. Solo datos sintéticos. En S13 se cierra el dashboard de evidencia y la regresión de nivel 1.",
+      "objectives": [
+        "Cliente get_entity + list paginado con timeout y should_retry",
+        "Provenance mínimo y cache de GET",
+        "Esquema SQLite + join de caso + transacciones con rollback",
+        "MockGeocoder + Haversine como geoseñal (no parentesco)",
+        "Checklist de payload permitido al geocoder"
+      ],
+      "requirements": [
+        "Timeout obligatorio en la interfaz del cliente (simulado o real)",
+        "SQL solo con placeholders `?`",
+        "Sin tokens en logs/provenance",
+        "Geocoder mock/autorizado; sin PII bancaria a servicios públicos",
+        "Datos sintéticos latam (example.com / Lima / Arequipa)",
+        "Demo offline reproducible (fallback local)"
+      ],
+      "portfolioNote": "En el README muestra: (1) manifest de provenance sin token, (2) join de caso SQLite, (3) distancia Lima–Callao como geoseñal con disclaimer. Eso evidencia el incremento CP-N1-C de S12.",
+      "starterCode": "\"\"\"cp_n1c_acquisition.py — CP-N1-C incremento S12\nHTTP mock + SQLite + MockGeocoder. Datos sintéticos únicamente.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport math\nimport os\nimport re\nimport sqlite3\nfrom typing import Any, Optional\n\n\ndef require_token(env: dict) -> str:\n    # TODO\n    raise NotImplementedError\n\n\ndef should_retry(status: int) -> bool:\n    # TODO\n    raise NotImplementedError\n\n\ndef normalize_address(s: str) -> str:\n    # TODO\n    raise NotImplementedError\n\n\nclass MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n\n    def geocode(self, city: str) -> Optional[dict]:\n        # TODO\n        raise NotImplementedError\n\n\ndef haversine_km(a: tuple[float, float], b: tuple[float, float]) -> float:\n    # TODO\n    raise NotImplementedError\n\n\ndef build_db() -> sqlite3.Connection:\n    con = sqlite3.connect(\":memory:\")\n    # TODO schema clients/transactions/evidence\n    return con\n\n\ndef main() -> None:\n    os.environ.setdefault(\"API_TOKEN\", \"syn-demo\")\n    print(\"token_len\", len(require_token(dict(os.environ))))\n    print(\"retry 429\", should_retry(429))\n    print(\"norm\", normalize_address(\"  av  larco  1 \"))\n    print(\"geo\", MockGeocoder().geocode(\"Lima\"))\n    print(\"km\", round(haversine_km((-12.0464, -77.0428), (-12.05, -77.125)), 2))\n\n\nif __name__ == \"__main__\":\n    main()\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "Un 400 Bad Request del proveedor debe…",
+        "options": [
+          "Reintentarse con backoff infinito",
+          "Tratarse como error de cliente (no retry ciego)",
+          "Ignorarse como 200",
+          "Borrar el cache"
+        ]
+      },
+      {
+        "question": "¿Dónde debe vivir el token de API?",
+        "options": [
+          "Hardcodeado en el repo",
+          "En variable de entorno / secret store",
+          "En el log de provenance",
+          "En la URL pública del geocoder"
+        ]
+      },
+      {
+        "question": "SQL con f-string e input de usuario es…",
+        "options": [
+          "La forma recomendada en SQLite",
+          "Inyección / inseguro; usar placeholders `?`",
+          "Obligatorio para índices",
+          "Necesario para JOIN"
+        ]
+      },
+      {
+        "question": "Enviar document_id bancario a un geocoder público…",
+        "options": [
+          "Está permitido si hay timeout",
+          "Viola la política de egress de CP-N1-C",
+          "Mejora el Haversine",
+          "Es requerido por SQLite"
+        ]
+      },
+      {
+        "question": "1.2 km entre dos entidades sintéticas implica…",
+        "options": [
+          "Parentesco automático",
+          "Fraude confirmado",
+          "Una geoseñal de relación, no un veredicto",
+          "Borrar el ER score"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "9a850fff8d76808e"
+}

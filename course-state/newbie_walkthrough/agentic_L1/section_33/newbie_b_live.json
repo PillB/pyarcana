@@ -1,0 +1,244 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L1",
+  "section_index": 33,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-skeptic-s33-cd8934203a",
+  "production_note": "agentic_L1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S33-T1-A-E1",
+      "id": "S33-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\nmeets_contract = not (\"fraud\" in record[\"target\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_FRAUD_TARGET\"\nprint(\"S33-T1-A\", status)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S33-T1-A-E1 el card pide «Calcula el contrato de `unidad, target y horizonte` sobre `CASO-LIM-033-1A`. La entrada es…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local d2a206).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T1-A-E2",
+      "id": "S33-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (\"fraud\" in record[\"target\"]) else \"REJECT_FRAUD_TARGET\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'is_fraud', 'horizon': 7}}\nincomplete = {**valid}\nincomplete.pop(\"horizon\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Dudo del atajo: en S33-T1-A-E2 el card pide «Modela tres rutas de `unidad, target y horizonte`: fixture válido, fixture adverso y regis…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 1b0955).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T1-A-E3",
+      "id": "S33-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'unit', 'target', 'horizon'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_HORIZON\"\n    bad = (\"fraud\" in record[\"target\"])\n    if bad:\n        return \"REJECT_FRAUD_TARGET\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1A\", **{'unit': 'entity_pair', 'target': 'needs_review_7d', 'horizon': 7}}\ninvalid = dict(valid)\npass\nuncertain = {k: v for k, v in valid.items() if k != \"target\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S33-T1-A-E3 el card pide «Contrasta fallo cerrado para `unidad, target y horizonte` con tres fixtures distintos. `CA…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 3b39de).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T1-B-E1",
+      "id": "S33-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\nmeets_contract = not (record[\"has_baseline\"] is False)\nstatus = \"PASS\" if meets_contract else \"REJECT_NO_BASELINE\"\nprint(\"S33-T1-B\", status)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S33-T1-B-E1 el card pide «Calcula el contrato de `costos, baseline de regla y dummy estimator` sobre `CASO-LIM-033-1…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 55ad89).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T1-B-E2",
+      "id": "S33-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"has_baseline\"] is False) else \"REJECT_NO_BASELINE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.0, 'cost': None, 'has_baseline': False}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S33-T1-B-E2 el card pide «Modela tres rutas de `costos, baseline de regla y dummy estimator`: fixture válido, fixtur…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 8f9912).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T1-B-E3",
+      "id": "S33-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'dummy_acc', 'cost', 'has_baseline'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_COST\"\n    bad = (record[\"has_baseline\"] is False)\n    if bad:\n        return \"REJECT_NO_BASELINE\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-1B\", **{'dummy_acc': 0.667, 'cost': 7, 'has_baseline': True}}\ninvalid = dict(valid)\ninvalid[\"has_baseline\"] = False\nuncertain = {k: v for k, v in valid.items() if k != \"has_baseline\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Verifico la salida contractual: en S33-T1-B-E3 el card pide «Contrasta fallo cerrado para `costos, baseline de regla y dummy estimator` con tres fixtur…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 841b90).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T2-A-E1",
+      "id": "S33-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\nmeets_contract = not (record[\"l2\"] == 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_UNREGULARIZED\"\nprint(\"S33-T2-A\", status)\n",
+      "justification_from_packet": "Verifico la salida contractual: en S33-T2-A-E1 el card pide «Calcula el contrato de `regresión/logística y regularización` sobre `CASO-LIM-033-2A`. La…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local a3f9f3).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T2-A-E2",
+      "id": "S33-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"l2\"] == 0) else \"REJECT_UNREGULARIZED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 0.0}}\nincomplete = {**valid}\nincomplete.pop(\"p\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S33-T2-A-E2 el card pide «Modela tres rutas de `regresión/logística y regularización`: fixture válido, fixture adver…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 3f1e5a).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T2-A-E3",
+      "id": "S33-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'p', 'pred', 'l2'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SIGMOID\"\n    bad = (record[\"l2\"] == 0)\n    if bad:\n        return \"REJECT_UNREGULARIZED\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2A\", **{'p': 0.5, 'pred': 0, 'l2': 5.0}}\ninvalid = dict(valid)\ninvalid[\"l2\"] = 0\nuncertain = {k: v for k, v in valid.items() if k != \"l2\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S33-T2-A-E3 el card pide «Contrasta fallo cerrado para `regresión/logística y regularización` con tres fixtures dist…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 282768).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T2-B-E1",
+      "id": "S33-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\nmeets_contract = not (record[\"scaled\"] is False or record[\"causal\"] is True)\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSCALED_COEF\"\nprint(\"S33-T2-B\", status)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S33-T2-B-E1 el card pide «Calcula el contrato de `coeficientes, supuestos y scaling` sobre `CASO-LIM-033-2B`. La ent…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local c14c63).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T2-B-E2",
+      "id": "S33-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"scaled\"] is False or record[\"causal\"] is True) else \"REJECT_UNSCALED_COEF\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': False, 'causal': True}}\nincomplete = {**valid}\nincomplete.pop(\"scaled\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S33-T2-B-E2 el card pide «Modela tres rutas de `coeficientes, supuestos y scaling`: fixture válido, fixture adverso…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 4a1dc7).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T2-B-E3",
+      "id": "S33-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'coefs', 'scaled', 'causal'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SCALE_FLAG\"\n    bad = (record[\"scaled\"] is False or record[\"causal\"] is True)\n    if bad:\n        return \"REJECT_UNSCALED_COEF\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-2B\", **{'coefs': {'shared_phone': 0.8}, 'scaled': True, 'causal': False}}\ninvalid = dict(valid)\ninvalid[\"causal\"] = True\nuncertain = {k: v for k, v in valid.items() if k != \"scaled\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S33-T2-B-E3 el card pide «Contrasta fallo cerrado para `coeficientes, supuestos y scaling` con tres fixtures distint…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 4c5f15).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T3-A-E1",
+      "id": "S33-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\nmeets_contract = not (record[\"depth_unlimited\"] is True)\nstatus = \"PASS\" if meets_contract else \"REJECT_DEPTH_UNLIMITED\"\nprint(\"S33-T3-A\", status)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S33-T3-A-E1 el card pide «Calcula el contrato de `decisiones y random forest/boosting` sobre `CASO-LIM-033-3A`. La e…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local e1930c).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T3-A-E2",
+      "id": "S33-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"depth_unlimited\"] is True) else \"REJECT_DEPTH_UNLIMITED\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': True}}\nincomplete = {**valid}\nincomplete.pop(\"stump_preds\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Sospecho del predicado invertido: en S33-T3-A-E2 el card pide «Modela tres rutas de `decisiones y random forest/boosting`: fixture válido, fixture advers…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 37b6d6).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T3-A-E3",
+      "id": "S33-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'stump_preds', 'majority', 'depth_unlimited'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STUMP\"\n    bad = (record[\"depth_unlimited\"] is True)\n    if bad:\n        return \"REJECT_DEPTH_UNLIMITED\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3A\", **{'stump_preds': [0, 1], 'majority': 1, 'depth_unlimited': False}}\ninvalid = dict(valid)\ninvalid[\"depth_unlimited\"] = True\nuncertain = {k: v for k, v in valid.items() if k != \"depth_unlimited\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S33-T3-A-E3 el card pide «Contrasta fallo cerrado para `decisiones y random forest/boosting` con tres fixtures disti…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local b23dbf).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T3-B-E1",
+      "id": "S33-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\nmeets_contract = not (record[\"train_acc\"] - record[\"valid_acc\"] > 0.2)\nstatus = \"PASS\" if meets_contract else \"REJECT_OVERFIT\"\nprint(\"S33-T3-B\", status)\n",
+      "justification_from_packet": "Exijo el contrato del paquete: en S33-T3-B-E1 el card pide «Calcula el contrato de `overfit, profundidad y reproducibilidad` sobre `CASO-LIM-033-3B`…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 613185).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T3-B-E2",
+      "id": "S33-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"train_acc\"] - record[\"valid_acc\"] > 0.2) else \"REJECT_OVERFIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.99, 'valid_acc': 0.6, 'seed': 42}}\nincomplete = {**valid}\nincomplete.pop(\"seed\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "No asumo el PASS sin leer el stem: en S33-T3-B-E2 el card pide «Modela tres rutas de `overfit, profundidad y reproducibilidad`: fixture válido, fixture ad…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local da575b).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T3-B-E3",
+      "id": "S33-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'train_acc', 'valid_acc', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SEED\"\n    bad = (record[\"train_acc\"] - record[\"valid_acc\"] > 0.2)\n    if bad:\n        return \"REJECT_OVERFIT\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-3B\", **{'train_acc': 0.8, 'valid_acc': 0.75, 'seed': 42}}\ninvalid = dict(valid)\ninvalid[\"valid_acc\"] = 0.2 + 1\nuncertain = {k: v for k, v in valid.items() if k != \"train_acc\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S33-T3-B-E3 el card pide «Contrasta fallo cerrado para `overfit, profundidad y reproducibilidad` con tres fixtures d…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 6e0608).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T4-A-E1",
+      "id": "S33-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\nmeets_contract = not (not record[\"metrics\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNLOGGED_RUN\"\nprint(\"S33-T4-A\", status)\n",
+      "justification_from_packet": "Me anclo al I/O del exercise: en S33-T4-A-E1 el card pide «Calcula el contrato de `pipeline y tracking mínimo` sobre `CASO-LIM-033-4A`. La entrada es…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 42d278).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T4-A-E2",
+      "id": "S33-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (not record[\"metrics\"]) else \"REJECT_UNLOGGED_RUN\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {}, 'beats_dummy': False, 'run_id': 'run-1'}}\nincomplete = {**valid}\nincomplete.pop(\"metrics\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S33-T4-A-E2 el card pide «Modela tres rutas de `pipeline y tracking mínimo`: fixture válido, fixture adverso y regis…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local d8f954).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T4-A-E3",
+      "id": "S33-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'metrics', 'beats_dummy', 'run_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_METRICS\"\n    bad = (not record[\"metrics\"])\n    if bad:\n        return \"REJECT_UNLOGGED_RUN\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4A\", **{'metrics': {'accuracy': 0.7, 'f1': 0.6}, 'beats_dummy': True, 'run_id': 'run-1'}}\ninvalid = dict(valid)\ninvalid[\"metrics\"] = {} if isinstance(valid.get(\"metrics\"), dict) else ([] if isinstance(valid.get(\"metrics\"), list) else False)\nuncertain = {k: v for k, v in valid.items() if k != \"metrics\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Verifico la salida contractual: en S33-T4-A-E3 el card pide «Contrasta fallo cerrado para `pipeline y tracking mínimo` con tres fixtures distintos. `CA…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 2e60c1).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T4-B-E1",
+      "id": "S33-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\nmeets_contract = not (record[\"random_split\"] is True)\nstatus = \"PASS\" if meets_contract else \"REJECT_RANDOM_LEAK\"\nprint(\"S33-T4-B\", status)\n",
+      "justification_from_packet": "No me fío del defecto del starter: en S33-T4-B-E1 el card pide «Calcula el contrato de `validación cruzada apropiada y error analysis` sobre `CASO-LIM-033…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local f3dd48).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T4-B-E2",
+      "id": "S33-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not (record[\"random_split\"] is True) else \"REJECT_RANDOM_LEAK\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e1'], 'random_split': True}}\nincomplete = {**valid}\nincomplete.pop(\"entities\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Rechazo improvisar fuera del quiz_card: en S33-T4-B-E2 el card pide «Modela tres rutas de `validación cruzada apropiada y error analysis`: fixture válido, fixt…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 198dc1).",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S33-T4-B-E3",
+      "id": "S33-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'fold_scores', 'entities', 'random_split'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GROUP_IDS\"\n    bad = (record[\"random_split\"] is True)\n    if bad:\n        return \"REJECT_RANDOM_LEAK\"\n    return \"CONTINUE\"\n\nvalid = {\"case_id\": \"CASO-LIM-033-4B\", **{'fold_scores': [0.6, 0.7], 'entities': ['e1', 'e2'], 'random_split': False}}\ninvalid = dict(valid)\ninvalid[\"random_split\"] = True\nuncertain = {k: v for k, v in valid.items() if k != \"random_split\"}\nprint(decide(valid), decide(invalid), decide(uncertain))\n",
+      "justification_from_packet": "Dudo del atajo: en S33-T4-B-E3 el card pide «Contrasta fallo cerrado para `validación cruzada apropiada y error analysis` con tres fixt…»; completo el TODO/defecto solo con lo que enseña baseline/target needs_review del paquete S33 (ref local 8e81f8).",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Sin evidencia del paquete no elijo atajos: SC0 pregunta «El target del workbench debe:…» y la opción «Ser needs_review con horizonte» es la que alinea el learning outcome de S33, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Como escéptico no compro la opción fácil: SC1 pregunta «Antes del modelo ML conviene:…» y la opción «Dummy/regla y costos» es la que alinea el learning outcome de S33, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Me quedo con la lectura conservadora del curso: SC2 pregunta «Comparar coeficientes exige:…» y la opción «Features scaled y causal=False» es la que alinea el learning outcome de S33, no un veredicto mágico.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Sin evidencia del paquete no elijo atajos: SC3 pregunta «Group CV por entidad evita:…» y la opción «Leakage de la misma entidad entre folds» es la que alinea el learning outcome de S33, no un veredicto mágico.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [
+    "S33: contrasté si el starter defectuoso invertía el predicado antes de confiar.",
+    "S33: revisé que no se filtre label/fraude automático en el contrato del card."
+  ],
+  "recorded_at": "2026-07-23T16:49:14.576428+00:00",
+  "session_started_at": "2026-07-23T16:48:36.069Z",
+  "session_ended_at": "2026-07-23T16:49:14.573Z",
+  "receipt_response_sha256": "ab6cfbd502ba72caf553ae9aac0e131a90c044ffc728439faa05135b8e8d3c5e",
+  "receipt_exercises_sha256": "89f01e63bee0f7a6e89fea9aa9d9e276c7df19be27111c1c524bfdf78694a198",
+  "receipt_selfcheck_sha256": "d682234f0c5e5b98f8ae8e8aab4e30854cacb4ce6f6eb7f6a87addbbe68e9f56"
+}

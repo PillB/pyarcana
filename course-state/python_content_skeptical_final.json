@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-07-21T14:40:00Z",
+  "ok": true,
+  "summary": {
+    "runtime_artifacts": 2718,
+    "pass": 2334,
+    "fail_p1": 58,
+    "fail_p0": 0,
+    "skip": 326,
+    "exam_seed_questions": 1248,
+    "exam_concepts": 416,
+    "exam_p0": 0
+  },
+  "methodology": {
+    "runtime": "Isolated python3 -I subprocess per snippet; starters may intentionally fail; solutions must exit 0 or skip (deps/argv/fixtures/py3.10+)",
+    "exam": "Static parse of prisma/seed.ts + section selfCheck; string-aware options arrays",
+    "parallel_agents": [
+      "Fix 6 P0 demos (pandas/viz/testing/advanced)",
+      "Exam audit parser + integrity"
+    ]
+  },
+  "p0_fixed": [
+    "Self-contained demos that assumed prior df/context",
+    "PEP 604 unions for Python 3.9 host",
+    "Missing CSV fixtures written inline",
+    "Exam parser false positives (brackets inside option strings)"
+  ],
+  "residual_p1": {
+    "count": 58,
+    "mostly": "starter:unexpected_error_type — incomplete starters that fail with non-allowlisted errors; refine allowlist or mark stubs",
+    "also": "demo/solution output_mismatch (illustrative outputs with paths)"
+  },
+  "how_to_run": {
+    "runtime": "python3 scripts/python_content_runtime_audit.py --workers 4",
+    "exam": "python3 scripts/exam_selfcheck_pedagogy_audit.py"
+  }
+}

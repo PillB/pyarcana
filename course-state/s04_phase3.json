@@ -1,0 +1,1084 @@
+{
+  "version": "3.2",
+  "section": "S04",
+  "section_id": "functions-modules",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "research_agent": "Pre-Round Research curricular blueprint patterns",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N1-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S04 blueprint: 4×2 subtopics, 24 exercises, 8 demos, 24 A/B/C, project increment.",
+    "scope_in": [
+      "S04",
+      "blueprint IDs",
+      "count validation",
+      "capstone increment",
+      "platform gap notes"
+    ],
+    "scope_out": [
+      "full theory/exercise bodies",
+      "full A/B/C stems",
+      "editing section .ts",
+      "marking passed",
+      "editing checkpoint/ledger/seed/s01-s03"
+    ],
+    "stop_criterion": "counts match canonical vector slice; gate authorizes PHASE 4 only"
+  },
+  "section_meta": {
+    "id": "functions-modules",
+    "index": 4,
+    "title_platform": "Functions, Modules & Packaging",
+    "title_v3": "Iteración y resúmenes transaccionales",
+    "title_decision": "KEEP platform id 'functions-modules'. Production content rethemes to V3 'Iteración y resúmenes transaccionales'.",
+    "tagline_target": "for/while, acumuladores y resúmenes multi-registro sin desalinear datos",
+    "estimatedHours": 8,
+    "level": "Principiante",
+    "prerequisites": [
+      "S3"
+    ],
+    "environment": "browser/local",
+    "project_capstone": "CP-N1-A",
+    "gate": "CP-N1-A"
+  },
+  "learning_outcomes_section": [
+    "El estudiante recorre secuencias con for y range sin desalinear índices ni mutar de forma accidental.",
+    "El estudiante empareja secuencias con enumerate y zip sin desalinear campos de un registro multi-lista.",
+    "El estudiante escribe while con condición de terminación clara o centinela, sin loops infinitos.",
+    "El estudiante usa break/continue con propósito y aplica max_iterations o condiciones de escape.",
+    "El estudiante implementa contadores y acumuladores para resúmenes de calidad y búsqueda lineal de un registro.",
+    "El estudiante escribe list/dict comprehensions legibles y elige for explícito cuando la lógica es compleja.",
+    "El estudiante traza variables de estado iteración a iteración y predice salidas de loops.",
+    "El estudiante reconoce bucles anidados O(n²) vs lineales y corrige errores off-by-one en range/índices."
+  ],
+  "topics": [
+    {
+      "topic_id": "S04-T1",
+      "title": "Recorrido",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S04-T1-A",
+          "slug": "for-range-sequences",
+          "title": "for, range y secuencias",
+          "outcome": "El estudiante recorre secuencias con for y range sin desalinear índices ni mutar de forma accidental.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "for, range y secuencias",
+              "must_cover": [
+                "for x in seq",
+                "range(n)/range(start,stop,step)",
+                "iterables vs índices",
+                "no modificar lista mientras se itera sin patrón seguro"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S04-T1-A-DEMO",
+              "title": "Recorrer N registros sintéticos de intake e imprimir id + región",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S04-T1-A-E1",
+                "kind": "guided",
+                "title": "Completar for sobre lista de montos",
+                "skill": "for, range y secuencias",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S04-T1-A-E2",
+                "kind": "independent",
+                "title": "Sumar con for + range índices",
+                "skill": "for, range y secuencias",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S04-T1-A-E3",
+                "kind": "transfer",
+                "title": "Diagnosticar loop que salta elementos al borrar",
+                "skill": "for, range y secuencias",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S04-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S04-T1-B",
+          "slug": "enumerate-zip",
+          "title": "enumerate y zip",
+          "outcome": "El estudiante empareja secuencias con enumerate y zip sin desalinear campos de un registro multi-lista.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "enumerate y zip",
+              "must_cover": [
+                "enumerate(start=)",
+                "zip truncación al más corto",
+                "zip(..., strict=True) Python 3.10+",
+                "desempaquetar en for"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S04-T1-B-DEMO",
+              "title": "zip de nombres y montos; detectar longitudes distintas",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S04-T1-B-E1",
+                "kind": "guided",
+                "title": "enumerate para numerar filas 1-based",
+                "skill": "enumerate y zip",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S04-T1-B-E2",
+                "kind": "independent",
+                "title": "zip tres columnas sintéticas",
+                "skill": "enumerate y zip",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S04-T1-B-E3",
+                "kind": "transfer",
+                "title": "Explicar por qué zip silencioso pierde filas",
+                "skill": "enumerate y zip",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S04-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S04-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S04-T1-EVAL-1",
+            "title": "Recorrer batch de 20 registros y listar índices con enumerate",
+            "authentic": true
+          },
+          {
+            "id": "S04-T1-EVAL-2",
+            "title": "Emparejar dos columnas con zip y reportar si longitudes difieren",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S04-T2",
+      "title": "Repetición",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S04-T2-A",
+          "slug": "while-sentinels",
+          "title": "while, centinelas y terminación",
+          "outcome": "El estudiante escribe while con condición de terminación clara o centinela, sin loops infinitos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "while, centinelas y terminación",
+              "must_cover": [
+                "while cond",
+                "centinela (EOF / 'FIN' / None)",
+                "actualizar estado cada iteración",
+                "equivalencia for vs while"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S04-T2-A-DEMO",
+              "title": "Leer líneas sintéticas hasta centinela FIN",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S04-T2-A-E1",
+                "kind": "guided",
+                "title": "while que acumula hasta umbral",
+                "skill": "while, centinelas y terminación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S04-T2-A-E2",
+                "kind": "independent",
+                "title": "Simular stdin por líneas hasta vacío",
+                "skill": "while, centinelas y terminación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S04-T2-A-E3",
+                "kind": "transfer",
+                "title": "Corregir while que nunca actualiza contador",
+                "skill": "while, centinelas y terminación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S04-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S04-T2-B",
+          "slug": "break-continue",
+          "title": "break, continue y prevención de infinitos",
+          "outcome": "El estudiante usa break/continue con propósito y aplica max_iterations o condiciones de escape.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "break, continue y prevención de infinitos",
+              "must_cover": [
+                "break",
+                "continue",
+                "else en for/while (intro)",
+                "max_iterations / timeout didáctico",
+                "no swallow sin log"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S04-T2-B-DEMO",
+              "title": "Saltar filas vacías (continue) y parar en ERROR fatal (break)",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S04-T2-B-E1",
+                "kind": "guided",
+                "title": "Filtrar con continue",
+                "skill": "break, continue y prevención de infinitos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S04-T2-B-E2",
+                "kind": "independent",
+                "title": "break al primer reject crítico",
+                "skill": "break, continue y prevención de infinitos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S04-T2-B-E3",
+                "kind": "transfer",
+                "title": "Añadir guarda anti-infinito a snippet roto",
+                "skill": "break, continue y prevención de infinitos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S04-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S04-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S04-T2-EVAL-1",
+            "title": "Implementar lector con centinela y contador de líneas",
+            "authentic": true
+          },
+          {
+            "id": "S04-T2-EVAL-2",
+            "title": "Reescribir loop con continue/break documentado",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S04-T3",
+      "title": "Patrones",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S04-T3-A",
+          "slug": "counters-accumulators",
+          "title": "Contadores, acumuladores y búsqueda",
+          "outcome": "El estudiante implementa contadores y acumuladores para resúmenes de calidad y búsqueda lineal de un registro.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Contadores, acumuladores y búsqueda",
+              "must_cover": [
+                "count += 1",
+                "total += x",
+                "found/flag",
+                "any/all intro",
+                "primer match vs todos"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S04-T3-A-DEMO",
+              "title": "Contar accept/reject/review y tasa de error sobre lista de resultados",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S04-T3-A-E1",
+                "kind": "guided",
+                "title": "Contar nulos por campo",
+                "skill": "Contadores, acumuladores y búsqueda",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S04-T3-A-E2",
+                "kind": "independent",
+                "title": "Acumular monto y promedio",
+                "skill": "Contadores, acumuladores y búsqueda",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S04-T3-A-E3",
+                "kind": "transfer",
+                "title": "Buscar primer registro con región X",
+                "skill": "Contadores, acumuladores y búsqueda",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S04-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S04-T3-B",
+          "slug": "comprehensions-readable",
+          "title": "Comprehensions legibles",
+          "outcome": "El estudiante escribe list/dict comprehensions legibles y elige for explícito cuando la lógica es compleja.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Comprehensions legibles",
+              "must_cover": [
+                "[x for x in xs if p]",
+                "{k:v for ...}",
+                "no comprehensions anidadas opacas",
+                "equivalencia a for",
+                "generator expr intro breve"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S04-T3-B-DEMO",
+              "title": "Filtrar rejects y construir lista de codes con comprehension",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S04-T3-B-E1",
+                "kind": "guided",
+                "title": "Mapear montos *1.18",
+                "skill": "Comprehensions legibles",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S04-T3-B-E2",
+                "kind": "independent",
+                "title": "Dict id→status",
+                "skill": "Comprehensions legibles",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S04-T3-B-E3",
+                "kind": "transfer",
+                "title": "Refactor comprehension ilegible a for claro",
+                "skill": "Comprehensions legibles",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S04-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S04-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S04-T3-EVAL-1",
+            "title": "Resumen de tasas accept/reject/review con denominador correcto",
+            "authentic": true
+          },
+          {
+            "id": "S04-T3-EVAL-2",
+            "title": "Comprehension + for equivalente comentado",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S04-T4",
+      "title": "Razonamiento",
+      "bloom_focus": [
+        "Analizar",
+        "Aplicar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S04-T4-A",
+          "slug": "state-tracing",
+          "title": "Trazado de estado",
+          "outcome": "El estudiante traza variables de estado iteración a iteración y predice salidas de loops.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Trazado de estado",
+              "must_cover": [
+                "tabla de traza",
+                "invariante de loop intro",
+                "print debug controlado",
+                "estado inicial/final"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S04-T4-A-DEMO",
+              "title": "Traza de contador de errores en 5 registros",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S04-T4-A-E1",
+                "kind": "guided",
+                "title": "Completar tabla de traza",
+                "skill": "Trazado de estado",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S04-T4-A-E2",
+                "kind": "independent",
+                "title": "Predecir salida de loop dado",
+                "skill": "Trazado de estado",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S04-T4-A-E3",
+                "kind": "transfer",
+                "title": "Encontrar bug de estado no actualizado",
+                "skill": "Trazado de estado",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S04-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S04-T4-B",
+          "slug": "cost-off-by-one",
+          "title": "Costo lineal/cuadrático y off-by-one",
+          "outcome": "El estudiante reconoce bucles anidados O(n²) vs lineales y corrige errores off-by-one en range/índices.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Costo lineal/cuadrático y off-by-one",
+              "must_cover": [
+                "O(n) vs O(n²) intuitivo",
+                "range bounds",
+                "len-1",
+                "denominador tasas n=0",
+                "evitar microoptimización prematura"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S04-T4-B-DEMO",
+              "title": "Comparar dos loops: resumen lineal vs búsqueda ingenua anidada",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S04-T4-B-E1",
+                "kind": "guided",
+                "title": "Corregir range off-by-one",
+                "skill": "Costo lineal/cuadrático y off-by-one",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S04-T4-B-E2",
+                "kind": "independent",
+                "title": "Calcular tasa con n=0 seguro",
+                "skill": "Costo lineal/cuadrático y off-by-one",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S04-T4-B-E3",
+                "kind": "transfer",
+                "title": "Identificar O(n²) en snippet de cruce",
+                "skill": "Costo lineal/cuadrático y off-by-one",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S04-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S04-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S04-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S04-T4-EVAL-1",
+            "title": "Traza completa de script multi-registro de 6 pasos",
+            "authentic": true
+          },
+          {
+            "id": "S04-T4-EVAL-2",
+            "title": "Corregir off-by-one y documentar denominadores de tasas",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S04-PROJ",
+    "title": "Client Intake & Data Quality Script (cierre CP-N1-A)",
+    "capstone_link": "CP-N1-A",
+    "replaces_legacy": "File Organizer Automation Script",
+    "objectives": [
+      "Procesar múltiples registros sintéticos de cliente (lista o stdin simulado)",
+      "Aplicar reglas accept/reject/review heredadas de S03 por campo",
+      "Emitir resumen de conteos y tasas con denominadores correctos (incl. n=0)",
+      "Conservar valores originales (raw) junto a decisión",
+      "Demo reproducible + README breve en español"
+    ],
+    "requirements": [
+      "Interfaz función process_records(records: list[dict]) → dict con results + summary",
+      "stdout amigable: tabla o JSONL de resultados + bloque SUMMARY",
+      "Tasas: reject_rate = rejects/total si total>0 else 0.0 documentado",
+      "Sin PII real; fixtures sintéticas ≥10 registros con casos borde",
+      "Pruebas de ejemplo: normal, vacío, todos-reject, Unicode en nombres"
+    ],
+    "rubric": [
+      {
+        "criterion": "Multi-registro correcto y estable",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Integración de reglas tri-estado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Tasas y denominadores (incl. n=0)",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Conservación de originales",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Demo + README reproducibles",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Calidad de loops (sin infinito, sin O(n²) innecesario)",
+        "weight": "10%"
+      }
+    ],
+    "gate_acceptance": {
+      "id": "CP-N1-A",
+      "name": "Client Intake & Data Quality Script",
+      "must_pass": [
+        "Script/función procesa ≥10 registros sintéticos en un batch",
+        "Validación por campo con estados accept|reject|review (integrando S03)",
+        "Resumen de errores y tasas con denominadores correctos",
+        "Conserva original (raw) en salida",
+        "Demo reproducible (comando o if __name__)",
+        "README en español con uso y limitaciones",
+        "Datos sintéticos únicamente; no afirma parentesco/fraude"
+      ],
+      "deferred": [
+        "CLI instalable con argparse (S10)",
+        "packaging pyproject (S10)"
+      ],
+      "evidence": [
+        "código",
+        "fixture",
+        "salida demo capturada",
+        "README"
+      ]
+    }
+  },
+  "planned_ids": {
+    "subtopic_slugs_4x2": [
+      "for-range-sequences",
+      "enumerate-zip",
+      "while-sentinels",
+      "break-continue",
+      "counters-accumulators",
+      "comprehensions-readable",
+      "state-tracing",
+      "cost-off-by-one"
+    ],
+    "demo_ids": [
+      "S04-T1-A-DEMO",
+      "S04-T1-B-DEMO",
+      "S04-T2-A-DEMO",
+      "S04-T2-B-DEMO",
+      "S04-T3-A-DEMO",
+      "S04-T3-B-DEMO",
+      "S04-T4-A-DEMO",
+      "S04-T4-B-DEMO"
+    ],
+    "exercise_ids": [
+      "S04-T1-A-E1",
+      "S04-T1-A-E2",
+      "S04-T1-A-E3",
+      "S04-T1-B-E1",
+      "S04-T1-B-E2",
+      "S04-T1-B-E3",
+      "S04-T2-A-E1",
+      "S04-T2-A-E2",
+      "S04-T2-A-E3",
+      "S04-T2-B-E1",
+      "S04-T2-B-E2",
+      "S04-T2-B-E3",
+      "S04-T3-A-E1",
+      "S04-T3-A-E2",
+      "S04-T3-A-E3",
+      "S04-T3-B-E1",
+      "S04-T3-B-E2",
+      "S04-T3-B-E3",
+      "S04-T4-A-E1",
+      "S04-T4-A-E2",
+      "S04-T4-A-E3",
+      "S04-T4-B-E1",
+      "S04-T4-B-E2",
+      "S04-T4-B-E3"
+    ],
+    "exercise_count": 24,
+    "demo_count": 8,
+    "slug_count": 8
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "platform_extension_notes": [
+    "Legacy file src/lib/course/sections/s04-functions-modules.ts retained until PHASE 4 replacement",
+    "seed.ts concepts ['functools-wraps', 'pathlib-vs-os', 'name-main', 'keyword-only-args'] provisional; replace in PHASE 5",
+    "Legacy content destination: Funciones → V3 S5; módulos/packaging → V3 S10; pathlib → V3 S8; decorators → nivel posterior",
+    "CourseSection shape may need extension for 24 exercises / 8 demos / topic evals"
+  ],
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "gate_acceptance_specified": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Factory blueprint for S04. Do not mark passed. S04/S08 include CP gate acceptance when applicable."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 map cleanly to 8 slugs with Spanish titles",
+    "risk": "Display title still 'Functions, Modules & Packaging' until UI pass",
+    "next_single_action": "PHASE 4 — author S04-T1-A first"
+  }
+}

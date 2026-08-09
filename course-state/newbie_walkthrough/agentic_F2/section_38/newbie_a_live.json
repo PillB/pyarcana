@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s38-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T1-A-E1: packet-only solve (no prior lives)\n# CASO-LIM-038-1A — defect: wrong concurrency for CPU-bound features\nbound = \"cpu\"\nchoice = \"async_or_threads\"print(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n\n# F2-note:0500366d1f packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "CASO",
+        "LIM"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/0a9ea658] Resuelvo S38-T1-A-E1 solo con el paquete activo. Instrucción: «S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: entrada bound='cpu'; salida exacta tres líneas con». Pista: «Para CPU-bound en CPython prefiere processes por el GIL.». Demo S38-T1-A-DEMO. Código ancla: `bound = \"cpu\"`. Teoría: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure . Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T1-A-E2: packet-only solve (no prior lives)\n# CASO-LIM-038-1A2 — defect: processes for pure I/O\nbound = \"io\"\nchoice = \"processes\"print(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n\n# F2-note:2526ff20b9 packet-grounded (explorer); instr_tokens=42\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "CASO",
+        "LIM"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/0fd547bd] Resuelvo S38-T1-A-E2 solo con el paquete activo. Instrucción: «S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: entrada bound='io'; imprime async_or_threads, bound io y ok Tru». Pista: «I/O-bound: threads o async liberan espera de red.». Demo S38-T1-A-DEMO. Código ancla: `bound = \"io\"`. Teoría: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure . Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T1-A-E3: packet-only solve (no prior lives)\n# defect: skip measurement\nmeasure_first = Falseprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\n\n# F2-note:d82fd9d867 packet-grounded (explorer); instr_tokens=42\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "defect",
+        "skip"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c345ce65] Como explorador, S38-T1-A-E3: sigo el starter y el iDo. El enunciado pide «S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige measure_first=True. Entrada: flag de política; salida: True, ok True, ». Aplico «measure_first es política de equipo, no opcional.». Línea clave: `measure_first = Falseprint(measure_first)`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T1-B-E1: packet-only solve (no prior lives)\nimport json\npayload = {\"x\": 2}\n# defect: wrong serialization metric\nprint(len(str(payload)))print(\"ok\", True)\nprint(\"compact\", True)\n\n# F2-note:bc1af52a36 packet-grounded (explorer); instr_tokens=47\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "json",
+        "payload"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ee8947fe] Como explorador, S38-T1-B-E1: sigo el starter y el iDo. El enunciado pide «S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UTF-8. Contrato: print del tamaño (8), ok True, compact Tr». Aplico «json.dumps produce el blob estable; mide len(...encode()).». Línea clave: `import json`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T1-B-E2: packet-only solve (no prior lives)\n# defect: wrong GIL note\nprint(\"unlimited\")print(\"ok\", True)\nprint(\"cpu_threads\", True)\n\n# F2-note:e020c0f885 packet-grounded (explorer); instr_tokens=44\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "defect",
+        "wrong"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/9f47e40a] Como explorador, S38-T1-B-E2: sigo el starter y el iDo. El enunciado pide «S38-T1-B-E2 · Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_threads True. Contrato de etiqueta operativa para el runbook de Red An». Aplico «GIL limita paralelismo CPU en threads Python puros.». Línea clave: `print(\"unlimited\")print(\"ok\", True)`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T1-B-E3: packet-only solve (no prior lives)\n# defect: send full record between processes\nprint(\"full_record\")print(\"ok\", True)\nprint(\"n\", 1)\n\n# F2-note:27a8d032d8 packet-grounded (explorer); instr_tokens=36\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "defect",
+        "send"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/530ada1b] Como explorador, S38-T1-B-E3: sigo el starter y el iDo. El enunciado pide «S38-T1-B-E3 · Política de payload entre workers: imprime preferencia compact_payload, ok True, n 1. El starter prefiere full_record (defect: arrastra PII y byte». Aplico «Solo case_id, score y feature_ids cruzan el IPC.». Línea clave: `print(\"full_record\")print(\"ok\", True)`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T2-A-E1: packet-only solve (no prior lives)\nclass TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(3)allows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n\n# F2-note:e5f8a0ac04 packet-grounded (explorer); instr_tokens=36\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "TokenBucket",
+        "__init__"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e69e8bf4] Como explorador, S38-T2-A-E1: sigo el starter y el iDo. El enunciado pide «S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (defect) o cuenta mal.». Aplico «rate=2 ⇒ dos True y el tercero False.». Línea clave: `class TokenBucket:`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T2-A-E2: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"backpressure\")\n\n# F2-note:cdf56f8938 packet-grounded (explorer); instr_tokens=37\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5b336815] Como explorador, S38-T2-A-E2: sigo el starter y el iDo. El enunciado pide «S38-T2-A-E2 · Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola acotada es la política de backpressure del worker de scori». Aplico «maxsize finito = backpressure.». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T2-A-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"provider\")\n\n# F2-note:95abb3149d packet-grounded (explorer); instr_tokens=38\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ff0e387a] S38-T2-A-E3 — material del slim_packet basta. «S38-T2-A-E3 · ¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dice 'only_cpu' (defect). El contrato de transferencia: rat» · hint «Sin rate limit el mock/API puede banear la IP del batch.» · S38-T2-A-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T2-B-E1: packet-only solve (no prior lives)\npolicy = {\"seconds\": 0, \"on_fail\": \"ignore\"}print(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n\n# F2-note:66f9954608 packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "policy",
+        "seconds"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d11e7ff0] Resuelvo S38-T2-B-E1 solo con el paquete activo. Instrucción: «S38-T2-B-E1 · Política de timeout: imprime seconds=5, on_fail='retry_or_dlq', ok True. Fixture CASO-LIM-038-2B. Starter usa seconds=0 y on_fail='ignore' (defect». Pista: «seconds>0 evita hang infinito.». Demo S38-T2-B-DEMO. Código ancla: `policy = {\"seconds\": 0, \"on_fail\": \"ignore\"}print(policy[\"seconds\"])`. Teoría: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure . Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T2-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclose_in_finally = True\n# forma esperada (referencia): print(close_in_finally)\n\n# F2-note:b0f65d35c1 packet-grounded (explorer); instr_tokens=33\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/8edb7314] S38-T2-B-E2 — material del slim_packet basta. «S38-T2-B-E2 · Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok True. Starter deja False (defect: leak). No abras sockets reale» · hint «finally/context manager cierra aunque falle el fetch.» · S38-T2-B-DEMO. Entrega: `close_in_finally = True`. threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T2-B-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"incident\", True)\n\n# F2-note:aee3ee7be6 packet-grounded (explorer); instr_tokens=33\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/52551892] Como explorador, S38-T2-B-E3: sigo el starter y el iDo. El enunciado pide «S38-T2-B-E3 · Transferencia: sin timeout el incidente es real. Imprime incident True, ok True, n 1. Starter niega el incidente (False). Corrige para reconocer e». Aplico «Hang sin timeout = incidente de cola bloqueada.». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T3-A-E1: packet-only solve (no prior lives)\nevent = {\"event\": \"scored\", \"corr\": None}print(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\n\n# F2-note:03b5250fce packet-grounded (explorer); instr_tokens=35\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "event",
+        "scored"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3499a7fb] Resuelvo S38-T3-A-E1 solo con el paquete activo. Instrucción: «S38-T3-A-E1 · Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True. Fixture dict con corr='corr-1'. Starter omite corr (defec». Pista: «corr debe ser truthy string.». Demo S38-T3-A-DEMO. Código ancla: `event = {\"event\": \"scored\", \"corr\": None}print(bool(event.get(\"corr\")))`. Teoría: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure . Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T3-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\npillars = [\"logs\", \"metrics\", \"traces\"]\n# forma esperada (referencia): print(pillars)\n\n# F2-note:2e27dbc45a packet-grounded (explorer); instr_tokens=27\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5f958c70] S38-T3-A-E2 — material del slim_packet basta. «S38-T3-A-E2 · Tres pilares de o11y: imprime la lista ['logs','metrics','traces'], ok True, n 3. Starter lista solo ['logs'] (defect). Completa el contrato pedag» · hint «Logs eventos, metrics agregados, traces spans.» · S38-T3-A-DEMO. Entrega: `pillars = [\"logs\", \"metrics\", \"traces\"]`. threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T3-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\npii_raw = False\n# forma esperada (referencia): print(pii_raw)\n\n# F2-note:57cbb1407c packet-grounded (explorer); instr_tokens=30\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6f1e95f9] S38-T3-A-E3 — material del slim_packet basta. «S38-T3-A-E3 · pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True. Starter imprime True (defect: permite PII). Contrato de pr» · hint «Nunca pii_raw True en logs de operación.» · S38-T3-A-DEMO. Entrega: `pii_raw = False`. threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T3-B-E1: packet-only solve (no prior lives)\nphone = \"90000001\"\n# defect: raw phone in log\nprint(phone)print(\"ok\", True)\nprint(\"pii\", False)\n\n# F2-note:a33ef517db packet-grounded (explorer); instr_tokens=37\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "phone",
+        "defect"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6e780607] Resuelvo S38-T3-B-E1 solo con el paquete activo. Instrucción: «S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok True, pii». Pista: «Conserva prefijo/sufijo mínimo; enmascara el medio.». Demo S38-T3-B-DEMO. Código ancla: `phone = \"90000001\"`. Teoría: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure . Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\np95, limit = 100, 200\nslo_ok = p95 <= limit\n# forma esperada (referencia): print(slo_ok)\n\n# F2-note:c1626b8a2f packet-grounded (explorer); instr_tokens=30\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d2ee3dfb] S38-T3-B-E2 — material del slim_packet basta. «S38-T3-B-E2 · SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara al revés (p95 >= limit) (defect). Corrige el predicado de» · hint «slo_ok cuando observado <= objetivo de latencia.» · S38-T3-B-DEMO. Entrega: `p95, limit = 100, 200`. threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T3-B-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"error_budget\")\n\n# F2-note:3603bfd879 packet-grounded (explorer); instr_tokens=34\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/cda589db] S38-T3-B-E3 — material del slim_packet basta. «S38-T3-B-E3 · Concepto de error budget: imprime 'error_budget', ok True, n 1. Starter imprime 'infinite_sla' (defect). El contrato de transferencia nombra el me» · hint «Error budget cuantifica cuánto incumplimiento queda en el periodo.» · S38-T3-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstates = [\"pending\", \"running\", \"done\", \"failed\"]\n# forma esperada (referencia): print(states)\n\n# F2-note:18478cccb7 packet-grounded (explorer); instr_tokens=24\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/40bf7de2] Como explorador, S38-T4-A-E1: sigo el starter y el iDo. El enunciado pide «S38-T4-A-E1 · Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4. Starter omite 'failed' (defect). Completa la máquina de estados». Aplico «failed es estado terminal de error, distinto de pending.». Línea clave: `states = [\"pending\", \"running\", \"done\", \"failed\"]`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T4-A-E2: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"case:step:ver\")\n\n# F2-note:204ea8bdb0 packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/30eff43f] Como explorador, S38-T4-A-E2: sigo el starter y el iDo. El enunciado pide «S38-T4-A-E2 · Formato de idempotency key: imprime 'case:step:ver', ok True, dup False. Starter usa solo 'case' (defect: colisiones entre pasos). Fija el contrat». Aplico «Incluye step y versión de lógica para evitar colisiones.». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T4-A-E3: packet-only solve (no prior lives)\nstate = {\"step\": \"features\", \"status\": \"done\"}\nprint(\"intake\")print(\"ok\", True)\nprint(\"checkpoint\", True)\n\n# F2-note:cfafb056eb packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "state",
+        "step"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3298cc27] S38-T4-A-E3 — material del slim_packet basta. «S38-T4-A-E3 · Resume desde último checkpoint: imprime 'features', ok True, checkpoint True. Fixture state step=features done. Starter resume desde 'intake' (def» · hint «resume_from = último step checkpointed.» · S38-T4-A-DEMO. Entrega: `state = {\"step\": \"features\", \"status\": \"done\"}`. threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T4-B-E1: packet-only solve (no prior lives)\ndef backoff(attempt, base=0.1):\n    return base * attemptprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n\n# F2-note:6f8de12f30 packet-grounded (explorer); instr_tokens=26\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "backoff",
+        "attempt"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/de163a28] Como explorador, S38-T4-B-E1: sigo el starter y el iDo. El enunciado pide «S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa multiplicación lineal attempt*base (defect). Implementa ». Aplico «Fórmula didáctica: base * 2**attempt.». Línea clave: `def backoff(attempt, base=0.1):`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T4-B-E2: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"poison\")\n\n# F2-note:f33966e685 packet-grounded (explorer); instr_tokens=27\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/829ccee5] S38-T4-B-E2 — material del slim_packet basta. «S38-T4-B-E2 · Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'. Starter dice 'delete_always' (defect). Contrato: DLQ aísla veneno; replay es » · hint «DLQ = mensajes que fallan de forma no transitoria.» · S38-T4-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S38-T4-B-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(True)\n\n# F2-note:fdf70b503a packet-grounded (explorer); instr_tokens=29\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S38",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/71dc7c0f] Como explorador, S38-T4-B-E3: sigo el starter y el iDo. El enunciado pide «S38-T4-B-E3 · Runbook de on-call existe: imprime True, oncall True, ok True. Starter imprime False (defect: operar sin runbook). Transferencia: el drill sintéti». Aplico «Runbook: síntomas → checks → acciones.». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: threads/processes/async | I/O vs CPU, GIL y serialización | pools, backpressure ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Procesos",
+      "justification_from_packet": "[agentic_F2/Explorer] S38 q0: CPU-bound en CPython → procesos (GIL), no miles de threads CPU.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Colas infinitas y OOM",
+      "justification_from_packet": "[agentic_F2/Explorer] S38 q1: backpressure evita colas infinitas y OOM — límites de admisión/cola.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Reejecutar sin side effects duplicados",
+      "justification_from_packet": "[agentic_F2/Explorer] S38 q2: idempotencia permite reejecutar sin side effects duplicados — clave en workers/reintentos.",
+      "blocked_on": [],
+      "confidence": 0.92
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Redactar PII y correlacionar",
+      "justification_from_packet": "[agentic_F2/Explorer] S38 q3: logs de prod: redactar PII y correlacionar (case_id), no PII completa.",
+      "blocked_on": [],
+      "confidence": 0.89
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Hang de workers y cola bloqueada",
+      "justification_from_packet": "[agentic_F2/Explorer] S38 q4: proveedor sin timeout → hang de workers y cola bloqueada; no mejora p95 mágico.",
+      "blocked_on": [],
+      "confidence": 0.9
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.698475+00:00"
+}

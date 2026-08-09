@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 42,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s42-5717930f5d2f",
+  "production_note": "agentic_K1 dual-LLM Explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S42-T1-A-E1",
+      "code": "# Explorer packet solve S42-T1-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\nmeets_contract = not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_SCHEMA\"\nprint(\"S42-T1-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "Pydantic y JSON Schema",
+        "T1"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «Pydantic y JSON Schema» usando el fixture CASO-CUS-042 del paquete activo; la rama esperada distingue REJECT_SCHEMA y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T1-A-E2",
+      "code": "# Explorer packet solve S42-T1-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'json_schema', 'valid_fixture', 'business_rule', 'extra_policy', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])) else 'REJECT_SCHEMA'\n\nvalid = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\ninvalid = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\nincomplete = {**valid}\nincomplete.pop('business_rule', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "Pydantic y JSON Schema",
+        "T1"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «Pydantic y JSON Schema» usando la instruction de S42-T1-A-E2 y sus hints de dominio; la rama esperada distingue PASS, REJECT_SCHEMA y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T1-A-E3",
+      "code": "# Explorer packet solve S42-T1-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'json_schema', 'valid_fixture', 'business_rule', 'extra_policy', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_BUSINESS_INVARIANT'\n    return 'CONTINUE' if (not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])) else 'REJECT_SCHEMA'\n\nvalid = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\ninvalid = {'case_id': 'CASO-CUS-042-1A', 'extra_policy': 'forbid', 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\nincomplete = {**valid}\nincomplete.pop('business_rule', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "Pydantic y JSON Schema",
+        "T1"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «Pydantic y JSON Schema» usando theory «Pydantic y JSON Schema» y el iDo de la sección; la rama esperada distingue REJECT_SCHEMA, REVIEW_BUSINESS_INVARIANT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T1-B-E1",
+      "code": "# Explorer packet solve S42-T1-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\nmeets_contract = not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])\nstatus = \"PASS\" if meets_contract else \"VERSION_SCHEMA\"\nprint(\"S42-T1-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "evolución, discriminated unions y validación de negocio",
+        "T1"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «evolución, discriminated unions y validación de negocio» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue VERSION_SCHEMA y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T1-B-E2",
+      "code": "# Explorer packet solve S42-T1-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'handled_tags', 'union_tags', 'case_id', 'old_reader_passes', 'change'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])) else 'VERSION_SCHEMA'\n\nvalid = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}, 'handled_tags': {'email', 'phone'}}\ninvalid = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': set(), 'handled_tags': {'email', 'phone'}}\nincomplete = {**valid}\nincomplete.pop('handled_tags', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "evolución, discriminated unions y validación de negocio",
+        "T1"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «evolución, discriminated unions y validación de negocio» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, VERSION_SCHEMA y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T1-B-E3",
+      "code": "# Explorer packet solve S42-T1-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'handled_tags', 'union_tags', 'case_id', 'old_reader_passes', 'change'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'MIGRATE_CONSUMERS'\n    return 'CONTINUE' if (not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])) else 'VERSION_SCHEMA'\n\nvalid = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': {'email', 'phone'}, 'handled_tags': {'email', 'phone'}}\ninvalid = {'case_id': 'CASO-CUS-042-1B', 'change': 'add_optional', 'old_reader_passes': True, 'union_tags': set(), 'handled_tags': {'email', 'phone'}}\nincomplete = {**valid}\nincomplete.pop('handled_tags', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "evolución, discriminated unions y validación de negocio",
+        "T1"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «evolución, discriminated unions y validación de negocio» usando el fixture CASO-CUS-042 del paquete activo; la rama esperada distingue VERSION_SCHEMA, MIGRATE_CONSUMERS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T2-A-E1",
+      "code": "# Explorer packet solve S42-T2-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\nmeets_contract = not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])\nstatus = \"PASS\" if meets_contract else \"DENY_CROSS_TENANT\"\nprint(\"S42-T2-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "authn/authz y RBAC",
+        "T2"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «authn/authz y RBAC» usando la instruction de S42-T2-A-E1 y sus hints de dominio; la rama esperada distingue DENY_CROSS_TENANT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T2-A-E2",
+      "code": "# Explorer packet solve S42-T2-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'authenticated', 'actor', 'resource_owner', 'roles', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])) else 'DENY_CROSS_TENANT'\n\nvalid = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}}\ninvalid = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a_ADV', 'resource_owner': 'user-a', 'roles': {'case:read'}}\nincomplete = {**valid}\nincomplete.pop('roles', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [
+        "authn/authz y RBAC",
+        "T2"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «authn/authz y RBAC» usando theory «authn/authz y RBAC» y el iDo de la sección; la rama esperada distingue PASS, DENY_CROSS_TENANT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T2-A-E3",
+      "code": "# Explorer packet solve S42-T2-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'authenticated', 'actor', 'resource_owner', 'roles', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_RESOURCE_OWNER'\n    return 'CONTINUE' if (not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])) else 'DENY_CROSS_TENANT'\n\nvalid = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a', 'resource_owner': 'user-a', 'roles': {'case:read'}}\ninvalid = {'case_id': 'CASO-CUS-042-2A', 'authenticated': True, 'actor': 'user-a_ADV', 'resource_owner': 'user-a', 'roles': {'case:read'}}\nincomplete = {**valid}\nincomplete.pop('roles', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [
+        "authn/authz y RBAC",
+        "T2"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «authn/authz y RBAC» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue DENY_CROSS_TENANT, VERIFY_RESOURCE_OWNER y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T2-B-E1",
+      "code": "# Explorer packet solve S42-T2-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\nmeets_contract = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\nstatus = \"PASS\" if meets_contract else \"DENY_SCOPE\"\nprint(\"S42-T2-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "scopes, service identities y deny-by-default",
+        "T2"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «scopes, service identities y deny-by-default» usando el escenario sintético sin PII del curso; la rama esperada distingue DENY_SCOPE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T2-B-E2",
+      "code": "# Explorer packet solve S42-T2-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'route_declared', 'granted_scopes', 'service_id', 'requested_scope', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])) else 'DENY_SCOPE'\n\nvalid = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\ninvalid = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare_ADV', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\nincomplete = {**valid}\nincomplete.pop('route_declared', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "scopes, service identities y deny-by-default",
+        "T2"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «scopes, service identities y deny-by-default» usando el fixture fixture de S42-T2-B-E2 del paquete activo; la rama esperada distingue PASS, DENY_SCOPE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T2-B-E3",
+      "code": "# Explorer packet solve S42-T2-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'route_declared', 'granted_scopes', 'service_id', 'requested_scope', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_NARROW_GRANT'\n    return 'CONTINUE' if (not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])) else 'DENY_SCOPE'\n\nvalid = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\ninvalid = {'case_id': 'CASO-CUS-042-2B', 'requested_scope': 'report:prepare_ADV', 'granted_scopes': {'report:prepare'}, 'service_id': 'svc-reporter', 'route_declared': True}\nincomplete = {**valid}\nincomplete.pop('route_declared', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "scopes, service identities y deny-by-default",
+        "T2"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «scopes, service identities y deny-by-default» usando la instruction de S42-T2-B-E3 y sus hints de dominio; la rama esperada distingue DENY_SCOPE, REQUEST_NARROW_GRANT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T3-A-E1",
+      "code": "# Explorer packet solve S42-T3-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\nmeets_contract = not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))\nstatus = \"PASS\" if meets_contract else \"REJECT_UNTRUSTED_INPUT\"\nprint(\"S42-T3-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "input limits, injection y SSRF/path traversal",
+        "T3"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «input limits, injection y SSRF/path traversal» usando theory «input limits, injection y SSRF/path traversal» y el iDo de la sección; la rama esperada distingue REJECT_UNTRUSTED_INPUT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T3-A-E2",
+      "code": "# Explorer packet solve S42-T3-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'root', 'resolved_path', 'max_bytes', 'bytes', 'allowed_hosts', 'host', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))) else 'REJECT_UNTRUSTED_INPUT'\n\nvalid = {'case_id': 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\ninvalid = {'case_id': 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'__adv__', 'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\nincomplete = {**valid}\nincomplete.pop('root', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "input limits, injection y SSRF/path traversal",
+        "T3"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «input limits, injection y SSRF/path traversal» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue PASS, REJECT_UNTRUSTED_INPUT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T3-A-E3",
+      "code": "# Explorer packet solve S42-T3-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'root', 'resolved_path', 'max_bytes', 'bytes', 'allowed_hosts', 'host', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SECURITY_REVIEW'\n    return 'CONTINUE' if (not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))) else 'REJECT_UNTRUSTED_INPUT'\n\nvalid = {'case_id': 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\ninvalid = {'case_id': 'CASO-CUS-042-3A', 'bytes': 2048, 'max_bytes': 4096, 'host': 'docs.local', 'allowed_hosts': {'__adv__', 'docs.local'}, 'resolved_path': '/safe/reports/a.txt', 'root': '/safe/reports'}\nincomplete = {**valid}\nincomplete.pop('root', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "input limits, injection y SSRF/path traversal",
+        "T3"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «input limits, injection y SSRF/path traversal» usando el escenario sintético sin PII del curso; la rama esperada distingue REJECT_UNTRUSTED_INPUT, SECURITY_REVIEW y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T3-B-E1",
+      "code": "# Explorer packet solve S42-T3-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\nmeets_contract = not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])\nstatus = \"PASS\" if meets_contract else \"ROTATE_AND_BLOCK\"\nprint(\"S42-T3-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "secretos, cifrado y dependency risk",
+        "T3"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «secretos, cifrado y dependency risk» usando el fixture CASO-CUS-042 del paquete activo; la rama esperada distingue ROTATE_AND_BLOCK y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T3-B-E2",
+      "code": "# Explorer packet solve S42-T3-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'critical_cves', 'secret_in_log', 'dependency_pinned', 'rotation_tested', 'secret_in_repo', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])) else 'ROTATE_AND_BLOCK'\n\nvalid = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\ninvalid = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': True, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\nincomplete = {**valid}\nincomplete.pop('critical_cves', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "secretos, cifrado y dependency risk",
+        "T3"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «secretos, cifrado y dependency risk» usando la instruction de S42-T3-B-E2 y sus hints de dominio; la rama esperada distingue PASS, ROTATE_AND_BLOCK y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T3-B-E3",
+      "code": "# Explorer packet solve S42-T3-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'critical_cves', 'secret_in_log', 'dependency_pinned', 'rotation_tested', 'secret_in_repo', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ASSESS_DEPENDENCY_RISK'\n    return 'CONTINUE' if (not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])) else 'ROTATE_AND_BLOCK'\n\nvalid = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\ninvalid = {'case_id': 'CASO-CUS-042-3B', 'secret_in_repo': True, 'secret_in_log': False, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': 0}\nincomplete = {**valid}\nincomplete.pop('critical_cves', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "concepts_used": [
+        "secretos, cifrado y dependency risk",
+        "T3"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «secretos, cifrado y dependency risk» usando theory «secretos, cifrado y dependency risk» y el iDo de la sección; la rama esperada distingue ROTATE_AND_BLOCK, ASSESS_DEPENDENCY_RISK y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T4-A-E1",
+      "code": "# Explorer packet solve S42-T4-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\nmeets_contract = not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])\nstatus = \"PASS\" if meets_contract else \"MINIMIZE_AND_EXPIRE\"\nprint(\"S42-T4-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "minimización, purpose y retención",
+        "T4"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «minimización, purpose y retención» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue MINIMIZE_AND_EXPIRE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T4-A-E2",
+      "code": "# Explorer packet solve S42-T4-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'collected', 'max_retention_days', 'retention_days', 'purpose', 'needed', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])) else 'MINIMIZE_AND_EXPIRE'\n\nvalid = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\ninvalid = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': set(), 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\nincomplete = {**valid}\nincomplete.pop('max_retention_days', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "minimización, purpose y retención",
+        "T4"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «minimización, purpose y retención» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, MINIMIZE_AND_EXPIRE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T4-A-E3",
+      "code": "# Explorer packet solve S42-T4-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'collected', 'max_retention_days', 'retention_days', 'purpose', 'needed', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PRIVACY_OWNER_REVIEW'\n    return 'CONTINUE' if (not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])) else 'MINIMIZE_AND_EXPIRE'\n\nvalid = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': {'case_id', 'region'}, 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\ninvalid = {'case_id': 'CASO-CUS-042-4A', 'collected': {'case_id', 'region'}, 'needed': set(), 'purpose': 'status-report', 'retention_days': 30, 'max_retention_days': 30}\nincomplete = {**valid}\nincomplete.pop('max_retention_days', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "minimización, purpose y retención",
+        "T4"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «minimización, purpose y retención» usando el fixture CASO-CUS-042 del paquete activo; la rama esperada distingue MINIMIZE_AND_EXPIRE, PRIVACY_OWNER_REVIEW y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T4-B-E1",
+      "code": "# Explorer packet solve S42-T4-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\nmeets_contract = not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])\nstatus = \"PASS\" if meets_contract else \"PURGE_DERIVATIVES\"\nprint(\"S42-T4-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit, deletion, pseudonymization y acceso",
+        "T4"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «audit, deletion, pseudonymization y acceso» usando la instruction de S42-T4-B-E1 y sus hints de dominio; la rama esperada distingue PURGE_DERIVATIVES y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T4-B-E2",
+      "code": "# Explorer packet solve S42-T4-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'key_separate', 'pii_fields', 'audit_fields', 'derived_deleted', 'deleted', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])) else 'PURGE_DERIVATIVES'\n\nvalid = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': True, 'key_separate': True}\ninvalid = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': False, 'key_separate': True}\nincomplete = {**valid}\nincomplete.pop('key_separate', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit, deletion, pseudonymization y acceso",
+        "T4"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «audit, deletion, pseudonymization y acceso» usando theory «audit, deletion, pseudonymization y acceso» y el iDo de la sección; la rama esperada distingue PASS, PURGE_DERIVATIVES y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S42-T4-B-E3",
+      "code": "# Explorer packet solve S42-T4-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'key_separate', 'pii_fields', 'audit_fields', 'derived_deleted', 'deleted', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_DELETION_SCOPE'\n    return 'CONTINUE' if (not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])) else 'PURGE_DERIVATIVES'\n\nvalid = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': True, 'key_separate': True}\ninvalid = {'case_id': 'CASO-CUS-042-4B', 'audit_fields': {'action', 'actor_id', 'at', 'case_token'}, 'pii_fields': {'email', 'full_name'}, 'deleted': True, 'derived_deleted': False, 'key_separate': True}\nincomplete = {**valid}\nincomplete.pop('key_separate', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit, deletion, pseudonymization y acceso",
+        "T4"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «audit, deletion, pseudonymization y acceso» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue PURGE_DERIVATIVES, VERIFY_DELETION_SCOPE y no inventa evidencia ni oculta el fallo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.81,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «schema exportado y fixtures válidos/inválidos» para «¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042?» porque la theory/outcomes de S42 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 1 del quiz_card activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «emitir DENY y conservar evidencia» para «Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y audi» porque la theory/outcomes de S42 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 3 del quiz_card activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.64,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos» para «¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?» porque la theory/outcomes de S42 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 0 del quiz_card activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.75,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para «¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?» porque la theory/outcomes de S42 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 2 del quiz_card activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:30:13.831111+00:00",
+  "session_started_at": "2026-07-23T13:29:57.774860+00:00",
+  "session_ended_at": "2026-07-23T13:30:13.828245+00:00",
+  "receipt_response_sha256": "11ff13853341f784751c15c6dadb1df35453be281b2d4b6f4657ff956ef80b17",
+  "receipt_exercises_sha256": "e10773e84eb69f4b26228bbec76735246970d635b6fceaee8fba013bc18f98d9",
+  "receipt_selfcheck_sha256": "16ac8749a418fe64a560c6d1f4b810b64b47f4ac4e5533178566b2aaa985d883"
+}

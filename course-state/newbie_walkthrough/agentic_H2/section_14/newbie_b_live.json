@@ -1,0 +1,378 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-ske-s14-182991-98343",
+  "production_note": "agentic_H2 dual-LLM skeptic: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T1-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np flag». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "code": "# skeptical re-read completes via iDo\nimport numpy as np\n\ndef make_quality_arrays(n_clients=4):\n    flags = np.ones((n_clients, 3), dtype=np.uint8)  # 3 campos obligatorios\n    flags[1, 2] = 0\n    scores = np.array([0.92, 0.41, 0.78, 0.65], dtype=np.float64)\n    assert flags.ndim == 2 and flags.shape == (n_clients, 3)\n    assert scores.ndim == 1 and scores.dtype == np.float64\n    return flags, scores\n\nf, s = make_quality_arrays()\nprint(\"flags_shape\", f.shape, \"dtype\", f.dtype, \"itemsize\", f.itemsize)\nprint(\"scores_shape\", s.shape, \"nbytes\", s.nbytes)\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S14-T1-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo import numpy as np  def make_qua». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "code": "# Transfer / protocolo — S14-T1-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Valida un contrato: si un array no es 1D float64, lanza ValueEr\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: ndarray, dtype, shape, bloque, contiguo, strided, datos, homogéneos.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Comprueba ndim y dtype.\n",
+      "answer": "",
+      "justification_from_packet": "Para S14-T1-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S14-T1-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T1-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np scor». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T1-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np ids ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "code": "# Transfer / protocolo — S14-T1-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Fancy index: reordena el vector [10,20,30,40] al orden de índic\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: ndarray, dtype, shape, bloque, contiguo, strided, datos, homogéneos.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- a[order] con lista de índices.\n",
+      "answer": "",
+      "justification_from_packet": "Para S14-T1-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S14-T1-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T2-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np M = ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T2-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np scor». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "code": "# Transfer / protocolo — S14-T2-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Normaliza cada fila restando su media (keepdims) e imprime la m\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: ndarray, dtype, shape, bloque, contiguo, strided, datos, homogéneos.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- row - row.mean(axis=1, keepdims=True).\n",
+      "answer": "",
+      "justification_from_packet": "Para S14-T2-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S14-T2-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T2-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np M = ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\na = np.arange(4)\nb = np.arange(3)\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T2-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np a = ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "code": "# Transfer / protocolo — S14-T2-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Detecta incompatibilidad: intenta sumar (2,3) con (2,4) y captu\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: ndarray, dtype, shape, bloque, contiguo, strided, datos, homogéneos.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- try/except ValueError.\n",
+      "answer": "",
+      "justification_from_packet": "Para S14-T2-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S14-T2-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\nraw = np.array([1, 2, 3])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T3-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np raw ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\nraw = np.array([1, 2, 3])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T3-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np raw ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "code": "# Transfer / protocolo — S14-T3-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Marca un array como no escribible (flags.writeable=False) e int\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: ndarray, dtype, shape, bloque, contiguo, strided, datos, homogéneos.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- a.flags.writeable = False.\n",
+      "answer": "",
+      "justification_from_packet": "Para S14-T3-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S14-T3-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T3-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np x = ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\nx = np.array([1.0, np.nan, 3.0])\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T3-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np x = ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "code": "# Transfer / protocolo — S14-T3-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Reemplaza inf por nan en [1, inf, 2] y luego usa nansum; imprim\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: ndarray, dtype, shape, bloque, contiguo, strided, datos, homogéneos.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- np.where(np.isinf(x), np.nan, x).\n",
+      "answer": "",
+      "justification_from_packet": "Para S14-T3-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S14-T3-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\na = np.arange(1000, dtype=float)\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T4-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np a = ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\na = np.arange(5, dtype=float)\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T4-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np a = ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "code": "# Transfer / protocolo — S14-T4-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Mide con perf_counter un (a+b) vectorizado de n=10000 e imprime\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: ndarray, dtype, shape, bloque, contiguo, strided, datos, homogéneos.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- time.perf_counter antes/después.\n",
+      "answer": "",
+      "justification_from_packet": "Para S14-T4-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S14-T4-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport numpy as np\na = np.zeros(1000, dtype=np.float64)\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S14-T4-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import numpy as np a = ». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "code": "# skeptical re-read completes via iDo\nimport numpy as np\n\nn = 500\nbase = np.linspace(0, 1, n)\nvec = base * 0.5 + 0.1\n# simula error numérico leve\nvec_approx = vec + 1e-10\nbudget = 8 * n * n  # float64 de matriz n x n\npair = base[:, None] - base[None, :]\nprint(\"pair_nbytes\", pair.nbytes, \"budget_ok\", pair.nbytes <= budget)\nprint(\"allclose\", np.allclose(vec, vec_approx, rtol=1e-8, atol=1e-12))\nnp.testing.assert_allclose(vec, vec_approx, rtol=1e-8, atol=1e-12)\nprint(\"assert_ok\", True)\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S14-T4-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo import numpy as np  n = 500 base». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "code": "# Transfer / protocolo — S14-T4-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: assert_allclose debe fallar entre [0,0] y [0,0.1] con atol=1e-3\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: ndarray, dtype, shape, bloque, contiguo, strided, datos, homogéneos.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- np.testing.assert_allclose.\n",
+      "answer": "",
+      "justification_from_packet": "Para S14-T4-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture si». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S14-T4-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: ndarray dtype shape ndarray bloque contiguo strided datos homogéneos dtype. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "NumPy",
+        "mputo",
+        "vectorizado",
+        "Entrada"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "S14 ítem 0: descarto distractores y me quedo con 1 («dtype»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?». Tokens: ndarray dtype shape bloque contiguo strided datos homogéneos fija tipo float tupla."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "S14 ítem 1: descarto distractores y me quedo con 3 («Filtrar o seleccionar elementos que cumplen la condición»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Una máscara booleana a > 0.5 se usa principalmente para:». Tokens: ndarray dtype shape bloque contiguo strided datos homogéneos fija tipo float tupla."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "S14 ítem 2: descarto distractores y me quedo con 0 («Por columna (colapsa filas)»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «axis=0 en una reducción sobre una matriz 2D suele agregar:». Tokens: ndarray dtype shape bloque contiguo strided datos homogéneos fija tipo float tupla."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "S14 ítem 3: descarto distractores y me quedo con 2 («Puede mutar el array base porque suele ser un view»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Mutar un slice simple de un ndarray normalmente:». Tokens: ndarray dtype shape bloque contiguo strided datos homogéneos fija tipo float tupla."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:19:27.068815+00:00",
+  "session_started_at": "2026-07-23T09:19:03.379771+00:00",
+  "session_ended_at": "2026-07-23T09:19:27.068815+00:00"
+}

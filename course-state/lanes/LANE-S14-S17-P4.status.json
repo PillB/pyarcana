@@ -1,0 +1,120 @@
+{
+  "lane_id": "LANE-S14-S17-P4",
+  "parent_lane": null,
+  "sections": [
+    "S14",
+    "S15",
+    "S16",
+    "S17"
+  ],
+  "mode": "PARALLEL_PRODUCTION",
+  "role": "Author Agent PHASE 4",
+  "status": "PHASE_4_COMPLETE",
+  "section_passed": false,
+  "updated_at": "2026-07-20T07:30:50Z",
+  "S14": {
+    "section_id": "security",
+    "title_v3": "NumPy y cómputo vectorizado",
+    "subtopics_done": [
+      "S14-T1-A",
+      "S14-T1-B",
+      "S14-T2-A",
+      "S14-T2-B",
+      "S14-T3-A",
+      "S14-T3-B",
+      "S14-T4-A",
+      "S14-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N2-A (inicio)"
+  },
+  "S15": {
+    "section_id": "stdlib-deep",
+    "title_v3": "Pandas: ingesta, selección y tipos",
+    "subtopics_done": [
+      "S15-T1-A",
+      "S15-T1-B",
+      "S15-T2-A",
+      "S15-T2-B",
+      "S15-T3-A",
+      "S15-T3-B",
+      "S15-T4-A",
+      "S15-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N2-A (dataset)"
+  },
+  "S16": {
+    "section_id": "wxpython-gui",
+    "title_v3": "Calidad, limpieza y contratos de datos",
+    "subtopics_done": [
+      "S16-T1-A",
+      "S16-T1-B",
+      "S16-T2-A",
+      "S16-T2-B",
+      "S16-T3-A",
+      "S16-T3-B",
+      "S16-T4-A",
+      "S16-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N2-A (quality)"
+  },
+  "S17": {
+    "section_id": "packaging",
+    "title_v3": "Joins, reshape, groupby y cierre analítico",
+    "subtopics_done": [
+      "S17-T1-A",
+      "S17-T1-B",
+      "S17-T2-A",
+      "S17-T2-B",
+      "S17-T3-A",
+      "S17-T3-B",
+      "S17-T4-A",
+      "S17-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N2-A (cierre)"
+  },
+  "exercises_done": 96,
+  "exercises_target": 96,
+  "demos_done": 32,
+  "demos_target": 32,
+  "files_changed": [
+    "src/lib/course/sections/s14-security.ts",
+    "src/lib/course/sections/s15-stdlib-deep.ts",
+    "src/lib/course/sections/s16-wxpython-gui.ts",
+    "src/lib/course/sections/s17-packaging.ts",
+    "course-state/s14_phase4_progress.json",
+    "course-state/s15_phase4_progress.json",
+    "course-state/s16_phase4_progress.json",
+    "course-state/s17_phase4_progress.json",
+    "course-state/lanes/LANE-S14-S17-P4.status.json",
+    "scripts/_gen_s14_s17_p4.py"
+  ],
+  "execution_summary": "Retargeted S14→NumPy vectorizado (CP-N2-A inicio), S15→Pandas ingesta (dataset), S16→calidad/limpieza/contratos (quality), S17→joins/groupby/cierre (CP-N2-A gate). Full packages 8 subtopics each (theory+demo+E1/E2/E3, 2 hints) = 8 demos + 24 exercises each. Platform ids security / stdlib-deep / wxpython-gui / packaging preserved. All demos/solutions executed with python3; UNVERIFIED=[]. Español peruano; synthetic data only. No seed/checkpoint/ledger edits.",
+  "blockers": [],
+  "do_not_edit": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/parallel_orchestration.json",
+    "prisma/seed.ts"
+  ],
+  "next_action": "PHASE 5 exam banks for security, stdlib-deep, wxpython-gui, packaging V3 slugs. Do not mark S14–S17 passed from this lane.",
+  "verified_counts": {
+    "S14": 32,
+    "S15": 32,
+    "S16": 32,
+    "S17": 32,
+    "UNVERIFIED": []
+  }
+}

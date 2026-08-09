@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S49",
+  "section_id": "data-contracts",
+  "phase": "PHASE_5",
+  "lane": "LANE-S40-S52-CLOSE",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "data-contracts",
+    "title_v3": "Agentes, herramientas y context engineering",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "implementar-data-contracts-con",
+    "usar-apache-iceberg-para-data",
+    "construir-un-data-mesh:-owners",
+    "implementar-data-lineage-compl"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S49 (Agentes, herramientas y context engineering).",
+  "families": [
+    {
+      "family_id": "S49-T1-A-EX",
+      "concept": "workflow-vs-agent",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S49-T1-B-EX",
+      "concept": "routing-planner-evaluator",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S49-T2-A-EX",
+      "concept": "single-responsibility-fns",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S49-T2-B-EX",
+      "concept": "schema-perms-idempotency-errors",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S49-T3-A-EX",
+      "concept": "min-context-jit-checkpoints",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S49-T3-B-EX",
+      "concept": "memory-compaction-lkg",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S49-T4-A-EX",
+      "concept": "stopping-budgets",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S49-T4-B-EX",
+      "concept": "sandbox-human-approval-recovery",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (data-contracts key)",
+    "course-state/s49_phase5_exam_bank.json"
+  ]
+}

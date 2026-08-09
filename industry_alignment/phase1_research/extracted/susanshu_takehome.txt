@@ -1,0 +1,71 @@
+URL: https://susanshu.substack.com/p/common-mistakes-in-ml-take-home-assignment
+TITLE: Common mistakes in ML take-home assignment interviews
+PUBLISHED: 2024-04-10T22:20:13+00:00
+
+Common mistakes in ML take-home assignment interviews 
+
+ Level up your Machine Learning career 
+ Subscribe Sign in Discover more from Level up your Machine Learning career Guide to your ML career, from a 2-time Principal data scientist and author of Machine Learning Interviews (O’Reilly). Subscribe to get bonus content that didn't make it into the book. Over 1,000 subscribers Subscribe By subscribing, you agree Substack's Terms of Use , and acknowledge its Information Collection Notice and Privacy Policy . Already have an account? Sign in Common mistakes in ML take-home assignment interviews
+ Answering reader questions
+ Susan Shu Chang Apr 10, 2024 1 Share Hi all, this is another Machine Learning Interviews newsletter. Recently, I sat down and answered some questions on LinkedIn. (Text has been lightly edited for clarity).
+
+ Reader:
+
+ How to succeed in ML take-home assignment, how to go through them and explain/present them in the interview? 
+
+ Context: the reader’s question refers to take-home assignments that is sent to the job seeker before the live interview. The job-seeker completes the assignment, and then, during the live interview, discuss and present their code/model/solution with the interviewers. 
+
+ Susan: 
+
+ Hi, thanks for the message! I think it's a great question. The skills used to present take-home assignments overlap a lot with the general "ability to present models", tell a story etc. The following advice should apply both for presenting take-home assignments, as well as in your full time job in ML. 
+
+ One thing I do is really think about who's on the other side of the table: are they PMs (project/product managers)? fellow data scientists? software engineers? directors (who code little in their day to day?) 
+
+ Aside: it isn’t uncommon to speak to one or more non-technical interviewers, especially if their team works closely with the ML team. For example, I’ve been interviewed by a senior director of product, as well as a head of risk.
+
+ With that in mind, what does your audience care about? For director+ level, they are really busy and their priorities are finding important projects and keeping important projects prioritized. So, keeping it high level and showing the business impact (improvement for users, $ amounts...) are best. 
+
+ For technical people, you can present as you want to listen to. For PMs, I think something similar to director level but can have some more detail. 
+
+ Reader: 
+
+ Hi Susan, 
+
+ Based on my experiences, for the take-home assignment, the ones sitting on the other side of the table, are technical people, and senior ML engineers/ data scientists. They exactly know about the process of data science and they greatly know about programming 
+
+ For other roles that are more senior you are right, there are some other people sitting on the other side of the table and they have different priorities. 
+
+ Susan:
+
+ I see what you're saying! 
+ Addendum: I've interviewed a lot of ML/DS candidates. One of the mistakes they make is not explaining acronyms, you can talk about project ABC all day to your teammates, but to another company's DS/ML, that is gibberish. 
+
+ Aside: I’ll try to get clarification on those terms, but sometimes it wastes a lot of time, if the candidate doesn’t explain the context well.
+
+ Another mistake candidates make is that they assume the hiring board is an expert in ML in the same field. 
+
+ For example, they did computer vision projects, but my day to day is in NLP or anomaly detection. They need to explain more so that me and my fellow interviewers can understand. 
+
+ So this is even when the interviewers are all technical and experts in ML/programming, but in their own specialization; they understand the shared basics of ML/programming, but domain wise, you will always have more info about your own solution. If you did a take-home with a method you used all the time, you might know more about it than the interviewers.
+
+ Reader:
+
+ Wooow! That's a great point! and my mistake in my interviews! 
+
+ All of your points were so awesome! Thank you very much Susan! You are the best! 
+
+ And that’s the tip for this issue! I’m really glad it helped the reader, and hopefully someone reading this newsletter too. Good luck on your interviews 😄
+
+ By the way, for those with some ML experience, I’ve been invited to be part of Maven’s "Build with AI”: a modern AI curriculum taught by experts from GitHub, OpenAI, Google, and Hugging Face. along with great company like Allie K. Miller, Amir Feizpour, swyx, Jean Lee, and more. 
+
+ Check out the AI course I’m teaching, Pathway to Senior in your ML/AI/Data career. Course link (with 25% off promo): https://bit.ly/4cV3jlU 
+
+ Thanks for reading Level up your Machine Learning career! Subscribe for free to receive new posts and support my work.
+
+ Subscribe 
+
+ 1 Like 1 Share Discussion about this post
+ Comments Restacks Top Latest Discussions New chapters of Machine Learning Interviews book! And only one more chapter left to write on my end! Jul 15, 2023 • Susan Shu Chang 7 From economics student to Principal data scientist The entire journey May 19, 2023 • Susan Shu Chang 12 2 ML and AI/GenAI interview resources April 2025 cohort. Booster GenAI interview content for previous cohorts. Apr 18, 2025 • Susan Shu Chang 8 1 See all Ready for more?
+ Subscribe © 2026 Shu · Privacy ∙ Terms ∙ Collection notice Start your Substack Get the app Substack is the home for great culture 
+
+ This site requires JavaScript to run correctly. Please turn on JavaScript or unblock scripts

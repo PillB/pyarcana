@@ -1,0 +1,209 @@
+{
+  "section_index": 23,
+  "title": "Browser RPA con Playwright",
+  "outcomes": [
+    "Usar locators orientados a usuario",
+    "Aplicar auto-waiting y assertions fiables",
+    "Automatizar formularios, uploads y downloads",
+    "Modelar auth y Page Objects",
+    "Diagnosticar con trace, screenshot y logs",
+    "Diseñar retries y recovery robustos",
+    "Priorizar API/export sobre RPA",
+    "Respetar ToS/CAPTCHA y handoff humano"
+  ],
+  "theory": [
+    {
+      "heading": "De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C)",
+      "paragraphs": [
+        "En V3, **S23 no es el path principal de OpenCV/camera feeds**. Aquí construyes el **web adapter** de CP-N2-C: Playwright contra un **sitio de prueba controlado**, con traces y downloads verificados.",
+        "Modelamos el DOM y la automatización en Python puro (simulación) para que el código sea ejecutable sin browser en el playground; los mismos patrones mapean 1:1 a `playwright.sync_api`.",
+        "Orden: **T1 Navegación** → **T2 Flujos** → **T3 Diagnóstico** → **T4 Límites**. RPA es el último recurso tras API/export."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "DOM y locators orientados a usuario",
+      "paragraphs": [
+        "Prefiere **get_by_role**, **get_by_label**, **get_by_text** sobre CSS/XPath frágiles. El usuario ve roles y nombres, no `#app > div:nth-child(3)`.",
+        "CSS queda como **último recurso** cuando no hay rol accesible — y entonces pide al equipo un `data-testid`.",
+        "Modelamos locators como consultas sobre un árbol DOM sintético."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "auto-waiting y assertions",
+      "paragraphs": [
+        "Playwright **auto-espera** a que el elemento sea actionable. Evita `time.sleep` fijos: usa expect con timeout explícito.",
+        "Assertions (`expect(locator).to_be_visible()`) documentan la postcondición del paso.",
+        "Simulamos un reloj y condiciones de readiness."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "formularios, uploads/downloads y sesiones",
+      "paragraphs": [
+        "Flujos típicos: **fill** campos, **set_input_files**, click, esperar **download** y verificar path/checksum.",
+        "**storage_state** persiste cookies/localStorage para no re-loguear en cada test.",
+        "Simulamos form + download en dicts."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "auth, estados y Page Objects",
+      "paragraphs": [
+        "Un **Page Object** encapsula selectores y acciones de una pantalla (`LoginPage.submit`).",
+        "Separa **auth setup** (fixture con storage_state) del test de negocio.",
+        "Estados de página: anonymous, authenticated, mfa_pending."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "trace, screenshot y logs",
+      "paragraphs": [
+        "En falla, captura **trace.zip**, **screenshot** y **console logs**. Son el expediente del robot.",
+        "Traces permiten replay; no subas traces con secretos a repos públicos.",
+        "Simulamos un paquete de evidencia de falla."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "selectores robustos, retries y recovery",
+      "paragraphs": [
+        "**Retry policy**: reintenta solo errores transitorios (timeout de red, 429), no fallas de negocio (403, captcha).",
+        "**Recovery**: re-navegar a URL estable, rehidratar storage_state, reanudar desde checkpoint.",
+        "Estrategia de selectores: role → test id → texto → CSS."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "API/export primero",
+      "paragraphs": [
+        "Antes de RPA, busca **API**, **export CSV/XLSX**, **reportes programados**. El robot UI es frágil y caro.",
+        "Decision tree: ¿hay endpoint? ¿export manual automatizable por URL firmada? Si no, RPA con límites.",
+        "Documenta por qué se eligió RPA en el runbook."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "términos, CAPTCHA, desktop fallback y handoff humano",
+      "paragraphs": [
+        "Respeta **ToS** del sitio. Si aparece **CAPTCHA**, detén el robot y crea tarea humana.",
+        "Desktop fallback (pyautogui etc.) solo con autorización y en entorno controlado; no es default del curso.",
+        "Handoff: payload con URL, screenshot, paso fallido y contexto de negocio."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S23-T1-B-DEMO",
+      "description": "Preferir locators de rol/texto de usuario sobre CSS.",
+      "why": "Los roles estables reducen mantenimiento.",
+      "code": "nodes = [{\"role\": \"button\", \"name\": \"Enviar\"}, {\"role\": \"button\", \"name\": \"Cancelar\"}]\n\ndef by_role(role, name):\n    return next(n for n in nodes if n[\"role\"] == role and n[\"name\"] == name)\n\nprint(by_role(\"button\", \"Enviar\"))"
+    },
+    {
+      "demoId": "S23-T2-A-DEMO",
+      "description": "Assertions con auto-waiting correctos (condición, no sleep).",
+      "why": "Esperar condición evita flakiness.",
+      "code": "ready = False\nfor i in range(5):\n    if i == 3:\n        ready = True\n    if ready:\n        print(\"visible\", i)\n        break\nelse:\n    print(\"timeout\")"
+    },
+    {
+      "demoId": "S23-T2-B-DEMO",
+      "description": "Completar form con upload/download verificado.",
+      "why": "Verifica el archivo descargado, no solo el click.",
+      "code": "import hashlib\nform = {\"q\": \"enero\"}\nblob = b\"synthetic-xlsx\"\nprint(\"filled\", form)\nprint(\"sha\", hashlib.sha256(blob).hexdigest()[:10], \"n\", len(blob))"
+    },
+    {
+      "demoId": "S23-T3-A-DEMO",
+      "description": "Encapsular auth y Page Objects.",
+      "why": "Page Objects centralizan selectores.",
+      "code": "class Login:\n    def go(self, ctx):\n        ctx[\"auth\"] = True\nctx = {}\nLogin().go(ctx)\nprint(\"auth\", ctx[\"auth\"])"
+    },
+    {
+      "demoId": "S23-T3-B-DEMO",
+      "description": "Capturar trace/screenshot en falla.",
+      "why": "Sin evidencia, el fallo no es accionable.",
+      "code": "err = \"TimeoutError\"\nprint({\"trace\": \"t.zip\", \"shot\": \"s.png\", \"error\": err})"
+    },
+    {
+      "demoId": "S23-T4-A-DEMO",
+      "description": "Recuperar de fallas transitorias de UI.",
+      "why": "Retry selectivo + recovery.",
+      "code": "def retry(kinds):\n    for i, k in enumerate(kinds, 1):\n        if k == \"ok\":\n            return i\n        if k == \"captcha\":\n            return \"handoff\"\n    return \"fail\"\nprint(retry([\"timeout\", \"ok\"]), retry([\"captcha\"]))"
+    },
+    {
+      "demoId": "S23-T4-B-DEMO",
+      "description": "Preferir API/export antes de RPA.",
+      "why": "API first reduce costo operativo.",
+      "code": "opts = {\"api\": False, \"export_url\": True, \"rpa\": True}\nchoice = \"api\" if opts[\"api\"] else (\"export\" if opts[\"export_url\"] else \"rpa\")\nprint(choice)"
+    },
+    {
+      "demoId": null,
+      "description": "Detener en CAPTCHA/ToS y escalar a humano.",
+      "why": "Handoff es parte del diseño, no un fallo vergonzoso.",
+      "code": "sig = {\"captcha\": True}\nprint(\"human_handoff\" if sig.get(\"captcha\") or sig.get(\"tos\") else \"continue\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Por qué preferir get_by_role a CSS nth-child?",
+      "options": [
+        "Es más corto de escribir siempre",
+        "Refleja la UI accesible y suele ser más estable",
+        "Playwright no soporta CSS",
+        "Evita assertions"
+      ]
+    },
+    {
+      "question": "Ante un CAPTCHA el robot debe:",
+      "options": [
+        "Resolverlo con un servicio externo",
+        "Reintentar 100 veces",
+        "Detenerse y hacer handoff humano",
+        "Ignorar ToS"
+      ]
+    },
+    {
+      "question": "API/export primero significa:",
+      "options": [
+        "RPA siempre",
+        "Buscar integración no-UI antes de automatizar el browser",
+        "Prohibir Excel",
+        "Solo cloud"
+      ]
+    },
+    {
+      "question": "Un retry seguro reintenta:",
+      "options": [
+        "Cualquier error",
+        "Solo fallas transitorias (timeout/red), no captcha/403 de negocio",
+        "Solo éxitos",
+        "Captchas"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana"
+  ]
+}

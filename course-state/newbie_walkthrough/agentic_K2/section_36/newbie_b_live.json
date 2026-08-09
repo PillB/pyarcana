@@ -1,0 +1,348 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s36-0a9a13151217",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "id": "S36-T1-A-E1",
+      "code": "# skeptic/S36-T1-A-E1: packet-only K2; rejected inverted contracts / theater claims\nxs = [1, 2]\nprint(sum(xs)/len(xs))\nprint(\"n\", len(xs))\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S36/S36-T1-A-E1 («Clustering, anomalías y validación temporal»): S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clustering sintético CASO-LIM-036-1A;. Apoyo léxico K2: Contrato, scale, Entrada, verdict. Hint: Centroide 1D = media del grupo.. Starter: forma esperada en comentarios del starter, TODO contractual. Desconfío de claims de fraude o parentesco fuera de scope; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S36-T1-A"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "id": "S36-T1-A-E2",
+      "code": "# skeptic/S36-T1-A-E2: packet-only K2; rejected inverted contracts / theater claims\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\nprint(\"sd\", sd)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S36-T1-A-E2 («Clustering, anomalías y validación temporal»): confronté predicados invertidos y marcas DEFECTO. Enunciado: «S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Escala antes de k-means en el path». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: z = (x-mu)/sd.. Léxico del paquete: morales, magnitud, resúmenes, means. Desconfío de claims de fraude o parentesco fuera de scope; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S36-T1-A"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "id": "S36-T1-A-E3",
+      "code": "# skeptic/S36-T1-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"verdict\", False)\nprint(\"ok\", True)\nprint(\"task\", \"cluster\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S36-T1-A-E3. La sección «Clustering, anomalías y validación temporal» pide: S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en culpa). Transferencia ética del. Me anclé en escala, Error, flags y en «Centroides no son sanciones.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso crucé instruction contra hints e iDo del slim_packet; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S36-T1-A"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "id": "S36-T1-B-E1",
+      "code": "# skeptic/S36-T1-B-E1: packet-only K2; rejected inverted contracts / theater claims\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S36-T1-B-E1 («Clustering, anomalías y validación temporal»): contrasté theory headings con el enunciado del ejercicio. Enunciado: «S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Starter elige min (defect). Fixture sintético multi-k». Señal del starter: TODO contractual. Hint: max por score interno del lab.. Léxico del paquete: usamos, centroides, fraude, morales. Desconfío de claims de fraude o parentesco fuera de scope; riesgo: si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S36-T1-B"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "id": "S36-T1-B-E2",
+      "code": "# skeptic/S36-T1-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"seeds\", [0, 1, 2])\nprint(\"ok\", True)\nprint(\"stable\", \"check\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Me resisto a copiar sin anclar en el paquete al cerrar S36-T1-B-E2. La sección «Clustering, anomalías y validación temporal» pide: S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a seed en CASO-LIM-036.. Me anclé en density, conceptual, sintéticas y en «Varias seeds antes de fijar k.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso releí con desconfianza el starter del quiz_card; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S36-T1-B"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "id": "S36-T1-B-E3",
+      "code": "# skeptic/S36-T1-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"limit\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S36-T1-B-E3 no improvisé APIs: seguí el knowledge boundary: solo landing + packet K2 y armé el cuerpo desde el quiz_card. Resumen de instrucción: S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). Transferencia de humildad métr. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: conceptual, validación, density, sintéticas, operativo. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "concepts_used": [
+        "S36-T1-B"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "id": "S36-T2-A-E1",
+      "code": "# skeptic/S36-T2-A-E1: packet-only K2; rejected inverted contracts / theater claims\nprint(round(0.5*2 + 0.5*4, 1))\nprint(\"ok\", True)\nprint(\"pca\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S36-T2-A-E1 («Clustering, anomalías y validación temporal»): confronté predicados invertidos y marcas DEFECTO. Enunciado: «S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CASO-LIM-036, no modelo de decis». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: pc = w0*x + w1*y.. Léxico del paquete: Salida, verdict, Antes, fraude. Sigo dudando de atajos teatrales; riesgo: si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S36-T2-A"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "id": "S36-T2-A-E2",
+      "code": "# skeptic/S36-T2-A-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"decision_model\", False)\nprint(\"ok\", True)\nprint(\"use\", \"viz\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia lexical en theory/iDo del paquete activo al cerrar S36-T2-A-E2. La sección «Clustering, anomalías y validación temporal» pide: S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrato del dossier de señales CASO-LIM-036.. Me anclé en Clustering, flags, densas y en «Prohibido auto-decidir con PC.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso derivé el cuerpo desde forma esperada sin inventar APIs; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S36-T2-A"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "id": "S36-T2-A-E3",
+      "code": "# skeptic/S36-T2-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(2)\nprint(\"ok\", True)\nprint(\"explore\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S36-T2-A-E3 no improvisé APIs: contrasté theory headings con el enunciado del ejercicio y armé el cuerpo desde el quiz_card. Resumen de instrucción: S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia de n_components del lab sinté. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: geométricos, vector, Salida, anomalías, Clustering. Prefiero lo aburrido, determinista y auditable.",
+      "concepts_used": [
+        "S36-T2-A"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "id": "S36-T2-B-E1",
+      "code": "# skeptic/S36-T2-B-E1: packet-only K2; rejected inverted contracts / theater claims\nprint(False)\nprint(\"ok\", True)\nprint(\"prudent\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido, determinista y auditable al cerrar S36-T2-B-E1. La sección «Clustering, anomalías y validación temporal» pide: S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudencia de interpretación en CASO-L. Me anclé en features, scaled, regiones y en «axis_named_by_business = False.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso seguí el knowledge boundary: solo landing + packet K2; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S36-T2-B"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "id": "S36-T2-B-E2",
+      "code": "# skeptic/S36-T2-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"check_scale\", True)\nprint(\"ok\", True)\nprint(\"auto_label\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S36-T2-B-E2 no improvisé APIs: contrasté theory headings con el enunciado del ejercicio y armé el cuerpo desde el quiz_card. Resumen de instrucción: S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes de encolar, revisa scale del f. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: Contrato, validación, fraude, magnitud, verdict. Sigo dudando de atajos teatrales.",
+      "concepts_used": [
+        "S36-T2-B"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "id": "S36-T2-B-E3",
+      "code": "# skeptic/S36-T2-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"exploratory\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S36/S36-T2-B-E3 («Clustering, anomalías y validación temporal»): S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Transferencia de etiqueta del artefacto PCA en el doss. Apoyo léxico K2: resúmenes, sintéticas, morales, Clustering. Hint: Marca exploratory en el reporte.. Starter: forma esperada en comentarios del starter, TODO contractual. Sigo dudando de atajos teatrales; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S36-T2-B"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "id": "S36-T3-A-E1",
+      "code": "# skeptic/S36-T3-A-E1: packet-only K2; rejected inverted contracts / theater claims\nflags = [0, 0, 1]\nprint(sum(flags))\nprint(\"misconduct\", False)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Exijo evidencia lexical en theory/iDo del paquete activo al cerrar S36-T3-A-E1. La sección «Clustering, anomalías y validación temporal» pide: S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ conducta indebida en CASO-LIM-036-3. Me anclé en scaled, methods, Antes y en «sum(flags) cuenta raros.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso confronté predicados invertidos y marcas DEFECTO; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S36-T3-A"
+      ],
+      "confidence": 0.86
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "id": "S36-T3-A-E2",
+      "code": "# skeptic/S36-T3-A-E2: packet-only K2; rejected inverted contracts / theater claims\nprint([\"rule\", \"score\"])\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S36-T3-A-E2 no improvisé APIs: revisé que no quede TODO ni pass de relleno y armé el cuerpo desde el quiz_card. Resumen de instrucción: S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor humano del path de señales si. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: soles, means, based, buscan, usamos. Prefiero lo aburrido, determinista y auditable.",
+      "concepts_used": [
+        "S36-T3-A"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "id": "S36-T3-A-E3",
+      "code": "# skeptic/S36-T3-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"guilt\", False)\nprint(\"route\", \"review\")\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S36/S36-T3-A-E3 («Clustering, anomalías y validación temporal»): S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-closed de conducta en el triage. Apoyo léxico K2: conteos, soles, Antes, etiquetas. Hint: Ruta humana obligatoria.. Starter: forma esperada en comentarios del starter, TODO contractual. No asumo que el primer predicado booleano sea correcto; si actualizo golden sin review, oculto regresiones en la suite.",
+      "concepts_used": [
+        "S36-T3-A"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "id": "S36-T3-B-E1",
+      "code": "# skeptic/S36-T3-B-E1: packet-only K2; rejected inverted contracts / theater claims\nprint([\"outlier\", \"novelty\"])\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S36-T3-B-E1 no improvisé APIs: verifiqué el contrato I/O sintético del paquete activo y armé el cuerpo desde el quiz_card. Resumen de instrucción: S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en train vs punto nuevo en CASO-LIM. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: fraude, methods, Entrada, conceptual, means. Sigo dudando de atajos teatrales.",
+      "concepts_used": [
+        "S36-T3-B"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "id": "S36-T3-B-E2",
+      "code": "# skeptic/S36-T3-B-E2: packet-only K2; rejected inverted contracts / theater claims\nc, n = 0.1, 50\nprint(int(n * c))\nprint(\"is_fraud_rate\", False)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S36/S36-T3-B-E2 («Clustering, anomalías y validación temporal»): S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Contamination no es prevalencia d. Apoyo léxico K2: conceptual, escala, centroides, vector. Hint: expected_flags = int(n*contamination).. Starter: forma esperada en comentarios del starter, TODO contractual. Prefiero lo aburrido, determinista y auditable; si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S36-T3-B"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "id": "S36-T3-B-E3",
+      "code": "# skeptic/S36-T3-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"capacity_link\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S36-T3-B-E3 («Clustering, anomalías y validación temporal»): crucé instruction contra hints e iDo del slim_packet. Enunciado: «S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags debe caber en la cola sintética». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: Baja contamination si la cola no da abasto.. Léxico del paquete: flags, conteos, escala, morales. Exijo evidencia lexical en theory/iDo del paquete activo; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S36-T3-B"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "id": "S36-T4-A-E1",
+      "code": "# skeptic/S36-T4-A-E1: packet-only K2; rejected inverted contracts / theater claims\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\nprint(\"backtest\", True)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En S36-T4-A-E1 no improvisé APIs: seguí el knowledge boundary: solo landing + packet K2 y armé el cuerpo desde el quiz_card. Resumen de instrucción: S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintéticas del backtest temporal CAS. Flags: forma esperada en comentarios del starter, TODO contractual. Conceptos activos: regiones, conceptual, fraude, usamos, anomalías. Desconfío de claims de fraude o parentesco fuera de scope.",
+      "concepts_used": [
+        "S36-T4-A"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "id": "S36-T4-A-E2",
+      "code": "# skeptic/S36-T4-A-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(\"leakage\", False)\nprint(\"ok\", True)\nprint(\"split\", \"time\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S36/S36-T4-A-E2 («Clustering, anomalías y validación temporal»): S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato temporal del path de señales si. Apoyo léxico K2: sintéticas, fraude, conceptual, means. Hint: Fit en pasado, score en futuro.. Starter: forma esperada en comentarios del starter, TODO contractual. Desconfío de claims de fraude o parentesco fuera de scope; si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S36-T4-A"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "id": "S36-T4-A-E3",
+      "code": "# skeptic/S36-T4-A-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(3)\nprint(\"ok\", True)\nprint(\"temporal\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S36-T4-A-E3 («Clustering, anomalías y validación temporal»): seguí el knowledge boundary: solo landing + packet K2. Enunciado: «S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizantes sintéticas CASO-LIM-036.». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: Varias ventanas para ver estabilidad.. Léxico del paquete: verdict, escala, Contrato, Entrada. Prefiero lo aburrido, determinista y auditable; riesgo: si mezclo score con etiqueta de fraude, el curso marca error de juicio.",
+      "concepts_used": [
+        "S36-T4-A"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "id": "S36-T4-B-E1",
+      "code": "# skeptic/S36-T4-B-E1: packet-only K2; rejected inverted contracts / theater claims\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\nprint(\"k\", k)\nprint(\"auto_guilt\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Escéptico S36/S36-T4-B-E1 («Clustering, anomalías y validación temporal»): S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de utilidad de review, no de culpa.. Apoyo léxico K2: density, methods, magnitud, conceptual. Hint: P@k = media de los top-k labels de utilidad.. Starter: forma esperada en comentarios del starter, TODO contractual. Desconfío de claims de fraude o parentesco fuera de scope; si invento librerías fuera del paquete, rompo el knowledge boundary.",
+      "concepts_used": [
+        "S36-T4-B"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "id": "S36-T4-B-E2",
+      "code": "# skeptic/S36-T4-B-E2: packet-only K2; rejected inverted contracts / theater claims\nprint(True)\nprint(\"ok\", True)\nprint(\"labels\", \"scarce\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S36-T4-B-E2 («Clustering, anomalías y validación temporal»): confronté predicados invertidos y marcas DEFECTO. Enunciado: «S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana con labels escasos en el tria». Señal del starter: forma esperada en comentarios del starter, TODO contractual. Hint: HITL obligatorio con labels ralos.. Léxico del paquete: conteos, sintéticas, scaled, soles. Exijo evidencia lexical en theory/iDo del paquete activo; riesgo: si dejo el DEFECTO, el status PASS se invierte y el gate falla.",
+      "concepts_used": [
+        "S36-T4-B"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "id": "S36-T4-B-E3",
+      "code": "# skeptic/S36-T4-B-E3: packet-only K2; rejected inverted contracts / theater claims\nprint(\"precision_at_k\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Prefiero lo aburrido, determinista y auditable al cerrar S36-T4-B-E3. La sección «Clustering, anomalías y validación temporal» pide: S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect). Transferencia: con labels escasos prioriza P@k en. Me anclé en resúmenes, anomalías, based y en «P@k alinea con capacidad de cola.». Marcas del starter: forma esperada en comentarios del starter, TODO contractual. Por eso verifiqué el contrato I/O sintético del paquete activo; si ignoro REQUEST_* en decide, el transfer no cubre ausencia de campos.",
+      "concepts_used": [
+        "S36-T4-B"
+      ],
+      "confidence": 0.91
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S36#0 en «Clustering, anomalías y validación temporal»: «Una anomalía en el triage significa:». Escojo índice 3 → «Señal de rareza a revisar». Descarto «Fraude probado / Parentesco» (no cuadra con theory/iDo del paquete K2). Señales: regiones, densas, magnitud, features. No asumo que el primer predicado booleano sea correcto.",
+      "confidence": 0.94
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S36#1 en «Clustering, anomalías y validación temporal»: «contamination representa:». Escojo índice 1 → «Hipótesis de fracción rara a flaggear». Descarto «Tasa de fraude real / Accuracy» (no cuadra con theory/iDo del paquete K2). Señales: density, temporal, operativo, Antes. Prefiero lo aburrido, determinista y auditable.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S36#2 en «Clustering, anomalías y validación temporal»: «PCA en este curso se usa para:». Escojo índice 2 → «Exploración/visualización prudente». Descarto «Etiquetar culpa / Reemplazar el workbench» (no cuadra con theory/iDo del paquete K2). Señales: based, densas, etiquetas, Salida. Me resisto a copiar sin anclar en el paquete.",
+      "confidence": 0.91
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S36#3 en «Clustering, anomalías y validación temporal»: «Con labels escasos prioriza:». Escojo índice 0 → «precision@k y feedback humano». Descarto «Solo accuracy global / Aumentar contamination a 0.9» (no cuadra con theory/iDo del paquete K2). Señales: densas, escalamiento, regiones, scale. Desconfío de claims de fraude o parentesco fuera de scope.",
+      "confidence": 0.95
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Self-check S36#4 en «Clustering, anomalías y validación temporal»: «Un fit de normalidad que incluye el mes evaluado comete:». Escojo índice 3 → «Leakage temporal». Descarto «Warmup / Blocking» (no cuadra con theory/iDo del paquete K2). Señales: Antes, temporal, means, escalado. Exijo evidencia lexical en theory/iDo del paquete activo.",
+      "confidence": 0.8
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:19:23.230137+00:00",
+  "session_started_at": "2026-07-23T15:18:18.120267+00:00",
+  "session_ended_at": "2026-07-23T15:19:23.228088+00:00",
+  "receipt_response_sha256": "5f8dced711ad133694819f0ae802eeee2ebde3227a881f5a88cf7335dcba3539",
+  "receipt_exercises_sha256": "7a39db0e27bb278f94a781ccf95f21b42c802f74dd8516afe063462e8be5e7ec",
+  "receipt_selfcheck_sha256": "00eec02168352fe3cf01071ac48ac6b4c6ea5993cc0ec79b7db32cad63a04060"
+}

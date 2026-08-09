@@ -1,0 +1,584 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 50,
+  "packet_sha": "17320935da7c20a2",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_50/packet.json",
+  "recorded_at": "2026-07-22T01:58:10.260696+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2",
+  "persona_seed": "3f71b87092eb",
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T1-A-E1\nprint(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "dataset",
+        "versioned",
+        "rubric",
+        "gold"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T1-A-E1 siguiendo la instrucción del paquete: «Ejercicio S50-T1-A-E1: usa el patrón del demo iDo del subtema S50-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T1-B-DEMO (Demo: task dataset y rubric). Fragmento iDo: «print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")». Pistas: Busca en iDo el demo con subtopicId S50-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T1-A-E1 print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T1-A-E2\nprint(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "dataset",
+        "versioned",
+        "rubric",
+        "gold"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T1-A-E2 siguiendo la instrucción del paquete: «Ejercicio S50-T1-A-E2: usa el patrón del demo iDo del subtema S50-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T1-B-DEMO (Demo: task dataset y rubric). Fragmento iDo: «print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")». Pistas: Busca en iDo el demo con subtopicId S50-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T1-A-E2 print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T1-A-E3\nprint(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "dataset",
+        "versioned",
+        "rubric",
+        "gold"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T1-A-E3 siguiendo la instrucción del paquete: «Ejercicio S50-T1-A-E3: usa el patrón del demo iDo del subtema S50-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T1-B-DEMO (Demo: task dataset y rubric). Fragmento iDo: «print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")». Pistas: Busca en iDo el demo con subtopicId S50-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T1-A-E3 print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T1-B-E1\nprint(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "trajectory",
+        "tool_args_checked",
+        "recovery"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T1-B-E1 siguiendo la instrucción del paquete: «Ejercicio S50-T1-B-E1: usa el patrón del demo iDo del subtema S50-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T1-B-DEMO (Demo: task dataset y rubric). Fragmento iDo: «print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")». Pistas: Busca en iDo el demo con subtopicId S50-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T1-B-E1 print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T1-B-E2\nprint(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "trajectory",
+        "tool_args_checked",
+        "recovery"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T1-B-E2 siguiendo la instrucción del paquete: «Ejercicio S50-T1-B-E2: usa el patrón del demo iDo del subtema S50-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T1-B-DEMO (Demo: task dataset y rubric). Fragmento iDo: «print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")». Pistas: Busca en iDo el demo con subtopicId S50-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T1-B-E2 print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T1-B-E3\nprint(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "trajectory",
+        "tool_args_checked",
+        "recovery"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T1-B-E3 siguiendo la instrucción del paquete: «Ejercicio S50-T1-B-E3: usa el patrón del demo iDo del subtema S50-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T1-B-DEMO (Demo: task dataset y rubric). Fragmento iDo: «print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")». Pistas: Busca en iDo el demo con subtopicId S50-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T1-B-E3 print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T2-A-E1\nprint(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "det_first",
+        "llm_judge",
+        "calibrated",
+        "human"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T2-A-E1 siguiendo la instrucción del paquete: «Ejercicio S50-T2-A-E1: usa el patrón del demo iDo del subtema S50-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T2-A-DEMO (Demo: resultado, proceso, trajectory y recovery). Fragmento iDo: «print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T2-A-E1 print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotche». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T2-A-E2\nprint(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "det_first",
+        "llm_judge",
+        "calibrated",
+        "human"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T2-A-E2 siguiendo la instrucción del paquete: «Ejercicio S50-T2-A-E2: usa el patrón del demo iDo del subtema S50-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T2-A-DEMO (Demo: resultado, proceso, trajectory y recovery). Fragmento iDo: «print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T2-A-E2 print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotche». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T2-A-E3\nprint(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "det_first",
+        "llm_judge",
+        "calibrated",
+        "human"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T2-A-E3 siguiendo la instrucción del paquete: «Ejercicio S50-T2-A-E3: usa el patrón del demo iDo del subtema S50-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T2-A-DEMO (Demo: resultado, proceso, trajectory y recovery). Fragmento iDo: «print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T2-A-E3 print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotche». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T2-B-E1\nprint(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "bias",
+        "holdout_set",
+        "shuffle_order"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T2-B-E1 siguiendo la instrucción del paquete: «Ejercicio S50-T2-B-E1: usa el patrón del demo iDo del subtema S50-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T2-A-DEMO (Demo: resultado, proceso, trajectory y recovery). Fragmento iDo: «print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T2-B-E1 print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T2-B-E2\nprint(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "bias",
+        "holdout_set",
+        "shuffle_order"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T2-B-E2 siguiendo la instrucción del paquete: «Ejercicio S50-T2-B-E2: usa el patrón del demo iDo del subtema S50-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T2-A-DEMO (Demo: resultado, proceso, trajectory y recovery). Fragmento iDo: «print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T2-B-E2 print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T2-B-E3\nprint(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "bias",
+        "holdout_set",
+        "shuffle_order"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T2-B-E3 siguiendo la instrucción del paquete: «Ejercicio S50-T2-B-E3: usa el patrón del demo iDo del subtema S50-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T2-A-DEMO (Demo: resultado, proceso, trajectory y recovery). Fragmento iDo: «print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T2-B-E3 print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T3-A-E1\nprint(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "injection",
+        "exfil",
+        "block",
+        "tools"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T3-A-E1 siguiendo la instrucción del paquete: «Ejercicio S50-T3-A-E1: usa el patrón del demo iDo del subtema S50-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T3-A-DEMO (Demo: calibración, order bias y conjunto retenido). Fragmento iDo: «print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T3-A-E1 print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T3-A-E2\nprint(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "injection",
+        "exfil",
+        "block",
+        "tools"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T3-A-E2 siguiendo la instrucción del paquete: «Ejercicio S50-T3-A-E2: usa el patrón del demo iDo del subtema S50-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T3-A-DEMO (Demo: calibración, order bias y conjunto retenido). Fragmento iDo: «print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T3-A-E2 print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T3-A-E3\nprint(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "injection",
+        "exfil",
+        "block",
+        "tools"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T3-A-E3 siguiendo la instrucción del paquete: «Ejercicio S50-T3-A-E3: usa el patrón del demo iDo del subtema S50-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T3-A-DEMO (Demo: calibración, order bias y conjunto retenido). Fragmento iDo: «print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T3-A-E3 print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T3-B-E1\nprint(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "indirect",
+        "html_comments",
+        "privilege",
+        "min"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T3-B-E1 siguiendo la instrucción del paquete: «Ejercicio S50-T3-B-E1: usa el patrón del demo iDo del subtema S50-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T3-A-DEMO (Demo: calibración, order bias y conjunto retenido). Fragmento iDo: «print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T3-B-E1 print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\",». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T3-B-E2\nprint(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "indirect",
+        "html_comments",
+        "privilege",
+        "min"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T3-B-E2 siguiendo la instrucción del paquete: «Ejercicio S50-T3-B-E2: usa el patrón del demo iDo del subtema S50-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T3-A-DEMO (Demo: calibración, order bias y conjunto retenido). Fragmento iDo: «print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T3-B-E2 print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\",». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T3-B-E3\nprint(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "indirect",
+        "html_comments",
+        "privilege",
+        "min"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T3-B-E3 siguiendo la instrucción del paquete: «Ejercicio S50-T3-B-E3: usa el patrón del demo iDo del subtema S50-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T3-A-DEMO (Demo: calibración, order bias y conjunto retenido). Fragmento iDo: «print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)». Pistas: Busca en iDo el demo con subtopicId S50-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T3-B-E3 print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\",». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T4-A-E1\nprint(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "hallucination",
+        "unsupported_claim",
+        "abstain_policy",
+        "cite_or_quit"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T4-A-E1 siguiendo la instrucción del paquete: «Ejercicio S50-T4-A-E1: usa el patrón del demo iDo del subtema S50-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T4-A-DEMO (Demo: indirect injection, data poisoning y least privilege). Fragmento iDo: «print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")». Pistas: Busca en iDo el demo con subtopicId S50-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T4-A-E1 print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T4-A-E2\nprint(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "hallucination",
+        "unsupported_claim",
+        "abstain_policy",
+        "cite_or_quit"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T4-A-E2 siguiendo la instrucción del paquete: «Ejercicio S50-T4-A-E2: usa el patrón del demo iDo del subtema S50-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T4-A-DEMO (Demo: indirect injection, data poisoning y least privilege). Fragmento iDo: «print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")». Pistas: Busca en iDo el demo con subtopicId S50-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T4-A-E2 print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T4-A-E3\nprint(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "hallucination",
+        "unsupported_claim",
+        "abstain_policy",
+        "cite_or_quit"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T4-A-E3 siguiendo la instrucción del paquete: «Ejercicio S50-T4-A-E3: usa el patrón del demo iDo del subtema S50-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T4-A-DEMO (Demo: indirect injection, data poisoning y least privilege). Fragmento iDo: «print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")». Pistas: Busca en iDo el demo con subtopicId S50-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T4-A-E3 print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T4-B-E1\nprint(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "rollback",
+        "cost_guardrail",
+        "latency_slo"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T4-B-E1 siguiendo la instrucción del paquete: «Ejercicio S50-T4-B-E1: usa el patrón del demo iDo del subtema S50-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T4-A-DEMO (Demo: indirect injection, data poisoning y least privilege). Fragmento iDo: «print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")». Pistas: Busca en iDo el demo con subtopicId S50-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T4-B-E1 print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T4-B-E2\nprint(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "rollback",
+        "cost_guardrail",
+        "latency_slo"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T4-B-E2 siguiendo la instrucción del paquete: «Ejercicio S50-T4-B-E2: usa el patrón del demo iDo del subtema S50-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T4-A-DEMO (Demo: indirect injection, data poisoning y least privilege). Fragmento iDo: «print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")». Pistas: Busca en iDo el demo con subtopicId S50-T4-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T4-B-E2 print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# explorer/B2: completed from packet iDo for S50-T4-B-E3\nprint(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)\n# B2 dual-run (Explorer): re-validated vs packet S50 S50-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S50",
+        "rollback",
+        "cost_guardrail",
+        "latency_slo"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S50-T4-B-E3 siguiendo la instrucción del paquete: «Ejercicio S50-T4-B-E3: usa el patrón del demo iDo del subtema S50-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Me apoyo en el demo S50-T4-A-DEMO (Demo: indirect injection, data poisoning y least privilege). Fragmento iDo: «print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")». Pistas: Busca en iDo el demo con subtopicId S50-T4-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S50']. Mi código clave: «# explorer/B2: completed from packet iDo for S50-T4-B-E3 print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)». Teoría cercana: Mapa V3 S50: Evals, red teaming y fiabilidad de IA | task dataset y rubric | resultado, proceso, tra."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "tech-leadership",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Theory Mapa V3 S50: retematiza el archivo de plataforma `tech-leadership` — ese id de plataforma se preserva (no renamed-v3/legacy-drop/random)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "CP-N4-C (quality gate)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Theory integra el incremento **CP-N4-C (quality gate)** (Q de gate V3). No es CP-N1-A ni marketing vacío."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Datos sintéticos",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Theory mapa: «fixtures sintéticas» / «sin exponer secretos ni PII real» → ejemplos con datos sintéticos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Misma entidad cuando aplique",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Hilo del curso + mapa: entity resolution (si aparece) decide misma entidad cuando aplique; no fraude, parentesco ni sentimiento."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

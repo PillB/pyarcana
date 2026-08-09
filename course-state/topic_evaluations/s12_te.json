@@ -1,0 +1,171 @@
+{
+  "version": "3.2",
+  "section": "S12",
+  "section_id": "performance",
+  "section_title": "APIs, SQL y geodatos responsables",
+  "artifact": "topic_evaluations",
+  "platform_note": "Paquetes TE V3 (4 por sección). Datos estructurados para render TopicEvaluation; CourseSection.topicEvaluations es opcional.",
+  "generated_at": "2026-07-20T14:52:23Z",
+  "rubric_scale": "0-3 per criterion",
+  "language": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_principle": "Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude.",
+  "topic_evaluations": [
+    {
+      "id": "S12-T1-TE",
+      "topic_id": "S12-T1",
+      "title": "Evaluación formativa — HTTP",
+      "subtopics_covered": [
+        "S12-T1-A",
+        "S12-T1-B"
+      ],
+      "topic_summary": "requests/responses, status y JSON; timeout, paginación, retry/backoff y rate limit.",
+      "tasks": [
+        {
+          "id": "S12-T1-TE-1",
+          "title": "Tarea auténtica — HTTP: requests/responses, status y JSON",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: requests/responses, status y JSON. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S12, tema T1.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S12-T1-TE-2",
+          "title": "Tarea auténtica — HTTP: timeout, paginación, retry/backoff y rate limit",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: timeout, paginación, retry/backoff y rate limit. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S12, tema T1.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «HTTP» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S12-T2-TE",
+      "topic_id": "S12-T2",
+      "title": "Evaluación formativa — APIs",
+      "subtopics_covered": [
+        "S12-T2-A",
+        "S12-T2-B"
+      ],
+      "topic_summary": "auth y secretos; cache, provenance, contract tests y fallback.",
+      "tasks": [
+        {
+          "id": "S12-T2-TE-1",
+          "title": "Tarea auténtica — APIs: auth y secretos",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: auth y secretos. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S12, tema T2.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S12-T2-TE-2",
+          "title": "Tarea auténtica — APIs: cache, provenance, contract tests y fallback",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: cache, provenance, contract tests y fallback. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S12, tema T2.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «APIs» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S12-T3-TE",
+      "topic_id": "S12-T3",
+      "title": "Evaluación formativa — SQL",
+      "subtopics_covered": [
+        "S12-T3-A",
+        "S12-T3-B"
+      ],
+      "topic_summary": "esquema, CRUD y joins; parámetros, transacciones, constraints e índices básicos.",
+      "tasks": [
+        {
+          "id": "S12-T3-TE-1",
+          "title": "Tarea auténtica — SQL: esquema, CRUD y joins",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: esquema, CRUD y joins. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S12, tema T3.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S12-T3-TE-2",
+          "title": "Tarea auténtica — SQL: parámetros, transacciones, constraints e índices básicos",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: parámetros, transacciones, constraints e índices básicos. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S12, tema T3.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «SQL» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S12-T4-TE",
+      "topic_id": "S12-T4",
+      "title": "Evaluación formativa — Geodatos",
+      "subtopics_covered": [
+        "S12-T4-A",
+        "S12-T4-B"
+      ],
+      "topic_summary": "normalización/geocoding autorizado; calidad de coordenada, Haversine/rutas, caching y política de proveedor.",
+      "tasks": [
+        {
+          "id": "S12-T4-TE-1",
+          "title": "Tarea auténtica — Geodatos: normalización/geocoding autorizado",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: normalización/geocoding autorizado. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S12, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S12-T4-TE-2",
+          "title": "Tarea auténtica — Geodatos: calidad de coordenada, Haversine/rutas, caching y política de proveedor",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: calidad de coordenada, Haversine/rutas, caching y política de proveedor. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S12, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Geodatos» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    }
+  ],
+  "counts": {
+    "topic_evaluations": 4,
+    "tasks": 8
+  }
+}

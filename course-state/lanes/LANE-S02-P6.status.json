@@ -1,0 +1,41 @@
+{
+  "lane_id": "LANE-S02-P6",
+  "status": "completed",
+  "phase": "PHASE_6_ISOLATED_VALIDATION",
+  "section": "S02",
+  "section_id": "basics",
+  "generated_at": "2026-07-20T23:30:00Z",
+  "validation_status": "passed",
+  "authorized_to_close_section": true,
+  "artifact": "course-state/s02_phase6_validation.json",
+  "inventory": {
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants": 24
+  },
+  "execution": {
+    "decimal_demo_pass": true,
+    "parse_demo_pass": true,
+    "e2_e3_decimal_pass": ["S02-T3-B-E2", "S02-T3-B-E3"],
+    "e2_e3_parse_pass": ["S02-T4-B-E2", "S02-T4-B-E3"],
+    "youdo_starter_pass": true,
+    "exam_structure_ok": true,
+    "exam_spotcheck": "8/8",
+    "seed_basics_8x3": true,
+    "privacy_ok": true
+  },
+  "issues_found": [],
+  "files_written": [
+    "course-state/s02_phase6_validation.json",
+    "course-state/lanes/LANE-S02-P6.status.json"
+  ],
+  "files_not_edited": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "src/lib/course/sections/s01-setup.ts",
+    "src/lib/course/sections/s02-basics.ts"
+  ],
+  "next_action": "Orchestrator: merge PHASE 6 into checkpoint/section_ledger for S02; db:seed basics bank."
+}

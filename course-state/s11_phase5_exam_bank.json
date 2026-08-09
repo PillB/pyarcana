@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S11",
+  "section_id": "testing",
+  "phase": "PHASE_5",
+  "lane": "LANE-N1-FINISH",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "testing"
+  },
+  "retired_from_bank": [
+    "pytest-naming",
+    "fixtures-purpose",
+    "parametrize",
+    "coverage"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S11.",
+  "families": [
+    {
+      "family_id": "S11-T1-A-EX",
+      "concept": "classes-instances-dataclass",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S11-T1-B-EX",
+      "concept": "invariants-valid-states",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S11-T2-A-EX",
+      "concept": "properties-methods",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S11-T2-B-EX",
+      "concept": "equality-hash-mutability",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S11-T3-A-EX",
+      "concept": "composition-over-inheritance",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S11-T3-B-EX",
+      "concept": "protocols-purposeful-polymorphism",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S11-T4-A-EX",
+      "concept": "repositories-services-serialization",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S11-T4-B-EX",
+      "concept": "domain-deps-tests",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (testing key)",
+    "course-state/s11_phase5_exam_bank.json"
+  ]
+}

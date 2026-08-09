@@ -1,0 +1,417 @@
+{
+  "agent": "b",
+  "section_index": 11,
+  "recorded_at": "2026-08-01T15:12:21.306311+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "Evita el default mutable compartido entre instancias",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.0,
+          6.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          3.0,
+          1.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Definir un puerto get/save implementable por dobles de prueba y adaptadores",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          7.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          1.0,
+          3.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          1.0,
+          9.45,
+          2.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "chosen_text": "Tests unitarios",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          3.0,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S11-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · ClientRecord dataclass\n# DEFECT: sin fields; default mutable list\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    full_name: str\n    emails: list = []\n\nprint(ClientRecord(\"C001\", \"DNI-1\", \"Ana Pérez\"))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "extra",
+          "objeto",
+          "lista",
+          "texto",
+          "compartida",
+          "importa",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S11-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · Transaction Decimal\n# DEFECT: amount float\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: float\n    currency: str\n\nprint(Transaction(\"T1\", \"C001\", 150.50, \"PEN\"))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "construye",
+          "instancia",
+          "mantén",
+          "llames",
+          "cambia",
+          "tipo",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S11-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. El starter define `from_dict` sobre `self` y devuelve `d` — ese es el defecto.n2. Conviértelo en `@classmethod` que l",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S11-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Añade `__post_init__` al starter (hoy acepta todo).n2. Valida tipo Decimal, `amount > 0`, quantize a `0.01`, currency",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S11-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. En `from_dict`, haz `strip` de ambos campos.n2. Si alguno queda vacío, lanza `ValueError` con mensaje claro.n3. Impri",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S11-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · validate() reutilizable\n# DEFECT: validate siempre devuelve []\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def validate(self) -> list[str]:\n        return []\n\nbad = ClientRecord(\"\", \"  \")\ngood = ClientRecord(\"C1\", \"D1\")\nprint(bad.validate())\nprint(good.validate())\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "rellena",
+          "esto",
+          "lista",
+          "is_fraud",
+          "conviertas",
+          "reglas",
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S11-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · full_name property\n# DEFECT: método no property; orden apellido primero\nfrom dataclasses import dataclass\n\n@dataclass\nclass PersonName:\n    first_name: str\n    last_name: str\n\n    def full_name(self) -> str:\n        return f\"{self.last_name} {self.first_name}\"\n\nprint(PersonName(\"Ana\", \"Pérez\").full_name())\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "espacio",
+          "concatena",
+          "string",
+          "usa",
+          "almacenes",
+          "invertido",
+          "marca",
+          "ambos"
+        ]
+      },
+      {
+        "exercise_id": "S11-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · age_days_since\n# DEFECT: day_created - day invertido; no valida día anterior\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n\n    def age_days_since(self, day: int) -> int:\n        return self.day_created - day\n\nt = Transaction(\"T1\", 10)\nprint(t.age_days_since(25))\nprint(t.age_days_since(5))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "revés",
+          "prefijo",
+          "captura",
+          "localiza",
+          "reject",
+          "ambas",
+          "fallas",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S11-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · score setter [0, 1]\n# DEFECT: no valida rango ni nan\nfrom math import isfinite\n\nclass Signal:\n    def __init__(self):\n        self._score = 0.0\n\n    @property\n    def score(self) -> float:\n        return self._score\n\n    @score.setter\n    def score(self, value: float) -> None:\n        self._score = float(value)\n\ns = Signal()\ns.score = 0.4\nprint(\"ok\", s.score)\ns.score = 1.5\nprint(\"ok\", s.score)\ns.score = float(\"nan\")\nprint(\"ok\", s.score)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "mensaje",
+          "mismo",
+          "reject",
+          "contrato",
+          "prefijos",
+          "except",
+          "fuera",
+          "según"
+        ]
+      },
+      {
+        "exercise_id": "S11-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · frozen equality\n# DEFECT: no frozen; name en compare\nfrom dataclasses import dataclass\n\n@dataclass\nclass ResolvedEntity:\n    entity_id: str\n    display_name: str\n\na = ResolvedEntity(\"E1\", \"Ana\")\nb = ResolvedEntity(\"E1\", \"Ana actualizada\")\nc = ResolvedEntity(\"E2\", \"Ana\")\nprint(a == b, a == c)\nprint(len({a, b, c}))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "compara",
+          "vacío",
+          "nombre",
+          "bien",
+          "también",
+          "__post_init__",
+          "eso",
+          "colapsa"
+        ]
+      },
+      {
+        "exercise_id": "S11-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · frozen set dedup\n# DEFECT: no frozen; len wrong\nfrom dataclasses import dataclass\n\n@dataclass\nclass Evidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\ns = {\n    Evidence(\"E1\", \"E2\", 0.2),\n    Evidence(\"E1\", \"E2\", 0.2),\n    Evidence(\"E1\", \"E3\", 0.1),\n}\nprint(len(s))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "solo",
+          "elementos",
+          "mantén",
+          "tres",
+          "marca",
+          "iguales",
+          "colapsa",
+          "valores"
+        ]
+      },
+      {
+        "exercise_id": "S11-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · mutable hash bug\n# DEFECT: no muestra SAFE frozen\nclass MutableEntity:\n    def __init__(self, eid, name):\n        self.eid = eid\n        self.name = name\n    def __hash__(self):\n        return hash((self.eid, self.name))\n    def __eq__(self, o):\n        return isinstance(o, MutableEntity) and (self.eid, self.name) == (o.eid, o.name)\n\nm = MutableEntity(\"E1\", \"Ana\")\nd = {m: \"row\"}\nm.name = \"Ana P\"\nprint(\"BUG lookup_after_mutate\", d.get(m))\nprint(\"SAFE\", \"skipped\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "tras",
+          "none",
+          "insertar",
+          "líneas",
+          "misma",
+          "añade",
+          "prefijos",
+          "frozenentity"
+        ]
+      },
+      {
+        "exercise_id": "S11-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · composition\n# DEFECT: herencia de PersonInfo; design=inheritance\nfrom dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    first_name: str\n    last_name: str\n\n@dataclass\nclass Client(PersonInfo):\n    client_id: str\n\nc = Client(\"Ana\", \"Pérez\", \"C001\")\nprint(c.client_id, c.first_name)\nprint(\"design=inheritance\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "quita",
+          "añade",
+          "línea",
+          "campo"
+        ]
+      },
+      {
+        "exercise_id": "S11-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · CaseFile evidences\n# DEFECT: default mutable list (CF2 hereda evidencias de CF1)\nfrom dataclasses import dataclass\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = []\n\n    def add_evidence(self, ev: dict) -> None:\n        self.evidences.append(ev)\n\ncf = CaseFile(\"CF1\")\ncf.add_evidence({\"score\": 0.1})\ncf.add_evidence({\"score\": 0.2})\ncf2 = CaseFile(\"CF2\")\nprint(\"n=\", len(cf.evidences), \"empty\", len(cf2.evidences))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "field",
+          "exacto",
+          "cambia",
+          "contrato",
+          "añade",
+          "comparte",
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S11-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Añade `__post_init__` con comparación lexicográfica (orden alfabético de strings) e `isfinite`.n2. Agrega dos evidenc",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S11-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-011 · Protocol Scorer\n# DEFECT: FakeScorer sin score method name\nfrom typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def compute(self, pair: tuple[str, str]) -> float:\n        return 0.5\n\ns = FakeScorer()\nprint(s.compute((\"E1\", \"E2\")))\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "contrato",
+          "renombra",
+          "firma",
+          "opcionalmente",
+          "llama",
+          "cambies",
+          "starter",
+          "tipa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · inject normalizer\n# DEFECT: apply ignora norm\ndef apply(norm, text):\n    return text\n\ndef strip_norm(s: str) -> str:\n    return s.strip()\n\ndef casefold_norm(s: str) -> str:\n    return s.strip().casefold()\n\nprint(apply(strip_norm, \" Ana \"))\nprint(apply(casefold_norm, \" Ana \"))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "dentro",
+          "mantén",
+          "callable",
+          "fixture",
+          "ese",
+          "use",
+          "dos"
+        ]
+      },
+      {
+        "exercise_id": "S11-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. El starter siempre devuelve `True` — aplica las reglas de los hints.n2. False si API inestable; False si <2 adapters ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S11-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. El starter serializa `internal_note` — quítalo del dict.n2. Mantén los cuatro campos públicos.n3. Usa `list(self.emai",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S11-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · Repo save/get\n# DEFECT: get siempre None\nclass Repo:\n    def __init__(self):\n        self._d = {}\n    def save(self, row: dict) -> None:\n        self._d[row[\"client_id\"]] = row\n    def get(self, client_id: str):\n        return None\n\nr = Repo()\nr.save({\"client_id\": \"C001\", \"email\": \"a@ejemplo.pe\"})\nprint(r.get(\"C001\"))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "tras",
+          "pero",
+          "mantén",
+          "ignora",
+          "localiza",
+          "ese",
+          "recuperar",
+          "clave"
+        ]
+      },
+      {
+        "exercise_id": "S11-T4-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Corrige el starter: service no imprime; domain sí sostiene invariantes.n2. Mantén el orden cli → service → domain.n3.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S11-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-011 · test empty document\n# DEFECT: no post_init; test always pass\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\ndef test_empty_document_rejected():\n    ClientRecord(\"C1\", \" \")\n    return \"pass\"\n\nprint(test_empty_document_rejected())\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "solo",
+          "lanza",
+          "vacío",
+          "assert",
+          "__post_init__",
+          "añade",
+          "correcto",
+          "falle"
+        ]
+      },
+      {
+        "exercise_id": "S11-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Haz que `FakeRepo.save` guarde en `self.d` y `get` recupere.n2. `Service.register` debe persistir y devolver el row.n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S11-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Conserva el print ANTES sobre `Client.decide_fraud`.n2. Define `RelationshipEvidence` frozen con ids + `signal_score`",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "697e170e3e15633e"
+  }
+}

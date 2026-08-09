@@ -1,0 +1,35 @@
+{
+  "section_index": 39,
+  "section_id": "integrator-phase2",
+  "agents": {
+    "newbie_a": {
+      "status": "validated",
+      "pass": true,
+      "selfcheck_score_pct": 100.0,
+      "selfcheck_just_ratio": 1.0,
+      "exercises_done": 24,
+      "exercises_just_ok": 24,
+      "exercises_expected": 24,
+      "hard_blocks": 0,
+      "missing_exercises": [],
+      "method": "llm_packet_only_no_generator",
+      "attempt_id": "agentic_A2"
+    },
+    "newbie_b": {
+      "status": "validated",
+      "pass": true,
+      "selfcheck_score_pct": 100.0,
+      "selfcheck_just_ratio": 1.0,
+      "exercises_done": 24,
+      "exercises_just_ok": 24,
+      "exercises_expected": 24,
+      "hard_blocks": 0,
+      "missing_exercises": [],
+      "method": "llm_packet_only_no_generator",
+      "attempt_id": "agentic_A2"
+    }
+  },
+  "blocking_gaps": [],
+  "evaluation": "agentic_justification",
+  "section_pass": true
+}

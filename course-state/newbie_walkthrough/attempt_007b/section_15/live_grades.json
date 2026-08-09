@@ -1,0 +1,1098 @@
+{
+  "section_index": 15,
+  "section_id": "stdlib-deep",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S15-T1-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nprint(df.index.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "DataFrame",
+            "set_index"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T1-A-E2",
+          "code": "import pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(float(s[\"C002\"]))\n",
+          "note": "",
+          "concepts_used": [
+            "Series",
+            "label access"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T1-A-E3",
+          "code": "import pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nprint(out.round(2).to_dict())\n",
+          "note": "",
+          "concepts_used": [
+            "add",
+            "fill_value",
+            "sort_index"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T1-B-E1",
+          "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"a,b\\n1,2\\n3,NA\\n\"), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))\n",
+          "note": "",
+          "concepts_used": [
+            "read_csv",
+            "na_values"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T1-B-E2",
+          "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"fecha,x\\n2024-01-01,1\\n\"), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n",
+          "note": "",
+          "concepts_used": [
+            "parse_dates"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T1-B-E3",
+          "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"cliente_id,monto,z\\nC001,1,9\\n\"), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "usecols"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df[\"score\"] >= 0.5, \"cliente_id\"].tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "loc"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-A-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nprint(df.assign(doble=lambda x: x[\"score\"] * 2)[\"doble\"].tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "assign"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-A-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))\n",
+          "note": "",
+          "concepts_used": [
+            "iloc"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-B-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].fillna(\"\").tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "loc assign",
+            "fillna"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-B-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsub = df.loc[df[\"score\"] > 0.5].copy()\nsub[\"ok\"] = True\nprint(sub[\"ok\"].tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "copy",
+            "filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-B-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nc = df.copy()\nc.iloc[0, 0] = 99.0\nprint(df[\"score\"].tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "copy isolation"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ns = df[\"region\"].str.title().astype(\"category\")\nprint(s.dtype.name)\n",
+          "note": "",
+          "concepts_used": [
+            "str.title",
+            "category"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-A-E2",
+          "code": "import pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint(s.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "to_numeric",
+            "coerce"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-A-E3",
+          "code": "import pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n",
+          "note": "",
+          "concepts_used": [
+            "to_datetime",
+            "NaT"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-B-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = df[\"monto\"].isna().sum()\ndf[\"monto\"] = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nprint(int(df[\"monto\"].isna().sum() - before))\n",
+          "note": "",
+          "concepts_used": [
+            "coerce report"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-B-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print(\"missing\")\n",
+          "note": "",
+          "concepts_used": [
+            "KeyError",
+            "schema"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-B-E3",
+          "code": "import pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))\n",
+          "note": "",
+          "concepts_used": [
+            "astype string"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-A-E1",
+          "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nprint(pd.read_csv(buf).columns.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "to_csv roundtrip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-A-E2",
+          "code": "import pandas as pd\nfrom io import BytesIO\nbio = BytesIO()\npd.DataFrame({\"a\": [1]}).to_excel(bio, index=False, engine=\"openpyxl\")\nprint(len(bio.getvalue()) > 0)\n",
+          "note": "",
+          "concepts_used": [
+            "to_excel",
+            "openpyxl"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-A-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in df.columns}\nprint(dict(sorted(contract.items())))\n",
+          "note": "",
+          "concepts_used": [
+            "schema contract"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-B-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nprint(int(df.memory_usage(deep=True).sum()) > 0)\n",
+          "note": "",
+          "concepts_used": [
+            "memory_usage"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-B-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n",
+          "note": "",
+          "concepts_used": [
+            "manifest"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-B-E3",
+          "code": "import pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\nblob = df.to_csv(index=False).encode()\nprint(hashlib.sha1(blob).hexdigest()[:8])\n",
+          "note": "",
+          "concepts_used": [
+            "sha1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S15-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['C001', 'C002']\n",
+          "expected_head": "['C001', 'C002']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.9\n",
+          "expected_head": "0.9",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'C001': 1.0, 'C002': 2.5}\n",
+          "expected_head": "{'C001': 1.0, 'C002': 2.5}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "datetime64[ns]\n",
+          "expected_head": "datetime64[ns]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['cliente_id', 'monto']\n",
+          "expected_head": "['cliente_id', 'monto']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['C002']\n",
+          "expected_head": "['C002']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[2.0, 4.0]\n",
+          "expected_head": "[2.0, 4.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\n",
+          "expected_head": "3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['x', '']\n",
+          "expected_head": "['x', '']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[True, True]\n",
+          "expected_head": "[True, True]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1.0, 2.0]\n",
+          "expected_head": "[1.0, 2.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "category\n",
+          "expected_head": "category",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1.0, nan, 3.0]\n",
+          "expected_head": "[1.0, nan, 3.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "missing\n",
+          "expected_head": "missing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "string\n",
+          "expected_head": "string",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a', 'b']\n",
+          "expected_head": "['a', 'b']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'cliente_id': 'object', 'monto': 'float64'}\n",
+          "expected_head": "{'cliente_id': 'object', 'monto': 'float64'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3 ['a']\n",
+          "expected_head": "3 ['a']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "462f48ef\n",
+          "expected_head": "462f48ef",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S15-T1-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.9, 0.4]})\ndf = df.set_index(\"cliente_id\")\nprint(df.index.tolist())\n",
+          "note": "Hints set_index + index.tolist(); values from theory Series example.",
+          "concepts_used": [
+            "DataFrame",
+            "set_index",
+            "tolist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T1-A-E2",
+          "code": "import pandas as pd\ns = pd.Series([0.9, 0.4], index=[\"C001\", \"C002\"], name=\"score\")\nprint(s[\"C002\"])\n",
+          "note": "Theory code block shows exact Series pattern.",
+          "concepts_used": [
+            "Series",
+            "index label"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T1-A-E3",
+          "code": "import pandas as pd\ns1 = pd.Series([0.9, 0.4], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.1, 0.2], index=[\"C002\", \"C003\"])\nprint(s1.add(s2, fill_value=0).sort_index())\n",
+          "note": "Hints s1.add(s2, fill_value=0) + sort_index; ids from packet C00x.",
+          "concepts_used": [
+            "add",
+            "fill_value",
+            "sort_index"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T1-B-E1",
+          "code": "import pandas as pd\nfrom io import StringIO\nraw = \"a,b\\n1,2\\n3,NA\\n\"\ndf = pd.read_csv(StringIO(raw), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))\n",
+          "note": "Hints read_csv StringIO na_values + isna().sum().",
+          "concepts_used": [
+            "read_csv",
+            "na_values",
+            "isna"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T1-B-E2",
+          "code": "import pandas as pd\nfrom io import StringIO\nraw = \"fecha,x\\n2024-03-01,1\\n2024-03-02,2\\n\"\ndf = pd.read_csv(StringIO(raw), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n",
+          "note": "Hints parse_dates; demo shows datetime64[ns].",
+          "concepts_used": [
+            "parse_dates"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T1-B-E3",
+          "code": "import pandas as pd\nfrom io import StringIO\nraw = \"cliente_id,monto,z\\nC001,1,9\\nC002,2,8\\n\"\ndf = pd.read_csv(StringIO(raw), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n",
+          "note": "Hints usecols; verify z not present.",
+          "concepts_used": [
+            "usecols"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df.score >= 0.5, \"cliente_id\"].tolist())\n",
+          "note": "Starter has df; hints loc score>=0.5.",
+          "concepts_used": [
+            "loc",
+            "boolean filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-A-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nprint(df.assign(doble=df[\"score\"] * 2)[\"doble\"].tolist())\n",
+          "note": "Hints assign(doble=...); print double list.",
+          "concepts_used": [
+            "assign"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-A-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(df.iloc[1, 0])\n",
+          "note": "Hints iloc[1,0] → 3.",
+          "concepts_used": [
+            "iloc"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-B-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf.loc[df.score < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].fillna(\"\").tolist())\n",
+          "note": "Hints loc mask flag='x'; fillna('').",
+          "concepts_used": [
+            "loc assign",
+            "fillna"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-B-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsubset = df.loc[df.score > 0.5].copy()\nsubset[\"ok\"] = True\nprint(subset[\"ok\"].tolist())\n",
+          "note": "Hints subset copy + ok=True.",
+          "concepts_used": [
+            "copy",
+            "subset"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T2-B-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\nc = df.copy()\nc.iloc[0, 0] = 99\nprint(df[\"score\"].tolist())\n",
+          "note": "Hints mutate copy; print original.",
+          "concepts_used": [
+            "copy isolation"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-A-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\nprint(df[\"region\"].dtype.name)\n",
+          "note": "Hints title then category; print dtype name.",
+          "concepts_used": [
+            "str.title",
+            "category"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-A-E2",
+          "code": "import pandas as pd\ns = pd.to_numeric([\"1\", \"a\", \"3\"], errors=\"coerce\")\nprint(s.tolist())\n",
+          "note": "Hints to_numeric errors=coerce; tolist with nan.",
+          "concepts_used": [
+            "to_numeric",
+            "coerce"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-A-E3",
+          "code": "import pandas as pd\ns = pd.to_datetime([\"2024-01-01\", \"no-fecha\"], errors=\"coerce\")\nprint(int(s.isna().sum()))\n",
+          "note": "Hints isna().sum(); NaT counts as na.",
+          "concepts_used": [
+            "to_datetime",
+            "NaT"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-B-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = int(df[\"monto\"].isna().sum())\ncoerced = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nafter = int(coerced.isna().sum())\nprint(after - before)\n",
+          "note": "Hints compare isna before/after; fixture 1 new NaN.",
+          "concepts_used": [
+            "to_numeric",
+            "new NaN count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-B-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"score\": [1.0]})\ntry:\n    if \"monto\" not in df.columns:\n        raise KeyError(\"monto\")\nexcept KeyError:\n    print(\"missing\")\n",
+          "note": "Hints if col not in columns; print missing.",
+          "concepts_used": [
+            "KeyError",
+            "schema"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T3-B-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ndf[\"cliente_id\"] = df[\"cliente_id\"].astype(\"string\")\nprint(str(df[\"cliente_id\"].dtype))\n",
+          "note": "Hints astype('string'); print str(dtype).",
+          "concepts_used": [
+            "astype string"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-A-E1",
+          "code": "import pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nrt = pd.read_csv(buf)\nprint(rt.columns.tolist())\n",
+          "note": "Hints to_csv index=False + read_csv; columns.",
+          "concepts_used": [
+            "to_csv",
+            "read_csv"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-A-E2",
+          "code": "import pandas as pd\nfrom io import BytesIO\ndf = pd.DataFrame({\"a\": [1]})\nxbuf = BytesIO()\ndf.to_excel(xbuf, index=False, engine=\"openpyxl\")\nprint(len(xbuf.getvalue()) > 0)\n",
+          "note": "Hints engine openpyxl; getvalue() > 0.",
+          "concepts_used": [
+            "to_excel",
+            "openpyxl"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-A-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in df.columns}\nprint(dict(sorted(contract.items())))\n",
+          "note": "Hints dict comprehension; sorted keys; demo contract pattern.",
+          "concepts_used": [
+            "dtype contract"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-B-E1",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nprint(int(df.memory_usage(deep=True).sum()) > 0)\n",
+          "note": "Hints memory_usage(deep=True).sum(); print int > 0.",
+          "concepts_used": [
+            "memory_usage"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-B-E2",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"monto\": [1.0, 2.0]})\nmanifest = {\"rows\": int(len(df)), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"])\n",
+          "note": "Hints len(df) + columns.tolist(); print rows.",
+          "concepts_used": [
+            "manifest"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S15-T4-B-E3",
+          "code": "import pandas as pd, hashlib\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nblob = df.to_csv(index=False).encode()\nprint(hashlib.sha1(blob).hexdigest()[:8])\n",
+          "note": "Hints sha1 hexdigest[:8]; encode utf-8; final demo similar.",
+          "concepts_used": [
+            "sha1",
+            "to_csv"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S15-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['C001', 'C002']\n",
+          "expected_head": "['C001', 'C002']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "0.4\n",
+          "expected_head": "0.9",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T1-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "C001    0.9\nC002    0.5\nC003    0.2\ndtype: float64\n",
+          "expected_head": "{'C001': 1.0, 'C002': 2.5}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "datetime64[ns]\n",
+          "expected_head": "datetime64[ns]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['cliente_id', 'monto']\n",
+          "expected_head": "['cliente_id', 'monto']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['C002']\n",
+          "expected_head": "['C002']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[2.0, 4.0]\n",
+          "expected_head": "[2.0, 4.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\n",
+          "expected_head": "3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['x', '']\n",
+          "expected_head": "['x', '']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[True, True]\n",
+          "expected_head": "[True, True]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "[0.2, 0.9]\n",
+          "expected_head": "[1.0, 2.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "category\n",
+          "expected_head": "category",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1.0, nan, 3.0]\n",
+          "expected_head": "[1.0, nan, 3.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "missing\n",
+          "expected_head": "missing",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "string\n",
+          "expected_head": "string",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['cliente_id', 'monto']\n",
+          "expected_head": "['a', 'b']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'cliente_id': 'object', 'monto': 'float64'}\n",
+          "expected_head": "{'cliente_id': 'object', 'monto': 'float64'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "3 ['a']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S15-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "55b9f7e9\n",
+          "expected_head": "462f48ef",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 18,
+      "code_tried": 24,
+      "code_ratio": 0.75,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

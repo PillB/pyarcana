@@ -1,0 +1,1116 @@
+{
+  "section_index": 50,
+  "section_id": "tech-leadership",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S50-T1-A-E1",
+          "code": "print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")\n",
+          "note": "",
+          "concepts_used": [
+            "dataset",
+            "rubric",
+            "iDo_S50-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T1-A-E2",
+          "code": "print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")\n",
+          "note": "",
+          "concepts_used": [
+            "dataset",
+            "rubric",
+            "iDo_S50-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T1-A-E3",
+          "code": "print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")\n",
+          "note": "",
+          "concepts_used": [
+            "dataset",
+            "rubric",
+            "iDo_S50-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T1-B-E1",
+          "code": "print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "trajectory",
+            "recovery",
+            "iDo_S50-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T1-B-E2",
+          "code": "print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "trajectory",
+            "recovery",
+            "iDo_S50-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T1-B-E3",
+          "code": "print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "trajectory",
+            "recovery",
+            "iDo_S50-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-A-E1",
+          "code": "print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")\n",
+          "note": "",
+          "concepts_used": [
+            "graders",
+            "llm_judge",
+            "iDo_S50-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-A-E2",
+          "code": "print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")\n",
+          "note": "",
+          "concepts_used": [
+            "graders",
+            "llm_judge",
+            "iDo_S50-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-A-E3",
+          "code": "print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")\n",
+          "note": "",
+          "concepts_used": [
+            "graders",
+            "llm_judge",
+            "iDo_S50-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-B-E1",
+          "code": "print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "calibration",
+            "bias",
+            "iDo_S50-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-B-E2",
+          "code": "print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "calibration",
+            "bias",
+            "iDo_S50-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-B-E3",
+          "code": "print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "calibration",
+            "bias",
+            "iDo_S50-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-A-E1",
+          "code": "print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")\n",
+          "note": "",
+          "concepts_used": [
+            "injection",
+            "exfil",
+            "iDo_S50-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-A-E2",
+          "code": "print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")\n",
+          "note": "",
+          "concepts_used": [
+            "injection",
+            "exfil",
+            "iDo_S50-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-A-E3",
+          "code": "print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")\n",
+          "note": "",
+          "concepts_used": [
+            "injection",
+            "exfil",
+            "iDo_S50-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-B-E1",
+          "code": "print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")\n",
+          "note": "",
+          "concepts_used": [
+            "indirect",
+            "poison",
+            "iDo_S50-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-B-E2",
+          "code": "print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")\n",
+          "note": "",
+          "concepts_used": [
+            "indirect",
+            "poison",
+            "iDo_S50-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-B-E3",
+          "code": "print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")\n",
+          "note": "",
+          "concepts_used": [
+            "indirect",
+            "poison",
+            "iDo_S50-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-A-E1",
+          "code": "print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "hallucination",
+            "abstain",
+            "iDo_S50-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-A-E2",
+          "code": "print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "hallucination",
+            "abstain",
+            "iDo_S50-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-A-E3",
+          "code": "print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "hallucination",
+            "abstain",
+            "iDo_S50-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-B-E1",
+          "code": "print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)\n",
+          "note": "",
+          "concepts_used": [
+            "latency",
+            "cost",
+            "iDo_S50-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-B-E2",
+          "code": "print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)\n",
+          "note": "",
+          "concepts_used": [
+            "latency",
+            "cost",
+            "iDo_S50-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-B-E3",
+          "code": "print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)\n",
+          "note": "",
+          "concepts_used": [
+            "latency",
+            "cost",
+            "iDo_S50-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S50-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "dataset versioned\nrubric True\ngold synthetic\n",
+          "expected_head": "dataset versioned\nrubric True\ngold synthetic",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "dataset versioned\nrubric True\ngold synthetic\n",
+          "expected_head": "dataset versioned\nrubric True\ngold synthetic",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "dataset versioned\nrubric True\ngold synthetic\n",
+          "expected_head": "dataset versioned\nrubric True\ngold synthetic",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trajectory True\ntool_args_checked True\nrecovery True\n",
+          "expected_head": "trajectory True\ntool_args_checked True\nrecovery True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trajectory True\ntool_args_checked True\nrecovery True\n",
+          "expected_head": "trajectory True\ntool_args_checked True\nrecovery True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trajectory True\ntool_args_checked True\nrecovery True\n",
+          "expected_head": "trajectory True\ntool_args_checked True\nrecovery True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "det_first True\nllm_judge calibrated\nhuman spotcheck\n",
+          "expected_head": "det_first True\nllm_judge calibrated\nhuman spotcheck",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "det_first True\nllm_judge calibrated\nhuman spotcheck\n",
+          "expected_head": "det_first True\nllm_judge calibrated\nhuman spotcheck",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "det_first True\nllm_judge calibrated\nhuman spotcheck\n",
+          "expected_head": "det_first True\nllm_judge calibrated\nhuman spotcheck",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bias 0.3\nholdout_set True\nshuffle_order True\n",
+          "expected_head": "bias 0.3\nholdout_set True\nshuffle_order True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bias 0.3\nholdout_set True\nshuffle_order True\n",
+          "expected_head": "bias 0.3\nholdout_set True\nshuffle_order True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bias 0.3\nholdout_set True\nshuffle_order True\n",
+          "expected_head": "bias 0.3\nholdout_set True\nshuffle_order True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "injection True\nexfil block\ntools allowlist\n",
+          "expected_head": "injection True\nexfil block\ntools allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "injection True\nexfil block\ntools allowlist\n",
+          "expected_head": "injection True\nexfil block\ntools allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "injection True\nexfil block\ntools allowlist\n",
+          "expected_head": "injection True\nexfil block\ntools allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "indirect html_comments\nprivilege min\ndata_poison review\n",
+          "expected_head": "indirect html_comments\nprivilege min\ndata_poison review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "indirect html_comments\nprivilege min\ndata_poison review\n",
+          "expected_head": "indirect html_comments\nprivilege min\ndata_poison review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "indirect html_comments\nprivilege min\ndata_poison review\n",
+          "expected_head": "indirect html_comments\nprivilege min\ndata_poison review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True\n",
+          "expected_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True\n",
+          "expected_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True\n",
+          "expected_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback True\ncost_guardrail True\nlatency_slo 1000\n",
+          "expected_head": "rollback True\ncost_guardrail True\nlatency_slo 1000",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback True\ncost_guardrail True\nlatency_slo 1000\n",
+          "expected_head": "rollback True\ncost_guardrail True\nlatency_slo 1000",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback True\ncost_guardrail True\nlatency_slo 1000\n",
+          "expected_head": "rollback True\ncost_guardrail True\nlatency_slo 1000",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S50-T1-A-E1",
+          "code": "print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T1-A-E2",
+          "code": "print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T1-A-E3",
+          "code": "print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T1-B-E1",
+          "code": "print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T1-B-E2",
+          "code": "print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T1-B-E3",
+          "code": "print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-A-E1",
+          "code": "print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-A-E2",
+          "code": "print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-A-E3",
+          "code": "print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-B-E1",
+          "code": "print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-B-E2",
+          "code": "print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T2-B-E3",
+          "code": "print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-A-E1",
+          "code": "print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-A-E2",
+          "code": "print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-A-E3",
+          "code": "print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-B-E1",
+          "code": "print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-B-E2",
+          "code": "print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T3-B-E3",
+          "code": "print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-A-E1",
+          "code": "print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-A-E2",
+          "code": "print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-A-E3",
+          "code": "print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-B-E1",
+          "code": "print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-B-E2",
+          "code": "print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S50-T4-B-E3",
+          "code": "print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S50-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S50-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "dataset versioned\nrubric True\ngold synthetic\n",
+          "expected_head": "dataset versioned\nrubric True\ngold synthetic",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "dataset versioned\nrubric True\ngold synthetic\n",
+          "expected_head": "dataset versioned\nrubric True\ngold synthetic",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "dataset versioned\nrubric True\ngold synthetic\n",
+          "expected_head": "dataset versioned\nrubric True\ngold synthetic",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trajectory True\ntool_args_checked True\nrecovery True\n",
+          "expected_head": "trajectory True\ntool_args_checked True\nrecovery True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trajectory True\ntool_args_checked True\nrecovery True\n",
+          "expected_head": "trajectory True\ntool_args_checked True\nrecovery True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "trajectory True\ntool_args_checked True\nrecovery True\n",
+          "expected_head": "trajectory True\ntool_args_checked True\nrecovery True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "det_first True\nllm_judge calibrated\nhuman spotcheck\n",
+          "expected_head": "det_first True\nllm_judge calibrated\nhuman spotcheck",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "det_first True\nllm_judge calibrated\nhuman spotcheck\n",
+          "expected_head": "det_first True\nllm_judge calibrated\nhuman spotcheck",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "det_first True\nllm_judge calibrated\nhuman spotcheck\n",
+          "expected_head": "det_first True\nllm_judge calibrated\nhuman spotcheck",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bias 0.3\nholdout_set True\nshuffle_order True\n",
+          "expected_head": "bias 0.3\nholdout_set True\nshuffle_order True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bias 0.3\nholdout_set True\nshuffle_order True\n",
+          "expected_head": "bias 0.3\nholdout_set True\nshuffle_order True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bias 0.3\nholdout_set True\nshuffle_order True\n",
+          "expected_head": "bias 0.3\nholdout_set True\nshuffle_order True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "injection True\nexfil block\ntools allowlist\n",
+          "expected_head": "injection True\nexfil block\ntools allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "injection True\nexfil block\ntools allowlist\n",
+          "expected_head": "injection True\nexfil block\ntools allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "injection True\nexfil block\ntools allowlist\n",
+          "expected_head": "injection True\nexfil block\ntools allowlist",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "indirect html_comments\nprivilege min\ndata_poison review\n",
+          "expected_head": "indirect html_comments\nprivilege min\ndata_poison review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "indirect html_comments\nprivilege min\ndata_poison review\n",
+          "expected_head": "indirect html_comments\nprivilege min\ndata_poison review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "indirect html_comments\nprivilege min\ndata_poison review\n",
+          "expected_head": "indirect html_comments\nprivilege min\ndata_poison review",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True\n",
+          "expected_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True\n",
+          "expected_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True\n",
+          "expected_head": "hallucination unsupported_claim\nabstain_policy True\ncite_or_quit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback True\ncost_guardrail True\nlatency_slo 1000\n",
+          "expected_head": "rollback True\ncost_guardrail True\nlatency_slo 1000",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback True\ncost_guardrail True\nlatency_slo 1000\n",
+          "expected_head": "rollback True\ncost_guardrail True\nlatency_slo 1000",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S50-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback True\ncost_guardrail True\nlatency_slo 1000\n",
+          "expected_head": "rollback True\ncost_guardrail True\nlatency_slo 1000",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

@@ -1,0 +1,489 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 50,
+  "packet_sha": "8b3a1203a154a6bf",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-G2-s50-live",
+  "production_note": "agentic_G2 independent of G1 dual-LLM packet-only: explorer solved sections from quiz_card+slim_packet only; direct agent output; no prior-attempt lives; no quarantine generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\": 40, \"slices\": {\"normal\": 25, \"edge\": 10, \"adversarial\": 5}, \"rubric_levels\": {0, 1, 2, 3}, \"holdout\": 10}}\nmeets_contract = sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] != 0\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "tasks",
+        "slices",
+        "normal",
+        "edge",
+        "adversarial"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T1-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T1-A-E1 · Calcula el contrato de `task dataset y rubric` sobre `CASO-ICA-050-1A`. La entrada es el dict completo del starter; la operación debe demostrar slices suman tasks, rúbrica 0–3 y holdout. Reemplaza la expres. Pistas usadas: Relaciona los campos `tasks`, `slices`, `rubric_levels`, `holdout` con la regla explicada en S50-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva dataset versionado y rúbrica. Regla de dominio «slices suman tasks, rúbrica 0–3 y holdout»; predicado corregido `sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] != 0` para que el fixture sintético pase y el adverso active `REBUILD_EVAL_DATASET`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"tasks\", \"slices\", \"rubric_levels\", \"holdout\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] != 0) else \"REBUILD_EVAL_DATASET\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\": 40, \"slices\": {\"normal\": 25, \"edge\": 10, \"adversarial\": 5}, \"rubric_levels\": {0, 1, 2, 3}, \"holdout\": 10}}\ninvalid = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\": 40, \"slices\": {\"normal\": 25, \"edge\": 10, \"adversarial\": 5}, \"rubric_levels\": {0, 1, 2, 3}, \"holdout\": 0}}\nincomplete = {**valid}\nincomplete.pop(\"holdout\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "tasks",
+        "slices",
+        "rubric_levels",
+        "holdout",
+        "sorted",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T1-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T1-A-E2 · Modela tres rutas de `task dataset y rubric`: fixture válido, fixture adverso y registro sin `holdout`. Entrada: dict con case_id, tasks, slices, rubric_levels, holdout. Salidas exactas: `PASS`, `REBUILD_EV. Pistas usadas: Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama.; Después aplica la regla de S50-T1-A: slices suman tasks, rúbrica 0–3 y holdout. El fixture adverso debe fallar po. Regla de dominio «slices suman tasks, rúbrica 0–3 y holdout»; predicado corregido `sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] != 0` para que el fixture sintético pase y el adverso active `REBUILD_EVAL_DATASET`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"tasks\", \"slices\", \"rubric_levels\", \"holdout\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CALIBRATE_RUBRIC\"\n    return \"CONTINUE\" if (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] != 0) else \"REBUILD_EVAL_DATASET\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\": 40, \"slices\": {\"normal\": 25, \"edge\": 10, \"adversarial\": 5}, \"rubric_levels\": {0, 1, 2, 3}, \"holdout\": 10}}\ninvalid = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\": 40, \"slices\": {\"normal\": 25, \"edge\": 10, \"adversarial\": 5}, \"rubric_levels\": {0, 1, 2, 3}, \"holdout\": 0}}\nuncertain = {**valid}\nuncertain.pop(\"holdout\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "tasks",
+        "slices",
+        "rubric_levels",
+        "holdout",
+        "sorted",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T1-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T1-A-E3 · Simula fallo cerrado para `task dataset y rubric` con tres fixtures distintos. `CASO-ICA-050-1A` debe continuar, el adverso debe devolver `REBUILD_EVAL_DATASET` y la ausencia de `holdout` debe devolver `CAL. Pistas usadas: Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró slices suman tasks, rúbrica 0–3 y holdout; solo es. Regla de dominio «slices suman tasks, rúbrica 0–3 y holdout»; predicado corregido `sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] != 0` para que el fixture sintético pase y el adverso active `REBUILD_EVAL_DATASET`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\": 3, \"process\": 3, \"trajectory\": 2, \"recovery\": 3, \"forbidden_tool_used\": False, \"min_dimension\": 2}}\nmeets_contract = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "outcome",
+        "process",
+        "trajectory",
+        "recovery",
+        "forbidden_tool_used"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T1-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T1-B-E1 · Compara el contrato de `resultado, proceso, trajectory y recovery` sobre `CASO-ICA-050-1B`. La entrada es el dict completo del starter; la operación debe demostrar cuatro dimensiones sobre mínimo y ninguna . Pistas usadas: Relaciona los campos `outcome`, `process`, `trajectory`, `recovery`, `forbidden_tool_used`, `min_dimension` con la regla explicada en S50-T1-B.; El predicado correcto debe ser verdadero porque el fixt. Regla de dominio «cuatro dimensiones sobre mínimo y ninguna tool prohibida»; predicado corregido `not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])` para que el fixture sintético pase y el adverso active `FAIL_UNSAFE_TRAJECTORY`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"outcome\", \"process\", \"trajectory\", \"recovery\", \"forbidden_tool_used\", \"min_dimension\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])) else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\": 3, \"process\": 3, \"trajectory\": 2, \"recovery\": 3, \"forbidden_tool_used\": False, \"min_dimension\": 2}}\ninvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\": 3, \"process\": 3, \"trajectory\": 2, \"recovery\": 3, \"forbidden_tool_used\": True, \"min_dimension\": 2}}\nincomplete = {**valid}\nincomplete.pop(\"min_dimension\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "outcome",
+        "process",
+        "trajectory",
+        "recovery",
+        "forbidden_tool_used",
+        "min_dimension"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T1-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T1-B-E2 · Verifica tres rutas de `resultado, proceso, trajectory y recovery`: fixture válido, fixture adverso y registro sin `min_dimension`. Entrada: dict con case_id, outcome, process, trajectory, recovery, forbidd. Pistas usadas: Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama.; Después aplica la regla de S50-T1-B: cuatro dimensiones sobre mínimo y ninguna tool prohibida. El fixture a. Regla de dominio «cuatro dimensiones sobre mínimo y ninguna tool prohibida»; predicado corregido `not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])` para que el fixture sintético pase y el adverso active `FAIL_UNSAFE_TRAJECTORY`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"outcome\", \"process\", \"trajectory\", \"recovery\", \"forbidden_tool_used\", \"min_dimension\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"HUMAN_REVIEW_PROCESS\"\n    return \"CONTINUE\" if (not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])) else \"FAIL_UNSAFE_TRAJECTORY\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\": 3, \"process\": 3, \"trajectory\": 2, \"recovery\": 3, \"forbidden_tool_used\": False, \"min_dimension\": 2}}\ninvalid = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\": 3, \"process\": 3, \"trajectory\": 2, \"recovery\": 3, \"forbidden_tool_used\": True, \"min_dimension\": 2}}\nuncertain = {**valid}\nuncertain.pop(\"min_dimension\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "outcome",
+        "process",
+        "trajectory",
+        "recovery",
+        "forbidden_tool_used",
+        "min_dimension"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T1-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T1-B-E3 · Extiende fallo cerrado para `resultado, proceso, trajectory y recovery` con tres fixtures distintos. `CASO-ICA-050-1B` debe continuar, el adverso debe devolver `FAIL_UNSAFE_TRAJECTORY` y la ausencia de `min. Pistas usadas: Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró cuatro dimensiones sobre mínimo y ninguna tool. Regla de dominio «cuatro dimensiones sobre mínimo y ninguna tool prohibida»; predicado corregido `not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])` para que el fixture sintético pase y el adverso active `FAIL_UNSAFE_TRAJECTORY`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\": 0.86, \"human\": 0.82, \"llm\": 0.8, \"human_llm_agreement\": 0.78, \"min_agreement\": 0.75}}\nmeets_contract = record[\"human_llm_agreement\"] >= record[\"min_agreement\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "deterministic",
+        "human",
+        "llm",
+        "human_llm_agreement",
+        "min_agreement"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T2-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T2-A-E1 · Filtra el contrato de `graders deterministas/humanos/LLM` sobre `CASO-ICA-050-2A`. La entrada es el dict completo del starter; la operación debe demostrar scores acotados y acuerdo humano-LLM sobre umbral. . Pistas usadas: Relaciona los campos `deterministic`, `human`, `llm`, `human_llm_agreement`, `min_agreement` con la regla explicada en S50-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva ac. Regla de dominio «scores acotados y acuerdo humano-LLM sobre umbral»; predicado corregido `record[\"human_llm_agreement\"] >= record[\"min_agreement\"]` para que el fixture sintético pase y el adverso active `RECALIBRATE_GRADERS`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"deterministic\", \"human\", \"llm\", \"human_llm_agreement\", \"min_agreement\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"human_llm_agreement\"] >= record[\"min_agreement\"]) else \"RECALIBRATE_GRADERS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\": 0.86, \"human\": 0.82, \"llm\": 0.8, \"human_llm_agreement\": 0.78, \"min_agreement\": 0.75}}\ninvalid = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\": 0.86, \"human\": 0.82, \"llm\": 0.8, \"human_llm_agreement\": 0.0, \"min_agreement\": 0.75}}\nincomplete = {**valid}\nincomplete.pop(\"min_agreement\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "deterministic",
+        "human",
+        "llm",
+        "human_llm_agreement",
+        "min_agreement",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T2-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T2-A-E2 · Clasifica tres rutas de `graders deterministas/humanos/LLM`: fixture válido, fixture adverso y registro sin `min_agreement`. Entrada: dict con case_id, deterministic, human, llm, human_llm_agreement, min_ag. Pistas usadas: Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama.; Después aplica la regla de S50-T2-A: scores acotados y acuerdo humano-LLM sobre umbral. El fixture adverso . Regla de dominio «scores acotados y acuerdo humano-LLM sobre umbral»; predicado corregido `record[\"human_llm_agreement\"] >= record[\"min_agreement\"]` para que el fixture sintético pase y el adverso active `RECALIBRATE_GRADERS`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"deterministic\", \"human\", \"llm\", \"human_llm_agreement\", \"min_agreement\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ADJUDICATE_DISAGREEMENT\"\n    return \"CONTINUE\" if (record[\"human_llm_agreement\"] >= record[\"min_agreement\"]) else \"RECALIBRATE_GRADERS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\": 0.86, \"human\": 0.82, \"llm\": 0.8, \"human_llm_agreement\": 0.78, \"min_agreement\": 0.75}}\ninvalid = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\": 0.86, \"human\": 0.82, \"llm\": 0.8, \"human_llm_agreement\": 0.0, \"min_agreement\": 0.75}}\nuncertain = {**valid}\nuncertain.pop(\"min_agreement\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "deterministic",
+        "human",
+        "llm",
+        "human_llm_agreement",
+        "min_agreement",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T2-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T2-A-E3 · Defiende fallo cerrado para `graders deterministas/humanos/LLM` con tres fixtures distintos. `CASO-ICA-050-2A` debe continuar, el adverso debe devolver `RECALIBRATE_GRADERS` y la ausencia de `min_agreement`. Pistas usadas: Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró scores acotados y acuerdo humano-LLM sobre . Regla de dominio «scores acotados y acuerdo humano-LLM sobre umbral»; predicado corregido `record[\"human_llm_agreement\"] >= record[\"min_agreement\"]` para que el fixture sintético pase y el adverso active `RECALIBRATE_GRADERS`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\": 0.92, \"min_anchor_accuracy\": 0.9, \"order_gap\": 0.02, \"max_order_gap\": 0.05, \"holdout_touched\": False}}\nmeets_contract = record[\"order_gap\"] <= record[\"max_order_gap\"] or record[\"holdout_touched\"]\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "anchor_accuracy",
+        "min_anchor_accuracy",
+        "order_gap",
+        "max_order_gap",
+        "holdout_touched"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T2-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T2-B-E1 · Modela el contrato de `calibración, order bias y conjunto retenido` sobre `CASO-ICA-050-2B`. La entrada es el dict completo del starter; la operación debe demostrar anclas calibradas, order bias bajo y hold. Pistas usadas: Relaciona los campos `anchor_accuracy`, `min_anchor_accuracy`, `order_gap`, `max_order_gap`, `holdout_touched` con la regla explicada en S50-T2-B.; El predicado correcto debe ser verdadero porque el f. Regla de dominio «anclas calibradas, order bias bajo y holdout intacto»; predicado corregido `record[\"order_gap\"] <= record[\"max_order_gap\"] or record[\"holdout_touched\"]` para que el fixture sintético pase y el adverso active `INVALIDATE_JUDGE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"anchor_accuracy\", \"min_anchor_accuracy\", \"order_gap\", \"max_order_gap\", \"holdout_touched\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"order_gap\"] <= record[\"max_order_gap\"] or record[\"holdout_touched\"]) else \"INVALIDATE_JUDGE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\": 0.92, \"min_anchor_accuracy\": 0.9, \"order_gap\": 0.02, \"max_order_gap\": 0.05, \"holdout_touched\": False}}\ninvalid = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\": 0.92, \"min_anchor_accuracy\": 0.9, \"order_gap\": 1.0, \"max_order_gap\": 0.05, \"holdout_touched\": False}}\nincomplete = {**valid}\nincomplete.pop(\"holdout_touched\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "anchor_accuracy",
+        "min_anchor_accuracy",
+        "order_gap",
+        "max_order_gap",
+        "holdout_touched",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T2-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T2-B-E2 · Audita tres rutas de `calibración, order bias y conjunto retenido`: fixture válido, fixture adverso y registro sin `holdout_touched`. Entrada: dict con case_id, anchor_accuracy, min_anchor_accuracy, order_g. Pistas usadas: Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama.; Después aplica la regla de S50-T2-B: anclas calibradas, order bias bajo y holdout intacto. El fixture adv. Regla de dominio «anclas calibradas, order bias bajo y holdout intacto»; predicado corregido `record[\"order_gap\"] <= record[\"max_order_gap\"] or record[\"holdout_touched\"]` para que el fixture sintético pase y el adverso active `INVALIDATE_JUDGE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"anchor_accuracy\", \"min_anchor_accuracy\", \"order_gap\", \"max_order_gap\", \"holdout_touched\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SEAL_NEW_HOLDOUT\"\n    return \"CONTINUE\" if (record[\"order_gap\"] <= record[\"max_order_gap\"] or record[\"holdout_touched\"]) else \"INVALIDATE_JUDGE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\": 0.92, \"min_anchor_accuracy\": 0.9, \"order_gap\": 0.02, \"max_order_gap\": 0.05, \"holdout_touched\": False}}\ninvalid = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\": 0.92, \"min_anchor_accuracy\": 0.9, \"order_gap\": 1.0, \"max_order_gap\": 0.05, \"holdout_touched\": False}}\nuncertain = {**valid}\nuncertain.pop(\"holdout_touched\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "anchor_accuracy",
+        "min_anchor_accuracy",
+        "order_gap",
+        "max_order_gap",
+        "holdout_touched",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T2-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T2-B-E3 · Recupera fallo cerrado para `calibración, order bias y conjunto retenido` con tres fixtures distintos. `CASO-ICA-050-2B` debe continuar, el adverso debe devolver `INVALIDATE_JUDGE` y la ausencia de `holdout. Pistas usadas: Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró anclas calibradas, order bias bajo y holdout intac. Regla de dominio «anclas calibradas, order bias bajo y holdout intacto»; predicado corregido `record[\"order_gap\"] <= record[\"max_order_gap\"] or record[\"holdout_touched\"]` para que el fixture sintético pase y el adverso active `INVALIDATE_JUDGE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\": True, \"exfiltration_bytes\": 0, \"tool_scope\": \"read-only\", \"tool_args_valid\": True, \"severity\": \"P0\"}}\nmeets_contract = not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] <= 0\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "injection_blocked",
+        "exfiltration_bytes",
+        "tool_scope",
+        "read",
+        "only"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T3-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T3-A-E1 · Verifica el contrato de `prompt injection, exfiltración y tool misuse` sobre `CASO-ICA-050-3A`. La entrada es el dict completo del starter; la operación debe demostrar injection contenida, cero exfil y tool. Pistas usadas: Relaciona los campos `injection_blocked`, `exfiltration_bytes`, `tool_scope`, `tool_args_valid`, `severity` con la regla explicada en S50-T3-A.; El predicado correcto debe ser verdadero porque el fixt. Regla de dominio «injection contenida, cero exfil y tool read-only»; predicado corregido `not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] <= 0` para que el fixture sintético pase y el adverso active `BLOCK_SECURITY_P0`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"injection_blocked\", \"exfiltration_bytes\", \"tool_scope\", \"tool_args_valid\", \"severity\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] <= 0) else \"BLOCK_SECURITY_P0\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\": True, \"exfiltration_bytes\": 0, \"tool_scope\": \"read-only\", \"tool_args_valid\": True, \"severity\": \"P0\"}}\ninvalid = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\": True, \"exfiltration_bytes\": 1, \"tool_scope\": \"read-only\", \"tool_args_valid\": True, \"severity\": \"P0\"}}\nincomplete = {**valid}\nincomplete.pop(\"severity\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "injection_blocked",
+        "exfiltration_bytes",
+        "tool_scope",
+        "tool_args_valid",
+        "severity",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T3-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T3-A-E2 · Decide tres rutas de `prompt injection, exfiltración y tool misuse`: fixture válido, fixture adverso y registro sin `severity`. Entrada: dict con case_id, injection_blocked, exfiltration_bytes, tool_scope, . Pistas usadas: Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama.; Después aplica la regla de S50-T3-A: injection contenida, cero exfil y tool read-only. El fixture adverso debe f. Regla de dominio «injection contenida, cero exfil y tool read-only»; predicado corregido `not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] <= 0` para que el fixture sintético pase y el adverso active `BLOCK_SECURITY_P0`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"injection_blocked\", \"exfiltration_bytes\", \"tool_scope\", \"tool_args_valid\", \"severity\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"PRESERVE_ATTACK_TRACE\"\n    return \"CONTINUE\" if (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] <= 0) else \"BLOCK_SECURITY_P0\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\": True, \"exfiltration_bytes\": 0, \"tool_scope\": \"read-only\", \"tool_args_valid\": True, \"severity\": \"P0\"}}\ninvalid = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\": True, \"exfiltration_bytes\": 1, \"tool_scope\": \"read-only\", \"tool_args_valid\": True, \"severity\": \"P0\"}}\nuncertain = {**valid}\nuncertain.pop(\"severity\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "injection_blocked",
+        "exfiltration_bytes",
+        "tool_scope",
+        "tool_args_valid",
+        "severity",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T3-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T3-A-E3 · Contrasta fallo cerrado para `prompt injection, exfiltración y tool misuse` con tres fixtures distintos. `CASO-ICA-050-3A` debe continuar, el adverso debe devolver `BLOCK_SECURITY_P0` y la ausencia de `seve. Pistas usadas: Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró injection contenida, cero exfil y tool read-o. Regla de dominio «injection contenida, cero exfil y tool read-only»; predicado corregido `not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] <= 0` para que el fixture sintético pase y el adverso active `BLOCK_SECURITY_P0`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\": True, \"poisoned_chunks_removed\": 3, \"tool_permissions\": {\"read\"}, \"requested_permission\": \"read\"}}\nmeets_contract = record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "document_instruction_treated_as_data",
+        "poisoned_chunks_removed",
+        "tool_permissions",
+        "read",
+        "requested_permission"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T3-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T3-B-E1 · Clasifica el contrato de `indirect injection, data poisoning y least privilege` sobre `CASO-ICA-050-3B`. La entrada es el dict completo del starter; la operación debe demostrar indirect injection como datos. Pistas usadas: Relaciona los campos `document_instruction_treated_as_data`, `poisoned_chunks_removed`, `tool_permissions`, `requested_permission` con la regla explicada en S50-T3-B.; El predicado correcto debe ser v. Regla de dominio «indirect injection como datos, poisoning removido y permiso mínimo»; predicado corregido `record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]` para que el fixture sintético pase y el adverso active `QUARANTINE_POISONED_CORPUS`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"document_instruction_treated_as_data\", \"poisoned_chunks_removed\", \"tool_permissions\", \"requested_permission\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]) else \"QUARANTINE_POISONED_CORPUS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\": True, \"poisoned_chunks_removed\": 3, \"tool_permissions\": {\"read\"}, \"requested_permission\": \"read\"}}\ninvalid = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\": False, \"poisoned_chunks_removed\": 3, \"tool_permissions\": {\"read\"}, \"requested_permission\": \"read\"}}\nincomplete = {**valid}\nincomplete.pop(\"requested_permission\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "document_instruction_treated_as_data",
+        "poisoned_chunks_removed",
+        "tool_permissions",
+        "requested_permission",
+        "sorted",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T3-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T3-B-E2 · Calcula tres rutas de `indirect injection, data poisoning y least privilege`: fixture válido, fixture adverso y registro sin `requested_permission`. Entrada: dict con case_id, document_instruction_treated_a. Pistas usadas: Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama.; Después aplica la regla de S50-T3-B: indirect injection como datos, poisoning removido y permiso mín. Regla de dominio «indirect injection como datos, poisoning removido y permiso mínimo»; predicado corregido `record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]` para que el fixture sintético pase y el adverso active `QUARANTINE_POISONED_CORPUS`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"document_instruction_treated_as_data\", \"poisoned_chunks_removed\", \"tool_permissions\", \"requested_permission\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REDUCE_TOOL_PRIVILEGE\"\n    return \"CONTINUE\" if (record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]) else \"QUARANTINE_POISONED_CORPUS\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\": True, \"poisoned_chunks_removed\": 3, \"tool_permissions\": {\"read\"}, \"requested_permission\": \"read\"}}\ninvalid = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\": False, \"poisoned_chunks_removed\": 3, \"tool_permissions\": {\"read\"}, \"requested_permission\": \"read\"}}\nuncertain = {**valid}\nuncertain.pop(\"requested_permission\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "document_instruction_treated_as_data",
+        "poisoned_chunks_removed",
+        "tool_permissions",
+        "requested_permission",
+        "sorted",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T3-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T3-B-E3 · Instrumenta fallo cerrado para `indirect injection, data poisoning y least privilege` con tres fixtures distintos. `CASO-ICA-050-3B` debe continuar, el adverso debe devolver `QUARANTINE_POISONED_CORPUS` y l. Pistas usadas: Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró indirect injection como datos, poisoning remo. Regla de dominio «indirect injection como datos, poisoning removido y permiso mínimo»; predicado corregido `record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"]` para que el fixture sintético pase y el adverso active `QUARANTINE_POISONED_CORPUS`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\": 18, \"total_claims\": 20, \"min_support_rate\": 0.9, \"unsupported_critical\": 0, \"abstained_when_empty\": True}}\nmeets_contract = record[\"unsupported_critical\"] <= 0 or not record[\"abstained_when_empty\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "supported_claims",
+        "total_claims",
+        "min_support_rate",
+        "unsupported_critical",
+        "abstained_when_empty"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T4-A-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T4-A-E1 · Audita el contrato de `hallucination y abstención` sobre `CASO-ICA-050-4A`. La entrada es el dict completo del starter; la operación debe demostrar support rate, cero claim crítica y abstención correcta. Re. Pistas usadas: Relaciona los campos `supported_claims`, `total_claims`, `min_support_rate`, `unsupported_critical`, `abstained_when_empty` con la regla explicada en S50-T4-A.; El predicado correcto debe ser verdader. Regla de dominio «support rate, cero claim crítica y abstención correcta»; predicado corregido `record[\"unsupported_critical\"] <= 0 or not record[\"abstained_when_empty\"]` para que el fixture sintético pase y el adverso active `BLOCK_HALLUCINATION_REGRESSION`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"supported_claims\", \"total_claims\", \"min_support_rate\", \"unsupported_critical\", \"abstained_when_empty\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"unsupported_critical\"] <= 0 or not record[\"abstained_when_empty\"]) else \"BLOCK_HALLUCINATION_REGRESSION\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\": 18, \"total_claims\": 20, \"min_support_rate\": 0.9, \"unsupported_critical\": 0, \"abstained_when_empty\": True}}\ninvalid = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\": 18, \"total_claims\": 20, \"min_support_rate\": 0.9, \"unsupported_critical\": 1, \"abstained_when_empty\": True}}\nincomplete = {**valid}\nincomplete.pop(\"abstained_when_empty\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "supported_claims",
+        "total_claims",
+        "min_support_rate",
+        "unsupported_critical",
+        "abstained_when_empty",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T4-A-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T4-A-E2 · Compara tres rutas de `hallucination y abstención`: fixture válido, fixture adverso y registro sin `abstained_when_empty`. Entrada: dict con case_id, supported_claims, total_claims, min_support_rate, unsupp. Pistas usadas: Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama.; Después aplica la regla de S50-T4-A: support rate, cero claim crítica y abstención correcta. El fixt. Regla de dominio «support rate, cero claim crítica y abstención correcta»; predicado corregido `record[\"unsupported_critical\"] <= 0 or not record[\"abstained_when_empty\"]` para que el fixture sintético pase y el adverso active `BLOCK_HALLUCINATION_REGRESSION`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"supported_claims\", \"total_claims\", \"min_support_rate\", \"unsupported_critical\", \"abstained_when_empty\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_ABSTENTION_SLICE\"\n    return \"CONTINUE\" if (record[\"unsupported_critical\"] <= 0 or not record[\"abstained_when_empty\"]) else \"BLOCK_HALLUCINATION_REGRESSION\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\": 18, \"total_claims\": 20, \"min_support_rate\": 0.9, \"unsupported_critical\": 0, \"abstained_when_empty\": True}}\ninvalid = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\": 18, \"total_claims\": 20, \"min_support_rate\": 0.9, \"unsupported_critical\": 1, \"abstained_when_empty\": True}}\nuncertain = {**valid}\nuncertain.pop(\"abstained_when_empty\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "supported_claims",
+        "total_claims",
+        "min_support_rate",
+        "unsupported_critical",
+        "abstained_when_empty",
+        "sorted"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T4-A-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T4-A-E3 · Aísla fallo cerrado para `hallucination y abstención` con tres fixtures distintos. `CASO-ICA-050-4A` debe continuar, el adverso debe devolver `BLOCK_HALLUCINATION_REGRESSION` y la ausencia de `abstained_whe. Pistas usadas: Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró support rate, cero claim crítica y abstenci. Regla de dominio «support rate, cero claim crítica y abstención correcta»; predicado corregido `record[\"unsupported_critical\"] <= 0 or not record[\"abstained_when_empty\"]` para que el fixture sintético pase y el adverso active `BLOCK_HALLUCINATION_REGRESSION`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\": 850, \"slo_ms\": 1000, \"cost_pen\": 0.07, \"cost_cap_pen\": 0.1, \"cache_acl_safe\": True, \"rollback_minutes\": 8, \"rto_minutes\": 10}}\nmeets_contract = record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "case_id",
+        "CASO",
+        "ICA",
+        "p95_ms",
+        "slo_ms",
+        "cost_pen",
+        "cost_cap_pen",
+        "cache_acl_safe"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T4-B-E1 (guided) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T4-B-E1 · Decide el contrato de `latency/cost/caching, incident response y rollback` sobre `CASO-ICA-050-4B`. La entrada es el dict completo del starter; la operación debe demostrar latencia/costo/cache dentro de gat. Pistas usadas: Relaciona los campos `p95_ms`, `slo_ms`, `cost_pen`, `cost_cap_pen`, `cache_acl_safe`, `rollback_minutes`, `rto_minutes` con la regla explicada en S50-T4-B.; El predicado correcto debe ser verdadero p. Regla de dominio «latencia/costo/cache dentro de gate y rollback en RTO»; predicado corregido `record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]` para que el fixture sintético pase y el adverso active `ROLLBACK_AI_RELEASE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"p95_ms\", \"slo_ms\", \"cost_pen\", \"cost_cap_pen\", \"cache_acl_safe\", \"rollback_minutes\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]) else \"ROLLBACK_AI_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\": 850, \"slo_ms\": 1000, \"cost_pen\": 0.07, \"cost_cap_pen\": 0.1, \"cache_acl_safe\": True, \"rollback_minutes\": 8, \"rto_minutes\": 10}}\ninvalid = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\": 1000000, \"slo_ms\": 1000, \"cost_pen\": 0.07, \"cost_cap_pen\": 0.1, \"cache_acl_safe\": True, \"rollback_minutes\": 8, \"rto_minutes\": 10}}\nincomplete = {**valid}\nincomplete.pop(\"rto_minutes\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "p95_ms",
+        "slo_ms",
+        "cost_pen",
+        "cost_cap_pen",
+        "cache_acl_safe",
+        "rollback_minutes"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T4-B-E2 (independent) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T4-B-E2 · Filtra tres rutas de `latency/cost/caching, incident response y rollback`: fixture válido, fixture adverso y registro sin `rto_minutes`. Entrada: dict con case_id, p95_ms, slo_ms, cost_pen, cost_cap_pen, ca. Pistas usadas: Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.; Después aplica la regla de S50-T4-B: latencia/costo/cache dentro de gate y rollback en RTO. El fixture advers. Regla de dominio «latencia/costo/cache dentro de gate y rollback en RTO»; predicado corregido `record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]` para que el fixture sintético pase y el adverso active `ROLLBACK_AI_RELEASE`. Sin PII real ni borrar traces."
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"p95_ms\", \"slo_ms\", \"cost_pen\", \"cost_cap_pen\", \"cache_acl_safe\", \"rollback_minutes\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ACTIVATE_INCIDENT_RESPONSE\"\n    return \"CONTINUE\" if (record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]) else \"ROLLBACK_AI_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\": 850, \"slo_ms\": 1000, \"cost_pen\": 0.07, \"cost_cap_pen\": 0.1, \"cache_acl_safe\": True, \"rollback_minutes\": 8, \"rto_minutes\": 10}}\ninvalid = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\": 1000000, \"slo_ms\": 1000, \"cost_pen\": 0.07, \"cost_cap_pen\": 0.1, \"cache_acl_safe\": True, \"rollback_minutes\": 8, \"rto_minutes\": 10}}\nuncertain = {**valid}\nuncertain.pop(\"rto_minutes\", None)\ntrio = (valid, invalid, uncertain)\nresults = [decide(item) for item in trio]\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "case_id",
+        "p95_ms",
+        "slo_ms",
+        "cost_pen",
+        "cost_cap_pen",
+        "cache_acl_safe",
+        "rollback_minutes"
+      ],
+      "justification_from_packet": "Explorer: completé S50-T4-B-E3 (transfer) desde quiz_card/slim_packet de agentic_G2. Instrucción del paquete: S50-T4-B-E3 · Demuestra fallo cerrado para `latency/cost/caching, incident response y rollback` con tres fixtures distintos. `CASO-ICA-050-4B` debe continuar, el adverso debe devolver `ROLLBACK_AI_RELEASE` y la ausencia . Pistas usadas: Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró latencia/costo/cache dentro de gate y ro. Regla de dominio «latencia/costo/cache dentro de gate y rollback en RTO»; predicado corregido `record[\"p95_ms\"] <= record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]` para que el fixture sintético pase y el adverso active `ROLLBACK_AI_RELEASE`. Sin PII real ni borrar traces."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "dataset versionado y rúbrica calibrada",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S50 («Evals, red teaming y fiabilidad de IA») y las salidas de subtema. Pregunta: ¿Qué evidencia permite aprobar `task dataset y rubric` en CASO-ICA-050?. Elijo la opción «dataset versionado y rúbrica calibrada» (índice 1) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "emitir BLOCK_CANDIDATE y conservar evidencia",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S50 («Evals, red teaming y fiabilidad de IA») y las salidas de subtema. Pregunta: Si ocurre la condición de error de S50, ¿qué respuesta preserva seguridad y auditabilidad?. Elijo la opción «emitir BLOCK_CANDIDATE y conservar evidencia» (índice 3) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S50 («Evals, red teaming y fiabilidad de IA») y las salidas de subtema. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-C · quality gate de IA adversarial`?. Elijo la opción «evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final» (índice 0) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Exploré la teoría del paquete S50 («Evals, red teaming y fiabilidad de IA») y las salidas de subtema. Pregunta: ¿Qué tratamiento de `CASO-ICA-050` respeta el alcance del curso?. Elijo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» (índice 2) porque alinea con evidencia/gate/tratamiento enseñado en theory/iDo y descarta distractores (print sin assert, PII real, borrar trace, README vacío)."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": "explorer: completed S50 (Evals, red teaming y fiabilidad de IA) with 24 exercises + 4 selfcheck from packet stems/starters/theory only.",
+  "summary": "S50 explorer: 24 exercises, 4 selfcheck",
+  "recorded_at": "2026-07-23T09:30:00+00:00",
+  "session_started_at": "2026-07-23T09:26:40+00:00",
+  "session_ended_at": "2026-07-23T09:30:00+00:00"
+}

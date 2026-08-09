@@ -1,0 +1,9 @@
+{
+  "section": 43,
+  "id": "llmops",
+  "file": "src/lib/course/sections/s43-llmops.ts",
+  "score_1_to_10": 6.7,
+  "issue_count": 21,
+  "meta_leak_count": 7,
+  "status": "complete"
+}

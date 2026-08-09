@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 42,
+  "packet_sha": "93b177a844e593bc",
+  "packet_source": "course-state/newbie_walkthrough/agentic_I2/section_42/quiz_card.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-exp-s42-14b628d32c05",
+  "production_note": "agentic_I2 dual-LLM explorer: independent packet-only solve from quiz_card+slim_packet; no I1 lives; no bulk writers; no identity stamps; no answer maps",
+  "knowledge_boundary": "Only landing + prior_index + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S42-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\nmeets_contract = not (record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_SCHEMA\"\nprint(\"S42-T1-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Calcula",
+        "contrato",
+        "Pydantic",
+        "JSON",
+        "Schema",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T1-A-E1: del starter/instruction «S42-T1-A-E1 · Calcula el contrato de `Pydantic y JSON Schema` sobre `CASO-CUS-042-1A`. La entrada es el dict completo del starter; la operación debe demostrar schema estricto más r…» completé el contrato usando print alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'valid_fixture', 'extra_policy', 'case_id', 'json_schema', 'business_rule'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('extra_policy') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT_SCHEMA'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'extra_policy': True, 'json_schema': True, 'valid_fixture': True, 'business_rule': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'extra_policy': False, 'json_schema': False, 'valid_fixture': False, 'business_rule': False}\nmissing = {k: valid[k] for k in valid if k != 'business_rule'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Modela",
+        "tres",
+        "rutas",
+        "Pydantic",
+        "JSON",
+        "Schema",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T1-A-E2: del starter/instruction «S42-T1-A-E2 · Modela tres rutas de `Pydantic y JSON Schema`: fixture válido, fixture adverso y registro sin `business_rule`. Entrada: dict con case_id, extra_policy, json_schema, v…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_SCHEMA'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', }\nadverse = {\"case_id\": 'CASO-CUS-042-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "Pydantic",
+        "JSON",
+        "Schema"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T1-A-E3: del starter/instruction «S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos. `CASO-CUS-042-1A` debe continuar, el adverso debe devolver `REJECT_SCHEMA` y la ausenc…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\nmeets_contract = not (record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"])\nstatus = \"PASS\" if meets_contract else \"VERSION_SCHEMA\"\nprint(\"S42-T1-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Compara",
+        "contrato",
+        "evoluci",
+        "discriminated",
+        "unions",
+        "validaci",
+        "negocio"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T1-B-E1: del starter/instruction «S42-T1-B-E1 · Compara el contrato de `evolución, discriminated unions y validación de negocio` sobre `CASO-CUS-042-1B`. La entrada es el dict completo del starter; la operación deb…» completé el contrato usando print alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'change', 'old_reader_passes', 'handled_tags', 'union_tags', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('change') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'change': True, 'old_reader_passes': True, 'union_tags': True, 'handled_tags': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'change': False, 'old_reader_passes': False, 'union_tags': False, 'handled_tags': False}\nmissing = {k: valid[k] for k in valid if k != 'handled_tags'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Verifica",
+        "tres",
+        "rutas",
+        "evoluci",
+        "discriminated",
+        "unions",
+        "validaci"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T1-B-E2: del starter/instruction «S42-T1-B-E2 · Verifica tres rutas de `evolución, discriminated unions y validación de negocio`: fixture válido, fixture adverso y registro sin `handled_tags`. Entrada: dict con cas…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', }\nadverse = {\"case_id\": 'CASO-CUS-042-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "evoluci",
+        "discriminated",
+        "unions"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T1-B-E3: del starter/instruction «S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tres fixtures distintos. `CASO-CUS-042-1B` debe continuar, el adverso debe d…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\nmeets_contract = not (record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"])\nstatus = \"PASS\" if meets_contract else \"DENY_CROSS_TENANT\"\nprint(\"S42-T2-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Filtra",
+        "contrato",
+        "authn",
+        "authz",
+        "RBAC",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T2-A-E1: del starter/instruction «S42-T2-A-E1 · Filtra el contrato de `authn/authz y RBAC` sobre `CASO-CUS-042-2A`. La entrada es el dict completo del starter; la operación debe demostrar identidad, permiso y perte…» completé el contrato usando print alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'authenticated', 'roles', 'actor', 'case_id', 'resource_owner'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('authenticated') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'authenticated': True, 'actor': True, 'resource_owner': True, 'roles': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'authenticated': False, 'actor': False, 'resource_owner': False, 'roles': False}\nmissing = {k: valid[k] for k in valid if k != 'roles'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "authn",
+        "authz",
+        "RBAC",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T2-A-E2: del starter/instruction «S42-T2-A-E2 · Clasifica tres rutas de `authn/authz y RBAC`: fixture válido, fixture adverso y registro sin `roles`. Entrada: dict con case_id, authenticated, actor, resource_owner,…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', }\nadverse = {\"case_id\": 'CASO-CUS-042-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "authn",
+        "authz",
+        "RBAC"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T2-A-E3: del starter/instruction «S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos. `CASO-CUS-042-2A` debe continuar, el adverso debe devolver `DENY_CROSS_TENANT` y la ause…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\nmeets_contract = not (record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"])\nstatus = \"PASS\" if meets_contract else \"DENY_SCOPE\"\nprint(\"S42-T2-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Modela",
+        "contrato",
+        "scopes",
+        "service",
+        "identities",
+        "deny",
+        "default"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T2-B-E1: del starter/instruction «S42-T2-B-E1 · Modela el contrato de `scopes, service identities y deny-by-default` sobre `CASO-CUS-042-2B`. La entrada es el dict completo del starter; la operación debe demostrar …» completé el contrato usando print alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'route_declared', 'requested_scope', 'granted_scopes', 'service_id', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('requested_scope') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'requested_scope': True, 'granted_scopes': True, 'service_id': True, 'route_declared': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'requested_scope': False, 'granted_scopes': False, 'service_id': False, 'route_declared': False}\nmissing = {k: valid[k] for k in valid if k != 'route_declared'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Audita",
+        "tres",
+        "rutas",
+        "scopes",
+        "service",
+        "identities",
+        "deny"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T2-B-E2: del starter/instruction «S42-T2-B-E2 · Audita tres rutas de `scopes, service identities y deny-by-default`: fixture válido, fixture adverso y registro sin `route_declared`. Entrada: dict con case_id, reque…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_NARROW_GRANT'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', }\nadverse = {\"case_id\": 'CASO-CUS-042-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "scopes",
+        "service",
+        "identities"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T2-B-E3: del starter/instruction «S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures distintos. `CASO-CUS-042-2B` debe continuar, el adverso debe devolver `DE…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\nmeets_contract = not (record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\"))\nstatus = \"PASS\" if meets_contract else \"REJECT_UNTRUSTED_INPUT\"\nprint(\"S42-T3-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Verifica",
+        "contrato",
+        "input",
+        "limits",
+        "injection",
+        "SSRF",
+        "path"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T3-A-E1: del starter/instruction «S42-T3-A-E1 · Verifica el contrato de `input limits, injection y SSRF/path traversal` sobre `CASO-CUS-042-3A`. La entrada es el dict completo del starter; la operación debe demostr…» completé el contrato usando print alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'max_bytes', 'host', 'resolved_path', 'bytes', 'case_id', 'allowed_hosts', 'root'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('bytes') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT_UNTRUSTED_INPUT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'bytes': True, 'max_bytes': True, 'host': True, 'allowed_hosts': True, 'resolved_path': True, 'root': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'bytes': False, 'max_bytes': False, 'host': False, 'allowed_hosts': False, 'resolved_path': False, 'root': False}\nmissing = {k: valid[k] for k in valid if k != 'root'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Decide",
+        "tres",
+        "rutas",
+        "input",
+        "limits",
+        "injection",
+        "SSRF"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T3-A-E2: del starter/instruction «S42-T3-A-E2 · Decide tres rutas de `input limits, injection y SSRF/path traversal`: fixture válido, fixture adverso y registro sin `root`. Entrada: dict con case_id, bytes, max_byt…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_UNTRUSTED_INPUT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', }\nadverse = {\"case_id\": 'CASO-CUS-042-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "input",
+        "limits",
+        "injection"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T3-A-E3: del starter/instruction «S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixtures distintos. `CASO-CUS-042-3A` debe continuar, el adverso debe devolver `…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\nmeets_contract = not (record[\"secret_in_repo\"] or not record[\"dependency_pinned\"])\nstatus = \"PASS\" if meets_contract else \"ROTATE_AND_BLOCK\"\nprint(\"S42-T3-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Clasifica",
+        "contrato",
+        "secretos",
+        "cifrado",
+        "dependency",
+        "risk",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T3-B-E1: del starter/instruction «S42-T3-B-E1 · Clasifica el contrato de `secretos, cifrado y dependency risk` sobre `CASO-CUS-042-3B`. La entrada es el dict completo del starter; la operación debe demostrar secret…» completé el contrato usando print alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'rotation_tested', 'secret_in_repo', 'dependency_pinned', 'critical_cves', 'case_id', 'secret_in_log'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('secret_in_repo') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'secret_in_repo': True, 'secret_in_log': True, 'rotation_tested': True, 'dependency_pinned': True, 'critical_cves': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'secret_in_repo': False, 'secret_in_log': False, 'rotation_tested': False, 'dependency_pinned': False, 'critical_cves': False}\nmissing = {k: valid[k] for k in valid if k != 'critical_cves'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Calcula",
+        "tres",
+        "rutas",
+        "secretos",
+        "cifrado",
+        "dependency",
+        "risk"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T3-B-E2: del starter/instruction «S42-T3-B-E2 · Calcula tres rutas de `secretos, cifrado y dependency risk`: fixture válido, fixture adverso y registro sin `critical_cves`. Entrada: dict con case_id, secret_in_repo…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', }\nadverse = {\"case_id\": 'CASO-CUS-042-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "secretos",
+        "cifrado",
+        "dependency"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T3-B-E3: del starter/instruction «S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distintos. `CASO-CUS-042-3B` debe continuar, el adverso debe devolver `ROTATE_A…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\nmeets_contract = not (record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"])\nstatus = \"PASS\" if meets_contract else \"MINIMIZE_AND_EXPIRE\"\nprint(\"S42-T4-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Audita",
+        "contrato",
+        "minimizaci",
+        "purpose",
+        "retenci",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T4-A-E1: del starter/instruction «S42-T4-A-E1 · Audita el contrato de `minimización, purpose y retención` sobre `CASO-CUS-042-4A`. La entrada es el dict completo del starter; la operación debe demostrar campos míni…» completé el contrato usando print alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'needed', 'purpose', 'max_retention_days', 'collected', 'case_id', 'retention_days'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('collected') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'collected': True, 'needed': True, 'purpose': True, 'retention_days': True, 'max_retention_days': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'collected': False, 'needed': False, 'purpose': False, 'retention_days': False, 'max_retention_days': False}\nmissing = {k: valid[k] for k in valid if k != 'max_retention_days'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Compara",
+        "tres",
+        "rutas",
+        "minimizaci",
+        "purpose",
+        "retenci",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T4-A-E2: del starter/instruction «S42-T4-A-E2 · Compara tres rutas de `minimización, purpose y retención`: fixture válido, fixture adverso y registro sin `max_retention_days`. Entrada: dict con case_id, collected, …» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', }\nadverse = {\"case_id\": 'CASO-CUS-042-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "minimizaci",
+        "purpose",
+        "retenci"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T4-A-E3: del starter/instruction «S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos. `CASO-CUS-042-4A` debe continuar, el adverso debe devolver `MINIMIZE_AND_EXP…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\nmeets_contract = not (bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"])\nstatus = \"PASS\" if meets_contract else \"PURGE_DERIVATIVES\"\nprint(\"S42-T4-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Decide",
+        "contrato",
+        "audit",
+        "deletion",
+        "pseudonymization",
+        "acceso",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T4-B-E1: del starter/instruction «S42-T4-B-E1 · Decide el contrato de `audit, deletion, pseudonymization y acceso` sobre `CASO-CUS-042-4B`. La entrada es el dict completo del starter; la operación debe demostrar au…» completé el contrato usando print alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'pii_fields', 'audit_fields', 'case_id', 'deleted', 'key_separate', 'derived_deleted'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('audit_fields') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'audit_fields': True, 'pii_fields': True, 'deleted': True, 'derived_deleted': True, 'key_separate': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'audit_fields': False, 'pii_fields': False, 'deleted': False, 'derived_deleted': False, 'key_separate': False}\nmissing = {k: valid[k] for k in valid if k != 'key_separate'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Filtra",
+        "tres",
+        "rutas",
+        "audit",
+        "deletion",
+        "pseudonymization",
+        "acceso"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T4-B-E2: del starter/instruction «S42-T4-B-E2 · Filtra tres rutas de `audit, deletion, pseudonymization y acceso`: fixture válido, fixture adverso y registro sin `key_separate`. Entrada: dict con case_id, audit_fie…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S42-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-CUS-042-1A', }\nadverse = {\"case_id\": 'CASO-CUS-042-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S42",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "audit",
+        "deletion",
+        "pseudonymization"
+      ],
+      "justification_from_packet": "Explorer A sobre S42-T4-B-E3: del starter/instruction «S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures distintos. `CASO-CUS-042-4B` debe continuar, el adverso debe devolver `PUR…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC0: elijo «schema exportado y fixtures válidos/inválidos» porque la theory del paquete (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default) responde a «¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC1: elijo «emitir DENY y conservar evidencia» porque la theory del paquete (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default) responde a «Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y auditabilidad?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC2: elijo «un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos» porque la theory del paquete (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default) responde a «¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque la theory del paquete (Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio | authn/authz y RBAC | scopes, service identities y deny-by-default) responde a «¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?» con ese criterio; contraste con las otras opciones del stem."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "Pydantic y JSON Schema",
+      "note": "Explorer prioriza flujo feliz del contrato."
+    }
+  ],
+  "recorded_at": "2026-07-23T13:15:22.350000+00:00",
+  "session_started_at": "2026-07-23T13:15:04.610000+00:00",
+  "session_ended_at": "2026-07-23T13:15:22.350000+00:00"
+}

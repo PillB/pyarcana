@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 52,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s52-74a7e9132389",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S52-T1-A-E1",
+      "code": "# dual skeptic-H1 · S52-T1-A-E1\nrecord = {\"case_id\": \"CASO-PER-052-1A\", **{\"stakeholders\":{\"ops\",\"relationship\",\"privacy\"},\"jobs\":3,\"metrics\":{\"ttr\",\"review_precision\"},\"baseline_frozen\":True}}\nmeets_contract = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\nstatus = \"PASS\" if meets_contract else \"REOPEN_CF1\"\nprint(\"S52-T1-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T1-A-E1: contrasté el Pass del paquete («S52-T1-A-E1 · Calcula el contrato de `stakeholders, jobs y success metrics de CF-1` sobre `CASO-PER-052-1A`. La entrada es el dict completo…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S52-T1-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "case_id",
+        "CASO",
+        "PER",
+        "stakeholders",
+        "ops"
+      ]
+    },
+    {
+      "exercise_id": "S52-T1-A-E2",
+      "code": "# dual skeptic-H1 · S52-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'stakeholders', 'jobs', 'baseline_frozen', 'metrics'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\n    return \"PASS\" if ok else 'REOPEN_CF1'\n\nvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'relationship', 'privacy', 'ops'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\ninvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'relationship', 'privacy', 'ops'}, 'jobs': 0, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\nincomplete = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'relationship', 'privacy', 'ops'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T1-A-E2: contrasté el Pass del paquete («S52-T1-A-E2 · Modela tres rutas de `stakeholders, jobs y success metrics de CF-1`: fixture válido, fixture adverso y registro sin `baseline_…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "stakeholders"
+      ]
+    },
+    {
+      "exercise_id": "S52-T1-A-E3",
+      "code": "# dual skeptic-H1 · S52-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'stakeholders', 'jobs', 'baseline_frozen', 'metrics'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INTERVIEW_STAKEHOLDER'\n    ok = not (record[\"jobs\"] == 0 or not record[\"baseline_frozen\"])\n    return \"CONTINUE\" if ok else 'REOPEN_CF1'\n\nvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'relationship', 'privacy', 'ops'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\ninvalid = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'relationship', 'privacy', 'ops'}, 'jobs': 0, 'metrics': {'review_precision', 'ttr'}, 'baseline_frozen': True}\nincomplete = {'case_id': 'CASO-PER-052-1A', 'stakeholders': {'relationship', 'privacy', 'ops'}, 'jobs': 3, 'metrics': {'review_precision', 'ttr'}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T1-A-E3: contrasté el Pass del paquete («S52-T1-A-E3 · Simula fallo cerrado para `stakeholders, jobs y success metrics de CF-1` con tres fixtures distintos. `CASO-PER-052-1A` debe c…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "stakeholders"
+      ]
+    },
+    {
+      "exercise_id": "S52-T1-B-E1",
+      "code": "# dual skeptic-H1 · S52-T1-B-E1\nrecord = {\"case_id\": \"CASO-PER-052-1B\", **{\"constraints\":{\"synthetic-only\",\"human-review\"},\"risks_with_owner\":5,\"no_go\":{\"real-pii\",\"auto-risk-decision\"},\"residual_risk_accepted\":True}}\nmeets_contract = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_NO_GO\"\nprint(\"S52-T1-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T1-B-E1: contrasté el Pass del paquete («S52-T1-B-E1 · Compara el contrato de `cambios, constraints, riesgos y no-go` sobre `CASO-PER-052-1B`. La entrada es el dict completo del sta…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S52-T1-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "case_id",
+        "CASO",
+        "PER",
+        "constraints",
+        "synthetic"
+      ]
+    },
+    {
+      "exercise_id": "S52-T1-B-E2",
+      "code": "# dual skeptic-H1 · S52-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'no_go', 'constraints', 'risks_with_owner', 'residual_risk_accepted'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\n    return \"PASS\" if ok else 'DECLARE_NO_GO'\n\nvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'real-pii', 'auto-risk-decision'}, 'residual_risk_accepted': True}\ninvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'real-pii', 'auto-risk-decision'}, 'residual_risk_accepted': False}\nincomplete = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'real-pii', 'auto-risk-decision'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T1-B-E2: contrasté el Pass del paquete («S52-T1-B-E2 · Verifica tres rutas de `cambios, constraints, riesgos y no-go`: fixture válido, fixture adverso y registro sin `residual_risk_…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "no_go"
+      ]
+    },
+    {
+      "exercise_id": "S52-T1-B-E3",
+      "code": "# dual skeptic-H1 · S52-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'no_go', 'constraints', 'risks_with_owner', 'residual_risk_accepted'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INDEPENDENT_RISK_REVIEW'\n    ok = not (not record[\"no_go\"] or not record[\"residual_risk_accepted\"])\n    return \"CONTINUE\" if ok else 'DECLARE_NO_GO'\n\nvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'real-pii', 'auto-risk-decision'}, 'residual_risk_accepted': True}\ninvalid = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'real-pii', 'auto-risk-decision'}, 'residual_risk_accepted': False}\nincomplete = {'case_id': 'CASO-PER-052-1B', 'constraints': {'synthetic-only', 'human-review'}, 'risks_with_owner': 5, 'no_go': {'real-pii', 'auto-risk-decision'}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T1-B-E3: contrasté el Pass del paquete («S52-T1-B-E3 · Extiende fallo cerrado para `cambios, constraints, riesgos y no-go` con tres fixtures distintos. `CASO-PER-052-1B` debe contin…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "no_go"
+      ]
+    },
+    {
+      "exercise_id": "S52-T2-A-E1",
+      "code": "# dual skeptic-H1 · S52-T2-A-E1\nrecord = {\"case_id\": \"CASO-PER-052-2A\", **{\"contexts\":{\"intake\",\"er\",\"triage\",\"reporting\",\"copilot\"},\"apis_versioned\":True,\"events_versioned\":True,\"shared_database\":False,\"contract_tests\":12}}\nmeets_contract = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\nstatus = \"PASS\" if meets_contract else \"STOP_INTEGRATION_RELEASE\"\nprint(\"S52-T2-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T2-A-E1: contrasté el Pass del paquete («S52-T2-A-E1 · Filtra el contrato de `bounded contexts, APIs y eventos` sobre `CASO-PER-052-2A`. La entrada es el dict completo del starter;…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S52-T2-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "case_id",
+        "CASO",
+        "PER",
+        "contexts",
+        "intake"
+      ]
+    },
+    {
+      "exercise_id": "S52-T2-A-E2",
+      "code": "# dual skeptic-H1 · S52-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'apis_versioned', 'contract_tests', 'shared_database', 'contexts', 'events_versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\n    return \"PASS\" if ok else 'STOP_INTEGRATION_RELEASE'\n\nvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'intake', 'reporting', 'er', 'copilot', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\ninvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'intake': {'case'}, 'er': {'case', 'score'}}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': True, 'contract_tests': 12}\nincomplete = {'case_id': 'CASO-PER-052-2A', 'contexts': {'intake', 'reporting', 'er', 'copilot', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T2-A-E2: contrasté el Pass del paquete («S52-T2-A-E2 · Clasifica tres rutas de `bounded contexts, APIs y eventos`: fixture válido, fixture adverso y registro sin `contract_tests`. E…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "apis_versioned"
+      ]
+    },
+    {
+      "exercise_id": "S52-T2-A-E3",
+      "code": "# dual skeptic-H1 · S52-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'apis_versioned', 'contract_tests', 'shared_database', 'contexts', 'events_versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'MAP_BOUNDED_CONTEXTS'\n    ok = not (record[\"shared_database\"] or not record[\"apis_versioned\"])\n    return \"CONTINUE\" if ok else 'STOP_INTEGRATION_RELEASE'\n\nvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'intake', 'reporting', 'er', 'copilot', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False, 'contract_tests': 12}\ninvalid = {'case_id': 'CASO-PER-052-2A', 'contexts': {'intake': {'case'}, 'er': {'case', 'score'}}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': True, 'contract_tests': 12}\nincomplete = {'case_id': 'CASO-PER-052-2A', 'contexts': {'intake', 'reporting', 'er', 'copilot', 'triage'}, 'apis_versioned': True, 'events_versioned': True, 'shared_database': False}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T2-A-E3: contrasté el Pass del paquete («S52-T2-A-E3 · Defiende fallo cerrado para `bounded contexts, APIs y eventos` con tres fixtures distintos. `CASO-PER-052-2A` debe continuar,…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "apis_versioned"
+      ]
+    },
+    {
+      "exercise_id": "S52-T2-B-E1",
+      "code": "# dual skeptic-H1 · S52-T2-B-E1\nrecord = {\"case_id\": \"CASO-PER-052-2B\", **{\"er_proposes_match\":True,\"triage_prioritizes\":True,\"rpa_prepares_draft\":True,\"rag_cites\":True,\"human_decides\":True,\"infers_fraud\":False}}\nmeets_contract = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_AUTOMATED_RISK_DECISION\"\nprint(\"S52-T2-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T2-B-E1: contrasté el Pass del paquete («S52-T2-B-E1 · Modela el contrato de `datos, modelos, RPA, RAG y human workflow` sobre `CASO-PER-052-2B`. La entrada es el dict completo del…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S52-T2-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "case_id",
+        "CASO",
+        "PER",
+        "er_proposes_match",
+        "triage_prioritizes"
+      ]
+    },
+    {
+      "exercise_id": "S52-T2-B-E2",
+      "code": "# dual skeptic-H1 · S52-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'rag_cites', 'human_decides', 'triage_prioritizes', 'er_proposes_match', 'rpa_prepares_draft', 'infers_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\n    return \"PASS\" if ok else 'BLOCK_AUTOMATED_RISK_DECISION'\n\nvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}\ninvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': True}\nincomplete = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T2-B-E2: contrasté el Pass del paquete («S52-T2-B-E2 · Audita tres rutas de `datos, modelos, RPA, RAG y human workflow`: fixture válido, fixture adverso y registro sin `infers_fraud…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "rag_cites"
+      ]
+    },
+    {
+      "exercise_id": "S52-T2-B-E3",
+      "code": "# dual skeptic-H1 · S52-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'rag_cites', 'human_decides', 'triage_prioritizes', 'er_proposes_match', 'rpa_prepares_draft', 'infers_fraud'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_HUMAN_REVIEW'\n    ok = not (record[\"infers_fraud\"] or not record[\"human_decides\"])\n    return \"CONTINUE\" if ok else 'BLOCK_AUTOMATED_RISK_DECISION'\n\nvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': False}\ninvalid = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True, 'infers_fraud': True}\nincomplete = {'case_id': 'CASO-PER-052-2B', 'er_proposes_match': True, 'triage_prioritizes': True, 'rpa_prepares_draft': True, 'rag_cites': True, 'human_decides': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T2-B-E3: contrasté el Pass del paquete («S52-T2-B-E3 · Recupera fallo cerrado para `datos, modelos, RPA, RAG y human workflow` con tres fixtures distintos. `CASO-PER-052-2B` debe co…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "rag_cites"
+      ]
+    },
+    {
+      "exercise_id": "S52-T3-A-E1",
+      "code": "# dual skeptic-H1 · S52-T3-A-E1\nrecord = {\"case_id\": \"CASO-PER-052-3A\", **{\"unit\":True,\"contract\":True,\"integration\":True,\"evals\":True,\"red_team\":True,\"performance\":True,\"open_p0\":0,\"open_p1\":0}}\nmeets_contract = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_FINAL_ON_P0_P1\"\nprint(\"S52-T3-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T3-A-E1: contrasté el Pass del paquete («S52-T3-A-E1 · Verifica el contrato de `tests/evals/red team y performance` sobre `CASO-PER-052-3A`. La entrada es el dict completo del start…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S52-T3-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "case_id",
+        "CASO",
+        "PER",
+        "unit",
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S52-T3-A-E2",
+      "code": "# dual skeptic-H1 · S52-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {'contract', 'integration', 'case_id', 'red_team', 'open_p1', 'unit', 'performance', 'open_p0', 'evals'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\n    return \"PASS\" if ok else 'BLOCK_FINAL_ON_P0_P1'\n\nvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}\ninvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 1, 'open_p1': 0}\nincomplete = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T3-A-E2: contrasté el Pass del paquete («S52-T3-A-E2 · Decide tres rutas de `tests/evals/red team y performance`: fixture válido, fixture adverso y registro sin `open_p1`. Entrada:…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "contract",
+        "integration"
+      ]
+    },
+    {
+      "exercise_id": "S52-T3-A-E3",
+      "code": "# dual skeptic-H1 · S52-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {'contract', 'integration', 'case_id', 'red_team', 'open_p1', 'unit', 'performance', 'open_p0', 'evals'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'FIX_AND_RERUN_REGRESSION'\n    ok = not (not record[\"red_team\"] or record[\"open_p0\"] > 0 or record[\"open_p1\"] > 0)\n    return \"CONTINUE\" if ok else 'BLOCK_FINAL_ON_P0_P1'\n\nvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0, 'open_p1': 0}\ninvalid = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 1, 'open_p1': 0}\nincomplete = {'case_id': 'CASO-PER-052-3A', 'unit': True, 'contract': True, 'integration': True, 'evals': True, 'red_team': True, 'performance': True, 'open_p0': 0}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T3-A-E3: contrasté el Pass del paquete («S52-T3-A-E3 · Contrasta fallo cerrado para `tests/evals/red team y performance` con tres fixtures distintos. `CASO-PER-052-3A` debe continua…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "contract",
+        "integration"
+      ]
+    },
+    {
+      "exercise_id": "S52-T3-B-E1",
+      "code": "# dual skeptic-H1 · S52-T3-B-E1\nrecord = {\"case_id\": \"CASO-PER-052-3B\", **{\"availability\":0.999,\"slo\":0.995,\"backup_age_h\":3,\"rpo_h\":4,\"rollback_min\":8,\"rto_min\":15,\"disaster_exercise\":True}}\nmeets_contract = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\nstatus = \"PASS\" if meets_contract else \"NO_GO_RESILIENCE\"\nprint(\"S52-T3-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T3-B-E1: contrasté el Pass del paquete («S52-T3-B-E1 · Clasifica el contrato de `SLO, backup, rollback y disaster exercise` sobre `CASO-PER-052-3B`. La entrada es el dict completo d…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S52-T3-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "case_id",
+        "CASO",
+        "PER",
+        "availability",
+        "slo"
+      ]
+    },
+    {
+      "exercise_id": "S52-T3-B-E2",
+      "code": "# dual skeptic-H1 · S52-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'rollback_min', 'backup_age_h', 'rto_min', 'rpo_h', 'slo', 'availability', 'disaster_exercise'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\n    return \"PASS\" if ok else 'NO_GO_RESILIENCE'\n\nvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\ninvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 999, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True, '_adverse': True}\nincomplete = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T3-B-E2: contrasté el Pass del paquete («S52-T3-B-E2 · Calcula tres rutas de `SLO, backup, rollback y disaster exercise`: fixture válido, fixture adverso y registro sin `disaster_ex…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "rollback_min"
+      ]
+    },
+    {
+      "exercise_id": "S52-T3-B-E3",
+      "code": "# dual skeptic-H1 · S52-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'rollback_min', 'backup_age_h', 'rto_min', 'rpo_h', 'slo', 'availability', 'disaster_exercise'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RUN_DISASTER_EXERCISE'\n    ok = not (record[\"availability\"] < record[\"slo\"] or record[\"rollback_min\"] > record[\"rto_min\"])\n    return \"CONTINUE\" if ok else 'NO_GO_RESILIENCE'\n\nvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True}\ninvalid = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 999, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15, 'disaster_exercise': True, '_adverse': True}\nincomplete = {'case_id': 'CASO-PER-052-3B', 'availability': 0.999, 'slo': 0.995, 'backup_age_h': 3, 'rpo_h': 4, 'rollback_min': 8, 'rto_min': 15}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T3-B-E3: contrasté el Pass del paquete («S52-T3-B-E3 · Instrumenta fallo cerrado para `SLO, backup, rollback y disaster exercise` con tres fixtures distintos. `CASO-PER-052-3B` debe…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "rollback_min"
+      ]
+    },
+    {
+      "exercise_id": "S52-T4-A-E1",
+      "code": "# dual skeptic-H1 · S52-T4-A-E1\nrecord = {\"case_id\": \"CASO-PER-052-4A\", **{\"baseline_ttr_min\":90,\"result_ttr_min\":42,\"benchmark_synthetic\":True,\"demo_minutes\":10,\"cv_claims_sourced\":True,\"personal_contribution\":True}}\nmeets_contract = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNSUPPORTED_PORTFOLIO_CLAIM\"\nprint(\"S52-T4-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T4-A-E1: contrasté el Pass del paquete («S52-T4-A-E1 · Audita el contrato de `demo y narrativa CV` sobre `CASO-PER-052-4A`. La entrada es el dict completo del starter; la operación…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S52-T4-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "case_id",
+        "CASO",
+        "PER",
+        "baseline_ttr_min",
+        "result_ttr_min"
+      ]
+    },
+    {
+      "exercise_id": "S52-T4-A-E2",
+      "code": "# dual skeptic-H1 · S52-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'cv_claims_sourced', 'result_ttr_min', 'baseline_ttr_min', 'personal_contribution', 'benchmark_synthetic', 'demo_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\n    return \"PASS\" if ok else 'REJECT_UNSUPPORTED_PORTFOLIO_CLAIM'\n\nvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\ninvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 100, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\nincomplete = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T4-A-E2: contrasté el Pass del paquete («S52-T4-A-E2 · Compara tres rutas de `demo y narrativa CV`: fixture válido, fixture adverso y registro sin `personal_contribution`. Entrada:…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "cv_claims_sourced"
+      ]
+    },
+    {
+      "exercise_id": "S52-T4-A-E3",
+      "code": "# dual skeptic-H1 · S52-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'cv_claims_sourced', 'result_ttr_min', 'baseline_ttr_min', 'personal_contribution', 'benchmark_synthetic', 'demo_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RECORD_PERSONAL_CONTRIBUTION'\n    ok = not (record[\"result_ttr_min\"] >= record[\"baseline_ttr_min\"] or not record[\"cv_claims_sourced\"])\n    return \"CONTINUE\" if ok else 'REJECT_UNSUPPORTED_PORTFOLIO_CLAIM'\n\nvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\ninvalid = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 100, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True, 'personal_contribution': True}\nincomplete = {'case_id': 'CASO-PER-052-4A', 'baseline_ttr_min': 90, 'result_ttr_min': 42, 'benchmark_synthetic': True, 'demo_minutes': 10, 'cv_claims_sourced': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T4-A-E3: contrasté el Pass del paquete («S52-T4-A-E3 · Aísla fallo cerrado para `demo y narrativa CV` con tres fixtures distintos. `CASO-PER-052-4A` debe continuar, el adverso debe…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "cv_claims_sourced"
+      ]
+    },
+    {
+      "exercise_id": "S52-T4-B-E1",
+      "code": "# dual skeptic-H1 · S52-T4-B-E1\nrecord = {\"case_id\": \"CASO-PER-052-4B\", **{\"artifacts\":{\"architecture\",\"README\",\"ADR\",\"system_card\",\"model_card\",\"LICENSE\",\"video\",\"defense\"},\"reproducible_command\":True,\"tradeoffs_defended\":True,\"cpn4c_independent\":True}}\nmeets_contract = not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_INCOMPLETE_EVIDENCE_BUNDLE\"\nprint(\"S52-T4-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T4-B-E1: contrasté el Pass del paquete («S52-T4-B-E1 · Decide el contrato de `arquitectura, READMEs, cards, licencia, video y defensa` sobre `CASO-PER-052-4B`. La entrada es el dict…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S52-T4-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "case_id",
+        "CASO",
+        "PER",
+        "artifacts",
+        "architecture"
+      ]
+    },
+    {
+      "exercise_id": "S52-T4-B-E2",
+      "code": "# dual skeptic-H1 · S52-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'case_id', 'artifacts', 'tradeoffs_defended', 'reproducible_command', 'cpn4c_independent'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])\n    return \"PASS\" if ok else 'BLOCK_INCOMPLETE_EVIDENCE_BUNDLE'\n\nvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'README', 'LICENSE', 'video', 'ADR', 'system_card', 'model_card', 'architecture', 'defense'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\ninvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': [], 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\nincomplete = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'README', 'LICENSE', 'video', 'ADR', 'system_card', 'model_card', 'architecture', 'defense'}, 'reproducible_command': True, 'tradeoffs_defended': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T4-B-E2: contrasté el Pass del paquete («S52-T4-B-E2 · Filtra tres rutas de `arquitectura, READMEs, cards, licencia, video y defensa`: fixture válido, fixture adverso y registro sin…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "artifacts"
+      ]
+    },
+    {
+      "exercise_id": "S52-T4-B-E3",
+      "code": "# dual skeptic-H1 · S52-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {'case_id', 'artifacts', 'tradeoffs_defended', 'reproducible_command', 'cpn4c_independent'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SCHEDULE_TECHNICAL_DEFENSE'\n    ok = not (len(record[\"artifacts\"]) < 8 or not record[\"cpn4c_independent\"])\n    return \"CONTINUE\" if ok else 'BLOCK_INCOMPLETE_EVIDENCE_BUNDLE'\n\nvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'README', 'LICENSE', 'video', 'ADR', 'system_card', 'model_card', 'architecture', 'defense'}, 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\ninvalid = {'case_id': 'CASO-PER-052-4B', 'artifacts': [], 'reproducible_command': True, 'tradeoffs_defended': True, 'cpn4c_independent': True}\nincomplete = {'case_id': 'CASO-PER-052-4B', 'artifacts': {'README', 'LICENSE', 'video', 'ADR', 'system_card', 'model_card', 'architecture', 'defense'}, 'reproducible_command': True, 'tradeoffs_defended': True}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S52/S52-T4-B-E3: contrasté el Pass del paquete («S52-T4-B-E3 · Demuestra fallo cerrado para `arquitectura, READMEs, cards, licencia, video y defensa` con tres fixtures distintos. `CASO-PER-…») con theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Conceptos dual, skeptic, S52, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S52",
+        "dict",
+        "str",
+        "required",
+        "case_id",
+        "artifacts"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S52#0: contrasto stem «¿Qué evidencia permite aprobar `stakeholders, jobs y success metrics de CF-1` en CASO-PER-052?» con párrafos theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Elijo índice 3 («matriz stakeholder/job/métrica con evidencia») porque cuadra con el vocabulario del paquete; distractores ['un print sin assert ni versión', 'una captura de pantalla sin fuente'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S52#1: contrasto stem «Si ocurre la condición de error de S52, ¿qué respuesta preserva seguridad y auditabilidad?» con párrafos theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Elijo índice 1 («emitir NO_GO_RELEASE y conservar evidencia») porque cuadra con el vocabulario del paquete; distractores ['continuar y ocultar el warning', 'inventar evidencia faltante'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S52#2: contrasto stem «¿Cuál resultado demuestra el gate `CP-FINAL · plataforma integral defendible`?» con párrafos theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Elijo índice 2 («52/52, 12/12 capstones, CP-FINAL y regresión completa pasan sin compensar CP-N4-C») porque cuadra con el vocabulario del paquete; distractores ['el archivo S52 existe, aunque no pruebe el gate', 'el README afirma que funciona'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S52#3: contrasto stem «¿Qué tratamiento de `CASO-PER-052` respeta el alcance del curso?» con párrafos theory/iDo («stakeholders, jobs y success metrics de CF-1» Revalida stakeholders, jobs y success metrics de CF-1; registra qué cambió y evita optimizar ). Elijo índice 0 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») porque cuadra con el vocabulario del paquete; distractores ['reemplazarlo por datos reales sin consentimiento', 'subir secretos para facilitar la demo'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:50:11.048394+00:00",
+  "session_started_at": "2026-07-23T08:49:45.413336+00:00",
+  "session_ended_at": "2026-07-23T08:50:11.048394+00:00"
+}

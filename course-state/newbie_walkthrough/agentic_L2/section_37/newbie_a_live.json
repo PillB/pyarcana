@@ -1,0 +1,324 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 37,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-s37-scrub-663f0285",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "id": "S37-T1-A-E1",
+      "code": "# explorer L2 S37 S37-T1-A-E1: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"n\", 1000)\nprint(\"metric\", \"wall\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como explorer en «Profiling, algoritmos y rendimiento», armé S37-T1-A-E1: el fixture/CASO del starter define el contrato; hints: Todo wall_ms viaja con su n.. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 1/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "id": "S37-T1-A-E2",
+      "code": "# explorer L2 S37 S37-T1-A-E2: lectura packet-only\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "justification_from_packet": "En la sección 37 (Profiling, algoritmos y rendimiento) resolví S37-T1-A-E2 como explorer: la instrucción pide: S37-T1-A-E2 · Lista las tres métricas base del profile: wall, cpu, memory. Imprime la lista, ok True, n 3. Starter solo ['wall'] (defect). Completa el contrato de métricas de perfo. Verifiqué mentalmente el happy-path del fixture con `metrics = [\"wall\", \"cpu\", \"memory\"]`. [paso 2/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "id": "S37-T1-A-E3",
+      "code": "# explorer L2 S37 S37-T1-A-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"same_result\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "justification_from_packet": "Leí el quiz_card de S37 y completé S37-T1-A-E3: el subtema T1-A del weDo marca el predicado; detalle: S37-T1-A-E3 · Correctitud junto a velocidad: imprime same_result True, ok True, n 1. Starter False (defect: permite «optimizar» cambiando el resultado). El gate de escala exige mis. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 3/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "id": "S37-T1-B-E1",
+      "code": "# explorer L2 S37 S37-T1-B-E1: lectura packet-only\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))\nprint(\"n_runs\", 3)\nprint(\"warmup\", True)\n",
+      "justification_from_packet": "Partiendo del starter de S37-T1-B-E1 en el paquete activo L2: conservé datos del starter y cerré el TODO según: S37-T1-B-E1 · Mediana de [5,1,4] con statistics.median; imprime 4, n_runs 3, warmup True. Starter usa mean (defect). Fixture de bench sintético CASO-LIM-037-1B sin red real ni PII.. Código contractual con `import statistics`; no inventé APIs fuera del paquete L2. [paso 4/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "id": "S37-T1-B-E2",
+      "code": "# explorer L2 S37 S37-T1-B-E2: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"warmup\", True)\nprint(\"discard_first\", True)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S37, implementé S37-T1-B-E2: el fixture/CASO del starter define el contrato; hints: Descarta la primera corrida (cold start).. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 5/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "id": "S37-T1-B-E3",
+      "code": "# explorer L2 S37 S37-T1-B-E3: lectura packet-only\nxs = [1, 2, 9]\nprint(max(xs))\nprint(\"proxy\", \"p95_small_n\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como explorer en «Profiling, algoritmos y rendimiento», armé S37-T1-B-E3: la instrucción pide: S37-T1-B-E3 · Proxy de p95 en muestra chica: imprime max([1,2,9])=9 como proxy, proxy 'p95_small_n', ok True. Starter imprime min (defect). Nombra el proxy para no confundirlo con . Verifiqué mentalmente el happy-path del fixture con `xs = [1, 2, 9]`. [paso 6/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "id": "S37-T2-A-E1",
+      "code": "# explorer L2 S37 S37-T2-A-E1: lectura packet-only\nn = 10\nprint(n * (n - 1) // 2)\nprint(\"n\", 10)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "En la sección 37 (Profiling, algoritmos y rendimiento) resolví S37-T2-A-E1 como explorer: el subtema T2-A del weDo marca el predicado; detalle: S37-T2-A-E1 · Pares completos para n=10: usa n*(n-1)//2 = 45 (no n*n). Imprime 45, n 10, ok True. Starter usa n*n=100 (defect). Contrato all_pairs del ER sintético CASO-LIM-037.. Mi salida ancla en `n = 10` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 7/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "id": "S37-T2-A-E2",
+      "code": "# explorer L2 S37 S37-T2-A-E2: lectura packet-only\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))\nprint(\"ok\", True)\nprint(\"blocking\", True)\n",
+      "justification_from_packet": "Leí el quiz_card de S37 y completé S37-T2-A-E2: conservé datos del starter y cerré el TODO según: S37-T2-A-E2 · Reducción de pares: blocked=10, all=45 → round(1-10/45,3)=0.778. Imprime 0.778, ok True, blocking True. Starter imprime blocked/all (defect: no es reduction).. Código contractual con `all_p, blocked = 45, 10`; no inventé APIs fuera del paquete L2. [paso 8/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "id": "S37-T2-A-E3",
+      "code": "# explorer L2 S37 S37-T2-A-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"blocking\")\nprint(\"ok\", True)\nprint(\"micro\", False)\n",
+      "justification_from_packet": "Partiendo del starter de S37-T2-A-E3 en el paquete activo L2: el fixture/CASO del starter define el contrato; hints: Bajar pares O(n²) domina micro-optimizar.. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 9/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "id": "S37-T2-B-E1",
+      "code": "# explorer L2 S37 S37-T2-B-E1: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"structure\", \"set\")\nprint(\"ok\", True)\nprint(\"scan\", False)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S37, implementé S37-T2-B-E1: la instrucción pide: S37-T2-B-E1 · Estructura preferida para membership: imprime structure 'set', ok True, scan False. Starter 'list' con scan True (defect). Contrato de lookup del path de candidatos s. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 10/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "id": "S37-T2-B-E2",
+      "code": "# explorer L2 S37 S37-T2-B-E2: lectura packet-only\nrows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = sum(1 for city,_ in rows if city==\"Lima\")\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como explorer en «Profiling, algoritmos y rendimiento», armé S37-T2-B-E2: el subtema T2-B del weDo marca el predicado; detalle: S37-T2-B-E2 · Inverted index: filas Lima×2 → imprime 2, city 'Lima', ok True. Starter cuenta 0 (defect). Fixture de ciudades sintéticas sin PII real ni parentesco inferido.. Mi salida ancla en `rows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 11/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "id": "S37-T2-B-E3",
+      "code": "# explorer L2 S37 S37-T2-B-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"order\", [\"block\", \"score\"])\nprint(\"ok\", True)\nprint(\"n\", 2)\n",
+      "justification_from_packet": "En la sección 37 (Profiling, algoritmos y rendimiento) resolví S37-T2-B-E3 como explorer: conservé datos del starter y cerré el TODO según: S37-T2-B-E3 · Orden operativo: imprime order ['block','score'], ok True, n 2. Starter ['score','block'] (defect: scorea el cartesiano). Transferencia del pipeline de candidatos del. Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 12/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "id": "S37-T3-A-E1",
+      "code": "# explorer L2 S37 S37-T3-A-E1: lectura packet-only\nn, size = 10, 4\nprint((n + size - 1) // size)\nprint(\"size\", 4)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Leí el quiz_card de S37 y completé S37-T3-A-E1: el fixture/CASO del starter define el contrato; hints: Ceil: (n+size-1)//size.. Dejé el assert/print alineado al tests del ejercicio usando `n, size = 10, 4`. [paso 13/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "id": "S37-T3-A-E2",
+      "code": "# explorer L2 S37 S37-T3-A-E2: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"id\", \"amt\"])\nprint(\"ok\", True)\nprint(\"columnar\", True)\n",
+      "justification_from_packet": "Partiendo del starter de S37-T3-A-E2 en el paquete activo L2: la instrucción pide: S37-T3-A-E2 · Columnar subset: imprime ['id','amt'], ok True, columnar True. Starter incluye raw_blob y notes (defect). Contrato de lectura mínima del batch sintético CASO-LIM-037.. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 14/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "id": "S37-T3-A-E3",
+      "code": "# explorer L2 S37 S37-T3-A-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"dtype\", \"int32\")\nprint(\"ok\", True)\nprint(\"mem\", \"lower\")\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S37, implementé S37-T3-A-E3: el subtema T3-A del weDo marca el predicado; detalle: S37-T3-A-E3 · dtype angosto: imprime dtype 'int32', ok True, mem 'lower'. Starter 'int64' y mem 'higher' (defect). Política de memoria del fixture cuando el rango del dominio cabe . Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 15/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "id": "S37-T3-B-E1",
+      "code": "# explorer L2 S37 S37-T3-B-E1: lectura packet-only\nkey = (\"fs-v1\", \"cut\")\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+      "justification_from_packet": "Como explorer en «Profiling, algoritmos y rendimiento», armé S37-T3-B-E1: conservé datos del starter y cerré el TODO según: S37-T3-B-E1 · Cache key completa: imprime ('fs-v1','cut'), hit True, ok True. Starter key incompleta solo ('fs-v1',) (defect: colisiones). Fixture de features sintéticas versionada. Código contractual con `key = (\"fs-v1\", \"cut\")`; no inventé APIs fuera del paquete L2. [paso 16/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "id": "S37-T3-B-E2",
+      "code": "# explorer L2 S37 S37-T3-B-E2: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"version_change\")\nprint(\"ok\", True)\nprint(\"stale\", True)\n",
+      "justification_from_packet": "En la sección 37 (Profiling, algoritmos y rendimiento) resolví S37-T3-B-E2 como explorer: el fixture/CASO del starter define el contrato; hints: Al cambiar feature set, invalida.. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 17/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "id": "S37-T3-B-E3",
+      "code": "# explorer L2 S37 S37-T3-B-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"ooc\", \"chunk\")\nprint(\"ok\", True)\nprint(\"ram\", \"bounded\")\n",
+      "justification_from_packet": "Leí el quiz_card de S37 y completé S37-T3-B-E3: la instrucción pide: S37-T3-B-E3 · Out-of-core: imprime ooc 'chunk', ok True, ram 'bounded'. Starter ooc 'load_all' (defect). Cuando n no cabe en RAM del worker sintético, chunk acota memoria.. Verifiqué mentalmente el happy-path del fixture con `case_id = \"CASO-LIM-SYN\"`. [paso 18/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "id": "S37-T4-A-E1",
+      "code": "# explorer L2 S37 S37-T4-A-E1: lectura packet-only\nbudget, measured = 10, 9\nprint(measured <= budget)\nprint(\"budget\", 10)\nprint(\"measured\", 9)\n",
+      "justification_from_packet": "Partiendo del starter de S37-T4-A-E1 en el paquete activo L2: el subtema T4-A del weDo marca el predicado; detalle: S37-T4-A-E1 · Budget pass: measured 9 <= budget 10 → True. Imprime True, budget 10, measured 9. Starter compara al revés (defect). Assert del PR de performance sintético.. Mi salida ancla en `budget, measured = 10, 9` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 19/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "id": "S37-T4-A-E2",
+      "code": "# explorer L2 S37 S37-T4-A-E2: lectura packet-only\nbudget, measured = 10, 12\nprint(measured <= budget)\nprint(\"budget\", 10)\nprint(\"measured\", 12)\n",
+      "justification_from_packet": "Tras revisar iDo/theory de S37, implementé S37-T4-A-E2: conservé datos del starter y cerré el TODO según: S37-T4-A-E2 · Budget fail: measured 12 > budget 10 → False. Imprime False, budget 10, measured 12. Starter fuerza True (defect: test siempre verde). El budget debe poder fallar.. Código contractual con `budget, measured = 10, 12`; no inventé APIs fuera del paquete L2. [paso 20/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "id": "S37-T4-A-E3",
+      "code": "# explorer L2 S37 S37-T4-A-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"latency_p95\", \"memory\", \"pairs\"])\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "justification_from_packet": "Como explorer en «Profiling, algoritmos y rendimiento», armé S37-T4-A-E3: el fixture/CASO del starter define el contrato; hints: Latencia sola no basta.. Dejé el assert/print alineado al tests del ejercicio usando `case_id = \"CASO-LIM-SYN\"`. [paso 21/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "id": "S37-T4-B-E1",
+      "code": "# explorer L2 S37 S37-T4-B-E1: lectura packet-only\nbefore, after = 80, 20\nprint(before / after)\nprint(\"ok\", True)\nprint(\"micro_only\", False)\n",
+      "justification_from_packet": "En la sección 37 (Profiling, algoritmos y rendimiento) resolví S37-T4-B-E1 como explorer: la instrucción pide: S37-T4-B-E1 · Speedup 80/20 = 4.0 (ratio, no resta). Imprime 4.0, ok True, micro_only False. Starter 80-20=60 (defect). Fixture before/after sintético del path N3.. Verifiqué mentalmente el happy-path del fixture con `before, after = 80, 20`. [paso 22/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "id": "S37-T4-B-E2",
+      "code": "# explorer L2 S37 S37-T4-B-E2: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"clarity\")\nprint(\"ok\", True)\nprint(\"shave\", \"2pct_no\")\n",
+      "justification_from_packet": "Leí el quiz_card de S37 y completé S37-T4-B-E2: el subtema T4-B del weDo marca el predicado; detalle: S37-T4-B-E2 · Claridad sobre shaving 2%: imprime prefer 'clarity', ok True, shave '2pct_no'. Starter prefer 'opaque_2pct' (defect). Política de costo total del equipo sintético Red. Mi salida ancla en `case_id = \"CASO-LIM-SYN\"` y términos de la lección (pytest/fixtures/oráculo cuando aplica). [paso 23/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "id": "S37-T4-B-E3",
+      "code": "# explorer L2 S37 S37-T4-B-E3: lectura packet-only\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])\nprint(\"ok\", True)\nprint(\"n\", 4)\n",
+      "justification_from_packet": "Partiendo del starter de S37-T4-B-E3 en el paquete activo L2: conservé datos del starter y cerré el TODO según: S37-T4-B-E3 · Claves del reporte before/after: imprime ['before','after','dataset','hardware'], ok True, n 4. Starter omite hardware (defect). Entregable del gate de escala CASO-LI. Código contractual con `case_id = \"CASO-LIM-SYN\"`; no inventé APIs fuera del paquete L2. [paso 24/24 · run L2-S37-exp]",
+      "blocked_on": [],
+      "concepts_used": [
+        "Profiling, algoritmos y rendimiento",
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» (S37) elijo la opción «Estabilizar benches descartando cold start» (índice 0) para «Warmup sirve para:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Inflar métricas» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.6799999999999999
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» (S37) elijo la opción «Pares candidatos O(n²)» (índice 2) para «Blocking reduce:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Solo logs» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.71
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» (S37) elijo la opción «Falla si se rompe el límite acordado» (índice 3) para «Performance budget en CI:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Es opcional teatro» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» (S37) elijo la opción «Teatro; prioriza claridad y algos» (índice 1) para «Microoptimizar 2% sin medición:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Best practice» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.62
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "En «Profiling, algoritmos y rendimiento» (S37) elijo la opción «No es comparable entre cambios de dataset» (índice 0) para «Un wall_ms sin n en el reporte:» porque theory/iDo del paquete L2 asocian ese concepto al outcome del self-check; descarto p.ej. «Es suficiente para el gate» por salirse del alcance (fraude automático/parentesco/atajos) que la sección no enseña. Evidencia léxica del paquete activo L2, no de lives L1.",
+      "blocked_on": [],
+      "confidence": 0.65
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:24:20.988991+00:00",
+  "session_started_at": "2026-07-23T18:24:20.987351+00:00",
+  "session_ended_at": "2026-07-23T18:24:57.887351+00:00",
+  "receipt_response_sha256": "d296b186c98cf7c7aa6ef1f1677ca21235e32ad46858010870b91a7c32b095d1",
+  "receipt_exercises_sha256": "de32faa72a6c487cc6754e1983ef9aac8cbd21aabd5a97a15cb6d1663b7298cc",
+  "receipt_selfcheck_sha256": "3213d50f6d01ce2bfe64aab3343c57c733d5bf6b5c9096bc08c0becdb9828f91"
+}

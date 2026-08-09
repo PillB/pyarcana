@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 46,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s46-0f4b98e524",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S46-T1-A-E1",
+      "code": "record = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nmeets_contract = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T1-A-E1: no confío en demos sin assert; la regla «event_time dentro de ventana y lateness permitido» del instruction exige fixtures y etiqueta de breach SIDE_OUTPUT_LATE_EVENT. Theory/outcome de anclaje: Programa backfills y recupera estado. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T1-A-E1 · Calcula el contrato de `ventanas, event time y watermarks` sobre `CASO-HYO-046-1A`. La",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'allowed_lateness', 'case_id', 'event_time', 'watermark', 'window_end'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\n    return \"PASS\" if ok else \"SIDE_OUTPUT_LATE_EVENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 1000110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T1-A-E2: no confío en demos sin assert; la regla «S46-T1-A-E2 · Modela tres rutas de `ventanas, event time y watermarks`: fixture válido, fixture adverso y registro sin `» del instruction exige fixtures y etiqueta de breach SIDE_OUTPUT_LATE_EVENT. Theory/outcome de anclaje: partitions e incremental loads. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T1-A-E2 · Modela tres rutas de `ventanas, event time y watermarks`: fixture válido, fixture adve",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T1-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'allowed_lateness' not in record or record.get('allowed_lateness') in (None, \"\", [], set(), {}):\n        return \"WAIT_FOR_WATERMARK\"\n    ok = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\n    return \"CONTINUE\" if ok else \"SIDE_OUTPUT_LATE_EVENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 1000110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S46/S46-T1-A-E3: no confío en demos sin assert; la regla «S46-T1-A-E3 · Simula fallo cerrado para `ventanas, event time y watermarks` con tres fixtures distintos. `CASO-HYO-046-1» del instruction exige fixtures y etiqueta de breach SIDE_OUTPUT_LATE_EVENT. Theory/outcome de anclaje: Schedules disparan, no garantizan; backfill parametriza intervalo y el estado recuperable permite reanudar des. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T1-A-E3 · Simula fallo cerrado para `ventanas, event time y watermarks` con tres fixtures distin",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T1-B-E1",
+      "code": "record = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T1-B-E1: no confío en demos sin assert; la regla «dedup sink, checkpoint y política de dato tardío» del instruction exige fixtures y etiqueta de breach REPLAY_IDEMPOTENTLY. Theory/outcome de anclaje: Trata late data y exactly-once compuesto. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T1-B-E1 · Compara el contrato de `late data y exactly-once como propiedad compuesta` sobre `CASO",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'checkpoint', 'event_ids', 'late_policy', 'sink_ids'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REPLAY_IDEMPOTENTLY\"\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update', '__adverse__': True}\nincomplete = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T1-B-E2: no confío en demos sin assert; la regla «S46-T1-B-E2 · Verifica tres rutas de `late data y exactly-once como propiedad compuesta`: fixture válido, fixture advers» del instruction exige fixtures y etiqueta de breach REPLAY_IDEMPOTENTLY. Theory/outcome de anclaje: Registra lineage y ownership. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T1-B-E2 · Verifica tres rutas de `late data y exactly-once como propiedad compuesta`: fixture vá",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T1-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'late_policy' not in record or record.get('late_policy') in (None, \"\", [], set(), {}):\n        return \"CHOOSE_LATE_POLICY\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REPLAY_IDEMPOTENTLY\"\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update', '__adverse__': True}\nincomplete = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S46/S46-T1-B-E3: no confío en demos sin assert; la regla «S46-T1-B-E3 · Extiende fallo cerrado para `late data y exactly-once como propiedad compuesta` con tres fixtures distinto» del instruction exige fixtures y etiqueta de breach REPLAY_IDEMPOTENTLY. Theory/outcome de anclaje: Data contracts fijan schema, semántica y owner; freshness compara event/update time con SLO y distingue retras. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T1-B-E3 · Extiende fallo cerrado para `late data y exactly-once como propiedad compuesta` con tr",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T2-A-E1",
+      "code": "record = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T2-A-E1: no confío en demos sin assert; la regla «grafo sin self-loop y todos los nodos declarados» del instruction exige fixtures y etiqueta de breach REJECT_DAG. Theory/outcome de anclaje: Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T2-A-E1 · Filtra el contrato de `DAG/assets y dependency` sobre `CASO-HYO-046-2A`. La entrada es",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'edges', 'nodes', 'typed_io'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"REJECT_DAG\"\n\nvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\ninvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T2-A-E2: no confío en demos sin assert; la regla «S46-T2-A-E2 · Clasifica tres rutas de `DAG/assets y dependency`: fixture válido, fixture adverso y registro sin `typed_i» del instruction exige fixtures y etiqueta de breach REJECT_DAG. Theory/outcome de anclaje: Maneja ventanas y watermarks. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T2-A-E2 · Clasifica tres rutas de `DAG/assets y dependency`: fixture válido, fixture adverso y r",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T2-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'typed_io' not in record or record.get('typed_io') in (None, \"\", [], set(), {}):\n        return \"DECLARE_ASSET_DEPENDENCY\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"REJECT_DAG\"\n\nvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\ninvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S46/S46-T2-A-E3: no confío en demos sin assert; la regla «S46-T2-A-E3 · Defiende fallo cerrado para `DAG/assets y dependency` con tres fixtures distintos. `CASO-HYO-046-2A` debe » del instruction exige fixtures y etiqueta de breach REJECT_DAG. Theory/outcome de anclaje: Un data SLO tiene indicador/objetivo/ventana; incidente protege consumidores, recupera datos y documenta causa. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T2-A-E3 · Defiende fallo cerrado para `DAG/assets y dependency` con tres fixtures distintos. `CA",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T2-B-E1",
+      "code": "record = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nmeets_contract = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T2-B-E1: no confío en demos sin assert; la regla «intervalos sin solape y reanudación desde checkpoint» del instruction exige fixtures y etiqueta de breach STOP_OVERLAPPING_BACKFILL. Theory/outcome de anclaje: Modela DAG/assets y deps. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T2-B-E1 · Modela el contrato de `schedules, backfills y state recovery` sobre `CASO-HYO-046-2B`.",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'checkpoint', 'intervals', 'overlap', 'resume_from'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\n    return \"PASS\" if ok else \"STOP_OVERLAPPING_BACKFILL\"\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nincomplete = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T2-B-E2: no confío en demos sin assert; la regla «S46-T2-B-E2 · Audita tres rutas de `schedules, backfills y state recovery`: fixture válido, fixture adverso y registro s» del instruction exige fixtures y etiqueta de breach STOP_OVERLAPPING_BACKFILL. Theory/outcome de anclaje: schedules, backfills y state recovery. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T2-B-E2 · Audita tres rutas de `schedules, backfills y state recovery`: fixture válido, fixture ",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T2-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'resume_from' not in record or record.get('resume_from') in (None, \"\", [], set(), {}):\n        return \"RECOVER_CHECKPOINT\"\n    ok = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\n    return \"CONTINUE\" if ok else \"STOP_OVERLAPPING_BACKFILL\"\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nincomplete = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S46/S46-T2-B-E3: no confío en demos sin assert; la regla «S46-T2-B-E3 · Recupera fallo cerrado para `schedules, backfills y state recovery` con tres fixtures distintos. `CASO-HYO» del instruction exige fixtures y etiqueta de breach STOP_OVERLAPPING_BACKFILL. Theory/outcome de anclaje: Schedules disparan, no garantizan; backfill parametriza intervalo y el estado recuperable permite reanudar des. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T2-B-E3 · Recupera fallo cerrado para `schedules, backfills y state recovery` con tres fixtures ",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T3-A-E1",
+      "code": "record = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\nmeets_contract = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T3-A-E1: no confío en demos sin assert; la regla «schema exacto, freshness bajo SLO y owner» del instruction exige fixtures y etiqueta de breach QUARANTINE_DATASET. Theory/outcome de anclaje: Modela DAG/assets y deps. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T3-A-E1 · Verifica el contrato de `contracts y freshness` sobre `CASO-HYO-046-3A`. La entrada es",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'freshness_min', 'observed_schema', 'owner', 'schema', 'slo_min'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\n    return \"PASS\" if ok else \"QUARANTINE_DATASET\"\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\nincomplete = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T3-A-E2: no confío en demos sin assert; la regla «S46-T3-A-E2 · Decide tres rutas de `contracts y freshness`: fixture válido, fixture adverso y registro sin `owner`. Entr» del instruction exige fixtures y etiqueta de breach QUARANTINE_DATASET. Theory/outcome de anclaje: contracts y freshness. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T3-A-E2 · Decide tres rutas de `contracts y freshness`: fixture válido, fixture adverso y regist",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T3-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'owner' not in record or record.get('owner') in (None, \"\", [], set(), {}):\n        return \"PAGE_DATA_OWNER\"\n    ok = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\n    return \"CONTINUE\" if ok else \"QUARANTINE_DATASET\"\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\nincomplete = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S46/S46-T3-A-E3: no confío en demos sin assert; la regla «S46-T3-A-E3 · Contrasta fallo cerrado para `contracts y freshness` con tres fixtures distintos. `CASO-HYO-046-3A` debe c» del instruction exige fixtures y etiqueta de breach QUARANTINE_DATASET. Theory/outcome de anclaje: Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de up. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T3-A-E3 · Contrasta fallo cerrado para `contracts y freshness` con tres fixtures distintos. `CAS",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T3-B-E1",
+      "code": "record = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\nmeets_contract = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T3-B-E1: no confío en demos sin assert; la regla «run conecta inputs/outputs/métricas/owner» del instruction exige fixtures y etiqueta de breach OPEN_QUALITY_INCIDENT. Theory/outcome de anclaje: Programa backfills y recupera estado. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T3-B-E1 · Clasifica el contrato de `lineage, observability y ownership` sobre `CASO-HYO-046-3B`.",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'inputs', 'metrics', 'outputs', 'owner', 'run_id'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\n    return \"PASS\" if ok else \"OPEN_QUALITY_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': set(), 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\nincomplete = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T3-B-E2: no confío en demos sin assert; la regla «S46-T3-B-E2 · Calcula tres rutas de `lineage, observability y ownership`: fixture válido, fixture adverso y registro sin» del instruction exige fixtures y etiqueta de breach OPEN_QUALITY_INCIDENT. Theory/outcome de anclaje: Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T3-B-E2 · Calcula tres rutas de `lineage, observability y ownership`: fixture válido, fixture ad",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T3-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'owner' not in record or record.get('owner') in (None, \"\", [], set(), {}):\n        return \"OPEN_QUALITY_INCIDENT\"\n    ok = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\n    return \"CONTINUE\" if ok else \"OPEN_QUALITY_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': set(), 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\nincomplete = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S46/S46-T3-B-E3: no confío en demos sin assert; la regla «S46-T3-B-E3 · Instrumenta fallo cerrado para `lineage, observability y ownership` con tres fixtures distintos. `CASO-HYO» del instruction exige fixtures y etiqueta de breach TRACE_LINEAGE. Theory/outcome de anclaje: Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de up. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T3-B-E3 · Instrumenta fallo cerrado para `lineage, observability y ownership` con tres fixtures ",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T4-A-E1",
+      "code": "record = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\nmeets_contract = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T4-A-E1: no confío en demos sin assert; la regla «merge idempotente y small files bajo límite» del instruction exige fixtures y etiqueta de breach REBUILD_PARTITION. Theory/outcome de anclaje: lineage, observability y ownership. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T4-A-E1 · Audita el contrato de `partitions e incremental loads` sobre `CASO-HYO-046-4A`. La ent",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'max_small_files', 'partition', 'second_run_changes', 'small_files', 'source_keys', 'target_keys'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\n    return \"PASS\" if ok else \"REBUILD_PARTITION\"\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': set(), 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\nincomplete = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T4-A-E2: no confío en demos sin assert; la regla «S46-T4-A-E2 · Compara tres rutas de `partitions e incremental loads`: fixture válido, fixture adverso y registro sin `ma» del instruction exige fixtures y etiqueta de breach REBUILD_PARTITION. Theory/outcome de anclaje: Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T4-A-E2 · Compara tres rutas de `partitions e incremental loads`: fixture válido, fixture advers",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T4-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'max_small_files' not in record or record.get('max_small_files') in (None, \"\", [], set(), {}):\n        return \"REVIEW_INCREMENTAL_KEY\"\n    ok = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\n    return \"CONTINUE\" if ok else \"REBUILD_PARTITION\"\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': set(), 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\nincomplete = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S46/S46-T4-A-E3: no confío en demos sin assert; la regla «S46-T4-A-E3 · Aísla fallo cerrado para `partitions e incremental loads` con tres fixtures distintos. `CASO-HYO-046-4A` d» del instruction exige fixtures y etiqueta de breach REBUILD_PARTITION. Theory/outcome de anclaje: contracts y freshness. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T4-A-E3 · Aísla fallo cerrado para `partitions e incremental loads` con tres fixtures distintos.",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T4-B-E1",
+      "code": "record = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nmeets_contract = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T4-B-E1: no confío en demos sin assert; la regla «SLI/SLO, RTO, owner y acciones de postmortem» del instruction exige fixtures y etiqueta de breach DECLARE_DATA_INCIDENT. Theory/outcome de anclaje: Carga incremental por particiones. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T4-B-E1 · Decide el contrato de `SLO, incidentes y data recovery` sobre `CASO-HYO-046-4B`. La en",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'freshness_sli', 'freshness_slo', 'owner', 'postmortem_actions', 'rto_minutes', 'target_rto_minutes'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\n    return \"PASS\" if ok else \"DECLARE_DATA_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 99.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S46/S46-T4-B-E2: no confío en demos sin assert; la regla «S46-T4-B-E2 · Filtra tres rutas de `SLO, incidentes y data recovery`: fixture válido, fixture adverso y registro sin `ow» del instruction exige fixtures y etiqueta de breach DECLARE_DATA_INCIDENT. Theory/outcome de anclaje: Lineage conecta dataset con fuente/código/run; observabilidad combina volumen, calidad y tiempo y enruta al ow. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T4-B-E2 · Filtra tres rutas de `SLO, incidentes y data recovery`: fixture válido, fixture advers",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S46-T4-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'owner' not in record or record.get('owner') in (None, \"\", [], set(), {}):\n        return \"DECLARE_DATA_INCIDENT\"\n    ok = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\n    return \"CONTINUE\" if ok else \"DECLARE_DATA_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 99.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S46/S46-T4-B-E3: no confío en demos sin assert; la regla «S46-T4-B-E3 · Demuestra fallo cerrado para `SLO, incidentes y data recovery` con tres fixtures distintos. `CASO-HYO-046-» del instruction exige fixtures y etiqueta de breach ACTIVATE_RECOVERY_RUNBOOK. Theory/outcome de anclaje: Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S46-T4-B-E3 · Demuestra fallo cerrado para `SLO, incidentes y data recovery` con tres fixtures disti",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "S46 self-check Q0: escojo «fixtures en hora/desorden/tardío con resultado esperado» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué evidencia permite aprobar `ventanas, event time y watermarks` en CASO-HYO-046?. Ancla: ventanas, event time y watermarks. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.72,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "S46 self-check Q1: escojo «emitir QUARANTINE_PARTITION y conservar evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: Si ocurre la condición de error de S46, ¿qué respuesta preserva seguridad y auditabilidad?. Ancla: Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de con. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.77,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "S46 self-check Q2: escojo «backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-B · pipeline incremental y backfillable`?. Ancla: late data y exactly-once como propiedad compuesta. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "S46 self-check Q3: escojo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué tratamiento de `CASO-HYO-046` respeta el alcance del curso?. Ancla: Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de up. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.87,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:45:56.794737+00:00",
+  "session_started_at": "2026-07-23T15:45:56.764835+00:00",
+  "session_ended_at": "2026-07-23T15:47:02.764835+00:00",
+  "receipt_response_sha256": "dff197a0f4af208cef7fbe61c7a0c582075eeaa1a2e8de90781c067d6498740d",
+  "receipt_exercises_sha256": "7eec3449b3a405daaa3c80710f2db29a9faef8d281b027f277cd005eb025ef91",
+  "receipt_selfcheck_sha256": "f3c48d0b3cb24b8d7f52fb4de5c8a4d7914fd892b7db2956e9b4b743ac641370"
+}

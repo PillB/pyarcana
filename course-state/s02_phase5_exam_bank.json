@@ -1,0 +1,107 @@
+{
+  "version": "3.2",
+  "section": "S02",
+  "section_id": "basics",
+  "phase": "PHASE_5",
+  "lane": "LANE-S02-FINISH",
+  "generated_at": "2026-07-20T22:05:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "basics"
+  },
+  "parallelism_rules": {
+    "same_skill_per_family": true,
+    "same_format": "MCQ 4 options",
+    "cognitive_demand": "A/B/C matched within family (not cosmetic rewording)",
+    "one_best_answer": true,
+    "explanation": "key rationale only"
+  },
+  "retired_from_s02_bank": [
+    "list-comprehension",
+    "kwargs",
+    "truthiness",
+    "assign-vs-compare"
+  ],
+  "retired_note": "list-comprehension/kwargs/truthiness belong to later sections (S03+). assign-vs-compare folded into assignment-naming.",
+  "families": [
+    {
+      "family_id": "S02-T1-A-EX",
+      "concept": "literals-types",
+      "skill": "Identificar literales int/float/str/bool/None y el tipo de expresiones simples",
+      "bloom": "Comprender",
+      "equivalence_note": "A: NoneType; B: 42 vs '42'; C: teléfono como str. Misma habilidad de tipar literales; superficies distintas.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S02-T1-B-EX",
+      "concept": "type-inspect-convert",
+      "skill": "Inspeccionar con type/isinstance y convertir/validar sin eval",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: strip+int; B: ValueError; C: isinstance str. Misma conversión/validación explícita.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S02-T2-A-EX",
+      "concept": "assignment-naming",
+      "skill": "Asignar con =, comparar con ==, snake_case PEP 8",
+      "bloom": "Comprender",
+      "equivalence_note": "A: = vs ==; B: apellido_paterno; C: SyntaxError if x=. Misma naming/assignment skill.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S02-T2-B-EX",
+      "concept": "identity-mutability",
+      "skill": "is vs ==, alias de listas, preservar raw",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: alias append; B: is None; C: *_raw pattern. Misma identidad/mutabilidad.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S02-T3-A-EX",
+      "concept": "operators-precedence",
+      "skill": "Evaluar + - * / // % ** y paréntesis",
+      "bloom": "Comprender",
+      "equivalence_note": "A: -3**2; B: a+b*c vs (a+b)*c; C: // y %. Misma precedencia/ops.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S02-T3-B-EX",
+      "concept": "decimal-money",
+      "skill": "Decimal desde str, evitar float, quantize 2 decimales",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: Decimal('0.1'); B: float 0.1+0.2; C: quantize IGV. Misma disciplina monetaria.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S02-T4-A-EX",
+      "concept": "io-fstrings",
+      "skill": "input→str, print, f-strings y reportes",
+      "bloom": "Comprender",
+      "equivalence_note": "A: input str; B: f-string :.2f; C: simular_intake testeable. Misma I/O/formato.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S02-T4-B-EX",
+      "concept": "parse-error-messages",
+      "skill": "Parse con raw, errors accionables, vacío/Unicode/número inválido",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: vacío+raw; B: Ñahui Unicode; C: edad abc. Misma robustez de parser.",
+      "variants": ["A", "B", "C"]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (basics key only)",
+    "course-state/s02_phase5_exam_bank.json"
+  ]
+}

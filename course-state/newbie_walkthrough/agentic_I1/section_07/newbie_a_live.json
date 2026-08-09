@@ -1,0 +1,268 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I1",
+  "section_index": 7,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-s07-explorer-07a9c",
+  "production_note": "agentic_I1 dual-LLM packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "code": "s = 'José'\nprint(s, len(s), list(s))\n",
+      "justification_from_packet": "Explorer: S07-T1-A-E1 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\nprint('== raw', a == b)\nprint('NFC', unicodedata.normalize('NFC', a) == unicodedata.normalize('NFC', b))\n",
+      "justification_from_packet": "Explorer: S07-T1-A-E2 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "code": "import unicodedata\ndef fold_name(s):\n    nfc = unicodedata.normalize('NFC', s)\n    return nfc.casefold()\nprint(fold_name('José') == fold_name('JOSE\\u0301') or fold_name('José'))\nprint(fold_name('José'), fold_name('jose'))\n",
+      "justification_from_packet": "Explorer: S07-T1-A-E3 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "code": "raw = '  Ana   María  '\nclean = ' '.join(raw.strip().split())\nprint(repr(raw), '→', repr(clean))\n",
+      "justification_from_packet": "Explorer: S07-T1-B-E1 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "code": "def split_nombre(raw):\n    parts = ' '.join(raw.strip().split()).split(' ')\n    if len(parts) == 1:\n        return {'tokens': parts, 'status': 'review', 'raw': raw}\n    return {'tokens': parts, 'status': 'ok', 'raw': raw}\nprint(split_nombre('Luis'))\nprint(split_nombre('Ana María Pérez'))\n",
+      "justification_from_packet": "Explorer: S07-T1-B-E2 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "code": "policy = {\n    '1_token': 'review y conservar raw',\n    '2_tokens': 'nombre + apellido_paterno',\n    '3_plus': 'nombre(s) + apellidos; no asumir first/last US',\n}\nfor k, v in policy.items():\n    print(k, '→', v)\n",
+      "justification_from_packet": "Explorer: S07-T1-B-E3 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "code": "s = 'av. los heroes 123'\nprint(s.replace('av.', 'avenida').replace('.', ''))\nprint(s.split())\n",
+      "justification_from_packet": "Explorer: S07-T2-A-E1 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "code": "email = '  Ana.Demo@Example.COM '\nnorm = email.strip().lower()\nprint(norm)\nassert '@' in norm\n",
+      "justification_from_packet": "Explorer: S07-T2-A-E2 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "code": "def simple_clean(s):\n    # prefer replace/split for literal transforms\n    return ' '.join(s.strip().replace(',', ' ').split())\nprint(simple_clean('  Lima,  Perú '))\nprint('regex solo si el patrón es no literal')\n",
+      "justification_from_packet": "Explorer: S07-T2-A-E3 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "code": "import re\nm = re.fullmatch(r'\\d{8}', '12345678')\nprint(m)\nprint(re.fullmatch(r'\\d{8}', 'DNI 12345678'))\n",
+      "justification_from_packet": "Explorer: S07-T2-B-E1 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "code": "import re\npat = re.compile(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$')\nfor e in ['a@b.pe', 'malo', 'x@y']:\n    print(e, bool(pat.fullmatch(e)))\n",
+      "justification_from_packet": "Explorer: S07-T2-B-E2 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "code": "import re\ntext = 'DNI 12345678 y CE 001122334'\nprint(re.findall(r'\\d{8,9}', text))\n",
+      "justification_from_packet": "Explorer: S07-T2-B-E3 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "code": "def jaccard(a, b):\n    sa, sb = set(a.lower().split()), set(b.lower().split())\n    if not sa and not sb:\n        return 1.0\n    return len(sa & sb) / len(sa | sb)\nprint(round(jaccard('Ana Maria', 'Ana María'), 2))\nprint(round(jaccard('Ana', 'Luis'), 2))\n",
+      "justification_from_packet": "Explorer: S07-T3-A-E1 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "code": "def score_pair(a, b):\n    sa, sb = set(a.casefold().split()), set(b.casefold().split())\n    inter = len(sa & sb)\n    union = len(sa | sb) or 1\n    return inter / union\ns = score_pair('Juan Perez', 'Juan Pérez')\nprint(s)\nif s < 0.9:\n    print('review', {'raw_a': 'Juan Perez', 'raw_b': 'Juan Pérez', 'score': s})\n",
+      "justification_from_packet": "Explorer: S07-T3-A-E2 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "code": "print('score 0.67 → needs_review con evidencia raw y score; no merge automático ni parentesco')\n",
+      "justification_from_packet": "Explorer: S07-T3-A-E3 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "code": "rows = [\n    {'id': 'C001', 'nombre': 'Ana'},\n    {'id': 'C002', 'nombre': 'Ana'},\n    {'id': 'C003', 'nombre': 'Luis'},\n]\nfrom collections import defaultdict\nbuckets = defaultdict(list)\nfor r in rows:\n    buckets[r['nombre'].casefold()].append(r['id'])\nprint(dict(buckets))\n",
+      "justification_from_packet": "Explorer: S07-T3-B-E1 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "code": "pairs = [('C001', 'C002', 0.95), ('C001', 'C003', 0.4)]\nfor a, b, s in pairs:\n    status = 'auto_link' if s >= 0.9 else ('review' if s >= 0.6 else 'distinct')\n    print(a, b, s, status)\n",
+      "justification_from_packet": "Explorer: S07-T3-B-E2 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "code": "print('blocking_key reduce comparaciones; score no prueba legal; clerical review en zona gris')\n",
+      "justification_from_packet": "Explorer: S07-T3-B-E3 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "code": "samples = ['José', 'Jose\\u0301', 'JOSÉ']\nimport unicodedata\nfor s in samples:\n    print(s, unicodedata.normalize('NFC', s).casefold())\n",
+      "justification_from_packet": "Explorer: S07-T4-A-E1 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "code": "def pipeline(raw):\n    import unicodedata\n    nfc = unicodedata.normalize('NFC', raw)\n    return ' '.join(nfc.strip().split()).casefold()\nprint(pipeline('  José  '))\n",
+      "justification_from_packet": "Explorer: S07-T4-A-E2 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "code": "metrics = {'pairs_scored': 10, 'auto_link': 2, 'review': 5, 'distinct': 3}\nprint(metrics)\nassert metrics['auto_link'] + metrics['review'] + metrics['distinct'] == metrics['pairs_scored']\n",
+      "justification_from_packet": "Explorer: S07-T4-A-E3 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "code": "report = {\n    'method': 'jaccard_tokens + NFC/casefold',\n    'threshold_auto': 0.9,\n    'threshold_review': 0.6,\n    'limitations': 'no prueba parentesco; Unicode forms; 1-token review',\n    'privacy': 'solo datos sintéticos',\n}\nfor k, v in report.items():\n    print(k, ':', v)\n",
+      "justification_from_packet": "Explorer: S07-T4-B-E1 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "code": "checklist = ['NFC', 'casefold', 'conservar raw', 'score≠veredicto', 'sin PII real en logs']\nfor i, item in enumerate(checklist, 1):\n    print(i, item)\n",
+      "justification_from_packet": "Explorer: S07-T4-B-E2 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "code": "print('Falta fuente autoritativa; riesgo ético de falso positivo; score no es prueba de identidad')\n",
+      "justification_from_packet": "Explorer: S07-T4-B-E3 implementado desde instruction/hints del quiz_card y theory S07 (Unicode NFC/NFD, regex fullmatch y similaridad textual); código sin ____ ni TODO y alineado al contrato del exercise.",
+      "concepts_used": [
+        "S07"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "José vs Jose+combining accent fallan en == por formas Unicode distintas (NFC vs NFD).",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Un solo token en nombres latam: política segura es review y conservar raw, no inventar apellidos.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Preferir str.replace/split cuando la transformación es literal/simple; regex para patrones.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "fullmatch(r'\\d{8}', 'DNI 12345678') es None porque no es match de toda la cadena.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Jaccard ~0.67 debe ir a review con evidencia (raw, score), no fusión automática.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T10:53:56Z",
+  "session_started_at": "2026-07-23T10:52:17Z",
+  "session_ended_at": "2026-07-23T10:53:56Z"
+}

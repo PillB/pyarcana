@@ -1,0 +1,482 @@
+{
+  "index": 15,
+  "id": "stdlib-deep",
+  "title": "Pandas: ingesta, selección y tipos",
+  "file": "s15-stdlib-deep.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "De “stdlib profunda” a Pandas ingesta (mapa de la sección)",
+      "len": 58
+    },
+    {
+      "i": 1,
+      "text": "En V3, S15 no es el path principal de contextlib, functools, descriptors ni typing avanzado. Ese material se reubica. Aquí construyes el dataset de CP-N2-A: Series/DataFrame, lectura tipada, selección, tipos nullable, coerción con schema y export con provenance.",
+      "len": 262
+    },
+    {
+      "i": 2,
+      "text": "Hilo: clientes y transacciones sintéticas (Lima/Arequipa, montos en PEN, ids C00x/T00x). Sin PII real. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+      "len": 389
+    },
+    {
+      "i": 3,
+      "text": "Orden: T1 Modelo/lectura → T2 Selección → T3 Tipos → T4 Exportación. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «De “stdlib profunda” a Pandas ingesta (mapa de la sección)»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 340
+    },
+    {
+      "i": 5,
+      "text": "Una Series es un vector con Index; un DataFrame es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+      "len": 284
+    },
+    {
+      "i": 6,
+      "text": "Un Index estable (ids de negocio) facilita joins y auditoría. reset_index / set_index cambian el eje de etiqueta. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+      "len": 400
+    },
+    {
+      "i": 7,
+      "text": "MultiIndex se introduce como etiquetas jerárquicas (región, mes); se profundiza en S17. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «Series/DataFrame/index»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 323
+    },
+    {
+      "i": 8,
+      "text": "lectura CSV/Excel y opciones de parser",
+      "len": 38
+    },
+    {
+      "i": 9,
+      "text": "read_csv y read_excel aceptan dtype, parse_dates, na_values, usecols. Controlar el parser evita object-dtypes silenciosos. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+      "len": 304
+    },
+    {
+      "i": 10,
+      "text": "Separe decimal (, vs .) y encoding (utf-8) en datasets latinos. Excel requiere motor (openpyxl). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+      "len": 383
+    },
+    {
+      "i": 11,
+      "text": "Siempre reconcilia filas leídas vs esperadas y lista columnas. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «lectura CSV/Excel y opciones de parser»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 314
+    },
+    {
+      "i": 12,
+      "text": "loc/iloc, filtros y assign",
+      "len": 26
+    },
+    {
+      "i": 13,
+      "text": "loc etiqueta; iloc posición. Filtros booleanos: df.loc[df.score < 0.5, cols]. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+      "len": 259
+    },
+    {
+      "i": 14,
+      "text": "assign devuelve un DF con columnas nuevas sin romper el pipeline funcional. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+      "len": 362
+    },
+    {
+      "i": 15,
+      "text": "query es legible para filtros simples; para producción muchos equipos prefieren máscaras explícitas. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «loc/iloc, filtros y assign»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 340
+    },
+    {
+      "i": 16,
+      "text": "chained assignment y copy semantics",
+      "len": 35
+    },
+    {
+      "i": 17,
+      "text": "SettingWithCopyWarning aparece al asignar sobre un slice que puede ser view o copy. El resultado es impredecible. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+      "len": 295
+    },
+    {
+      "i": 18,
+      "text": "Patrón seguro: df = df.copy() tras filtrar, o asignar con .loc[row_mask, col] = valor sobre el DF padre. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+      "len": 391
+    },
+    {
+      "i": 19,
+      "text": "En pipelines, prefiere métodos que devuelven nuevo objeto (assign, where) y documenta copias. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «chained assignment y copy semantics»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 342
+    },
+    {
+      "i": 20,
+      "text": "strings, nullable, fechas y categorías",
+      "len": 38
+    },
+    {
+      "i": 21,
+      "text": "dtypes string, Int64/boolean nullable, datetime64 y category reducen memoria y errores. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+      "len": 269
+    },
+    {
+      "i": 22,
+      "text": "Convierte con astype('string'), pd.to_numeric(..., errors=), pd.to_datetime, astype('category'). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+      "len": 383
+    },
+    {
+      "i": 23,
+      "text": "Reporta cuántos valores no convirtieron (NaN introducidos). Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «strings, nullable, fechas y categorías»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 311
+    },
+    {
+      "i": 24,
+      "text": "coerción explícita y schema",
+      "len": 27
+    },
+    {
+      "i": 25,
+      "text": "Un schema dict declara tipos objetivo por columna. astype / to_numeric aplican coerción; los fallos se listan. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+      "len": 292
+    },
+    {
+      "i": 26,
+      "text": "No “arregles” silenciosamente: emite un reporte {columna: n_fallos}. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+      "len": 355
+    },
+    {
+      "i": 27,
+      "text": "Este reporte alimenta el quality gate de S16. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «coerción explícita y schema»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 286
+    },
+    {
+      "i": 28,
+      "text": "CSV / Excel y contrato Parquet",
+      "len": 30
+    },
+    {
+      "i": 29,
+      "text": "to_csv, to_excel exportan tablas. Parquet (pyarrow/fastparquet) preserva tipos; si el motor no está, exporta CSV + schema JSON como contrato. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+      "len": 323
+    },
+    {
+      "i": 30,
+      "text": "Usa index=False salvo que el index sea clave de negocio documentada. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+      "len": 355
+    },
+    {
+      "i": 31,
+      "text": "Verifica columnas críticas post-export con round-trip. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «CSV / Excel y contrato Parquet»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 298
+    },
+    {
+      "i": 32,
+      "text": "índices, formatos, provenance y memoria",
+      "len": 39
+    },
+    {
+      "i": 33,
+      "text": "Un manifest registra filas, columnas, dtypes, memory_usage y provenance (fuente, timestamp, hash simple). En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales.",
+      "len": 287
+    },
+    {
+      "i": 34,
+      "text": "index=False en export evita columnas Unnamed al reingestar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17.",
+      "len": 346
+    },
+    {
+      "i": 35,
+      "text": "Documenta el uso de memoria antes/después de castear a category/string. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «índices, formatos, provenance y memoria»; nunca PII real ni inferencia automática de parentesco/fraude.",
+      "len": 324
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 58,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "De “stdlib profunda” a Pandas ingesta (mapa de la sección)",
+      "text": "De “stdlib profunda” a Pandas ingesta (mapa de la sección)"
+    },
+    {
+      "i": 1,
+      "len": 262,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S15 no es el path principal de contextlib, functools, descriptors ni typing avanzado. Ese material se reubica. Aquí construyes el dataset de CP-N2-A: Series/DataFrame, lectu",
+      "text": "En V3, S15 no es el path principal de contextlib, functools, descriptors ni typing avanzado. Ese material se reubica. Aquí construyes el dataset de CP-N2-A: Series/DataFrame, lectura tipada, selección, tipos nullable, coerción con schema y export con provenance."
+    },
+    {
+      "i": 2,
+      "len": 389,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Hilo: clientes y transacciones sintéticas (Lima/Arequipa, montos en PEN, ids C00x/T00x). Sin PII real. Contrato: entrada explícita → transformación documentada → salida medible; si",
+      "text": "Hilo: clientes y transacciones sintéticas (Lima/Arequipa, montos en PEN, ids C00x/T00x). Sin PII real. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17."
+    },
+    {
+      "i": 3,
+      "len": 340,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 Modelo/lectura → T2 Selección → T3 Tipos → T4 Exportación. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y lí",
+      "text": "Orden: T1 Modelo/lectura → T2 Selección → T3 Tipos → T4 Exportación. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «De “stdlib profunda” a Pandas ingesta (mapa de la sección)»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 5,
+      "len": 284,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Una Series es un vector con Index; un DataFrame es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines loc",
+      "text": "Una Series es un vector con Index; un DataFrame es una tabla de columnas (Series alineadas por Index). En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 6,
+      "len": 400,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un Index estable (ids de negocio) facilita joins y auditoría. reset_index / set_index cambian el eje de etiqueta. Contrato: entrada explícita → transformación documentada → salida ",
+      "text": "Un Index estable (ids de negocio) facilita joins y auditoría. reset_index / set_index cambian el eje de etiqueta. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17."
+    },
+    {
+      "i": 7,
+      "len": 323,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "MultiIndex se introduce como etiquetas jerárquicas (región, mes); se profundiza en S17. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta dec",
+      "text": "MultiIndex se introduce como etiquetas jerárquicas (región, mes); se profundiza en S17. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «Series/DataFrame/index»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 8,
+      "len": 38,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "lectura CSV/Excel y opciones de parser",
+      "text": "lectura CSV/Excel y opciones de parser"
+    },
+    {
+      "i": 9,
+      "len": 304,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "read_csv y read_excel aceptan dtype, parse_dates, na_values, usecols. Controlar el parser evita object-dtypes silenciosos. En Pandas ingesta, el porqué es operativo: reduce ambigüe",
+      "text": "read_csv y read_excel aceptan dtype, parse_dates, na_values, usecols. Controlar el parser evita object-dtypes silenciosos. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 10,
+      "len": 383,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Separe decimal (, vs .) y encoding (utf-8) en datasets latinos. Excel requiere motor (openpyxl). Contrato: entrada explícita → transformación documentada → salida medible; si falta",
+      "text": "Separe decimal (, vs .) y encoding (utf-8) en datasets latinos. Excel requiere motor (openpyxl). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17."
+    },
+    {
+      "i": 11,
+      "len": 314,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Siempre reconcilia filas leídas vs esperadas y lista columnas. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite c",
+      "text": "Siempre reconcilia filas leídas vs esperadas y lista columnas. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «lectura CSV/Excel y opciones de parser»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 12,
+      "len": 26,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "loc/iloc, filtros y assign",
+      "text": "loc/iloc, filtros y assign"
+    },
+    {
+      "i": 13,
+      "len": 259,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "loc etiqueta; iloc posición. Filtros booleanos: df.loc[df.score < 0.5, cols]. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditab",
+      "text": "loc etiqueta; iloc posición. Filtros booleanos: df.loc[df.score < 0.5, cols]. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 14,
+      "len": 362,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "assign devuelve un DF con columnas nuevas sin romper el pipeline funcional. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schem",
+      "text": "assign devuelve un DF con columnas nuevas sin romper el pipeline funcional. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17."
+    },
+    {
+      "i": 15,
+      "len": 340,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "query es legible para filtros simples; para producción muchos equipos prefieren máscaras explícitas. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. ",
+      "text": "query es legible para filtros simples; para producción muchos equipos prefieren máscaras explícitas. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «loc/iloc, filtros y assign»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 16,
+      "len": 35,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "chained assignment y copy semantics",
+      "text": "chained assignment y copy semantics"
+    },
+    {
+      "i": 17,
+      "len": 295,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "SettingWithCopyWarning aparece al asignar sobre un slice que puede ser view o copy. El resultado es impredecible. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pi",
+      "text": "SettingWithCopyWarning aparece al asignar sobre un slice que puede ser view o copy. El resultado es impredecible. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 18,
+      "len": 391,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Patrón seguro: df = df.copy() tras filtrar, o asignar con .loc[row_mask, col] = valor sobre el DF padre. Contrato: entrada explícita → transformación documentada → salida medible; ",
+      "text": "Patrón seguro: df = df.copy() tras filtrar, o asignar con .loc[row_mask, col] = valor sobre el DF padre. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17."
+    },
+    {
+      "i": 19,
+      "len": 342,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En pipelines, prefiere métodos que devuelven nuevo objeto (assign, where) y documenta copias. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documen",
+      "text": "En pipelines, prefiere métodos que devuelven nuevo objeto (assign, where) y documenta copias. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «chained assignment y copy semantics»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 20,
+      "len": 38,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "strings, nullable, fechas y categorías",
+      "text": "strings, nullable, fechas y categorías"
+    },
+    {
+      "i": 21,
+      "len": 269,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "dtypes string, Int64/boolean nullable, datetime64 y category reducen memoria y errores. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rast",
+      "text": "dtypes string, Int64/boolean nullable, datetime64 y category reducen memoria y errores. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 22,
+      "len": 383,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Convierte con astype('string'), pd.to_numeric(..., errors=), pd.to_datetime, astype('category'). Contrato: entrada explícita → transformación documentada → salida medible; si falta",
+      "text": "Convierte con astype('string'), pd.to_numeric(..., errors=), pd.to_datetime, astype('category'). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17."
+    },
+    {
+      "i": 23,
+      "len": 311,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Reporta cuántos valores no convirtieron (NaN introducidos). Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite cono",
+      "text": "Reporta cuántos valores no convirtieron (NaN introducidos). Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «strings, nullable, fechas y categorías»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 24,
+      "len": 27,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "coerción explícita y schema",
+      "text": "coerción explícita y schema"
+    },
+    {
+      "i": 25,
+      "len": 292,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un schema dict declara tipos objetivo por columna. astype / to_numeric aplican coerción; los fallos se listan. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipel",
+      "text": "Un schema dict declara tipos objetivo por columna. astype / to_numeric aplican coerción; los fallos se listan. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 26,
+      "len": 355,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "No “arregles” silenciosamente: emite un reporte {columna: n_fallos}. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cu",
+      "text": "No “arregles” silenciosamente: emite un reporte {columna: n_fallos}. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17."
+    },
+    {
+      "i": 27,
+      "len": 286,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Este reporte alimenta el quality gate de S16. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el mem",
+      "text": "Este reporte alimenta el quality gate de S16. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «coerción explícita y schema»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 28,
+      "len": 30,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "CSV / Excel y contrato Parquet",
+      "text": "CSV / Excel y contrato Parquet"
+    },
+    {
+      "i": 29,
+      "len": 323,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "to_csv, to_excel exportan tablas. Parquet (pyarrow/fastparquet) preserva tipos; si el motor no está, exporta CSV + schema JSON como contrato. En Pandas ingesta, el porqué es operat",
+      "text": "to_csv, to_excel exportan tablas. Parquet (pyarrow/fastparquet) preserva tipos; si el motor no está, exporta CSV + schema JSON como contrato. En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 30,
+      "len": 355,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Usa index=False salvo que el index sea clave de negocio documentada. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cu",
+      "text": "Usa index=False salvo que el index sea clave de negocio documentada. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17."
+    },
+    {
+      "i": 31,
+      "len": 298,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Verifica columnas críticas post-export con round-trip. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido ",
+      "text": "Verifica columnas críticas post-export con round-trip. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «CSV / Excel y contrato Parquet»; nunca PII real ni inferencia automática de parentesco/fraude."
+    },
+    {
+      "i": 32,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "índices, formatos, provenance y memoria",
+      "text": "índices, formatos, provenance y memoria"
+    },
+    {
+      "i": 33,
+      "len": 287,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Un manifest registra filas, columnas, dtypes, memory_usage y provenance (fuente, timestamp, hash simple). En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines ",
+      "text": "Un manifest registra filas, columnas, dtypes, memory_usage y provenance (fuente, timestamp, hash simple). En Pandas ingesta, el porqué es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta dataset tipado CP-N2-A sin inventar hechos sobre personas reales."
+    },
+    {
+      "i": 34,
+      "len": 346,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "index=False en export evita columnas Unnamed al reingestar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, fal",
+      "text": "index=False en export evita columnas Unnamed al reingestar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pandas Series/DataFrame + stdlib (S01–S15); no quality-gate avanzado de S16, no joins S17."
+    },
+    {
+      "i": 35,
+      "len": 324,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Documenta el uso de memoria antes/después de castear a category/string. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y",
+      "text": "Documenta el uso de memoria antes/después de castear a category/string. Caso sintético Perú: clientes/tx sintéticos Lima/Arequipa, dtypes controlados. Documenta decisión, métrica y límite conocido en el memo del subtema «índices, formatos, provenance y memoria»; nunca PII real ni inferencia automática de parentesco/fraude."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 14895
+}

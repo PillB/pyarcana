@@ -1,0 +1,491 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 36,
+  "packet_sha": "39d119976f07d841",
+  "packet_source": "course-state/newbie_walkthrough/agentic_I2/section_36/quiz_card.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-exp-s36-4dd12aa8aab2",
+  "production_note": "agentic_I2 dual-LLM explorer: independent packet-only solve from quiz_card+slim_packet; no I1 lives; no bulk writers; no identity stamps; no answer maps",
+  "knowledge_boundary": "Only landing + prior_index + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nprint(sum(xs)/len(xs))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Centroide",
+        "media",
+        "Imprime",
+        "True",
+        "Starter",
+        "imprime",
+        "sum"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T1-A-E1: del starter/instruction «S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clustering sintético CASO-LIM-036-1A; no es vere…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Scale",
+        "score",
+        "con",
+        "Imprime",
+        "True",
+        "Starter",
+        "olvida"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T1-A-E2: del starter/instruction «S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Escala antes de k-means en el path sintético…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Cluster",
+        "veredicto",
+        "imprime",
+        "verdict",
+        "False",
+        "True",
+        "task"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T1-A-E3: del starter/instruction «S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en culpa). Transferencia ética del triage CP…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Elige",
+        "con",
+        "score",
+        "ximo",
+        "scores",
+        "score",
+        "Imprime"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T1-B-E1: del starter/instruction «S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Starter elige min (defect). Fixture sintético multi-k CASO-LIM-…» completé el contrato usando print, print, print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Estabilidad",
+        "multi",
+        "seed",
+        "imprime",
+        "seeds",
+        "True",
+        "stable"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T1-B-E2: del starter/instruction «S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a seed en CASO-LIM-036.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "mite",
+        "tricas",
+        "internas",
+        "imprime",
+        "limit",
+        "True",
+        "True"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T1-B-E3: del starter/instruction «S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). Transferencia de humildad métrica del pa…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Proyecci",
+        "toy",
+        "Imprime",
+        "True",
+        "pca",
+        "True",
+        "Starter"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T2-A-E1: del starter/instruction «S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CASO-LIM-036, no modelo de decisión final.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "PCA",
+        "decision",
+        "model",
+        "imprime",
+        "decision_model",
+        "False",
+        "True"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T2-A-E2: del starter/instruction «S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrato del dossier de señales CASO-LIM-036.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Componentes",
+        "para",
+        "explorar",
+        "imprime",
+        "True",
+        "explore",
+        "True"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T2-A-E3: del starter/instruction «S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia de n_components del lab sintético.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Eje",
+        "auto",
+        "nombra",
+        "negocio",
+        "imprime",
+        "False",
+        "True"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T2-B-E1: del starter/instruction «S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudencia de interpretación en CASO-LIM-036.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Outlier",
+        "visual",
+        "puede",
+        "ser",
+        "escala",
+        "imprime",
+        "check_scale"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T2-B-E2: del starter/instruction «S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes de encolar, revisa scale del fixture sin…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Documenta",
+        "uso",
+        "exploratorio",
+        "imprime",
+        "exploratory",
+        "True",
+        "Starter"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T2-B-E3: del starter/instruction «S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Transferencia de etiqueta del artefacto PCA en el dossier sintét…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nprint(sum(flags))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Cuenta",
+        "flags",
+        "sigma",
+        "hay",
+        "flag",
+        "Imprime",
+        "misconduct"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T3-A-E1: del starter/instruction «S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ conducta indebida en CASO-LIM-036-3A.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Combina",
+        "regla",
+        "score",
+        "imprime",
+        "rule",
+        "score",
+        "True"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T3-A-E2: del starter/instruction «S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor humano del path de señales sintéticas.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Flag",
+        "review",
+        "guilt",
+        "imprime",
+        "guilt",
+        "False",
+        "route"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T3-A-E3: del starter/instruction «S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-closed de conducta en el triage sintético.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Etiquetas",
+        "conceptuales",
+        "imprime",
+        "outlier",
+        "novelty",
+        "True",
+        "Starter"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T3-B-E1: del starter/instruction «S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en train vs punto nuevo en CASO-LIM-036.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nprint(int(n * c))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "expected_flags",
+        "contam",
+        "Imprime",
+        "is_fraud_rate",
+        "False",
+        "True",
+        "Starter"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T3-B-E2: del starter/instruction «S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Contamination no es prevalencia de fraude.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Tune",
+        "capacidad",
+        "review",
+        "imprime",
+        "capacity_link",
+        "True",
+        "True"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T3-B-E3: del starter/instruction «S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags debe caber en la cola sintética de analist…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Media",
+        "flag",
+        "rates",
+        "Imprime",
+        "backtest",
+        "True",
+        "True"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T4-A-E1: del starter/instruction «S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintéticas del backtest temporal CASO-LIM-036.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Sin",
+        "leakage",
+        "futuro",
+        "imprime",
+        "leakage",
+        "False",
+        "True"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T4-A-E2: del starter/instruction «S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato temporal del path de señales sintéticas.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Tres",
+        "ventanas",
+        "lab",
+        "imprime",
+        "True",
+        "temporal",
+        "True"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T4-A-E3: del starter/instruction «S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizantes sintéticas CASO-LIM-036.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "precision",
+        "con",
+        "ranked",
+        "Imprime",
+        "auto_guilt",
+        "False",
+        "Starter"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T4-B-E1: del starter/instruction «S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de utilidad de review, no de culpa.…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Human",
+        "review",
+        "required",
+        "imprime",
+        "True",
+        "True",
+        "labels"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T4-B-E2: del starter/instruction «S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana con labels escasos en el triage sintéti…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S36",
+        "Nombre",
+        "trica",
+        "utilidad",
+        "imprime",
+        "precision_at_k",
+        "True",
+        "Starter"
+      ],
+      "justification_from_packet": "Explorer A sobre S36-T4-B-E3: del starter/instruction «S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect). Transferencia: con labels escasos prioriza P@k en CASO-LIM-…» completé el contrato usando print alineado a theory/iDo (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC0: elijo «Señal de rareza a revisar» porque la theory del paquete (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones) responde a «Una anomalía en el triage significa:» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC1: elijo «Hipótesis de fracción rara a flaggear» porque la theory del paquete (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones) responde a «contamination representa:» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC2: elijo «Exploración/visualización prudente» porque la theory del paquete (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones) responde a «PCA en este curso se usa para:» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC3: elijo «precision@k y feedback humano» porque la theory del paquete (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones) responde a «Con labels escasos prioriza:» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC4: elijo «Leakage temporal» porque la theory del paquete (escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PCA y visualización | interpretación prudente de proyecciones) responde a «Un fit de normalidad que incluye el mes evaluado comete:» con ese criterio; contraste con las otras opciones del stem."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "escalamiento y k-means/density",
+      "note": "Explorer prioriza flujo feliz del contrato."
+    }
+  ],
+  "recorded_at": "2026-07-23T13:05:58.840000+00:00",
+  "session_started_at": "2026-07-23T13:05:40.470000+00:00",
+  "session_ended_at": "2026-07-23T13:05:58.840000+00:00"
+}

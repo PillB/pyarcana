@@ -1,0 +1,552 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 18,
+  "packet_sha": "d6f28abf9fd69818",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_18/packet.json",
+  "recorded_at": "2026-07-22T02:01:21.710370+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "selfcheck_rebuilt_B2_skeptic_packet_quotes_batch_01_26; exercises_kept",
+  "persona_seed": "5ce2dbd4be9e",
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T1-A-E1\nimport numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(len(montos), round(float(montos.mean()), 2), float(np.median(montos)))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S18-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "numpy",
+        "montos",
+        "array",
+        "dtype",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T1-A-E1 si el paquete lo enseña. Instrucción: «Con montos = [10, 12, 14, 16, 100], imprime n, mean redondeada a 2 decimales y median.». Demo ancla S18-T1-B-DEMO: «». Hints del weDo: Usa len o .size; np.mean y np.median.; round(float(...), 2) para la media.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T1-A-E1 import numpy as np montos = np.array([10, 12, 14, 16, 100], dtype=float) print(len(montos), round(». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'numpy']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T1-A-E2\nimport numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nprint(round(float(q1), 2), round(float(q3), 2), round(float(q3 - q1), 2))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S18-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "numpy",
+        "montos",
+        "array",
+        "dtype",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T1-A-E2 si el paquete lo enseña. Instrucción: «Calcula Q1, Q3 e IQR de montos = [5, 8, 9, 10, 12, 13, 40] e imprímelos redondeados a 2 decimales.». Demo ancla S18-T1-B-DEMO: «». Hints del weDo: np.quantile con [0.25, 0.75].; IQR = Q3 - Q1.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T1-A-E2 import numpy as np montos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float) q1, q3 = np.quantile(». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'numpy']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T1-A-E3\nimport numpy as np\n\ndef resumen(x):\n    a = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(a.size),\n        \"mean\": round(float(a.mean()), 4),\n        \"median\": round(float(np.median(a)), 4),\n        \"std\": round(float(a.std(ddof=1)), 4),\n    }\n\nprint(resumen([1, 2, 3, 4, 5]))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S18-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "numpy",
+        "resumen",
+        "asarray",
+        "dtype",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T1-A-E3 si el paquete lo enseña. Instrucción: «Escribe resumen(x) que devuelva dict con n, mean, median, std (ddof=1) redondeados; pruébalo con [1,2,3,4,5].». Demo ancla S18-T1-B-DEMO: «». Hints del weDo: std con ddof=1.; Redondea mean/median/std a 4 decimales o 2 según print claro.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T1-A-E3 import numpy as np def resumen(x): a = np.asarray(x, dtype=float) return { \"n\": int(a.size), \"mean». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'numpy']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T1-B-E1\nimport numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nprint(m, med, round(m / med, 2))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S18-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "mean"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T1-B-E1 si el paquete lo enseña. Instrucción: «Para x=[10,11,12,13,100], imprime mean, median y la razón mean/median redondeada a 2.». Demo ancla S18-T1-B-DEMO: «». Hints del weDo: np.mean y np.median.; ratio = mean/median.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T1-B-E1 import numpy as np x = np.array([10, 11, 12, 13, 100], dtype=float) m = float(x.mean()) med = floa». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'numpy']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T1-B-E2\nimport numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = np.median(x)\nmad = float(np.median(np.abs(x - med)))\nprint(mad)\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S18-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "med"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T1-B-E2 si el paquete lo enseña. Instrucción: «Calcula MAD de x=[2,3,4,5,100] respecto a la mediana e imprímelo.». Demo ancla S18-T1-B-DEMO: «». Hints del weDo: MAD = median(|x - median(x)|).; Usa np.median y np.abs.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T1-B-E2 import numpy as np x = np.array([2, 3, 4, 5, 100], dtype=float) med = np.median(x) mad = float(np.». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'numpy']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T1-B-E3\nimport numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint([round(float(v), 3) for v in np.log1p(x)])\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S18-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "round"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T1-B-E3 si el paquete lo enseña. Instrucción: «Imprime log1p de [0, 1, 9, 99] redondeado a 3 decimales como lista.». Demo ancla S18-T1-B-DEMO: «». Hints del weDo: np.log1p.; tolist + round por elemento.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T1-B-E3 import numpy as np x = np.array([0, 1, 9, 99], dtype=float) print([round(float(v), 3) for v in np.». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'numpy']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T2-A-E1\nmuestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare = muestra.count(\"Lima\") / len(muestra)\nprint(round(share, 2))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S18-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "muestra",
+        "Lima",
+        "Cusco",
+        "share",
+        "count"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T2-A-E1 si el paquete lo enseña. Instrucción: «Dada muestra=['Lima','Lima','Cusco','Lima'] y pob Lima=0.5 Cusco=0.5, imprime share de Lima en la muestra.». Demo ancla S18-T2-A-DEMO: «». Hints del weDo: Cuenta ocurrencias / n.; round a 2 decimales.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T2-A-E1 muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"] share = muestra.count(\"Lima\") / len(muestra) print(rou». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'muestra']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T2-A-E2\nshare = 8 / 10\nbias = share - 0.5\nprint(round(bias, 2))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S18-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "share",
+        "bias",
+        "round"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T2-A-E2 si el paquete lo enseña. Instrucción: «Calcula bias_pp = share_muestra - share_pob para Lima si muestra tiene 8 Lima y 2 Cusco; pob Lima=0.5.». Demo ancla S18-T2-A-DEMO: «». Hints del weDo: share = 8/10.; bias = share - 0.5.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T2-A-E2 share = 8 / 10 bias = share - 0.5 print(round(bias, 2))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'share']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T2-A-E3\ndef max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S18-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "max_bias",
+        "pob",
+        "counts",
+        "sum",
+        "values"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T2-A-E3 si el paquete lo enseña. Instrucción: «Escribe max_bias(pob, counts) que devuelva el máximo |share-pob| y pruébalo con pob Lima:0.5 Cusco:0.5 y counts Lima:9 Cusco:1.». Demo ancla S18-T2-A-DEMO: «». Hints del weDo: share = count/sum(counts).; max de valores absolutos.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T2-A-E3 def max_bias(pob, counts): n = sum(counts.values()) return max(abs(counts[k] / n - pob[k]) for k i». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'max_bias']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T2-B-E1\nimport math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(round(margen, 3))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S18-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "math",
+        "media",
+        "margen",
+        "sqrt",
+        "round"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T2-B-E1 si el paquete lo enseña. Instrucción: «Para media=10, s=2, n=16, imprime el margen 1.96*s/sqrt(n) redondeado a 3.». Demo ancla S18-T2-A-DEMO: «». Hints del weDo: import math o numpy sqrt.; margen = 1.96 * s / sqrt(n).. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T2-B-E1 import math media, s, n = 10, 2, 16 margen = 1.96 * s / math.sqrt(n) print(round(margen, 3))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'math']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T2-B-E2\nma, mb, sp = 10, 13, 2\nd = (mb - ma) / sp\nprint(round(d, 2))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S18-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "round"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T2-B-E2 si el paquete lo enseña. Instrucción: «Con ctrl mean=10, trat mean=13, sp=2, imprime Cohen's d redondeado a 2.». Demo ancla S18-T2-A-DEMO: «». Hints del weDo: d = (mb-ma)/sp.; round 2.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T2-B-E2 ma, mb, sp = 10, 13, 2 d = (mb - ma) / sp print(round(d, 2))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'round']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T2-B-E3\ndiff, se = 4, 1.5\nlow = round(diff - 1.96 * se, 2)\nhigh = round(diff + 1.96 * se, 2)\nprint((low, high))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S18-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "diff",
+        "low",
+        "round",
+        "high"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T2-B-E3 si el paquete lo enseña. Instrucción: «Dado diff=4, se=1.5, imprime ic95 como tupla (low, high) redondeada a 2.». Demo ancla S18-T2-A-DEMO: «». Hints del weDo: low = diff - 1.96*se.; high = diff + 1.96*se.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T2-B-E3 diff, se = 4, 1.5 low = round(diff - 1.96 * se, 2) high = round(diff + 1.96 * se, 2) print((low, h». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'diff']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T3-A-E1\nimport numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nr = float(np.corrcoef(x, y)[0, 1])\nprint(round(r, 3))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S18-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "corrcoef"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T3-A-E1 si el paquete lo enseña. Instrucción: «Calcula pearson de x=[1,2,3,4] e y=[2,4,6,8] con np.corrcoef e imprime redondeado a 3.». Demo ancla S18-T3-A-DEMO: «». Hints del weDo: corrcoef[0,1].; Debe ser ~1.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T3-A-E1 import numpy as np x = np.array([1, 2, 3, 4], dtype=float) y = np.array([2, 4, 6, 8], dtype=float)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'numpy']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T3-A-E2\nr = 0.82\nif abs(r) > 0.5:\n    print(\"asociacion_observada\")\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S18-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "abs",
+        "asociacion_observada"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T3-A-E2 si el paquete lo enseña. Instrucción: «Imprime el string 'asociacion_observada' si abs(r)>0.5 para r=0.82; no uses 'causa'.». Demo ancla S18-T3-A-DEMO: «». Hints del weDo: if abs(r)>0.5.; Mensaje fijo no causal.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T3-A-E2 r = 0.82 if abs(r) > 0.5: print(\"asociacion_observada\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'abs']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T3-A-E3\nimport numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\n# residualize vs z (polyfit deg 1)\npx = np.polyfit(z, x, 1)\npy = np.polyfit(z, y, 1)\nxr = x - np.polyval(px, z)\nyr = y - np.polyval(py, z)\nr_res = float(np.corrcoef(xr, yr)[0, 1]) if np.std(xr) > 0 and np.std(yr) > 0 else 0.0\nif np.isnan(r_res):\n    r_res = 0.0\nprint(round(r_raw, 3), round(r_res, 3))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S18-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "copy"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T3-A-E3 si el paquete lo enseña. Instrucción: «Dado z confusor, x=z, y=z (n=5 z=0..4), muestra r_raw y r tras residualizar (polyfit grado 1). Imprime ambos redondeados a 3.». Demo ancla S18-T3-A-DEMO: «». Hints del weDo: Residualiza x e y respecto a z.; corrcoef de residuales ≈ 0 o nan controlado.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T3-A-E3 import numpy as np z = np.arange(5, dtype=float) x = z.copy() y = z.copy() r_raw = float(np.corrco». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'numpy']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T3-B-E1\nimport numpy as np\nmontos = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nhi = q3 + 1.5 * (q3 - q1)\nprint(int((montos > hi).sum()))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S18-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "numpy",
+        "montos",
+        "array",
+        "dtype",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T3-B-E1 si el paquete lo enseña. Instrucción: «Con montos=[10,12,11,13,50], calcula hi = Q3+1.5*IQR e imprime cuántos superan hi.». Demo ancla S18-T3-A-DEMO: «». Hints del weDo: quantile 0.25/0.75.; suma booleana.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T3-B-E1 import numpy as np montos = np.array([10, 12, 11, 13, 50], dtype=float) q1, q3 = np.quantile(monto». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'numpy']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T3-B-E2\nregiones = [\"Lima\", \"Lima\", \"Cusco\"]\nflags = [True, True, False]\nlima_flags = [f for r, f in zip(regiones, flags) if r == \"Lima\"]\nprint(sum(lima_flags) / len(lima_flags))\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S18-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "regiones",
+        "Lima",
+        "Cusco",
+        "flags",
+        "lima_flags"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T3-B-E2 si el paquete lo enseña. Instrucción: «Dado regiones y flags anomalia [Lima T/F, Lima T, Cusco F], imprime tasa de anomalías en Lima.». Demo ancla S18-T3-A-DEMO: «». Hints del weDo: Filtra región Lima.; mean de flags.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T3-B-E2 regiones = [\"Lima\", \"Lima\", \"Cusco\"] flags = [True, True, False] lima_flags = [f for r, f in zip(r». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'regiones']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T3-B-E3\nimport numpy as np\nx = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(x, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((x < lo) | (x > hi)).tolist())\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S18-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float",
+        "quantile"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T3-B-E3 si el paquete lo enseña. Instrucción: «Marca anomalías Tukey en [1,2,3,4,100] e imprime lista booleana.». Demo ancla S18-T3-A-DEMO: «». Hints del weDo: lo = Q1-1.5IQR, hi=Q3+1.5IQR.; tolist de bool.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T3-B-E3 import numpy as np x = np.array([1, 2, 3, 4, 100], dtype=float) q1, q3 = np.quantile(x, [0.25, 0.7». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'numpy']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T4-A-E1\nevidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana estable\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"pregunta\"])\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S18-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "evidencia",
+        "pregunta",
+        "ticket",
+        "mediano",
+        "hipotesis"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T4-A-E1 si el paquete lo enseña. Instrucción: «Crea dict con claves pregunta, hipotesis, resultado(n=10, median=5.0) e imprime la pregunta.». Demo ancla S18-T4-A-DEMO: «». Hints del weDo: Dict literal.; print evidencia['pregunta'].. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T4-A-E1 evidencia = { \"pregunta\": \"¿Cuál es el ticket mediano?\", \"hipotesis\": \"mediana estable\", \"resultad». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'evidencia']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T4-A-E2\nmedian = 12\nif median < 15:\n    print(\"solo_hallazgo\")\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S18-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "median",
+        "solo_hallazgo"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T4-A-E2 si el paquete lo enseña. Instrucción: «Dado hallazgo median=12 y umbral de decisión de negocio=15, imprime 'solo_hallazgo' si no se alcanza el umbral.». Demo ancla S18-T4-A-DEMO: «». Hints del weDo: Compara median < 15.; No inventes decisión de campaña.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T4-A-E2 median = 12 if median < 15: print(\"solo_hallazgo\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'median']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T4-A-E3\ndef traza(pregunta, metrica, valor, limite):\n    print(\"P\", pregunta)\n    print(\"M\", metrica)\n    print(\"V\", valor)\n    print(\"L\", limite)\n\ntraza(\"q\", \"median\", 5, \"n>=10\")\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S18-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "traza",
+        "pregunta",
+        "metrica",
+        "valor",
+        "limite"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T4-A-E3 si el paquete lo enseña. Instrucción: «Implementa traza(pregunta, metrica, valor, limite) que imprima las 4 líneas etiquetadas.». Demo ancla S18-T4-A-DEMO: «». Hints del weDo: Función con 4 prints.; Etiquetas fijas P/M/V/L.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T4-A-E3 def traza(pregunta, metrica, valor, limite): print(\"P\", pregunta) print(\"M\", metrica) print(\"V\", v». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'traza']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T4-B-E1\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S18-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "note",
+        "n_raw",
+        "n_final",
+        "filtros",
+        "monto"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T4-B-E1 si el paquete lo enseña. Instrucción: «Con n_raw=5 y n_final=4 tras filtro, imprime data note dict con esas claves y filtros=['monto>0'].». Demo ancla S18-T4-A-DEMO: «». Hints del weDo: Dict con n_raw, n_final, filtros.; print el dict.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T4-B-E1 note = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]} print(note)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'note']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T4-B-E2\nimport hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S18-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "hashlib",
+        "sha1",
+        "hexdigest"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T4-B-E2 si el paquete lo enseña. Instrucción: «Calcula sha1 hex de b'a,b\\n1,2\\n' y muestra los primeros 8 caracteres.». Demo ancla S18-T4-A-DEMO: «». Hints del weDo: hashlib.sha1(...).hexdigest()[:8].; encode no necesario si ya es bytes.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T4-B-E2 import hashlib print(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'hashlib']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S18-T4-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 2.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n# B2 dual-run (Skeptic): re-validated vs packet S18 S18-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S18-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S18",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "n_raw",
+        "len"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S18-T4-B-E3 si el paquete lo enseña. Instrucción: «Dado df de 3 filas con monto, filtra >0, genera note con n_raw, n_final y seed=42; imprime note.». Demo ancla S18-T4-A-DEMO: «». Hints del weDo: len antes/después.; Incluye seed.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S18-T4-B-E3 import pandas as pd df = pd.DataFrame({\"monto\": [1.0, 0.0, 2.0]}) n_raw = len(df) df2 = df[df[\"mon». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S18', 'pandas']. Heading: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) |."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Qué comunica mejor un ticket “típico” con outliers fuertes?",
+      "chosen_index": 1,
+      "chosen_text": "Mediana (y opcionalmente IQR)",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…ume con media (`mean`) o mediana (`median`). La **dispersión** con desviación estándar (`std`) o rango intercuartílico (**IQR** = Q3−Q1). Los **cuantiles** (p25, p50, p75…». Choose [1] «Mediana (y opcionalmente IQR)». Typical ticket with strong outliers: median (and maybe IQR), not mean alone."
+    },
+    {
+      "question_index": 1,
+      "question": "Una correlación alta entre X e Y implica:",
+      "chosen_index": 1,
+      "chosen_text": "Asociación observada (no causal por sí sola)",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…_d\", round(float(d), 3)) correlación y confusión La **correlación** (Pearson/Spearman) mide asociación lineal/monótona, no causa. Un confounder puede crear asociación esp…». Choose [1] «Asociación observada (no causal por sí sola)». High correlation = observed association, not causation by itself."
+    },
+    {
+      "question_index": 2,
+      "question": "¿Qué debe incluir un data note mínimo?",
+      "chosen_index": 1,
+      "chosen_text": "Origen, filtros, n y límites de cobertura",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «notebook reproducible y data notes» — quote: «Un **data note** documenta origen, fecha de corte, filtros, n final y exclusiones. El script debe reejecutarse con seed fijo.». Choose [1] «Origen, filtros, n y límites de cobertura». Data note min: origin, filters, n, coverage limits."
+    },
+    {
+      "question_index": 3,
+      "question": "El sesgo de muestra ocurre cuando:",
+      "chosen_index": 1,
+      "chosen_text": "La muestra no representa la población de interés",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «población, muestra y sesgo» — quote: «…** es lo observado. El **sesgo de selección** aparece si el muestreo no es representativo (p. ej. solo Lima).». Choose [1] «La muestra no representa la población de interés». Sample bias when sample does not represent population of interest."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "batch": "01_26",
+    "method": "llm_packet_only_no_generator"
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

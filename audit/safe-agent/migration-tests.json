@@ -1,0 +1,13 @@
+{
+  "suite": "tests/adversarial/progress-preservation.test.ts",
+  "results": {
+    "serialize_deserialize_preserves_valid_progress": "pass",
+    "migration_preserves_completed_work": "pass",
+    "migration_idempotent": "pass",
+    "additive_media_does_not_alter_completion": "pass",
+    "bookmark_state_survives_roundtrip": "pass",
+    "quiz_scores_survive_roundtrip": "pass",
+    "invalid_persisted_state_fails_safely": "pass",
+    "server_hydrate_merge_preserves_local": "pass"
+  }
+}

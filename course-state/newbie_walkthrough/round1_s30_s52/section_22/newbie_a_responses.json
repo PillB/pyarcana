@@ -1,0 +1,473 @@
+{
+  "agent": "a",
+  "section_index": 22,
+  "recorded_at": "2026-08-01T15:13:15.774251+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Solo drafts/.eml en sandbox y aprobación humana",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          6.0,
+          1.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "Solo evidencia débil de contacto a revisar; no prueba de fraude",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.0,
+          4.0,
+          7.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Solo los scopes mínimos (p. ej. draft) necesarios",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          3.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "Reutilizar el mismo draft_id si la key existe",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          3.0,
+          5.15,
+          4.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          11.0,
+          7.15,
+          7.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S22-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · MIMEText plain utf-8\n# A corregir: usa subtype html y charset hardcodeado mal\n# Contrato: tipo text/plain + charset utf-8 (dos prints)\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'html', 'utf-8')\nprint(msg.get_content_type())\nprint('ascii')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "nombrado",
+          "alteres",
+          "bug",
+          "cambia",
+          "str",
+          "cuerpo",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S22-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · MIMEMultipart mixed + adjunto con filename\n# A corregir: adjunto sin Name ni Content-Disposition filename\n# Contrato: filename=\"a.txt\" debe aparecer en as_string()\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x')\n# falta Name y Content-Disposition con filename=\"a.txt\"\nmsg.attach(att)\nprint('filename=\"a.txt\"' in msg.as_string())\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "serializado",
+          "bug",
+          "nombre",
+          "asigna",
+          "revisa",
+          "construir",
+          "contención",
+          "deja"
+        ]
+      },
+      {
+        "exercise_id": "S22-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · alternative text+html anidado\n# A corregir: no anida alt dentro de mixed (solo un attach)\n# Contrato: count de Content-Type: == 4\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\n# adjunta plain directo sin alternative\nmsg.attach(MIMEText('t', 'plain', 'utf-8'))\nprint(msg.as_string().count('Content-Type:'))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "crea",
+          "imprime",
+          "starter",
+          "bug"
+        ]
+      },
+      {
+        "exercise_id": "S22-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · html.escape de script\n# A corregir: imprime crudo sin escape\n# Contrato: entidades HTML escapadas\nimport html\nraw = '<script>x</script>'\nprint(raw)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "alteres",
+          "bug",
+          "string",
+          "prueba",
+          "fragmento",
+          "importa",
+          "está",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S22-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · interpolación con escape\n# A corregir: concatena name sin html.escape\n# Contrato: Hola + nombre escapado\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + name)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "solo",
+          "bug",
+          "escapa",
+          "revisa",
+          "línea",
+          "imprime",
+          "starter",
+          "pedida"
+        ]
+      },
+      {
+        "exercise_id": "S22-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · allowlist de dominios en URL\n# A corregir: marca todo ok sin chequear host\n# Contrato: parsear host; solo example.pe es ok\nfrom urllib.parse import urlparse\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    print(u, 'ok')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "blocked",
+          "bug",
+          "obtén",
+          "hostname",
+          "substring",
+          "siempre",
+          "uses",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S22-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · filtrar scopes a allowed\n# A corregir: devuelve requested completo (sin filtrar)\n# Contrato: solo scopes en allowed\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\nprint(requested)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "construye",
+          "bug",
+          "mano",
+          "lista",
+          "esa",
+          "están",
+          "borres",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S22-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · denied scopes peligrosos\n# A corregir: isdisjoint invertido (not)\n# Contrato: True si no hay intersección con bad\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(not bad.isdisjoint(granted))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "negar",
+          "interpreta",
+          "fixture",
+          "bug",
+          "peligrosa",
+          "usa",
+          "deja"
+        ]
+      },
+      {
+        "exercise_id": "S22-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · expires_at → refresh|valid\n# A corregir: compara al revés\n# Contrato: dos líneas refresh / valid\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('valid' if exp < now else 'refresh')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "strings",
+          "bug",
+          "pasado",
+          "orden",
+          "futuro",
+          "fuera",
+          "invierte",
+          "cuando"
+        ]
+      },
+      {
+        "exercise_id": "S22-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · crear draft en store\n# A corregir: imprime la key del store, no status/subject del workflow\n# Contrato: dos líneas — status draft + subject del run\nstore = {}\nstore['d001'] = {'status': 'draft', 'subject': 'Informe sintético CP-N2-C'}\nprint(list(store.keys())[0])\nprint(list(store.keys())[0])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "veces",
+          "lee",
+          "bug",
+          "ese",
+          "orden",
+          "borres",
+          "dict",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S22-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · is_usable por expiración\n# A corregir: compara now > expires (invertido)\n# Contrato: usable False si expiró\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(now > expires_at)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "true",
+          "fixture",
+          "cambia",
+          "pasado",
+          "bug",
+          "deja",
+          "cuando",
+          "booleano"
+        ]
+      },
+      {
+        "exercise_id": "S22-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · adaptador: ids secuenciales + usable\n# A corregir: id fijo d001; sin expires_at; usable invertido\n# Contrato: d001 d002 / usable True\nfrom datetime import datetime, timezone, timedelta\nstore = {}\nnow = datetime.now(timezone.utc)\n\ndef create_draft():\n    i = \"d001\"\n    store[i] = {'status': 'draft'}\n    return i\na, b = create_draft(), create_draft()\nprint(a, b)\nprint('usable', False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "bugs",
+          "genera",
+          "segundo",
+          "fija",
+          "ambos",
+          "imprime",
+          "starter",
+          "expiración"
+        ]
+      },
+      {
+        "exercise_id": "S22-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · regex simple de email\n# A corregir: siempre True sin re.match\n# Contrato: dos líneas email + bool\nimport re\npat = r'^[^@]+@[^@]+\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "direcciones",
+          "bug",
+          "prueba",
+          "patrón",
+          "usa",
+          "definido",
+          "cambies",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S22-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · resolver C001 y dominio\n# A corregir: verified sin chequear dominio\n# Contrato: verified solo si dominio allowlisted\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em else 'rejected')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "exige",
+          "bug",
+          "otros",
+          "contactos",
+          "existencia",
+          "inventes",
+          "email",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S22-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · score + nota match_no_es_fraude\n# A corregir: imprime score con etiqueta antiética\n# Contrato: round(score, 2) + match_no_es_fraude\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'fraude_probable')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cálculo",
+          "emails",
+          "ético",
+          "fixture",
+          "bug",
+          "correcta",
+          "dos",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S22-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · dedupe de lista preservando orden\n# A corregir: set desordena / pierde orden de aparición\n# Contrato: orden de primera aparición\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(set(xs)))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "estable",
+          "elementos",
+          "alteres",
+          "resultante",
+          "bug",
+          "fixture",
+          "usa",
+          "tres"
+        ]
+      },
+      {
+        "exercise_id": "S22-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · forzar role bcc a externos\n# A corregir: no muta role (deja cc)\n# Contrato: role final bcc\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        pass  # no asigna bcc\nprint(rows[0]['role'])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "pero",
+          "detecta",
+          "fixture",
+          "bug",
+          "hace",
+          "dominio",
+          "cambies",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S22-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · conteo de visibles to+cc\n# A corregir: no mueve externos a bcc\n# Contrato: 1 visible interno\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "reasigna",
+          "bug",
+          "lista",
+          "contar",
+          "cuenta",
+          "antes",
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S22-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · transición submit draft→pending_review\n# A corregir: hardcodea approved saltando submit\n# Contrato: estado final pending_review\nT = {'draft': {'submit': 'pending_review'}}\nstate = 'draft'\nstate = 'approved'\nprint(state)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "lee",
+          "tabla",
+          "bug",
+          "asigna",
+          "equivalente",
+          "imprime",
+          "starter",
+          "conserva"
+        ]
+      },
+      {
+        "exercise_id": "S22-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · approve inválido desde draft\n# A corregir: imprime 'ok' cuando no hay transición\n# Contrato: invalid\nT = {\n    'draft': {'submit': 'pending_review'},\n    'pending_review': {'approve': 'approved'},\n}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint(nxt if nxt else 'ok')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "tabla",
+          "agregues",
+          "bug",
+          "usa",
+          "falta",
+          "starter",
+          "pase"
+        ]
+      },
+      {
+        "exercise_id": "S22-T4-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. El starter no usa TRANSITIONS ni guarda actor/action (bug).n2. Completa `apply`: resuelve `nxt`, falla si no hay, app",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S22-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · idempotency key sha256[:16] desde run|to|v1\n# A corregir: separador '-' y slice [:6]\n# Contrato: 16 hex chars del payload run|to|v1\nimport hashlib\nrun_id, to, body_ver = 'run', 'to', 'v1'\nraw = f'{run_id}-{to}-{body_ver}'.encode()\nprint(hashlib.sha256(raw).hexdigest()[:6])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "bugs",
+          "fixture",
+          "usa",
+          "valores",
+          "arma",
+          "cambies",
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S22-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · create idempotente por key\n# A corregir: siempre crea id nuevo (ignora cache)\n# Contrato: create('k') == create('k') y len(store) == 1\nstore = {}\n\ndef create(key):\n    store[key] = 'd' + str(len(store) + 1)\n    return store[key]\na, b = create('k'), create('k')\nprint(a == b)\nprint(len(store))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "bug",
+          "asigna",
+          "prints",
+          "dos",
+          "deja",
+          "starter",
+          "guarda",
+          "devuelve"
+        ]
+      },
+      {
+        "exercise_id": "S22-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 22 · audit create + retry_hit (transfer)\n# A corregir: siempre append create; no reutiliza id\n# Contrato: eventos ['create','retry_hit'] y same_id True\naudit = []\nstore = {}\nkey = 'k1'\nids = []\nfor _ in range(2):\n    store[key] = 'd1'\n    audit.append('create')\n    ids.append(store[key])\nprint(audit)\nprint(ids[0] == ids[1])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "pisa",
+          "bug",
+          "igualdad",
+          "hace",
+          "está",
+          "guarda",
+          "imprime",
+          "starter"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "1adfb2691fcd26d8"
+  }
+}

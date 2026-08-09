@@ -1,0 +1,1135 @@
+{
+  "version": "3.2",
+  "section": "S02",
+  "section_id": "basics",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T13:00:00Z",
+  "prompt_version": "3.2",
+  "lane": "LANE-S02",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "research_agent": "Pre-Round Research curricular blueprint patterns",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts, lane status, count validation"
+  },
+  "preamble": {
+    "objective": "Lock S02 blueprint: 4 topics × 2 subtopics with full artifact specs and canonical counts before PHASE 4 authorship.",
+    "scope_in": [
+      "S02 only",
+      "Blueprint: outcomes, demos, exercises E1/E2/E3, topic evals, A/B/C slots, intake parser increment",
+      "Count validation vs invariant vector",
+      "Platform gap notes"
+    ],
+    "scope_out": [
+      "Writing full theory paragraphs / complete exercise bodies (PHASE 4)",
+      "Writing full A/B/C item stems (PHASE 5)",
+      "S01/S03+ authorship",
+      "Marking section passed",
+      "Editing orchestrator-owned checkpoint/ledger/seed/s01"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics with pedagogical components planned; totals equal S02 slice of canonical vector; no long-form authorship; gate authorizes PHASE 4 only for later lane work.",
+    "inputs_used": [
+      "course-state/s02_phase2.json",
+      "course-state/s02_phase1.json",
+      "learning_roadmap_52_V3.md S2",
+      "src/lib/course/sections/s02-basics.ts",
+      "prisma/seed.ts basics concepts"
+    ]
+  },
+  "pre_round_research": {
+    "executed_at": "2026-07-20",
+    "findings": [
+      "Blueprint curricular: outcomes → demo I Do → E1/E2/E3 → topic eval → A/B/C families.",
+      "Bloom S02: Recordar/Comprender/Aplicar; transferencia en parse gate.",
+      "Platform CourseSection still lacks native subtopics[] (same S01 gap).",
+      "Exam seed 4×3 → target 8×3; retire list-comprehension/kwargs/truthiness from S02 bank."
+    ],
+    "sources": [
+      "V3 prompt §4 counting",
+      "s02_phase2 source_registry SRC-S02-001..010",
+      "Official Python 3.14.6 docs 2026-07-20"
+    ]
+  },
+  "section_meta": {
+    "id": "basics",
+    "index": 2,
+    "title_platform": "Python Absolute Basics",
+    "title_v3": "Valores, tipos, operadores e I/O",
+    "title_decision": "KEEP platform id 'basics' and shortTitle 'Basics de Python'; retarget long title/tagline to V3 phrase in PHASE 4",
+    "tagline_target": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+    "estimatedHours": 6,
+    "level": "Principiante",
+    "phase": 0,
+    "prerequisites": [
+      "S01"
+    ],
+    "environment": "browser-pyodide | local-python",
+    "project_capstone": "CP-N1-A intake parser increment",
+    "depends_on_s01_release": "Students need S01 for local workflow; browser demos can ship earlier for pure Python"
+  },
+  "learning_outcomes_section": [
+    "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+    "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+    "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+    "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+    "Evaluar aritmética y comparaciones respetando precedencia",
+    "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+    "Usar input/print y f-strings para capturar y reportar datos",
+    "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+  ],
+  "topics": [
+    {
+      "topic_id": "S02-T1",
+      "title": "Valores",
+      "bloom_focus": [
+        "Recordar",
+        "Comprender",
+        "Aplicar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S02-T1-A",
+          "slug": "literals-types",
+          "title": "Literales y tipos",
+          "outcome": "El estudiante identifica literales int/float/str/bool/None y el tipo de expresiones simples.",
+          "content_status": "expand",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Literales y tipos básicos",
+              "must_cover": [
+                "int",
+                "float",
+                "str",
+                "bool",
+                "None",
+                "type()",
+                "literales vs '42' string"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S02-T1-A-DEMO",
+              "title": "Literales de un registro de cliente",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "type() de 5 literales coincide con esperado",
+              "maps_existing": "partial"
+            },
+            "exercises": [
+              {
+                "id": "S02-T1-A-E1",
+                "kind": "guided",
+                "title": "Clasificar literales",
+                "skill": "Asignar type() a cada literal",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "None es tipo NoneType"
+                ],
+                "tests": "checklist type outputs",
+                "feedback": true
+              },
+              {
+                "id": "S02-T1-A-E2",
+                "kind": "independent",
+                "title": "Literal vs texto numérico",
+                "skill": "Distinguir 42 y '42'",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "bool es subtipo de int — no abusar"
+                ],
+                "tests": "assert types",
+                "feedback": true
+              },
+              {
+                "id": "S02-T1-A-E3",
+                "kind": "transfer",
+                "title": "Campos de intake tipados",
+                "skill": "Elegir tipo correcto por campo sintético",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "teléfono como str no int"
+                ],
+                "tests": "rubric mapping",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S02-T1-A-EX",
+                "slug": "literals-types",
+                "format": "mcq",
+                "bloom": "Comprender",
+                "skill": "identifica literales int/float/str/bool/None y el tipo de expresiones simples.",
+                "variants": [
+                  "A",
+                  "B",
+                  "C"
+                ],
+                "parallelism_rules": "Misma habilidad; variar superficie (nombres de variables, montos, campos); una sola mejor respuesta"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S02-T1-B",
+          "slug": "type-inspect-convert",
+          "title": "Inspección, conversión y validación explícita",
+          "outcome": "El estudiante inspecciona tipos con type/isinstance, convierte con constructores y valida fallos (ValueError) sin tragar errores.",
+          "content_status": "expand",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Inspección, conversión y validación",
+              "must_cover": [
+                "type",
+                "isinstance",
+                "int/float/str",
+                "strip",
+                "ValueError",
+                "no eval"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S02-T1-B-DEMO",
+              "title": "Convertir campos de texto a número con mensaje de error",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "int(' 19 ') ok; 'abc' produce mensaje con campo",
+              "maps_existing": "partial"
+            },
+            "exercises": [
+              {
+                "id": "S02-T1-B-E1",
+                "kind": "guided",
+                "title": "int con strip",
+                "skill": "Convertir ' 21 ' a int",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "espacios"
+                ],
+                "tests": "assert == 21",
+                "feedback": true
+              },
+              {
+                "id": "S02-T1-B-E2",
+                "kind": "independent",
+                "title": "Validar edad texto",
+                "skill": "Función safe_int(campo, valor)",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "vacío",
+                  "letras"
+                ],
+                "tests": "returns (ok, value|None, msg)",
+                "feedback": true
+              },
+              {
+                "id": "S02-T1-B-E3",
+                "kind": "transfer",
+                "title": "Pipeline de 2 campos",
+                "skill": "Convertir edad y monto con mensajes por campo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "un campo falla otro ok"
+                ],
+                "tests": "structured errors",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S02-T1-B-EX",
+                "slug": "type-inspect-convert",
+                "format": "mcq",
+                "bloom": "Aplicar",
+                "skill": "inspecciona tipos con type/isinstance, convierte con constructores y valida fallos (ValueError) sin tragar errores.",
+                "variants": [
+                  "A",
+                  "B",
+                  "C"
+                ],
+                "parallelism_rules": "Misma habilidad; variar superficie (nombres de variables, montos, campos); una sola mejor respuesta"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S02-T1-TE",
+        "title": "Evaluación formativa — Valores",
+        "tasks": [
+          {
+            "id": "S02-T1-TE-1",
+            "title": "Clasificar y convertir literales de un mini-registro",
+            "authentic": true,
+            "deliverable": "Tabla type + conversiones con 1 fallo documentado"
+          },
+          {
+            "id": "S02-T1-TE-2",
+            "title": "Validación explícita de un campo numérico",
+            "authentic": true,
+            "deliverable": "Función safe_int con tests vacío e inválido"
+          }
+        ],
+        "rubric_0_3": {
+          "correctness": "¿Tipos, operadores o parse son correctos según el tema?",
+          "robustness": "¿Maneja vacíos/errores sin crashear de forma opaca?",
+          "maintainability": "¿Nombres claros y código legible?",
+          "responsible_use": "¿Datos sintéticos, sin PII real, sin afirmar parentesco?"
+        }
+      }
+    },
+    {
+      "topic_id": "S02-T2",
+      "title": "Nombres",
+      "bloom_focus": [
+        "Comprender",
+        "Aplicar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S02-T2-A",
+          "slug": "assignment-naming",
+          "title": "Asignación y convenciones",
+          "outcome": "El estudiante asigna nombres con =, distingue ==, y aplica snake_case/UPPER_CASE según PEP 8 básico.",
+          "content_status": "expand",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Asignación y convenciones de nombres",
+              "must_cover": [
+                "=",
+                "==",
+                "snake_case",
+                "UPPER_CASE",
+                "CapWords",
+                "NameError",
+                "nombres de campos intake"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S02-T2-A-DEMO",
+              "title": "Renombrar variables y corregir = vs ==",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "código usa snake_case y == en comparación",
+              "maps_existing": "partial"
+            },
+            "exercises": [
+              {
+                "id": "S02-T2-A-E1",
+                "kind": "guided",
+                "title": "snake_case checklist",
+                "skill": "Renombrar 5 variables",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "evitar l/O/I"
+                ],
+                "tests": "style pass",
+                "feedback": true
+              },
+              {
+                "id": "S02-T2-A-E2",
+                "kind": "independent",
+                "title": "= vs == bug hunt",
+                "skill": "Corregir 3 líneas rotas",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "SyntaxError con if x = 1"
+                ],
+                "tests": "runs without SyntaxError",
+                "feedback": true
+              },
+              {
+                "id": "S02-T2-A-E3",
+                "kind": "transfer",
+                "title": "Nombres de schema intake",
+                "skill": "Proponer nombres PEP8 para 6 columnas CSV",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "apellido_paterno"
+                ],
+                "tests": "rubric naming",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S02-T2-A-EX",
+                "slug": "assignment-naming",
+                "format": "mcq",
+                "bloom": "Comprender",
+                "skill": "asigna nombres con =, distingue ==, y aplica snake_case/UPPER_CASE según PEP 8 básico.",
+                "variants": [
+                  "A",
+                  "B",
+                  "C"
+                ],
+                "parallelism_rules": "Misma habilidad; variar superficie (nombres de variables, montos, campos); una sola mejor respuesta"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S02-T2-B",
+          "slug": "identity-mutability",
+          "title": "Identidad, mutabilidad y copias",
+          "outcome": "El estudiante distingue is vs ==, entiende mutabilidad str/list, y conserva un valor original con binding o copia superficial.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Identidad, mutabilidad y copias superficiales",
+              "must_cover": [
+                "is/is not",
+                "id",
+                "str immutable",
+                "list mutable",
+                "alias",
+                "list[:] o .copy()",
+                "raw vs clean"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S02-T2-B-DEMO",
+              "title": "Alias vs copia y preservar raw",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "raw intacto tras normalizar clean; alias demo muestra mutación compartida",
+              "maps_existing": false
+            },
+            "exercises": [
+              {
+                "id": "S02-T2-B-E1",
+                "kind": "guided",
+                "title": "is vs ==",
+                "skill": "Predecir resultados con None y listas",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "is None idiom"
+                ],
+                "tests": "prediction table",
+                "feedback": true
+              },
+              {
+                "id": "S02-T2-B-E2",
+                "kind": "independent",
+                "title": "Romper el alias",
+                "skill": "Copiar lista antes de mutar",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "slice vs assign"
+                ],
+                "tests": "assert original unchanged",
+                "feedback": true
+              },
+              {
+                "id": "S02-T2-B-E3",
+                "kind": "transfer",
+                "title": "raw + clean record",
+                "skill": "Diseñar dict con *_raw y normalizados",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "no perder raw en fail"
+                ],
+                "tests": "assert raw keys",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S02-T2-B-EX",
+                "slug": "identity-mutability",
+                "format": "mcq",
+                "bloom": "Aplicar",
+                "skill": "distingue is vs ==, entiende mutabilidad str/list, y conserva un valor original con binding o copia superficial.",
+                "variants": [
+                  "A",
+                  "B",
+                  "C"
+                ],
+                "parallelism_rules": "Misma habilidad; variar superficie (nombres de variables, montos, campos); una sola mejor respuesta"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S02-T2-TE",
+        "title": "Evaluación formativa — Nombres",
+        "tasks": [
+          {
+            "id": "S02-T2-TE-1",
+            "title": "Refactor de nombres + = vs ==",
+            "authentic": true,
+            "deliverable": "Diff de 10 líneas con PEP8 y comparaciones correctas"
+          },
+          {
+            "id": "S02-T2-TE-2",
+            "title": "Diseño raw/clean sin perder original",
+            "authentic": true,
+            "deliverable": "Dict de cliente con *_raw y demo de alias evitado"
+          }
+        ],
+        "rubric_0_3": {
+          "correctness": "¿Tipos, operadores o parse son correctos según el tema?",
+          "robustness": "¿Maneja vacíos/errores sin crashear de forma opaca?",
+          "maintainability": "¿Nombres claros y código legible?",
+          "responsible_use": "¿Datos sintéticos, sin PII real, sin afirmar parentesco?"
+        }
+      }
+    },
+    {
+      "topic_id": "S02-T3",
+      "title": "Operadores",
+      "bloom_focus": [
+        "Comprender",
+        "Aplicar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S02-T3-A",
+          "slug": "operators-precedence",
+          "title": "Aritmética, comparación y precedencia",
+          "outcome": "El estudiante evalúa expresiones con + - * / // % ** y comparaciones, y usa paréntesis cuando la precedencia engaña.",
+          "content_status": "expand",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Operadores y precedencia",
+              "must_cover": [
+                "+",
+                "-",
+                "*",
+                "/",
+                "//",
+                "%",
+                "**",
+                "comparaciones",
+                "precedencia",
+                "-3**2",
+                "paréntesis"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S02-T3-A-DEMO",
+              "title": "Evaluar y corregir expresión con precedencia",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "resultados de // % ** y (a+b)*c correctos",
+              "maps_existing": "partial"
+            },
+            "exercises": [
+              {
+                "id": "S02-T3-A-E1",
+                "kind": "guided",
+                "title": "Tabla de operadores",
+                "skill": "Calcular // % **",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "división / float"
+                ],
+                "tests": "numeric asserts",
+                "feedback": true
+              },
+              {
+                "id": "S02-T3-A-E2",
+                "kind": "independent",
+                "title": "Precedencia -a**b",
+                "skill": "Explicar y corregir -3**2",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "paréntesis"
+                ],
+                "tests": "assert == 9 with (-3)**2",
+                "feedback": true
+              },
+              {
+                "id": "S02-T3-A-E3",
+                "kind": "transfer",
+                "title": "Precio con IGV expresión",
+                "skill": "Escribir expresión con paréntesis correctos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "18%"
+                ],
+                "tests": "matches Decimal later optional float here ok for ops only",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S02-T3-A-EX",
+                "slug": "operators-precedence",
+                "format": "mcq",
+                "bloom": "Comprender",
+                "skill": "evalúa expresiones con + - * / // % ** y comparaciones, y usa paréntesis cuando la precedencia engaña.",
+                "variants": [
+                  "A",
+                  "B",
+                  "C"
+                ],
+                "parallelism_rules": "Misma habilidad; variar superficie (nombres de variables, montos, campos); una sola mejor respuesta"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S02-T3-B",
+          "slug": "decimal-money",
+          "title": "Dinero, Decimal, precisión y redondeo",
+          "outcome": "El estudiante usa decimal.Decimal desde str para montos en soles, evita float, y redondea con quantize a 2 decimales.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Decimal para dinero y redondeo",
+              "must_cover": [
+                "Decimal('0.1')",
+                "no Decimal(0.1)",
+                "float 0.1+0.2",
+                "quantize",
+                "ROUND_HALF_EVEN",
+                "soles"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S02-T3-B-DEMO",
+              "title": "Subtotal + IGV 18% con Decimal",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "totales exactos a 2 decimales sin basura float",
+              "maps_existing": false
+            },
+            "exercises": [
+              {
+                "id": "S02-T3-B-E1",
+                "kind": "guided",
+                "title": "0.1+0.2 vs Decimal",
+                "skill": "Reproducir sorpresa float y fix",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "from decimal import Decimal"
+                ],
+                "tests": "assert Decimal sum",
+                "feedback": true
+              },
+              {
+                "id": "S02-T3-B-E2",
+                "kind": "independent",
+                "title": "Propina 10% en soles",
+                "skill": "Decimal desde str + quantize .01",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "no float"
+                ],
+                "tests": "quantize assert",
+                "feedback": true
+              },
+              {
+                "id": "S02-T3-B-E3",
+                "kind": "transfer",
+                "title": "Línea de intake monto",
+                "skill": "Parsear monto texto a Decimal o error",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "vacío",
+                  "coma vs punto — documentar punto"
+                ],
+                "tests": "returns Decimal or error",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S02-T3-B-EX",
+                "slug": "decimal-money",
+                "format": "mcq",
+                "bloom": "Aplicar",
+                "skill": "usa decimal.Decimal desde str para montos en soles, evita float, y redondea con quantize a 2 decimales.",
+                "variants": [
+                  "A",
+                  "B",
+                  "C"
+                ],
+                "parallelism_rules": "Misma habilidad; variar superficie (nombres de variables, montos, campos); una sola mejor respuesta"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S02-T3-TE",
+        "title": "Evaluación formativa — Operadores",
+        "tasks": [
+          {
+            "id": "S02-T3-TE-1",
+            "title": "Evaluar y justificar 5 expresiones",
+            "authentic": true,
+            "deliverable": "Transcript con resultados y precedencia"
+          },
+          {
+            "id": "S02-T3-TE-2",
+            "title": "Cálculo monetario con Decimal",
+            "authentic": true,
+            "deliverable": "Subtotal, IGV 18%, total quantize .01"
+          }
+        ],
+        "rubric_0_3": {
+          "correctness": "¿Tipos, operadores o parse son correctos según el tema?",
+          "robustness": "¿Maneja vacíos/errores sin crashear de forma opaca?",
+          "maintainability": "¿Nombres claros y código legible?",
+          "responsible_use": "¿Datos sintéticos, sin PII real, sin afirmar parentesco?"
+        }
+      }
+    },
+    {
+      "topic_id": "S02-T4",
+      "title": "I/O",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S02-T4-A",
+          "slug": "io-fstrings",
+          "title": "input, print y f-strings",
+          "outcome": "El estudiante captura texto con input (o simulado), imprime con print y formatea reportes con f-strings.",
+          "content_status": "expand",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "input, print y f-strings",
+              "must_cover": [
+                "input→str",
+                "print sep/end",
+                "f-strings",
+                ":.2f",
+                "prompts en español"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S02-T4-A-DEMO",
+              "title": "Capturar y reportar un campo con f-string",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "salida formateada contiene nombre y monto",
+              "maps_existing": "partial"
+            },
+            "exercises": [
+              {
+                "id": "S02-T4-A-E1",
+                "kind": "guided",
+                "title": "print y f-string",
+                "skill": "Imprimir saludo formateado",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "acentos"
+                ],
+                "tests": "stdout contains",
+                "feedback": true
+              },
+              {
+                "id": "S02-T4-A-E2",
+                "kind": "independent",
+                "title": "Reporte de cliente",
+                "skill": "f-string multi-línea con 4 campos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  ":.2f si monto"
+                ],
+                "tests": "format check",
+                "feedback": true
+              },
+              {
+                "id": "S02-T4-A-E3",
+                "kind": "transfer",
+                "title": "Prompts de intake",
+                "skill": "Secuencia de prompts (simular input)",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "todo str"
+                ],
+                "tests": "function takes values params for testability",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S02-T4-A-EX",
+                "slug": "io-fstrings",
+                "format": "mcq",
+                "bloom": "Comprender",
+                "skill": "captura texto con input (o simulado), imprime con print y formatea reportes con f-strings.",
+                "variants": [
+                  "A",
+                  "B",
+                  "C"
+                ],
+                "parallelism_rules": "Misma habilidad; variar superficie (nombres de variables, montos, campos); una sola mejor respuesta"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S02-T4-B",
+          "slug": "parse-error-messages",
+          "title": "Parsing, mensajes de error y ejemplos comprobables",
+          "outcome": "El estudiante parsea un registro de cliente, conserva originales, y produce errores accionables; casos vacío/Unicode/número inválido pasan tests.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Parsing de intake y mensajes de error",
+              "must_cover": [
+                "estructura raw+clean",
+                "vacío",
+                "Unicode",
+                "número inválido",
+                "lista errors",
+                "tests assert"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S02-T4-B-DEMO",
+              "title": "Parser mínimo de un cliente sintético",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "3 casos de prueba pasan; raw siempre presente",
+              "maps_existing": false
+            },
+            "exercises": [
+              {
+                "id": "S02-T4-B-E1",
+                "kind": "guided",
+                "title": "Caso vacío",
+                "skill": "Parser marca error y guarda raw ''",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "mensaje accionable"
+                ],
+                "tests": "test empty",
+                "feedback": true
+              },
+              {
+                "id": "S02-T4-B-E2",
+                "kind": "independent",
+                "title": "Caso Unicode",
+                "skill": "García Ñahui round-trip",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "no ascii errors"
+                ],
+                "tests": "test unicode",
+                "feedback": true
+              },
+              {
+                "id": "S02-T4-B-E3",
+                "kind": "transfer",
+                "title": "Caso número inválido + suite",
+                "skill": "Edad 'abc' error; suite de 3 tests",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "raw preserved"
+                ],
+                "tests": "3 tests pass",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S02-T4-B-EX",
+                "slug": "parse-error-messages",
+                "format": "mcq",
+                "bloom": "Aplicar",
+                "skill": "parsea un registro de cliente, conserva originales, y produce errores accionables; casos vacío/Unicode/número inválido pasan tests.",
+                "variants": [
+                  "A",
+                  "B",
+                  "C"
+                ],
+                "parallelism_rules": "Misma habilidad; variar superficie (nombres de variables, montos, campos); una sola mejor respuesta"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S02-T4-TE",
+        "title": "Evaluación formativa — I/O",
+        "tasks": [
+          {
+            "id": "S02-T4-TE-1",
+            "title": "Reporte f-string de cliente sintético",
+            "authentic": true,
+            "deliverable": "Salida formateada con 5 campos"
+          },
+          {
+            "id": "S02-T4-TE-2",
+            "title": "Suite de parsing gate",
+            "authentic": true,
+            "deliverable": "3 tests: empty, Unicode, invalid number"
+          }
+        ],
+        "rubric_0_3": {
+          "correctness": "¿Tipos, operadores o parse son correctos según el tema?",
+          "robustness": "¿Maneja vacíos/errores sin crashear de forma opaca?",
+          "maintainability": "¿Nombres claros y código legible?",
+          "responsible_use": "¿Datos sintéticos, sin PII real, sin afirmar parentesco?"
+        }
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S02-PROJ",
+    "title": "Parser de intake — registro sintético de cliente",
+    "maps_to": "CP-N1-A Client Intake & Data Quality Script (increment pre-S04 gate)",
+    "existing_youDo": "Personal Budget Calculator — REPLACE",
+    "objectives": [
+      "Capturar o recibir nombres, apellido_paterno, apellido_materno, contacto y dirección",
+      "Conservar valor original (raw) de cada campo",
+      "Normalizar de forma mínima (strip) sin perder raw",
+      "Validar al menos un campo numérico opcional (p.ej. edad o código) con mensaje claro",
+      "Pasar tests: vacío, Unicode, número inválido",
+      "Imprimir resumen con f-strings"
+    ],
+    "acceptance_criteria": [
+      "AC1: Función parse_client(...) devuelve estructura con *_raw y campos limpios o None",
+      "AC2: Campo vacío produce error accionable y no borra raw",
+      "AC3: Unicode (p.ej. 'José Ñahui') round-trip en raw y clean",
+      "AC4: Número inválido no lanza traceback no capturado; error listado",
+      "AC5: Suite de tests (pytest o asserts) documentada y reproducible",
+      "AC6: Sin PII real; datos sintéticos",
+      "AC7: Rúbrica 0–3 promedio ≥ 2 en correctness/robustness/maintainability/responsible_use"
+    ],
+    "rubric_0_3": {
+      "correctness": "¿Parse y tipos correctos?",
+      "robustness": "¿Vacíos/Unicode/inválidos cubiertos?",
+      "maintainability": "¿Nombres y mensajes claros?",
+      "responsible_use": "¿Sintético y sin claims de parentesco?"
+    },
+    "synthetic_data_spec": {
+      "example_record": {
+        "nombres": "María José",
+        "apellido_paterno": "Quispe",
+        "apellido_materno": "Ñahui",
+        "contacto": "999000111",
+        "direccion": "Av. Ejemplo 123, Lima"
+      },
+      "rules": [
+        "ficticio",
+        "no personas reales",
+        "emails example.com si se usan"
+      ]
+    }
+  },
+  "pedagogical_template_per_subtopic": {
+    "required_components_count": 11,
+    "components": [
+      "outcome medible",
+      "teoría (bloque planificado)",
+      "demo I Do ejecutable",
+      "ejercicio E1 guiado",
+      "ejercicio E2 independiente",
+      "ejercicio E3 transferencia",
+      "starter codes (×3)",
+      "2 hints por ejercicio",
+      "soluciones + edge cases",
+      "tests/feedback por ejercicio",
+      "familia A/B/C examen"
+    ],
+    "note": "Plan-level fulfillment; material authorship is PHASE 4–5."
+  },
+  "count_validation": {
+    "canonical_section_slice": {
+      "topics": 4,
+      "subtopics": 8,
+      "demos": 8,
+      "student_exercises": 24,
+      "topic_evaluations": 4,
+      "exam_variant_families": 8,
+      "exam_variants": 24,
+      "section_exams": 1,
+      "project_increments": 1
+    },
+    "blueprint_counts": {
+      "topics": 4,
+      "subtopics": 8,
+      "demos": 8,
+      "student_exercises": 24,
+      "topic_evaluations": 4,
+      "exam_variant_families": 8,
+      "exam_variants": 24,
+      "section_exams": 1,
+      "project_increments": 1
+    },
+    "match": true,
+    "exercises_by_subtopic": {
+      "S02-T1-A": 3,
+      "S02-T1-B": 3,
+      "S02-T2-A": 3,
+      "S02-T2-B": 3,
+      "S02-T3-A": 3,
+      "S02-T3-B": 3,
+      "S02-T4-A": 3,
+      "S02-T4-B": 3
+    },
+    "existing_vs_blueprint_gap": {
+      "scope": "Absolute Basics mega-section → V3 values/types/operators/I-O",
+      "demos_implemented": "5 theory blocks → 8 planned demos",
+      "exercises_implemented": "2 → 24 planned",
+      "topic_evaluations_implemented": "0 → 4 planned",
+      "exam_variants_seeded": "12 (misaligned) → 24 planned",
+      "project": "Budget calculator → intake parser"
+    }
+  },
+  "platform_implementation_notes": {
+    "types_ts": {
+      "gap": "CourseSection lacks subtopics[], topicEvaluations[], multi-demo",
+      "recommendation": "Same as S01: optional V3 fields; interim encode IDs in headings/comments"
+    },
+    "exam_system": {
+      "gap": "seed basics 4 concepts misaligned",
+      "fix": "Replace with 8 S02 slugs; rehome list-comprehension/truthiness/kwargs"
+    },
+    "codeplayground": {
+      "gap": "1 demo per section typical",
+      "fix": "8 demo_ids; pure Python + decimal ok in pyodide"
+    },
+    "no_platform_edit_in_phase_3": true
+  },
+  "phase_4_authoring_order": [
+    "S02-T1-A",
+    "S02-T1-B",
+    "S02-T2-A",
+    "S02-T2-B",
+    "S02-T3-A",
+    "S02-T3-B",
+    "S02-T4-A",
+    "S02-T4-B",
+    "topic evaluations T1–T4",
+    "project increment intake parser",
+    "remove/park conditionals-loops-functions-comprehensions from S02 outcomes",
+    "resources update (decimal, PEP8, f-strings)"
+  ],
+  "phase_5_exam_order": [
+    "Create 8 families: literals-types, type-inspect-convert, assignment-naming, identity-mutability, operators-precedence, decimal-money, io-fstrings, parse-error-messages",
+    "Retire or reassign list-comprehension, truthiness, kwargs from basics",
+    "Remap assign-vs-compare into assignment-naming / operators-precedence with parallelism review"
+  ],
+  "issues_impact": [
+    {
+      "issue_id": "S02-CONTENT-001",
+      "blueprint_effect": "Rescope locked; out-of-scope blocks parked"
+    },
+    {
+      "issue_id": "S02-CONTENT-002",
+      "blueprint_effect": "S02-PROJ intake parser with ACs"
+    },
+    {
+      "issue_id": "S02-CONTENT-003",
+      "blueprint_effect": "24 exercise IDs + 8 demos + 4 TE assigned"
+    },
+    {
+      "issue_id": "S02-CONTENT-004",
+      "blueprint_effect": "must_cover for Decimal, identity, parse"
+    },
+    {
+      "issue_id": "S02-CONTENT-005",
+      "blueprint_effect": "8 exam families planned"
+    },
+    {
+      "issue_id": "S02-CONTENT-006",
+      "blueprint_effect": "DEC money Decimal only"
+    },
+    {
+      "issue_id": "S02-CONTENT-007",
+      "blueprint_effect": "platform notes documented"
+    }
+  ],
+  "security_privacy_a11y": {
+    "pii": "Solo sintético; no PII real",
+    "secrets": "N/A primary; no API keys in intake demo",
+    "fraud_language": "No afirmar parentesco/colusión por coincidencia de nombres",
+    "a11y": "Prompts y errores en texto; demos no solo-imagen"
+  },
+  "phase_3_gate": {
+    "blueprint_covers_roadmap_t1_t4": true,
+    "counts_match_canonical_slice": true,
+    "eight_subtopics_named": true,
+    "twenty_four_exercises_id_assigned": true,
+    "eight_demos_id_assigned": true,
+    "four_topic_evals_specified": true,
+    "twenty_four_exam_slots_planned": true,
+    "capstone_increment_specified": true,
+    "no_long_form_content_authored": true,
+    "platform_gaps_documented": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_AUTHORING",
+    "first_authoring_unit": "S02-T1-A literals-types",
+    "lane_stop": "LANE-S02 Research+Blueprint max phase complete; do not mark S02 passed"
+  },
+  "retrospection": {
+    "what_worked": [
+      "V3 T1–T4 maps cleanly to 8 slugs",
+      "Official docs 2026 cover Decimal, f-strings, mutability",
+      "Clear contradiction: Absolute Basics vs V3 S02 scope"
+    ],
+    "risks": [
+      "Large rewrite of s02-basics.ts required in PHASE 4",
+      "Exam bank nearly full replace",
+      "Parallel with S01: release still gated by orchestration"
+    ],
+    "next_single_action": "Await orchestrator merge of PHASE 0–3; PHASE 4 block 1 author S02-T1-A only when authorized — this lane stops at PHASE_3."
+  }
+}

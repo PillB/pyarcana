@@ -1,0 +1,278 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 11,
+  "packet_sha": "5337c2dfbd6c4bfc",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "status": "answered",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    name: str\nc = Client(\"C001\", \"Ana Quispe\")\nprint(c)\n# D2-Explorer: packet-only re-walk S11 S11-T1-A-E1\n",
+      "answer": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    name: str\nc = Client(\"C001\", \"Ana Quispe\")\nprint(c)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] dataclass modela Client con id y name del dominio sintético. Modelo de dominio S11.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "status": "answered",
+      "code": "from dataclasses import dataclass, field\n@dataclass\nclass Client:\n    id: str\n    tags: list = field(default_factory=list)\na, b = Client(\"1\"), Client(\"2\")\na.tags.append(\"x\")\nprint(a.tags, b.tags)\n# D2-Explorer: packet-only re-walk S11 S11-T1-A-E2\n",
+      "answer": "from dataclasses import dataclass, field\n@dataclass\nclass Client:\n    id: str\n    tags: list = field(default_factory=list)\na, b = Client(\"1\"), Client(\"2\")\na.tags.append(\"x\")\nprint(a.tags, b.tags)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] field(default_factory=list) evita default mutable compartido entre instancias. Selfcheck del paquete OOP.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "status": "answered",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    name: str\n    def to_dict(self):\n        return {\"id\": self.id, \"name\": self.name}\nprint(Client(\"C001\", \"Ana\").to_dict())\n# D2-Explorer: packet-only re-walk S11 S11-T1-A-E3\n",
+      "answer": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    name: str\n    def to_dict(self):\n        return {\"id\": self.id, \"name\": self.name}\nprint(Client(\"C001\", \"Ana\").to_dict())\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] to_dict serializa el dataclass sin lógica de fraude. Puerto de representación del dominio.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "status": "answered",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    signals: list\ne = RelationshipEvidence(0.4, [\"shared_phone\"])\nprint(e.signal_score, e.signals)\nprint(\"signal_score es señal numérica, no veredicto de familia\")\n# D2-Explorer: packet-only re-walk S11 S11-T1-B-E1\n",
+      "answer": "from dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    signals: list\ne = RelationshipEvidence(0.4, [\"shared_phone\"])\nprint(e.signal_score, e.signals)\nprint(\"signal_score es señal numérica, no veredicto de familia\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] signal_score es señal/dato numérico, no veredicto legal de parentesco. RelationshipEvidence del dominio.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "status": "answered",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    def __post_init__(self):\n        if not 0.0 <= self.signal_score <= 1.0:\n            raise ValueError(\"score fuera de [0,1]\")\nprint(RelationshipEvidence(0.5))\ntry:\n    RelationshipEvidence(1.5)\nexcept ValueError as e:\n    print(e)\n# D2-Explorer: packet-only re-walk S11 S11-T1-B-E2\n",
+      "answer": "from dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    def __post_init__(self):\n        if not 0.0 <= self.signal_score <= 1.0:\n            raise ValueError(\"score fuera de [0,1]\")\nprint(RelationshipEvidence(0.5))\ntry:\n    RelationshipEvidence(1.5)\nexcept ValueError as e:\n    print(e)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Invariante del score en __post_init__: fallar en la construcción. Objeto inválido no se crea.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "status": "answered",
+      "code": "print(\"dominio NO debe tener is_fraud() automático\")\nprint(\"sí: to_dict, invariantes, tests unitarios\")\n# D2-Explorer: packet-only re-walk S11 S11-T1-B-E3\n",
+      "answer": "print(\"dominio NO debe tener is_fraud() automático\")\nprint(\"sí: to_dict, invariantes, tests unitarios\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] El dominio de familiaridad no debe auto-etiquetar fraude. Señales ≠ veredictos. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "status": "answered",
+      "code": "from typing import Protocol\nclass EntityStore(Protocol):\n    def get(self, id: str): ...\n    def save(self, entity) -> None: ...\nclass MemoryStore:\n    def __init__(self):\n        self._d = {}\n    def get(self, id: str):\n        return self._d.get(id)\n    def save(self, entity) -> None:\n        self._d[entity[\"id\"]] = entity\ns = MemoryStore()\ns.save({\"id\": \"C001\"})\nprint(s.get(\"C001\"))\n# D2-Explorer: packet-only re-walk S11 S11-T2-A-E1\n",
+      "answer": "from typing import Protocol\nclass EntityStore(Protocol):\n    def get(self, id: str): ...\n    def save(self, entity) -> None: ...\nclass MemoryStore:\n    def __init__(self):\n        self._d = {}\n    def get(self, id: str):\n        return self._d.get(id)\n    def save(self, entity) -> None:\n        self._d[entity[\"id\"]] = entity\ns = MemoryStore()\ns.save({\"id\": \"C001\"})\nprint(s.get(\"C001\"))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Protocol EntityStore define puerto get/save implementable por fakes y adapters. No solo Postgres.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "status": "answered",
+      "code": "class FakeStore:\n    def get(self, id: str):\n        return {\"id\": id, \"name\": \"Ana\"}\ndef load_name(store, id):\n    return store.get(id)[\"name\"]\nprint(load_name(FakeStore(), \"C001\"))\n# D2-Explorer: packet-only re-walk S11 S11-T2-A-E2\n",
+      "answer": "class FakeStore:\n    def get(self, id: str):\n        return {\"id\": id, \"name\": \"Ana\"}\ndef load_name(store, id):\n    return store.get(id)[\"name\"]\nprint(load_name(FakeStore(), \"C001\"))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Fake del puerto permite tests sin base real. Inyección del EntityStore. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "status": "answered",
+      "code": "print(\"adapter SQL y FakeStore cumplen el mismo Protocol get/save\")\nprint(\"dominio no importa el driver SQL\")\n# D2-Explorer: packet-only re-walk S11 S11-T2-A-E3\n",
+      "answer": "print(\"adapter SQL y FakeStore cumplen el mismo Protocol get/save\")\nprint(\"dominio no importa el driver SQL\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Adapters implementan el puerto; dominio permanece agnóstico al SQL. Hexagonal simple del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "status": "answered",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass PersonInfo:\n    name: str\n@dataclass\nclass Client:\n    id: str\n    person: PersonInfo\nc = Client(\"C001\", PersonInfo(\"Ana\"))\nprint(c.person.name)\n# D2-Explorer: packet-only re-walk S11 S11-T2-B-E1\n",
+      "answer": "from dataclasses import dataclass\n@dataclass\nclass PersonInfo:\n    name: str\n@dataclass\nclass Client:\n    id: str\n    person: PersonInfo\nc = Client(\"C001\", PersonInfo(\"Ana\"))\nprint(c.person.name)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Composición Client tiene PersonInfo suele bastar frente a herencia frágil. Client hereda de Person no es siempre mejor.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "status": "answered",
+      "code": "class Person:\n    def __init__(self, name):\n        self.name = name\nclass Client(Person):\n    def __init__(self, id, name):\n        super().__init__(name)\n        self.id = id\nprint(Client(\"C1\", \"Ana\").name)\nprint(\"composición preferible cuando no hay subtipado real\")\n# D2-Explorer: packet-only re-walk S11 S11-T2-B-E2\n",
+      "answer": "class Person:\n    def __init__(self, name):\n        self.name = name\nclass Client(Person):\n    def __init__(self, id, name):\n        super().__init__(name)\n        self.id = id\nprint(Client(\"C1\", \"Ana\").name)\nprint(\"composición preferible cuando no hay subtipado real\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Herencia Client(Person) a menudo es frágil; composición suele bastar. Selfcheck OOP.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "status": "answered",
+      "code": "print(\"preferir composición: Client.person = PersonInfo(...)\")\nprint(\"herencia solo si hay sustitución Liskov clara\")\n# D2-Explorer: packet-only re-walk S11 S11-T2-B-E3\n",
+      "answer": "print(\"preferir composición: Client.person = PersonInfo(...)\")\nprint(\"herencia solo si hay sustitución Liskov clara\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Documentar preferencia de composición en el modelo de dominio. Menos acoplamiento.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "status": "answered",
+      "code": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    name: str\n    def __post_init__(self):\n        if not self.id or not self.name.strip():\n            raise ValueError(\"id/name requeridos\")\nprint(Client(\"C001\", \"Ana\"))\ntry:\n    Client(\"\", \"Ana\")\nexcept ValueError as e:\n    print(e)\n# D2-Explorer: packet-only re-walk S11 S11-T3-A-E1\n",
+      "answer": "from dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    name: str\n    def __post_init__(self):\n        if not self.id or not self.name.strip():\n            raise ValueError(\"id/name requeridos\")\nprint(Client(\"C001\", \"Ana\"))\ntry:\n    Client(\"\", \"Ana\")\nexcept ValueError as e:\n    print(e)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Objeto inválido falla en la construcción (__post_init__/validate). No al final del mes.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "status": "answered",
+      "code": "def validate_client(d):\n    if not d.get(\"id\"):\n        return \"reject\"\n    return \"accept\"\nprint(validate_client({\"id\": \"C1\"}), validate_client({}))\n# D2-Explorer: packet-only re-walk S11 S11-T3-A-E2\n",
+      "answer": "def validate_client(d):\n    if not d.get(\"id\"):\n        return \"reject\"\n    return \"accept\"\nprint(validate_client({\"id\": \"C1\"}), validate_client({}))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Validación de entrada al dominio con reject si falta id. Invariantes de Client. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "status": "answered",
+      "code": "print(\"tests: construir Client válido e inválido\")\nprint(\"assert ValueError en inválido\")\n# D2-Explorer: packet-only re-walk S11 S11-T3-A-E3\n",
+      "answer": "print(\"tests: construir Client válido e inválido\")\nprint(\"assert ValueError en inválido\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Tests unitarios del dominio cubren construcción válida/inválida. Invariantes ejecutables.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "status": "answered",
+      "code": "from dataclasses import dataclass, field\n@dataclass\nclass CaseCard:\n    er_score: float\n    rel_score: float\n    notes: list = field(default_factory=list)\nprint(CaseCard(0.8, 0.4))\n# D2-Explorer: packet-only re-walk S11 S11-T3-B-E1\n",
+      "answer": "from dataclasses import dataclass, field\n@dataclass\nclass CaseCard:\n    er_score: float\n    rel_score: float\n    notes: list = field(default_factory=list)\nprint(CaseCard(0.8, 0.4))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] CaseCard separa er_score y rel_score sin fusionarlos a ciegas. Ficha de caso del dominio.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "status": "answered",
+      "code": "def combine_label(er, rel):\n    return {\"entity_resolution_score\": er, \"relationship_signal_score\": rel}\nprint(combine_label(0.8, 0.4))\n# D2-Explorer: packet-only re-walk S11 S11-T3-B-E2\n",
+      "answer": "def combine_label(er, rel):\n    return {\"entity_resolution_score\": er, \"relationship_signal_score\": rel}\nprint(combine_label(0.8, 0.4))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Mantener scores etiquetados por separado en la ficha. No un solo número sin etiqueta.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "status": "answered",
+      "code": "print(\"prohibido: is_family automático desde scores grises\")\nprint(\"permitido: needs_review con evidencia\")\n# D2-Explorer: packet-only re-walk S11 S11-T3-B-E3\n",
+      "answer": "print(\"prohibido: is_family automático desde scores grises\")\nprint(\"permitido: needs_review con evidencia\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Zona gris encola review; no setea is_family automático. Política del dominio familiaridad.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "status": "answered",
+      "code": "from dataclasses import dataclass\n@dataclass(frozen=True)\nclass ClientId:\n    value: str\nprint(ClientId(\"C001\"))\n# D2-Explorer: packet-only re-walk S11 S11-T4-A-E1\n",
+      "answer": "from dataclasses import dataclass\n@dataclass(frozen=True)\nclass ClientId:\n    value: str\nprint(ClientId(\"C001\"))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Value object ClientId frozen protege identidad del cliente sintético. Inmutabilidad del dominio.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "status": "answered",
+      "code": "print(\"igualdad de ClientId por valor, no por id de memoria\")\n# D2-Explorer: packet-only re-walk S11 S11-T4-A-E2\n",
+      "answer": "print(\"igualdad de ClientId por valor, no por id de memoria\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Value objects comparan por valor en el modelo. Identidad de dominio. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "status": "answered",
+      "code": "print(\"no filtrar PII real en logs del dominio; usar máscaras\")\n# D2-Explorer: packet-only re-walk S11 S11-T4-A-E3\n",
+      "answer": "print(\"no filtrar PII real en logs del dominio; usar máscaras\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Dominio no imprime PII real; alinear con logging seguro S09. Privacidad del modelo.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "status": "answered",
+      "code": "def test_signal_not_verdict():\n    score = 0.9\n    assert score != \"fraud\"\n    print(\"pass signal_not_verdict\")\ntest_signal_not_verdict()\n# D2-Explorer: packet-only re-walk S11 S11-T4-B-E1\n",
+      "answer": "def test_signal_not_verdict():\n    score = 0.9\n    assert score != \"fraud\"\n    print(\"pass signal_not_verdict\")\ntest_signal_not_verdict()\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Test: signal_score no es veredicto de fraude. Guardrail del dominio. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "status": "answered",
+      "code": "print(\"suite: default_factory, post_init, protocol fake\")\n# D2-Explorer: packet-only re-walk S11 S11-T4-B-E2\n",
+      "answer": "print(\"suite: default_factory, post_init, protocol fake\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Suite mínima cubre factory, invariantes y puerto fake. Tests del modelo OOP. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "status": "answered",
+      "code": "print(\"checklist: sin is_fraud automático; scores etiquetados; Protocol store\")\n# D2-Explorer: packet-only re-walk S11 S11-T4-B-E3\n",
+      "answer": "print(\"checklist: sin is_fraud automático; scores etiquetados; Protocol store\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Checklist de cierre del dominio de familiaridad S11. Sin veredictos automáticos.",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Evita el default mutable compartido entre instancias",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] field(default_factory=list) evita el default mutable compartido entre instancias. No usar = [] en dataclass.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] signal_score es una señal numérica, no veredicto legal de parentesco o fraude. RelationshipEvidence del paquete.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Definir un puerto get/save implementable por fakes y adapters",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Protocol EntityStore define puerto get/save para fakes y adapters. No solo Postgres.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "En la construcción (__post_init__/validate)",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Objeto inválido debe fallar en la construcción __post_init__/validate. No al final del mes.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Client hereda de Person a menudo es frágil; composición suele bastar. Preferencia del paquete OOP.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "chosen_text": "is_fraud() automático",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] El dominio de familiaridad no debe tener is_fraud() automático. Señales e invariantes sí.",
+      "blocked_on": []
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:04.057776+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s11-live"
+}

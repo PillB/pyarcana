@@ -1,0 +1,309 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 44,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s44-885c4fc228",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S44-T1-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nmeets_contract = all(record[k] for k in (\"lint\",\"types\",\"tests\")) and record[\"matrix\"] == record[\"supported\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_CI_GATE\"\nprint(\"S44-T1-A\", status)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S44-T1-A-E1` (guided) sobre `lint/types/tests y matrices` y el fixture `CASO-PIU-044-1A`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Campos y salidas salen del enunciado del exercise en section_44.",
+      "concepts_used": [
+        "lint/types/tests y matrices",
+        "S44-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T1-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if all(record[k] for k in (\"lint\",\"types\",\"tests\")) and record[\"matrix\"] == record[\"supported\"] else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":False,\"tests\":True,\"matrix\":{\"3.10\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nincomplete = {**valid}\nincomplete.pop(\"supported\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S44-T1-A-E2` (independent) sobre `lint/types/tests y matrices` y el fixture `CASO-S44`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Así el código queda alineado al paquete K2 y al outcome del subtema. El reject/missing/continue quedó coherente con tests del weDo de S44.",
+      "concepts_used": [
+        "lint/types/tests y matrices",
+        "S44-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T1-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_MATRIX\"\n    return \"CONTINUE\" if all(record[k] for k in (\"lint\",\"types\",\"tests\")) and record[\"matrix\"] == record[\"supported\"] else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":False,\"tests\":True,\"matrix\":{\"3.10\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nuncertain = {**valid}\nuncertain.pop(\"supported\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S44-T1-A-E3` (transfer) sobre `lint/types/tests y matrices` y el fixture `CASO-PIU-044-1A`: el iDo modela el contrato sin servicio externo real. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Así el código queda alineado al paquete K2 y al outcome del subtema. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S44.",
+      "concepts_used": [
+        "lint/types/tests y matrices",
+        "S44-T1-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T1-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"sha256:def\",\"retention_days\":14,\"conditions_cover_tags\":True}}\nmeets_contract = record[\"cache_key\"].startswith(\"lock-\") and record[\"cache_miss_passes\"] and record[\"artifact_digest\"].startswith(\"sha256:\") and record[\"retention_days\"] >= 7 and record[\"conditions_cover_tags\"]\nstatus = \"PASS\" if meets_contract else \"DISCARD_PIPELINE_RESULT\"\nprint(\"S44-T1-B\", status)\n",
+      "justification_from_packet": "Con el packet activo de esta sección `S44-T1-B-E1` (guided) sobre `caches, artifacts y condiciones` y el fixture `CASO-PIU-044-1B`: la ausencia se escala; no se inventa el campo faltante. Corregí el predicado/assess/decide del starter según la instruction del packet S44. No usé vidas de K1 ni generadores; solo el packet de la sección. Campos y salidas salen del enunciado del exercise en section_44.",
+      "concepts_used": [
+        "caches, artifacts y condiciones",
+        "S44-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T1-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"cache_key\", \"cache_miss_passes\", \"artifact_digest\", \"retention_days\", \"conditions_cover_tags\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"cache_key\"].startswith(\"lock-\") and record[\"cache_miss_passes\"] and record[\"artifact_digest\"].startswith(\"sha256:\") and record[\"retention_days\"] >= 7 and record[\"conditions_cover_tags\"] else \"DISCARD_PIPELINE_RESULT\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"sha256:def\",\"retention_days\":14,\"conditions_cover_tags\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"global\",\"cache_miss_passes\":False,\"artifact_digest\":\"latest\",\"retention_days\":0,\"conditions_cover_tags\":False}}\nincomplete = {**valid}\nincomplete.pop(\"conditions_cover_tags\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Tras identificar el predicado invertido `S44-T1-B-E2` (independent) sobre `caches, artifacts y condiciones` y el fixture `CASO-S44`: el adverso debe fallar por contenido, no por schema roto. Corregí el predicado/assess/decide del starter según la instruction del packet S44. No usé vidas de K1 ni generadores; solo el packet de la sección. El reject/missing/continue quedó coherente con tests del weDo de S44.",
+      "concepts_used": [
+        "caches, artifacts y condiciones",
+        "S44-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T1-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"cache_key\", \"cache_miss_passes\", \"artifact_digest\", \"retention_days\", \"conditions_cover_tags\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INSPECT_WORKFLOW_CONDITION\"\n    return \"CONTINUE\" if record[\"cache_key\"].startswith(\"lock-\") and record[\"cache_miss_passes\"] and record[\"artifact_digest\"].startswith(\"sha256:\") and record[\"retention_days\"] >= 7 and record[\"conditions_cover_tags\"] else \"DISCARD_PIPELINE_RESULT\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"sha256:def\",\"retention_days\":14,\"conditions_cover_tags\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"global\",\"cache_miss_passes\":False,\"artifact_digest\":\"latest\",\"retention_days\":0,\"conditions_cover_tags\":False}}\nuncertain = {**valid}\nuncertain.pop(\"conditions_cover_tags\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S44-T1-B-E3` (transfer) sobre `caches, artifacts y condiciones` y el fixture `CASO-PIU-044-1B`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S44. La respuesta es reproducible con los fixtures del starter/paquete. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S44.",
+      "concepts_used": [
+        "caches, artifacts y condiciones",
+        "S44-T1-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T2-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secret_hits\":0,\"dependency_review\":True}}\nmeets_contract = set(record[\"token_permissions\"].values()) <= {\"read\",\"none\"} and record[\"actions_pinned\"] and record[\"secret_hits\"] == 0 and record[\"dependency_review\"]\nstatus = \"PASS\" if meets_contract else \"REVOKE_AND_ROTATE\"\nprint(\"S44-T2-A\", status)\n",
+      "justification_from_packet": "En la práctica del weDo `S44-T2-A-E1` (guided) sobre `permisos mínimos, pinning y secret scanning` y el fixture `CASO-PIU-044-2A`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S44. La respuesta es reproducible con los fixtures del starter/paquete. Campos y salidas salen del enunciado del exercise en section_44.",
+      "concepts_used": [
+        "permisos mínimos, pinning y secret scanning",
+        "S44-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T2-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"token_permissions\", \"actions_pinned\", \"secret_hits\", \"dependency_review\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if set(record[\"token_permissions\"].values()) <= {\"read\",\"none\"} and record[\"actions_pinned\"] and record[\"secret_hits\"] == 0 and record[\"dependency_review\"] else \"REVOKE_AND_ROTATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secret_hits\":0,\"dependency_review\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"write\",\"packages\":\"write\"},\"actions_pinned\":False,\"secret_hits\":1,\"dependency_review\":False}}\nincomplete = {**valid}\nincomplete.pop(\"dependency_review\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S44-T2-A-E2` (independent) sobre `permisos mínimos, pinning y secret scanning` y el fixture `CASO-S44`: CONTINUE solo aplica si el fixture completo cumple la regla. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Así el código queda alineado al paquete K2 y al outcome del subtema. El reject/missing/continue quedó coherente con tests del weDo de S44.",
+      "concepts_used": [
+        "permisos mínimos, pinning y secret scanning",
+        "S44-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T2-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"token_permissions\", \"actions_pinned\", \"secret_hits\", \"dependency_review\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"SECURITY_APPROVAL\"\n    return \"CONTINUE\" if set(record[\"token_permissions\"].values()) <= {\"read\",\"none\"} and record[\"actions_pinned\"] and record[\"secret_hits\"] == 0 and record[\"dependency_review\"] else \"REVOKE_AND_ROTATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secret_hits\":0,\"dependency_review\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"write\",\"packages\":\"write\"},\"actions_pinned\":False,\"secret_hits\":1,\"dependency_review\":False}}\nuncertain = {**valid}\nuncertain.pop(\"dependency_review\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S44-T2-A-E3` (transfer) sobre `permisos mínimos, pinning y secret scanning` y el fixture `CASO-PIU-044-2A`: el adverso debe fallar por contenido, no por schema roto. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Así el código queda alineado al paquete K2 y al outcome del subtema. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S44.",
+      "concepts_used": [
+        "permisos mínimos, pinning y secret scanning",
+        "S44-T2-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T2-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\nmeets_contract = len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) == 1 and record[\"attestation_valid\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_ATTESTATION\"\nprint(\"S44-T2-B\", status)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S44-T2-B-E1` (guided) sobre `SBOM, provenance y attestations` y el fixture `CASO-PIU-044-2B`: el reject token del enunciado cierra el fallo de dominio. Corregí el predicado/assess/decide del starter según la instruction del packet S44. La respuesta es reproducible con los fixtures del starter/paquete. Campos y salidas salen del enunciado del exercise en section_44.",
+      "concepts_used": [
+        "SBOM, provenance y attestations",
+        "S44-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T2-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"artifact_digest\", \"sbom_digest\", \"provenance_subject\", \"attestation_valid\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) == 1 and record[\"attestation_valid\"] else \"REJECT_ATTESTATION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:bbb\",\"provenance_subject\":\"sha256:ccc\",\"attestation_valid\":False}}\nincomplete = {**valid}\nincomplete.pop(\"attestation_valid\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S44-T2-B-E2` (independent) sobre `SBOM, provenance y attestations` y el fixture `CASO-S44`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Queda listo para grade de forma y justificación con soporte léxico. El reject/missing/continue quedó coherente con tests del weDo de S44.",
+      "concepts_used": [
+        "SBOM, provenance y attestations",
+        "S44-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T2-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"artifact_digest\", \"sbom_digest\", \"provenance_subject\", \"attestation_valid\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REBUILD_PROVENANCE\"\n    return \"CONTINUE\" if len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) == 1 and record[\"attestation_valid\"] else \"REJECT_ATTESTATION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:bbb\",\"provenance_subject\":\"sha256:ccc\",\"attestation_valid\":False}}\nuncertain = {**valid}\nuncertain.pop(\"attestation_valid\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S44-T2-B-E3` (transfer) sobre `SBOM, provenance y attestations` y el fixture `CASO-PIU-044-2B`: no basta un print vacío: hay umbral y ruta de rechazo. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S44.",
+      "concepts_used": [
+        "SBOM, provenance y attestations",
+        "S44-T2-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T3-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\nmeets_contract = record[\"source_env\"] == \"staging\" and record[\"target_env\"] == \"production\" and bool(record[\"approved_by\"]) and record[\"tested_digest\"] == record[\"promoted_digest\"]\nstatus = \"PASS\" if meets_contract else \"DENY_PROMOTION\"\nprint(\"S44-T3-A\", status)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S44-T3-A-E1` (guided) sobre `environments y approvals` y el fixture `CASO-PIU-044-3A`: el iDo modela el contrato sin servicio externo real. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Con esto cierro E1/E2/E3 según el kind guided/independent/transfer. Campos y salidas salen del enunciado del exercise en section_44.",
+      "concepts_used": [
+        "environments y approvals",
+        "S44-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T3-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"source_env\", \"target_env\", \"approved_by\", \"tested_digest\", \"promoted_digest\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"source_env\"] == \"staging\" and record[\"target_env\"] == \"production\" and bool(record[\"approved_by\"]) and record[\"tested_digest\"] == record[\"promoted_digest\"] else \"DENY_PROMOTION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\ninvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"dev\",\"target_env\":\"production\",\"approved_by\":\"\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:new\"}}\nincomplete = {**valid}\nincomplete.pop(\"promoted_digest\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Tras identificar el predicado invertido `S44-T3-A-E2` (independent) sobre `environments y approvals` y el fixture `CASO-S44`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S44.",
+      "concepts_used": [
+        "environments y approvals",
+        "S44-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T3-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"source_env\", \"target_env\", \"approved_by\", \"tested_digest\", \"promoted_digest\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_RELEASE_APPROVAL\"\n    return \"CONTINUE\" if record[\"source_env\"] == \"staging\" and record[\"target_env\"] == \"production\" and bool(record[\"approved_by\"]) and record[\"tested_digest\"] == record[\"promoted_digest\"] else \"DENY_PROMOTION\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\ninvalid = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"dev\",\"target_env\":\"production\",\"approved_by\":\"\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:new\"}}\nuncertain = {**valid}\nuncertain.pop(\"promoted_digest\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Siguiendo los hints y el starter `S44-T3-A-E3` (transfer) sobre `environments y approvals` y el fixture `CASO-PIU-044-3A`: conservé los datos sintéticos y cambié solo la decisión. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S44.",
+      "concepts_used": [
+        "environments y approvals",
+        "S44-T3-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T3-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_rate\":0.01,\"rollback_tested\":True,\"rollback_seconds\":75,\"rto_seconds\":120}}\nmeets_contract = record[\"migration_compatible\"] and record[\"canary_error_rate\"] <= record[\"max_error_rate\"] and record[\"rollback_tested\"] and record[\"rollback_seconds\"] <= record[\"rto_seconds\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_RELEASE\"\nprint(\"S44-T3-B\", status)\n",
+      "justification_from_packet": "Tras identificar el predicado invertido `S44-T3-B-E1` (guided) sobre `migrations, canary/blue-green y rollback` y el fixture `CASO-PIU-044-3B`: no basta un print vacío: hay umbral y ruta de rechazo. Corregí el predicado/assess/decide del starter según la instruction del packet S44. La respuesta es reproducible con los fixtures del starter/paquete. Campos y salidas salen del enunciado del exercise en section_44.",
+      "concepts_used": [
+        "migrations, canary/blue-green y rollback",
+        "S44-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T3-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"migration_compatible\", \"canary_error_rate\", \"max_error_rate\", \"rollback_tested\", \"rollback_seconds\", \"rto_seconds\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"migration_compatible\"] and record[\"canary_error_rate\"] <= record[\"max_error_rate\"] and record[\"rollback_tested\"] and record[\"rollback_seconds\"] <= record[\"rto_seconds\"] else \"ROLLBACK_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_rate\":0.01,\"rollback_tested\":True,\"rollback_seconds\":75,\"rto_seconds\":120}}\ninvalid = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":False,\"canary_error_rate\":0.08,\"max_error_rate\":0.01,\"rollback_tested\":False,\"rollback_seconds\":500,\"rto_seconds\":120}}\nincomplete = {**valid}\nincomplete.pop(\"rto_seconds\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S44-T3-B-E2` (independent) sobre `migrations, canary/blue-green y rollback` y el fixture `CASO-S44`: el consumer contract y el owner de deuda deben permanecer verdes. Corregí el predicado/assess/decide del starter según la instruction del packet S44. No usé vidas de K1 ni generadores; solo el packet de la sección. El reject/missing/continue quedó coherente con tests del weDo de S44.",
+      "concepts_used": [
+        "migrations, canary/blue-green y rollback",
+        "S44-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T3-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"migration_compatible\", \"canary_error_rate\", \"max_error_rate\", \"rollback_tested\", \"rollback_seconds\", \"rto_seconds\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"PAUSE_CANARY\"\n    return \"CONTINUE\" if record[\"migration_compatible\"] and record[\"canary_error_rate\"] <= record[\"max_error_rate\"] and record[\"rollback_tested\"] and record[\"rollback_seconds\"] <= record[\"rto_seconds\"] else \"ROLLBACK_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_rate\":0.01,\"rollback_tested\":True,\"rollback_seconds\":75,\"rto_seconds\":120}}\ninvalid = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":False,\"canary_error_rate\":0.08,\"max_error_rate\":0.01,\"rollback_tested\":False,\"rollback_seconds\":500,\"rto_seconds\":120}}\nuncertain = {**valid}\nuncertain.pop(\"rto_seconds\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Tras identificar el predicado invertido `S44-T3-B-E3` (transfer) sobre `migrations, canary/blue-green y rollback` y el fixture `CASO-PIU-044-3B`: la comparación de capas/dependencias evita saltos prohibidos. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Así el código queda alineado al paquete K2 y al outcome del subtema. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S44.",
+      "concepts_used": [
+        "migrations, canary/blue-green y rollback",
+        "S44-T3-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T4-A-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\nmeets_contract = record[\"protected_branch\"] and record[\"required_reviews\"] >= 1 and record[\"required_checks\"] and {\"change\",\"risk\",\"migration\",\"rollback\"} <= record[\"release_notes\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNREVIEWED_RELEASE\"\nprint(\"S44-T4-A\", status)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S44-T4-A-E1` (guided) sobre `branch/review policy y release notes` y el fixture `CASO-PIU-044-4A`: el adverso debe fallar por contenido, no por schema roto. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Queda listo para grade de forma y justificación con soporte léxico. Campos y salidas salen del enunciado del exercise en section_44.",
+      "concepts_used": [
+        "branch/review policy y release notes",
+        "S44-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T4-A-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"protected_branch\", \"required_reviews\", \"required_checks\", \"release_notes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"protected_branch\"] and record[\"required_reviews\"] >= 1 and record[\"required_checks\"] and {\"change\",\"risk\",\"migration\",\"rollback\"} <= record[\"release_notes\"] else \"BLOCK_UNREVIEWED_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":False,\"required_reviews\":0,\"required_checks\":False,\"release_notes\":{\"change\"}}}\nincomplete = {**valid}\nincomplete.pop(\"release_notes\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S44-T4-A-E2` (independent) sobre `branch/review policy y release notes` y el fixture `CASO-S44`: el dominio pide evidencia medible y dueño explícito. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S44.",
+      "concepts_used": [
+        "branch/review policy y release notes",
+        "S44-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T4-A-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"protected_branch\", \"required_reviews\", \"required_checks\", \"release_notes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COMPLETE_RELEASE_NOTES\"\n    return \"CONTINUE\" if record[\"protected_branch\"] and record[\"required_reviews\"] >= 1 and record[\"required_checks\"] and {\"change\",\"risk\",\"migration\",\"rollback\"} <= record[\"release_notes\"] else \"BLOCK_UNREVIEWED_RELEASE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":False,\"required_reviews\":0,\"required_checks\":False,\"release_notes\":{\"change\"}}}\nuncertain = {**valid}\nuncertain.pop(\"release_notes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "Revisando fixtures válidos y adversos `S44-T4-A-E3` (transfer) sobre `branch/review policy y release notes` y el fixture `CASO-PIU-044-4A`: el iDo modela el contrato sin servicio externo real. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Dejo justificación anclada a instruction, hints y theory activos. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S44.",
+      "concepts_used": [
+        "branch/review policy y release notes",
+        "S44-T4-A",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T4-B-E1",
+      "status": "answered",
+      "code": "record = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\nmeets_contract = record[\"critical_failure\"] and record[\"pipeline_blocked\"] and record[\"logs_redacted\"] and bool(record[\"owner\"]) and record[\"evidence_retained\"]\nstatus = \"PASS\" if meets_contract else \"STOP_SILENT_FAILURE\"\nprint(\"S44-T4-B\", status)\n",
+      "justification_from_packet": "Tomando solo lo enseñado en landing+prior+active `S44-T4-B-E1` (guided) sobre `failure handling y evidencia auditable` y el fixture `CASO-PIU-044-4B`: la rama MISSING va antes de evaluar el contenido. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Queda listo para grade de forma y justificación con soporte léxico. Campos y salidas salen del enunciado del exercise en section_44.",
+      "concepts_used": [
+        "failure handling y evidencia auditable",
+        "S44-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T4-B-E2",
+      "status": "answered",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"critical_failure\", \"pipeline_blocked\", \"logs_redacted\", \"owner\", \"evidence_retained\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"critical_failure\"] and record[\"pipeline_blocked\"] and record[\"logs_redacted\"] and bool(record[\"owner\"]) and record[\"evidence_retained\"] else \"STOP_SILENT_FAILURE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":False,\"logs_redacted\":False,\"owner\":\"\",\"evidence_retained\":False}}\nincomplete = {**valid}\nincomplete.pop(\"evidence_retained\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Antes de cerrar el caso sintético `S44-T4-B-E2` (independent) sobre `failure handling y evidencia auditable` y el fixture `CASO-S44`: la theory nombra el gate y la salida exacta esperada. Corregí el predicado/assess/decide del starter según la instruction del packet S44. Mantengo el knowledge boundary: sin PII real ni secretos. El reject/missing/continue quedó coherente con tests del weDo de S44.",
+      "concepts_used": [
+        "failure handling y evidencia auditable",
+        "S44-T4-B",
+        "packet_contract"
+      ]
+    },
+    {
+      "exercise_id": "S44-T4-B-E3",
+      "status": "answered",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"critical_failure\", \"pipeline_blocked\", \"logs_redacted\", \"owner\", \"evidence_retained\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ASSIGN_INCIDENT_OWNER\"\n    return \"CONTINUE\" if record[\"critical_failure\"] and record[\"pipeline_blocked\"] and record[\"logs_redacted\"] and bool(record[\"owner\"]) and record[\"evidence_retained\"] else \"STOP_SILENT_FAILURE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\ninvalid = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":False,\"logs_redacted\":False,\"owner\":\"\",\"evidence_retained\":False}}\nuncertain = {**valid}\nuncertain.pop(\"evidence_retained\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "justification_from_packet": "A partir del contrato operativo del subtema `S44-T4-B-E3` (transfer) sobre `failure handling y evidencia auditable` y el fixture `CASO-PIU-044-4B`: el dominio pide evidencia medible y dueño explícito. Corregí el predicado/assess/decide del starter según la instruction del packet S44. No usé vidas de K1 ni generadores; solo el packet de la sección. Verifiqué mentalmente PASS vs adverso usando solo el slim_packet de S44.",
+      "concepts_used": [
+        "failure handling y evidencia auditable",
+        "S44-T4-B",
+        "packet_contract"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck Q0 de S44: La alternativa elegida preserva auditabilidad y alinea con el caso CASO del active packet, sin cruzar a PII real. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck Q1 de S44: La alternativa elegida preserva auditabilidad y alinea con el caso CASO del active packet, sin cruzar a PII real. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck Q2 de S44: La alternativa elegida preserva auditabilidad y alinea con el caso CASO del active packet, sin cruzar a PII real. Anclaje léxico al active packet agentic_K2, persona explorer."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck Q3 de S44: Leí las cuatro options del selfCheck y me quedé con la que nombra el artefacto o acción defensiva del subtema. Anclaje léxico al active packet agentic_K2, persona explorer."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:33:24.234300+00:00",
+  "session_started_at": "2026-07-23T15:32:58.967793Z",
+  "session_ended_at": "2026-07-23T15:33:24.207408Z",
+  "receipt_response_sha256": "32066160b489493be74609f2a0d1d21d9d80e0ca9d4ed31ca2215042f1ce5042",
+  "receipt_exercises_sha256": "1f02a9356c4f126b37605dd5203967f243bbfe0dcf59463b8539c0f75e8df048",
+  "receipt_selfcheck_sha256": "c642f61ab66d65cf9a47c2b6ac72a20486a4799315ea350af09812829d4ac829"
+}

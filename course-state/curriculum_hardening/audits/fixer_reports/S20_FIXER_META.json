@@ -1,0 +1,47 @@
+{
+  "section": 20,
+  "section_id": "rag",
+  "title": "Automatización robusta de Excel",
+  "source_file": "src/lib/course/sections/s20-rag.ts",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S20_EXPLORER_REPORT.md",
+  "fixer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/S20_FIXER_REPORT.md",
+  "explorer_score_before": 5.8,
+  "score_after_estimate": 9.7,
+  "anti_aberration_ok": true,
+  "bulk_generation_used": false,
+  "meta_leak_count_residual": 0,
+  "issues_total": 20,
+  "issues_fixed": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+  "issues_deferred": [20],
+  "deferred_notes": "Platform id/URL hash #rag frozen by product policy; student-facing prose silent about freeze.",
+  "this_pass_focus": [
+    "residual code/output integrity after region renames",
+    "We Do T2-A-E3 write/check Lima consistency",
+    "Theory T3-A/T3-B pivot and domain_ok truthfulness",
+    "I Do sheets/dates/reconcile/validate/idempotent contract match",
+    "T2-A-E2 PatternFill RGB corporate assert",
+    "You Do Lima/Cusco synthetic rows"
+  ],
+  "structure": {
+    "theory_blocks": 9,
+    "iDo_demos": 8,
+    "weDo_exercises": 24,
+    "youDo": 1,
+    "selfCheck": 8
+  },
+  "smoke": {
+    "python_output_pairs_ok": 40,
+    "python_output_pairs_fail": 0,
+    "python_syntax_fails": 0,
+    "has_load_workbook": true,
+    "has_FileSpreadsheet": true,
+    "has_BadZipFile": true,
+    "has_glossary": true,
+    "meta_leaks_grep_clean": true,
+    "hash_oracle_t4b_e1": "651f3b6b",
+    "hash_oracle_ido_idempotent": "3e819052"
+  },
+  "quality_target_met": true,
+  "fleet_min_score": 9.5,
+  "generated": "2026-07-24"
+}

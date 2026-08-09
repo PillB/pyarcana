@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-agentic_F1-s15",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T1-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b1a02134] S15-T1-A-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Crea un» · hint «set_index('cliente_id').» · S15-T1-A-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T1-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/8639d3fb] S15-T1-A-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: » · hint «pd.Series(..., index=..., name=...).» · S15-T1-A-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T1-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/8a094391] S15-T1-A-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: » · hint «s1.add(s2, fill_value=0).» · S15-T1-A-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T1-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\nfrom io import StringIO\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "StringIO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b65ac80a] Como explorador, S15-T1-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Lee un ». Aplico «pd.read_csv(StringIO(...), na_values=...).». Línea clave: `import pandas as pd`. Heading: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T1-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\nfrom io import StringIO\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "StringIO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/c40503fd] Como explorador, S15-T1-B-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Aplico «parse_dates=['fecha'].». Línea clave: `import pandas as pd`. Heading: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T1-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\nfrom io import StringIO\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "StringIO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/339cc821] S15-T1-B-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: » · hint «usecols=[...].» · S15-T1-B-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T2-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/69fc2574] S15-T2-A-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Con df » · hint «df.loc[df.score>=0.5, 'cliente_id'].» · S15-T2-A-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T2-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/edb5bc86] Como explorador, S15-T2-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Aplico «df.assign(doble=...).». Línea clave: `import pandas as pd`. Heading: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T2-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/7f644b5e] S15-T2-A-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: » · hint «iloc posición 1,0 → 3.» · S15-T2-A-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T2-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/34d2e2b8] S15-T2-B-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Asigna » · hint «df.loc[mask, 'flag'] = 'x'.» · S15-T2-B-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T2-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/86f7ffb3] Como explorador, S15-T2-B-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Aplico «subset = df.loc[...].copy().». Línea clave: `import pandas as pd`. Heading: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T2-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/c417d525] Como explorador, S15-T2-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Aplico «c = df.copy(); c.iloc[0,0]=99.». Línea clave: `import pandas as pd`. Heading: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T3-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/ee2a3c95] Como explorador, S15-T3-A-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Convier». Aplico «astype('category').». Línea clave: `import pandas as pd`. Heading: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T3-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "to_numeric"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/82c80039] S15-T3-A-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: » · hint «pd.to_numeric(..., errors='coerce').» · S15-T3-A-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T3-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "to_datetime"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/4bb4e6e7] S15-T3-A-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: » · hint «isna().sum().» · S15-T3-A-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T3-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b9aeea47] Como explorador, S15-T3-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Aplica ». Aplico «Compara isna antes/después.». Línea clave: `import pandas as pd`. Heading: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T3-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/25e78fad] Como explorador, S15-T3-B-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Aplico «if col not in df.columns.». Línea clave: `import pandas as pd`. Heading: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T3-B-E3: packet-only solve (no prior lives)\nimport pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "Series"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/7f37593d] Resuelvo S15-T3-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Pista: «astype('string').». Demo S15-T3-B-DEMO. Código ancla: `import pandas as pd`. Teoría: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T4-A-E1: packet-only solve (no prior lives)\nimport pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "StringIO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/030c18d0] Como explorador, S15-T4-A-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Exporta». Aplico «to_csv(buf, index=False).». Línea clave: `import pandas as pd`. Heading: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T4-A-E2: packet-only solve (no prior lives)\nimport pandas as pd\nfrom io import BytesIO\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "BytesIO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/6d16becb] Como explorador, S15-T4-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Aplico «engine='openpyxl'.». Línea clave: `import pandas as pd`. Heading: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T4-A-E3: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/908c5432] S15-T4-A-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: » · hint «dict comprehension.» · S15-T4-A-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T4-B-E1: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/6296d045] S15-T4-B-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Calcula» · hint «memory_usage(deep=True).sum().» · S15-T4-B-DEMO. Entrega: `import pandas as pd`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T4-B-E2: packet-only solve (no prior lives)\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/55e5d5a9] Resuelvo S15-T4-B-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: ». Pista: «len(df) y columns.tolist().». Demo S15-T4-B-DEMO. Código ancla: `import pandas as pd`. Teoría: Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S15-T4-B-E3: packet-only solve (no prior lives)\nimport pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S15",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pandas",
+        "hashlib"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/6bf55856] S15-T4-B-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: » · hint «hashlib.sha1(blob).hexdigest()[:8].» · S15-T4-B-DEMO. Entrega: `import pandas as pd, hashlib`. Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filt."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "loc",
+      "justification_from_packet": "[agentic_F1/explorer/a15q0e2] En S15-T1-A y S15-T2-A se usa df.loc[\"C002\", …] y loc con filtros por etiqueta; la teoría «loc/iloc, filtros y assign» distingue loc (etiquetas) de iloc (posición).",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Asignación sobre slices que pueden ser view/copy (chained assignment)",
+      "justification_from_packet": "[agentic_F1/explorer/a15q1e0] S15-T2-B-DEMO evita chained assignment con loc y .copy(); la heading «chained assignment y copy semantics» enlaza SettingWithCopyWarning a slices view/copy, no a Parquet.",
+      "blocked_on": [],
+      "confidence": 0.87
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Convierte inválidos a NaN",
+      "justification_from_packet": "[agentic_F1/explorer/a15q2e1] S15-T3-A aplica pd.to_numeric(..., errors=\"coerce\") sobre montos con \"?\"; la coerción explícita convierte inválidos a NaN, no borra la columna ni eleva siempre.",
+      "blocked_on": [],
+      "confidence": 0.89
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Filas, columnas y provenance/hash del artefacto",
+      "justification_from_packet": "[agentic_F1/explorer/a15q3e3] Outcomes y teoría «índices, formatos, provenance y memoria» piden documentar el export; un manifest mínimo incluye filas, columnas y provenance/hash, no PII ni secretos.",
+      "blocked_on": [],
+      "confidence": 0.86
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:17.853726+00:00"
+}

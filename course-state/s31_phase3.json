@@ -1,0 +1,1072 @@
+{
+  "version": "3.2",
+  "section": "S31",
+  "section_id": "streaming-data",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S31 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S31 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s31-streaming-data.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "streaming-data",
+    "index": 31,
+    "title_platform": "Streaming de Datos en Tiempo Real",
+    "title_v3": "Grafos y evidencia relacional",
+    "title_decision": "KEEP platform id 'streaming-data' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "grafo temporal que responde cómo están conectados con camino reproducible y no convierte centralidad en culpabilidad",
+    "estimatedHours": 14,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S30"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N3-B (inicio)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "streaming-data",
+    "platform_title": "Streaming de Datos en Tiempo Real",
+    "v3_title": "Grafos y evidencia relacional",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante modela nodos/aristas con peso y dirección.",
+    "El estudiante representa multigrafo temporal con provenance.",
+    "El estudiante construye grafo desde entidades y transacciones.",
+    "El estudiante agrega sin borrar detalle fuente.",
+    "El estudiante calcula grado, componentes y caminos.",
+    "El estudiante interpreta centralidad con límites.",
+    "El estudiante extrae subgrafos y los prueba.",
+    "El estudiante visualiza con privacidad y evidencia por arista."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S31-T1-A",
+      "slug": "nodes-edges-direction-weight",
+      "title": "nodos, aristas, dirección y peso"
+    },
+    {
+      "subtopic_id": "S31-T1-B",
+      "slug": "multigraph-time-provenance",
+      "title": "multigrafo, tiempo y provenance"
+    },
+    {
+      "subtopic_id": "S31-T2-A",
+      "slug": "entities-tx-contacts",
+      "title": "clientes/entidades/transacciones/contactos"
+    },
+    {
+      "subtopic_id": "S31-T2-B",
+      "slug": "dedup-agg-keep-detail",
+      "title": "deduplicación y agregación sin borrar detalle"
+    },
+    {
+      "subtopic_id": "S31-T3-A",
+      "slug": "degree-components-paths",
+      "title": "grado, componentes y caminos"
+    },
+    {
+      "subtopic_id": "S31-T3-B",
+      "slug": "centrality-limited-interp",
+      "title": "centralidad con interpretación limitada"
+    },
+    {
+      "subtopic_id": "S31-T4-A",
+      "slug": "subgraphs-tests",
+      "title": "subgrafos y pruebas"
+    },
+    {
+      "subtopic_id": "S31-T4-B",
+      "slug": "viz-scale-privacy-edge-evidence",
+      "title": "visualización, escalabilidad, privacidad y evidencia por arista"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S31-T1",
+      "title": "Modelo",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S31-T1-A",
+          "slug": "nodes-edges-direction-weight",
+          "title": "nodos, aristas, dirección y peso",
+          "outcome": "El estudiante modela nodos/aristas con peso y dirección.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "nodos, aristas, dirección y peso",
+              "must_cover": [
+                "node",
+                "edge",
+                "directed",
+                "weight"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S31-T1-A-DEMO",
+              "title": "Demo: nodos, aristas, dirección y peso",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S31-T1-A-E1",
+                "kind": "guided",
+                "title": "nodos, aristas, dirección y peso — guided",
+                "skill": "nodes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T1-A-E2",
+                "kind": "independent",
+                "title": "nodos, aristas, dirección y peso — independent",
+                "skill": "nodes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T1-A-E3",
+                "kind": "transfer",
+                "title": "nodos, aristas, dirección y peso — transfer",
+                "skill": "nodes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S31-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S31-T1-B",
+          "slug": "multigraph-time-provenance",
+          "title": "multigrafo, tiempo y provenance",
+          "outcome": "El estudiante representa multigrafo temporal con provenance.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "multigrafo, tiempo y provenance",
+              "must_cover": [
+                "multigraph",
+                "temporal",
+                "provenance"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S31-T1-B-DEMO",
+              "title": "Demo: multigrafo, tiempo y provenance",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S31-T1-B-E1",
+                "kind": "guided",
+                "title": "multigrafo, tiempo y provenance — guided",
+                "skill": "multigraph",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T1-B-E2",
+                "kind": "independent",
+                "title": "multigrafo, tiempo y provenance — independent",
+                "skill": "multigraph",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T1-B-E3",
+                "kind": "transfer",
+                "title": "multigrafo, tiempo y provenance — transfer",
+                "skill": "multigraph",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S31-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S31-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S31-T1-EVAL-1",
+            "title": "nodos, aristas, dirección y peso — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S31-T1-EVAL-2",
+            "title": "multigrafo, tiempo y provenance — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S31-T2",
+      "title": "Construcción",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S31-T2-A",
+          "slug": "entities-tx-contacts",
+          "title": "clientes/entidades/transacciones/contactos",
+          "outcome": "El estudiante construye grafo desde entidades y transacciones.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "clientes/entidades/transacciones/contactos",
+              "must_cover": [
+                "entity graph",
+                "transactions"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S31-T2-A-DEMO",
+              "title": "Demo: clientes/entidades/transacciones/contactos",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S31-T2-A-E1",
+                "kind": "guided",
+                "title": "clientes/entidades/transacciones/contactos — guided",
+                "skill": "entities",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T2-A-E2",
+                "kind": "independent",
+                "title": "clientes/entidades/transacciones/contactos — independent",
+                "skill": "entities",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T2-A-E3",
+                "kind": "transfer",
+                "title": "clientes/entidades/transacciones/contactos — transfer",
+                "skill": "entities",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S31-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S31-T2-B",
+          "slug": "dedup-agg-keep-detail",
+          "title": "deduplicación y agregación sin borrar detalle",
+          "outcome": "El estudiante agrega sin borrar detalle fuente.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "deduplicación y agregación sin borrar detalle",
+              "must_cover": [
+                "dedup",
+                "aggregation"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S31-T2-B-DEMO",
+              "title": "Demo: deduplicación y agregación sin borrar detalle",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S31-T2-B-E1",
+                "kind": "guided",
+                "title": "deduplicación y agregación sin borrar detalle — guided",
+                "skill": "dedup",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T2-B-E2",
+                "kind": "independent",
+                "title": "deduplicación y agregación sin borrar detalle — independent",
+                "skill": "dedup",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T2-B-E3",
+                "kind": "transfer",
+                "title": "deduplicación y agregación sin borrar detalle — transfer",
+                "skill": "dedup",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S31-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S31-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S31-T2-EVAL-1",
+            "title": "clientes/entidades/transacciones/contactos — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S31-T2-EVAL-2",
+            "title": "deduplicación y agregación sin borrar detalle — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S31-T3",
+      "title": "Algoritmos",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S31-T3-A",
+          "slug": "degree-components-paths",
+          "title": "grado, componentes y caminos",
+          "outcome": "El estudiante calcula grado, componentes y caminos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "grado, componentes y caminos",
+              "must_cover": [
+                "degree",
+                "components",
+                "shortest path"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S31-T3-A-DEMO",
+              "title": "Demo: grado, componentes y caminos",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S31-T3-A-E1",
+                "kind": "guided",
+                "title": "grado, componentes y caminos — guided",
+                "skill": "degree",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T3-A-E2",
+                "kind": "independent",
+                "title": "grado, componentes y caminos — independent",
+                "skill": "degree",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T3-A-E3",
+                "kind": "transfer",
+                "title": "grado, componentes y caminos — transfer",
+                "skill": "degree",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S31-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S31-T3-B",
+          "slug": "centrality-limited-interp",
+          "title": "centralidad con interpretación limitada",
+          "outcome": "El estudiante interpreta centralidad con límites.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "centralidad con interpretación limitada",
+              "must_cover": [
+                "centrality",
+                "limits"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S31-T3-B-DEMO",
+              "title": "Demo: centralidad con interpretación limitada",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S31-T3-B-E1",
+                "kind": "guided",
+                "title": "centralidad con interpretación limitada — guided",
+                "skill": "centrality",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T3-B-E2",
+                "kind": "independent",
+                "title": "centralidad con interpretación limitada — independent",
+                "skill": "centrality",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T3-B-E3",
+                "kind": "transfer",
+                "title": "centralidad con interpretación limitada — transfer",
+                "skill": "centrality",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S31-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S31-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S31-T3-EVAL-1",
+            "title": "grado, componentes y caminos — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S31-T3-EVAL-2",
+            "title": "centralidad con interpretación limitada — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S31-T4",
+      "title": "Calidad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S31-T4-A",
+          "slug": "subgraphs-tests",
+          "title": "subgrafos y pruebas",
+          "outcome": "El estudiante extrae subgrafos y los prueba.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "subgrafos y pruebas",
+              "must_cover": [
+                "subgraph",
+                "graph tests"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S31-T4-A-DEMO",
+              "title": "Demo: subgrafos y pruebas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S31-T4-A-E1",
+                "kind": "guided",
+                "title": "subgrafos y pruebas — guided",
+                "skill": "subgraphs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T4-A-E2",
+                "kind": "independent",
+                "title": "subgrafos y pruebas — independent",
+                "skill": "subgraphs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T4-A-E3",
+                "kind": "transfer",
+                "title": "subgrafos y pruebas — transfer",
+                "skill": "subgraphs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S31-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S31-T4-B",
+          "slug": "viz-scale-privacy-edge-evidence",
+          "title": "visualización, escalabilidad, privacidad y evidencia por arista",
+          "outcome": "El estudiante visualiza con privacidad y evidencia por arista.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "visualización, escalabilidad, privacidad y evidencia por arista",
+              "must_cover": [
+                "privacy",
+                "edge evidence"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S31-T4-B-DEMO",
+              "title": "Demo: visualización, escalabilidad, privacidad y evidencia por arista",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S31-T4-B-E1",
+                "kind": "guided",
+                "title": "visualización, escalabilidad, privacidad y evidencia por arista — guided",
+                "skill": "viz",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T4-B-E2",
+                "kind": "independent",
+                "title": "visualización, escalabilidad, privacidad y evidencia por arista — independent",
+                "skill": "viz",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S31-T4-B-E3",
+                "kind": "transfer",
+                "title": "visualización, escalabilidad, privacidad y evidencia por arista — transfer",
+                "skill": "viz",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S31-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S31-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S31-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S31-T4-EVAL-1",
+            "title": "subgrafos y pruebas — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S31-T4-EVAL-2",
+            "title": "visualización, escalabilidad, privacidad y evidencia por arista — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S31-PROJ",
+    "title": "Grafos y evidencia relacional",
+    "replaces_legacy": "Legacy You Do de 'Streaming de Datos en Tiempo Real' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "grafo temporal que responde “cómo están conectados” con un camino reproducible y no convierte centralidad en culpabilidad.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-B (inicio)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-B (inicio)",
+    "increment_gate": "grafo temporal que responde “cómo están conectados” con un camino reproducible y no convierte centralidad en culpabilidad."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'streaming-data' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s31-streaming-data.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Streaming de Datos en Tiempo Real' vs 'Grafos y evidencia relacional'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-B (inicio)",
+    "increment_gate": "grafo temporal que responde “cómo están conectados” con un camino reproducible y no convierte centralidad en culpabilidad.",
+    "project_id": "S31-PROJ",
+    "section_passed": false,
+    "notes": "S31 contributes to CP-N3-B (inicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S31",
+    "risk": "Display title still 'Streaming de Datos en Tiempo Real' until product rename; topic mismatch vs V3 'Grafos y evidencia relacional'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S31-T1-A first"
+  }
+}

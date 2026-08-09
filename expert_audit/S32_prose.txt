@@ -1,0 +1,200 @@
+6	title	Feature engineering y pipelines sin leakage
+7	shortTitle	Features sin leakage
+9	tagline	tabla de features versionada con train≡serve, sin futuro ni labels de decisión · Ritmo sugerido: ~10–12 h núcleo (T1–T4 + labs E1), 14–16 h con E2/E3 y You Do, 18 h si profundizas skew/versionado hacia S33
+16	jobRelevance	Features mal hechas **filtran el futuro** y crean modelos que fallan en producción. En esta sección construyes la **tabla de features versionada** del workbench de investigación relacional (CP-N3-B): misma lógica en entrenamiento e inferencia, sin timestamps futuros ni labels de decisión. Features de grafo o contacto compartido **no** son etiqueta de fraude ni de parentesco.
+18	text	Diseñar un feature catalog (numéricas, categóricas y de texto) y validar que las keys del row ⊆ catálogo antes del fit; evidencia: catalog_ok y lista unknown_keys
+19	text	Aplicar missing indicators, fill con mediana de train y z-score con μ/σ congelados; demostrar silent_fill=False
+20	text	Construir features relacionales (shared_address, degree, min path) sin usar label de decisión como input
+21	text	Calcular conteos y frecuencias en ventanas half-open [t−w, t) documentadas en el catálogo
+22	text	Componer transformers custom con fit→transform y cadena por tipo de columna (ruta numérica vs categórica)
+23	text	Persistir estado fit (mediana, vocab, version) como JSON fs-vN y reutilizarlo en el batch de serve
+24	text	Partir por tiempo y entidad con informe de split: n_train, n_test y overlap de entidades = 0
+25	text	Ejecutar scan de nombres leaky + alerta de skew train–serve y promover solo con feature_set id válido
+29	heading	Tabla de features versionada sin leakage
+39	content	Train≡serve, sin leakage temporal ni de label. Solo PII sintético. Si hay timestamps futuros en features, la sección no se considera superada.
+43	heading	Diccionario mínimo de la sección
+51	title	Cómo leer este diccionario
+53	content	Vuelve aquí cuando veas train≡serve, half-open, fs-vN o skew. Cada subtema reutiliza estas definiciones con un mini-demo computable.
+57	heading	Features numéricas, categóricas y de texto
+89	content	S32-T1-A: catálogo + keys. Incumplimiento → REJECT_UNKNOWN_FEATURE; falta catálogo → REQUEST_CATALOG.
+93	heading	Missing indicators, escalamiento y encoding
+122	content	S32-T1-B: indicator + stats de train. Incumplimiento → REJECT_SILENT_FILL; falta mediana → REQUEST_MEDIAN.
+126	heading	Contacto compartido, distancia y features de grafo
+161	content	S32-T2-A: features de grafo. Incumplimiento → REJECT_LABEL_AS_FEATURE; falta feat → REQUEST_GRAPH_FEAT.
+165	heading	Ventanas temporales y frecuencia
+199	heading	Transformers custom y cadena fit→transform
+264	content	S32-T3-A: fit→transform + router por columnas. Incumplimiento → REJECT_TRANSFORM_BEFORE_FIT; falta state → REQUEST_FIT_STATE.
+268	heading	Fit, transform y persistencia del estado
+303	heading	Split por entidad, grupo y tiempo
+335	content	S32-T4-A: split temporal/por grupo. Incumplimiento → REJECT_ENTITY_OVERLAP; falta keys → REQUEST_SPLIT_KEYS.
+339	heading	Leakage, skew train–serve y versionado
+366	content	S32-T4-B: scan de leakage + skew + fs-vN. Incumplimiento → REJECT_LEAKAGE; falta id → REQUEST_FEATURE_SET_ID.
+371	intro	S32 · **Yo hago**: te muestro catálogo, missing/scale, grafo (puente S31), ventanas half-open, transformers fit→transform y anti-leakage sobre `run_id=cpn3b-feat`. Cada demo **calcula** el concepto a partir de datos sintéticos — no flags prebakeados. Luego en We Do reparas el mismo kernel; en You Do empaquetas el `fs-vN` para S33.
+377	description	Valida keys del row contra el catálogo y reporta note_len como feature derivada.
+397	why	El catálogo es la fuente de verdad de dtypes: sin él, serve inventa columnas y rompe train≡serve.
+403	description	Missing indicator, fill mediana y z-score sobre la serie rellena con stats de train.
+421	why	Indicator + μ/σ de train preservan la señal de ausencia y bloquean silent fill con stats de test.
+427	description	Shared address, degree y path con default 99 cuando falta la arista en el grafo sintético.
+449	why	Features de grafo (herencia S31) resumen evidencia relacional sin convertir matching en fraude ni parentesco.
+455	description	Cuenta eventos en ventana half-open [t-w,t), contrasta con el conteo cerrado (mal) e incluye_t=False.
+475	why	Half-open elimina leakage temporal; el conteo cerrado infla features y el AUC offline (la historia del fallo del intro).
+481	description	Fit de moda, transform de None, fallo si no hay fit, y router numérico/categórico (análogo ColumnTransformer).
+522	why	fit→transform ordenado + router por tipo es el contrato de un pipeline heterogéneo (idea de sklearn sin runtime extra).
+528	description	Round-trip JSON del state y apply de mediana versionada al batch de serve.
+544	why	Persistir estado versionado (`fs-vN`) evita skew silencioso y es el artefacto que S33 debe citar.
+550	description	Time split por cutoff y verificación de overlap de entidades desde filas reales.
+569	why	Split por tiempo + entity isolation es la defensa principal contra leakage de identidad antes del baseline.
+575	description	Scan de nombres leaky, alerta de skew y feature_set fs-v2 listo para S33.
+594	why	Scan de nombres + skew + `fs-vN` cierran el promote: sin gate limpio no se entrena el baseline S33.
+599	intro	S32 · **Hacemos juntos** (E1) → **tú validas** (E2) → **transfieres fail-closed** (E3): 24 retos sobre CP-N3-B. Cada lab **recalcula** catálogo, escala, grafo, ventana, fit/persist o split desde datos sintéticos — no inviertes un booleano precomputado. Si falta un prerequisito, `REQUEST_*`; si hay leakage, `REJECT_*`.
+605	instruction	S32-T1-A-E1 · Sobre `CASO-LIM-032-1A`, calcula si las keys del row están ⊆ catálogo (union de numeric/categorical/text). El starter declara `catalog_ok` al revés: corrige el cálculo de unknown keys. Salida exacta: `S32-T1-A PASS`. En E2 el adverso con feature desconocida debe activar `REJECT_UNKNOWN_FEATURE`.
+606	hint	Une las listas del schema en un set known y compara set(row) ⊆ known.
+608	hints	Une las listas del schema en un set known y compara set(row) ⊆ known.
+609	hints	catalog_ok es True solo si no hay keys desconocidas; no inviertas el booleano final.
+612	tests	Con schema y row del starter, imprime `S32-T1-A PASS` y assert catalog_ok.
+613	feedback	S32-T1-A-E1: sin keys desconocidas el catálogo pasa; una feature inventada en serve exige REJECT_UNKNOWN_FEATURE; sin schema, REQUEST_CATALOG.
+647	instruction	S32-T1-A-E2 · Tres rutas: válido (keys ⊆ catálogo), adverso (`unknown_feat`) y sin `schema`. Implementa `assess` calculando unknown keys — no uses un flag prebakeado. Salidas: `PASS`, `REJECT_UNKNOWN_FEATURE`, `MISSING:schema`.
+648	hint	Primero valida keys requeridas; solo si hay schema y row calculas unknown.
+650	hints	Primero valida keys requeridas; solo si hay schema y row calculas unknown.
+651	hints	El adverso falla por contenido (feature fuera del catálogo), no por schema ausente.
+655	feedback	S32-T1-A-E2: el cálculo de unknown es la evidencia; el adverso no se resuelve cambiando el case_id.
+705	instruction	S32-T1-A-E3 · Fail-closed: válido → `CONTINUE`, adverso → `REJECT_UNKNOWN_FEATURE`, sin schema → `REQUEST_CATALOG`. El starter confunde ausencia con CONTINUE y revierte el predicado de keys.
+706	hint	Ausencia ≠ incumplimiento: enruta a REQUEST_CATALOG antes de mirar el row.
+708	hints	Ausencia ≠ incumplimiento: enruta a REQUEST_CATALOG antes de mirar el row.
+709	hints	CONTINUE solo si known cubre todas las keys del row.
+713	feedback	S32-T1-A-E3: REQUEST_CATALOG protege el fit; REJECT solo cuando el catálogo existe y el row lo viola.
+764	instruction	S32-T1-B-E1 · Sobre `[1, None, 3]`, construye indicator, fill con mediana de train (=2) y z-score con μ=0, σ=2 **sobre la serie rellena**. El starter escala constantes ajenas; corrige para que z use `filled`. Salida: `S32-T1-B PASS` si indicator marca el hueco, filled=[1,2,3] y silent_fill es False.
+765	hint	z = (x - mu) / sd para cada x en filled, no sobre una lista hardcodeada.
+767	hints	z = (x - mu) / sd para cada x en filled, no sobre una lista hardcodeada.
+768	hints	silent_fill es False porque el indicator viaja con el valor relleno.
+771	tests	Imprime `S32-T1-B PASS` cuando filled y z son correctos.
+772	feedback	S32-T1-B-E1: escalar la serie rellena es el patrón de stats solo de train; silent fill sin indicator es REJECT_SILENT_FILL.
+810	instruction	S32-T1-B-E2 · `assess` recibe values, median e indicator. Construye fill con la mediana y comprueba que el indicator marque cada `None` (silent_fill=False). Válido: indicator correcto + median. Adverso: indicator todo False con huecos (silent fill). Sin median → `MISSING:median`.
+811	hint	Falta median se detecta antes de construir filled; silent_fill si hay None y indicator no lo marca.
+813	hints	Falta median se detecta antes de construir filled; silent_fill si hay None y indicator no lo marca.
+814	hints	expected_ind = [v is None for v in values]; PASS si indicator == expected_ind y median no es None.
+818	feedback	S32-T1-B-E2: la mediana de train es prerequisito; silent fill es incumplimiento de contrato, no un atajo de notebook.
+884	instruction	S32-T1-B-E3 · Fail-closed sobre `CASO-LIM-032-1B`: válido (median presente, indicator marca los None) → `CONTINUE`; indicator que oculta missing → `REJECT_SILENT_FILL`; sin median → `REQUEST_MEDIAN`. No rellenes con 0 en silencio.
+885	hint	REQUEST_MEDIAN antes de comparar indicator con values.
+887	hints	REQUEST_MEDIAN antes de comparar indicator con values.
+888	hints	CONTINUE solo con median presente e indicator == [v is None for v in values].
+892	feedback	S32-T1-B-E3: sin mediana no hay transform legítimo; pedirla es fail-closed, no rellenar con 0.
+958	instruction	S32-T2-A-E1 · Calcula shared (1 si mismas addr), degree (len vecinos de E1) y path (lookup o 99). El starter hardcodea path=99 sin leer `paths` y marca uses_label mal. Pasa si shared=1, degree=2, path=99 y uses_label es False. Salida: `S32-T2-A PASS`.
+959	hint	path = paths.get('E1-E9', 99); no uses_label en el cómputo de features.
+961	hints	path = paths.get('E1-E9', 99); no uses_label en el cómputo de features.
+965	tests	Imprime `S32-T2-A PASS` con features calculadas y uses_label False.
+966	feedback	S32-T2-A-E1: shared/degree/path son topología; label de decisión como feature es REJECT_LABEL_AS_FEATURE.
+1006	instruction	S32-T2-A-E2 · `assess` recibe attrs, neighbors y paths: calcula shared/degree/path y rechaza si `uses_label` es True. Válido: topología limpia; adverso: label de decisión como feature; sin neighbors → `MISSING:neighbors`.
+1007	hint	Missing keys primero; luego ban de uses_label; degree = len(neighbors[src]).
+1009	hints	Missing keys primero; luego ban de uses_label; degree = len(neighbors[src]).
+1010	hints	PASS requiere uses_label False, shared in {0,1} y degree >= 0 calculado.
+1014	feedback	S32-T2-A-E2: el grafo no autoriza parentesco/fraude; solo topología observada en t.
+1076	instruction	S32-T2-A-E3 · Fail-closed sobre features de grafo: recalcula shared/degree/path desde attrs y neighbors; topología limpia y uses_label False → `CONTINUE`; label de decisión como feature → `REJECT_LABEL_AS_FEATURE`; sin neighbors → `REQUEST_GRAPH_FEAT`. No inventes degree=0 si falta el grafo.
+1077	hint	Sin neighbors → REQUEST_GRAPH_FEAT. Con neighbors, shared = int(a_addr==b_addr) y degree = len(neighbors['E1']).
+1079	hints	Sin neighbors → REQUEST_GRAPH_FEAT. Con neighbors, shared = int(a_addr==b_addr) y degree = len(neighbors['E1']).
+1080	hints	CONTINUE solo si uses_label es False, shared in {0,1} y degree >= 0 calculado (no prebakeado).
+1084	feedback	S32-T2-A-E3: pedir la feature de grafo es mejor que inventar degree=0 silencioso; el CONTINUE se gana recalculando topología, no leyendo un flag.
+1148	instruction	S32-T2-B-E1 · Con events=[1,2,3,5], t=5, w=3, corrige el conteo de ventana. El starter usa `<= t` (incluye el instante de decisión). Debe quedar count=2 e includes_t=False con half-open `[t-w, t)`. Salida: `S32-T2-B PASS`.
+1149	hint	Predicado correcto: t - w <= ts < t (estricto en t).
+1151	hints	Predicado correcto: t - w <= ts < t (estricto en t).
+1152	hints	includes_t se deriva del conteo half-open, no de un flag inventado.
+1155	tests	Imprime `S32-T2-B PASS` con count 2 e includes_t False.
+1156	feedback	S32-T2-B-E1: incluir t es leakage temporal clásico; la política half-open es el contrato documentado.
+1188	instruction	S32-T2-B-E2 · `assess` calcula count e includes_t desde events/t/w. Válido: half-open correcto. Adverso: flag includes_t True (o conteo cerrado). Sin w → `MISSING:w`.
+1189	hint	Si falta w no intentes el conteo.
+1191	hints	Si falta w no intentes el conteo.
+1192	hints	PASS si count half-open es 2 e includes_t calculado es False (o el flag del record es False y w>0).
+1196	feedback	S32-T2-B-E2: el adverso modela la ventana que filtra t; no es un schema roto.
+1241	instruction	S32-T2-B-E3 · Fail-closed temporal: recompute includes_t y count con half-open `[t−w, t)`; si el flag o el cómputo marcan t incluido → `REJECT_FUTURE_TS`; sin w → `REQUEST_WINDOW`; válido → `CONTINUE`. No inventes el ancho de ventana.
+1242	hint	Sin w → REQUEST_WINDOW. Con w presente, recalcula includes desde events (no solo el flag).
+1244	hints	Sin w → REQUEST_WINDOW. Con w presente, recalcula includes desde events (no solo el flag).
+1245	hints	CONTINUE solo si includes_t del record es False, el recompute half-open no incluye t, y w > 0.
+1249	feedback	S32-T2-B-E3: sin ancho de ventana no hay feature temporal legítima.
+1303	instruction	S32-T3-A-E1 · Completa ModeImputer: fit aprende la moda; transform rellena None. El starter transforma sin comprobar fit y deja mode=None. Tras fit(['app','app','web']), transform([None,'web']) debe ser ['app','web']. Salida: `S32-T3-A PASS`.
+1304	hint	En transform, si self.mode is None: raise RuntimeError('not fitted').
+1306	hints	En transform, si self.mode is None: raise RuntimeError('not fitted').
+1307	hints	fit usa max(set(xs), key=xs.count) para la moda.
+1310	tests	Imprime `S32-T3-A PASS` cuando el transform post-fit es correcto.
+1311	feedback	S32-T3-A-E1: el orden fit→transform es el contrato; transform silencioso sin fit es REJECT_TRANSFORM_BEFORE_FIT.
+1361	instruction	S32-T3-A-E2 · `assess` recibe `train_xs` y `serve_xs`: haz fit de moda en train y transform en serve. Válido: train con moda aprendible y serve transformable. Adverso: `try_before_fit=True` (intentar transform sin fit). Sin train_xs → `MISSING:train_xs`. No confíes en un flag `fitted` prebakeado.
+1362	hint	Missing train_xs primero; si try_before_fit, REJECT sin fittear; si no, fit y comprueba transform no vacío.
+1364	hints	Missing train_xs primero; si try_before_fit, REJECT sin fittear; si no, fit y comprueba transform no vacío.
+1365	hints	mode = max(set(train_xs), key=train_xs.count); serve rellena None con mode.
+1369	feedback	S32-T3-A-E2: el state fitted se demuestra con fit real sobre train_xs; un flag no es evidencia.
+1439	instruction	S32-T3-A-E3 · Fail-closed de transformers: con `train_xs`/`serve_xs`, fit real de moda y transform; ok → `CONTINUE`; `try_before_fit` o train vacío → `REJECT_TRANSFORM_BEFORE_FIT`; sin train_xs → `REQUEST_FIT_STATE`. No inventes mode='app' sin fit.
+1440	hint	Sin train_xs → REQUEST_FIT_STATE. Con train, si try_before_fit → REJECT; si no, fit y transform.
+1442	hints	Sin train_xs → REQUEST_FIT_STATE. Con train, si try_before_fit → REJECT; si no, fit y transform.
+1443	hints	CONTINUE solo si mode aprendido y len(transform(serve_xs)) == len(serve_xs).
+1447	feedback	S32-T3-A-E3: pedir el state de fit evita silent defaults en serve; el CONTINUE se gana fitteando, no leyendo un flag.
+1516	instruction	S32-T3-B-E1 · Serializa state a JSON, recarga y aplica mediana al batch [None, 4]. El starter omite version o no aplica median. Pasa si version empieza con fs-v y serve=[2, 4]. Salida: `S32-T3-B PASS`.
+1517	hint	json.loads(json.dumps(state)); fill None con state['median'].
+1519	hints	json.loads(json.dumps(state)); fill None con state['median'].
+1523	tests	Imprime `S32-T3-B PASS` con serve [2, 4] y version fs-v1.
+1524	feedback	S32-T3-B-E1: el round-trip JSON es el contrato de persistencia; servir sin version es REJECT_UNVERSIONED.
+1560	instruction	S32-T3-B-E2 · `assess` hace round-trip JSON del `state`, aplica mediana al `serve_batch` y exige version `fs-v*`. Válido: fs-v1 y batch con None rellenados. Adverso: version vacía. Sin version → `MISSING:version`. No apruebes solo con un flag versioned.
+1564	hints	PASS si ver.startswith('fs-v') y serve resultante no tiene None.
+1568	feedback	S32-T3-B-E2: fs-vN es el id que S33 consumirá; el round-trip + apply mediana demuestran train≡serve.
+1641	instruction	S32-T3-B-E3 · Fail-closed de persistencia: round-trip del state, apply mediana a `serve_batch` y version `fs-v*` → `CONTINUE`; version vacía o serve con None sin apply → `REJECT_UNVERSIONED`; sin version → `REQUEST_STATE_JSON`.
+1642	hint	Sin version → REQUEST_STATE_JSON. Con version: JSON round-trip + fill con median.
+1644	hints	Sin version → REQUEST_STATE_JSON. Con version: JSON round-trip + fill con median.
+1645	hints	CONTINUE solo si ver.startswith('fs-v') y serve resultante == [2, 4] en el fixture.
+1649	feedback	S32-T3-B-E3: REQUEST_STATE_JSON es fail-closed cuando falta el artefacto; el CONTINUE se gana aplicando el state, no con un flag versioned.
+1723	instruction	S32-T4-A-E1 · A partir de filas con ts/entity y cutoff '2026-02-01', calcula n_train, n_test y overlap de entidades. El starter hardcodea tamaños. Pasa si n_train=1, n_test=1, overlap=0. Salida: `S32-T4-A PASS`.
+1727	hints	No devuelvas constantes: deriva tamaños de las listas.
+1730	tests	Imprime `S32-T4-A PASS` con overlap 0 calculado.
+1731	feedback	S32-T4-A-E1: overlap de entidades infla métricas; el gate exige cero intersección.
+1772	instruction	S32-T4-A-E2 · `assess` recibe `rows` y `cut`: calcula n_train, n_test y overlap de entidades (no uses flags precomputados). Válido: e1/e2 sin overlap; adverso: misma entity en ambos lados; sin rows → `MISSING:rows`.
+1776	hints	PASS solo si ambos lados no vacíos y len(overlap)==0.
+1780	feedback	S32-T4-A-E2: el overlap se deriva de las filas; reportarlo es parte del informe de split, no un detalle opcional.
+1858	instruction	S32-T4-A-E3 · Fail-closed de split: a partir de `rows` y `cut`, calcula n_train, n_test y overlap de entidades. Lados no vacíos y overlap 0 → `CONTINUE`; overlap>0 → `REJECT_ENTITY_OVERLAP`; sin rows → `REQUEST_SPLIT_KEYS`. El informe de split es obligatorio antes del baseline.
+1859	hint	Sin rows → REQUEST_SPLIT_KEYS. Con rows: train = ts < cut; overlap = intersección de entity.
+1861	hints	Sin rows → REQUEST_SPLIT_KEYS. Con rows: train = ts < cut; overlap = intersección de entity.
+1862	hints	CONTINUE solo si len(train)>=1, len(test)>=1 y len(overlap)==0 — no confíes en n_train prebakeado.
+1866	feedback	S32-T4-A-E3: sin filas de split no se puede auditar el leakage de identidad; el overlap se recalcula, no se inventa.
+1943	instruction	S32-T4-B-E1 · Escanea names con 'label'/'decision', calcula skew |serve_mean-train_mean|>0.5 y valida feature_set fs-v*. El starter invierte el gate. Con names limpios, means iguales y fs-v2 → PASS. Salida: `S32-T4-B PASS`.
+1950	tests	Imprime `S32-T4-B PASS` con scan limpio y fs-v2.
+1951	feedback	S32-T4-B-E1: el scan de nombres + skew cierra el promote antes del baseline S33.
+1987	instruction	S32-T4-B-E2 · `assess` escanea `names` (label/decision), calcula skew con means+tol y valida `feature_set`. Válido: names limpios y means cercanos; adverso: label_decision o |serve−train|>tol; sin feature_set → `MISSING:feature_set`.
+1995	feedback	S32-T4-B-E2: label_decision en el catálogo es red flag de leakage, no una feature útil; el skew se mide, no se intuye.
+2071	instruction	S32-T4-B-E3 · Fail-closed final del pipeline hacia S33: escanea `names`, mide skew con means+tol y valida `feature_set`. Scan limpio + sin skew + fs-v* → `CONTINUE`; leaky o skew → `REJECT_LEAKAGE`; sin feature_set → `REQUEST_FEATURE_SET_ID`.
+2072	hint	Sin feature_set → REQUEST_FEATURE_SET_ID. Con id: recalcula leaky y skew; no uses listas prebakeadas.
+2074	hints	Sin feature_set → REQUEST_FEATURE_SET_ID. Con id: recalcula leaky y skew; no uses listas prebakeadas.
+2079	feedback	S32-T4-B-E3: el feature_set id es el contrato que S33 debe citar; el promote se gana midiendo scan y skew, no leyendo un booleano previo.
+2153	title	Feature table versionada sin leakage (CP-N3-B)
+2155	context	Entrega un mini feature set para CASO-LIM-032 / run_id=cpn3b-feat: catálogo, ventanas half-open, state versionado, split sin overlap y scan de leakage. El artefacto `fs-vN` (JSON con medianas, vocab y schema hash) es el **contrato de entrada del baseline S33**: sin él no se entrena.
+2236	portfolioNote	Feature set fs-vN + anti-leakage checklist + informe de split (n_train, n_test, overlap 0) listos para el baseline S33. Incluye schema hash o lista de columnas congelada.
+2238	criterion	Train≡serve, sin leakage temporal/de label y feature set versionado
+2239	criterion	Correctitud técnica: ventanas half-open, stats de train, split con overlap 0
+2240	criterion	Privacidad / sin PII real / sin secretos / sin inferencia de fraude
+2241	criterion	Pruebas o casos de borde documentados (adverso includes_t, unknown feature)
+2242	criterion	Código legible y límites claros (REQUEST_* vs REJECT_*)
+2243	criterion	Documentación en español profesional
+2250	question	Una ventana half-open [t−w, t) excluye:
+2254	explanation	Half-open evita leakage temporal al no contar el momento de decisión ni timestamps futuros.
+2257	question	Transform antes de fit debe:
+2261	explanation	El contrato fit→transform exige fallo explícito si no hay estado fitted.
+2264	question	Overlap de entidades entre train y test:
+2268	explanation	La misma entidad en ambos lados infla métricas; overlap debe ser 0.
+2271	question	Un nombre de feature con 'label' o 'decision':
+2275	explanation	Features que embeden la decisión o el label contaminan el entrenamiento.
+2278	question	Al estandarizar amount, μ y σ deben calcularse…
+2282	explanation	Estadísticas de escalado/encoding se aprenden en fit (train) y se congelan; re-fit en test/serve es leakage o skew.
+2285	question	Si en serve aparece una key que no está en el feature catalog:
+2289	explanation	Train≡serve exige keys ⊆ catálogo; una feature inventada en serve rompe el contrato.
+2292	question	Un missing indicator junto al fill con mediana de train sirve para:
+2296	explanation	El indicator (1 si era None) viaja con el valor relleno; rellenar sin él es silent fill.
+2299	question	Skew train–serve se detecta midiendo, por ejemplo:
+2303	explanation	Divergencia de distribuciones o de lógica entre entrenamiento e inferencia; se monitorea con umbral.
+2306	question	Si el vocabulario de una categórica crece y cambias el schema del feature set, debes…
+2310	explanation	Cambio de vocab/schema invalida el contrato congelado: version bump y el baseline S33 debe citar el fs-vN nuevo.
+2313	question	Falta el JSON de state fit en serve. La respuesta fail-closed correcta es…
+2317	explanation	Ausencia de prerequisito → REQUEST_*; incumplimiento detectado (futuro, label, overlap) → REJECT_*. No silent defaults.
+2326	note	fit/transform y ColumnTransformer
+2331	note	Columnas heterogéneas
+2336	note	Train-serve y materialización
+2341	note	Training-serving skew y leakage
+2360	note	Leakage patterns y encodings
+2361	note	Feature stores y skew
+2367	note	Feature pipelines y producción
+2372	note	Pipelines de features
+2377	note	Contratos y tests

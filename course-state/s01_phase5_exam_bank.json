@@ -1,0 +1,426 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "section_id": "setup",
+  "phase": "PHASE_5",
+  "lane": "LANE-S01-P5",
+  "generated_at": "2026-07-20T12:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "setup"
+  },
+  "parallelism_rules": {
+    "same_skill_per_family": true,
+    "same_format": "MCQ 4 options",
+    "cognitive_demand": "A/B/C matched within family (not cosmetic rewording)",
+    "one_best_answer": true,
+    "explanation": "key rationale only"
+  },
+  "families": [
+    {
+      "family_id": "S01-T1-A-EX",
+      "concept": "interpreter-selection",
+      "skill": "Selección/verificación de intérprete",
+      "bloom": "Comprender",
+      "equivalence_note": "A: síntoma command-not-found/PATH; B: REPL vs script; C: versiones distintas entre máquinas. Misma habilidad de elegir/verificar runtime; escenarios distintos.",
+      "variants": [
+        {
+          "id": "S01-T1-A-EX-A",
+          "variant": "A",
+          "question": "En una laptop nueva ejecutas `python --version` y obtienes un error de comando no encontrado. ¿Cuál es la mejor primera acción?",
+          "options": [
+            "Instalar pandas globalmente para forzar que Python aparezca",
+            "Verificar si el intérprete se llama `python3` o está fuera del PATH, e instalar Python 3.12+ si falta",
+            "Crear un archivo .py y abrirlo en el navegador",
+            "Ejecutar `git init` para registrar el runtime"
+          ],
+          "correctIndex": 1,
+          "explanation": "El síntoma es de intérprete/PATH, no de paquetes ni Git. Primero se confirma que Python 3 está instalado y accesible (`python3` o el instalador/PATH)."
+        },
+        {
+          "id": "S01-T1-A-EX-B",
+          "variant": "B",
+          "question": "¿Cuál es la diferencia principal entre trabajar en el REPL (`>>>`) y ejecutar `python script.py`?",
+          "options": [
+            "El REPL compila a binario; el script solo interpreta texto",
+            "El REPL es una sesión interactiva línea a línea; el script ejecuta un archivo de principio a fin y termina",
+            "Solo el REPL puede importar la librería estándar",
+            "Solo los scripts pueden usar `print`"
+          ],
+          "correctIndex": 1,
+          "explanation": "El REPL evalúa expresiones interactivamente; un script corre el archivo completo y sale. Ambos usan el mismo intérprete, pero el modo de uso es distinto."
+        },
+        {
+          "id": "S01-T1-A-EX-C",
+          "variant": "C",
+          "question": "Un colega reporta `Python 3.9.0` y tú `Python 3.12.2` con el mismo comando. ¿Qué implica para el proyecto?",
+          "options": [
+            "Que Git está mal configurado en una de las máquinas",
+            "Que cada uno está usando un intérprete distinto; conviene alinear la versión mínima del equipo (p. ej. 3.12+)",
+            "Que el REPL está dañado y hay que reinstalar el sistema operativo",
+            "Que `pip` ya no es necesario en 3.12"
+          ],
+          "correctIndex": 1,
+          "explanation": "La versión del intérprete define sintaxis y comportamiento. Discrepancias se resuelven eligiendo y verificando el mismo runtime de referencia del equipo."
+        }
+      ]
+    },
+    {
+      "family_id": "S01-T1-B-EX",
+      "concept": "terminal-paths",
+      "skill": "Interpretar exit codes y PATH/cwd",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: exit code non-zero en bash; B: cwd vs PATH al ejecutar script; C: exit 0 en PowerShell. Misma lectura de shell/proceso; varía shell o síntoma.",
+      "variants": [
+        {
+          "id": "S01-T1-B-EX-A",
+          "variant": "A",
+          "question": "Tras `python -c \"import sys; sys.exit(1)\"`, en bash `echo $?` muestra `1`. ¿Qué significa?",
+          "options": [
+            "El proceso terminó con éxito",
+            "El proceso falló (código de salida distinto de 0)",
+            "Python no está en el PATH",
+            "El directorio de trabajo actual es inválido"
+          ],
+          "correctIndex": 1,
+          "explanation": "Por convención, 0 = éxito y distinto de 0 = error. `sys.exit(1)` fuerza un fallo visible en el shell."
+        },
+        {
+          "id": "S01-T1-B-EX-B",
+          "variant": "B",
+          "question": "El comando `python mi_script.py` falla con \"No such file or directory\", pero el archivo existe en otra carpeta. ¿Cuál es el diagnóstico más probable?",
+          "options": [
+            "Python no soporta archivos .py en macOS",
+            "El cwd (directorio de trabajo) no es el de ese archivo; PATH no busca scripts por nombre de proyecto",
+            "Hay que ignorar el archivo en .gitignore",
+            "Falta un Pull Request antes de ejecutar scripts"
+          ],
+          "correctIndex": 1,
+          "explanation": "Rutas relativas se resuelven desde el cwd. PATH localiza ejecutables (python), no tus scripts de proyecto. Hay que `cd` al directorio correcto o usar la ruta completa."
+        },
+        {
+          "id": "S01-T1-B-EX-C",
+          "variant": "C",
+          "question": "En PowerShell, un comando termina y `$LASTEXITCODE` es `0`. ¿Qué conclusión es correcta?",
+          "options": [
+            "El comando falló y hay que reinstalar Python",
+            "El comando terminó exitosamente según el código de salida",
+            "El PATH está vacío",
+            "Solo aplica a Git, no a Python"
+          ],
+          "correctIndex": 1,
+          "explanation": "En PowerShell, `$LASTEXITCODE` (análogo a `$?` en bash) con valor 0 indica éxito del último proceso."
+        }
+      ]
+    },
+    {
+      "family_id": "S01-T2-A-EX",
+      "concept": "venv-purpose",
+      "skill": "Propósito del venv / aislamiento",
+      "bloom": "Recordar/Comprender",
+      "equivalence_note": "A: propósito de aislamiento; B: convención `.venv` + un proyecto un entorno; C: conflicto de versiones entre colegas. Revisado desde seed previo; ahora usa `.venv` explícito.",
+      "variants": [
+        {
+          "id": "S01-T2-A-EX-A",
+          "variant": "A",
+          "question": "¿Para qué sirve un entorno virtual (`.venv`) en un proyecto Python?",
+          "options": [
+            "Para acelerar la ejecución del código Python",
+            "Para aislar las dependencias por proyecto y evitar conflictos de versiones entre proyectos",
+            "Para conectarse a internet más rápido al instalar paquetes",
+            "Para compilar Python a código de máquina más eficiente"
+          ],
+          "correctIndex": 1,
+          "explanation": "`.venv` guarda un intérprete y paquetes locales del proyecto, evitando que un upgrade en un repo rompa otro."
+        },
+        {
+          "id": "S01-T2-A-EX-B",
+          "variant": "B",
+          "question": "¿Cuál es la práctica recomendada al crear el entorno virtual del proyecto de curso?",
+          "options": [
+            "Instalar todos los paquetes en el Python global del sistema",
+            "Crear `.venv` en la raíz del repo (`python -m venv .venv`), activarlo y trabajar solo ahí",
+            "Crear un venv distinto por cada archivo .py",
+            "Usar el mismo venv compartido en OneDrive para todo el equipo sin requirements"
+          ],
+          "correctIndex": 1,
+          "explanation": "Un proyecto = un entorno. El nombre `.venv` es el convención del curso; se regenera y no se versiona el contenido de la carpeta."
+        },
+        {
+          "id": "S01-T2-A-EX-C",
+          "variant": "C",
+          "question": "Tu colega tiene pandas 2.x y a ti te falla el mismo script con pandas 1.x instalado globalmente. ¿Qué explica mejor el problema y la solución?",
+          "options": [
+            "La laptop es más lenta; hay que comprar más RAM",
+            "Sin `.venv` cada máquina/global puede tener versiones distintas; hay que usar un venv por proyecto y alinear dependencias",
+            "Python no es multiplataforma",
+            "Git reescribe las versiones de pandas en cada clone"
+          ],
+          "correctIndex": 1,
+          "explanation": "El clásico \"a mí me funciona\" suele ser desalineación de entornos. `.venv` + requirements pinneados aíslan y reproducen dependencias."
+        }
+      ]
+    },
+    {
+      "family_id": "S01-T2-B-EX",
+      "concept": "pip-install",
+      "skill": "Replicar entorno con python -m pip / freeze / -r",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: install -r con python -m pip; B: freeze snapshot; C: ModuleNotFoundError por intérprete equivocado. Reforzado `python -m pip` vs seed antiguo que usaba solo `pip`.",
+      "variants": [
+        {
+          "id": "S01-T2-B-EX-A",
+          "variant": "A",
+          "question": "Con el `.venv` activado, ¿qué comando es la forma más confiable de instalar las dependencias listadas por un colega?",
+          "options": [
+            "pip install pandas numpy sin versiones",
+            "python -m pip install -r requirements.txt",
+            "python -m venv .venv otra vez",
+            "git clone del repositorio sin instalar nada"
+          ],
+          "correctIndex": 1,
+          "explanation": "`python -m pip` usa el pip del mismo intérprete activo. `-r requirements.txt` instala las versiones documentadas del equipo."
+        },
+        {
+          "id": "S01-T2-B-EX-B",
+          "variant": "B",
+          "question": "¿Para qué sirve `python -m pip freeze > requirements.txt`?",
+          "options": [
+            "Para congelar el intérprete y que no se actualice nunca",
+            "Para exportar un snapshot de paquetes y versiones exactas instaladas en el entorno actual",
+            "Para borrar paquetes viejos del sistema",
+            "Para actualizar automáticamente a la última major de cada librería"
+          ],
+          "correctIndex": 1,
+          "explanation": "freeze lista `paquete==versión` del entorno activo. Guardarlo permite que otro clone reinstale con install -r."
+        },
+        {
+          "id": "S01-T2-B-EX-C",
+          "variant": "C",
+          "question": "Ves `ModuleNotFoundError: requests` aunque \"instalaste requests\" en otra terminal. ¿Qué práctica evita este error?",
+          "options": [
+            "Instalar siempre con el Python global y nunca activar venv",
+            "Activar el `.venv` del proyecto e instalar con `python -m pip install requests` (y documentar en requirements)",
+            "Renombrar el archivo a .txt para no importar módulos",
+            "Usar solo `git commit` en lugar de pip"
+          ],
+          "correctIndex": 1,
+          "explanation": "El paquete debe instalarse en el mismo intérprete que ejecuta el script. `python -m pip` dentro del `.venv` evita instalar en otro Python."
+        }
+      ]
+    },
+    {
+      "family_id": "S01-T3-A-EX",
+      "concept": "commit-message",
+      "skill": "Mensajes Conventional Commits y/o lectura de diff",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: elegir mensaje Conventional Commits; B: lectura de diff (+/- timeout/log) — skill V3 de diff; C: prefijo fix: vs wip/feat. No son rewordings cosméticos.",
+      "variants": [
+        {
+          "id": "S01-T3-A-EX-A",
+          "variant": "A",
+          "question": "¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?",
+          "options": [
+            "cambios",
+            "wip",
+            "feat: agregar cálculo de churn por segmento",
+            "arreglé el bug"
+          ],
+          "correctIndex": 2,
+          "explanation": "Conventional Commits usa prefijo (`feat:`, `fix:`, `docs:`) y descripción imperativa clara del cambio."
+        },
+        {
+          "id": "S01-T3-A-EX-B",
+          "variant": "B",
+          "question": "Observas este fragmento de `git diff`:\n```\n- timeout = 5\n+ timeout = 30\n+ log.info(\"retry enabled\")\n```\n¿Qué describe mejor el cambio?",
+          "options": [
+            "Se eliminó el logging y se redujo el timeout a 5",
+            "Se aumentó el timeout de 5 a 30 y se añadió una línea de log de reintentos",
+            "Se renombró el archivo completo sin tocar lógica",
+            "Solo se formateó whitespace; no hay cambio semántico"
+          ],
+          "correctIndex": 1,
+          "explanation": "En un diff, `-` es línea quitada y `+` añadida. Aquí se reemplaza timeout 5→30 y se agrega un log."
+        },
+        {
+          "id": "S01-T3-A-EX-C",
+          "variant": "C",
+          "question": "Corregiste un fallo que devolvía NaN en el total de una factura. ¿Qué mensaje es el más adecuado?",
+          "options": [
+            "feat: nueva app de facturación completa",
+            "fix: corregir total NaN cuando el ítem viene vacío",
+            "wip",
+            "update stuff"
+          ],
+          "correctIndex": 1,
+          "explanation": "`fix:` es para correcciones. El mensaje debe decir qué se arregló; `feat:` sería una funcionalidad nueva y `wip` no aporta historial útil."
+        }
+      ]
+    },
+    {
+      "family_id": "S01-T3-B-EX",
+      "concept": "git-branch-pr",
+      "skill": "Flujo de ramas/PR o recuperación segura",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: rama feature + PR vs force-push main; B: propósito del PR; C: restore/stash no destructivo. Force-push nunca es respuesta correcta.",
+      "variants": [
+        {
+          "id": "S01-T3-B-EX-A",
+          "variant": "A",
+          "question": "Vas a implementar una feature nueva en un repo compartido. ¿Cuál es el flujo más seguro?",
+          "options": [
+            "Commitear directo en `main` y hacer force-push",
+            "Crear una rama (`git switch -c feat/...`), commitear ahí, pushear y abrir un Pull Request",
+            "Borrar el remoto y trabajar solo local para siempre",
+            "Editar archivos en GitHub sin rama ni revisión"
+          ],
+          "correctIndex": 1,
+          "explanation": "El trabajo de feature va en rama; el PR permite revisión antes de integrar a `main`. Force-push a main se evita."
+        },
+        {
+          "id": "S01-T3-B-EX-B",
+          "variant": "B",
+          "question": "¿Para qué sirve un Pull Request (PR) en GitHub en este curso?",
+          "options": [
+            "Para instalar paquetes de pip más rápido",
+            "Para proponer e integrar cambios de una rama con descripción y revisión, sin pisar main a ciegas",
+            "Para ocultar el historial de commits del equipo",
+            "Para reemplazar requirements.txt"
+          ],
+          "correctIndex": 1,
+          "explanation": "El PR es el mecanismo de integración y revisión: resume cambios, permite comentarios y merge controlado."
+        },
+        {
+          "id": "S01-T3-B-EX-C",
+          "variant": "C",
+          "question": "Modificaste un archivo, aún no has hecho commit, y quieres descartar solo ese cambio de forma no destructiva para el historial remoto. ¿Qué opción es preferible como hábito seguro?",
+          "options": [
+            "git push --force a main",
+            "git restore del archivo (o stash si quieres guardarlo temporalmente), nunca force-push a main",
+            "Borrar la carpeta .git y clonar de nuevo siempre",
+            "Cambiar el mensaje del último commit ajeno con rebase público"
+          ],
+          "correctIndex": 1,
+          "explanation": "`git restore` / `stash` recuperan el working tree sin reescribir historial compartido. Force-push a main está prohibido como práctica segura."
+        }
+      ]
+    },
+    {
+      "family_id": "S01-T4-A-EX",
+      "concept": "ruff-config",
+      "skill": "Propósito/config de Ruff",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: rol de Ruff (lint+format, no solo format ni venv); B: pyproject.toml [tool.ruff]; C: ruff check F401. No confunde Ruff con formateador-only.",
+      "variants": [
+        {
+          "id": "S01-T4-A-EX-A",
+          "variant": "A",
+          "question": "¿Cuál describe mejor el rol de Ruff en un proyecto Python de este curso?",
+          "options": [
+            "Es un gestor de entornos virtuales que reemplaza a venv",
+            "Es una herramienta de lint (y formato) que detecta problemas de estilo y errores simples vía reglas configurables",
+            "Es el cliente oficial de GitHub para abrir PRs",
+            "Es un REPL alternativo a python"
+          ],
+          "correctIndex": 1,
+          "explanation": "Ruff analiza código (`ruff check`) y puede formatear; no reemplaza venv ni Git. Se configura típicamente en pyproject.toml."
+        },
+        {
+          "id": "S01-T4-A-EX-B",
+          "variant": "B",
+          "question": "¿Dónde se declara normalmente la configuración mínima de Ruff en el repositorio?",
+          "options": [
+            "En un archivo binario dentro de .venv",
+            "En `pyproject.toml` bajo la sección `[tool.ruff]` (p. ej. line-length y select de reglas)",
+            "Solo en la configuración global del sistema operativo",
+            "En `.env` junto a las API keys"
+          ],
+          "correctIndex": 1,
+          "explanation": "La config versionable del linter vive en el repo (`pyproject.toml` → `[tool.ruff]`), no en secretos ni en el venv."
+        },
+        {
+          "id": "S01-T4-A-EX-C",
+          "variant": "C",
+          "question": "Ejecutas `ruff check` y reporta F401 por un `import os` sin usar. ¿Qué implica?",
+          "options": [
+            "Que hay que desactivar Git",
+            "Que Ruff detectó un import no utilizado; conviene eliminarlo o usarlo, no ignorar ciegamente todas las reglas",
+            "Que Python no está instalado",
+            "Que el archivo debe listarse en .gitignore"
+          ],
+          "correctIndex": 1,
+          "explanation": "F401 es import unused: señal de limpieza/calidad. El flujo es corregir el hallazgo (o un noqa justificado), no apagar Ruff por completo."
+        }
+      ]
+    },
+    {
+      "family_id": "S01-T4-B-EX",
+      "concept": "gitignore",
+      "skill": "Manejo de secretos, .gitignore y .env.example",
+      "bloom": "Comprender/Aplicar",
+      "equivalence_note": "A: ignorar .venv; B: .env ignored + .env.example tracked; C: defensa en profundidad de secretos. Revisado para cubrir .env.example y no solo venv.",
+      "variants": [
+        {
+          "id": "S01-T4-B-EX-A",
+          "variant": "A",
+          "question": "¿Cuál de estos SÍ debe listarse en `.gitignore` de un proyecto Python típico?",
+          "options": [
+            "requirements.txt",
+            "README.md",
+            ".venv/",
+            "src/main.py"
+          ],
+          "correctIndex": 2,
+          "explanation": "`.venv/` es regenerable y pesado; no se versiona. El código y requirements/README sí van al repo."
+        },
+        {
+          "id": "S01-T4-B-EX-B",
+          "variant": "B",
+          "question": "Sobre secretos y plantillas de entorno, ¿cuál es la práctica correcta?",
+          "options": [
+            "Subir `.env` con API keys reales y no crear `.env.example`",
+            "Ignorar `.env` (secretos locales) y versionar `.env.example` solo con claves/placeholders sin secretos",
+            "Poner las contraseñas en el README para el equipo",
+            "Commitear `.env` pero en una rama feature"
+          ],
+          "correctIndex": 1,
+          "explanation": "`.env` tiene secretos y no se sube. `.env.example` documenta las variables necesarias con valores vacíos o sintéticos."
+        },
+        {
+          "id": "S01-T4-B-EX-C",
+          "variant": "C",
+          "question": "Un compañero casi sube un archivo con `API_KEY=sk-...` real. ¿Qué combinación protege mejor el repo?",
+          "options": [
+            "Incluir `.env` en `.gitignore`, usar `.env.example` sin secretos y nunca pegar keys en commits ni PRs",
+            "Confiar en que GitHub borra secretos automáticamente al hacer push",
+            "Guardar la key en un comentario dentro de un .py trackeado",
+            "Nombrar el archivo `secrets.txt` y forzarlo con `git add -f`"
+          ],
+          "correctIndex": 0,
+          "explanation": "Defensa en profundidad: ignore de `.env`, plantilla pública sin secretos, y disciplina de no commitear credenciales en ningún path."
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "expected_concepts": [
+      "interpreter-selection",
+      "terminal-paths",
+      "venv-purpose",
+      "pip-install",
+      "commit-message",
+      "git-branch-pr",
+      "ruff-config",
+      "gitignore"
+    ],
+    "expected_variants_per_concept": 3,
+    "expected_total": 24
+  },
+  "equivalence_review": "8 families × 3 stems: each family keeps one skill and MCQ-4 format with distinct scenarios (OS/shell/symptom/artifact), not cosmetic rewording. commit-message B requires git diff reading. pip-install prefers python -m pip. venv uses .venv. gitignore covers .env/.env.example. git-branch-pr never rewards force-push. ruff not framed as format-only."
+}

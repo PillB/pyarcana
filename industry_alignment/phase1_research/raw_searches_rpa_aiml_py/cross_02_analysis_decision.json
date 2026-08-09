@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.dataversity.net/articles/data-science-vs-decision-science-a-new-era-dawns",
+    "name": "Data Science vs. Decision Science: A New Era Dawns",
+    "snippet": "Mar 16, 2022 — Data scientists use data analysis to uncover insights to improve products and processes, while decision scientists use data analysis to aid ... Read more",
+    "host_name": "www.dataversity.net",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/datascience/comments/1hk7fx3/do_data_scientists_do_research_and_analysis_of",
+    "name": "Do data scientists do research and analysis of business",
+    "snippet": "Are data scientists, scientists of data itself but not applied analysts producing business analysis for business leaders?\n\nPut another way, are data scientists ...",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.datascience-pm.com/project-failures",
+    "name": "Why Big Data Science & Data Analytics Projects Fail",
+    "snippet": "87% of data science projects never make it to production (VentureBeat, 2019). “Through 2022, only 20% of analytic insights will deliver business outcomes” ( ... Read more",
+    "host_name": "www.datascience-pm.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/pulse/how-o-identify-your-problem-data-science-parsa-hajiannezhad-imuhc",
+    "name": "How o Identify If Your Problem Is A Data Science Problem?",
+    "snippet": "If we apply data science methods to the wrong type of problem, it could lead to poor decisions or even serious failures . This is important in ... Read more",
+    "host_name": "www.linkedin.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://sloanreview.mit.edu/article/why-so-many-data-science-projects-fail-to-deliver",
+    "name": "Why So Many Data Science Projects Fail to Deliver",
+    "snippet": "2021 · Cited by 63 — Organizations can gain more business value from advanced analytics by recognizing and overcoming five common obstacles.",
+    "host_name": "sloanreview.mit.edu",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.quora.com/Is-the-reason-so-many-companies-fail-to-capitalize-on-data-science-and-machine-learning-because-of-a-lack-in-talent-or-because-the-business-does-not-spend-enough-time-understanding-its-value",
+    "name": "Is the reason so many companies fail to capitalize on data",
+    "snippet": "Is the reason so many companies fail to capitalize on data science and machine learning because of a lack in talent or because the business does not ...",
+    "host_name": "www.quora.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8274472",
+    "name": "Data Science and Analytics: An Overview from Data-Driven",
+    "snippet": "2021 · Cited by 970 — In this paper, we present a comprehensive view on “Data Science” including various types of advanced analytics methods that can be applied to enhance the ... Read more",
+    "host_name": "pmc.ncbi.nlm.nih.gov",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hdsr.mitpress.mit.edu/pub/9ir6e1j6",
+    "name": "Data Science and Decision Science Skills: Are They Different",
+    "snippet": "Our findings highlight the importance of integrating these skill sets to bridge the gap between technical analysis and actionable decisions. For a variety of reasons, many data-driven projects fail to deliver business value.",
+    "host_name": "hdsr.mitpress.mit.edu",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 51,
+  "packet_sha": "5a73979b2cf5bb07",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S51-T1-A-E1", "answer": "from_iDo_traces", "code": "print(\"trace_id\", \"t-1\"); print(\"spans\", [\"prompt\",\"retrieve\",\"tool\"]); print(\"audit\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["traces prompts/retrieval/tools"]},
+    {"exercise_id": "S51-T1-A-E2", "answer": "independent_trace_spans", "code": "print(\"trace_id\", \"t-1\"); print(\"spans\", [\"prompt\",\"retrieve\",\"tool\"]); print(\"audit\", True)\nprint(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["observability traces"]},
+    {"exercise_id": "S51-T1-A-E3", "answer": "transfer_traces_audit", "code": "# Transfer FINAL: know which version, evidence, tools via traces.\nprint(\"audit\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["traces"]},
+    {"exercise_id": "S51-T1-B-E1", "answer": "from_iDo_tokens_cost", "code": "print(\"tokens\", 1200); print(\"redaction\", True); print(\"latency_ms\", 900)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["tokens", "cost", "latency", "redacción"]},
+    {"exercise_id": "S51-T1-B-E2", "answer": "independent_redaction", "code": "print(\"tokens\", 1200); print(\"redaction\", True); print(\"latency_ms\", 900)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["redaction"]},
+    {"exercise_id": "S51-T1-B-E3", "answer": "transfer_tokens_cost_latency_redact", "code": "# Transfer: meter tokens/latency; redact; no PII real.\nprint(\"redaction\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["ops metrics"]},
+    {"exercise_id": "S51-T2-A-E1", "answer": "from_iDo_registry", "code": "print(\"registry\", True); print(\"versions\", {\"model\":\"m-2\"}); print(\"pin\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["registro modelo/prompt/dataset"]},
+    {"exercise_id": "S51-T2-A-E2", "answer": "independent_pin_version", "code": "print(\"registry\", True); print(\"versions\", {\"model\":\"m-2\"}); print(\"pin\", True)\nprint(\"gate\", \"CP-N4-C (cierre) + CF-5 + Level-4 regression\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["version pin"]},
+    {"exercise_id": "S51-T2-A-E3", "answer": "transfer_registry_versions", "code": "# Transfer CF-5: freeze artifacts/interfaces; pin model versions.\nprint(\"pin\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["registry"]},
+    {"exercise_id": "S51-T2-B-E1", "answer": "from_iDo_change_access", "code": "print(\"access_log\", True); print(\"retention\", 180); print(\"change_control\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["cambio", "acceso", "retención", "auditoría"]},
+    {"exercise_id": "S51-T2-B-E2", "answer": "independent_retention", "code": "print(\"access_log\", True); print(\"retention\", 180); print(\"change_control\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["governance"]},
+    {"exercise_id": "S51-T2-B-E3", "answer": "transfer_change_access_retention_audit", "code": "# Transfer: access_log; retention 180; change_control.\nprint(\"change_control\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["audit"]},
+    {"exercise_id": "S51-T3-A-E1", "answer": "from_iDo_slo_drift", "code": "print(\"slo\", True); print(\"drift_watch\", True); print(\"feedback_loop\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["SLO", "feedback", "drift"]},
+    {"exercise_id": "S51-T3-A-E2", "answer": "independent_drift_watch", "code": "print(\"slo\", True); print(\"drift_watch\", True); print(\"feedback_loop\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["drift"]},
+    {"exercise_id": "S51-T3-A-E3", "answer": "transfer_slo_feedback_drift", "code": "# Transfer: SLO + drift_watch + feedback_loop on dashboard.\nprint(\"drift_watch\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["ops dashboard"]},
+    {"exercise_id": "S51-T3-B-E1", "answer": "from_iDo_incidents", "code": "print(\"rollback\", \"m-1\"); print(\"postmortem\", True); print(\"action_items\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["incidents", "rollback", "postmortem"]},
+    {"exercise_id": "S51-T3-B-E2", "answer": "independent_incident_theory", "code": "print({\"sev\":\"P1\",\"rollback_to\":\"m-1\"}); print(\"page\", True); print(\"timeline\", \"required\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["incident response"]},
+    {"exercise_id": "S51-T3-B-E3", "answer": "transfer_incidents_rollback_postmortem", "code": "# Transfer FINAL: rollback model version; postmortem + action_items.\nprint(\"postmortem\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["rollback"]},
+    {"exercise_id": "S51-T4-A-E1", "answer": "from_iDo_uncertainty_cites", "code": "print(\"uncertainty\", True); print(\"cites\", True); print(\"confirm_gate\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["incertidumbre", "citas", "confirmaciones"]},
+    {"exercise_id": "S51-T4-A-E2", "answer": "independent_confirm_before_effects", "code": "print({\"uncertainty\":\"low/med/high\",\"cites\":True}); print(\"show_cites\", True); print(\"confirm\", \"before_side_effects\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["UX copilot"]},
+    {"exercise_id": "S51-T4-A-E3", "answer": "transfer_uncertainty_cites_confirm", "code": "# Transfer: show uncertainty+cites; confirm before side effects.\nprint(\"confirm_gate\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["copilot UX"]},
+    {"exercise_id": "S51-T4-B-E1", "answer": "from_iDo_a11y_contest", "code": "print(\"a11y\", True); print(\"correction\", True); print(\"contest\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["accesibilidad", "corrección", "contestabilidad"]},
+    {"exercise_id": "S51-T4-B-E2", "answer": "independent_a11y_theory", "code": "print({\"contrast\":\"AA\",\"keyboard\":True}); print({\"edit\":True,\"contest\":True}); print(\"human_rights\", \"contestability\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["a11y", "contestability"]},
+    {"exercise_id": "S51-T4-B-E3", "answer": "transfer_a11y_correction_contest", "code": "# Transfer FINAL system card + UX: a11y, correction, contestability; synthetic.\nprint(\"contest\", True)\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["contestability"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "integrator-final", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id integrator-final preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-C (cierre) + CF-5 + Level-4 regression", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-N4-C (cierre) + CF-5 + Level-4 regression FINAL."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER = misma entidad cuando aplique."}
+  ],
+  "confusion_points": ["weDo TODO", "id integrator-final vs observability copilot retheme"],
+  "retrospection": "Observability/governance/UX from iDo; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

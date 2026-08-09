@@ -1,0 +1,1084 @@
+{
+  "section_index": 8,
+  "section_id": "pandas",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 5,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S08-T1-A-E1",
+          "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'demo.txt'\np.write_text('hola', encoding='utf-8')\nprint(p.exists())",
+          "note": "",
+          "concepts_used": [
+            "Path",
+            "utf-8"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T1-A-E2",
+          "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'lines.txt'\nwith p.open('w', encoding='utf-8') as f:\n    f.write('a\\nb\\nc\\n')\nprint([ln.strip() for ln in p.read_text(encoding='utf-8').splitlines()])",
+          "note": "",
+          "concepts_used": [
+            "with open"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T1-A-E3",
+          "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'bad.txt'\np.write_bytes(b'\\xff\\xfe')\ntry:\n    p.read_text(encoding='utf-8')\nexcept UnicodeDecodeError as e:\n    print(type(e).__name__, '→ cuarentena o reintentar encoding documentado')",
+          "note": "",
+          "concepts_used": [
+            "UnicodeDecodeError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T1-B-E1",
+          "code": "win = b'a\\r\\nb\\r\\n'\nunix = b'a\\nb\\n'\nprint(b'\\r\\n' in win)\nprint(b'\\r\\n' in unix)",
+          "note": "",
+          "concepts_used": [
+            "CRLF"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T1-B-E2",
+          "code": "from pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_name(path.name + '.tmp')\n    tmp.write_text(text, encoding='utf-8')\n    os.replace(tmp, path)\n\ntd = Path(tempfile.mkdtemp())\np = td / 'out.txt'\nwrite_atomic(p, 'ok\\n')\nprint(p.read_text(encoding='utf-8'))",
+          "note": "",
+          "concepts_used": [
+            "write_atomic"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T1-B-E3",
+          "code": "from pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_name(path.name + '.tmp')\n    tmp.write_text(text, encoding='utf-8')\n    os.replace(tmp, path)\n\ntd = Path(tempfile.mkdtemp())\ndest = td / 'f.txt'\ndest.write_text('PARCIAL', encoding='utf-8')\nprint(dest.read_text(encoding='utf-8'))\nwrite_atomic(dest, 'COMPLETO')\nprint(dest.read_text(encoding='utf-8'))",
+          "note": "",
+          "concepts_used": [
+            "atomic vs parcial"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-A-E1",
+          "code": "import csv, io\nraw = 'id,nombre\\nC001,Ana\\n'\nfor row in csv.DictReader(io.StringIO(raw)):\n    print(row['id'], row['nombre'])",
+          "note": "",
+          "concepts_used": [
+            "DictReader"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-A-E2",
+          "code": "import csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=['id', 'nombre'])\nw.writeheader()\nw.writerow({'id': 'C001', 'nombre': 'Ana'})\nbuf.seek(0)\nrows = list(csv.DictReader(buf))\nn = len(rows)\nprint(n)",
+          "note": "",
+          "concepts_used": [
+            "DictWriter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-A-E3",
+          "code": "vals = ['10', 'x', '3.5']\nfor v in vals:\n    try:\n        m = float(v)\n        print(v, 'ok', m)\n    except ValueError:\n        print(v, 'reject', 'cast_monto')",
+          "note": "",
+          "concepts_used": [
+            "cast float"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-B-E1",
+          "code": "header = ['id', 'nombre']\nrow = ['C1', 'Ana', 'x']\nirregular = len(row) != len(header)\nprint(irregular)",
+          "note": "",
+          "concepts_used": [
+            "col_count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-B-E2",
+          "code": "from pathlib import Path\nimport csv, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'quarantine.csv'\nwith p.open('w', newline='', encoding='utf-8') as f:\n    w = csv.DictWriter(f, fieldnames=['raw', 'reason'])\n    w.writeheader()\n    w.writerow({'raw': 'C002,Luis,EXTRA', 'reason': 'col_count'})\nwith p.open(newline='', encoding='utf-8') as f:\n    for row in csv.DictReader(f):\n        print(row['reason'])",
+          "note": "",
+          "concepts_used": [
+            "quarantine csv"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-B-E3",
+          "code": "from collections import Counter\nreasons = ['col_count', 'cast_monto', 'col_count', 'schema']\nfor reason, n in sorted(Counter(reasons).items()):\n    print(reason, n)",
+          "note": "",
+          "concepts_used": [
+            "Counter reasons"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-A-E1",
+          "code": "import json\nobj = json.loads('{\"id\":\"C001\"}')\nprint(obj['id'])",
+          "note": "",
+          "concepts_used": [
+            "json.loads"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-A-E2",
+          "code": "import json\ns = json.dumps({'nombre': 'José'}, ensure_ascii=False)\nprint(s)",
+          "note": "",
+          "concepts_used": [
+            "ensure_ascii=False"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-A-E3",
+          "code": "import json\nfrom datetime import datetime\nobj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}\ntry:\n    json.dumps(obj)\nexcept TypeError as e:\n    print('TypeError', e)\nobj2 = {'ts': obj['ts'].isoformat()}\nprint(json.dumps(obj2))",
+          "note": "",
+          "concepts_used": [
+            "isoformat"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-B-E1",
+          "code": "def validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return len(missing) == 0, missing\nprint(validate_schema({'id': 'C1'}, ['id', 'email']))",
+          "note": "",
+          "concepts_used": [
+            "required keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-B-E2",
+          "code": "obj = {'id': 'C1', 'email': None}\nprint('in', 'email' in obj)\nprint('valor', obj['email'])",
+          "note": "",
+          "concepts_used": [
+            "null vs missing"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-B-E3",
+          "code": "a = {'id': 'C1'}\nb = {'id': 'C2', 'segment': 'vip'}\na.setdefault('segment', 'standard')\nb.setdefault('segment', 'standard')\nprint(a)\nprint(b)",
+          "note": "",
+          "concepts_used": [
+            "setdefault"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-A-E1",
+          "code": "from pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'f.bin'\np.write_bytes(b'abc')\ndigest = hashlib.sha256(p.read_bytes()).hexdigest()\nprint(digest[:8], len(digest))",
+          "note": "",
+          "concepts_used": [
+            "sha256"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-A-E2",
+          "code": "from pathlib import Path\nimport shutil, tempfile\ntd = Path(tempfile.mkdtemp())\nsrc = td / 'in.csv'\nsrc.write_text('a\\n', encoding='utf-8')\nbak = Path(str(src) + '.bak')\nshutil.copy2(src, bak)\nprint(bak.read_bytes() == src.read_bytes())",
+          "note": "",
+          "concepts_used": [
+            "backup copy2"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-A-E3",
+          "code": "from pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'clients.csv'\np.write_text('id\\nC1\\n', encoding='utf-8')\nprov = {\n    'path': p.name,\n    'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),\n    'bytes': p.stat().st_size,\n}\nprint(prov)",
+          "note": "",
+          "concepts_used": [
+            "provenance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-B-E1",
+          "code": "manifest = {\n    'run_id': 'demo-001',\n    'n_in': 5,\n    'n_clean': 4,\n    'n_quarantine': 1,\n    'inputs': [{'name': 'clients.csv'}],\n}\nprint(sorted(manifest))",
+          "note": "",
+          "concepts_used": [
+            "manifest keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-B-E2",
+          "code": "def reconcile(n_in, n_clean, n_quar):\n    return n_in == n_clean + n_quar\nprint(reconcile(5, 3, 2))\nprint(reconcile(5, 3, 1))",
+          "note": "",
+          "concepts_used": [
+            "reconcile"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-B-E3",
+          "code": "def run(n_in, n_clean, n_quar):\n    if n_in != n_clean + n_quar:\n        print('ERROR reconcile fail exit=1')\n        return 1\n    print('OK')\n    return 0\nrun(4, 2, 2)\nrun(4, 2, 1)",
+          "note": "",
+          "concepts_used": [
+            "fail closed"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S08-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a', 'b', 'c']\n",
+          "expected_head": "['a', 'b', 'c']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "UnicodeDecodeError → cuarentena o reintentar encoding documentado\n",
+          "expected_head": "UnicodeDecodeError\nacción: cuarentenar archivo o reintentar con encoding documentado",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\n\n",
+          "expected_head": "ok\n",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "PARCIAL\nCOMPLETO\n",
+          "expected_head": "mid PARCIAL\nfinal COMPLETO",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001 Ana\n",
+          "expected_head": "{'id': 'C001', 'nombre': 'Ana'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1\n{'id': 'C001', 'nombre': 'Ana'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10 ok 10.0\nx reject cast_monto\n3.5 ok 3.5\n",
+          "expected_head": "ok 10.0\nreject x motivo=cast_monto\nok 3.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "col_count\n",
+          "expected_head": "col_count",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cast_monto 1\ncol_count 2\nschema 1\n",
+          "expected_head": "cast_monto 1\ncol_count 2\nschema 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001\n",
+          "expected_head": "C001",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{\"nombre\": \"José\"}\n",
+          "expected_head": "{\"nombre\": \"José\"}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "TypeError Object of type datetime is not JSON serializable\n{\"ts\": \"2026-01-15T10:00:00\"}\n",
+          "expected_head": "TypeError\n{\"ts\": \"2026-01-15T10:00:00\"}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(False, ['email'])\n",
+          "expected_head": "(False, ['email'])",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "in True\nvalor None\n",
+          "expected_head": "True\nNone",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'C1', 'segment': 'standard'}\n{'id': 'C2', 'segment': 'vip'}\n",
+          "expected_head": "{'id': 'C1', 'segment': 'standard'}\n{'id': 'C2', 'segment': 'vip'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ba7816bf 64\n",
+          "expected_head": "ba7816bf 64",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6}\n",
+          "expected_head": "{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['inputs', 'n_clean', 'n_in', 'n_quarantine', 'run_id']\n",
+          "expected_head": "['inputs', 'n_clean', 'n_in', 'n_quarantine', 'run_id']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "OK\nERROR reconcile fail exit=1\n",
+          "expected_head": "OK\nexit_code 0\nERROR reconcile 4 2 1\nexit_code 1",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S08-T1-A-E1",
+          "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'demo.txt'\np.write_text('hola', encoding='utf-8')\nprint(p.exists())",
+          "note": "",
+          "concepts_used": [
+            "Path",
+            "write_text",
+            "exists"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T1-A-E2",
+          "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'lines.txt'\nwith p.open('w', encoding='utf-8') as f:\n    f.write('a\\nb\\nc\\n')\nlines = [ln.strip() for ln in p.read_text(encoding='utf-8').splitlines()]\nprint(lines)",
+          "note": "",
+          "concepts_used": [
+            "with open",
+            "utf-8"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T1-A-E3",
+          "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'bad.txt'\np.write_bytes(b'\\xff\\xfe')\ntry:\n    p.read_text(encoding='utf-8')\nexcept UnicodeDecodeError as e:\n    print(type(e).__name__, e)\n    print('sugiere: encoding documentado o quarantine del archivo')",
+          "note": "",
+          "concepts_used": [
+            "UnicodeDecodeError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T1-B-E1",
+          "code": "win = b'a\\r\\nb\\r\\n'\nunix = b'a\\nb\\n'\nprint(b'\\r\\n' in win)\nprint(b'\\r\\n' in unix)",
+          "note": "",
+          "concepts_used": [
+            "CRLF"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T1-B-E2",
+          "code": "from pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_suffix(path.suffix + '.tmp')\n    tmp.write_text(text, encoding='utf-8')\n    os.replace(tmp, path)\n\ntd = Path(tempfile.mkdtemp())\np = td / 'out.txt'\nwrite_atomic(p, 'ok\\n')\nprint(p.read_text(encoding='utf-8'))",
+          "note": "",
+          "concepts_used": [
+            "os.replace atomic"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T1-B-E3",
+          "code": "from pathlib import Path\nimport os, tempfile\ntd = Path(tempfile.mkdtemp())\ndest = td / 'f.txt'\ndest.write_text('PARCIAL', encoding='utf-8')\nprint(dest.read_text(encoding='utf-8'))\ntmp = td / 'f.txt.tmp'\ntmp.write_text('COMPLETO', encoding='utf-8')\nos.replace(tmp, dest)\nprint(dest.read_text(encoding='utf-8'))",
+          "note": "",
+          "concepts_used": [
+            "partial vs atomic"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-A-E1",
+          "code": "import csv, io\nraw = 'id,nombre\\nC001,Ana\\n'\nfor row in csv.DictReader(io.StringIO(raw)):\n    print(row)",
+          "note": "",
+          "concepts_used": [
+            "DictReader"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-A-E2",
+          "code": "import csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=['id', 'nombre'])\nw.writeheader()\nw.writerow({'id': 'C001', 'nombre': 'Ana'})\nbuf.seek(0)\nrows = list(csv.DictReader(buf))\nn = len(rows)\nprint(n)",
+          "note": "",
+          "concepts_used": [
+            "DictWriter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-A-E3",
+          "code": "vals = ['10', 'x', '3.5']\nfor v in vals:\n    try:\n        m = float(v)\n        print(v, 'ok', m)\n    except ValueError:\n        print(v, 'reject', 'cast_monto')",
+          "note": "",
+          "concepts_used": [
+            "explicit cast"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-B-E1",
+          "code": "header = ['id', 'nombre']\nrow = ['C1', 'Ana', 'x']\nirregular = len(row) != len(header)\nprint(irregular)",
+          "note": "",
+          "concepts_used": [
+            "col_count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-B-E2",
+          "code": "from pathlib import Path\nimport csv, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'quarantine.csv'\nwith p.open('w', newline='', encoding='utf-8') as f:\n    w = csv.DictWriter(f, fieldnames=['raw', 'reason'])\n    w.writeheader()\n    w.writerow({'raw': 'C002,Luis,EXTRA', 'reason': 'col_count'})\nwith p.open(encoding='utf-8', newline='') as f:\n    for row in csv.DictReader(f):\n        print(row['reason'])",
+          "note": "",
+          "concepts_used": [
+            "quarantine CSV"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T2-B-E3",
+          "code": "from collections import Counter\nreasons = ['col_count', 'cast_monto', 'col_count', 'schema']\nfor r, c in sorted(Counter(reasons).items()):\n    print(r, c)",
+          "note": "",
+          "concepts_used": [
+            "reason counters"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-A-E1",
+          "code": "import json\nobj = json.loads('{\"id\":\"C001\"}')\nprint(obj['id'])",
+          "note": "",
+          "concepts_used": [
+            "json.loads"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-A-E2",
+          "code": "import json\ns = json.dumps({'nombre': 'José'}, ensure_ascii=False)\nprint(s)",
+          "note": "",
+          "concepts_used": [
+            "ensure_ascii=False"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-A-E3",
+          "code": "import json\nfrom datetime import datetime\nobj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}\ntry:\n    print(json.dumps(obj))\nexcept TypeError as e:\n    print('TypeError', e)\n    obj2 = {'ts': obj['ts'].isoformat()}\n    print(json.dumps(obj2))",
+          "note": "",
+          "concepts_used": [
+            "isoformat"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-B-E1",
+          "code": "def validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return len(missing) == 0, missing\nprint(validate_schema({'id': 'C1'}, ['id', 'email']))",
+          "note": "",
+          "concepts_used": [
+            "required keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-B-E2",
+          "code": "obj = {'id': 'C1', 'email': None}\nprint('in', 'email' in obj)\nprint('valor', obj['email'])",
+          "note": "",
+          "concepts_used": [
+            "null vs missing"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T3-B-E3",
+          "code": "a = {'id': 'C1'}\nb = {'id': 'C2', 'segment': 'vip'}\na.setdefault('segment', 'standard')\nb.setdefault('segment', 'standard')\nprint(a)\nprint(b)",
+          "note": "",
+          "concepts_used": [
+            "setdefault"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-A-E1",
+          "code": "from pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'f.bin'\np.write_bytes(b'abc')\ndigest = hashlib.sha256(p.read_bytes()).hexdigest()\nprint(digest[:8], len(digest))",
+          "note": "",
+          "concepts_used": [
+            "sha256"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-A-E2",
+          "code": "from pathlib import Path\nimport shutil, tempfile\ntd = Path(tempfile.mkdtemp())\nsrc = td / 'in.csv'\nsrc.write_text('a\\n', encoding='utf-8')\nbak = Path(str(src) + '.bak')\nshutil.copy2(src, bak)\nprint(bak.read_bytes() == src.read_bytes())",
+          "note": "",
+          "concepts_used": [
+            "shutil.copy2"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-A-E3",
+          "code": "from pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'clients.csv'\np.write_text('id\\nC1\\n', encoding='utf-8')\nprovenance = {\n    'path': p.name,\n    'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),\n    'bytes': p.stat().st_size,\n}\nprint(provenance)",
+          "note": "",
+          "concepts_used": [
+            "provenance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-B-E1",
+          "code": "manifest = {\n    'run_id': 'demo-001',\n    'n_in': 5,\n    'n_clean': 4,\n    'n_quarantine': 1,\n    'inputs': [{'name': 'clients.csv', 'sha256': 'deadbeef'}],\n}\nprint(sorted(manifest))",
+          "note": "",
+          "concepts_used": [
+            "manifest keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-B-E2",
+          "code": "def reconcile(n_in, n_clean, n_quar):\n    return n_in == n_clean + n_quar\nprint(reconcile(5, 3, 2))\nprint(reconcile(5, 3, 1))",
+          "note": "",
+          "concepts_used": [
+            "reconcile"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S08-T4-B-E3",
+          "code": "def run(n_in, n_clean, n_quar):\n    if n_in != n_clean + n_quar:\n        print('ERROR reconcile', n_in, n_clean, n_quar)\n        print('exit_code', 1)\n        return 1\n    print('OK')\n    return 0\nrun(4, 2, 2)\nrun(4, 2, 1)",
+          "note": "",
+          "concepts_used": [
+            "fail closed"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S08-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a', 'b', 'c']\n",
+          "expected_head": "['a', 'b', 'c']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "UnicodeDecodeError 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte\nsugiere: encoding documentado ",
+          "expected_head": "UnicodeDecodeError\nacción: cuarentenar archivo o reintentar con encoding documentado",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\n\n",
+          "expected_head": "ok\n",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "PARCIAL\nCOMPLETO\n",
+          "expected_head": "mid PARCIAL\nfinal COMPLETO",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'C001', 'nombre': 'Ana'}\n",
+          "expected_head": "{'id': 'C001', 'nombre': 'Ana'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1\n{'id': 'C001', 'nombre': 'Ana'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10 ok 10.0\nx reject cast_monto\n3.5 ok 3.5\n",
+          "expected_head": "ok 10.0\nreject x motivo=cast_monto\nok 3.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "col_count\n",
+          "expected_head": "col_count",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cast_monto 1\ncol_count 2\nschema 1\n",
+          "expected_head": "cast_monto 1\ncol_count 2\nschema 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C001\n",
+          "expected_head": "C001",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{\"nombre\": \"José\"}\n",
+          "expected_head": "{\"nombre\": \"José\"}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "TypeError Object of type datetime is not JSON serializable\n{\"ts\": \"2026-01-15T10:00:00\"}\n",
+          "expected_head": "TypeError\n{\"ts\": \"2026-01-15T10:00:00\"}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(False, ['email'])\n",
+          "expected_head": "(False, ['email'])",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "in True\nvalor None\n",
+          "expected_head": "True\nNone",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'C1', 'segment': 'standard'}\n{'id': 'C2', 'segment': 'vip'}\n",
+          "expected_head": "{'id': 'C1', 'segment': 'standard'}\n{'id': 'C2', 'segment': 'vip'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ba7816bf 64\n",
+          "expected_head": "ba7816bf 64",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6}\n",
+          "expected_head": "{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['inputs', 'n_clean', 'n_in', 'n_quarantine', 'run_id']\n",
+          "expected_head": "['inputs', 'n_clean', 'n_in', 'n_quarantine', 'run_id']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S08-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "OK\nERROR reconcile 4 2 1\nexit_code 1\n",
+          "expected_head": "OK\nexit_code 0\nERROR reconcile 4 2 1\nexit_code 1",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

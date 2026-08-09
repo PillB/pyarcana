@@ -1,0 +1,383 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H2",
+  "section_index": 3,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-exp-s03-636071-97512",
+  "production_note": "agentic_H2 dual-LLM explorer: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nedad = 25\nregion = \"Cusco\"\n\nprint(python3 --version)  # edad >= 18\nprint(revisar PATH / py launcher)  # edad < 65\nprint(usar python3 de forma consistente)  # 18 <= edad <= 65\nprint(reabrir terminal tras instalar)  # region == \"Lima\"\nprint(verificar con which/where python)  # region != \"Piura\"",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T1-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Con `edad = 25` y `region = \"Cusco\"`, imprime el booleano de: `edad >= 18`, `edad < 65» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo edad = 25 region = \"Cusco\"  pri». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "edad",
+        "region",
+        "Cusco",
+        "imprime",
+        "booleano"
+      ]
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "code": "# explorer: completed from starter + packet demo\nTIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", python3 --version)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T1-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Define `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}`. Para cada valor en `[\"DNI\", \"dni\", \"» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "independiente",
+        "Define",
+        "TIPOS_DOC",
+        "Para",
+        "cada",
+        "valor"
+      ]
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "code": "# Transfer / protocolo — S03-T1-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `True is 1`. Explica en un print cuándo usar `is` vs `==` en validadores de intake.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: comparaciones, operador, booleano, negocio, nace, comparación, intake, comparas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- is None para ausencia; == para valores de negocio. No uses is con enteros.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T1-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `T» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S03-T1-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Diagn",
+        "stico",
+        "imprime",
+        "valor",
+        "None"
+      ]
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nvals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", python3 --version)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T1-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Tabla truthiness: imprime `bool(v)` para `None`, `False`, `0`, `0.0`, `\"\"`, `[]`, `{}`» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo vals = [None, False, 0, 0.0, \"\"». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Tabla",
+        "truthiness",
+        "imprime",
+        "bool",
+        "para"
+      ]
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "code": "# explorer: completed from starter + packet demo\nprint(\"'' or 'default' →\", python3 --version)\nprint(\"'Lima' or 'default' →\", revisar PATH / py launcher)\nprint(\"0 and 99 →\", usar python3 de forma consistente)\nprint(\"5 and 99 →\", reabrir terminal tras instalar)\nprint(\"None or 0 →\", verificar con which/where python)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T1-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Predice e imprime: `'' or 'default'`, `'Lima' or 'default'`, `0 and 99`, `5 and» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo print(\"'' or 'default' →\", pyth». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "independiente",
+        "Predice",
+        "imprime",
+        "default",
+        "Lima",
+        "default"
+      ]
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "code": "# Transfer / protocolo — S03-T1-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Bug: un validador hace `if not monto: return \"reject\"`. Reescribe `validate_monto(m)` con `is None` para review, `< 0` reject, y accept para 0 y positivos. Prueba `None`, `0`, `-1`, `100`.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: comparaciones, operador, booleano, negocio, nace, comparación, intake, comparas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Nunca uses truthiness para montos. if m is None primero.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T1-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Bug: un validador hace `if not monto: return \"reject\"`. Reescribe `validate_mon» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S03-T1-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "validador",
+        "hace",
+        "monto",
+        "return",
+        "reject"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "code": "# explorer: completed from starter + packet demo\ndef classify_score(score: int) -> str:\n    pass\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T2-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Completa `classify_score`: ≥80 accept, ≥50 review, else reject. Imprime resultados par» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def classify_score(score: int) ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Completa",
+        "classify_score",
+        "accept",
+        "review",
+        "else"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "code": "# explorer: completed from starter + packet demo\ndef bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    pass\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T2-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — La función `bad` usa ifs independientes y clasifica mal el 95 (queda review). R» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def bad(score):     status = No». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "funci",
+        "independientes",
+        "clasifica",
+        "queda",
+        "review"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "code": "# Transfer / protocolo — S03-T2-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Traza mentalmente y luego implementa `band(n)`: `>100` alto, `>50` medio, `>0` bajo, else nulo. Verifica 150, 75, 10, 0, -3.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: comparaciones, operador, booleano, negocio, nace, comparación, intake, comparas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Orden: primero el umbral más alto. else cubre 0 y negativos.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T2-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Traza mentalmente y luego implementa `band(n)`: `>100` alto, `>50` medio, `>0` » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S03-T2-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Traza",
+        "mentalmente",
+        "luego",
+        "implementa",
+        "band"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "code": "# explorer: completed from starter + packet demo\ndef validate_edad(edad):\n    pass\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T2-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Completa guards en `validate_edad`: None → MISSING/review; no int → BAD_TYPE/reject; l» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def validate_edad(edad):     pa». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Completa",
+        "guards",
+        "validate_edad",
+        "None",
+        "MISSING"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "code": "# explorer: completed from starter + packet demo\ndef validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    pass\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T2-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Refactoriza la pirámide anidada de `validate_monto_nested` a guards lineales co» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def validate_monto_nested(m):  ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Refactoriza",
+        "mide",
+        "anidada",
+        "validate_monto_nested",
+        "guards"
+      ]
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "code": "# Transfer / protocolo — S03-T2-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — En el snippet, identifica la rama muerta: imprime cuál `elif` nunca corre y por qué. Luego reordena/corrige para que `x == 0` sea alcanzable y muestre `cero`.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: comparaciones, operador, booleano, negocio, nace, comparación, intake, comparas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Mira el orden: cualquier condición ya cubierta por un if anterior es inalcanzable.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T2-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — En el snippet, identifica la rama muerta: imprime cuál `elif` nunca corre y por» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S03-T2-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "snippet",
+        "identifica",
+        "rama",
+        "muerta",
+        "imprime"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "code": "# explorer: completed from starter + packet demo\nALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    pass\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T3-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — `ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}`. Escribe `check_region(r)`: None → » y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo ALLOWED = {\"Lima\", \"Arequipa\", ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "ALLOWED",
+        "Lima",
+        "Arequipa",
+        "Cusco",
+        "Piura"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "code": "# explorer: completed from starter + packet demo\ndef monto_ingreso(m):\n    pass\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T3-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — `monto_ingreso(m)`: None → review; <0 → reject; >50000 → review (outlier); else» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def monto_ingreso(m):     pass ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "monto_ingreso",
+        "None",
+        "review",
+        "reject",
+        "review"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "code": "# Transfer / protocolo — S03-T3-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Combina allowlist de tipo_doc `{\"DNI\",\"CE\",\"PAS\"}` con longitudes DNI=8, CE=9, PAS=9. Devuelve dict status/code: MISSING, NOT_IN_ALLOWLIST, OUT_OF_RANGE, OK. Casos: DNI+8 dígitos, DNI corto, RUC, Non\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: comparaciones, operador, booleano, negocio, nace, comparación, intake, comparas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Primero None, luego not in allowlist, luego len != esperado.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T3-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Combina allowlist de tipo_doc `{\"DNI\",\"CE\",\"PAS\"}` con longitudes DNI=8, CE=9, » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S03-T3-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Combina",
+        "allowlist",
+        "tipo_doc",
+        "longitudes",
+        "Devuelve"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nTABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"python3 --version\",\n    \"OUT_OF_RANGE\": \"revisar PATH / py launcher\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T3-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Completa la decision table como dict `codigo → status` para OK→accept, MISSING→review,» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo TABLE = {     \"OK\": \"accept\",  ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "guiado",
+        "Completa",
+        "decision",
+        "table",
+        "como",
+        "dict"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "code": "# explorer: completed from starter + packet demo\ndef status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T3-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Implementa la misma tabla con `match/case`, OR patterns para MISSING|NEEDS_REVI» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def status_match(code: str) -> ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Implementa",
+        "misma",
+        "tabla",
+        "match",
+        "case"
+      ]
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "code": "# Transfer / protocolo — S03-T3-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Para (a) códigos de error finitos y (b) rango de edad 18–65, elige if o match, implementa ambos validadores y justifica en prints por qué match no es ideal para el rango numérico.\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: comparaciones, operador, booleano, negocio, nace, comparación, intake, comparas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- match brilla en literales; rangos numéricos son más claros con if y comparaciones.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T3-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Para (a) códigos de error finitos y (b) rango de edad 18–65, elige if o match, » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S03-T3-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Para",
+        "digos",
+        "error",
+        "finitos",
+        "rango"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "code": "# explorer: completed from starter + packet demo\ndef validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"python3 --version\"},\n    {\"value\": -1, \"expected\": \"revisar PATH / py launcher\"},\n    {\"value\": None, \"expected\": \"usar python3 de forma consistente\"},\n    {\"value\": \"x\", \"expected\": \"reabrir terminal tras instalar\"},\n]\nfor ex in examples:\n    got = validate_edad(ex[\"value\"])\n    print(ex[\"value\"], got, got == ex[\"expected\"])\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T4-A-E1 leyendo la instruction del paquete activo «E1 (guiado) — Completa `examples` para el campo `edad` con expected accept/reject/review/missing (us» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def validate_edad(e):     if e ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.)",
+      "concepts_used": [
+        "guiado",
+        "Completa",
+        "examples",
+        "para",
+        "campo",
+        "edad"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "code": "# explorer: completed from starter + packet demo\ndef validate_apellidos(ap, am):\n    pass\n\ninvariant_text = \"python3 --version\"\nexamples = [\n]\nprint(invariant_text)\nfor ex in examples:\n    got = validate_apellidos(ex[\"ap\"], ex[\"am\"])\n    print(ex, \"→\", got, got == ex[\"expected\"])\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T4-A-E2 leyendo la instruction del paquete activo «E2 (independiente) — Escribe invariante multi-campo: `apellido_paterno` y `apellido_materno` no vací» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def validate_apellidos(ap, am):». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Escribe",
+        "invariante",
+        "multi",
+        "campo",
+        "apellido_paterno"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "code": "# Transfer / protocolo — S03-T4-A-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — El invariante dice “edad siempre entre 18 y 65 inclusive (reject si no)”. Encuentra el contraejemplo que rompe la política real del negocio (menores en review, no reject) y ajusta la función + el tex\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: comparaciones, operador, booleano, negocio, nace, comparación, intake, comparas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- edad 15 no debería ser reject duro si la política es review para menores.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T4-A-E3 leyendo la instruction del paquete activo «E3 (transferencia) — El invariante dice “edad siempre entre 18 y 65 inclusive (reject si no)”. Encue» y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S03-T4-A-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "invariante",
+        "dice",
+        "edad",
+        "siempre",
+        "entre"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "code": "# explorer: completed from starter + packet demo\nvagos = [\"Error\", \"inválido\", \"bad age\"]\n# Reescribe en la misma lista accionables\naccionables = [\n    \"python3 --version\",\n    \"revisar PATH / py launcher\",\n    \"usar python3 de forma consistente\",\n]\nfor a in accionables:\n    print(a)",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T4-B-E1 leyendo la instruction del paquete activo «E1 (guiado) — Reescribe 3 mensajes vagos a plantilla campo+problema+acción: (1) \"Error\", (2) \"inváli» y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo vagos = [\"Error\", \"inválido\", \"». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.]",
+      "concepts_used": [
+        "guiado",
+        "Reescribe",
+        "mensajes",
+        "vagos",
+        "plantilla",
+        "campo"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "code": "# explorer: completed from starter + packet demo\ndef classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [\n]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)\n_probe_label = 'explorer-lab'",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T4-B-E2 leyendo la instruction del paquete activo «E2 (independiente) — Dado `classify_score` (accept/review/reject), escribe una lista `cases` con un » y completando el starter con patrones del iDo/theory. Código clave: «# explorer: completed from starter + packet demo def classify_score(score: int) ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "independiente",
+        "Dado",
+        "classify_score",
+        "accept",
+        "review",
+        "reject"
+      ]
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "code": "# Transfer / protocolo — S03-T4-B-E3\n# exploratory pass\n\n## Lectura del paquete\nComo explorer priorizo un flujo verificable paso a paso.\nInstruction: E3 (transferencia) — Test rojo: la regla usa `edad > 18` y falla para 18 (espera accept). Arregla a `>= 18` y deja la suite en verde (18 accept, 17 review, None review).\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: comparaciones, operador, booleano, negocio, nace, comparación, intake, comparas.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Off-by-one clásico en frontera inferior inclusiva.\n",
+      "answer": "",
+      "justification_from_packet": "Resuelvo S03-T4-B-E3 leyendo la instruction del paquete activo «E3 (transferencia) — Test rojo: la regla usa `edad > 18` y falla para 18 (espera accept). Arregla a » y completando el starter con patrones del iDo/theory. Código clave: «# Transfer / protocolo — S03-T4-B-E3 # exploratory pass  ## Lectura del paquete ». Conceptos del packet: Comparaciones operador booleano negocio nace comparación intake comparas edades montos. Verifiqué forma sin placeholders y alineación al contrato del ejercicio.",
+      "concepts_used": [
+        "transferencia",
+        "Test",
+        "rojo",
+        "regla",
+        "edad",
+        "falla"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "S03 Q0: elijo índice 2 («if campo is None:») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?» con ese matiz. Apoyo lexical del packet: comparaciones operador booleano negocio nace comparación intake comparas edades montos códigos regiones."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "S03 Q1: elijo índice 0 («Se ejecuta esa rama y se omiten las siguientes») porque la theory/outcomes del paquete enlazan la idea de la pregunta «En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?» con ese matiz. Apoyo lexical del packet: comparaciones operador booleano negocio nace comparación intake comparas edades montos códigos regiones."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "S03 Q2: elijo índice 1 («\"default\"») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Qué devuelve la expresión `\"\" or \"default\"` en Python?» con ese matiz. Apoyo lexical del packet: comparaciones operador booleano negocio nace comparación intake comparas edades montos códigos regiones."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "S03 Q3: elijo índice 3 («Un set de literales y el operador in») porque la theory/outcomes del paquete enlazan la idea de la pregunta «Una allowlist de tipos de documento se implementa mejor como…» con ese matiz. Apoyo lexical del packet: comparaciones operador booleano negocio nace comparación intake comparas edades montos códigos regiones."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "S03 Q4: elijo índice 2 («Cuando el sujeto es un literal/estado finito (códigos) y hay case _») porque la theory/outcomes del paquete enlazan la idea de la pregunta «¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?» con ese matiz. Apoyo lexical del packet: comparaciones operador booleano negocio nace comparación intake comparas edades montos códigos regiones."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:05:44.434252+00:00",
+  "session_started_at": "2026-07-23T09:05:12.634011+00:00",
+  "session_ended_at": "2026-07-23T09:05:44.434252+00:00"
+}

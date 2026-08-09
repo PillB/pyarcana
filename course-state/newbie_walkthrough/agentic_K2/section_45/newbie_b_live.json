@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K2",
+  "section_index": 45,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-skeptic-s45-4a44ba1eac",
+  "production_note": "agentic_K2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "code": "record = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\nmeets_contract = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\nstatus = \"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\"\nprint(\"S45-T1-A\", status)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T1-A-E1: no confío en demos sin assert; la regla «object/relational por semántica y cache descartable» del instruction exige fixtures y etiqueta de breach REDESIGN_PERSISTENCE. Theory/outcome de anclaje: dedup, ordering y dead-letter. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T1-A-E1 · Calcula el contrato de `object store, relacional y cache` sobre `CASO-IQU-045-1A`. La ",
+      "confidence": 0.61,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'blob_store', 'cache_authoritative', 'cache_ttl_s', 'case_id', 'transactions'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\n    return \"PASS\" if ok else \"REDESIGN_PERSISTENCE\"\n\nvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T1-A-E2: no confío en demos sin assert; la regla «S45-T1-A-E2 · Modela tres rutas de `object store, relacional y cache`: fixture válido, fixture adverso y registro sin `c» del instruction exige fixtures y etiqueta de breach REDESIGN_PERSISTENCE. Theory/outcome de anclaje: object store, relacional y cache. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T1-A-E2 · Modela tres rutas de `object store, relacional y cache`: fixture válido, fixture adver",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'cache_ttl_s' not in record or record.get('cache_ttl_s') in (None, \"\", [], set(), {}):\n        return \"WRITE_STORE_ADR\"\n    ok = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\n    return \"CONTINUE\" if ok else \"REDESIGN_PERSISTENCE\"\n\nvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S45/S45-T1-A-E3: no confío en demos sin assert; la regla «S45-T1-A-E3 · Simula fallo cerrado para `object store, relacional y cache` con tres fixtures distintos. `CASO-IQU-045-1A» del instruction exige fixtures y etiqueta de breach REDESIGN_PERSISTENCE. Theory/outcome de anclaje: dedup, ordering y dead-letter. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T1-A-E3 · Simula fallo cerrado para `object store, relacional y cache` con tres fixtures distint",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "code": "record = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nmeets_contract = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\"\nprint(\"S45-T1-B\", status)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T1-B-E1: no confío en demos sin assert; la regla «consistencia explícita y restore dentro de RPO/RTO» del instruction exige fixtures y etiqueta de breach DECLARE_DATA_LOSS_RISK. Theory/outcome de anclaje: Consistencia se define por operación; lifecycle expira copias y backup solo cuenta cuando un restore medido cu. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T1-B-E1 · Compara el contrato de `consistencia, lifecycle y backups` sobre `CASO-IQU-045-1B`. La",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'backup_age_h', 'case_id', 'consistency', 'operation', 'restore_minutes', 'rpo_h', 'rto_minutes'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if ok else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 1000004, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nincomplete = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T1-B-E2: no confío en demos sin assert; la regla «S45-T1-B-E2 · Verifica tres rutas de `consistencia, lifecycle y backups`: fixture válido, fixture adverso y registro sin» del instruction exige fixtures y etiqueta de breach DECLARE_DATA_LOSS_RISK. Theory/outcome de anclaje: queue/event y delivery semantics. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T1-B-E2 · Verifica tres rutas de `consistencia, lifecycle y backups`: fixture válido, fixture ad",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'rto_minutes' not in record or record.get('rto_minutes') in (None, \"\", [], set(), {}):\n        return \"DECLARE_DATA_LOSS_RISK\"\n    ok = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\n    return \"CONTINUE\" if ok else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 1000004, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nincomplete = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S45/S45-T1-B-E3: no confío en demos sin assert; la regla «S45-T1-B-E3 · Extiende fallo cerrado para `consistencia, lifecycle y backups` con tres fixtures distintos. `CASO-IQU-045» del instruction exige fixtures y etiqueta de breach RUN_RESTORE_DRILL. Theory/outcome de anclaje: Queue desacopla productor/consumidor; at-least-once exige ack después del efecto durable, retry con backoff y . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T1-B-E3 · Extiende fallo cerrado para `consistencia, lifecycle y backups` con tres fixtures dist",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "code": "record = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nmeets_contract = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\nstatus = \"PASS\" if meets_contract else \"NACK_AND_RETRY\"\nprint(\"S45-T2-A\", status)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T2-A-E1: no confío en demos sin assert; la regla «ack posterior al efecto, key idempotente y backoff» del instruction exige fixtures y etiqueta de breach NACK_AND_RETRY. Theory/outcome de anclaje: Diseña colas y delivery semantics. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T2-A-E1 · Filtra el contrato de `queue/event y delivery semantics` sobre `CASO-IQU-045-2A`. La e",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'acked_after_effect', 'backoff', 'case_id', 'delivery', 'effect_durable', 'idempotency_key'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\n    return \"PASS\" if ok else \"NACK_AND_RETRY\"\n\nvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T2-A-E2: no confío en demos sin assert; la regla «S45-T2-A-E2 · Clasifica tres rutas de `queue/event y delivery semantics`: fixture válido, fixture adverso y registro sin» del instruction exige fixtures y etiqueta de breach NACK_AND_RETRY. Theory/outcome de anclaje: consistencia, lifecycle y backups. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T2-A-E2 · Clasifica tres rutas de `queue/event y delivery semantics`: fixture válido, fixture ad",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'backoff' not in record or record.get('backoff') in (None, \"\", [], set(), {}):\n        return \"VERIFY_DELIVERY_SEMANTICS\"\n    ok = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\n    return \"CONTINUE\" if ok else \"NACK_AND_RETRY\"\n\nvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S45/S45-T2-A-E3: no confío en demos sin assert; la regla «S45-T2-A-E3 · Defiende fallo cerrado para `queue/event y delivery semantics` con tres fixtures distintos. `CASO-IQU-045-» del instruction exige fixtures y etiqueta de breach NACK_AND_RETRY. Theory/outcome de anclaje: Dedup usa clave estable, ordering solo donde importa y DLQ conserva razón/intentos/payload seguro para replay . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T2-A-E3 · Defiende fallo cerrado para `queue/event y delivery semantics` con tres fixtures disti",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "code": "record = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\nmeets_contract = True\nstatus = \"PASS\" if meets_contract else \"DEDUP_OR_DLQ\"\nprint(\"S45-T2-B\", status)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T2-B-E1: no confío en demos sin assert; la regla «deduplicación, ordering acotado y terminal en DLQ» del instruction exige fixtures y etiqueta de breach DEDUP_OR_DLQ. Theory/outcome de anclaje: queue/event y delivery semantics. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T2-B-E1 · Modela el contrato de `dedup, ordering y dead-letter` sobre `CASO-IQU-045-2B`. La entr",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'message_ids', 'ordered_partition', 'processed_ids', 'terminal_in_dlq'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"PASS\" if ok else \"DEDUP_OR_DLQ\"\n\nvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T2-B-E2: no confío en demos sin assert; la regla «S45-T2-B-E2 · Audita tres rutas de `dedup, ordering y dead-letter`: fixture válido, fixture adverso y registro sin `term» del instruction exige fixtures y etiqueta de breach DEDUP_OR_DLQ. Theory/outcome de anclaje: Declara infra y environments. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T2-B-E2 · Audita tres rutas de `dedup, ordering y dead-letter`: fixture válido, fixture adverso ",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'terminal_in_dlq' not in record or record.get('terminal_in_dlq') in (None, \"\", [], set(), {}):\n        return \"INSPECT_MESSAGE_ORDER\"\n    ok = (True) and not record.get(\"__adverse__\")\n    return \"CONTINUE\" if ok else \"DEDUP_OR_DLQ\"\n\nvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True, '__adverse__': True}\nincomplete = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S45/S45-T2-B-E3: no confío en demos sin assert; la regla «S45-T2-B-E3 · Recupera fallo cerrado para `dedup, ordering y dead-letter` con tres fixtures distintos. `CASO-IQU-045-2B`» del instruction exige fixtures y etiqueta de breach DEDUP_OR_DLQ. Theory/outcome de anclaje: dedup, ordering y dead-letter. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T2-B-E3 · Recupera fallo cerrado para `dedup, ordering y dead-letter` con tres fixtures distinto",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "code": "record = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nmeets_contract = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\nstatus = \"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\"\nprint(\"S45-T3-A\", status)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T3-A-E1: no confío en demos sin assert; la regla «workers dentro de cuota y backlog por worker bajo objetivo» del instruction exige fixtures y etiqueta de breach APPLY_BACKPRESSURE. Theory/outcome de anclaje: IAM, private paths y egress. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T3-A-E1 · Verifica el contrato de `compute, autoscaling y networking` sobre `CASO-IQU-045-3A`. L",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'backlog', 'backpressure', 'case_id', 'private_network', 'quota_workers', 'target_per_worker', 'workers'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\n    return \"PASS\" if ok else \"APPLY_BACKPRESSURE\"\n\nvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 1000004, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nincomplete = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T3-A-E2: no confío en demos sin assert; la regla «S45-T3-A-E2 · Decide tres rutas de `compute, autoscaling y networking`: fixture válido, fixture adverso y registro sin `» del instruction exige fixtures y etiqueta de breach APPLY_BACKPRESSURE. Theory/outcome de anclaje: Presupuesto y quotas son controles operativos; recovery y portability se ensayan con exportaciones/formatos ab. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T3-A-E2 · Decide tres rutas de `compute, autoscaling y networking`: fixture válido, fixture adve",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'backpressure' not in record or record.get('backpressure') in (None, \"\", [], set(), {}):\n        return \"REQUEST_CAPACITY\"\n    ok = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\n    return \"CONTINUE\" if ok else \"APPLY_BACKPRESSURE\"\n\nvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 1000004, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nincomplete = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S45/S45-T3-A-E3: no confío en demos sin assert; la regla «S45-T3-A-E3 · Contrasta fallo cerrado para `compute, autoscaling y networking` con tres fixtures distintos. `CASO-IQU-04» del instruction exige fixtures y etiqueta de breach APPLY_BACKPRESSURE. Theory/outcome de anclaje: Diseña colas y delivery semantics. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T3-A-E3 · Contrasta fallo cerrado para `compute, autoscaling y networking` con tres fixtures dis",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "code": "record = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nmeets_contract = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\nstatus = \"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\"\nprint(\"S45-T3-B\", status)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T3-B-E1: no confío en demos sin assert; la regla «acción IAM mínima, path privado y egress allowlisted» del instruction exige fixtures y etiqueta de breach DENY_IAM_OR_EGRESS. Theory/outcome de anclaje: IAM, private paths y egress. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T3-B-E1 · Clasifica el contrato de `IAM, private paths y egress` sobre `CASO-IQU-045-3B`. La ent",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'allowed_actions', 'case_id', 'egress_allow', 'egress_host', 'private_path', 'requested_action'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    return \"PASS\" if ok else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': set(), 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nincomplete = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T3-B-E2: no confío en demos sin assert; la regla «S45-T3-B-E2 · Calcula tres rutas de `IAM, private paths y egress`: fixture válido, fixture adverso y registro sin `egres» del instruction exige fixtures y etiqueta de breach DENY_IAM_OR_EGRESS. Theory/outcome de anclaje: compute, autoscaling y networking. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T3-B-E2 · Calcula tres rutas de `IAM, private paths y egress`: fixture válido, fixture adverso y",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'egress_allow' not in record or record.get('egress_allow') in (None, \"\", [], set(), {}):\n        return \"REQUEST_SCOPED_POLICY\"\n    ok = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    return \"CONTINUE\" if ok else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': set(), 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nincomplete = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'object:get', 'queue:ack'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal'}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S45/S45-T3-B-E3: no confío en demos sin assert; la regla «S45-T3-B-E3 · Instrumenta fallo cerrado para `IAM, private paths y egress` con tres fixtures distintos. `CASO-IQU-045-3B» del instruction exige fixtures y etiqueta de breach DENY_IAM_OR_EGRESS. Theory/outcome de anclaje: Queue desacopla productor/consumidor; at-least-once exige ack después del efecto durable, retry con backoff y . Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T3-B-E3 · Instrumenta fallo cerrado para `IAM, private paths y egress` con tres fixtures distint",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "code": "record = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\nmeets_contract = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_IAC_PLAN\"\nprint(\"S45-T4-A\", status)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T4-A-E1: no confío en demos sin assert; la regla «plan coincide, entorno válido, sin secretos ni destrucción» del instruction exige fixtures y etiqueta de breach REJECT_IAC_PLAN. Theory/outcome de anclaje: Declara infra y environments. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T4-A-E1 · Audita el contrato de `configuración declarativa y environments` sobre `CASO-IQU-045-4",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'case_id', 'declared_resources', 'destructive_changes', 'environment', 'planned_resources', 'secret_values_in_plan'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\n    return \"PASS\" if ok else \"REJECT_IAC_PLAN\"\n\nvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}\nincomplete = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T4-A-E2: no confío en demos sin assert; la regla «S45-T4-A-E2 · Compara tres rutas de `configuración declarativa y environments`: fixture válido, fixture adverso y regist» del instruction exige fixtures y etiqueta de breach REJECT_IAC_PLAN. Theory/outcome de anclaje: dedup, ordering y dead-letter. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T4-A-E2 · Compara tres rutas de `configuración declarativa y environments`: fixture válido, fixt",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "code": "def route(record: dict) -> str:\n    if 'destructive_changes' not in record or record.get('destructive_changes') in (None, \"\", [], set(), {}):\n        return \"REVIEW_DRIFT\"\n    ok = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\n    return \"CONTINUE\" if ok else \"REJECT_IAC_PLAN\"\n\nvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}\nincomplete = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S45/S45-T4-A-E3: no confío en demos sin assert; la regla «S45-T4-A-E3 · Aísla fallo cerrado para `configuración declarativa y environments` con tres fixtures distintos. `CASO-IQU» del instruction exige fixtures y etiqueta de breach REJECT_IAC_PLAN. Theory/outcome de anclaje: IAM concede acción/recurso mínimos, paths privados evitan internet y egress se allowlistea y registra para imp. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T4-A-E3 · Aísla fallo cerrado para `configuración declarativa y environments` con tres fixtures ",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "code": "record = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nmeets_contract = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\nstatus = \"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\"\nprint(\"S45-T4-B\", status)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T4-B-E1: no confío en demos sin assert; la regla «costo/cuota bajo límite y recovery/portability ensayados» del instruction exige fixtures y etiqueta de breach FREEZE_SCALE_OUT. Theory/outcome de anclaje: IaC declara el estado deseado, parametriza entornos sin copiar secretos y un plan revisado precede apply.. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T4-B-E1 · Decide el contrato de `costos, quotas, recovery y portability` sobre `CASO-IQU-045-4B`",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'budget_pen', 'case_id', 'forecast_pen', 'portable_export', 'quota_limit', 'quota_used', 'restore_tested'}\n    missing = sorted(required - set(record.keys()))\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\n    return \"PASS\" if ok else \"FREEZE_SCALE_OUT\"\n\nvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 1000820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "justification_from_packet": "Escéptica en S45/S45-T4-B-E2: no confío en demos sin assert; la regla «S45-T4-B-E2 · Filtra tres rutas de `costos, quotas, recovery y portability`: fixture válido, fixture adverso y registro » del instruction exige fixtures y etiqueta de breach FREEZE_SCALE_OUT. Theory/outcome de anclaje: dedup, ordering y dead-letter. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T4-B-E2 · Filtra tres rutas de `costos, quotas, recovery y portability`: fixture válido, fixture",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "code": "def route(record: dict) -> str:\n    if 'portable_export' not in record or record.get('portable_export') in (None, \"\", [], set(), {}):\n        return \"COST_OWNER_REVIEW\"\n    ok = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\n    return \"CONTINUE\" if ok else \"FREEZE_SCALE_OUT\"\n\nvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 1000820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True}\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "justification_from_packet": "Escéptica en S45/S45-T4-B-E3: no confío en demos sin assert; la regla «S45-T4-B-E3 · Demuestra fallo cerrado para `costos, quotas, recovery y portability` con tres fixtures distintos. `CASO-I» del instruction exige fixtures y etiqueta de breach FREEZE_SCALE_OUT. Theory/outcome de anclaje: configuración declarativa y environments. Leí hints del quiz_card y reconstruí el predicado o assess/route con PASS vs fallo vs MISSING. Fragmento: S45-T4-B-E3 · Demuestra fallo cerrado para `costos, quotas, recovery y portability` con tres fixture",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "S45 self-check Q0: escojo «ADR de persistencia con fuente de verdad» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué evidencia permite aprobar `object store, relacional y cache` en CASO-IQU-045?. Ancla: object store, relacional y cache. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.7,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "S45 self-check Q1: escojo «emitir SEND_TO_DLQ y conservar evidencia» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: Si ocurre la condición de error de S45, ¿qué respuesta preserva seguridad y auditabilidad?. Ancla: Elige object store para blobs, relacional para invariantes/consultas y cache para copias descartables; no uses. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.75,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "S45 self-check Q2: escojo «reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?. Ancla: consistencia, lifecycle y backups. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.8,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "S45 self-check Q3: escojo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el paquete mide evidencia reproducible y no capturas ni PII. Pregunta: ¿Qué tratamiento de `CASO-IQU-045` respeta el alcance del curso?. Ancla: Consistencia se define por operación; lifecycle expira copias y backup solo cuenta cuando un restore medido cu. Postura escéptica: sin umbral, dueño, traza o revisión humana no hay gate.",
+      "confidence": 0.85,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:45:56.759955+00:00",
+  "session_started_at": "2026-07-23T15:45:56.730328+00:00",
+  "session_ended_at": "2026-07-23T15:46:35.930328+00:00",
+  "receipt_response_sha256": "bd99fe1c3fd41c5e028fd2fa81f90f1fb60d4633758e3541aa7643c59597e6cf",
+  "receipt_exercises_sha256": "c51e872fa87bf73002db15eb4bd966cfb4bc79c9beb8bdd561c7a909acf5b74f",
+  "receipt_selfcheck_sha256": "ce1cd19f58fd96f3407f899701d28468a7de6a55fe7400c17943c5f4a7e8449f"
+}

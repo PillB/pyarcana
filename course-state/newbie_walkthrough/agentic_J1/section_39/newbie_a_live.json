@@ -1,0 +1,471 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 39,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-explorer-s39-13b17e6b2c03",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S39-T1-A-E1",
+      "id": "S39-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\nmeets = record[\"stages\"] == list(CANON) and record[\"label_space\"] == \"needs_review\"\nstatus = \"PASS\" if meets else \"REJECT_STAGE_ORDER\"\nprint(\"S39-T1-A\", status)\n",
+      "confidence": 0.656,
+      "blocked_on": [],
+      "concepts_used": [
+        "Valida",
+        "contrato",
+        "pipeline",
+        "nico",
+        "sobre"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T1-A-E1 siguiendo la instrucción del paquete: «S39-T1-A-E1 · Valida el contrato del pipeline canónico N3 sobre `CASO-LIM-039-T1A`. Entrada: dict con stages (lista ordenada), label_space y». Implementé el contrato con `CASO-LIM-039-T1A` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(\"S39-T1-A\", status)`. (sesión-notas 0722df)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T1-A-E2",
+      "id": "S39-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"stages\", \"label_space\", \"auto_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = record[\"stages\"] == list(CANON) and record[\"label_space\"] == \"needs_review\"\n    return \"PASS\" if ok else \"REJECT_STAGE_ORDER\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\ninvalid = {**valid, \"stages\": list(CANON)}\nincomplete = {k: v for k, v in valid.items() if k != \"label_space\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.565,
+      "blocked_on": [],
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "pipeline",
+        "fixture"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T1-A-E2 siguiendo la instrucción del paquete: «S39-T1-A-E2 · Modela tres rutas del pipeline N3: fixture válido, stages en orden adverso y registro sin label_space. Entrada: dict con case_». Implementé el contrato con `PASS` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(assess(valid), assess(invalid), assess(incomplete))`. (sesión-notas afb50a)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T1-A-E3",
+      "id": "S39-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "CANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef decide(record: dict) -> str:\n    if \"stages\" not in record:\n        return \"REQUEST_STAGE_LIST\"\n    if record.get(\"er_claims_parentesco\") is True:\n        return \"REJECT_ER_SCOPE\"\n    if record.get(\"stages\") != list(CANON):\n        return \"REJECT_STAGE_ORDER\"\n    return \"CONTINUE\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n    \"er_claims_parentesco\": False,\n}\nbad_order = {**valid, \"stages\": list(reversed(CANON))}\nbad_er = {**valid, \"er_claims_parentesco\": True}\nmissing = {k: v for k, v in valid.items() if k != \"stages\"}\nprint(decide(valid), decide(bad_order), decide(bad_er), decide(missing))\n",
+      "confidence": 0.752,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fail",
+        "closed",
+        "pipeline",
+        "lido",
+        "CONTINUE"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T1-A-E3 siguiendo la instrucción del paquete: «S39-T1-A-E3 · Fail-closed del pipeline: válido → `CONTINUE`, stages adversos → `REJECT_STAGE_ORDER`, ER pretendiendo parentesco (`er_claims_». Implementé el contrato con `CONTINUE` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(decide(valid), decide(bad_order), decide(bad_er), decide(missing))`. (sesión-notas 7e1e07)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T1-B-E1",
+      "id": "S39-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"graph_schema\",\n    \"ver\": \"3.0.0\",\n    \"owner\": \"investigations\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\nmeets = record[\"breaking\"] and record[\"bump\"] == \"major\" and bool(record[\"owner\"])\nstatus = \"PASS\" if meets else \"REJECT_BUMP_POLICY\"\nprint(\"S39-T1-B\", status)\n",
+      "confidence": 0.623,
+      "blocked_on": [],
+      "concepts_used": [
+        "Valida",
+        "contrato",
+        "ownership",
+        "semver",
+        "sobre"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T1-B-E1 siguiendo la instrucción del paquete: «S39-T1-B-E1 · Valida el contrato de ownership y semver sobre `CASO-LIM-039-T1B`. Entrada: dict artifact con name, ver, owner y breaking. Si ». Implementé el contrato con `CASO-LIM-039-T1B` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(\"S39-T1-B\", status)`. (sesión-notas 6f6354)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T1-B-E2",
+      "id": "S39-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"name\", \"ver\", \"owner\", \"breaking\", \"bump\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (not record[\"breaking\"]) or record[\"bump\"] == \"major\"\n    return \"PASS\" if ok and bool(record[\"owner\"]) else \"REJECT_BUMP_POLICY\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"ranker\",\n    \"ver\": \"2.1.0\",\n    \"owner\": \"ml-risk\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\ninvalid = {**valid, \"bump\": \"minor\"}\nincomplete = {k: v for k, v in valid.items() if k != \"owner\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.891,
+      "blocked_on": [],
+      "concepts_used": [
+        "Tres",
+        "rutas",
+        "registry",
+        "artefacto",
+        "lido"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T1-B-E2 siguiendo la instrucción del paquete: «S39-T1-B-E2 · Tres rutas de registry: artefacto válido (breaking+major+owner), adverso (breaking+minor) y sin owner. Entrada: name, ver, own». Implementé el contrato con `PASS` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(assess(valid), assess(invalid), assess(incomplete))`. (sesión-notas 312cc5)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T1-B-E3",
+      "id": "S39-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "registry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\", \"breaking\": False, \"bump\": \"patch\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\", \"breaking\": False, \"bump\": \"minor\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\", \"breaking\": False, \"bump\": \"patch\"},\n}\n\ndef decide(reg: dict) -> str:\n    for art in reg.values():\n        if not art.get(\"owner\"):\n            return \"ESCALATE_NO_OWNER\"\n        if art.get(\"breaking\") and art.get(\"bump\") != \"major\":\n            return \"REJECT_BUMP_POLICY\"\n    return \"CONTINUE\"\n\nprint(decide(registry), len(registry))\n",
+      "confidence": 0.798,
+      "blocked_on": [],
+      "concepts_used": [
+        "Eval",
+        "registry",
+        "cuatro",
+        "artefactos",
+        "sint"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T1-B-E3 siguiendo la instrucción del paquete: «S39-T1-B-E3 · Evalúa un registry de cuatro artefactos sintéticos. Si algún artefacto carece de owner → `ESCALATE_NO_OWNER`; si hay breaking ». Implementé el contrato con `ESCALATE_NO_OWNER` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(decide(registry), len(registry))`. (sesión-notas 601fa7)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T2-A-E1",
+      "id": "S39-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "packet = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\nmeets = packet.get(\"score\", 0) > 0 and bool(packet.get(\"evidence\")) and bool(packet.get(\"graph_path\"))\nstatus = \"PASS\" if meets else \"REJECT_PACKET_INCOMPLETE\"\nprint(\"S39-T2-A\", status)\n",
+      "confidence": 0.777,
+      "blocked_on": [],
+      "concepts_used": [
+        "Valida",
+        "evidence",
+        "packet",
+        "nimo",
+        "CASO"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T2-A-E1 siguiendo la instrucción del paquete: «S39-T2-A-E1 · Valida el evidence packet mínimo de `CASO-LIM-039-T2A`. Entrada: dict con case_id, score, evidence (lista no vacía) y graph_pa». Implementé el contrato con `CASO-LIM-039-T2A` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(\"S39-T2-A\", status)`. (sesión-notas b98f8a)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T2-A-E2",
+      "id": "S39-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(packet: dict) -> str:\n    required = {\"case_id\", \"score\", \"evidence\", \"graph_path\"}\n    missing = sorted(required - packet.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if not packet.get(\"evidence\") or not packet.get(\"graph_path\"):\n        return \"REJECT_PACKET_INCOMPLETE\"\n    return \"PASS\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\ninvalid = {**valid, \"evidence\": []}\nincomplete = {k: v for k, v in valid.items() if k != \"graph_path\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.609,
+      "blocked_on": [],
+      "concepts_used": [
+        "Tres",
+        "packets",
+        "completo",
+        "adverso",
+        "evidence"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T2-A-E2 siguiendo la instrucción del paquete: «S39-T2-A-E2 · Tres packets: completo, adverso (evidence=[]), y sin graph_path. Entrada: case_id, score, evidence, graph_path. Salidas exacta». Implementé el contrato con `PASS` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(assess(valid), assess(invalid), assess(incomplete))`. (sesión-notas f6cf40)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T2-A-E3",
+      "id": "S39-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(packet: dict):\n    if \"uncertainty\" not in packet:\n        return \"REQUEST_UNCERTAINTY\", 0\n    if not packet.get(\"evidence\") or not packet.get(\"graph_path\"):\n        return \"REJECT_SCORE_ALONE\", 1\n    return \"CONTINUE\", 4\n\nok = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n}\nprint(*decide(ok))\n",
+      "confidence": 0.744,
+      "blocked_on": [],
+      "concepts_used": [
+        "Workbench",
+        "fail",
+        "closed",
+        "packet",
+        "CONTINUE"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T2-A-E3 siguiendo la instrucción del paquete: «S39-T2-A-E3 · Workbench fail-closed: packet OK → `CONTINUE` y reporta layers=4; score-only → `REJECT_SCORE_ALONE`; sin uncertainty → `REQUES». Implementé el contrato con `CONTINUE` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(*decide(ok))`. (sesión-notas 1c6b73)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T2-B-E1",
+      "id": "S39-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"score\": 0.9,\n    \"threshold\": 0.7,\n    \"human_action\": \"skip\",\n}\nauto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\nfinal = record[\"human_action\"] if record.get(\"human_action\") is not None else auto\noverride = record.get(\"human_action\") is not None\nmeets = final == \"skip\" and override is True\nstatus = \"PASS\" if meets else \"REJECT_OVERRIDE\"\nprint(\"S39-T2-B\", status)\n",
+      "confidence": 0.712,
+      "blocked_on": [],
+      "concepts_used": [
+        "Aplica",
+        "override",
+        "humano",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T2-B-E1 siguiendo la instrucción del paquete: «S39-T2-B-E1 · Aplica override humano sobre `CASO-LIM-039-T2B`. Entrada: score, threshold, human_action. Si hay human_action, final=human_act». Implementé el contrato con `CASO-LIM-039-T2B` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(\"S39-T2-B\", status)`. (sesión-notas b2c3b6)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T2-B-E2",
+      "id": "S39-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    if record.get(\"appeal\") and not record.get(\"second_reviewer\"):\n        return \"MISSING:second_reviewer\"\n    auto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n    if record.get(\"human_action\") is not None:\n        return \"PASS\"\n    return \"PASS\"\n\nbase = {\"case_id\": \"CASO-LIM-039-T2B\", \"score\": 0.9, \"threshold\": 0.7, \"human_action\": None, \"appeal\": False}\nauto_q = dict(base)\noverride = {**base, \"human_action\": \"skip\"}\nappeal = {**base, \"appeal\": True}\nprint(assess(auto_q), assess(override), assess(appeal))\n",
+      "confidence": 0.876,
+      "blocked_on": [],
+      "concepts_used": [
+        "Tres",
+        "decisiones",
+        "auto",
+        "queue",
+        "humano"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T2-B-E2 siguiendo la instrucción del paquete: «S39-T2-B-E2 · Tres decisiones: auto queue sin humano (`PASS` con final queue), override a skip (`PASS` con override), y apelación sin second». Implementé el contrato con `PASS` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(assess(auto_q), assess(override), assess(appeal))`. (sesión-notas 84750c)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T2-B-E3",
+      "id": "S39-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(event: dict):\n    if event.get(\"override\") and not event.get(\"audit_entry\"):\n        return \"REJECT_NO_AUDIT\", False\n    if event.get(\"feedback\") and not event.get(\"feedback_id\"):\n        return \"REQUEST_FEEDBACK_ID\", False\n    if event.get(\"feedback\") and not event.get(\"leakage_care\"):\n        return \"REJECT_NO_AUDIT\", False\n    return \"LOGGED\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"override\": True,\n    \"audit_entry\": True,\n    \"feedback\": True,\n    \"feedback_id\": \"fb-01\",\n    \"leakage_care\": True,\n}\nprint(*decide(happy))\n",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [
+        "Audit",
+        "feedback",
+        "registra",
+        "revisor",
+        "debe"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T2-B-E3 siguiendo la instrucción del paquete: «S39-T2-B-E3 · Audit log de feedback: si se registra feedback de revisor, debe incluir leakage_care=True y action logged; si override sin aud». Implementé el contrato con `REJECT_NO_AUDIT` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(*decide(happy))`. (sesión-notas 5504c7)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T3-A-E1",
+      "id": "S39-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "checklist = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nmeets = all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    not checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n])\nstatus = \"PASS\" if meets else \"REJECT_RELEASE\"\nprint(\"S39-T3-A\", status)\n",
+      "confidence": 0.834,
+      "blocked_on": [],
+      "concepts_used": [
+        "Eval",
+        "checklist",
+        "release",
+        "CASO",
+        "Entrada"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T3-A-E1 siguiendo la instrucción del paquete: «S39-T3-A-E1 · Evalúa el checklist de release de `CASO-LIM-039-T3A`. Entrada: dict con pii_minimized, rbac, secrets_in_repo, slice_metrics, i». Implementé el contrato con `CASO-LIM-039-T3A` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(\"S39-T3-A\", status)`. (sesión-notas b28da3)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T3-A-E2",
+      "id": "S39-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(c: dict) -> str:\n    required = {\"pii_minimized\", \"rbac\", \"secrets_in_repo\", \"slice_metrics\", \"input_limits\"}\n    missing = sorted(required - c.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if c.get(\"secrets_in_repo\"):\n        return \"REJECT_SECRETS\"\n    return \"PASS\"\n\nvalid = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\ninvalid = {**valid, \"secrets_in_repo\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"rbac\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.969,
+      "blocked_on": [],
+      "concepts_used": [
+        "Tres",
+        "checklists",
+        "limpio",
+        "PASS",
+        "secrets_in_repo"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T3-A-E2 siguiendo la instrucción del paquete: «S39-T3-A-E2 · Tres checklists: limpio → `PASS`, secrets_in_repo True → `REJECT_SECRETS`, sin rbac (clave ausente) → `MISSING:rbac`. Entrada:». Implementé el contrato con `PASS` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(assess(valid), assess(invalid), assess(incomplete))`. (sesión-notas 66e483)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T3-A-E3",
+      "id": "S39-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(payload: dict):\n    slices = payload.get(\"slices\")\n    if not slices:\n        return \"REQUEST_SLICE_METRICS\", \"fp_rate\"\n    thr = payload.get(\"fp_threshold\", 0.15)\n    for s in slices:\n        if s.get(\"fp_rate\", 0) > thr:\n            return \"REJECT_SLICE_FP\", \"fp_rate\"\n    return \"CONTINUE\", \"fp_rate\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"slices\": [{\"name\": \"canal_app\", \"fp_rate\": 0.08}],\n    \"fp_threshold\": 0.15,\n}\nprint(*decide(happy))\n",
+      "confidence": 0.58,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fairness",
+        "cola",
+        "slice_metrics",
+        "falta",
+        "REQUEST_SLICE_METRICS"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T3-A-E3 siguiendo la instrucción del paquete: «S39-T3-A-E3 · Fairness de cola: si slice_metrics falta → `REQUEST_SLICE_METRICS`; si fp_rate de un slice sintético supera umbral → `REJECT_S». Implementé el contrato con `REQUEST_SLICE_METRICS` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(*decide(happy))`. (sesión-notas 32ab70)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T3-B-E1",
+      "id": "S39-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nrecord = {\"case_id\": \"CASO-LIM-039-T3B\", \"drift_high\": True, \"incident\": True}\nm = mode(record[\"drift_high\"], record[\"incident\"])\nmeets = m == \"human_only\"\nstatus = \"PASS\" if meets else \"REJECT_MODE\"\nprint(\"S39-T3-B\", status)\n",
+      "confidence": 0.562,
+      "blocked_on": [],
+      "concepts_used": [
+        "Calcula",
+        "modo",
+        "CASO",
+        "Entrada",
+        "drift_high"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T3-B-E1 siguiendo la instrucción del paquete: «S39-T3-B-E1 · Calcula el modo ops de `CASO-LIM-039-T3B`. Entrada: drift_high (bool), incident (bool). Prioridad: incident → human_only; si n». Implementé el contrato con `CASO-LIM-039-T3B` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(\"S39-T3-B\", status)`. (sesión-notas f181ba)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T3-B-E2",
+      "id": "S39-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nprint(mode(False, False), mode(True, False), mode(False, True))\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "Tres",
+        "escenarios",
+        "normal",
+        "drift",
+        "abstain_more"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T3-B-E2 siguiendo la instrucción del paquete: «S39-T3-B-E2 · Tres escenarios ops: normal, solo drift → `abstain_more`, solo incident → `human_only`. Entrada: drift_high, incident. Salidas». Implementé el contrato con `abstain_more` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(mode(False, False), mode(True, False), mode(False, True))`. (sesión-notas cef038)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T3-B-E3",
+      "id": "S39-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(ops: dict):\n    if ops.get(\"incident\"):\n        if not ops.get(\"prev_model_id\"):\n            return \"REQUEST_PREV_MODEL\", None\n        return \"previous\", ops.get(\"prev_model_id\")\n    if ops.get(\"drift_high\"):\n        return \"MONITOR\", \"current_model\"\n    return \"STAY\", \"current_model\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3B\",\n    \"incident\": True,\n    \"drift_high\": False,\n    \"prev_model_id\": \"previous_model\",\n    \"prev_thr\": \"previous\",\n}\nprint(*decide(happy))\n",
+      "confidence": 0.871,
+      "blocked_on": [],
+      "concepts_used": [
+        "Rollback",
+        "versionado",
+        "incident",
+        "target",
+        "previous_model"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T3-B-E3 siguiendo la instrucción del paquete: «S39-T3-B-E3 · Rollback versionado: si incident, target=`previous_model` y thr=`previous`; si falta prev_model_id → `REQUEST_PREV_MODEL`; si ». Implementé el contrato con `previous_model` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(*decide(happy))`. (sesión-notas 89cc4c)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T4-A-E1",
+      "id": "S39-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "acceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nmeets = \"no_auto_fraud_label\" in acceptance and \"audit_log\" in acceptance\nstatus = \"PASS\" if meets else \"REJECT_ACCEPTANCE\"\nprint(\"S39-T4-A\", status)\n",
+      "confidence": 0.717,
+      "blocked_on": [],
+      "concepts_used": [
+        "Verifica",
+        "criterios",
+        "aceptaci",
+        "CASO",
+        "Entrada"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T4-A-E1 siguiendo la instrucción del paquete: «S39-T4-A-E1 · Verifica criterios de aceptación de `CASO-LIM-039-T4A`. Entrada: lista acceptance de strings. Debe incluir `no_auto_fraud_labe». Implementé el contrato con `CASO-LIM-039-T4A` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(\"S39-T4-A\", status)`. (sesión-notas f1bf7a)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T4-A-E2",
+      "id": "S39-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(notes: dict) -> str:\n    required = {\"regression_scope\", \"cf3_lane\", \"section_passed\"}\n    missing = sorted(required - notes.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if notes.get(\"section_passed\") is True:\n        return \"REJECT_AUTO_PASS\"\n    if notes.get(\"regression_scope\") != \"S27-S39\" or notes.get(\"cf3_lane\") != \"separate_lane\":\n        return \"REJECT_AUTO_PASS\"\n    return \"PASS\"\n\nvalid = {\n    \"regression_scope\": \"S27-S39\",\n    \"cf3_lane\": \"separate_lane\",\n    \"section_passed\": False,\n}\ninvalid = {**valid, \"section_passed\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"regression_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.594,
+      "blocked_on": [],
+      "concepts_used": [
+        "Documenta",
+        "regresi",
+        "scope",
+        "debe",
+        "cf3_lane"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T4-A-E2 siguiendo la instrucción del paquete: «S39-T4-A-E2 · Documenta regresión y CF-3: scope debe ser `S27-S39`, cf3_lane=`separate_lane`, section_passed debe ser False en esta autoría.». Implementé el contrato con `S27-S39` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(assess(valid), assess(invalid), assess(incomplete))`. (sesión-notas 5e7ed8)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T4-A-E3",
+      "id": "S39-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(paths: list):\n    need = {\"happy\", \"override\", \"ood_abstain\"}\n    got = set(paths)\n    if got == need:\n        return \"CONTINUE\", 3\n    if got == {\"happy\"}:\n        return \"REJECT_HAPPY_ONLY\", len(paths)\n    return \"REQUEST_DEMO_PATH\", len(paths)\n\nprint(*decide([\"happy\", \"override\", \"ood_abstain\"]))\n",
+      "confidence": 0.869,
+      "blocked_on": [],
+      "concepts_used": [
+        "Demo",
+        "paths",
+        "debe",
+        "haber",
+        "exactamente"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T4-A-E3 siguiendo la instrucción del paquete: «S39-T4-A-E3 · Demo paths: debe haber exactamente las tres rutas happy, override y ood_abstain (nombres canónicos). Si falta una → `REQUEST_D». Implementé el contrato con `REQUEST_DEMO_PATH` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(*decide([\"happy\", \"override\", \"ood_abstain\"]))`. (sesión-notas 5cafe3)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T4-B-E1",
+      "id": "S39-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "cards = [\"model\", \"data\", \"system\"]\nmeets = set(cards) == {\"model\", \"data\", \"system\"}\nstatus = \"PASS\" if meets else \"REJECT_CARDS\"\nprint(\"S39-T4-B\", status)\n",
+      "confidence": 0.741,
+      "blocked_on": [],
+      "concepts_used": [
+        "Valida",
+        "tres",
+        "cards",
+        "cierre",
+        "sobre"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T4-B-E1 siguiendo la instrucción del paquete: «S39-T4-B-E1 · Valida las tres cards de cierre sobre `CASO-LIM-039-T4B`. Entrada: lista cards. Debe contener exactamente model, data y system». Implementé el contrato con `CASO-LIM-039-T4B` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(\"S39-T4-B\", status)`. (sesión-notas f3fd58)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T4-B-E2",
+      "id": "S39-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(payload: dict) -> str:\n    if \"value\" not in payload:\n        return \"MISSING:value\"\n    return \"PASS\" if \"override_rate\" in payload[\"value\"] else \"REJECT_VALUE_METRICS\"\n\nvalid = {\"value\": {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}}\ninvalid = {\"value\": {\"auc\": 0.91}}\nincomplete = {\"cards\": [\"model\"]}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.823,
+      "blocked_on": [],
+      "concepts_used": [
+        "tricas",
+        "valor",
+        "debe",
+        "existir",
+        "override_rate"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T4-B-E2 siguiendo la instrucción del paquete: «S39-T4-B-E2 · Métricas de valor: debe existir override_rate (y preferible precision_at_k, median_review_s). Válido → `PASS`; solo auc offlin». Implementé el contrato con `PASS` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(assess(valid), assess(invalid), assess(incomplete))`. (sesión-notas c8af9c)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S39-T4-B-E3",
+      "id": "S39-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(pm: dict):\n    if pm.get(\"blameless\") is False:\n        return \"REJECT_BLAMEFUL\", False\n    if not pm.get(\"root_cause\"):\n        return \"REQUEST_ROOT_CAUSE\", False\n    if not pm.get(\"actions\"):\n        return \"REQUEST_ROOT_CAUSE\", False\n    return \"CONTINUE\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T4B\",\n    \"blameless\": True,\n    \"root_cause\": \"calib_drift\",\n    \"actions\": [\"rollback\", \"recalibrate\"],\n}\nprint(*decide(happy))\n",
+      "confidence": 0.963,
+      "blocked_on": [],
+      "concepts_used": [
+        "Postmortem",
+        "blameless",
+        "requiere",
+        "root_cause",
+        "actions"
+      ],
+      "justification_from_packet": "Como Explorer en Responsible ML Case Triage y cierre de nivel, resolví S39-T4-B-E3 siguiendo la instrucción del paquete: «S39-T4-B-E3 · Postmortem blameless: requiere blameless=True, root_cause no vacío y actions no vacía. Si blameless False → `REJECT_BLAMEFUL`;». Implementé el contrato con `REJECT_BLAMEFUL` y el starter del weDo; outcomes: Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos ve. Código ancla: `print(*decide(happy))`. (sesión-notas c0b6ec)",
+      "form_notes": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "needs_review / prioridad de cola",
+      "confidence": 0.862,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC0 en Responsible ML Case Triage y cierre de nivel: la pregunta «El label_space del triage N3 es preferentemente:» se alinea con theory/iDo del paquete; elijo «needs_review / prioridad de cola» (índice 2) porque el material enfatiza ese concepto frente a distractores. ref:d1f191"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Se documentan; PASS lo califica otra lane",
+      "confidence": 0.607,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC1 en Responsible ML Case Triage y cierre de nivel: la pregunta «CF-3 y regresión S27–S39 en esta lane de autoría:» se alinea con theory/iDo del paquete; elijo «Se documentan; PASS lo califica otra lane» (índice 0) porque el material enfatiza ese concepto frente a distractores. ref:b99d00"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Evidencia y path además del score",
+      "confidence": 0.577,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC2 en Responsible ML Case Triage y cierre de nivel: la pregunta «Evidence packet debe incluir:» se alinea con theory/iDo del paquete; elijo «Evidencia y path además del score» (índice 1) porque el material enfatiza ese concepto frente a distractores. ref:21f3d8"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "human_only / rollback a artefacto previo",
+      "confidence": 0.767,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC3 en Responsible ML Case Triage y cierre de nivel: la pregunta «Ante incidente grave el modo seguro es:» se alinea con theory/iDo del paquete; elijo «human_only / rollback a artefacto previo» (índice 3) porque el material enfatiza ese concepto frente a distractores. ref:eba61a"
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Bump major, owner contactable y revalidación de paths",
+      "confidence": 0.561,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC4 en Responsible ML Case Triage y cierre de nivel: la pregunta «Un breaking change en graph_schema del triage exige:» se alinea con theory/iDo del paquete; elijo «Bump major, owner contactable y revalidación de paths» (índice 2) porque el material enfatiza ese concepto frente a distractores. ref:6a92de"
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:31:30+00:00",
+  "session_started_at": "2026-07-23T12:31:15+00:00",
+  "session_ended_at": "2026-07-23T12:31:30+00:00",
+  "receipt_response_sha256": "9fd05a6e4d7895753d7ef3ec5ed1ebcdb898ab1d2b1ac38523d31aae5117e2ba"
+}

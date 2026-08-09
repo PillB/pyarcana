@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E2",
+  "section_index": 3,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E2-s03-live",
+  "production_note": "E2 Explorer repair: incomplete codes filled from packet/iDo + E1 curriculum reference; justifications natural Explorer E2-only (no E1 just copy)",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "edad = 25\nregion = \"Cusco\"\n\nprint(edad >= 18)  # edad >= 18\nprint(edad < 65)  # edad < 65\nprint(18 <= edad <= 65)  # 18 <= edad <= 65\nprint(region == \"Lima\")  # region == \"Lima\"\nprint(region != \"Piura\")  # region != \"Piura\"\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "edad",
+        "region",
+        "Cusco",
+        "print",
+        "edad",
+        "edad",
+        "print",
+        "edad",
+        "edad",
+        "print"
+      ],
+      "justification_from_packet": "[E2-Explorer/1f0b98e2] S03-T1-A-E1: el material enseña el patrón que implementé. Instrucción: «E1 (guiado) — Con `edad = 25` y `region = \"Cusco\"`, imprime el booleano de: `edad >= 18`, `edad < 65`, `18 <= edad <= 65`, `region == \"Lima\"`, `region != \"Piura\"`.». Hint: «Usa print(expresion) directamente; no hace falta if todavía.» · demo S03-T1-A-DEMO. Código ancla: «edad = 25». Contexto teórico: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "TIPOS_DOC",
+        "DNI",
+        "PAS",
+        "for",
+        "DNI",
+        "dni",
+        "RUC",
+        "print",
+        "TIPOS_DOC"
+      ],
+      "justification_from_packet": "[E2-Explorer/098d1da8] S03-T1-A-E2: el material enseña el patrón que implementé. Instrucción: «E2 (independiente) — Define `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}`. Para cada valor en `[\"DNI\", \"dni\", \"RUC\"]`, imprime si está en la allowlist (`in`).». Hint: «for t in lista: print(t, \"→\", t in TIPOS_DOC)» · demo S03-T1-A-DEMO. Código ancla: «TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}». Contexto teórico: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "valor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"usa is para None; == para valores de negocio (no is con enteros)\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "valor",
+        "None",
+        "print",
+        "valor",
+        "None",
+        "valor",
+        "None",
+        "print",
+        "True",
+        "True"
+      ],
+      "justification_from_packet": "[E2-Explorer/e6e001f6] Como explorador resuelvo S03-T1-A-E3 desde el starter y el iDo. El enunciado pide: «E3 (transferencia) — Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `True is 1`. Explica en un print cuándo usar `is` vs `==` en validadores de intake». Me guío por «is None para ausencia; == para valores de negocio. No uses is con enteros.». Línea central de mi solución: «valor = None». Heading cercano: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", None)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "vals",
+        "None",
+        "False",
+        "set",
+        "range",
+        "for",
+        "vals",
+        "print",
+        "repr",
+        "None"
+      ],
+      "justification_from_packet": "[E2-Explorer/0615a859] Para S03-T1-B-E1 leí la instrucción del paquete activo: «E1 (guiado) — Tabla truthiness: imprime `bool(v)` para `None`, `False`, `0`, `0.0`, `\"\"`, `[]`, `{}`, `set()`, `range(0)`, `\"x\"`, `1`, `[0]`.». Aplico la pista «for v in lista: print(repr(v), \"→\", bool(v))» y el demo S03-T1-A-DEMO. Entrega clave: «vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]». Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"'' or 'default' →\", '' or 'default')\nprint(\"'Lima' or 'default' →\", 'Lima' or 'default')\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "default",
+        "default",
+        "print",
+        "Lima",
+        "default",
+        "Lima",
+        "default",
+        "print",
+        "and"
+      ],
+      "justification_from_packet": "[E2-Explorer/1bab6fc0] Para S03-T1-B-E2 leí la instrucción del paquete activo: «E2 (independiente) — Predice e imprime: `'' or 'default'`, `'Lima' or 'default'`, `0 and 99`, `5 and 99`, `None or 0`.». Aplico la pista «and/or devuelven operando, no necesariamente bool. Short-circuit: or se detiene en el primero truthy» y el demo S03-T1-A-DEMO. Entrega clave: `print(\"'' or 'default' →\", '' or 'default')`. Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "validate_monto",
+        "None",
+        "return",
+        "review",
+        "return",
+        "reject",
+        "return",
+        "accept",
+        "for"
+      ],
+      "justification_from_packet": "[E2-Explorer/1d08e433] S03-T1-B-E3: el material enseña el patrón que implementé. Instrucción: «E3 (transferencia) — Bug: un validador hace `if not monto: return \"reject\"`. Reescribe `validate_monto(m)` con `is None` para review, `< 0` reject, y accept para 0 y positivos. Pru». Hint: «Nunca uses truthiness para montos. if m is None primero.» · demo S03-T1-A-DEMO. Código ancla: `def validate_monto(m):`. Contexto teórico: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "classify_score",
+        "score",
+        "int",
+        "str",
+        "score",
+        "return",
+        "accept",
+        "elif",
+        "score"
+      ],
+      "justification_from_packet": "[E2-Explorer/f8e5e604] Como explorador resuelvo S03-T2-A-E1 desde el starter y el iDo. El enunciado pide: «E1 (guiado) — Completa `classify_score`: ≥80 accept, ≥50 review, else reject. Imprime resultados para 80, 50, 49, 100.». Me guío por «if score >= 80: ... elif score >= 50: ... else: ...». Línea central de mi solución: `def classify_score(score: int) -> str:`. Heading cercano: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "bad",
+        "score",
+        "status",
+        "None",
+        "score",
+        "status",
+        "accept",
+        "score",
+        "status"
+      ],
+      "justification_from_packet": "[E2-Explorer/7d5bb93c] Para S03-T2-A-E2 leí la instrucción del paquete activo: «E2 (independiente) — La función `bad` usa ifs independientes y clasifica mal el 95 (queda review). Reescribe `good` con if/elif/else y compara ambos en 95, 60, 30.». Aplico la pista «El segundo if score >= 50 pisa el accept. Usa elif para exclusión mutua.» y el demo S03-T2-A-DEMO. Entrega clave: `def bad(score):`. Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "band",
+        "return",
+        "alto",
+        "elif",
+        "return",
+        "medio",
+        "elif",
+        "return",
+        "bajo"
+      ],
+      "justification_from_packet": "[E2-Explorer/788a670e] Para S03-T2-A-E3 leí la instrucción del paquete activo: «E3 (transferencia) — Traza mentalmente y luego implementa `band(n)`: `>100` alto, `>50` medio, `>0` bajo, else nulo. Verifica 150, 75, 10, 0, -3.». Aplico la pista «Orden: primero el umbral más alto. else cubre 0 y negativos.» y el demo S03-T2-A-DEMO. Entrega clave: `def band(n):`. Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "validate_edad",
+        "edad",
+        "edad",
+        "None",
+        "return",
+        "status",
+        "review",
+        "code",
+        "MISSING"
+      ],
+      "justification_from_packet": "[E2-Explorer/ca3870eb] S03-T2-B-E1: el material enseña el patrón que implementé. Instrucción: «E1 (guiado) — Completa guards en `validate_edad`: None → MISSING/review; no int → BAD_TYPE/reject; luego OUT_OF_RANGE / NEEDS_REVIEW / OK como en la demo. Prueba None, \"25\", 15, 30». Hint: «if edad is None primero; luego isinstance; no compares None con <.» · demo S03-T2-A-DEMO. Código ancla: `def validate_edad(edad):`. Contexto teórico: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m > 10000:\n        return \"review\"\n    return \"accept\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    print(v, validate_monto_nested(v), validate_monto_guards(v))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "validate_monto_nested",
+        "not",
+        "None",
+        "isinstance",
+        "int",
+        "return",
+        "accept",
+        "else",
+        "return"
+      ],
+      "justification_from_packet": "[E2-Explorer/41a3c78d] Como explorador resuelvo S03-T2-B-E2 desde el starter y el iDo. El enunciado pide: «E2 (independiente) — Refactoriza la pirámide anidada de `validate_monto_nested` a guards lineales con la misma semántica: None review, no int reject, <0 reject, 0–10000 accept, els». Me guío por «Invierte el anidamiento: un if + return por precondición.». Línea central de mi solución: `def validate_monto_nested(m):`. Heading cercano: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:  # ¿se alcanza?\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"bug 3 →\", etiqueta_bug(3))\nprint(\"Rama muerta: elif x == 0 dentro de if x != 0 nunca corre; reordenar.\")\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "etiqueta_bug",
+        "return",
+        "positivo",
+        "return",
+        "negativo",
+        "elif",
+        "alcanza",
+        "return",
+        "cero"
+      ],
+      "justification_from_packet": "[E2-Explorer/7d093cd2] S03-T2-B-E3: el material enseña el patrón que implementé. Instrucción: «E3 (transferencia) — En el snippet, identifica la rama muerta: imprime cuál `elif` nunca corre y por qué. Luego reordena/corrige para que `x == 0` sea alcanzable y muestre `cero`.». Hint: «Mira el orden: cualquier condición ya cubierta por un if anterior es inalcanzable.» · demo S03-T2-A-DEMO. Código ancla: `def etiqueta_bug(x):`. Contexto teórico: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ALLOWED",
+        "Lima",
+        "Arequipa",
+        "Cusco",
+        "Piura",
+        "def",
+        "check_region",
+        "None",
+        "return",
+        "review"
+      ],
+      "justification_from_packet": "[E2-Explorer/153a30a7] Como explorador resuelvo S03-T3-A-E1 desde el starter y el iDo. El enunciado pide: «E1 (guiado) — `ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}`. Escribe `check_region(r)`: None → review; not in ALLOWED → review; else accept. Prueba Lima, Tacna, None.». Me guío por «if r is None / if r not in ALLOWED / return accept». Línea central de mi solución: «ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}». Heading cercano: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "monto_ingreso",
+        "None",
+        "return",
+        "review",
+        "return",
+        "reject",
+        "return",
+        "review",
+        "return"
+      ],
+      "justification_from_packet": "[E2-Explorer/0b11b33e] Para S03-T3-A-E2 leí la instrucción del paquete activo: «E2 (independiente) — `monto_ingreso(m)`: None → review; <0 → reject; >50000 → review (outlier); else accept (incluye 0). Casos: None, -1, 0, 1200, 60000.». Aplico la pista «Orden: ausencia, hard reject, outlier review, accept.» y el demo S03-T3-A-DEMO. Entrega clave: `def monto_ingreso(m):`. Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"reject\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "ALLOWED_DOC",
+        "DNI",
+        "PAS",
+        "DOC_LEN",
+        "DNI",
+        "PAS",
+        "def",
+        "tipo_doc_len",
+        "tipo",
+        "numero"
+      ],
+      "justification_from_packet": "[E2-Explorer/66bb9b91] Para S03-T3-A-E3 leí la instrucción del paquete activo: «E3 (transferencia) — Combina allowlist de tipo_doc `{\"DNI\",\"CE\",\"PAS\"}` con longitudes DNI=8, CE=9, PAS=9. Devuelve dict status/code: MISSING, NOT_IN_ALLOWLIST, OUT_OF_RANGE, OK. C». Aplico la pista «Primero None, luego not in allowlist, luego len != esperado.» y el demo S03-T3-A-DEMO. Entrega clave: «ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}». Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "TABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"None\",\n    \"OUT_OF_RANGE\": \"None\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "TABLE",
+        "accept",
+        "MISSING",
+        "None",
+        "OUT_OF_RANGE",
+        "None",
+        "def",
+        "apply",
+        "code",
+        "return"
+      ],
+      "justification_from_packet": "[E2-Explorer/71f1c45e] Para S03-T3-B-E1 leí la instrucción del paquete activo: «E1 (guiado) — Completa la decision table como dict `codigo → status` para OK→accept, MISSING→review, OUT_OF_RANGE→reject, _default→review. Imprime el status de cada clave en la lis». Aplico la pista «table.get(code, \"review\") si no incluyes _default como clave de negocio.» y el demo S03-T3-A-DEMO. Entrega clave: «TABLE = {». Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Explorer/S03-T3-B-E2: completed from active packet iDo + starter\nRULES = [\n    (\"missing_edad\", lambda r: r.get(\"edad\") is None, \"review\"),\n    (\"underage\", lambda r: isinstance(r.get(\"edad\"), int) and r[\"edad\"] < 18, \"reject\"),\n    (\"ok\", lambda r: True, \"accept\"),\n]\n\ndef apply_rules(row):\n    for name, pred, status in RULES:\n        if pred(row):\n            return name, status\n    return \"none\", \"review\"\n\nfor row in [{\"edad\": None}, {\"edad\": 15}, {\"edad\": 40}]:\n    print(row, \"→\", apply_rules(row))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Explorer",
+        "S03",
+        "completed",
+        "from",
+        "active",
+        "packet",
+        "iDo",
+        "starter",
+        "RULES",
+        "missing_edad"
+      ],
+      "justification_from_packet": "[E2-Explorer/992e7539] Como explorador resuelvo S03-T3-B-E2 desde el starter y el iDo. El enunciado pide: «E2 (independiente) — Implementa la misma tabla con `match/case`, OR patterns para MISSING|NEEDS_REVIEW y OUT_OF_RANGE|NOT_IN_ALLOWLIST|BAD_TYPE, y `case _`.». Me guío por «case \"A\" | \"B\": en una sola rama. case _: al final.». Línea central de mi solución: «RULES = [». Heading cercano: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def map_code(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\":\n            return \"review\"\n        case \"OUT_OF_RANGE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef map_edad(edad: int | None) -> str:\n    if edad is None:\n        return \"review\"\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(map_code(\"OK\"), map_code(\"MISSING\"))\nprint(map_edad(None), map_edad(30), map_edad(10))\nprint(\"Justificación:\", \"match brilla en códigos literales; rangos numéricos de edad son más claros con if\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "map_code",
+        "code",
+        "str",
+        "str",
+        "match",
+        "code",
+        "case",
+        "return",
+        "accept"
+      ],
+      "justification_from_packet": "[E2-Explorer/ed8c6b36] Para S03-T3-B-E3 leí la instrucción del paquete activo: «E3 (transferencia) — Para (a) códigos de error finitos y (b) rango de edad 18–65, elige if o match, implementa ambos validadores y justifica en prints por qué match no es ideal par». Aplico la pista «match brilla en literales; rangos numéricos son más claros con if y comparaciones.» y el demo S03-T3-A-DEMO. Entrega clave: `def map_code(code: str) -> str:`. Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": -1, \"expected\": \"reject\"},\n    {\"value\": None, \"expected\": \"review\"},\n    {\"value\": \"x\", \"expected\": \"reject\"},\n]\nfor ex in examples:\n    got = validate_edad(ex[\"value\"])\n    print(ex[\"value\"], got, got == ex[\"expected\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "validate_edad",
+        "None",
+        "return",
+        "review",
+        "not",
+        "isinstance",
+        "int",
+        "return",
+        "reject"
+      ],
+      "justification_from_packet": "[E2-Explorer/879e9a78] S03-T4-A-E1: el material enseña el patrón que implementé. Instrucción: «E1 (guiado) — Completa `examples` para el campo `edad` con expected accept/reject/review/missing (usa value None para missing/review según tu invariante). Ejecuta validate y marca ». Hint: «Cuatro dicts {value, expected}. None → review; -1 reject; 30 accept; \"x\" reject.» · demo S03-T4-A-DEMO. Código ancla: `def validate_edad(e):`. Contexto teórico: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | . Justificación 100% packet-bound (E2 reinicio desde landing)."
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def validate_apellidos(ap, am):\n    a = (ap or \"\").strip() if ap is not None else None\n    b = (am or \"\").strip() if am is not None else None\n    if a is None or b is None or a == \"\" or b == \"\":\n        # si ambos vacíos → reject; si solo uno falta → review\n        empty_a = a is None or a == \"\"\n        empty_b = b is None or b == \"\"\n        if empty_a and empty_b:\n            return \"reject\"\n        return \"review\"\n    return \"accept\"\n\ninvariant_text = \"apellido_paterno y apellido_materno no vacíos (strip) para accept; uno falta→review; ambos vacíos→reject\"\nexamples = [\n    {\"ap\": \"Perez\", \"am\": \"Quispe\", \"expected\": \"accept\"},\n    {\"ap\": \"Perez\", \"am\": \"\", \"expected\": \"review\"},\n    {\"ap\": \"\", \"am\": \"\", \"expected\": \"reject\"},\n]\nprint(invariant_text)\nfor ex in examples:\n    got = validate_apellidos(ex[\"ap\"], ex[\"am\"])\n    print(ex, \"→\", got, got == ex[\"expected\"])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "validate_apellidos",
+        "strip",
+        "not",
+        "None",
+        "else",
+        "None",
+        "strip",
+        "not",
+        "None"
+      ],
+      "justification_from_packet": "[E2-Explorer/ea29ac7b] Como explorador resuelvo S03-T4-A-E2 desde el starter y el iDo. El enunciado pide: «E2 (independiente) — Escribe invariante multi-campo: `apellido_paterno` y `apellido_materno` no vacíos (tras strip) para accept; si uno falta → review; si ambos vacíos → reject. In». Me guío por «strip y trata \"\" como vacío. None en uno → review.». Línea central de mi solución: `def validate_apellidos(ap, am):`. Heading cercano: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def validate_edad_strict(e):\n    \"\"\"Invariante roto: todo lo no 18-65 es reject (incluye None y menores).\"\"\"\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict 15 →\", validate_edad_strict(15))\nprint(\"strict None →\", validate_edad_strict(None))\n\ndef validate_edad_fixed(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    if e < 18:\n        return \"review\"\n    if 18 <= e <= 65:\n        return \"accept\"\n    return \"review\"\n\nprint(\"fixed 15 →\", validate_edad_fixed(15))\nprint(\"fixed None →\", validate_edad_fixed(None))\nprint(\"fixed 30 →\", validate_edad_fixed(30))\nprint(\"Invariante ajustado: menores y None → review; solo fuera de dominio físico → reject\")\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "validate_edad_strict",
+        "Invariante",
+        "roto",
+        "todo",
+        "reject",
+        "incluye",
+        "None",
+        "menores",
+        "isinstance"
+      ],
+      "justification_from_packet": "[E2-Explorer/3e50d095] Para S03-T4-A-E3 leí la instrucción del paquete activo: «E3 (transferencia) — El invariante dice “edad siempre entre 18 y 65 inclusive (reject si no)”. Encuentra el contraejemplo que rompe la política real del negocio (menores en review,». Aplico la pista «edad 15 no debería ser reject duro si la política es review para menores.» y el demo S03-T4-A-DEMO. Entrega clave: `def validate_edad_strict(e):`. Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "vagos = [\"Error\", \"inválido\", \"bad age\"]\n# Reescribe en la misma lista accionables\naccionables = [\n    \"None\",\n    \"None\",\n    \"None\",\n]\nfor a in accionables:\n    print(a)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "vagos",
+        "Error",
+        "bad",
+        "age",
+        "Reescribe",
+        "misma",
+        "lista",
+        "accionables",
+        "accionables",
+        "None"
+      ],
+      "justification_from_packet": "[E2-Explorer/3e71e5c6] Para S03-T4-B-E1 leí la instrucción del paquete activo: «E1 (guiado) — Reescribe 3 mensajes vagos a plantilla campo+problema+acción: (1) \"Error\", (2) \"inválido\", (3) \"bad age\". Usa el campo `edad` y valores de ejemplo.». Aplico la pista «Incluye nombre del campo y qué hacer. No agregues PII real.» y el demo S03-T4-A-DEMO. Entrega clave: «vagos = [\"Error\", \"inválido\", \"bad age\"]». Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Explorer/S03-T4-B-E2: completed from active packet iDo + starter\ndef batch_validate(rows):\n    out = []\n    for r in rows:\n        if r.get(\"id\") is None:\n            out.append({**r, \"status\": \"review\", \"reason\": \"missing id\"})\n            continue\n        out.append({**r, \"status\": \"accept\", \"reason\": None})\n    return out\n\nprint(batch_validate([{\"id\": \"C1\"}, {\"id\": None}, {\"id\": \"C2\"}]))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Explorer",
+        "S03",
+        "completed",
+        "from",
+        "active",
+        "packet",
+        "iDo",
+        "starter",
+        "def",
+        "batch_validate"
+      ],
+      "justification_from_packet": "[E2-Explorer/09a25640] Como explorador resuelvo S03-T4-B-E2 desde el starter y el iDo. El enunciado pide: «E2 (independiente) — Dado `classify_score` (accept/review/reject), escribe una lista `cases` con un input por cada rama (incl. frontera) y un loop assert/print PASS.». Me guío por «Al menos 3 casos: p.ej. 90, 55, 10. Opcional 80 y 50.». Línea central de mi solución: `def batch_validate(rows):`. Heading cercano: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente. No ejecuté código como bar de validez."
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e > 18 and e <= 65:  # BUG: 18 queda fuera\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    # assert got == expected  # descomenta tras arreglar\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "rango_edad",
+        "None",
+        "return",
+        "review",
+        "and",
+        "BUG",
+        "queda",
+        "fuera",
+        "return"
+      ],
+      "justification_from_packet": "[E2-Explorer/0ed7f4ef] Para S03-T4-B-E3 leí la instrucción del paquete activo: «E3 (transferencia) — Test rojo: la regla usa `edad > 18` y falla para 18 (espera accept). Arregla a `>= 18` y deja la suite en verde (18 accept, 17 review, None review).». Aplico la pista «Off-by-one clásico en frontera inferior inclusiva.» y el demo S03-T4-A-DEMO. Entrega clave: `def rango_edad(e):`. Teoría: Comparaciones y el operador in | Qué es verdadero en un if (y qué no es “ausente”) | Ramas. Solo usé landing + secciones previas + esta lección; sin correctIndex."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "if campo is None:",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Explorer] Explorer selfcheck Q0: «¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?». Elegí índice 2 → «if campo is None:» porque el paquete (theory/iDo de S03 Decisiones y reglas de validación) enseña ese contrato: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, com Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defec La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se evalúan en orden; **. Las demás opciones contradicen el texto activo del slim_packet/quiz_card o invierten fail-closed / evidencia / aislamiento que la sección exige."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Se ejecuta esa rama y se omiten las siguientes",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Explorer] Explorer selfcheck Q1: «En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?». Elegí índice 0 → «Se ejecuta esa rama y se omiten las siguientes» porque el paquete (theory/iDo de S03 Decisiones y reglas de validación) enseña ese contrato: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, com Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defec La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se evalúan en orden; **. Las demás opciones contradicen el texto activo del slim_packet/quiz_card o invierten fail-closed / evidencia / aislamiento que la sección exige."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "\"default\"",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Explorer] Explorer selfcheck Q2: «¿Qué devuelve la expresión `\"\" or \"default\"` en Python?». Elegí índice 1 → «\"default\"» porque el paquete (theory/iDo de S03 Decisiones y reglas de validación) enseña ese contrato: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, com Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defec La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se evalúan en orden; **. Las demás opciones contradicen el texto activo del slim_packet/quiz_card o invierten fail-closed / evidencia / aislamiento que la sección exige."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Un set de literales y el operador in",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Explorer] Explorer selfcheck Q3: «Una allowlist de tipos de documento se implementa mejor como…». Elegí índice 3 → «Un set de literales y el operador in» porque el paquete (theory/iDo de S03 Decisiones y reglas de validación) enseña ese contrato: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, com Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defec La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se evalúan en orden; **. Las demás opciones contradicen el texto activo del slim_packet/quiz_card o invierten fail-closed / evidencia / aislamiento que la sección exige."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Cuando el sujeto es un literal/estado finito (códigos) y hay case _",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Explorer] Explorer selfcheck Q4: «¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?». Elegí índice 2 → «Cuando el sujeto es un literal/estado finito (códigos) y hay case _» porque el paquete (theory/iDo de S03 Decisiones y reglas de validación) enseña ese contrato: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, com Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defec La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se evalúan en orden; **. Las demás opciones contradicen el texto activo del slim_packet/quiz_card o invierten fail-closed / evidencia / aislamiento que la sección exige."
+    }
+  ],
+  "recorded_at": "2026-07-23T04:38:02.685034+00:00",
+  "repaired_at": "2026-07-23T04:48:08.953812+00:00"
+}

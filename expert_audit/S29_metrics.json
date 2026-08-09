@@ -1,0 +1,4119 @@
+{
+  "global": {
+    "n_paragraphs": 413,
+    "n_sentences": 382,
+    "n_words": 4479,
+    "WPS": 11.73,
+    "SPW": 1.96,
+    "FH": 77.3,
+    "INFLESZ": 73.0
+  },
+  "paragraphs": [
+    {
+      "pi": 1,
+      "n_sent": 1,
+      "wps": 24.0,
+      "spw": 2.38,
+      "FH": 39.9,
+      "INFLESZ": 34.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Almacén relacional del ER: fuentes, entidades, pares, decisiones append-only y evidencia — con constraints, consultas de"
+        },
+        {
+          "sev": "L",
+          "kind": "high comma density",
+          "ev": "4 commas / 24w",
+          "sent": "Almacén relacional del ER: fuentes, entidades, pares, decisiones append-only y evidencia — con constraints, consultas de"
+        }
+      ],
+      "preview": "Almacén relacional del ER: fuentes, entidades, pares, decisiones append-only y evidencia — con const"
+    },
+    {
+      "pi": 2,
+      "n_sent": 3,
+      "wps": 24.0,
+      "spw": 2.19,
+      "FH": 50.7,
+      "INFLESZ": 46.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "33 words",
+          "sent": "En equipos de datos (banca, telecom, retail en Perú y LATAM) un analista o ingeniero que modela PK/FK, temporalidad y co"
+        },
+        {
+          "sev": "L",
+          "kind": "high comma density",
+          "ev": "4 commas / 23w",
+          "sent": "La práctica de esta sección usa SQLite de laboratorio (constraints, joins, ACID, migraciones, repository) como contrato "
+        }
+      ],
+      "preview": "El **almacén de verdad del ER** guarda fuentes, entidades, pares, decisiones y evidencia con histori"
+    },
+    {
+      "pi": 3,
+      "n_sent": 1,
+      "wps": 34.0,
+      "spw": 2.18,
+      "FH": 41.6,
+      "INFLESZ": 37.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "34 words",
+          "sent": "Publica un mini-repo o carpeta de portafolio: DDL del almacén ER, script de seed sintético CASO-LIM-029, tests de constr"
+        }
+      ],
+      "preview": "Publica un mini-repo o carpeta de portafolio: DDL del almacén ER, script de seed sintético CASO-LIM-"
+    },
+    {
+      "pi": 4,
+      "n_sent": 2,
+      "wps": 30.5,
+      "spw": 2.21,
+      "FH": 42.9,
+      "INFLESZ": 38.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "44 words",
+          "sent": "Integra lo de T1–T4 en un entregable de portafolio: el esquema CP-N3-A en SQLite (`source_records` → `entities` → `candi"
+        }
+      ],
+      "preview": "Integra lo de T1–T4 en un entregable de portafolio: el esquema CP-N3-A en SQLite (`source_records` →"
+    },
+    {
+      "pi": 5,
+      "n_sent": 3,
+      "wps": 20.0,
+      "spw": 1.98,
+      "FH": 67.4,
+      "INFLESZ": 63.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "37 words",
+          "sent": "Cada uno imprime el resultado que el código realmente calcula: claves con FK y CHECK, historia append-only, CTE + anti-j"
+        },
+        {
+          "sev": "L",
+          "kind": "high comma density",
+          "ev": "7 commas / 37w",
+          "sent": "Cada uno imprime el resultado que el código realmente calcula: claves con FK y CHECK, historia append-only, CTE + anti-j"
+        }
+      ],
+      "preview": "Observa ocho demos del almacén ER en SQLite `:memory:`. Cada uno imprime el resultado que el código "
+    },
+    {
+      "pi": 6,
+      "n_sent": 3,
+      "wps": 20.0,
+      "spw": 2.18,
+      "FH": 55.4,
+      "INFLESZ": 50.8,
+      "issues": [],
+      "preview": "24 ejercicios (E1 guiado · E2 independiente · E3 transferencia) sobre modelo, consulta, transaccione"
+    },
+    {
+      "pi": 7,
+      "n_sent": 1,
+      "wps": 24.0,
+      "spw": 1.79,
+      "FH": 74.9,
+      "INFLESZ": 71.2,
+      "issues": [],
+      "preview": "Crea entities y candidate_pairs con CHECK de score, orden entity_a < entity_b y PRAGMA foreign_keys;"
+    },
+    {
+      "pi": 8,
+      "n_sent": 1,
+      "wps": 15.0,
+      "spw": 1.8,
+      "FH": 83.5,
+      "INFLESZ": 79.7,
+      "issues": [],
+      "preview": "Inserta dos decisiones append-only para el mismo par y lista labels en orden de id."
+    },
+    {
+      "pi": 9,
+      "n_sent": 2,
+      "wps": 9.5,
+      "spw": 1.58,
+      "FH": 102.4,
+      "INFLESZ": 99.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "CTE de candidatos + anti-join (LEFT JOIN …"
+        },
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 2",
+          "sent": "IS NULL): lista ids de pares sin decisión (cola de review)."
+        }
+      ],
+      "preview": "CTE de candidatos + anti-join (LEFT JOIN … IS NULL): lista ids de pares sin decisión (cola de review"
+    },
+    {
+      "pi": 10,
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 1.83,
+      "FH": 84.6,
+      "INFLESZ": 80.6,
+      "issues": [],
+      "preview": "COUNT(*) vs COUNT(col) y cardinalidad de self-join sobre grp (NULL no empareja)."
+    },
+    {
+      "pi": 11,
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.27,
+      "FH": 59.3,
+      "INFLESZ": 54.2,
+      "issues": [],
+      "preview": "Transacción con ROLLBACK deja decisions y evidence en 0 filas (atomicidad)."
+    },
+    {
+      "pi": 12,
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 1.83,
+      "FH": 84.6,
+      "INFLESZ": 80.6,
+      "issues": [],
+      "preview": "Upsert actualiza name de entidad e1 a 'Ana L' y lo imprime."
+    },
+    {
+      "pi": 13,
+      "n_sent": 1,
+      "wps": 14.0,
+      "spw": 1.64,
+      "FH": 94.0,
+      "INFLESZ": 90.5,
+      "issues": [],
+      "preview": "Migration v1 + índice en block_key; imprime version y si el plan usa índice."
+    },
+    {
+      "pi": 14,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 3.14,
+      "FH": 11.1,
+      "INFLESZ": 4.0,
+      "issues": [],
+      "preview": "Repository.pending() lista pares sin decisión (anti-join encapsulado)."
+    },
+    {
+      "pi": 15,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.0,
+      "FH": 80.7,
+      "INFLESZ": 76.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Almacén relacional del ER para CP-N3-A"
+        }
+      ],
+      "preview": "Almacén relacional del ER para CP-N3-A"
+    },
+    {
+      "pi": 16,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Claves, constraints y normalización"
+        }
+      ],
+      "preview": "Claves, constraints y normalización"
+    },
+    {
+      "pi": 17,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 3.33,
+      "FH": 3.8,
+      "INFLESZ": -3.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Temporalidad y provenance"
+        }
+      ],
+      "preview": "Temporalidad y provenance"
+    },
+    {
+      "pi": 18,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "CTEs, windows y anti-joins"
+        }
+      ],
+      "preview": "CTEs, windows y anti-joins"
+    },
+    {
+      "pi": 19,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Cardinalidad, NULL y planes"
+        }
+      ],
+      "preview": "Cardinalidad, NULL y planes"
+    },
+    {
+      "pi": 20,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 1.67,
+      "FH": 100.7,
+      "INFLESZ": 97.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "ACID y transacciones en el lab"
+        }
+      ],
+      "preview": "ACID y transacciones en el lab"
+    },
+    {
+      "pi": 21,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 3.0,
+      "FH": 22.8,
+      "INFLESZ": 15.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Upserts, concurrencia y recuperación"
+        }
+      ],
+      "preview": "Upserts, concurrencia y recuperación"
+    },
+    {
+      "pi": 22,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Índices y migrations"
+        }
+      ],
+      "preview": "Índices y migrations"
+    },
+    {
+      "pi": 23,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Repository pattern, pooling y pruebas"
+        }
+      ],
+      "preview": "Repository pattern, pooling y pruebas"
+    },
+    {
+      "pi": 24,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.8,
+      "FH": 33.7,
+      "INFLESZ": 27.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "SQL avanzado y modelado relacional"
+        }
+      ],
+      "preview": "SQL avanzado y modelado relacional"
+    },
+    {
+      "pi": 25,
+      "n_sent": 1,
+      "wps": 2.0,
+      "spw": 3.5,
+      "FH": -5.2,
+      "INFLESZ": -13.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Práctica observable"
+        }
+      ],
+      "preview": "Práctica observable"
+    },
+    {
+      "pi": 27,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Orden canónico A<B"
+        }
+      ],
+      "preview": "Orden canónico A<B"
+    },
+    {
+      "pi": 33,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.0,
+      "FH": 143.8,
+      "INFLESZ": 141.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "NULL en join"
+        }
+      ],
+      "preview": "NULL en join"
+    },
+    {
+      "pi": 35,
+      "n_sent": 1,
+      "wps": 2.0,
+      "spw": 2.5,
+      "FH": 54.8,
+      "INFLESZ": 49.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Misma transacción"
+        }
+      ],
+      "preview": "Misma transacción"
+    },
+    {
+      "pi": 37,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.17,
+      "FH": 70.7,
+      "INFLESZ": 65.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Upsert ≠ borrar historia de decisiones"
+        }
+      ],
+      "preview": "Upsert ≠ borrar historia de decisiones"
+    },
+    {
+      "pi": 39,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Índice no es magia"
+        }
+      ],
+      "preview": "Índice no es magia"
+    },
+    {
+      "pi": 98,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.22,
+      "FH": 64.3,
+      "INFLESZ": 59.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Almacén de verdad ER — esquema, historia y repositorio"
+        }
+      ],
+      "preview": "Almacén de verdad ER — esquema, historia y repositorio"
+    },
+    {
+      "pi": 99,
+      "n_sent": 1,
+      "wps": 13.0,
+      "spw": 2.0,
+      "FH": 73.6,
+      "INFLESZ": 69.2,
+      "issues": [],
+      "preview": "Constraints y FK habilitadas (PRAGMA=1) protegen el almacén ER desde el primer insert."
+    },
+    {
+      "pi": 100,
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.27,
+      "FH": 59.3,
+      "INFLESZ": 54.2,
+      "issues": [],
+      "preview": "Historia de decisiones sin overwrite: dos filas, no un UPDATE destructivo."
+    },
+    {
+      "pi": 101,
+      "n_sent": 1,
+      "wps": 16.0,
+      "spw": 1.69,
+      "FH": 89.3,
+      "INFLESZ": 85.7,
+      "issues": [],
+      "preview": "Cola de review: CTE nombra el paso; el anti-join deja solo p2 (p1 ya tiene decisión)."
+    },
+    {
+      "pi": 102,
+      "n_sent": 1,
+      "wps": 15.0,
+      "spw": 2.0,
+      "FH": 71.5,
+      "INFLESZ": 67.2,
+      "issues": [],
+      "preview": "NULL y cardinalidad evitan sorpresas: COUNT(col) ignora NULL; igualdad no une filas con grp NULL."
+    },
+    {
+      "pi": 103,
+      "n_sent": 1,
+      "wps": 14.0,
+      "spw": 2.43,
+      "FH": 46.8,
+      "INFLESZ": 41.5,
+      "issues": [],
+      "preview": "Atomicidad decisión+evidencia: si falla el segundo write, no queda basura en la primera tabla."
+    },
+    {
+      "pi": 104,
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 2.0,
+      "FH": 74.6,
+      "INFLESZ": 70.2,
+      "issues": [],
+      "preview": "Upsert de atributos con id estable; no toca la historia de decisiones."
+    },
+    {
+      "pi": 105,
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.09,
+      "FH": 70.2,
+      "INFLESZ": 65.6,
+      "issues": [],
+      "preview": "Evolución de esquema versionada y evidencia del índice en el plan."
+    },
+    {
+      "pi": 106,
+      "n_sent": 1,
+      "wps": 14.0,
+      "spw": 1.93,
+      "FH": 76.8,
+      "INFLESZ": 72.7,
+      "issues": [],
+      "preview": "SQL encapsulado y testeable: la app pide pending(), no arma el anti-join a mano."
+    },
+    {
+      "pi": 107,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.0,
+      "FH": 80.7,
+      "INFLESZ": 76.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "PRIMARY KEY impide el segundo insert"
+        }
+      ],
+      "preview": "PRIMARY KEY impide el segundo insert"
+    },
+    {
+      "pi": 109,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.86,
+      "FH": 88.3,
+      "INFLESZ": 84.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "PRAGMA foreign_keys = ON en esta conexión"
+        }
+      ],
+      "preview": "PRAGMA foreign_keys = ON en esta conexión"
+    },
+    {
+      "pi": 110,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.71,
+      "FH": 96.8,
+      "INFLESZ": 93.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "dos INSERT al mismo pair_id; COUNT filtrado"
+        }
+      ],
+      "preview": "dos INSERT al mismo pair_id; COUNT filtrado"
+    },
+    {
+      "pi": 114,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.0,
+      "FH": 83.8,
+      "INFLESZ": 79.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "ROW_NUMBER en SQLite"
+        }
+      ],
+      "preview": "ROW_NUMBER en SQLite"
+    },
+    {
+      "pi": 115,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.86,
+      "FH": 88.3,
+      "INFLESZ": 84.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "PARTITION BY reinicia el ranking por bloque"
+        }
+      ],
+      "preview": "PARTITION BY reinicia el ranking por bloque"
+    },
+    {
+      "pi": 116,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.4,
+      "FH": 117.7,
+      "INFLESZ": 114.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "self-join con a.id < b.id"
+        }
+      ],
+      "preview": "self-join con a.id < b.id"
+    },
+    {
+      "pi": 118,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.14,
+      "FH": 131.1,
+      "INFLESZ": 128.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "EXPLAIN QUERY PLAN + str del plan"
+        }
+      ],
+      "preview": "EXPLAIN QUERY PLAN + str del plan"
+    },
+    {
+      "pi": 119,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.6,
+      "FH": 105.7,
+      "INFLESZ": 102.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "rollback en lugar de commit"
+        }
+      ],
+      "preview": "rollback en lugar de commit"
+    },
+    {
+      "pi": 120,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.6,
+      "FH": 105.7,
+      "INFLESZ": 102.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "BEGIN + ROLLBACK en except"
+        }
+      ],
+      "preview": "BEGIN + ROLLBACK en except"
+    },
+    {
+      "pi": 121,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.0,
+      "FH": 79.7,
+      "INFLESZ": 75.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "rollback + print abort cuando evidence falla"
+        }
+      ],
+      "preview": "rollback + print abort cuando evidence falla"
+    },
+    {
+      "pi": 124,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.29,
+      "FH": 62.6,
+      "INFLESZ": 57.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "CHECK(entity_a < entity_b) rechaza el par invertido"
+        }
+      ],
+      "preview": "CHECK(entity_a < entity_b) rechaza el par invertido"
+    },
+    {
+      "pi": 125,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.0,
+      "FH": 143.8,
+      "INFLESZ": 141.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "MAX no MIN"
+        }
+      ],
+      "preview": "MAX no MIN"
+    },
+    {
+      "pi": 127,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 1.11,
+      "FH": 131.0,
+      "INFLESZ": 128.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "guard + COUNT; no DROP si no hay backup"
+        }
+      ],
+      "preview": "guard + COUNT; no DROP si no hay backup"
+    },
+    {
+      "pi": 131,
+      "n_sent": 2,
+      "wps": 12.5,
+      "spw": 1.64,
+      "FH": 95.7,
+      "INFLESZ": 92.2,
+      "issues": [],
+      "preview": "Con PRIMARY KEY el motor rechaza el duplicado. Un solo `e1` y COUNT(*) = 1 es el contrato mínimo de "
+    },
+    {
+      "pi": 132,
+      "n_sent": 2,
+      "wps": 12.0,
+      "spw": 1.96,
+      "FH": 77.1,
+      "INFLESZ": 72.8,
+      "issues": [],
+      "preview": "El CHECK no es documentación: un score fuera de [0, 1] debe fallar con IntegrityError. Así la cola d"
+    },
+    {
+      "pi": 133,
+      "n_sent": 2,
+      "wps": 13.5,
+      "spw": 1.78,
+      "FH": 86.4,
+      "INFLESZ": 82.6,
+      "issues": [],
+      "preview": "En SQLite la FK solo se exige con PRAGMA foreign_keys=ON por conexión. Sin eso, un par huérfano se i"
+    },
+    {
+      "pi": 134,
+      "n_sent": 2,
+      "wps": 11.0,
+      "spw": 1.68,
+      "FH": 94.7,
+      "INFLESZ": 91.1,
+      "issues": [],
+      "preview": "Append-only = dos INSERT, no un UPDATE del label. COUNT(*) = 2 prueba que la historia del par sigue "
+    },
+    {
+      "pi": 135,
+      "n_sent": 2,
+      "wps": 11.5,
+      "spw": 1.61,
+      "FH": 98.6,
+      "INFLESZ": 95.1,
+      "issues": [],
+      "preview": "Provenance mínima es source + record leídos de la tabla, no un dict a medias. Sin record no hay rast"
+    },
+    {
+      "pi": 136,
+      "n_sent": 2,
+      "wps": 11.5,
+      "spw": 1.7,
+      "FH": 93.4,
+      "INFLESZ": 89.7,
+      "issues": [],
+      "preview": "`valid_to IS NULL` marca la ventana abierta. `= NULL` no devuelve filas: es el mismo error conceptua"
+    },
+    {
+      "pi": 137,
+      "n_sent": 2,
+      "wps": 9.5,
+      "spw": 1.63,
+      "FH": 99.3,
+      "INFLESZ": 95.7,
+      "issues": [],
+      "preview": "INNER JOIN solo devuelve pares ya decididos. La cola de review es anti-join: NOT IN / LEFT JOIN … IS"
+    },
+    {
+      "pi": 138,
+      "n_sent": 2,
+      "wps": 11.0,
+      "spw": 1.59,
+      "FH": 100.2,
+      "INFLESZ": 96.7,
+      "issues": [],
+      "preview": "ROW_NUMBER() OVER (ORDER BY score DESC) con rn=1 es el top-1 SQL. ASC elegía el peor score; el orácu"
+    },
+    {
+      "pi": 139,
+      "n_sent": 2,
+      "wps": 16.5,
+      "spw": 1.64,
+      "FH": 91.8,
+      "INFLESZ": 88.4,
+      "issues": [],
+      "preview": "PARTITION BY block_key reinicia ROW_NUMBER en cada cubeta de blocking: top-1 por bloque (p1 en A, p3"
+    },
+    {
+      "pi": 140,
+      "n_sent": 2,
+      "wps": 11.5,
+      "spw": 1.74,
+      "FH": 90.8,
+      "INFLESZ": 87.0,
+      "issues": [],
+      "preview": "Self-join con `a.id < b.id` da C(5,2)=10 pares no ordenados. Sin el filtro, n×n=25 incluye diagonale"
+    },
+    {
+      "pi": 141,
+      "n_sent": 2,
+      "wps": 13.5,
+      "spw": 1.33,
+      "FH": 113.1,
+      "INFLESZ": 110.3,
+      "issues": [],
+      "preview": "En SQL, `x = NULL` no es TRUE (count 0); `x IS NULL` sí (count 1). No uses la analogía Python `None "
+    },
+    {
+      "pi": 142,
+      "n_sent": 2,
+      "wps": 9.5,
+      "spw": 1.63,
+      "FH": 99.3,
+      "INFLESZ": 95.7,
+      "issues": [],
+      "preview": "Lee el plan real: sin índice en block_key, EXPLAIN QUERY PLAN suele mostrar SCAN. No imprimas INDEX "
+    },
+    {
+      "pi": 143,
+      "n_sent": 2,
+      "wps": 9.5,
+      "spw": 1.79,
+      "FH": 89.8,
+      "INFLESZ": 85.9,
+      "issues": [],
+      "preview": "ROLLBACK deshace el INSERT de la transacción abierta: COUNT(*) vuelve a 0. COMMIT dejaría basura que"
+    },
+    {
+      "pi": 144,
+      "n_sent": 2,
+      "wps": 10.5,
+      "spw": 2.1,
+      "FH": 70.4,
+      "INFLESZ": 65.8,
+      "issues": [],
+      "preview": "Decisión y evidencia son atómicas: si la evidencia falla, ROLLBACK deja ambas tablas en 0. Un commit"
+    },
+    {
+      "pi": 145,
+      "n_sent": 2,
+      "wps": 8.5,
+      "spw": 2.18,
+      "FH": 67.6,
+      "INFLESZ": 62.7,
+      "issues": [],
+      "preview": "Política de commit: si `evidence_ok` es False, ROLLBACK y `abort`. No dejes la decisión commiteada s"
+    },
+    {
+      "pi": 146,
+      "n_sent": 2,
+      "wps": 12.0,
+      "spw": 1.88,
+      "FH": 82.1,
+      "INFLESZ": 78.0,
+      "issues": [],
+      "preview": "ON CONFLICT DO UPDATE reescribe el name mutable y conserva el id. El segundo INSERT sin upsert reven"
+    },
+    {
+      "pi": 147,
+      "n_sent": 2,
+      "wps": 11.5,
+      "spw": 1.74,
+      "FH": 90.8,
+      "INFLESZ": 87.0,
+      "issues": [],
+      "preview": "Tras un crash, el job vuelve a `pending` con UPDATE y se relee. Así el reintento es idempotente sin "
+    },
+    {
+      "pi": 148,
+      "n_sent": 3,
+      "wps": 9.67,
+      "spw": 2.17,
+      "FH": 66.6,
+      "INFLESZ": 61.8,
+      "issues": [],
+      "preview": "CHECK(entity_a < entity_b) rechaza el espejo (e2,e1). UNIQUE evita el duplicado en el mismo orden. E"
+    },
+    {
+      "pi": 149,
+      "n_sent": 2,
+      "wps": 10.5,
+      "spw": 2.0,
+      "FH": 76.1,
+      "INFLESZ": 71.7,
+      "issues": [],
+      "preview": "schema_migrations versiona con MAX(v): la última migration aplicada. MIN(v) te deja en el origen y m"
+    },
+    {
+      "pi": 150,
+      "n_sent": 1,
+      "wps": 23.0,
+      "spw": 1.78,
+      "FH": 76.4,
+      "INFLESZ": 72.8,
+      "issues": [],
+      "preview": "CREATE INDEX + lectura en sqlite_master + EXPLAIN con INDEX en el plan: evidencia triple de que el í"
+    },
+    {
+      "pi": 151,
+      "n_sent": 2,
+      "wps": 13.0,
+      "spw": 1.77,
+      "FH": 87.4,
+      "INFLESZ": 83.6,
+      "issues": [],
+      "preview": "Con has_backup=False no hay DROP: COUNT(*) sigue en 1 y se imprime la política. La evidencia del alm"
+    },
+    {
+      "pi": 152,
+      "n_sent": 2,
+      "wps": 9.5,
+      "spw": 2.0,
+      "FH": 77.2,
+      "INFLESZ": 72.7,
+      "issues": [],
+      "preview": "El repository expone get(id): el SQL vive dentro del método. Con e1 insertado, get('e1') devuelve An"
+    },
+    {
+      "pi": 153,
+      "n_sent": 2,
+      "wps": 9.0,
+      "spw": 2.28,
+      "FH": 61.0,
+      "INFLESZ": 55.9,
+      "issues": [],
+      "preview": "Cada conexión necesita su PRAGMA foreign_keys=ON y su close. Contar 3 aperturas entrena el ciclo ope"
+    },
+    {
+      "pi": 154,
+      "n_sent": 2,
+      "wps": 11.0,
+      "spw": 1.77,
+      "FH": 89.3,
+      "INFLESZ": 85.4,
+      "issues": [],
+      "preview": "pending_count se calcula con anti-join real (COUNT de pares sin decisión), no con un literal. Con p2"
+    },
+    {
+      "pi": 155,
+      "n_sent": 3,
+      "wps": 15.0,
+      "spw": 1.82,
+      "FH": 82.2,
+      "INFLESZ": 78.3,
+      "issues": [],
+      "preview": "S29-T1-A-E1 · En SQLite `:memory:`, crea `entities(id TEXT PRIMARY KEY)`, inserta solo `'e1'` y mues"
+    },
+    {
+      "pi": 156,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "issues": [],
+      "preview": "S29-T1-A-E2 · Tabla `p(score REAL CHECK(score BETWEEN 0 AND 1))`. Intenta insertar `1.5`, captura `I"
+    },
+    {
+      "pi": 157,
+      "n_sent": 1,
+      "wps": 30.0,
+      "spw": 2.4,
+      "FH": 32.2,
+      "INFLESZ": 27.3,
+      "issues": [],
+      "preview": "S29-T1-A-E3 · Transferencia de integridad: con `PRAGMA foreign_keys = ON`, crea `entities` y `pairs("
+    },
+    {
+      "pi": 158,
+      "n_sent": 1,
+      "wps": 23.0,
+      "spw": 1.7,
+      "FH": 81.6,
+      "INFLESZ": 78.2,
+      "issues": [],
+      "preview": "S29-T1-B-E1 · Tabla de decisiones append-only: inserta para `p1` los labels `review` y `match` (dos "
+    },
+    {
+      "pi": 159,
+      "n_sent": 1,
+      "wps": 28.0,
+      "spw": 1.75,
+      "FH": 73.3,
+      "INFLESZ": 69.8,
+      "issues": [],
+      "preview": "S29-T1-B-E2 · Provenance mínima: lee de una tabla `src(source, record)` la fila insertada e imprime "
+    },
+    {
+      "pi": 160,
+      "n_sent": 2,
+      "wps": 11.5,
+      "spw": 1.87,
+      "FH": 82.9,
+      "INFLESZ": 78.9,
+      "issues": [],
+      "preview": "S29-T1-B-E3 · Temporalidad en SQL: fila con `valid_to` NULL = vigente. Cuenta filas abiertas con `WH"
+    },
+    {
+      "pi": 161,
+      "n_sent": 1,
+      "wps": 22.0,
+      "spw": 1.41,
+      "FH": 99.9,
+      "INFLESZ": 97.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "S29-T2-A-E1 · Con pairs `p1`,`p2` y decisión solo en `p1`, lista ids sin decisión con anti-join (`NOT IN` o `LEFT JOIN …"
+        }
+      ],
+      "preview": "S29-T2-A-E1 · Con pairs `p1`,`p2` y decisión solo en `p1`, lista ids sin decisión con anti-join (`NO"
+    },
+    {
+      "pi": 162,
+      "n_sent": 1,
+      "wps": 25.0,
+      "spw": 1.52,
+      "FH": 90.1,
+      "INFLESZ": 87.1,
+      "issues": [],
+      "preview": "S29-T2-A-E2 · Con SQL window: tabla pairs (id, score) con tres filas; usa `ROW_NUMBER() OVER (ORDER "
+    },
+    {
+      "pi": 163,
+      "n_sent": 1,
+      "wps": 30.0,
+      "spw": 1.7,
+      "FH": 74.2,
+      "INFLESZ": 70.9,
+      "issues": [],
+      "preview": "S29-T2-A-E3 · Transferencia window: con pairs y `block_key`, usa `ROW_NUMBER() OVER (PARTITION BY bl"
+    },
+    {
+      "pi": 164,
+      "n_sent": 2,
+      "wps": 15.0,
+      "spw": 1.67,
+      "FH": 91.5,
+      "INFLESZ": 88.0,
+      "issues": [],
+      "preview": "S29-T2-B-E1 · Con 5 entidades en SQLite, cuenta pares no ordenados con self-join `a.id < b.id` (equi"
+    },
+    {
+      "pi": 165,
+      "n_sent": 2,
+      "wps": 16.0,
+      "spw": 1.41,
+      "FH": 106.1,
+      "INFLESZ": 103.2,
+      "issues": [],
+      "preview": "S29-T2-B-E2 · En SQL, `NULL = NULL` no es TRUE. Inserta una fila con x NULL; imprime `COUNT` con `WH"
+    },
+    {
+      "pi": 166,
+      "n_sent": 2,
+      "wps": 17.0,
+      "spw": 1.68,
+      "FH": 88.9,
+      "INFLESZ": 85.4,
+      "issues": [],
+      "preview": "S29-T2-B-E3 · Sin índice en `block_key`, corre `EXPLAIN QUERY PLAN` de un SELECT filtrado e imprime "
+    },
+    {
+      "pi": 167,
+      "n_sent": 2,
+      "wps": 12.0,
+      "spw": 1.54,
+      "FH": 102.1,
+      "INFLESZ": 98.8,
+      "issues": [],
+      "preview": "S29-T3-A-E1 · Tras `BEGIN`, insert y `ROLLBACK`, el count de la tabla debe ser `0`. El starter hace "
+    },
+    {
+      "pi": 168,
+      "n_sent": 1,
+      "wps": 27.0,
+      "spw": 2.37,
+      "FH": 37.1,
+      "INFLESZ": 32.2,
+      "issues": [],
+      "preview": "S29-T3-A-E2 · Atomicidad decisión+evidencia: en una transacción inserta en `decisions` y luego simul"
+    },
+    {
+      "pi": 169,
+      "n_sent": 1,
+      "wps": 20.0,
+      "spw": 2.0,
+      "FH": 66.4,
+      "INFLESZ": 62.2,
+      "issues": [],
+      "preview": "S29-T3-A-E3 · Política de commit: inserta decisión; si `evidence_ok` es False haz ROLLBACK y imprime"
+    },
+    {
+      "pi": 170,
+      "n_sent": 1,
+      "wps": 20.0,
+      "spw": 1.65,
+      "FH": 87.4,
+      "INFLESZ": 84.0,
+      "issues": [],
+      "preview": "S29-T3-B-E1 · Upsert: inserta id `'1'` name `'A'`, luego `ON CONFLICT DO UPDATE` a name `'B'`; impri"
+    },
+    {
+      "pi": 171,
+      "n_sent": 2,
+      "wps": 11.5,
+      "spw": 1.83,
+      "FH": 85.5,
+      "INFLESZ": 81.6,
+      "issues": [],
+      "preview": "S29-T3-B-E2 · Recuperación tras crash: el job `er_block` quedó en `running`; actualízalo a `pending`"
+    },
+    {
+      "pi": 172,
+      "n_sent": 2,
+      "wps": 10.5,
+      "spw": 2.24,
+      "FH": 61.8,
+      "INFLESZ": 56.9,
+      "issues": [],
+      "preview": "S29-T3-B-E3 · Orden canónico + reintento: tabla con `CHECK(entity_a < entity_b)` y `UNIQUE(entity_a,"
+    },
+    {
+      "pi": 173,
+      "n_sent": 1,
+      "wps": 14.0,
+      "spw": 2.07,
+      "FH": 68.3,
+      "INFLESZ": 63.8,
+      "issues": [],
+      "preview": "S29-T4-A-E1 · Tabla `schema_migrations(v, name)`: registra version 1 `init` y 2 `add_index`; imprime"
+    },
+    {
+      "pi": 174,
+      "n_sent": 2,
+      "wps": 13.5,
+      "spw": 1.93,
+      "FH": 77.5,
+      "INFLESZ": 73.3,
+      "issues": [],
+      "preview": "S29-T4-A-E2 · Crea el índice `idx_pairs_block_key` sobre `pairs(block_key)`, confírmalo en `sqlite_m"
+    },
+    {
+      "pi": 175,
+      "n_sent": 2,
+      "wps": 15.0,
+      "spw": 1.87,
+      "FH": 79.5,
+      "INFLESZ": 75.5,
+      "issues": [],
+      "preview": "S29-T4-A-E3 · Política de migración: con `has_backup=False` **no** ejecutes `DROP TABLE pairs`. Lee "
+    },
+    {
+      "pi": 176,
+      "n_sent": 1,
+      "wps": 14.0,
+      "spw": 2.29,
+      "FH": 55.4,
+      "INFLESZ": 50.4,
+      "issues": [],
+      "preview": "S29-T4-B-E1 · Mini-repository: clase con `get(id)` sobre tabla entities; inserta e1→Ana y imprime `g"
+    },
+    {
+      "pi": 177,
+      "n_sent": 2,
+      "wps": 21.0,
+      "spw": 1.98,
+      "FH": 66.8,
+      "INFLESZ": 62.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "(En SQLite de lab no hace falta un pool de servidor; sí el hábito de configurar cada conexión.)"
+        }
+      ],
+      "preview": "S29-T4-B-E2 · Ciclo de conexión del repository: abre 3 conexiones `:memory:`, ejecuta `PRAGMA foreig"
+    },
+    {
+      "pi": 178,
+      "n_sent": 2,
+      "wps": 10.0,
+      "spw": 1.65,
+      "FH": 97.6,
+      "INFLESZ": 94.0,
+      "issues": [],
+      "preview": "S29-T4-B-E3 · Test de repo: pairs p1/p2, decisión solo p1; `pending_count` = COUNT de pares sin deci"
+    },
+    {
+      "pi": 179,
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 2.83,
+      "FH": 24.6,
+      "INFLESZ": 18.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Esquema CP-N3-A completo (fuentes, entidades, pares, decisiones append-only, evidencia) con constraints verificados"
+        },
+        {
+          "sev": "L",
+          "kind": "high comma density",
+          "ev": "4 commas / 12w",
+          "sent": "Esquema CP-N3-A completo (fuentes, entidades, pares, decisiones append-only, evidencia) con constraints verificados"
+        }
+      ],
+      "preview": "Esquema CP-N3-A completo (fuentes, entidades, pares, decisiones append-only, evidencia) con constrai"
+    },
+    {
+      "pi": 180,
+      "n_sent": 1,
+      "wps": 13.0,
+      "spw": 2.77,
+      "FH": 27.4,
+      "INFLESZ": 21.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Correctitud técnica: PRAGMA foreign_keys, anti-join de cola, ACID decisión+evidencia, upsert e índice versionado"
+        }
+      ],
+      "preview": "Correctitud técnica: PRAGMA foreign_keys, anti-join de cola, ACID decisión+evidencia, upsert e índic"
+    },
+    {
+      "pi": 181,
+      "n_sent": 1,
+      "wps": 15.0,
+      "spw": 1.87,
+      "FH": 79.5,
+      "INFLESZ": 75.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Privacidad / sin PII real / sin secretos / sin inferencia de fraude ni parentesco"
+        }
+      ],
+      "preview": "Privacidad / sin PII real / sin secretos / sin inferencia de fraude ni parentesco"
+    },
+    {
+      "pi": 182,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.71,
+      "FH": 36.8,
+      "INFLESZ": 30.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Pruebas en :memory: (IntegrityError, pending, rollback) documentadas"
+        },
+        {
+          "sev": "L",
+          "kind": "space before punct",
+          "ev": "",
+          "sent": "Pruebas en :memory: (IntegrityError, pending, rollback) documentadas"
+        }
+      ],
+      "preview": "Pruebas en :memory: (IntegrityError, pending, rollback) documentadas"
+    },
+    {
+      "pi": 183,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.29,
+      "FH": 62.6,
+      "INFLESZ": 57.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Código legible y límites claros del repository"
+        }
+      ],
+      "preview": "Código legible y límites claros del repository"
+    },
+    {
+      "pi": 184,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 3.25,
+      "FH": 7.8,
+      "INFLESZ": 0.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Documentación en español profesional"
+        }
+      ],
+      "preview": "Documentación en español profesional"
+    },
+    {
+      "pi": 185,
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.62,
+      "FH": 101.2,
+      "INFLESZ": 97.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "entity_a < entity_b en el par sirve para:"
+        }
+      ],
+      "preview": "entity_a < entity_b en el par sirve para:"
+    },
+    {
+      "pi": 186,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.75,
+      "FH": 37.8,
+      "INFLESZ": 31.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Append-only en decisions significa:"
+        }
+      ],
+      "preview": "Append-only en decisions significa:"
+    },
+    {
+      "pi": 187,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Decisión y evidencia deben:"
+        }
+      ],
+      "preview": "Decisión y evidencia deben:"
+    },
+    {
+      "pi": 188,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "El repository pattern:"
+        }
+      ],
+      "preview": "El repository pattern:"
+    },
+    {
+      "pi": 189,
+      "n_sent": 1,
+      "wps": 13.0,
+      "spw": 1.46,
+      "FH": 105.9,
+      "INFLESZ": 102.8,
+      "issues": [],
+      "preview": "Una migración que hace DROP de pairs sin backup en el lab debe…"
+    },
+    {
+      "pi": 190,
+      "n_sent": 1,
+      "wps": 13.0,
+      "spw": 1.69,
+      "FH": 92.0,
+      "INFLESZ": 88.4,
+      "issues": [],
+      "preview": "En SQLite, un REFERENCES en el DDL garantiza la FK en runtime si…"
+    },
+    {
+      "pi": 191,
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 1.7,
+      "FH": 94.6,
+      "INFLESZ": 90.9,
+      "issues": [],
+      "preview": "Para filtrar filas con columna NULL en SQL debes usar…"
+    },
+    {
+      "pi": 192,
+      "n_sent": 1,
+      "wps": 16.0,
+      "spw": 1.56,
+      "FH": 96.8,
+      "INFLESZ": 93.5,
+      "issues": [],
+      "preview": "Si `EXPLAIN QUERY PLAN` muestra SCAN sobre pairs al filtrar por block_key, la lectura correcta es…"
+    },
+    {
+      "pi": 193,
+      "n_sent": 2,
+      "wps": 13.5,
+      "spw": 2.04,
+      "FH": 70.8,
+      "INFLESZ": 66.4,
+      "issues": [],
+      "preview": "Con entity_a < entity_b (orden canónico) el par (e1,e2) y (e2,e1) no coexisten. No implica fraude ni"
+    },
+    {
+      "pi": 194,
+      "n_sent": 2,
+      "wps": 9.5,
+      "spw": 2.16,
+      "FH": 67.7,
+      "INFLESZ": 62.9,
+      "issues": [],
+      "preview": "Cada cambio de label es un INSERT nuevo. Así conservas provenance (quién/cuándo/evidence_ref) y pued"
+    },
+    {
+      "pi": 195,
+      "n_sent": 2,
+      "wps": 9.0,
+      "spw": 2.17,
+      "FH": 67.7,
+      "INFLESZ": 62.9,
+      "issues": [],
+      "preview": "Si falla la evidencia, ROLLBACK también de la decisión. Decisión huérfana rompe el almacén de verdad"
+    },
+    {
+      "pi": 196,
+      "n_sent": 1,
+      "wps": 21.0,
+      "spw": 2.0,
+      "FH": 65.4,
+      "INFLESZ": 61.2,
+      "issues": [
+        {
+          "sev": "L",
+          "kind": "space before punct",
+          "ev": "",
+          "sent": "El repository es el borde de persistencia: métodos como pending() y get() ocultan SQL y se prueban inyectando una conexi"
+        }
+      ],
+      "preview": "El repository es el borde de persistencia: métodos como pending() y get() ocultan SQL y se prueban i"
+    },
+    {
+      "pi": 197,
+      "n_sent": 2,
+      "wps": 9.5,
+      "spw": 2.26,
+      "FH": 61.4,
+      "INFLESZ": 56.3,
+      "issues": [],
+      "preview": "Schema governance: cambios destructivos requieren backup y versionado en schema_migrations. El lab e"
+    },
+    {
+      "pi": 198,
+      "n_sent": 2,
+      "wps": 14.5,
+      "spw": 1.97,
+      "FH": 74.1,
+      "INFLESZ": 69.9,
+      "issues": [],
+      "preview": "SQLite deja las foreign keys apagadas por defecto. Cada conexión debe ejecutar PRAGMA foreign_keys ="
+    },
+    {
+      "pi": 199,
+      "n_sent": 2,
+      "wps": 12.5,
+      "spw": 1.6,
+      "FH": 98.1,
+      "INFLESZ": 94.7,
+      "issues": [],
+      "preview": "NULL = NULL es desconocido (no TRUE). IS NULL / IS NOT NULL es el predicado correcto; COUNT(col) ign"
+    },
+    {
+      "pi": 200,
+      "n_sent": 1,
+      "wps": 24.0,
+      "spw": 2.0,
+      "FH": 62.4,
+      "INFLESZ": 58.2,
+      "issues": [],
+      "preview": "SCAN = recorrido completo. Tras CREATE INDEX en la columna de filtro, vuelve a pedir el plan: si apa"
+    },
+    {
+      "pi": 201,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 202,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 203,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 204,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 205,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 206,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 207,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 208,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 209,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 210,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 211,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 212,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 213,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 214,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 215,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 216,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 217,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 218,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 219,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 220,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 221,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 222,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 223,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 224,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "salida coincide con solution output"
+        }
+      ],
+      "preview": "salida coincide con solution output"
+    },
+    {
+      "pi": 225,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "SQL local del curso"
+        }
+      ],
+      "preview": "SQL local del curso"
+    },
+    {
+      "pi": 226,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.67,
+      "FH": 103.8,
+      "INFLESZ": 100.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Planes e índices"
+        }
+      ],
+      "preview": "Planes e índices"
+    },
+    {
+      "pi": 228,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.25,
+      "FH": 67.8,
+      "INFLESZ": 62.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Prod analog de CHECK/UNIQUE/FK"
+        }
+      ],
+      "preview": "Prod analog de CHECK/UNIQUE/FK"
+    },
+    {
+      "pi": 230,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Índices y planes legibles"
+        }
+      ],
+      "preview": "Índices y planes legibles"
+    },
+    {
+      "pi": 231,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.33,
+      "FH": 123.8,
+      "INFLESZ": 120.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "API del lab"
+        }
+      ],
+      "preview": "API del lab"
+    },
+    {
+      "pi": 232,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.14,
+      "FH": 71.1,
+      "INFLESZ": 66.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Diseño y errores comunes (joins, keys, historia)"
+        }
+      ],
+      "preview": "Diseño y errores comunes (joins, keys, historia)"
+    },
+    {
+      "pi": 233,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.5,
+      "FH": 50.7,
+      "INFLESZ": 45.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Transacciones, replicación e historia de datos"
+        }
+      ],
+      "preview": "Transacciones, replicación e historia de datos"
+    },
+    {
+      "pi": 234,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.67,
+      "FH": 43.8,
+      "INFLESZ": 37.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Modelado y consultas"
+        }
+      ],
+      "preview": "Modelado y consultas"
+    },
+    {
+      "pi": 235,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.67,
+      "FH": 103.8,
+      "INFLESZ": 100.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Contratos y tests"
+        }
+      ],
+      "preview": "Contratos y tests"
+    },
+    {
+      "pi": 238,
+      "n_sent": 1,
+      "wps": 26.0,
+      "spw": 2.04,
+      "FH": 58.0,
+      "INFLESZ": 53.8,
+      "issues": [],
+      "preview": "Cada afirmación sobre NULL, índices o atomicidad se verifica con consultas y código que imprime el r"
+    },
+    {
+      "pi": 239,
+      "n_sent": 2,
+      "wps": 10.5,
+      "spw": 2.29,
+      "FH": 59.0,
+      "INFLESZ": 53.9,
+      "issues": [],
+      "preview": "Forzar entity_a < entity_b evita pares duplicados (e1,e2) y (e2,e1). No implica fraude ni parentesco"
+    },
+    {
+      "pi": 240,
+      "n_sent": 2,
+      "wps": 12.5,
+      "spw": 1.92,
+      "FH": 78.9,
+      "INFLESZ": 74.7,
+      "issues": [],
+      "preview": "Para CP-N3-A, las decisiones son append-only o versionadas. Upsert de atributos de entidad es otra h"
+    },
+    {
+      "pi": 241,
+      "n_sent": 1,
+      "wps": 19.0,
+      "spw": 1.74,
+      "FH": 83.2,
+      "INFLESZ": 79.6,
+      "issues": [],
+      "preview": "Anti-join con NOT EXISTS suele ser más claro y seguro que NOT IN cuando la subconsulta puede devolve"
+    },
+    {
+      "pi": 242,
+      "n_sent": 2,
+      "wps": 9.5,
+      "spw": 1.79,
+      "FH": 89.8,
+      "INFLESZ": 85.9,
+      "issues": [],
+      "preview": "NULL=NULL es desconocido: filas con grp NULL no matchean entre sí en igualdad. Por eso pairs_card ig"
+    },
+    {
+      "pi": 243,
+      "n_sent": 2,
+      "wps": 9.5,
+      "spw": 1.84,
+      "FH": 86.6,
+      "INFLESZ": 82.6,
+      "issues": [],
+      "preview": "Decisión sin evidencia o viceversa rompe el almacén de verdad. ROLLBACK es tu red de seguridad en el"
+    },
+    {
+      "pi": 244,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.44,
+      "FH": 51.0,
+      "INFLESZ": 45.5,
+      "issues": [],
+      "preview": "Puedes upsert atributos de entidad; las decisiones siguen append-only."
+    },
+    {
+      "pi": 245,
+      "n_sent": 1,
+      "wps": 13.0,
+      "spw": 2.38,
+      "FH": 50.5,
+      "INFLESZ": 45.3,
+      "issues": [],
+      "preview": "Demasiados índices ralentizan writes; mide con EXPLAIN y versiona cada cambio en schema_migrations."
+    },
+    {
+      "pi": 246,
+      "n_sent": 2,
+      "wps": 10.0,
+      "spw": 1.8,
+      "FH": 88.6,
+      "INFLESZ": 84.7,
+      "issues": [
+        {
+          "sev": "L",
+          "kind": "space before punct",
+          "ev": "",
+          "sent": "Inyecta la conexión; en tests usa :memory: o un archivo temporal."
+        }
+      ],
+      "preview": "Inyecta la conexión; en tests usa :memory: o un archivo temporal. Assert sobre pending y constraints"
+    },
+    {
+      "pi": 260,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.25,
+      "FH": 127.8,
+      "INFLESZ": 125.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "PRIMARY KEY en id"
+        }
+      ],
+      "preview": "PRIMARY KEY en id"
+    },
+    {
+      "pi": 261,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.4,
+      "FH": 117.7,
+      "INFLESZ": 114.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "un solo INSERT de e1"
+        }
+      ],
+      "preview": "un solo INSERT de e1"
+    },
+    {
+      "pi": 262,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.0,
+      "FH": 143.8,
+      "INFLESZ": 141.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "print del COUNT(*)"
+        }
+      ],
+      "preview": "print del COUNT(*)"
+    },
+    {
+      "pi": 265,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 2.33,
+      "FH": 63.8,
+      "INFLESZ": 58.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "print('bad_score') en except"
+        }
+      ],
+      "preview": "print('bad_score') en except"
+    },
+    {
+      "pi": 267,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.5,
+      "FH": 52.8,
+      "INFLESZ": 47.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "REFERENCES entities(id) en pairs"
+        }
+      ],
+      "preview": "REFERENCES entities(id) en pairs"
+    },
+    {
+      "pi": 269,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "append-only: dos filas, no UPDATE"
+        }
+      ],
+      "preview": "append-only: dos filas, no UPDATE"
+    },
+    {
+      "pi": 271,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 1.22,
+      "FH": 124.3,
+      "INFLESZ": 121.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "print del count, no de la lista de labels"
+        }
+      ],
+      "preview": "print del count, no de la lista de labels"
+    },
+    {
+      "pi": 272,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "insert source y record"
+        }
+      ],
+      "preview": "insert source y record"
+    },
+    {
+      "pi": 273,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 1.5,
+      "FH": 110.7,
+      "INFLESZ": 107.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "arma el dict desde la fila"
+        }
+      ],
+      "preview": "arma el dict desde la fila"
+    },
+    {
+      "pi": 274,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "insert con valid_to null"
+        }
+      ],
+      "preview": "insert con valid_to null"
+    },
+    {
+      "pi": 277,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 1.0,
+      "FH": 140.7,
+      "INFLESZ": 138.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "o LEFT JOIN + IS NULL"
+        }
+      ],
+      "preview": "o LEFT JOIN + IS NULL"
+    },
+    {
+      "pi": 278,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.0,
+      "FH": 81.7,
+      "INFLESZ": 77.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "WITH o subconsulta con ROW_NUMBER"
+        }
+      ],
+      "preview": "WITH o subconsulta con ROW_NUMBER"
+    },
+    {
+      "pi": 281,
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 1.42,
+      "FH": 109.6,
+      "INFLESZ": 106.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "WHERE rn = 1 y ORDER BY id en el SELECT externo"
+        }
+      ],
+      "preview": "WHERE rn = 1 y ORDER BY id en el SELECT externo"
+    },
+    {
+      "pi": 287,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.14,
+      "FH": 131.1,
+      "INFLESZ": 128.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "join de filas del plan a string"
+        }
+      ],
+      "preview": "join de filas del plan a string"
+    },
+    {
+      "pi": 290,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.0,
+      "FH": 143.8,
+      "INFLESZ": 141.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "print del count"
+        }
+      ],
+      "preview": "print del count"
+    },
+    {
+      "pi": 292,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "raise o skip evidence"
+        }
+      ],
+      "preview": "raise o skip evidence"
+    },
+    {
+      "pi": 298,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.5,
+      "FH": 112.8,
+      "INFLESZ": 109.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "print del SELECT status"
+        }
+      ],
+      "preview": "print del SELECT status"
+    },
+    {
+      "pi": 299,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.44,
+      "FH": 51.0,
+      "INFLESZ": 45.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "create table con check(entity_a < entity_b) y unique(entity_a, entity_b)"
+        }
+      ],
+      "preview": "create table con check(entity_a < entity_b) y unique(entity_a, entity_b)"
+    },
+    {
+      "pi": 305,
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 1.7,
+      "FH": 94.6,
+      "INFLESZ": 90.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "EXPLAIN QUERY PLAN del filtro por block_key debe mencionar INDEX"
+        }
+      ],
+      "preview": "EXPLAIN QUERY PLAN del filtro por block_key debe mencionar INDEX"
+    },
+    {
+      "pi": 308,
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 2.0,
+      "FH": 76.6,
+      "INFLESZ": 72.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "el starter dropea y pierde la evidencia: corrige el DEFECT"
+        }
+      ],
+      "preview": "el starter dropea y pierde la evidencia: corrige el DEFECT"
+    },
+    {
+      "pi": 309,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 2.0,
+      "FH": 82.8,
+      "INFLESZ": 78.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "método get con fetchone"
+        }
+      ],
+      "preview": "método get con fetchone"
+    },
+    {
+      "pi": 310,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.33,
+      "FH": 123.8,
+      "INFLESZ": 120.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "no uses e2"
+        }
+      ],
+      "preview": "no uses e2"
+    },
+    {
+      "pi": 312,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.67,
+      "FH": 103.8,
+      "INFLESZ": 100.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "print del contador"
+        }
+      ],
+      "preview": "print del contador"
+    },
+    {
+      "pi": 314,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 1.0,
+      "FH": 143.8,
+      "INFLESZ": 141.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "print del count"
+        }
+      ],
+      "preview": "print del count"
+    },
+    {
+      "pi": 315,
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.88,
+      "FH": 86.2,
+      "INFLESZ": 82.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "IntegrityError si reinsertas el mismo id con PK"
+        }
+      ],
+      "preview": "IntegrityError si reinsertas el mismo id con PK"
+    },
+    {
+      "pi": 316,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.0,
+      "FH": 79.7,
+      "INFLESZ": 75.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "between inclusive: 0 y 1 son válidos"
+        }
+      ],
+      "preview": "between inclusive: 0 y 1 son válidos"
+    },
+    {
+      "pi": 317,
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.75,
+      "FH": 93.7,
+      "INFLESZ": 89.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Sin PRAGMA el REFERENCES no falla en SQLite"
+        }
+      ],
+      "preview": "Sin PRAGMA el REFERENCES no falla en SQLite"
+    },
+    {
+      "pi": 318,
+      "n_sent": 1,
+      "wps": 14.0,
+      "spw": 1.86,
+      "FH": 81.1,
+      "INFLESZ": 77.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Orden canónico entity_a < entity_b se suma en el esquema completo del I Do"
+        }
+      ],
+      "preview": "Orden canónico entity_a < entity_b se suma en el esquema completo del I Do"
+    },
+    {
+      "pi": 319,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.8,
+      "FH": 93.7,
+      "INFLESZ": 89.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "no update label in place"
+        }
+      ],
+      "preview": "no update label in place"
+    },
+    {
+      "pi": 320,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "ingested_at se puede añadir después"
+        }
+      ],
+      "preview": "ingested_at se puede añadir después"
+    },
+    {
+      "pi": 321,
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.5,
+      "FH": 108.7,
+      "INFLESZ": 105.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "cierres con timestamp dejan de ser IS NULL"
+        }
+      ],
+      "preview": "cierres con timestamp dejan de ser IS NULL"
+    },
+    {
+      "pi": 323,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.17,
+      "FH": 70.7,
+      "INFLESZ": 65.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "empates de score: ROW_NUMBER no empata"
+        }
+      ],
+      "preview": "empates de score: ROW_NUMBER no empata"
+    },
+    {
+      "pi": 324,
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 1.5,
+      "FH": 106.6,
+      "INFLESZ": 103.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Sin PARTITION BY el top-1 global deja un solo id"
+        }
+      ],
+      "preview": "Sin PARTITION BY el top-1 global deja un solo id"
+    },
+    {
+      "pi": 325,
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 2.2,
+      "FH": 64.6,
+      "INFLESZ": 59.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Empates de score: ROW_NUMBER no empata; documenta política en prod"
+        }
+      ],
+      "preview": "Empates de score: ROW_NUMBER no empata; documenta política en prod"
+    },
+    {
+      "pi": 326,
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 1.9,
+      "FH": 82.6,
+      "INFLESZ": 78.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "blocking reduce el n efectivo por cubeta en ER real"
+        }
+      ],
+      "preview": "blocking reduce el n efectivo por cubeta en ER real"
+    },
+    {
+      "pi": 327,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.57,
+      "FH": 105.4,
+      "INFLESZ": 101.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Python None is None no enseña SQL"
+        }
+      ],
+      "preview": "Python None is None no enseña SQL"
+    },
+    {
+      "pi": 328,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.86,
+      "FH": 88.3,
+      "INFLESZ": 84.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "con índice el plan puede mostrar SEARCH/INDEX"
+        }
+      ],
+      "preview": "con índice el plan puede mostrar SEARCH/INDEX"
+    },
+    {
+      "pi": 330,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.86,
+      "FH": 88.3,
+      "INFLESZ": 84.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "si haces commit parcial rompes el almacén"
+        }
+      ],
+      "preview": "si haces commit parcial rompes el almacén"
+    },
+    {
+      "pi": 331,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 3.33,
+      "FH": 3.8,
+      "INFLESZ": -3.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "decisión+evidencia van juntas"
+        }
+      ],
+      "preview": "decisión+evidencia van juntas"
+    },
+    {
+      "pi": 332,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 1.83,
+      "FH": 90.7,
+      "INFLESZ": 86.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "updated_at se puede sumar en prod"
+        }
+      ],
+      "preview": "updated_at se puede sumar en prod"
+    },
+    {
+      "pi": 333,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.83,
+      "FH": 30.7,
+      "INFLESZ": 24.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "reintento idempotente: pending se puede re-procesar"
+        }
+      ],
+      "preview": "reintento idempotente: pending se puede re-procesar"
+    },
+    {
+      "pi": 334,
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 1.92,
+      "FH": 79.6,
+      "INFLESZ": 75.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Sin CHECK el espejo (e2,e1) convive con (e1,e2) y duplica el candidato"
+        }
+      ],
+      "preview": "Sin CHECK el espejo (e2,e1) convive con (e1,e2) y duplica el candidato"
+    },
+    {
+      "pi": 335,
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.0,
+      "FH": 75.6,
+      "INFLESZ": 71.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "UNIQUE solo no basta si el orden de extremos está invertido"
+        }
+      ],
+      "preview": "UNIQUE solo no basta si el orden de extremos está invertido"
+    },
+    {
+      "pi": 337,
+      "n_sent": 1,
+      "wps": 10.0,
+      "spw": 1.6,
+      "FH": 100.6,
+      "INFLESZ": 97.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "sin índice el plan suele ser SCAN; con índice SEARCH/INDEX"
+        }
+      ],
+      "preview": "sin índice el plan suele ser SCAN; con índice SEARCH/INDEX"
+    },
+    {
+      "pi": 338,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.5,
+      "FH": 50.7,
+      "INFLESZ": 45.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "prod safety; schema_migrations no reemplaza backup"
+        }
+      ],
+      "preview": "prod safety; schema_migrations no reemplaza backup"
+    },
+    {
+      "pi": 339,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "SQL detrás del método"
+        }
+      ],
+      "preview": "SQL detrás del método"
+    },
+    {
+      "pi": 340,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 1.89,
+      "FH": 84.3,
+      "INFLESZ": 80.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "PRAGMA foreign_keys es por conexión, no global del proceso"
+        }
+      ],
+      "preview": "PRAGMA foreign_keys es por conexión, no global del proceso"
+    },
+    {
+      "pi": 342,
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.12,
+      "FH": 71.2,
+      "INFLESZ": 66.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Evitar duplicar el mismo par en orden invertido"
+        }
+      ],
+      "preview": "Evitar duplicar el mismo par en orden invertido"
+    },
+    {
+      "pi": 346,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 1.71,
+      "FH": 96.8,
+      "INFLESZ": 93.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "UPDATE del label in place sin rastro"
+        }
+      ],
+      "preview": "UPDATE del label in place sin rastro"
+    },
+    {
+      "pi": 347,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 1.6,
+      "FH": 105.7,
+      "INFLESZ": 102.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Drop de tabla cada noche"
+        }
+      ],
+      "preview": "Drop de tabla cada noche"
+    },
+    {
+      "pi": 348,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 1.83,
+      "FH": 90.7,
+      "INFLESZ": 86.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Nueva fila por cambio de decisión"
+        }
+      ],
+      "preview": "Nueva fila por cambio de decisión"
+    },
+    {
+      "pi": 349,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 1.75,
+      "FH": 97.8,
+      "INFLESZ": 93.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Solo un match eterno"
+        }
+      ],
+      "preview": "Solo un match eterno"
+    },
+    {
+      "pi": 350,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 3.2,
+      "FH": 9.7,
+      "INFLESZ": 2.5,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Commitearse en transacciones separadas siempre"
+        }
+      ],
+      "preview": "Commitearse en transacciones separadas siempre"
+    },
+    {
+      "pi": 352,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 1.5,
+      "FH": 110.7,
+      "INFLESZ": 107.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Vivir solo en logs de texto"
+        }
+      ],
+      "preview": "Vivir solo en logs de texto"
+    },
+    {
+      "pi": 353,
+      "n_sent": 1,
+      "wps": 7.0,
+      "spw": 2.14,
+      "FH": 71.1,
+      "INFLESZ": 66.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Ser atómicas en la misma transacción lógica"
+        }
+      ],
+      "preview": "Ser atómicas en la misma transacción lógica"
+    },
+    {
+      "pi": 354,
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.75,
+      "FH": 93.7,
+      "INFLESZ": 89.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Esparce SQL por toda la app a propósito"
+        }
+      ],
+      "preview": "Esparce SQL por toda la app a propósito"
+    },
+    {
+      "pi": 355,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.11,
+      "FH": 71.0,
+      "INFLESZ": 66.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Encapsula acceso a datos y facilita tests con :memory:"
+        },
+        {
+          "sev": "L",
+          "kind": "space before punct",
+          "ev": "",
+          "sent": "Encapsula acceso a datos y facilita tests con :memory:"
+        }
+      ],
+      "preview": "Encapsula acceso a datos y facilita tests con :memory:"
+    },
+    {
+      "pi": 357,
+      "n_sent": 1,
+      "wps": 3.0,
+      "spw": 3.0,
+      "FH": 23.8,
+      "INFLESZ": 16.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Marca fraude automático"
+        }
+      ],
+      "preview": "Marca fraude automático"
+    },
+    {
+      "pi": 358,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 2.83,
+      "FH": 30.7,
+      "INFLESZ": 24.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "rechazarse: no_drop_without_backup es parte del contrato"
+        }
+      ],
+      "preview": "rechazarse: no_drop_without_backup es parte del contrato"
+    },
+    {
+      "pi": 359,
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.62,
+      "FH": 101.2,
+      "INFLESZ": 97.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "ejecutarse en prod si el SQL es corto"
+        }
+      ],
+      "preview": "ejecutarse en prod si el SQL es corto"
+    },
+    {
+      "pi": 360,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "silenciar el error de IntegrityError"
+        }
+      ],
+      "preview": "silenciar el error de IntegrityError"
+    },
+    {
+      "pi": 361,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 1.67,
+      "FH": 97.7,
+      "INFLESZ": 94.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "usar SELECT * sin WHERE para ir más rápido"
+        }
+      ],
+      "preview": "usar SELECT * sin WHERE para ir más rápido"
+    },
+    {
+      "pi": 362,
+      "n_sent": 1,
+      "wps": 4.0,
+      "spw": 3.0,
+      "FH": 22.8,
+      "INFLESZ": 15.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "siempre, sin configuración adicional"
+        }
+      ],
+      "preview": "siempre, sin configuración adicional"
+    },
+    {
+      "pi": 363,
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.75,
+      "FH": 93.7,
+      "INFLESZ": 89.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "solo si usas PostgreSQL en la misma máquina"
+        }
+      ],
+      "preview": "solo si usas PostgreSQL en la misma máquina"
+    },
+    {
+      "pi": 364,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 1.89,
+      "FH": 84.3,
+      "INFLESZ": 80.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "solo cuando PRAGMA foreign_keys = ON en esa conexión"
+        }
+      ],
+      "preview": "solo cuando PRAGMA foreign_keys = ON en esa conexión"
+    },
+    {
+      "pi": 365,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 1.22,
+      "FH": 124.3,
+      "INFLESZ": 121.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "solo si el score del par es > 0.5"
+        }
+      ],
+      "preview": "solo si el score del par es > 0.5"
+    },
+    {
+      "pi": 370,
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 1.75,
+      "FH": 93.7,
+      "INFLESZ": 89.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Ya hay índice mágico aunque no lo creaste"
+        }
+      ],
+      "preview": "Ya hay índice mágico aunque no lo creaste"
+    },
+    {
+      "pi": 371,
+      "n_sent": 1,
+      "wps": 15.0,
+      "spw": 1.73,
+      "FH": 87.5,
+      "INFLESZ": 83.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "El motor recorre la tabla; un índice en block_key puede pasar el plan a SEARCH/INDEX"
+        }
+      ],
+      "preview": "El motor recorre la tabla; un índice en block_key puede pasar el plan a SEARCH/INDEX"
+    },
+    {
+      "pi": 372,
+      "n_sent": 1,
+      "wps": 8.0,
+      "spw": 2.0,
+      "FH": 78.7,
+      "INFLESZ": 74.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "SCAN significa que el resultado es siempre vacío"
+        }
+      ],
+      "preview": "SCAN significa que el resultado es siempre vacío"
+    },
+    {
+      "pi": 373,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 1.78,
+      "FH": 91.0,
+      "INFLESZ": 87.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Debes imprimir la palabra INDEX sin mirar el plan"
+        }
+      ],
+      "preview": "Debes imprimir la palabra INDEX sin mirar el plan"
+    },
+    {
+      "pi": 374,
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.09,
+      "FH": 70.2,
+      "INFLESZ": 65.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Modelo PK/FK/CHECK y orden canónico de pares con FK real habilitada"
+        }
+      ],
+      "preview": "Modelo PK/FK/CHECK y orden canónico de pares con FK real habilitada"
+    },
+    {
+      "pi": 375,
+      "n_sent": 1,
+      "wps": 6.0,
+      "spw": 3.33,
+      "FH": 0.7,
+      "INFLESZ": -6.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Temporalidad/provenance en decisiones y fuentes (append-only)"
+        }
+      ],
+      "preview": "Temporalidad/provenance en decisiones y fuentes (append-only)"
+    },
+    {
+      "pi": 376,
+      "n_sent": 1,
+      "wps": 5.0,
+      "spw": 2.4,
+      "FH": 57.7,
+      "INFLESZ": 52.3,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Consultas CTE/anti-join para review queue"
+        }
+      ],
+      "preview": "Consultas CTE/anti-join para review queue"
+    },
+    {
+      "pi": 377,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 2.22,
+      "FH": 64.3,
+      "INFLESZ": 59.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "ACID en decisión+evidencia; upsert; índices; repo tests en :memory:"
+        },
+        {
+          "sev": "L",
+          "kind": "space before punct",
+          "ev": "",
+          "sent": "ACID en decisión+evidencia; upsert; índices; repo tests en :memory:"
+        }
+      ],
+      "preview": "ACID en decisión+evidencia; upsert; índices; repo tests en :memory:"
+    },
+    {
+      "pi": 378,
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.0,
+      "FH": 75.6,
+      "INFLESZ": 71.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Historia de decisions no se borra con UPDATE destructivo del label"
+        }
+      ],
+      "preview": "Historia de decisions no se borra con UPDATE destructivo del label"
+    },
+    {
+      "pi": 379,
+      "n_sent": 4,
+      "wps": 17.5,
+      "spw": 2.06,
+      "FH": 65.6,
+      "INFLESZ": 61.2,
+      "issues": [],
+      "preview": "Modelas el **almacén ER** del capstone CP-N3-A: `source_records` → `entities` → `candidate_pairs` → "
+    },
+    {
+      "pi": 380,
+      "n_sent": 4,
+      "wps": 13.25,
+      "spw": 2.19,
+      "FH": 62.0,
+      "INFLESZ": 57.2,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "Las diferencias con PostgreSQL/Oracle se declaran cuando importan (p."
+        },
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "0 vs 1",
+          "sent": "ej. isolation rica, pooling de servidor)."
+        }
+      ],
+      "preview": "SQLite local es una base real y reproducible para observar constraints, NULL, planes y transacciones"
+    },
+    {
+      "pi": 381,
+      "n_sent": 2,
+      "wps": 22.0,
+      "spw": 2.5,
+      "FH": 34.4,
+      "INFLESZ": 29.1,
+      "issues": [],
+      "preview": "Mapa de cardinalidades (esqueleto del warehouse):\n`source_records` 1—N `entities` · `entities` N—N v"
+    },
+    {
+      "pi": 382,
+      "n_sent": 4,
+      "wps": 14.5,
+      "spw": 1.95,
+      "FH": 75.2,
+      "INFLESZ": 71.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "2 vs 1",
+          "sent": "Añade **CHECK** (`score` entre 0 y 1) y **UNIQUE** de negocio cuando corresponda (p."
+        },
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 2",
+          "sent": "ej. `(source_system, external_id)` en registros fuente)."
+        }
+      ],
+      "preview": "**PRIMARY KEY** identifica filas; **FOREIGN KEY** ancla un par a dos entidades existentes. Añade **C"
+    },
+    {
+      "pi": 383,
+      "n_sent": 2,
+      "wps": 23.5,
+      "spw": 1.98,
+      "FH": 64.1,
+      "INFLESZ": 60.1,
+      "issues": [],
+      "preview": "Normaliza a **3NF** para hechos del ER: no copies `canonical_name` en cada par; guarda atributos de "
+    },
+    {
+      "pi": 384,
+      "n_sent": 3,
+      "wps": 15.33,
+      "spw": 1.93,
+      "FH": 75.1,
+      "INFLESZ": 71.0,
+      "issues": [],
+      "preview": "Usa ids sintéticos estables (`ent-00N`, `pair-…`) del fixture CASO-LIM-029. El orden canónico `entit"
+    },
+    {
+      "pi": 385,
+      "n_sent": 3,
+      "wps": 20.0,
+      "spw": 2.07,
+      "FH": 62.4,
+      "INFLESZ": 58.1,
+      "issues": [],
+      "preview": "**Temporalidad**: modela `valid_from`/`valid_to` o, más simple en el lab, una tabla de eventos donde"
+    },
+    {
+      "pi": 386,
+      "n_sent": 2,
+      "wps": 23.5,
+      "spw": 2.23,
+      "FH": 48.8,
+      "INFLESZ": 44.2,
+      "issues": [],
+      "preview": "**Provenance**: cada entidad o decisión debe rastrearse al registro fuente (`source_system`, `source"
+    },
+    {
+      "pi": 387,
+      "n_sent": 3,
+      "wps": 18.33,
+      "spw": 1.96,
+      "FH": 70.3,
+      "INFLESZ": 66.2,
+      "issues": [],
+      "preview": "Auditoría en Red Andina (sintético, Lima): actor sintético `rev_sintetica`, timestamps UTC y `run_id"
+    },
+    {
+      "pi": 388,
+      "n_sent": 4,
+      "wps": 13.5,
+      "spw": 1.85,
+      "FH": 82.0,
+      "INFLESZ": 78.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "2 vs 0",
+          "sent": "Una **CTE** (`WITH nombre AS (…"
+        },
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "0 vs 2",
+          "sent": ")`) nombra un paso intermedio: candidatos filtrados, scores ordenados."
+        }
+      ],
+      "preview": "Una **CTE** (`WITH nombre AS (… )`) nombra un paso intermedio: candidatos filtrados, scores ordenado"
+    },
+    {
+      "pi": 389,
+      "n_sent": 2,
+      "wps": 19.5,
+      "spw": 1.67,
+      "FH": 87.0,
+      "INFLESZ": 83.5,
+      "issues": [],
+      "preview": "Un **anti-join** responde “pares sin decisión” o “entidades sin par”: `NOT EXISTS (SELECT 1 FROM dec"
+    },
+    {
+      "pi": 390,
+      "n_sent": 3,
+      "wps": 23.0,
+      "spw": 1.64,
+      "FH": 85.1,
+      "INFLESZ": 81.8,
+      "issues": [],
+      "preview": "En la cola de review del ER, combinas ranking + anti-join: “top scores que aún no tienen label human"
+    },
+    {
+      "pi": 391,
+      "n_sent": 3,
+      "wps": 19.0,
+      "spw": 1.72,
+      "FH": 84.3,
+      "INFLESZ": 80.7,
+      "issues": [],
+      "preview": "**Cardinalidad** de un join define explosión de pares: n×m sin blocking es inviable en ER. Con 10 00"
+    },
+    {
+      "pi": 392,
+      "n_sent": 2,
+      "wps": 23.5,
+      "spw": 1.55,
+      "FH": 89.7,
+      "INFLESZ": 86.6,
+      "issues": [],
+      "preview": "**NULL en SQL no es Python None.** En SQL, `NULL = NULL` es desconocido (no TRUE): usa `IS NULL` / `"
+    },
+    {
+      "pi": 393,
+      "n_sent": 3,
+      "wps": 17.33,
+      "spw": 1.85,
+      "FH": 78.4,
+      "INFLESZ": 74.5,
+      "issues": [],
+      "preview": "**Planes**: `EXPLAIN QUERY PLAN` en SQLite muestra SCAN (recorrido completo) vs SEARCH/INDEX (uso de"
+    },
+    {
+      "pi": 394,
+      "n_sent": 2,
+      "wps": 28.0,
+      "spw": 2.2,
+      "FH": 46.5,
+      "INFLESZ": 42.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "37 words",
+          "sent": "**ACID** resume cuatro promesas del motor: Atomicity (todo o nada), Consistency (constraints se cumplen al commit), Isol"
+        }
+      ],
+      "preview": "**ACID** resume cuatro promesas del motor: Atomicity (todo o nada), Consistency (constraints se cump"
+    },
+    {
+      "pi": 395,
+      "n_sent": 3,
+      "wps": 26.33,
+      "spw": 2.11,
+      "FH": 53.1,
+      "INFLESZ": 48.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "long >32w",
+          "ev": "45 words",
+          "sent": "Niveles de isolation avanzados (READ COMMITTED, SERIALIZABLE) y `BEGIN IMMEDIATE` importan con **varias conexiones concu"
+        }
+      ],
+      "preview": "En este lab usamos una sola conexión sqlite y demostramos **atomicidad** con `BEGIN` → insert de dec"
+    },
+    {
+      "pi": 396,
+      "n_sent": 3,
+      "wps": 13.33,
+      "spw": 2.08,
+      "FH": 68.7,
+      "INFLESZ": 64.2,
+      "issues": [],
+      "preview": "Regla operativa: si falla escribir evidencia, no dejes una decisión huérfana. El mini-lab fuerza el "
+    },
+    {
+      "pi": 397,
+      "n_sent": 3,
+      "wps": 15.67,
+      "spw": 2.06,
+      "FH": 67.0,
+      "INFLESZ": 62.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "Un **upsert** (`INSERT …"
+        },
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 2",
+          "sent": "ON CONFLICT DO UPDATE`) actualiza atributos mutables de una entidad (`name`, `updated`) sin cambiar el id estable."
+        }
+      ],
+      "preview": "Un **upsert** (`INSERT … ON CONFLICT DO UPDATE`) actualiza atributos mutables de una entidad (`name`"
+    },
+    {
+      "pi": 398,
+      "n_sent": 3,
+      "wps": 16.33,
+      "spw": 2.1,
+      "FH": 64.1,
+      "INFLESZ": 59.5,
+      "issues": [],
+      "preview": "Concurrencia de workers: dos procesos no deben crear el mismo par como (e1,e2) y (e2,e1). Combina `C"
+    },
+    {
+      "pi": 399,
+      "n_sent": 3,
+      "wps": 15.0,
+      "spw": 1.91,
+      "FH": 76.9,
+      "INFLESZ": 72.8,
+      "issues": [],
+      "preview": "El mini-lab hace upsert de `Ana` → `Ana López` y deja `updated=2`. Las decisiones del par no se toca"
+    },
+    {
+      "pi": 400,
+      "n_sent": 3,
+      "wps": 17.0,
+      "spw": 1.84,
+      "FH": 78.9,
+      "INFLESZ": 75.0,
+      "issues": [],
+      "preview": "Índices en FK y columnas de filtro (`score`, `status`, `block_key`) bajan latencia de colas y blocki"
+    },
+    {
+      "pi": 401,
+      "n_sent": 3,
+      "wps": 15.0,
+      "spw": 2.04,
+      "FH": 68.9,
+      "INFLESZ": 64.5,
+      "issues": [],
+      "preview": "**Migrations** versionadas: expand (añadir columna/índice) → backfill → contract (retirar lo viejo)."
+    },
+    {
+      "pi": 402,
+      "n_sent": 2,
+      "wps": 17.0,
+      "spw": 1.85,
+      "FH": 78.3,
+      "INFLESZ": 74.4,
+      "issues": [],
+      "preview": "El mini-lab crea `idx_pairs_block`, registra migration 1 y comprueba que el plan menciona índice al "
+    },
+    {
+      "pi": 403,
+      "n_sent": 3,
+      "wps": 15.0,
+      "spw": 1.98,
+      "FH": 72.9,
+      "INFLESZ": 68.6,
+      "issues": [],
+      "preview": "El **repository** encapsula SQL: `get_entity`, `insert_decision`, `pending`. La lógica de matching y"
+    },
+    {
+      "pi": 404,
+      "n_sent": 3,
+      "wps": 17.67,
+      "spw": 2.17,
+      "FH": 58.6,
+      "INFLESZ": 54.0,
+      "issues": [],
+      "preview": "**Pooling** reusa conexiones en servidores multi-request. En SQLite didáctico suele bastar una conex"
+    },
+    {
+      "pi": 405,
+      "n_sent": 3,
+      "wps": 13.0,
+      "spw": 2.13,
+      "FH": 65.9,
+      "INFLESZ": 61.2,
+      "issues": [],
+      "preview": "Prueba el repository con inserts, constraints violados (IntegrityError ruidoso), anti-join de la col"
+    },
+    {
+      "pi": 406,
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 2.5,
+      "FH": 44.6,
+      "INFLESZ": 39.1,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Definir PK/FK/CHECK/UNIQUE en SQLite con `PRAGMA foreign_keys=ON` y demostrar violación con IntegrityError"
+        }
+      ],
+      "preview": "Definir PK/FK/CHECK/UNIQUE en SQLite con `PRAGMA foreign_keys=ON` y demostrar violación con Integrit"
+    },
+    {
+      "pi": 407,
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 3.0,
+      "FH": 14.6,
+      "INFLESZ": 7.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Modelar temporalidad y provenance (append-only de decisions, source_system, evidence_ref) sin sobrescribir historia"
+        }
+      ],
+      "preview": "Modelar temporalidad y provenance (append-only de decisions, source_system, evidence_ref) sin sobres"
+    },
+    {
+      "pi": 408,
+      "n_sent": 2,
+      "wps": 8.5,
+      "spw": 1.59,
+      "FH": 102.9,
+      "INFLESZ": 99.4,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "1 vs 0",
+          "sent": "Escribir CTEs, ROW_NUMBER y anti-joins (NOT EXISTS / LEFT JOIN …"
+        },
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "IS NULL) para colas de review"
+        },
+        {
+          "sev": "M",
+          "kind": "unbalanced ()",
+          "ev": "0 vs 1",
+          "sent": "IS NULL) para colas de review"
+        }
+      ],
+      "preview": "Escribir CTEs, ROW_NUMBER y anti-joins (NOT EXISTS / LEFT JOIN … IS NULL) para colas de review"
+    },
+    {
+      "pi": 409,
+      "n_sent": 1,
+      "wps": 17.0,
+      "spw": 1.53,
+      "FH": 97.7,
+      "INFLESZ": 94.6,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Razonar cardinalidad de joins, NULL con IS NULL y planes con EXPLAIN QUERY PLAN (SCAN vs SEARCH)"
+        }
+      ],
+      "preview": "Razonar cardinalidad de joins, NULL con IS NULL y planes con EXPLAIN QUERY PLAN (SCAN vs SEARCH)"
+    },
+    {
+      "pi": 410,
+      "n_sent": 1,
+      "wps": 9.0,
+      "spw": 3.33,
+      "FH": -2.3,
+      "INFLESZ": -9.8,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Garantizar atomicidad decisión+evidencia con BEGIN/COMMIT/ROLLBACK en la misma conexión"
+        }
+      ],
+      "preview": "Garantizar atomicidad decisión+evidencia con BEGIN/COMMIT/ROLLBACK en la misma conexión"
+    },
+    {
+      "pi": 411,
+      "n_sent": 1,
+      "wps": 13.0,
+      "spw": 2.15,
+      "FH": 64.3,
+      "INFLESZ": 59.7,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Implementar upserts de entidad (ON CONFLICT DO UPDATE) sin borrar historia de decisiones"
+        }
+      ],
+      "preview": "Implementar upserts de entidad (ON CONFLICT DO UPDATE) sin borrar historia de decisiones"
+    },
+    {
+      "pi": 412,
+      "n_sent": 1,
+      "wps": 11.0,
+      "spw": 2.18,
+      "FH": 64.7,
+      "INFLESZ": 59.9,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Versionar migrations en schema_migrations, crear índices y evitar DROP sin backup"
+        }
+      ],
+      "preview": "Versionar migrations en schema_migrations, crear índices y evitar DROP sin backup"
+    },
+    {
+      "pi": 413,
+      "n_sent": 1,
+      "wps": 12.0,
+      "spw": 2.08,
+      "FH": 69.6,
+      "INFLESZ": 65.0,
+      "issues": [
+        {
+          "sev": "M",
+          "kind": "missing terminal punctuation",
+          "ev": "",
+          "sent": "Encapsular SQL en un repository testeable con sqlite :memory: (pending, get, constraints)"
+        },
+        {
+          "sev": "L",
+          "kind": "space before punct",
+          "ev": "",
+          "sent": "Encapsular SQL en un repository testeable con sqlite :memory: (pending, get, constraints)"
+        }
+      ],
+      "preview": "Encapsular SQL en un repository testeable con sqlite :memory: (pending, get, constraints)"
+    }
+  ],
+  "worst": [
+    {
+      "pi": 2,
+      "wc": 33,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "En equipos de datos (banca, telecom, retail en Perú y LATAM) un analista o ingeniero que modela PK/FK, temporalidad y consultas de cola de revisión en SQL reduce re-procesos y discusiones sin evidenci"
+    },
+    {
+      "pi": 3,
+      "wc": 34,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "Publica un mini-repo o carpeta de portafolio: DDL del almacén ER, script de seed sintético CASO-LIM-029, tests de constraints/anti-join/append-only/rollback y README breve en español profesional que e"
+    },
+    {
+      "pi": 4,
+      "wc": 44,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "Integra lo de T1–T4 en un entregable de portafolio: el esquema CP-N3-A en SQLite (`source_records` → `entities` → `candidate_pairs` → `decisions` append-only → `evidence`), con `PRAGMA foreign_keys=ON"
+    },
+    {
+      "pi": 5,
+      "wc": 37,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ],
+        [
+          "L",
+          "high comma density"
+        ]
+      ],
+      "sent": "Cada uno imprime el resultado que el código realmente calcula: claves con FK y CHECK, historia append-only, CTE + anti-join de cola, COUNT y cardinalidad, ROLLBACK atómico, upsert de entidad, migratio"
+    },
+    {
+      "pi": 394,
+      "wc": 37,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "**ACID** resume cuatro promesas del motor: Atomicity (todo o nada), Consistency (constraints se cumplen al commit), Isolation (transacciones concurrentes no se pisan a ciegas) y Durability (lo commite"
+    },
+    {
+      "pi": 395,
+      "wc": 45,
+      "issues": [
+        [
+          "M",
+          "long >32w"
+        ]
+      ],
+      "sent": "Niveles de isolation avanzados (READ COMMITTED, SERIALIZABLE) y `BEGIN IMMEDIATE` importan con **varias conexiones concurrentes**; no los damos por dominados solo porque aparecen en un glosario — se p"
+    }
+  ]
+}

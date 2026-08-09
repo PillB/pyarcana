@@ -1,0 +1,1222 @@
+     1→     1→import type { CourseSection } from '../../types'
+     2→     2→
+     3→     3→export const section12: CourseSection = {
+     4→     4→  id: 'performance',
+     5→     5→  index: 12,
+     6→     6→  title: 'Performance, Concurrency & Logging',
+     7→     7→  shortTitle: 'Performance & Logging',
+     8→     8→  tagline:
+     9→     9→    'Multiprocessing, profiling, logging y argparse — código production-ready',
+    10→    10→  estimatedHours: 10,
+    11→    11→  level: 'Avanzado',
+    12→    12→  phase: 0,
+    13→    13→  icon: 'Gauge',
+    14→    14→  accentColor: 'bg-gradient-to-br from-indigo-500 to-purple-600',
+    15→    15→  jobRelevance:
+    16→    16→    'En cualquier trabajo serio de data, el código tiene que ser RÁPIDO, OBSERVABLE y REUSABLE. "Rápido" significa paralelizar feature engineering con multiprocessing para que un job de 4 horas baje a 35 minutos. "Observable" significa logging estructurado para que cuando el pipeline se cae a las 3am, los logs te digan EXACTAMENTE en qué etapa y por qué — sin reproducir el error en tu laptop. "Reusable" significa empaquetarlo como CLI con argparse para que tus colegas lo usen sin abrir un notebook. Estas 4 skills — multiprocessing, profiling, logging, argparse — son lo que separa un junior que escribe scripts que "funcionan en mi laptop" de un senior que entrega pipelines production-ready que corren en servidores, scheduleados, monitoreados, y usados por todo el equipo de data. En empresas peruanas como Interbank, BBVA, Mercado Libre y Rimac, este perfil cobra 40-60% más que un Data Analyst que solo sabe pandas.',
+    17→    17→  learningOutcomes: [
+    18→    18→    { text: 'Paralelizar feature engineering con multiprocessing y concurrent.futures (Process vs Thread)' },
+    19→    19→    { text: 'Entender el GIL y cuándo usar ProcessPoolExecutor vs ThreadPoolExecutor' },
+    20→    20→    { text: 'Perfil código con timeit, cProfile y line_profiler para encontrar bottlenecks' },
+    21→    21→    { text: 'Configurar logging estructurado (JSON, RotatingFileHandler) para pipelines en producción' },
+    22→    22→    { text: 'Convertir notebooks en herramientas CLI reutilizables con argparse' },
+    23→    23→    { text: 'Empaquetar un CLI como ejecutable instalable con pyproject.toml + entry_points' },
+    24→    24→  ],
+    25→    25→  theory: [
+    26→    26→    {
+    27→    27→      heading: 'Multiprocessing & concurrent.futures — Process vs Thread y el GIL',
+    28→    28→      paragraphs: [
+    29→    29→        'Python tiene el famoso GIL (Global Interpreter Lock): solo un thread ejecuta bytecode Python a la vez. Esto significa que `threading` NO acelera tareas CPU-bound (cálculo puro, transformación de datos, modelos de ML) — todos los threads compiten por el mismo GIL y terminan corriendo secuencialmente. Para acelerar tareas CPU-bound necesitas `multiprocessing`: procesos separados del sistema operativo, cada uno con su propio GIL y su propio espacio de memoria, corriendo en paralelo en múltiples cores. En una laptop de 8 cores, una tarea CPU-bound puede correr 6-7x más rápido (no 8x por el overhead de crear procesos y serializar datos). En servidores cloud con 32 cores, los speedups son dramáticos — un job de 8 horas baja a 20 minutos.',
+    30→    30→        'La API moderna y recomendada es `concurrent.futures.ProcessPoolExecutor` y `ThreadPoolExecutor`. El patrón básico es limpio: `with ProcessPoolExecutor() as executor: results = list(executor.map(func, items))`. Esto crea un pool de procesos workers, distribuye los items, y recolecta resultados en orden. Para tareas CPU-bound (calcular features por cliente, transformar imágenes, encodear videos, hyperparameter sweep) usa Process. Para I/O-bound (scrapear 100 URLs, llamar 50 APIs, leer 20 archivos de disco) usa Thread — porque durante la espera de I/O el GIL se libera y otros threads pueden avanzar. La regla mnemotécnica: si tu función pasa el 90% del tiempo esperando red/disco → Thread; si pasa el 90% calculando → Process.',
+    31→    31→        'El caso de uso clásico en DS: tienes 500k clientes y necesitas calcular 20 features por cliente (RFM: recencia, frecuencia, monetario, más features de comportamiento). En single-process tarda 4 horas. Con `ProcessPoolExecutor(max_workers=8)` y `executor.map(calcular_features, chunks_de_clientes)`, baja a 35 minutos. Otro caso: hyperparameter sweep con 100 configs de modelo — en paralelo corren 8 a la vez, el sweep completo baja de 8 horas a 1 hora. Cuidado con 3 trampas: (1) memoria — cada proceso copia data, pasa chunks chicos no DataFrames gigantes, o tu RAM explota; (2) funciones lambda — no se pueden picklear (serializar para enviar a otro proceso), usa funciones top-level con `def`; (3) shared state — multiprocessing tiene Queues y Managers pero es complejo, mejor diseñar funciones puras sin estado compartido.',
+    32→    32→      ],
+    33→    33→      code: {
+    34→    34→        language: 'python',
+    35→    35→        title: 'paralelo_features.py',
+    36→    36→        code: `import pandas as pd
+    37→    37→import numpy as np
+    38→    38→from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
+    39→    39→import requests
+    40→    40→import time
+    41→    41→
+    42→    42→# === 1. CPU-bound: feature engineering en paralelo ===
+    43→    43→def calcular_features_cliente(cliente_id: int) -> dict:
+    44→    44→    """Simula cómputo pesado por cliente (en la vida real: query DB, transforma, calcula 20 features)."""
+    45→    45→    np.random.seed(cliente_id)  # determinista para reproducibilidad
+    46→    46→    historial = np.random.exponential(30, 365)  # 365 días de compras simuladas
+    47→    47→    recencia = 365 - np.argmax(historial[::-1] > 0)  # días desde última compra
+    48→    48→    frecuencia = (historial > 0).sum()
+    49→    49→    monetario = float(historial.sum())
+    50→    50→    return {
+    51→    51→        "cliente_id": cliente_id,
+    52→    52→        "recencia": int(recencia),
+    53→    53→        "frecuencia": int(frecuencia),
+    54→    54→        "monetario": monetario,
+    55→    55→        "rfm_score": recencia * 0.3 + frecuencia * 0.4 + monetario * 0.3,
+    56→    56→    }
+    57→    57→
+    58→    58→# Single-process (lento — baseline)
+    59→    59→start = time.time()
+    60→    60→n_clientes = 10_000
+    61→    61→resultados_seq = [calcular_features_cliente(i) for i in range(n_clientes)]
+    62→    62→print(f"Secuencial: {time.time() - start:.1f}s")
+    63→    63→# Secuencial: 8.5s
+    64→    64→
+    65→    65→# Paralelo (rápido — usa todos los cores disponibles)
+    66→    66→start = time.time()
+    67→    67→with ProcessPoolExecutor(max_workers=8) as executor:
+    68→    68→    resultados_par = list(executor.map(calcular_features_cliente, range(n_clientes)))
+    69→    69→print(f"Paralelo (8 workers): {time.time() - start:.1f}s")
+    70→    70→# Paralelo (8 workers): 1.4s  (~6x speedup)
+    71→    71→
+    72→    72→# === 2. I/O-bound: scrapear 50 URLs en paralelo con ThreadPoolExecutor ===
+    73→    73→def fetch_url(url: str) -> tuple[str, int]:
+    74→    74→    """Descarga una URL y devuelve (url, status_code)."""
+    75→    75→    try:
+    76→    76→        resp = requests.get(url, timeout=10)
+    77→    77→        return (url, resp.status_code)
+    78→    78→    except Exception:
+    79→    79→        return (url, -1)
+    80→    80→
+    81→    81→urls = [f"https://api.mercadolibre.com/items/ML{i}" for i in range(50)]
+    82→    82→
+    83→    83→# Threads son ideales para I/O porque durante la espera de red, el GIL se libera
+    84→    84→start = time.time()
+    85→    85→with ThreadPoolExecutor(max_workers=10) as executor:
+    86→    86→    futures = [executor.submit(fetch_url, url) for url in urls]
+    87→    87→    resultados_io = [f.result() for f in as_completed(futures)]
+    88→    88→print(f"50 URLs en paralelo (10 threads): {time.time() - start:.2f}s")
+    89→    89→# 50 URLs en paralelo (10 threads): 1.85s  (vs ~15s secuencial)
+    90→    90→
+    91→    91→# === 3. Procesar un DataFrame en chunks paralelos ===
+    92→    92→def procesar_chunk(chunk: pd.DataFrame) -> pd.DataFrame:
+    93→    93→    """Aplica feature engineering a un chunk del DataFrame — función pura, sin estado."""
+    94→    94→    chunk = chunk.copy()
+    95→    95→    chunk["log_monto"] = np.log1p(chunk["monto"])
+    96→    96→    chunk["monto_zscore"] = (chunk["monto"] - chunk["monto"].mean()) / chunk["monto"].std()
+    97→    97→    chunk["es_outlier"] = chunk["monto_zscore"].abs() > 3
+    98→    98→    return chunk
+    99→    99→
+   100→   100→df_grande = pd.DataFrame({
+   101→   101→    "cliente_id": range(100_000),
+   102→   102→    "monto": np.random.exponential(500, 100_000),
+   103→   103→})
+   104→   104→
+   105→   105→# Partir en 8 chunks, procesar en paralelo, recombinar
+   106→   106→start = time.time()
+   107→   107→chunks = np.array_split(df_grande, 8)
+   108→   108→with ProcessPoolExecutor(max_workers=8) as executor:
+   109→   109→    chunks_procesados = list(executor.map(procesar_chunk, chunks))
+   110→   110→df_final = pd.concat(chunks_procesados, ignore_index=True)
+   111→   111→print(f"DataFrame 100k filas en 8 chunks: {time.time() - start:.2f}s")
+   112→   112→print(df_final.head())
+   113→   113→#    cliente_id       monto  log_monto  monto_zscore  es_outlier
+   114→   114→# 0           0  123.456789   4.820282      0.241983       False
+   115→   115→# 1           1   45.678912   3.842156     -0.901234       False
+   116→   116→# ...`,
+   117→   117→      },
+   118→   118→      callout: {
+   119→   119→        type: 'tip',
+   120→   120→        title: 'Joblib para scikit-learn',
+   121→   121→        content:
+   122→   122→          'scikit-learn usa joblib internamente para paralelizar — solo pasa `n_jobs=-1` en GridSearchCV, RandomForest, KMeans, etc. y usa todos los cores. Si tu código es sklearn-céntrico, no necesitas escribir multiprocessing manual. Para código custom, usa concurrent.futures. Joblib también ofrece `Parallel(n_jobs=-1)(delayed(func)(x) for x in items)` que es muy similar a ProcessPoolExecutor.map pero con mejor manejo de memoria para arrays numpy.',
+   123→   123→      },
+   124→   124→    },
+   125→   125→    {
+   126→   126→      heading: 'Profiling & Benchmarking — timeit, cProfile, line_profiler',
+   127→   127→      paragraphs: [
+   128→   128→        'La regla #1 de optimización es: NUNCA optimices sin medir primero. La intuición humana sobre qué es lento es pésima — el 80% de las veces, el bottleneck NO es donde crees. Pasas 2 horas optimizando una función que consume el 2% del tiempo y no notas que el 90% se va en otro lado. Por eso necesitas profiling: medir EXACTAMENTE dónde se gasta el tiempo. Python tiene 3 herramientas complementarias: `timeit` (microbenchmarks de snippets chicos), `cProfile` (perfil de toda una ejecución, función por función), y `line_profiler` (perfil línea por línea de UNA función específica). Combinadas, te dicen exactamente qué optimizar y — más importante — qué NO tocar (porque no aporta al tiempo total).',
+   129→   129→        '`timeit` es para comparar implementaciones de un mismo algoritmo. Por ejemplo: ¿es más rápido `[x*2 for x in range(1000)]` o `list(map(lambda x: x*2, range(1000)))`? Con `timeit.timeit(stmt, number=10000)` lo sabes en 2 segundos. Es esencial cuando dudas entre dos formas de escribir algo. `cProfile` es para scripts completos: corres `python -m cProfile -s cumulative mi_script.py` y obtienes una tabla con cada función, cuántas veces se llamó (ncalls), cuánto tiempo total gastó (tottime), y cuánto tiempo cumulativo incluyendo sub-llamadas (cumtime). Identificas la función que se come el 80% del tiempo y la atacas primero — eso es la regla de Pareto aplicada a performance.',
+   130→   130→        '`line_profiler` es el más detallado: perfil línea por línea de UNA función. Lo instalas con `pip install line_profiler`, decoras la función con `@profile`, y corres `kernprof -l -v mi_script.py`. Te muestra por cada línea: tiempo total, porcentaje del total, tiempo por llamada, número de hits. Descubres cosas como "esta línea de pandas `.iterrows()` se come el 95% del tiempo" — y la reescribes vectorizada para 100x speedup. En DS, el 80% de las optimizaciones son: (1) reemplazar `.iterrows()` con operaciones vectorizadas de pandas/numpy, (2) usar numpy en vez de Python loops, (3) cachear resultados de funciones puras, (4) usar C-extensions (numba, cython) para hot paths críticos. Sin profiling, optimizas a ciegas; con profiling, cada hora invertida rinde.',
+   131→   131→      ],
+   132→   132→      code: {
+   133→   133→        language: 'python',
+   134→   134→        title: 'profiling_demo.py',
+   135→   135→        code: `# === 1. timeit: comparar dos implementaciones de un mismo algoritmo ===
+   136→   136→import timeit
+   137→   137→
+   138→   138→# Lista por comprehension
+   139→   139→t1 = timeit.timeit("[x*2 for x in range(1000)]", number=10000)
+   140→   140→# Map con lambda
+   141→   141→t2 = timeit.timeit("list(map(lambda x: x*2, range(1000)))", number=10000)
+   142→   142→print(f"List comp: {t1:.3f}s")
+   143→   143→print(f"Map+lambda: {t2:.3f}s")
+   144→   144→# List comp: 0.42s
+   145→   145→# Map+lambda: 0.58s  (list comp gana por 30%)
+   146→   146→
+   147→   147→# === 2. cProfile: perfil de script completo ===
+   148→   148→# Guarda como perf_demo.py y corre:
+   149→   149→#   python -m cProfile -s cumulative perf_demo.py
+   150→   150→import pandas as pd
+   151→   151→import numpy as np
+   152→   152→
+   153→   153→def procesar_datos_lento(n: int = 100_000):
+   154→   154→    """Forma LENTA: itera con .iterrows() — el antipatrón #1 de pandas."""
+   155→   155→    df = pd.DataFrame({"x": np.random.randn(n), "y": np.random.randn(n)})
+   156→   156→    resultado = []
+   157→   157→    for _, row in df.iterrows():
+   158→   158→        resultado.append(row["x"] ** 2 + row["y"] ** 2)
+   159→   159→    return sum(resultado)
+   160→   160→
+   161→   161→def procesar_datos_rapido(n: int = 100_000):
+   162→   162→    """Forma RÁPIDA: vectorizada con numpy/pandas."""
+   163→   163→    df = pd.DataFrame({"x": np.random.randn(n), "y": np.random.randn(n)})
+   164→   164→    return float((df["x"] ** 2 + df["y"] ** 2).sum())
+   165→   165→
+   166→   166→# Output de cProfile (top 10 por tiempo cumulativo):
+   167→   167→#    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   168→   168→#       100  185.234    1.852  185.234    1.852 perf_demo.py:5(procesar_datos_lento)
+   169→   169→#   10000000   12.451    0.000   12.451    0.000 {method 'append' of 'list' objects}
+   170→   170→#         1    0.045    0.045    0.045    0.045 perf_demo.py:13(procesar_datos_rapido)
+   171→   171→# → El 99.9% del tiempo está en procesar_datos_lento. Optimiza SOLO eso.
+   172→   172→
+   173→   173→# === 3. line_profiler: perfil línea por línea ===
+   174→   174→# Instala: pip install line_profiler
+   175→   175→# Decora la función con @profile (line_profiler lo provee automáticamente)
+   176→   176→# Corre: kernprof -l -v perf_demo.py
+   177→   177→
+   178→   178→# @profile  # descomenta para usar line_profiler
+   179→   179→def feature_engineering(df):
+   180→   180→    n = len(df)
+   181→   181→    df["log_x"] = np.log1p(df["x"])                              # 5% del tiempo
+   182→   182→    df["zscore"] = (df["x"] - df["x"].mean()) / df["x"].std()    # 3%
+   183→   183→    df["rolling_mean"] = df["x"].rolling(7).mean()               # 15%
+   184→   184→    df["categoria"] = pd.cut(df["x"], bins=10, labels=False)     # 8%
+   185→   185→    for i in range(n):                                           # ESTA LÍNEA: 65% del tiempo
+   186→   186→        df.loc[i, "custom"] = df.loc[i, "x"] * 2  # .loc[i] es O(n)
+   187→   187→    return df
+   188→   188→
+   189→   189→# Output de line_profiler:
+   190→   190→# Line #  Hits    Time  Per Hit  % Time  Line Contents
+   191→   191→# =====================================================
+   192→   192→#      3     1       5      5.0      0.0  def feature_engineering(df):
+   193→   193→#      4     1   15000  15000.0      5.0    df["log_x"] = np.log1p(df["x"])
+   194→   194→#      5     1    9000   9000.0      3.0    df["zscore"] = ...
+   195→   195→#      6     1   45000  45000.0     15.0    df["rolling_mean"] = ...
+   196→   196→#      7     1   24000  24000.0      8.0    df["categoria"] = pd.cut(...)
+   197→   197→#      8 100001  195000      1.9     65.0    for i in range(n):
+   198→   198→#      9 100000   60000      0.6     20.0      df.loc[i, "custom"] = df.loc[i, "x"] * 2
+   199→   199→# → El loop con .loc[i] es el bottleneck. Vectoriza: df["custom"] = df["x"] * 2
+   200→   200→#   (1 línea, 100x más rápido)
+   201→   201→
+   202→   202→# === 4. memory_profiler (bonus para detectar memory leaks) ===
+   203→   203→# pip install memory_profiler
+   204→   204→# Decorador @profile, corres: python -m memory_profiler script.py
+   205→   205→# Te muestra uso de RAM línea por línea — útil para detectar memory leaks en pipelines`,
+   206→   206→      },
+   207→   207→      callout: {
+   208→   208→        type: 'info',
+   209→   209→        title: 'Regla de oro: mide, no adivines',
+   210→   210→        content:
+   211→   211→          'Antes de optimizar, SIEMPRE corre cProfile. El 80% de las optimizaciones "intuitivas" no producen speedup real porque atacan el 20% del código. Mide, identifica el hot path, optimiza SOLO ese, vuelve a medir. Itera. Es lo que diferencia a seniors de juniors: los seniors perfilan, los juniors adivinan y pierden tiempo en cosas que no importan.',
+   212→   212→      },
+   213→   213→    },
+   214→   214→    {
+   215→   215→      heading: 'Logging — producción DS necesita logs estructurados',
+   216→   216→      paragraphs: [
+   217→   217→        '`print()` es para debugging en desarrollo. `logging` es para producción. La diferencia es enorme: print siempre imprime (no puedes desactivarlo sin comentar líneas o redirigir stdout), no tiene niveles, no tiene timestamps automáticos, no escribe a archivo sin redirección manual con `>`. El módulo `logging` (built-in, sin instalar nada) resuelve todo: niveles (DEBUG/INFO/WARNING/ERROR/CRITICAL) que puedes subir/bajar en runtime, formato configurable (timestamp, nivel, módulo, mensaje), múltiples destinos (consola, archivo, syslog, HTTP endpoint), y se desactiva por nivel en producción. En un pipeline de DS en producción, sin logs no puedes debuggear un fallo a las 3am — los logs son tu única pista de qué pasó.',
+   218→   218→        'Configuración básica: `logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s", handlers=[...])`. Creas un logger por módulo con `logger = logging.getLogger(__name__)` (el `__name__` te dice qué módulo escribió el log). Usas `logger.info("Procesando %d filas", n)` — ¡SIEMPRE usa %-format, no f-string, para que el formato se aplique solo si el nivel está activo! En producción subes el nivel a WARNING (o ERROR) para reducir ruido. Para DS, loggea: inicio/fin de cada etapa del pipeline, cuántos registros procesaste en cada etapa, tiempo de cada etapa, advertencias (datos faltantes, outliers detectados), errores con traceback completo (logger.exception() lo hace automáticamente dentro de un except).',
+   219→   219→        'Para logs estructurados (machine-parseable, lo que usan Datadog, ELK, Splunk), usa JSON: cada log es un dict con timestamp, level, message, y campos custom (run_id, n_rows, duration_sec). Esto permite buscar en Kibana/Datadog con queries como `level:ERROR AND module:feature_eng AND n_rows>10000` — imposible con logs en texto plano. La librería `structlog` o `python-json-logger` lo facilitan. En empresas serias, los logs van a un sistema centralizado (ELK stack, Splunk, Datadog) donde los consulta el equipo on-call. Como Data Scientist, SIEMPRE loggea tus pipelines — si fallan en prod, los logs son tu única forma de diagnosticar sin reproducir el entorno exacto (que muchas veces es imposible).',
+   220→   220→      ],
+   221→   221→      code: {
+   222→   222→        language: 'python',
+   223→   223→        title: 'logging_setup.py',
+   224→   224→        code: `import logging
+   225→   225→import sys
+   226→   226→from pathlib import Path
+   227→   227→
+   228→   228→# === 1. Configuración básica con dos handlers (consola + archivo) ===
+   229→   229→logging.basicConfig(
+   230→   230→    level=logging.INFO,
+   231→   231→    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+   232→   232→    datefmt="%Y-%m-%d %H:%M:%S",
+   233→   233→    handlers=[
+   234→   234→        logging.StreamHandler(sys.stdout),                      # consola
+   235→   235→        logging.FileHandler("pipeline.log", encoding="utf-8"),  # archivo
+   236→   236→    ],
+   237→   237→)
+   238→   238→logger = logging.getLogger(__name__)
+   239→   239→
+   240→   240→# Uso por niveles (DEBUG < INFO < WARNING < ERROR < CRITICAL)
+   241→   241→logger.debug("Mensaje detallado (solo visible con level=DEBUG)")  # no se muestra si level=INFO
+   242→   242→logger.info("Pipeline iniciado")                                   # se muestra
+   243→   243→logger.warning("Dataset tiene 5 nulos, imputando con mediana")    # se muestra
+   244→   244→logger.error("Falló la conexión a la API de SUNAT")               # se muestra
+   245→   245→logger.critical("Disco lleno, no se puede escribir resultados")   # se muestra
+   246→   246→
+   247→   247→# === 2. Logger en un pipeline de DS (el caso real) ===
+   248→   248→import pandas as pd
+   249→   249→import time
+   250→   250→
+   251→   251→def run_pipeline(csv_path: str):
+   252→   252→    logger.info("Iniciando pipeline para %s", csv_path)  # %-format, no f-string!
+   253→   253→
+   254→   254→    start = time.time()
+   255→   255→    try:
+   256→   256→        df = pd.read_csv(csv_path)
+   257→   257→        logger.info("Cargado %d filas, %d columnas en %.2fs",
+   258→   258→                    len(df), df.shape[1], time.time() - start)
+   259→   259→    except FileNotFoundError:
+   260→   260→        logger.error("Archivo no encontrado: %s", csv_path)
+   261→   261→        raise
+   262→   262→
+   263→   263→    # Limpieza: detectar y reportar nulos
+   264→   264→    n_nulos_antes = df.isnull().sum().sum()
+   265→   265→    if n_nulos_antes > 0:
+   266→   266→        logger.warning("%d nulos detectados, imputando con mediana", n_nulos_antes)
+   267→   267→        df = df.fillna(df.median(numeric_only=True))
+   268→   268→
+   269→   269→    # Feature engineering
+   270→   270→    start = time.time()
+   271→   271→    df["log_monto"] = df["monto"].apply(lambda x: max(0, x))
+   272→   272→    logger.info("Feature engineering completado en %.2fs", time.time() - start)
+   273→   273→
+   274→   274→    # Guardar
+   275→   275→    out_path = csv_path.replace(".csv", "_procesado.parquet")
+   276→   276→    df.to_parquet(out_path)
+   277→   277→    logger.info("Guardado en %s (%d filas)", out_path, len(df))
+   278→   278→
+   279→   279→    return df
+   280→   280→
+   281→   281→# === 3. JSON logging estructurado (para producción con Datadog/ELK) ===
+   282→   282→# pip install python-json-logger
+   283→   283→import logging.config
+   284→   284→
+   285→   285→LOG_CONFIG = {
+   286→   286→    "version": 1,
+   287→   287→    "handlers": {
+   288→   288→        "json_file": {
+   289→   289→            "class": "logging.FileHandler",
+   290→   290→            "filename": "pipeline_structured.log",
+   291→   291→            "formatter": "json",
+   292→   292→        },
+   293→   293→    },
+   294→   294→    "formatters": {
+   295→   295→        "json": {
+   296→   296→            "()": "pythonjsonlogger.jsonlogger.JsonFormatter",
+   297→   297→            "format": "%(asctime)s %(name)s %(levelname)s %(message)s",
+   298→   298→        },
+   299→   299→    },
+   300→   300→    "loggers": {
+   301→   301→        "pipeline": {"handlers": ["json_file"], "level": "INFO"},
+   302→   302→    },
+   303→   303→}
+   304→   304→# logging.config.dictConfig(LOG_CONFIG)
+   305→   305→# Cada log se escribe como JSON:
+   306→   306→# {"asctime": "2024-01-15 10:30:45", "name": "pipeline", "levelname": "INFO", "message": "..."}
+   307→   307→
+   308→   308→# === 4. Logging en archivos rotados (no crecen infinitamente) ===
+   309→   309→from logging.handlers import RotatingFileHandler
+   310→   310→
+   311→   311→handler = RotatingFileHandler(
+   312→   312→    "app.log",
+   313→   313→    maxBytes=10 * 1024 * 1024,  # 10 MB por archivo
+   314→   314→    backupCount=5,               # mantener 5 archivos viejos: app.log.1, app.log.2, ...
+   315→   315→)
+   316→   316→handler.setFormatter(logging.Formatter(
+   317→   317→    "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+   318→   318→))
+   319→   319→logger.addHandler(handler)
+   320→   320→
+   321→   321→# Output esperado en pipeline.log:
+   322→   322→# 2024-01-15 10:30:45 [INFO] pipeline: Iniciando pipeline para ventas.csv
+   323→   323→# 2024-01-15 10:30:46 [INFO] pipeline: Cargado 10000 filas, 8 columnas en 0.85s
+   324→   324→# 2024-01-15 10:30:46 [WARNING] pipeline: 45 nulos detectados, imputando con mediana
+   325→   325→# 2024-01-15 10:30:47 [INFO] pipeline: Feature engineering completado en 0.42s
+   326→   326→# 2024-01-15 10:30:47 [INFO] pipeline: Guardado en ventas_procesado.parquet (10000 filas)`,
+   327→   327→      },
+   328→   328→      callout: {
+   329→   329→        type: 'warning',
+   330→   330→        title: 'Nunca uses f-strings en logs',
+   331→   331→        content:
+   332→   332→          'Mal: `logger.info(f"Procesé {n} filas")`. Bien: `logger.info("Procesé %d filas", n)`. Con f-string, el formato se evalúa SIEMPRE, incluso si el nivel está apagado (waste de CPU). Con %-format, el formato se aplica solo si el mensaje se va a mostrar. En pipelines con miles de logs debug por segundo, esto es 5-10x más rápido. Es un detalle que se nota en code reviews seniors.',
+   333→   333→      },
+   334→   334→    },
+   335→   335→    {
+   336→   336→      heading: 'argparse / CLI tooling — de notebook a herramienta reusable',
+   337→   337→      paragraphs: [
+   338→   338→        'Un notebook Jupyter es excelente para explorar, pero NO es reusable: tienes que abrirlo, cambiar celdas, re-ejecutar todo en orden. Para que tu código lo usen otros (o tú mismo en 6 meses cuando ya no recuerdas qué celda hacer primero), necesitas un CLI (Command Line Interface) con `argparse`. Esto convierte tu script en una herramienta: `python pipeline.py --input ventas.csv --output resultado.parquet --verbose` en vez de editar variables dentro del código. En equipos de data science, los CLIs son la forma estándar de compartir pipelines — un colega hace `pip install -e .` y luego corre `mi-pipeline --help` sin abrir un notebook.',
+   339→   339→        '`argparse` es built-in (sin instalar nada). Patrón básico: `parser = argparse.ArgumentParser(description="...")`, `parser.add_argument("--input", required=True, help="Archivo CSV de entrada")`, `args = parser.parse_args()`. Soporta tipos (`type=int`, `type=float`, `type=Path`), valores default (`default=100`), choices (`choices=["prod", "dev"]` para restringir opciones), flags booleanas (`--verbose`, `action="store_true"`), múltiples valores (`nargs="+"` para listas), y subcomandos (`git push`, `git pull` estilo). El atributo `--help` se genera automáticamente desde tus `help=` strings — documentación gratis que nunca se desactualiza porque vive al lado del código.',
+   340→   340→        'Para proyectos serios, evoluciona a `click` (sintaxis con decoradores más limpia) o `typer` (type hints nativos, autocompletado en shell, generado por el mismo autor de FastAPI). Pero argparse es suficiente para 80% de casos y está en la stdlib. Empaqueta tu CLI como un ejecutable con `pyproject.toml` + `entry_points`: defines `[project.scripts] mi-tool = "mi_paquete.cli:main"` y luego de `pip install -e .`, corres `mi-tool` desde cualquier lado sin prefijar `python`. Esto es lo que hace que tu proyecto parezca "profesional" — un comando instalable, no un script que hay que ejecutar con `python ruta/al/script.py`. En tu portafolio, tener un CLI instalable con tests vale 10x más que un notebook solitario.',
+   341→   341→      ],
+   342→   342→      code: {
+   343→   343→        language: 'python',
+   344→   344→        title: 'cli_pipeline.py',
+   345→   345→        code: `import argparse
+   346→   346→import sys
+   347→   347→import logging
+   348→   348→import pandas as pd
+   349→   349→from pathlib import Path
+   350→   350→
+   351→   351→def main():
+   352→   352→    parser = argparse.ArgumentParser(
+   353→   353→        description="Pipeline de limpieza y feature engineering para datasets de ventas.",
+   354→   354→        epilog="Ejemplo: python cli_pipeline.py --input ventas.csv --output limpio.parquet --verbose",
+   355→   355→    )
+   356→   356→    parser.add_argument("--input", "-i", required=True, type=Path,
+   357→   357→                        help="Ruta al archivo CSV de entrada")
+   358→   358→    parser.add_argument("--output", "-o", required=True, type=Path,
+   359→   359→                        help="Ruta al archivo de salida (.parquet o .csv)")
+   360→   360→    parser.add_argument("--impute-strategy", default="median",
+   361→   361→                        choices=["median", "mean", "drop"],
+   362→   362→                        help="Estrategia para imputar nulos (default: median)")
+   363→   363→    parser.add_argument("--outlier-threshold", type=float, default=1.5,
+   364→   364→                        help="Multiplicador IQR para detectar outliers (default: 1.5)")
+   365→   365→    parser.add_argument("--verbose", "-v", action="store_true",
+   366→   366→                        help="Mostrar logs detallados (DEBUG)")
+   367→   367→    parser.add_argument("--chunksize", type=int, default=None,
+   368→   368→                        help="Tamaño de chunk para CSVs grandes (default: cargar todo)")
+   369→   369→
+   370→   370→    args = parser.parse_args()
+   371→   371→
+   372→   372→    # Configurar logging según verbosity (subir/bajar nivel en runtime)
+   373→   373→    level = logging.DEBUG if args.verbose else logging.INFO
+   374→   374→    logging.basicConfig(level=level, format="%(asctime)s [%(levelname)s] %(message)s")
+   375→   375→    logger = logging.getLogger("pipeline")
+   376→   376→
+   377→   377→    # Validar inputs (fallar rápido con mensaje claro)
+   378→   378→    if not args.input.exists():
+   379→   379→        logger.error("Archivo de entrada no existe: %s", args.input)
+   380→   380→        sys.exit(1)
+   381→   381→
+   382→   382→    logger.info("Iniciando pipeline")
+   383→   383→    logger.info("  Input:  %s", args.input)
+   384→   384→    logger.info("  Output: %s", args.output)
+   385→   385→    logger.info("  Impute: %s", args.impute_strategy)
+   386→   386→
+   387→   387→    # Cargar datos (con chunksize para CSVs grandes)
+   388→   388→    if args.chunksize:
+   389→   389→        chunks = pd.read_csv(args.input, chunksize=args.chunksize)
+   390→   390→        df = pd.concat(chunks)
+   391→   391→    else:
+   392→   392→        df = pd.read_csv(args.input)
+   393→   393→    logger.info("Cargadas %d filas, %d columnas", len(df), df.shape[1])
+   394→   394→
+   395→   395→    # Imputar nulos según estrategia elegida
+   396→   396→    if args.impute_strategy == "median":
+   397→   397→        df = df.fillna(df.median(numeric_only=True))
+   398→   398→    elif args.impute_strategy == "mean":
+   399→   399→        df = df.fillna(df.mean(numeric_only=True))
+   400→   400→    elif args.impute_strategy == "drop":
+   401→   401→        df = df.dropna()
+   402→   402→
+   403→   403→    # Guardar (respeta extensión del archivo de salida)
+   404→   404→    args.output.parent.mkdir(parents=True, exist_ok=True)
+   405→   405→    if args.output.suffix == ".parquet":
+   406→   406→        df.to_parquet(args.output, index=False)
+   407→   407→    else:
+   408→   408→        df.to_csv(args.output, index=False)
+   409→   409→    logger.info("Guardado en %s", args.output)
+   410→   410→
+   411→   411→if __name__ == "__main__":
+   412→   412→    main()
+   413→   413→
+   414→   414→# === Ejemplos de uso desde terminal ===
+   415→   415→# $ python cli_pipeline.py --help
+   416→   416→# usage: cli_pipeline.py [-h] --input INPUT --output OUTPUT ...
+   417→   417→#
+   418→   418→# Pipeline de limpieza y feature engineering para datasets de ventas.
+   419→   419→#
+   420→   420→# options:
+   421→   421→#   -i, --input INPUT           Ruta al archivo CSV de entrada
+   422→   422→#   -o, --output OUTPUT         Ruta al archivo de salida (.parquet o .csv)
+   423→   423→#   --impute-strategy {median,mean,drop}
+   424→   424→#   --outlier-threshold OUTLIER_THRESHOLD
+   425→   425→#   -v, --verbose               Mostrar logs detallados
+   426→   426→#
+   427→   427→# $ python cli_pipeline.py -i ventas.csv -o limpio.parquet --verbose
+   428→   428→# 2024-01-15 [INFO] Iniciando pipeline
+   429→   429→# 2024-01-15 [INFO]   Input: ventas.csv
+   430→   430→# 2024-01-15 [INFO]   Output: limpio.parquet
+   431→   431→# 2024-01-15 [INFO] Cargadas 10000 filas, 8 columnas
+   432→   432→# 2024-01-15 [INFO] Guardado en limpio.parquet
+   433→   433→
+   434→   434→# === pyproject.toml para hacerlo instalable como comando ===
+   435→   435→# [project]
+   436→   436→# name = "pipeline-ventas"
+   437→   437→# version = "0.1.0"
+   438→   438→# [project.scripts]
+   439→   439→# pipeline-ventas = "pipeline.cli:main"
+   440→   440→# Después: pip install -e .  → puedes correr "pipeline-ventas" desde cualquier lado`,
+   441→   441→      },
+   442→   442→      callout: {
+   443→   443→        type: 'tip',
+   444→   444→        title: 'Typer: argparse con type hints (recomendado para 2025+)',
+   445→   445→        content:
+   446→   446→          'Si ya usas type hints (Python 3.6+), `typer` genera el CLI automáticamente desde tus type hints. `def main(input: Path, output: Path, verbose: bool = False):` se convierte en CLI sin argparse manual. Es lo que usa FastAPI para sus ejemplos. Para proyectos nuevos, prefiere typer sobre argparse — menos boilerplate, type safety, y autocompletado en shell gratis.',
+   447→   447→      },
+   448→   448→    },
+   449→   449→  ],
+   450→   450→  iDo: {
+   451→   451→    intro:
+   452→   452→      'Vamos a construir juntos 3 piezas que aparecen en TODO pipeline production-ready: (1) feature engineering paralelizado con ProcessPoolExecutor, (2) profiling de una función lenta con cProfile + line_profiler para encontrar el bottleneck exacto, y (3) configuración de logging estructurado a archivo rotado integrado con un CLI de argparse. Estos 3 patrones son el 80% del trabajo de "hacer que mi script sea production-ready".',
+   453→   453→    steps: [
+   454→   454→      {
+   455→   455→        description: 'Paralelizar feature engineering con ProcessPoolExecutor',
+   456→   456→        code: {
+   457→   457→          language: 'python',
+   458→   458→          title: 'parallel_features.py',
+   459→   459→          code: `import sqlite3
+   460→   460→import pandas as pd
+   461→   461→import numpy as np
+   462→   462→from concurrent.futures import ProcessPoolExecutor
+   463→   463→import time
+   464→   464→import logging
+   465→   465→
+   466→   466→# Configurar logging para ver progreso
+   467→   467→logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+   468→   468→logger = logging.getLogger("features")
+   469→   469→
+   470→   470→def cargar_datos(db_path: str = "productos.db") -> pd.DataFrame:
+   471→   471→    """Carga datos desde SQLite — en la vida real podría ser PostgreSQL o Snowflake."""
+   472→   472→    conn = sqlite3.connect(db_path)
+   473→   473→    df = pd.read_sql("SELECT * FROM productos", conn)
+   474→   474→    conn.close()
+   475→   475→    return df
+   476→   476→
+   477→   477→def calcular_features_categoria(args: tuple) -> pd.DataFrame:
+   478→   478→    """Calcula features agregadas por categoría — cómputo CPU-bound.
+   479→   479→    Recibe tupla porque ProcessPoolExecutor necesita picklear los argumentos.
+   480→   480→    """
+   481→   481→    categoria, sub_df = args
+   482→   482→    if sub_df.empty:
+   483→   483→        return pd.DataFrame()
+   484→   484→    sub_df = sub_df.copy()
+   485→   485→    sub_df["log_precio"] = np.log1p(sub_df["precio"])
+   486→   486→    sub_df["zscore_precio"] = (sub_df["precio"] - sub_df["precio"].mean()) / sub_df["precio"].std()
+   487→   487→    sub_df["percentil_precio"] = sub_df["precio"].rank(pct=True)
+   488→   488→    sub_df["es_outlier"] = sub_df["zscore_precio"].abs() > 3
+   489→   489→    return sub_df
+   490→   490→
+   491→   491→def feature_engineering_paralelo(df: pd.DataFrame, n_workers: int = 8) -> pd.DataFrame:
+   492→   492→    """Parte el DataFrame por categoría y procesa cada chunk en paralelo."""
+   493→   493→    categorias = df["categoria"].unique()
+   494→   494→    logger.info("Procesando %d categorías con %d workers", len(categorias), n_workers)
+   495→   495→
+   496→   496→    start = time.time()
+   497→   497→    # Construir lista de (categoria, sub_df) — cada worker recibe uno
+   498→   498→    chunks = [(cat, df[df["categoria"] == cat]) for cat in categorias]
+   499→   499→
+   500→   500→    with ProcessPoolExecutor(max_workers=n_workers) as executor:
+   501→   501→        # map preserva orden, submit + as_completed no (pero permite progreso)
+   502→   502→        futures = {executor.submit(calcular_features_categoria, chunk): chunk[0]
+   503→   503→                   for chunk in chunks}
+   504→   504→        resultados = []
+   505→   505→        for future in chunks:  # iterar en orden para preservar orden
+   506→   506→            pass
+   507→   507→        # Más simple con map (preserva orden):
+   508→   508→        resultados = list(executor.map(calcular_features_categoria, chunks))
+   509→   509→
+   510→   510→    df_final = pd.concat([r for r in resultados if not r.empty], ignore_index=True)
+   511→   511→    elapsed = time.time() - start
+   512→   512→    logger.info("Feature engineering completado en %.2fs (%d filas)", elapsed, len(df_final))
+   513→   513→    return df_final
+   514→   514→
+   515→   515→# === Demo con datos sintéticos ===
+   516→   516→def setup_demo(db_path: str = "productos.db"):
+   517→   517→    """Crea DB de demo con 50k productos en 20 categorías."""
+   518→   518→    conn = sqlite3.connect(db_path)
+   519→   519→    conn.execute("""CREATE TABLE IF NOT EXISTS productos
+   520→   520→                    (id INTEGER PRIMARY KEY, nombre TEXT, precio REAL, categoria TEXT)""")
+   521→   521→    conn.execute("DELETE FROM productos")
+   522→   522→    import random
+   523→   523→    random.seed(42)
+   524→   524→    categorias = [f"cat_{i}" for i in range(20)]
+   525→   525→    filas = [(f"prod_{i}", random.uniform(10, 5000), random.choice(categorias))
+   526→   526→             for i in range(50_000)]
+   527→   527→    conn.executemany("INSERT INTO productos VALUES (?, ?, ?, ?)", filas)
+   528→   528→    conn.commit()
+   529→   529→    conn.close()
+   530→   530→
+   531→   531→setup_demo()
+   532→   532→df = cargar_datos()
+   533→   533→df_features = feature_engineering_paralelo(df, n_workers=8)
+   534→   534→print(df_features[["nombre", "precio", "log_precio", "zscore_precio", "es_outlier"]].head())
+   535→   535→#           nombre   precio  log_precio  zscore_precio  es_outlier
+   536→   536→# 0      prod_0   423.56      6.045         0.12        False
+   537→   537→# 1      prod_1  2891.34      7.969         1.85        False
+   538→   538→# ...`,
+   539→   539→        },
+   540→   540→        why: 'Cuando tienes 50 categorías con 10k productos cada una, calcular features secuencialmente tarda 10 minutos. Con ProcessPoolExecutor(max_workers=8), baja a 90 segundos. El truco es partir el trabajo por una clave natural (categoría) y pasar chunks independientes a cada worker — sin estado compartido, sin locks, sin complexity.',
+   541→   541→      },
+   542→   542→      {
+   543→   543→        description: 'Perfil de una función lenta con cProfile + line_profiler',
+   544→   544→        code: {
+   545→   545→          language: 'python',
+   546→   546→          title: 'profiling_real.py',
+   547→   547→          code: `# === Paso 1: Script con una función SOSPECHOSAMENTE lenta ===
+   548→   548→import pandas as pd
+   549→   549→import numpy as np
+   550→   550→import time
+   551→   551→
+   552→   552→def feature_engineering_lento(df: pd.DataFrame) -> pd.DataFrame:
+   553→   553→    """Función lenta — vamos a perfilarla para encontrar el bottleneck."""
+   554→   554→    df = df.copy()
+   555→   555→    df["log_monto"] = np.log1p(df["monto"])                              # sospechoso 1
+   556→   556→    df["zscore"] = (df["monto"] - df["monto"].mean()) / df["monto"].std() # sospechoso 2
+   557→   557→    df["categoria"] = pd.cut(df["monto"], bins=10, labels=False)         # sospechoso 3
+   558→   558→    # El antipatrón clásico — iterar con .loc[i]:
+   559→   559→    for i in range(len(df)):
+   560→   560→        df.loc[i, "custom"] = df.loc[i, "monto"] * 2 + df.loc[i, "log_monto"]
+   561→   561→    return df
+   562→   562→
+   563→   563→# Crear DataFrame de prueba
+   564→   564→df_test = pd.DataFrame({"monto": np.random.exponential(500, 50_000)})
+   565→   565→
+   566→   566→# === Paso 2: cProfile para ver qué función se come el tiempo ===
+   567→   567→# Guarda el script y corre:
+   568→   568→#   python -m cProfile -s cumulative profiling_real.py
+   569→   569→# Salida (top 10):
+   570→   570→#    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   571→   571→#    500001   8.234    0.000    8.234    0.000 {method 'loc' of 'DataFrame'}
+   572→   572→#         1   3.456    3.456   11.690   11.690 profiling_real.py:5(feature_engineering_lento)
+   573→   573→#    500001   0.876    0.000    0.876    0.000 {method 'loc' of 'DataFrame'}
+   574→   574→# → El 70% del tiempo (8.2s de 11.7s) está en el loop con .loc[i]
+   575→   575→
+   576→   576→# === Paso 3: line_profiler para ver LÍNEA por LÍNEA ===
+   577→   577→# pip install line_profiler
+   578→   578→# Decora la función con @profile y corre:
+   579→   579→#   kernprof -l -v profiling_real.py
+   580→   580→
+   581→   581→# @profile  # descomenta para line_profiler
+   582→   582→def feature_engineering_lento(df):
+   583→   583→    df = df.copy()
+   584→   584→    df["log_monto"] = np.log1p(df["monto"])                              # 2% del tiempo
+   585→   585→    df["zscore"] = (df["monto"] - df["monto"].mean()) / df["monto"].std()  # 1%
+   586→   586→    df["categoria"] = pd.cut(df["monto"], bins=10, labels=False)         # 4%
+   587→   587→    for i in range(len(df)):                                              # 65% ← bottleneck
+   588→   588→        df.loc[i, "custom"] = df.loc[i, "monto"] * 2 + df.loc[i, "log_monto"]  # 28%
+   589→   589→    return df
+   590→   590→
+   591→   591→# Salida de line_profiler:
+   592→   592→# Line #  Hits    Time  Per Hit  % Time  Line Contents
+   593→   593→# =====================================================
+   594→   594→#      1     1       5      5.0      0.0  def feature_engineering_lento(df):
+   595→   595→#      2     1       2      2.0      0.0      df = df.copy()
+   596→   596→#      3     1    1500   1500.0      2.0      df["log_monto"] = np.log1p(df["monto"])
+   597→   597→#      4     1     800    800.0      1.0      df["zscore"] = ...
+   598→   598→#      5     1    3000   3000.0      4.0      df["categoria"] = pd.cut(...)
+   599→   599→#      6 50001  25000      0.5     65.0      for i in range(len(df)):
+   600→   600→#      7 50000  12000      0.2     28.0          df.loc[i, "custom"] = ...
+   601→   601→# → El loop se come el 93% del tiempo. Vectorizar = 100x speedup.
+   602→   602→
+   603→   603→# === Paso 4: Optimizar — vectorizar el loop ===
+   604→   604→def feature_engineering_rapido(df: pd.DataFrame) -> pd.DataFrame:
+   605→   605→    """Mismo resultado, 100x más rápido — todo vectorizado."""
+   606→   606→    df = df.copy()
+   607→   607→    df["log_monto"] = np.log1p(df["monto"])
+   608→   608→    df["zscore"] = (df["monto"] - df["monto"].mean()) / df["monto"].std()
+   609→   609→    df["categoria"] = pd.cut(df["monto"], bins=10, labels=False)
+   610→   610→    # Vectorizado — una sola operación sobre toda la columna
+   611→   611→    df["custom"] = df["monto"] * 2 + df["log_monto"]
+   612→   612→    return df
+   613→   613→
+   614→   614→# Comparar tiempos
+   615→   615→start = time.time()
+   616→   616→df_lento = feature_engineering_lento(df_test)
+   617→   617→t_lento = time.time() - start
+   618→   618→print(f"Lento: {t_lento:.2f}s")
+   619→   619→
+   620→   620→start = time.time()
+   621→   621→df_rapido = feature_engineering_rapido(df_test)
+   622→   622→t_rapido = time.time() - start
+   623→   623→print(f"Rápido: {t_rapido:.2f}s")
+   624→   624→print(f"Speedup: {t_lento / t_rapido:.0f}x")
+   625→   625→# Lento: 11.7s
+   626→   626→# Rápido: 0.08s
+   627→   627→# Speedup: 146x`,
+   628→   628→        },
+   629→   629→        why: 'Sin profiling, hubieras pasado horas "optimizando" la línea np.log1p (que solo es 2% del tiempo) sin resultado. cProfile te dice qué FUNCIÓN atacar; line_profiler te dice qué LÍNEA exacta. El 80% de las veces, el bottleneck es un .iterrows() o .loc[i] en un loop — vectorizar con numpy/pandas da speedups de 50-100x.',
+   630→   630→      },
+   631→   631→      {
+   632→   632→        description: 'Logging estructurado integrado con un CLI de argparse',
+   633→   633→        code: {
+   634→   634→          language: 'python',
+   635→   635→          title: 'cli_with_logging.py',
+   636→   636→          code: `import argparse
+   637→   637→import logging
+   638→   638→import sys
+   639→   639→from logging.handlers import RotatingFileHandler
+   640→   640→from pathlib import Path
+   641→   641→import pandas as pd
+   642→   642→import time
+   643→   643→
+   644→   644→def setup_logging(verbose: bool = False, log_file: Path = None):
+   645→   645→    """Configura logging con consola + archivo rotado. Subir nivel con --verbose."""
+   646→   646→    handlers = [logging.StreamHandler(sys.stdout)]
+   647→   647→    if log_file:
+   648→   648→        log_file.parent.mkdir(parents=True, exist_ok=True)
+   649→   649→        # Rotación: 5MB por archivo, 3 backups (pipeline.log.1, .2, .3)
+   650→   650→        file_handler = RotatingFileHandler(
+   651→   651→            log_file, maxBytes=5 * 1024 * 1024, backupCount=3, encoding="utf-8"
+   652→   652→        )
+   653→   653→        file_handler.setFormatter(logging.Formatter(
+   654→   654→            "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+   655→   655→            datefmt="%Y-%m-%d %H:%M:%S",
+   656→   656→        ))
+   657→   657→        handlers.append(file_handler)
+   658→   658→
+   659→   659→    logging.basicConfig(
+   660→   660→        level=logging.DEBUG if verbose else logging.INFO,
+   661→   661→        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+   662→   662→        datefmt="%Y-%m-%d %H:%M:%S",
+   663→   663→        handlers=handlers,
+   664→   664→    )
+   665→   665→
+   666→   666→def process_chunk(chunk: pd.DataFrame, logger) -> pd.DataFrame:
+   667→   667→    """Procesa un chunk del DataFrame y loggea métricas clave."""
+   668→   668→    n_in = len(chunk)
+   669→   669→    n_nulos = chunk.isnull().sum().sum()
+   670→   670→    if n_nulos > 0:
+   671→   671→        logger.warning("Chunk: %d nulos detectados, imputando", n_nulos)
+   672→   672→        chunk = chunk.fillna(chunk.median(numeric_only=True))
+   673→   673→    chunk = chunk.copy()
+   674→   674→    chunk["log_monto"] = chunk["monto"].apply(lambda x: max(0, x))
+   675→   675→    logger.debug("Chunk procesado: %d → %d filas", n_in, len(chunk))
+   676→   676→    return chunk
+   677→   677→
+   678→   678→def main():
+   679→   679→    parser = argparse.ArgumentParser(
+   680→   680→        description="Pipeline de procesamiento de ventas con logging estructurado."
+   681→   681→    )
+   682→   682→    parser.add_argument("--input", "-i", required=True, type=Path,
+   683→   683→                        help="CSV de entrada")
+   684→   684→    parser.add_argument("--output", "-o", required=True, type=Path,
+   685→   685→                        help="Parquet de salida")
+   686→   686→    parser.add_argument("--log-file", type=Path, default=Path("logs/pipeline.log"),
+   687→   687→                        help="Archivo de log (default: logs/pipeline.log)")
+   688→   688→    parser.add_argument("--chunksize", type=int, default=10_000,
+   689→   689→                        help="Filas por chunk (default: 10000)")
+   690→   690→    parser.add_argument("--verbose", "-v", action="store_true",
+   691→   691→                        help="Mostrar logs DEBUG")
+   692→   692→    args = parser.parse_args()
+   693→   693→
+   694→   694→    # Configurar logging ANTES de cualquier logger
+   695→   695→    setup_logging(args.verbose, args.log_file)
+   696→   696→    logger = logging.getLogger("pipeline")
+   697→   697→
+   698→   698→    logger.info("Config: input=%s output=%s chunksize=%d",
+   699→   699→                args.input, args.output, args.chunksize)
+   700→   700→
+   701→   701→    if not args.input.exists():
+   702→   702→        logger.error("Archivo no existe: %s", args.input)
+   703→   703→        sys.exit(1)
+   704→   704→
+   705→   705→    # Procesar por chunks (para CSVs grandes)
+   706→   706→    start = time.time()
+   707→   707→    total_rows = 0
+   708→   708→    chunks_out = []
+   709→   709→    for i, chunk in enumerate(pd.read_csv(args.input, chunksize=args.chunksize)):
+   710→   710→        logger.info("Procesando chunk %d (%d filas)", i + 1, len(chunk))
+   711→   711→        chunks_out.append(process_chunk(chunk, logger))
+   712→   712→        total_rows += len(chunk)
+   713→   713→
+   714→   714→    df_final = pd.concat(chunks_out, ignore_index=True)
+   715→   715→    elapsed = time.time() - start
+   716→   716→    logger.info("Procesadas %d filas en %.2fs (%.0f filas/seg)",
+   717→   717→                total_rows, elapsed, total_rows / elapsed if elapsed > 0 else 0)
+   718→   718→
+   719→   719→    # Guardar
+   720→   720→    args.output.parent.mkdir(parents=True, exist_ok=True)
+   721→   721→    df_final.to_parquet(args.output, index=False)
+   722→   722→    logger.info("Guardado en %s (%d filas, %d columnas)",
+   723→   723→                args.output, len(df_final), df_final.shape[1])
+   724→   724→
+   725→   725→if __name__ == "__main__":
+   726→   726→    main()
+   727→   727→
+   728→   728→# === Uso ===
+   729→   729→# $ python cli_with_logging.py -i ventas.csv -o limpio.parquet -v
+   730→   730→# 2024-01-15 10:30:45 [INFO] pipeline: Config: input=ventas.csv output=limpio.parquet chunksize=10000
+   731→   731→# 2024-01-15 10:30:45 [INFO] pipeline: Procesando chunk 1 (10000 filas)
+   732→   732→# 2024-01-15 10:30:45 [DEBUG] pipeline: Chunk procesado: 10000 → 10000 filas
+   733→   733→# 2024-01-15 10:30:46 [INFO] pipeline: Procesando chunk 2 (10000 filas)
+   734→   734→# 2024-01-15 10:30:47 [INFO] pipeline: Procesadas 50000 filas en 2.34s (21368 filas/seg)
+   735→   735→# 2024-01-15 10:30:47 [INFO] pipeline: Guardado en limpio.parquet (50000 filas, 9 columnas)
+   736→   736→#
+   737→   737→# Y todo queda persistido en logs/pipeline.log (rotado cada 5MB, 3 backups).`,
+   738→   738→        },
+   739→   739→        why: 'Este patrón (argparse + logging con RotatingFileHandler + procesamiento por chunks) es la plantilla de TODO pipeline production-ready. argparse lo hace reusable, logging te da observabilidad cuando falla en prod, y chunks evitan OOM con datasets grandes. Combinado con multiprocessing del paso 1, tienes un pipeline profesional completo.',
+   740→   740→      },
+   741→   741→    ],
+   742→   742→  },
+   743→   743→  weDo: {
+   744→   744→    intro:
+   745→   745→      'Te toca practicar los 3 patrones más importantes de performance y observability: (1) paralelizar una función CPU-bound, (2) perfilar una función para encontrar el bottleneck, y (3) configurar logging estructurado. Cada ejercicio tiene starter code y solution code — intenta resolverlo solo primero.',
+   746→   746→    steps: [
+   747→   747→      {
+   748→   748→        instruction:
+   749→   749→          'Escribe una función `parallel_squares` que reciba una lista de 10,000 enteros, calcule el cuadrado de cada uno con una función `square(x)`, y devuelva la lista de resultados. Compara el tiempo secuencial vs paralelo con ProcessPoolExecutor(max_workers=8).',
+   750→   750→        hint: 'Usa `executor.map(square, numbers)` para preservar orden. La función `square` debe ser top-level (no lambda) para que se pueda picklear. Mide tiempo con time.time() antes y después de cada versión.',
+   751→   751→        starterCode: {
+   752→   752→          language: 'python',
+   753→   753→          title: 'parallel_squares_starter.py',
+   754→   754→          code: `import time
+   755→   755→from concurrent.futures import ProcessPoolExecutor
+   756→   756→
+   757→   757→def square(x: int) -> int:
+   758→   758→    """TODO: Devuelve x al cuadrado."""
+   759→   759→    pass
+   760→   760→
+   761→   761→def parallel_squares(numbers: list[int], n_workers: int = 8) -> list[int]:
+   762→   762→    """TODO: Calcula cuadrados en paralelo con ProcessPoolExecutor."""
+   763→   763→    pass
+   764→   764→
+   765→   765→def sequential_squares(numbers: list[int]) -> list[int]:
+   766→   766→    """TODO: Calcula cuadrados secuencialmente (baseline)."""
+   767→   767→    pass
+   768→   768→
+   769→   769→# Test:
+   770→   770→# numbers = list(range(10000))
+   771→   771→# t1 = time.time(); r1 = sequential_squares(numbers); t1 = time.time() - t1
+   772→   772→# t2 = time.time(); r2 = parallel_squares(numbers); t2 = time.time() - t2
+   773→   773→# print(f"Secuencial: {t1:.3f}s")
+   774→   774→# print(f"Paralelo: {t2:.3f}s")
+   775→   775→# print(f"Speedup: {t1/t2:.1f}x")`,
+   776→   776→        },
+   777→   777→        solutionCode: {
+   778→   778→          language: 'python',
+   779→   779→          title: 'parallel_squares_solution.py',
+   780→   780→          code: `import time
+   781→   781→from concurrent.futures import ProcessPoolExecutor
+   782→   782→
+   783→   783→def square(x: int) -> int:
+   784→   784→    """Devuelve x al cuadrado. Top-level (no lambda) para que sea picklable."""
+   785→   785→    # Simular cómputo ligero para que el paralelismo sea notorio
+   786→   786→    total = 0
+   787→   787→    for i in range(1000):
+   788→   788→        total += i
+   789→   789→    return x * x + total % 7  # añadir algo de cómputo real
+   790→   790→
+   791→   791→def parallel_squares(numbers: list[int], n_workers: int = 8) -> list[int]:
+   792→   792→    """Calcula cuadrados en paralelo con ProcessPoolExecutor."""
+   793→   793→    with ProcessPoolExecutor(max_workers=n_workers) as executor:
+   794→   794→        # map preserva el orden de los resultados
+   795→   795→        results = list(executor.map(square, numbers))
+   796→   796→    return results
+   797→   797→
+   798→   798→def sequential_squares(numbers: list[int]) -> list[int]:
+   799→   799→    """Calcula cuadrados secuencialmente (baseline)."""
+   800→   800→    return [square(x) for x in numbers]
+   801→   801→
+   802→   802→# Test comparativo
+   803→   803→if __name__ == "__main__":
+   804→   804→    numbers = list(range(10_000))
+   805→   805→
+   806→   806→    t1 = time.time()
+   807→   807→    r1 = sequential_squares(numbers)
+   808→   808→    t1 = time.time() - t1
+   809→   809→    print(f"Secuencial: {t1:.3f}s")
+   810→   810→
+   811→   811→    t2 = time.time()
+   812→   812→    r2 = parallel_squares(numbers)
+   813→   813→    t2 = time.time() - t2
+   814→   814→    print(f"Paralelo (8 workers): {t2:.3f}s")
+   815→   815→    print(f"Speedup: {t1/t2:.1f}x")
+   816→   816→
+   817→   817→    # Verificar que dan lo mismo
+   818→   818→    assert r1 == r2, "Los resultados no coinciden!"
+   819→   819→    print(f"\\nResultados idénticos: {len(r1)} elementos")
+   820→   820→    print(f"Primeros 5: {r1[:5]}")
+   821→   821→# Salida típica:
+   822→   822→# Secuencial: 0.42s
+   823→   823→# Paralelo (8 workers): 0.09s
+   824→   824→# Speedup: 4.7x
+   825→   825→#
+   826→   826→# Resultados idénticos: 10000 elementos
+   827→   827→# Primeros 5: [3, 6, 11, 18, 27]`,
+   828→   828→        },
+   829→   829→      },
+   830→   830→      {
+   831→   831→        instruction:
+   832→   832→          'Tienes una función `limpiar_nombres_lento` que itera con .loc[i] sobre un DataFrame para limpiar nombres (capitalizar, quitar espacios). Perfílala con cProfile conceptualmente, identifica el bottleneck, y reescríbela vectorizada para lograr 50x+ speedup.',
+   833→   833→        hint: 'El bottleneck SIEMPRE es .loc[i] en un loop. Vectoriza con .str.title() y .str.strip() de pandas — una sola operación sobre toda la columna. Mide con timeit.',
+   834→   834→        starterCode: {
+   835→   835→          language: 'python',
+   836→   836→          title: 'profile_starter.py',
+   837→   837→          code: `import pandas as pd
+   838→   838→import numpy as np
+   839→   839→import time
+   840→   840→
+   841→   841→def limpiar_nombres_lento(df: pd.DataFrame) -> pd.DataFrame:
+   842→   842→    """TODO: Limpia nombres iterando con .loc[i] — IDENTIFICA el bottleneck."""
+   843→   843→    df = df.copy()
+   844→   844→    for i in range(len(df)):
+   845→   845→        # Capitalizar y quitar espacios extra
+   846→   846→        nombre = df.loc[i, "nombre"].strip().title()
+   847→   847→        df.loc[i, "nombre_limpio"] = nombre
+   848→   848→    return df
+   849→   849→
+   850→   850→def limpiar_nombres_rapido(df: pd.DataFrame) -> pd.DataFrame:
+   851→   851→    """TODO: Misma funcionalidad pero VECTORIZADA con .str accessor."""
+   852→   852→    pass
+   853→   853→
+   854→   854→# Test:
+   855→   855→# df = pd.DataFrame({"nombre": ["  juan perez ", "MARIA QUISPE", "  carlos  "] * 10000})
+   856→   856→# t1 = time.time(); df1 = limpiar_nombres_lento(df); t1 = time.time() - t1
+   857→   857→# t2 = time.time(); df2 = limpiar_nombres_rapido(df); t2 = time.time() - t2
+   858→   858→# print(f"Lento: {t1:.3f}s")
+   859→   859→# print(f"Rápido: {t2:.3f}s")
+   860→   860→# print(f"Speedup: {t1/t2:.0f}x")`,
+   861→   861→        },
+   862→   862→        solutionCode: {
+   863→   863→          language: 'python',
+   864→   864→          title: 'profile_solution.py',
+   865→   865→          code: `import pandas as pd
+   866→   866→import numpy as np
+   867→   867→import time
+   868→   868→
+   869→   869→def limpiar_nombres_lento(df: pd.DataFrame) -> pd.DataFrame:
+   870→   870→    """Versión LENTA — iterar con .loc[i] es el antipatrón #1 de pandas.
+   871→   871→    cProfile mostraría que el 95% del tiempo está en {method 'loc' of 'DataFrame'}.
+   872→   872→    line_profiler mostraría que la línea del loop se come el 90%+ del tiempo.
+   873→   873→    """
+   874→   874→    df = df.copy()
+   875→   875→    for i in range(len(df)):
+   876→   876→        nombre = df.loc[i, "nombre"].strip().title()
+   877→   877→        df.loc[i, "nombre_limpio"] = nombre
+   878→   878→    return df
+   879→   879→
+   880→   880→def limpiar_nombres_rapido(df: pd.DataFrame) -> pd.DataFrame:
+   881→   881→    """Versión RÁPIDA — vectorizada con .str accessor de pandas.
+   882→   882→    Una sola operación C-level sobre toda la columna, sin loop Python.
+   883→   883→    """
+   884→   884→    df = df.copy()
+   885→   885→    df["nombre_limpio"] = df["nombre"].str.strip().str.title()
+   886→   886→    return df
+   887→   887→
+   888→   888→# === Test comparativo ===
+   889→   889→if __name__ == "__main__":
+   890→   890→    # Crear DataFrame de prueba (30k nombres con espacios y mayúsculas mal)
+   891→   891→    nombres_sucios = ["  juan perez ", "MARIA QUISPE", "  carlos  ",
+   892→   892→                      "PEDRO  HUAMAN  ", "  ana  lucia  "]
+   893→   893→    df = pd.DataFrame({"nombre": nombres_sucios * 6000})  # 30,000 filas
+   894→   894→    print(f"DataFrame: {len(df)} filas")
+   895→   895→
+   896→   896→    # Versión lenta
+   897→   897→    t1 = time.time()
+   898→   898→    df1 = limpiar_nombres_lento(df)
+   899→   899→    t1 = time.time() - t1
+   900→   900→    print(f"Lento (.loc[i] loop): {t1:.3f}s")
+   901→   901→
+   902→   902→    # Versión rápida
+   903→   903→    t2 = time.time()
+   904→   904→    df2 = limpiar_nombres_rapido(df)
+   905→   905→    t2 = time.time() - t2
+   906→   906→    print(f"Rápido (.str vectorizado): {t2:.3f}s")
+   907→   907→    print(f"Speedup: {t1/t2:.0f}x")
+   908→   908→
+   909→   909→    # Verificar que dan lo mismo
+   910→   910→    assert df1["nombre_limpio"].equals(df2["nombre_limpio"]), "Resultados difieren!"
+   911→   911→    print("\\nResultados idénticos:")
+   912→   912→    print(df2[["nombre", "nombre_limpio"]].head())
+   913→   913→# Salida típica:
+   914→   914→# DataFrame: 30000 filas
+   915→   915→# Lento (.loc[i] loop): 3.85s
+   916→   916→# Rápido (.str vectorizado): 0.012s
+   917→   917→# Speedup: 320x
+   918→   918→#
+   919→   919→# Resultados idénticos:
+   920→   920→#              nombre nombre_limpio
+   921→   921→# 0      "  juan perez "    Juan Perez
+   922→   922→# 1    "MARIA QUISPE"     Maria Quispe
+   923→   923→# 2      "  carlos  "      Carlos
+   924→   924→# 3  "PEDRO  HUAMAN  "     Pedro Huaman
+   925→   925→# 4  "  ana  lucia  "      Ana Lucia
+   926→   926→
+   927→   927→# === Nota: cómo perfilar realmente ===
+   928→   928→# Para ver el output de cProfile, guardar el script y correr:
+   929→   929→#   python -m cProfile -s cumulative profile_solution.py
+   930→   930→# Para line_profiler:
+   931→   931→#   pip install line_profiler
+   932→   932→#   Decorar la función con @profile
+   933→   933→#   kernprof -l -v profile_solution.py`,
+   934→   934→        },
+   935→   935→      },
+   936→   936→      {
+   937→   937→        instruction:
+   938→   938→          'Configura un logger con dos handlers: consola (INFO+) y archivo rotado (DEBUG+, 1MB, 3 backups). Escribe una función `procesar` que loggee inicio, progreso cada 1000 items, warnings si hay nulos, y fin con tiempo total.',
+   939→   939→        hint: 'RotatingFileHandler con maxBytes=1024*1024, backupCount=3. Dos handlers con niveles distintos: StreamHandler(level=INFO) y FileHandler(level=DEBUG). Usa logger.info/.debug/.warning según corresponda. SIEMPRE %-format, no f-string.',
+   940→   940→        starterCode: {
+   941→   941→          language: 'python',
+   942→   942→          title: 'logging_starter.py',
+   943→   943→          code: `import logging
+   944→   944→from logging.handlers import RotatingFileHandler
+   945→   945→import sys
+   946→   946→
+   947→   947→def setup_logging(log_file: str = "app.log"):
+   948→   948→    """TODO: Configura consola (INFO+) + archivo rotado (DEBUG+, 1MB, 3 backups)."""
+   949→   949→    pass
+   950→   950→
+   951→   951→def procesar(items: list) -> int:
+   952→   952→    """TODO: Procesa items. Loggea inicio, progreso cada 1000, warnings si hay nulos, fin con tiempo."""
+   953→   953→    logger = logging.getLogger("procesar")
+   954→   954→    # TODO: implementar
+   955→   955→    pass
+   956→   956→
+   957→   957→# Test:
+   958→   958→# setup_logging()
+   959→   959→# procesar(list(range(3500)) + [None] * 50)  # 3550 items, 50 nulos`,
+   960→   960→        },
+   961→   961→        solutionCode: {
+   962→   962→          language: 'python',
+   963→   963→          title: 'logging_solution.py',
+   964→   964→          code: `import logging
+   965→   965→from logging.handlers import RotatingFileHandler
+   966→   966→import sys
+   967→   967→import time
+   968→   968→
+   969→   969→def setup_logging(log_file: str = "app.log"):
+   970→   970→    """Configura consola (INFO+) + archivo rotado (DEBUG+, 1MB, 3 backups)."""
+   971→   971→    logger = logging.getLogger()  # root logger
+   972→   972→    logger.setLevel(logging.DEBUG)  # nivel mínimo global — DEBUG para que archivo reciba todo
+   973→   973→
+   974→   974→    # Handler 1: consola con nivel INFO
+   975→   975→    console = logging.StreamHandler(sys.stdout)
+   976→   976→    console.setLevel(logging.INFO)
+   977→   977→    console.setFormatter(logging.Formatter(
+   978→   978→        "%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S"
+   979→   979→    ))
+   980→   980→    logger.addHandler(console)
+   981→   981→
+   982→   982→    # Handler 2: archivo rotado con nivel DEBUG
+   983→   983→    file_h = RotatingFileHandler(
+   984→   984→        log_file, maxBytes=1 * 1024 * 1024, backupCount=3, encoding="utf-8"
+   985→   985→    )
+   986→   986→    file_h.setLevel(logging.DEBUG)
+   987→   987→    file_h.setFormatter(logging.Formatter(
+   988→   988→        "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+   989→   989→        datefmt="%Y-%m-%d %H:%M:%S"
+   990→   990→    ))
+   991→   991→    logger.addHandler(file_h)
+   992→   992→
+   993→   993→def procesar(items: list) -> int:
+   994→   994→    """Procesa items con logging estructurado en cada etapa."""
+   995→   995→    logger = logging.getLogger("procesar")
+   996→   996→
+   997→   997→    start = time.time()
+   998→   998→    n = len(items)
+   999→   999→    logger.info("Iniciando procesamiento de %d items", n)
+  1000→  1000→    logger.debug("Primeros 3 items: %s", items[:3] if items else "[]")
+  1001→  1001→
+  1002→  1002→    procesados = 0
+  1003→  1003→    nulos = 0
+  1004→  1004→    for i, item in enumerate(items):
+  1005→  1005→        if item is None:
+  1006→  1006→            nulos += 1
+  1007→  1007→            if nulos == 1:  # warn solo la primera vez para no spammer
+  1008→  1008→                logger.warning("Primer nulo detectado en posición %d", i)
+  1009→  1009→            continue
+  1010→  1010→        # ... procesar item (simulado)
+  1011→  1011→        procesados += 1
+  1012→  1012→
+  1013→  1013→        # Progreso cada 1000 items
+  1014→  1014→        if (i + 1) % 1000 == 0:
+  1015→  1015→            logger.info("Progreso: %d/%d (%.0f%%)",
+  1016→  1016→                        i + 1, n, (i + 1) / n * 100)
+  1017→  1017→            logger.debug("Item actual: %s", item)
+  1018→  1018→
+  1019→  1019→    elapsed = time.time() - start
+  1020→  1020→    logger.info("Completado: %d procesados, %d nulos en %.2fs",
+  1021→  1021→                procesados, nulos, elapsed)
+  1022→  1022→    return procesados
+  1023→  1023→
+  1024→  1024→# === Test ===
+  1025→  1025→if __name__ == "__main__":
+  1026→  1026→    setup_logging("procesar.log")
+  1027→  1027→    # 3550 items, 50 nulos dispersos
+  1028→  1028→    items = list(range(3500)) + [None] * 50
+  1029→  1029→    # Mezclar para que los nulos estén dispersos
+  1030→  1030→    import random
+  1031→  1031→    random.seed(42)
+  1032→  1032→    random.shuffle(items)
+  1033→  1033→
+  1034→  1034→    resultado = procesar(items)
+  1035→  1035→    print(f"\\nResultado: {resultado} items procesados")
+  1036→  1036→
+  1037→  1037→# === Output en consola (solo INFO+): ===
+  1038→  1038→# 10:30:45 [INFO] Iniciando procesamiento de 3550 items
+  1039→  1039→# 10:30:45 [INFO] Progreso: 1000/3550 (28%)
+  1040→  1040→# 10:30:45 [INFO] Progreso: 2000/3550 (56%)
+  1041→  1041→# 10:30:45 [INFO] Progreso: 3000/3550 (85%)
+  1042→  1042→# 10:30:45 [WARNING] Primer nulo detectado en posición 3142
+  1043→  1043→# 10:30:45 [INFO] Completado: 3500 procesados, 50 nulos en 0.03s
+  1044→  1044→#
+  1045→  1045→# === Output en procesar.log (DEBUG+, incluye lo anterior +): ===
+  1046→  1046→# 2024-01-15 10:30:45 [DEBUG] procesar: Primeros 3 items: [1234, 567, 2891]
+  1047→  1047→# 2024-01-15 10:30:45 [DEBUG] procesar: Progreso: 1000/3550 (28%)
+  1048→  1048→# 2024-01-15 10:30:45 [DEBUG] procesar: Item actual: 999
+  1049→  1049→# ...`,
+  1050→  1050→        },
+  1051→  1051→      },
+  1052→  1052→    ],
+  1053→  1053→  },
+  1054→  1054→  youDo: {
+  1055→  1055→    title: 'Capstone: Performance Optimizer — de script lento a CLI production-ready',
+  1056→  1056→    context:
+  1057→  1057→      'Te dan un script de 200 líneas que procesa 100k transacciones de un banco peruano (datos sintéticos). El script tarda 8 minutos, no tiene logs, no maneja errores, y solo funciona si editas variables dentro del código. Tu misión: (1) perfilarlo para encontrar el bottleneck, (2) paralelizar el feature engineering con multiprocessing, (3) agregar logging estructurado a archivo rotado, (4) empaquetarlo como CLI con argparse, (5) instalarlo como ejecutable con pyproject.toml. El resultado debe correr en 30 segundos (16x speedup) y ser usable por cualquier colega con `pip install -e .` y `perf-opt --help`. Es exactamente el tipo de refactor que harías en tu segundo mes como Data Engineer Junior.',
+  1058→  1058→    objectives: [
+  1059→  1059→      'Perfil el script original con cProfile para identificar el bottleneck',
+  1060→  1060→      'Vectorizar loops pandas con .loc[i] y reemplazarlos con operaciones vectorizadas',
+  1061→  1061→      'Paralelizar feature engineering con ProcessPoolExecutor',
+  1062→  1062→      'Configurar logging estructurado (consola + archivo rotado con RotatingFileHandler)',
+  1063→  1063→      'Empaquetar como CLI con argparse (--input, --output, --workers, --verbose, --log-file)',
+  1064→  1064→      'Hacerlo instalable como ejecutable con pyproject.toml + entry_points',
+  1065→  1065→    ],
+  1066→  1066→    requirements: [
+  1067→  1067→      'scripts/original_lento.py — el script original (sin tocar) para baseline',
+  1068→  1068→      'src/perf_opt/processors.py — funciones vectorizadas (sin .loc[i])',
+  1069→  1069→      'src/perf_opt/parallel.py — feature_engineering_paralelo() con ProcessPoolExecutor',
+  1070→  1070→      'src/perf_opt/logging_config.py — setup_logging() con RotatingFileHandler',
+  1071→  1071→      'src/perf_opt/cli.py — CLI con argparse: --input, --output, --workers, --verbose, --log-file',
+  1072→  1072→      'pyproject.toml con [project.scripts] perf-opt = "perf_opt.cli:main"',
+  1073→  1073→      'logs/ con rotación a 5MB, 3 backups',
+  1074→  1074→      'benchmarks/ con output de cProfile antes/después (txt o markdown)',
+  1075→  1075→      'tests/ con al menos 5 tests (test_processors.py, test_parallel.py)',
+  1076→  1076→      'README.md con instrucciones, badges de tests y cuadro comparativo de tiempos',
+  1077→  1077→    ],
+  1078→  1078→    starterCode: `# scripts/original_lento.py — el script a optimizar
+  1079→  1079→import pandas as pd
+  1080→  1080→import numpy as np
+  1081→  1081→import time
+  1082→  1082→
+  1083→  1083→def load_data(path):
+  1084→  1084→    return pd.read_csv(path)
+  1085→  1085→
+  1086→  1086→def feature_eng_lento(df):
+  1087→  1087→    """Esto es lo que vas a perfilar y optimizar."""
+  1088→  1088→    df = df.copy()
+  1089→  1089→    df["log_monto"] = np.log1p(df["monto"])
+  1090→  1090→    for i in range(len(df)):
+  1091→  1091→        df.loc[i, "categoria_score"] = (
+  1092→  1092→            df.loc[i, "monto"] * 2 + df.loc[i, "log_monto"]
+  1093→  1093→        )
+  1094→  1094→    return df
+  1095→  1095→
+  1096→  1096→def main():
+  1097→  1097→    df = load_data("transacciones.csv")  # 100k filas
+  1098→  1098→    df = feature_eng_lento(df)
+  1099→  1099→    df.to_parquet("resultado.parquet")
+  1100→  1100→
+  1101→  1101→# === Tu versión optimizada ===
+  1102→  1102→# src/perf_opt/cli.py
+  1103→  1103→import argparse, logging
+  1104→  1104→def main():
+  1105→  1105→    parser = argparse.ArgumentParser(description="Performance Optimizer")
+  1106→  1106→    parser.add_argument("--input", "-i", required=True, type=Path)
+  1107→  1107→    parser.add_argument("--output", "-o", required=True, type=Path)
+  1108→  1108→    parser.add_argument("--workers", "-w", type=int, default=8)
+  1109→  1109→    parser.add_argument("--verbose", "-v", action="store_true")
+  1110→  1110→    parser.add_argument("--log-file", type=Path, default=Path("logs/perf_opt.log"))
+  1111→  1111→    args = parser.parse_args()
+  1112→  1112→    # TODO: setup_logging, load, feature_eng_paralelo, save
+  1113→  1113→    pass
+  1114→  1114→
+  1115→  1115→# pyproject.toml
+  1116→  1116→# [project]
+  1117→  1117→# name = "perf-opt"
+  1118→  1118→# version = "0.1.0"
+  1119→  1119→# [project.scripts]
+  1120→  1120→# perf-opt = "perf_opt.cli:main"`,
+  1121→  1121→    portfolioNote:
+  1122→  1122→      'Este proyecto demuestra las 4 skills que separan juniors de seniors: profiling (mides antes de optimizar), paralelización (multiprocessing para 5-10x speedup), observabilidad (logging estructurado para debuggear en prod), y empaquetado (CLI instalable que otros usan sin abrir notebooks). En entrevistas te preguntan "cuéntame de una vez que optimizaste código" — tener un before/after con números concretos (8 min → 30 seg, 16x speedup) es un diferenciador masivo. Menciónalo en tu CV como "optimicé pipelines de datos con profiling, multiprocessing y logging estructurado, logrando speedups de 10-16x en datasets de 100k+ filas".',
+  1123→  1123→    rubric: [
+  1124→  1124→      { criterion: 'Profiling con cProfile/line_profiler documentado en benchmarks/', weight: '15%' },
+  1125→  1125→      { criterion: 'Vectorización de loops .loc[i] con .str y operaciones numpy', weight: '20%' },
+  1126→  1126→      { criterion: 'Paralelización con ProcessPoolExecutor (5-10x speedup medible)', weight: '20%' },
+  1127→  1127→      { criterion: 'Logging estructurado con RotatingFileHandler (consola + archivo)', weight: '15%' },
+  1128→  1128→      { criterion: 'CLI con argparse: --input, --output, --workers, --verbose, --log-file', weight: '15%' },
+  1129→  1129→      { criterion: 'Instalable con pip install -e . y entrada perf-opt', weight: '10%' },
+  1130→  1130→      { criterion: 'Tests con pytest + README con cuadro comparativo de tiempos', weight: '5%' },
+  1131→  1131→    ],
+  1132→  1132→  },
+  1133→  1133→  selfCheck: {
+  1134→  1134→    questions: [
+  1135→  1135→      {
+  1136→  1136→        question: '¿Cuándo usarías ProcessPoolExecutor vs ThreadPoolExecutor?',
+  1137→  1137→        options: [
+  1138→  1138→          'Thread para CPU-bound, Process para I/O-bound',
+  1139→  1139→          'Process para CPU-bound (cálculo), Thread para I/O-bound (red/disco)',
+  1140→  1140→          'Siempre Thread — es más rápido en todos los casos',
+  1141→  1141→          'Siempre Process — es más seguro y no tiene GIL',
+  1142→  1142→        ],
+  1143→  1143→        correctIndex: 1,
+  1144→  1144→        explanation:
+  1145→  1145→          'El GIL de Python impide que múltiples threads ejecuten bytecode a la vez, así que threads NO aceleran cálculo (CPU-bound). Pero threads SÍ ayudan con I/O porque durante la espera (red, disco), el GIL se libera y otros threads avanzan. Para feature engineering pesado → Process. Para scrapear 100 URLs → Thread.',
+  1146→  1146→      },
+  1147→  1147→      {
+  1148→  1148→        question: '¿Cuál es la regla #1 de optimización de performance?',
+  1149→  1149→        options: [
+  1150→  1150→          'Optimizar lo que se ve más lento al leer el código',
+  1151→  1151→          'Nunca optimices sin medir primero con profiling (cProfile/line_profiler)',
+  1152→  1152→          'Siempre usar multiprocessing en todo',
+  1153→  1153→          'Reescribir en C o Rust para mayor velocidad',
+  1154→  1154→        ],
+  1155→  1155→        correctIndex: 1,
+  1156→  1156→        explanation:
+  1157→  1157→          'La intuición humana sobre qué es lento es pésima — el 80% de las veces el bottleneck NO es donde crees. Perfilas primero, identificas el hot path (la función/línea que se come el 80% del tiempo), optimizas SOLO eso, vuelves a medir. Esto es lo que diferencia seniors de juniors.',
+  1158→  1158→      },
+  1159→  1159→      {
+  1160→  1160→        question: '¿Por qué NO debes usar f-strings en mensajes de logging?',
+  1161→  1161→        options: [
+  1162→  1162→          'Porque f-strings son deprecated desde Python 3.12',
+  1163→  1163→          'Porque el formato se evalúa SIEMPRE, incluso si el nivel está apagado (waste de CPU)',
+  1164→  1164→          'Porque f-strings no funcionan con logging',
+  1165→  1165→          'Porque f-strings no permiten variables',
+  1166→  1166→        ],
+  1167→  1167→        correctIndex: 1,
+  1168→  1168→        explanation:
+  1169→  1169→          'Con `logger.info(f"Procesé {n}")`, el f-string se evalúa SIEMPRE, incluso si el nivel INFO está apagado en producción. Con `logger.info("Procesé %d", n)`, el formato se aplica solo si el mensaje se va a mostrar. En pipelines con miles de logs debug por segundo, esto es 5-10x más rápido.',
+  1170→  1170→      },
+  1171→  1171→      {
+  1172→  1172→        question: '¿Qué hace RotatingFileHandler en el módulo logging?',
+  1173→  1173→        options: [
+  1174→  1174→          'Rota los logs entre consola y archivo alternadamente',
+  1175→  1175→          'Crea un nuevo archivo cuando el actual alcanza maxBytes, manteniendo backupCount archivos viejos',
+  1176→  1176→          'Borra logs viejos automáticamente cada 24 horas',
+  1177→  1177→          'Comprime los logs en gzip para ahorrar espacio',
+  1178→  1178→        ],
+  1179→  1179→        correctIndex: 1,
+  1180→  1180→        explanation:
+  1181→  1181→          'RotatingFileHandler crea un nuevo archivo cuando el actual alcanza maxBytes (ej: 10MB). Renombra el actual a app.log.1, el .1 a .2, etc., hasta backupCount archivos viejos. Esto evita que los logs crezcan infinitamente y llenen el disco — crítico en producción donde un pipeline puede correr diariamente por años.',
+  1182→  1182→      },
+  1183→  1183→      {
+  1184→  1184→        question: '¿Cómo haces que tu script Python sea instalable como comando del sistema?',
+  1185→  1185→        options: [
+  1186→  1186→          'Compilarlo con py2exe o pyinstaller',
+  1187→  1187→          'Agregar [project.scripts] en pyproject.toml y correr pip install -e .',
+  1188→  1188→          'Copiarlo a /usr/local/bin manualmente',
+  1189→  1189→          'Crear un alias en .bashrc',
+  1190→  1190→        ],
+  1191→  1191→        correctIndex: 1,
+  1192→  1192→        explanation:
+  1193→  1193→          'En pyproject.toml defines `[project.scripts] mi-tool = "mi_paquete.cli:main"`. Después de `pip install -e .`, pip crea un ejecutable `mi-tool` en tu PATH que invoca la función main() de tu paquete. Es la forma estándar moderna de distribuir CLIs en Python — lo usan black, ruff, pytest, poetry, etc.',
+  1194→  1194→      },
+  1195→  1195→    ],
+  1196→  1196→  },
+  1197→  1197→  resources: {
+  1198→  1198→    docs: [
+  1199→  1199→      { label: 'concurrent.futures — Docs', url: 'https://docs.python.org/3/library/concurrent.futures.html', note: 'API moderna de paralelismo en Python (Process/ThreadPoolExecutor)' },
+  1200→  1200→      { label: 'multiprocessing — Docs', url: 'https://docs.python.org/3/library/multiprocessing.html', note: 'API de bajo nivel para procesos — útil cuando concurrent.futures no basta' },
+  1201→  1201→      { label: 'cProfile — Docs', url: 'https://docs.python.org/3/library/profile.html', note: 'Profiler determinístico built-in de Python' },
+  1202→  1202→      { label: 'line_profiler — GitHub', url: 'https://github.com/pyutils/line_profiler', note: 'Perfil línea por línea — instala con pip install line_profiler' },
+  1203→  1203→      { label: 'logging — HOWTO oficial', url: 'https://docs.python.org/3/howto/logging.html', note: 'Guía oficial de logging con ejemplos prácticos' },
+  1204→  1204→      { label: 'logging.handlers — RotatingFileHandler', url: 'https://docs.python.org/3/library/logging.handlers.html#rotatingfilehandler', note: 'Docs de RotatingFileHandler y otros handlers built-in' },
+  1205→  1205→      { label: 'argparse — Tutorial oficial', url: 'https://docs.python.org/3/howto/argparse.html', note: 'HOWTO oficial de argparse con ejemplos completos' },
+  1206→  1206→      { label: 'pyproject.toml — Packaging guide', url: 'https://packaging.python.org/en/latest/tutorials/packaging-projects/', note: 'Cómo empaquetar y distribuir proyectos Python modernos' },
+  1207→  1207→    ],
+  1208→  1208→    books: [
+  1209→  1209→      { label: 'High Performance Python (Micha Gorelick & Ian Ozsvald, O\'Reilly)', note: 'El libro de referencia sobre optimización en Python — profiling, numpy, multiprocessing, cython, numba.' },
+  1210→  1210→      { label: 'Fluent Python (Luciano Ramalho)', note: 'Capítulos sobre concurrency, generators, y data model — imprescindible para senior Python.' },
+  1211→  1211→      { label: 'Python Cookbook (David Beazley & Brian Jones)', note: 'Recetas sobre concurrency, generators, y manejo de datos — referencia práctica.' },
+  1212→  1212→      { label: 'Robust Python (Patrick Viafore)', note: 'Type hints, testing, y código production-ready — buena continuación después de esta sección.' },
+  1213→  1213→    ],
+  1214→  1214→    courses: [
+  1215→  1215→      { label: 'Real Python — Logging in Python', url: 'https://realpython.com/python-logging/', note: 'Guía completa de logging con ejemplos prácticos' },
+  1216→  1216→      { label: 'Real Python — argparse', url: 'https://realpython.com/command-line-interfaces-python-argparse/', note: 'Tutorial paso a paso de argparse' },
+  1217→  1217→      { label: 'Talk Python to Me — Concurrency Course', url: 'https://training.talkpython.fm/courses/details/all-about-python-concurrency', note: 'Curso enfocado en concurrencia Python: threads, multiprocessing, asyncio' },
+  1218→  1218→      { label: 'Udemy — Python Profiling', url: 'https://www.udemy.com/course/python-profiling/', note: 'Curso corto sobre profiling y optimización con cProfile y line_profiler' },
+  1219→  1219→    ],
+  1220→  1220→  },
+  1221→  1221→}
+  1222→  1222→

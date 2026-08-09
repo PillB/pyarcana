@@ -1,0 +1,805 @@
+{
+  "section": 28,
+  "title": "Pruebas de datos, propiedades e integración",
+  "file": "s28-llm-agents.ts",
+  "n_required": 28,
+  "n_logged": 28,
+  "generated_at": "2026-07-24T04:31:14.861+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "ER=same entity only; sim!=fraud; synthetic goldens; no PII",
+    "v3_retarget": "data/property/integration tests not LLM agents",
+    "expert_pass_at": "2026-07-24T04:31:14.861+00:00"
+  },
+  "unique_foci": 28,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "invariants idempotent normalize",
+      "research": [
+        {
+          "family": "Hypothesis",
+          "title": "Docs",
+          "url": "https://hypothesis.readthedocs.io/",
+          "note": "property testing"
+        },
+        {
+          "family": "Hypothesis",
+          "title": "Data",
+          "url": "https://hypothesis.readthedocs.io/en/latest/data.html",
+          "note": "strategies"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "integration"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 1/28: «invariants idempotent normalize» via Hypothesis, Python (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «invariants idempotent normalize».",
+      "expand_scope": "E1/E2/E3 + docs for «invariants idempotent normalize»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 1/28: «invariants idempotent normalize» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "scores in unit interval",
+      "research": [
+        {
+          "family": "Hypothesis",
+          "title": "Data",
+          "url": "https://hypothesis.readthedocs.io/en/latest/data.html",
+          "note": "strategies"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "integration"
+        },
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 2/28: «scores in unit interval» via Hypothesis, Python (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «scores in unit interval».",
+      "expand_scope": "E1/E2/E3 + docs for «scores in unit interval»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 2/28: «scores in unit interval» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "ids non-empty",
+      "research": [
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "integration"
+        },
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        },
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "isolation"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 3/28: «ids non-empty» via Python, pytest (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ids non-empty».",
+      "expand_scope": "E1/E2/E3 + docs for «ids non-empty»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 3/28: «ids non-empty» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "canonical pair entity_a less entity_b",
+      "research": [
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        },
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "isolation"
+        },
+        {
+          "family": "Great Expectations",
+          "title": "Docs",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data contracts"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 4/28: «canonical pair entity_a less entity_b» via Great Expectations, Python, pytest (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «canonical pair entity_a less entity_b».",
+      "expand_scope": "E1/E2/E3 + docs for «canonical pair entity_a less entity_b»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 4/28: «canonical pair entity_a less entity_b» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "generate from invariant seed",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "isolation"
+        },
+        {
+          "family": "Great Expectations",
+          "title": "Docs",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data contracts"
+        },
+        {
+          "family": "testcontainers",
+          "title": "Docs",
+          "url": "https://testcontainers.com/",
+          "note": "CI deps"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 5/28: «generate from invariant seed» via Great Expectations, pytest, testcontainers (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «generate from invariant seed».",
+      "expand_scope": "E1/E2/E3 + docs for «generate from invariant seed»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 5/28: «generate from invariant seed» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "document invariant Spanish",
+      "research": [
+        {
+          "family": "Great Expectations",
+          "title": "Docs",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data contracts"
+        },
+        {
+          "family": "testcontainers",
+          "title": "Docs",
+          "url": "https://testcontainers.com/",
+          "note": "CI deps"
+        },
+        {
+          "family": "Coursera",
+          "title": "Data quality testing",
+          "url": "https://www.coursera.org/courses?query=data%20quality%20testing",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 6/28: «document invariant Spanish» via Coursera, Great Expectations, testcontainers (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «document invariant Spanish».",
+      "expand_scope": "E1/E2/E3 + docs for «document invariant Spanish»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 6/28: «document invariant Spanish» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "metamorphic padding spaces",
+      "research": [
+        {
+          "family": "testcontainers",
+          "title": "Docs",
+          "url": "https://testcontainers.com/",
+          "note": "CI deps"
+        },
+        {
+          "family": "Coursera",
+          "title": "Data quality testing",
+          "url": "https://www.coursera.org/courses?query=data%20quality%20testing",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 7/28: «metamorphic padding spaces» via Coursera, deeplearning.ai, testcontainers (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «metamorphic padding spaces».",
+      "expand_scope": "E1/E2/E3 + docs for «metamorphic padding spaces»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 7/28: «metamorphic padding spaces» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "symmetry sim a b",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Data quality testing",
+          "url": "https://www.coursera.org/courses?query=data%20quality%20testing",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 8/28: «symmetry sim a b» via Coursera, MIT, deeplearning.ai (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «symmetry sim a b».",
+      "expand_scope": "E1/E2/E3 + docs for «symmetry sim a b»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 8/28: «symmetry sim a b» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "schema contract types nullability",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 9/28: «schema contract types nullability» via Harvard, MIT, deeplearning.ai (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «schema contract types nullability».",
+      "expand_scope": "E1/E2/E3 + docs for «schema contract types nullability»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 9/28: «schema contract types nullability» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "quality contract unique id cardinality",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 10/28: «quality contract unique id cardinality» via Harvard, MIT, Py4E (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «quality contract unique id cardinality».",
+      "expand_scope": "E1/E2/E3 + docs for «quality contract unique id cardinality»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 10/28: «quality contract unique id cardinality» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "reject bad ingest silent fail",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 11/28: «reject bad ingest silent fail» via Harvard, Live, Py4E (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reject bad ingest silent fail».",
+      "expand_scope": "E1/E2/E3 + docs for «reject bad ingest silent fail»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 11/28: «reject bad ingest silent fail» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "golden expected actual",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Hypothesis",
+          "title": "Docs",
+          "url": "https://hypothesis.readthedocs.io/",
+          "note": "property testing"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 12/28: «golden expected actual» via Hypothesis, Live, Py4E (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «golden expected actual».",
+      "expand_scope": "E1/E2/E3 + docs for «golden expected actual»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 12/28: «golden expected actual» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "drift bug vs intentional change",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Hypothesis",
+          "title": "Docs",
+          "url": "https://hypothesis.readthedocs.io/",
+          "note": "property testing"
+        },
+        {
+          "family": "Hypothesis",
+          "title": "Data",
+          "url": "https://hypothesis.readthedocs.io/en/latest/data.html",
+          "note": "strategies"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 13/28: «drift bug vs intentional change» via Hypothesis, Live (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «drift bug vs intentional change».",
+      "expand_scope": "E1/E2/E3 + docs for «drift bug vs intentional change»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 13/28: «drift bug vs intentional change» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "reconcile golden with review",
+      "research": [
+        {
+          "family": "Hypothesis",
+          "title": "Docs",
+          "url": "https://hypothesis.readthedocs.io/",
+          "note": "property testing"
+        },
+        {
+          "family": "Hypothesis",
+          "title": "Data",
+          "url": "https://hypothesis.readthedocs.io/en/latest/data.html",
+          "note": "strategies"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "integration"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 14/28: «reconcile golden with review» via Hypothesis, Python (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reconcile golden with review».",
+      "expand_scope": "E1/E2/E3 + docs for «reconcile golden with review»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 14/28: «reconcile golden with review» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "no over-mocking call order",
+      "research": [
+        {
+          "family": "Hypothesis",
+          "title": "Data",
+          "url": "https://hypothesis.readthedocs.io/en/latest/data.html",
+          "note": "strategies"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "integration"
+        },
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 15/28: «no over-mocking call order» via Hypothesis, Python (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no over-mocking call order».",
+      "expand_scope": "E1/E2/E3 + docs for «no over-mocking call order»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 15/28: «no over-mocking call order» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "boundary contracts outputs effects",
+      "research": [
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "integration"
+        },
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        },
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "isolation"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 16/28: «boundary contracts outputs effects» via Python, pytest (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «boundary contracts outputs effects».",
+      "expand_scope": "E1/E2/E3 + docs for «boundary contracts outputs effects»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 16/28: «boundary contracts outputs effects» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "HTTP DB clock doubles controlled",
+      "research": [
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        },
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "isolation"
+        },
+        {
+          "family": "Great Expectations",
+          "title": "Docs",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data contracts"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 17/28: «HTTP DB clock doubles controlled» via Great Expectations, Python, pytest (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «HTTP DB clock doubles controlled».",
+      "expand_scope": "E1/E2/E3 + docs for «HTTP DB clock doubles controlled»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 17/28: «HTTP DB clock doubles controlled» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "integration app plus sqlite",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "isolation"
+        },
+        {
+          "family": "Great Expectations",
+          "title": "Docs",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data contracts"
+        },
+        {
+          "family": "testcontainers",
+          "title": "Docs",
+          "url": "https://testcontainers.com/",
+          "note": "CI deps"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 18/28: «integration app plus sqlite» via Great Expectations, pytest, testcontainers (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «integration app plus sqlite».",
+      "expand_scope": "E1/E2/E3 + docs for «integration app plus sqlite»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 18/28: «integration app plus sqlite» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "E2E ingest pairs review synthetic",
+      "research": [
+        {
+          "family": "Great Expectations",
+          "title": "Docs",
+          "url": "https://docs.greatexpectations.io/",
+          "note": "data contracts"
+        },
+        {
+          "family": "testcontainers",
+          "title": "Docs",
+          "url": "https://testcontainers.com/",
+          "note": "CI deps"
+        },
+        {
+          "family": "Coursera",
+          "title": "Data quality testing",
+          "url": "https://www.coursera.org/courses?query=data%20quality%20testing",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 19/28: «E2E ingest pairs review synthetic» via Coursera, Great Expectations, testcontainers (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «E2E ingest pairs review synthetic».",
+      "expand_scope": "E1/E2/E3 + docs for «E2E ingest pairs review synthetic»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 19/28: «E2E ingest pairs review synthetic» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "containers concept same schema",
+      "research": [
+        {
+          "family": "testcontainers",
+          "title": "Docs",
+          "url": "https://testcontainers.com/",
+          "note": "CI deps"
+        },
+        {
+          "family": "Coursera",
+          "title": "Data quality testing",
+          "url": "https://www.coursera.org/courses?query=data%20quality%20testing",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 20/28: «containers concept same schema» via Coursera, deeplearning.ai, testcontainers (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «containers concept same schema».",
+      "expand_scope": "E1/E2/E3 + docs for «containers concept same schema»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 20/28: «containers concept same schema» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "flakes order time net random",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Data quality testing",
+          "url": "https://www.coursera.org/courses?query=data%20quality%20testing",
+          "note": "MOOC"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 21/28: «flakes order time net random» via Coursera, MIT, deeplearning.ai (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «flakes order time net random».",
+      "expand_scope": "E1/E2/E3 + docs for «flakes order time net random»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 21/28: «flakes order time net random» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "seed clock inject sort stable",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 22/28: «seed clock inject sort stable» via Harvard, MIT, deeplearning.ai (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «seed clock inject sort stable».",
+      "expand_scope": "E1/E2/E3 + docs for «seed clock inject sort stable»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 22/28: «seed clock inject sort stable» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "CI lint unit property integration",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 23/28: «CI lint unit property integration» via Harvard, MIT, Py4E (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CI lint unit property integration».",
+      "expand_scope": "E1/E2/E3 + docs for «CI lint unit property integration»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 23/28: «CI lint unit property integration» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "fail on unapproved golden drift",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 24/28: «fail on unapproved golden drift» via Harvard, Live, Py4E (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fail on unapproved golden drift».",
+      "expand_scope": "E1/E2/E3 + docs for «fail on unapproved golden drift»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 24/28: «fail on unapproved golden drift» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "ER same entity only",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Hypothesis",
+          "title": "Docs",
+          "url": "https://hypothesis.readthedocs.io/",
+          "note": "property testing"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 25/28: «ER same entity only» via Hypothesis, Live, Py4E (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ER same entity only».",
+      "expand_scope": "E1/E2/E3 + docs for «ER same entity only»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 25/28: «ER same entity only» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "sim not fraud",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "Hypothesis",
+          "title": "Docs",
+          "url": "https://hypothesis.readthedocs.io/",
+          "note": "property testing"
+        },
+        {
+          "family": "Hypothesis",
+          "title": "Data",
+          "url": "https://hypothesis.readthedocs.io/en/latest/data.html",
+          "note": "strategies"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 26/28: «sim not fraud» via Hypothesis, Live (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sim not fraud».",
+      "expand_scope": "E1/E2/E3 + docs for «sim not fraud»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 26/28: «sim not fraud» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "V3 not LLM agents",
+      "research": [
+        {
+          "family": "Hypothesis",
+          "title": "Docs",
+          "url": "https://hypothesis.readthedocs.io/",
+          "note": "property testing"
+        },
+        {
+          "family": "Hypothesis",
+          "title": "Data",
+          "url": "https://hypothesis.readthedocs.io/en/latest/data.html",
+          "note": "strategies"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "integration"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 27/28: «V3 not LLM agents» via Hypothesis, Python (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not LLM agents».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not LLM agents»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 27/28: «V3 not LLM agents» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "pair from S27 pytest",
+      "research": [
+        {
+          "family": "Hypothesis",
+          "title": "Data",
+          "url": "https://hypothesis.readthedocs.io/en/latest/data.html",
+          "note": "strategies"
+        },
+        {
+          "family": "Python",
+          "title": "sqlite3",
+          "url": "https://docs.python.org/3/library/sqlite3.html",
+          "note": "integration"
+        },
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        }
+      ],
+      "synthesize": "S28 «Pruebas de datos, propiedades e integración» cycle 28/28: «pair from S27 pytest» via Hypothesis, Python (CASO-LIM-028 / CP-N3-A data QA).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S27 pytest».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S27 pytest»; V3 roadmap; pair S28 data QA → S29 next.",
+      "re_synthesize": "Decision 28/28: «pair from S27 pytest» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

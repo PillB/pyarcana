@@ -1,0 +1,320 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 3,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s03-d32ea58084",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "comparaciones"
+      ],
+      "blocked_on": [],
+      "code": "edad = 25\nregion = \"Cusco\"\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")\n",
+      "justification_from_packet": "T1-A introduce comparaciones de negocio (>=, <=, ==, !=) y la forma encadenada 18 <= edad <= 65 sobre datos sintéticos."
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "in",
+        "allowlist"
+      ],
+      "blocked_on": [],
+      "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)\n",
+      "justification_from_packet": "in sobre allowlist (set) es case-sensitive: DNI entra; dni y RUC no. Mismo patrón que ALLOWED de regiones."
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "is None"
+      ],
+      "blocked_on": [],
+      "code": "valor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"usa is para ausencia (None); == para valores de negocio\")\n",
+      "justification_from_packet": "is None marca ausencia; True == 1 pero True is 1 es False — no uses is con enteros de negocio."
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "truthiness"
+      ],
+      "blocked_on": [],
+      "code": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))\n",
+      "justification_from_packet": "T1-B lista falsy por defecto (None, 0, '', [], {}) y truthy como 'x', 1, [0]."
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "and/or"
+      ],
+      "blocked_on": [],
+      "code": "print(\"'' or 'default' →\", '' or 'default')\nprint(\"'Lima' or 'default' →\", 'Lima' or 'default')\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)\n",
+      "justification_from_packet": "and/or devuelven el operando por short-circuit: '' or 'default' → 'default'; 5 and 99 → 99."
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "monto 0"
+      ],
+      "blocked_on": [],
+      "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))\n",
+      "justification_from_packet": "Bug clásico if not monto rechaza el 0 válido. is None → review; <0 reject; else accept incluye cero."
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.92,
+      "concepts_used": [
+        "classify_score"
+      ],
+      "blocked_on": [],
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n",
+      "justification_from_packet": "Cadena if/elif/else del demo: ≥80 accept, ≥50 review, else reject; primera verdadera gana."
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "elif"
+      ],
+      "blocked_on": [],
+      "code": "def bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n",
+      "justification_from_packet": "Ifs independientes pisan accept: 95 termina review. elif asegura exclusión mutua."
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "concepts_used": [
+        "bandas"
+      ],
+      "blocked_on": [],
+      "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))\n",
+      "justification_from_packet": "Orden de umbrales de mayor a menor; else cubre 0 y negativos como nulo."
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "guards"
+      ],
+      "blocked_on": [],
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))\n",
+      "justification_from_packet": "Guards de T2-B: None, tipo, rango; camino feliz al final sin anidar comparaciones con None."
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.84,
+      "concepts_used": [
+        "refactor"
+      ],
+      "blocked_on": [],
+      "code": "def validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m > 10000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, \"x\", -1, 50, 20000]:\n    print(m, \"→\", validate_monto_guards(m))\n",
+      "justification_from_packet": "Refactor de pirámide a guards lineales: un if+return por precondición, misma semántica."
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.78,
+      "concepts_used": [
+        "rama muerta"
+      ],
+      "blocked_on": [],
+      "code": "def etiqueta_bug(x):\n    if x >= 0:\n        return \"no-negativo\"\n    elif x > 0:  # rama muerta: si x>0 ya entró en x>=0\n        return \"positivo\"\n    return \"negativo\"\n\nprint(\"La rama elif x > 0 nunca corre porque x>=0 la cubre antes\")\nfor x in [5, 0, -2]:\n    print(\"bug\", x, etiqueta_bug(x))\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x == 0:\n        return \"cero\"\n    else:\n        return \"negativo\"\n\nfor x in [5, 0, -2]:\n    print(\"ok\", x, \"→\", etiqueta_ok(x))\n",
+      "justification_from_packet": "Rama muerta: condición ya cubierta por un if anterior. Reordenar umbrales excluyentes (x>0 antes de x>=0)."
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.9,
+      "concepts_used": [
+        "check_region"
+      ],
+      "blocked_on": [],
+      "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))\n",
+      "justification_from_packet": "Allowlist: None o valor fuera del set → review; miembro → accept (T3-A)."
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.87,
+      "concepts_used": [
+        "monto_ingreso"
+      ],
+      "blocked_on": [],
+      "code": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))\n",
+      "justification_from_packet": "Orden: ausencia, hard reject negativo, outlier review, accept incluye 0."
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "concepts_used": [
+        "tipo_doc"
+      ],
+      "blocked_on": [],
+      "code": "ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None or numero is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"review\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"BAD_LENGTH\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"123\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))\n",
+      "justification_from_packet": "Allowlist de tipo_doc + longitudes DNI=8 CE/PAS=9; None/not in review; len mala reject."
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "concepts_used": [
+        "TABLE"
+      ],
+      "blocked_on": [],
+      "code": "TABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"OTRO\"]:\n    print(c, \"→\", apply(c))\n",
+      "justification_from_packet": "Decision table dict codigo→status con default review vía .get (T3-B)."
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "match"
+      ],
+      "blocked_on": [],
+      "code": "def status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"NEEDS_REVIEW\", \"OUT_OF_RANGE\", \"X\"]:\n    print(c, \"→\", status_match(c))\n",
+      "justification_from_packet": "match/case con OR patterns del demo: códigos finitos y case _ por defecto."
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.8,
+      "concepts_used": [
+        "decide"
+      ],
+      "blocked_on": [],
+      "code": "ALLOWED = {\"Lima\", \"Arequipa\"}\n\ndef decide(score, region):\n    if score is None or region is None:\n        return \"review\"\n    if score >= 80 and region in ALLOWED:\n        return \"accept\"\n    if score >= 50:\n        return \"review\"\n    return \"reject\"\n\nfor s, r in [(90, \"Lima\"), (60, \"Lima\"), (30, \"Lima\"), (90, \"Tacna\"), (None, \"Lima\")]:\n    print(s, r, \"→\", decide(s, r))\n",
+      "justification_from_packet": "Tabla de negocio en español implementada con if ordenados: allowlist + umbral score."
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "contacto"
+      ],
+      "blocked_on": [],
+      "code": "def validate_contacto(c):\n    if c is None:\n        return \"review\"\n    if not isinstance(c, str) or not c.strip():\n        return \"reject\"\n    digits = c.strip()\n    if not digits.isdigit() or len(digits) != 9:\n        return \"reject\"\n    return \"accept\"\n\nfor c in [None, \"\", \"999000111\", \"123\", \"99a000111\"]:\n    print(repr(c), \"→\", validate_contacto(c))\n",
+      "justification_from_packet": "Invariante contacto: 9 dígitos str o None pendiente (demo T4-A)."
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.79,
+      "concepts_used": [
+        "invariantes"
+      ],
+      "blocked_on": [],
+      "code": "def check_invariants(rec):\n    errors = []\n    edad = rec.get(\"edad\")\n    if edad is not None:\n        if not isinstance(edad, int) or not (0 <= edad <= 120):\n            errors.append(\"edad viola invariante int 0-120\")\n    ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\"}\n    reg = rec.get(\"region\")\n    if reg is not None and reg not in ALLOWED:\n        errors.append(\"region fuera de allowlist\")\n    return errors\n\nprint(check_invariants({\"edad\": 34, \"region\": \"Lima\"}))\nprint(check_invariants({\"edad\": -1, \"region\": \"Tacna\"}))\n",
+      "justification_from_packet": "Invariantes son promesas del campo; se chequean sin confundir missing con inválido."
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.77,
+      "concepts_used": [
+        "specs"
+      ],
+      "blocked_on": [],
+      "code": "# Invariantes CP-N1-A (especificación en español)\nspecs = [\n    \"nombres: str no vacío tras strip, o None si pendiente\",\n    \"edad: int 0-120 o None\",\n    \"contacto: 9 dígitos str o None\",\n    \"region: en ALLOWED o None\",\n    \"monto: >=0 o None (0 permitido)\",\n]\nfor s in specs:\n    print(\"-\", s)\n",
+      "justification_from_packet": "T4-A: el invariante se escribe en español antes del código y guía mensajes y tests."
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.86,
+      "concepts_used": [
+        "mensajes"
+      ],
+      "blocked_on": [],
+      "code": "def validate_edad_msg(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\",\n                \"message\": \"Campo 'edad' ausente: envía un entero 0–120 o márcalo para review.\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\",\n                \"message\": f\"Campo 'edad'={edad!r} no es int; corrige el tipo.\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\",\n                \"message\": f\"Campo 'edad'={edad} fuera de rango; usa 0–120.\"}\n    return {\"status\": \"accept\", \"code\": \"OK\", \"message\": \"ok\"}\n\nfor e in [None, \"x\", -5, 30]:\n    print(validate_edad_msg(e))\n",
+      "justification_from_packet": "Mensaje accionable nombra campo, problema y acción esperada (ejemplo edad=-5 del paquete)."
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "tests"
+      ],
+      "blocked_on": [],
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return \"review\"\n    if not isinstance(edad, int) or edad < 0 or edad > 120:\n        return \"reject\"\n    if edad < 18:\n        return \"review\"\n    return \"accept\"\n\nassert validate_edad(None) == \"review\"\nassert validate_edad(-1) == \"reject\"\nassert validate_edad(15) == \"review\"\nassert validate_edad(30) == \"accept\"\nprint(\"tests por rama OK\")\n",
+      "justification_from_packet": "T4-B: al menos un caso de prueba por rama (MISSING, rango, review joven, accept)."
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.82,
+      "concepts_used": [
+        "checklist"
+      ],
+      "blocked_on": [],
+      "code": "msgs = [\n    \"Campo 'region'='Tacna' no está en allowlist; usa Lima|Arequipa|Cusco|Piura o envía a review.\",\n    \"Campo 'monto'=-3 inválido; debe ser >= 0.\",\n    \"Campo 'contacto' longitud 5; se esperan 9 dígitos.\",\n]\nfor m in msgs:\n    assert \"Campo\" in m\n    print(\"OK:\", m)\n",
+      "justification_from_packet": "Checklist de mensajes ejecutables: campo + problema + acción, sin textos vagos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.93,
+      "justification_from_packet": "La forma correcta de chequear ausencia es if campo is None; if not campo confunde 0 y '' con missing."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.94,
+      "justification_from_packet": "En if/elif/else la primera condición verdadera gana y el resto no se ejecuta."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.91,
+      "justification_from_packet": "or devuelve el primer truthy: \"\" or \"default\" produce \"default\", no un bool."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "justification_from_packet": "Allowlist de tipos de documento se implementa como set de literales con el operador in."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "confidence": 0.86,
+      "justification_from_packet": "match/case aporta claridad cuando el sujeto es un literal/estado finito (códigos) con case _ por defecto."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:16.575096+00:00",
+  "session_started_at": "2026-07-23T14:13:35.395267+00:00",
+  "session_ended_at": "2026-07-23T14:13:52.595267+00:00",
+  "receipt_response_sha256": "370361402399e489ac299e874d6f5a1ef599171bcb5d46062b02bb2066af97f4",
+  "receipt_exercises_sha256": "52c7f298ea656e15c93edf8714347a903a23f34cf93f046706bb2699e250368f",
+  "receipt_selfcheck_sha256": "5d6f438a4a4fe09824d71fa4f22bbe25643faefe7ae575484579ac138c717854"
+}

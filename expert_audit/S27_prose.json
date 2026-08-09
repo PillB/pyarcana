@@ -1,0 +1,8366 @@
+{
+ "per_record": [
+  {
+   "path": "section27.title",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 1.8,
+     "fh": 93.7,
+     "inf": 89.7,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Estrategia de pruebas con pytest"
+    }
+   ]
+  },
+  {
+   "path": "section27.tagline",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 19,
+     "spw": 2.21,
+     "fh": 54.8,
+     "inf": 50.1,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Convertir supuestos de normalización y matching en contratos ejecutables con pytest; cada bug reproducido deja un test de regresión"
+    }
+   ]
+  },
+  {
+   "path": "section27.jobRelevance",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 42,
+     "spw": 1.9,
+     "fh": 49.7,
+     "inf": 46.2,
+     "issues": [
+      [
+       "MED",
+       "long",
+       "42w"
+      ]
+     ],
+     "text": "En equipos de data engineering y compliance en Perú (bancos, fintech, retail con padrones de clientes), un motor de entity resolution solo es confiable si normalización y matching son contratos ejecutables con pytest—no scripts que “pasaron una vez en mi laptop”."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 44,
+     "spw": 1.98,
+     "fh": 43.3,
+     "inf": 39.7,
+     "issues": [
+      [
+       "MED",
+       "long",
+       "44w"
+      ],
+      [
+       "LOW",
+       "comma_density",
+       "6"
+      ]
+     ],
+     "text": "En esta sección inicias CP-N3-A: priorizas pruebas por riesgo y capa (unit/contract/integration), escribes tests AAA con oráculos fijos, aíslas datos con fixtures, cubres bordes (excepciones, floats, fechas, tmp) y demuestras con mutación conceptual que la suite realmente protege el contrato."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 11,
+     "spw": 2.64,
+     "fh": 37.4,
+     "inf": 31.6,
+     "issues": [],
+     "text": "Matching solo responde “¿misma entidad sintética?”; nunca etiqueta fraude ni parentesco."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 12,
+     "spw": 1.92,
+     "fh": 79.6,
+     "inf": 75.4,
+     "issues": [],
+     "text": "En S26 orquestaste el VP con evidencia por estado (RPA + analista HITL)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 13,
+     "spw": 1.92,
+     "fh": 78.2,
+     "inf": 74.0,
+     "issues": [],
+     "text": "Ese pipeline asume que  y el matching se comportan igual mañana que hoy."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 19,
+     "spw": 1.84,
+     "fh": 76.9,
+     "inf": 73.1,
+     "issues": [],
+     "text": "Si alguien “arregla” un  o un umbral sin red de seguridad, el clerical queue hereda basura con confianza falsa."
+    },
+    {
+     "pi": 0,
+     "si": 3,
+     "wc": 29,
+     "spw": 1.76,
+     "fh": 71.7,
+     "inf": 68.3,
+     "issues": [],
+     "text": "Aquí inicias CP-N3-A: conviertes esos supuestos en contratos de prueba con pytest, para que un refactor o un typo no rompa en silencio lo que ya automatizaste."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 23,
+     "spw": 1.96,
+     "fh": 66.0,
+     "inf": 61.9,
+     "issues": [],
+     "text": "Trabajamos un módulo sintético sobre contactos fakes del caso * (run_id=, correos ): sin PII real y sin* auto-veredicto de fraude o parentesco."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 12,
+     "spw": 2.08,
+     "fh": 69.6,
+     "inf": 65.0,
+     "issues": [],
+     "text": "Cada bug reproducido debe dejar un test de regresión con oráculo fijo."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 10,
+     "spw": 2.3,
+     "fh": 58.6,
+     "inf": 53.5,
+     "issues": [],
+     "text": "Matching solo responde: ¿son la misma entidad sintética tras normalizar?"
+    },
+    {
+     "pi": 0,
+     "si": 3,
+     "wc": 14,
+     "spw": 1.93,
+     "fh": 76.8,
+     "inf": 72.7,
+     "issues": [],
+     "text": "El resto del curso (S28+) ampliará dobles e integración; hoy sellas la base unitaria."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 32,
+     "spw": 2.19,
+     "fh": 43.0,
+     "inf": 38.6,
+     "issues": [
+      [
+       "LOW",
+       "comma_density",
+       "8"
+      ]
+     ],
+     "text": "Orden de aprendizaje: T1 Diseño (pirámide, riesgo, AAA y oráculos) → T2 Pytest (discovery, asserts, fixtures y scopes) → T3 Bordes (excepciones, floats, fechas, tmp, negativos) → T4 Cobertura (ramas de negocio y mutación conceptual)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 23,
+     "spw": 1.91,
+     "fh": 68.6,
+     "inf": 64.7,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Dual-track honesto: en tu máquina ; en este entorno del curso ejecutamos el mismo contrato como módulo con  +  cuando no invocas el CLI."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 19,
+     "spw": 1.37,
+     "fh": 105.4,
+     "inf": 102.6,
+     "issues": [],
+     "text": "No hay teatro de “pytest sin pytest”: verás formas  reales aunque el runner del curso no sea el CLI."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.title",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 2.0,
+     "fh": 79.7,
+     "inf": 75.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Datos seguros (vale para toda la sección)"
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.content",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 2.71,
+     "fh": 36.8,
+     "inf": 30.7,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Fixtures y ejercicios usan solo contactos sintéticos ."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 9,
+     "spw": 2.33,
+     "fh": 57.7,
+     "inf": 52.5,
+     "issues": [],
+     "text": "Una prueba de similitud no etiqueta fraude ni parentesco."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 20,
+     "spw": 2.0,
+     "fh": 66.4,
+     "inf": 62.2,
+     "issues": [],
+     "text": "Esa ética queda fijada aquí: no la repitas en cada párrafo; sí aplícala en cada assert y mensaje de error."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.heading",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 2.0,
+     "fh": 81.7,
+     "inf": 77.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Riesgos y pirámide de pruebas"
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 13,
+     "spw": 2.38,
+     "fh": 50.5,
+     "inf": 45.3,
+     "issues": [],
+     "text": "La pirámide prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 35,
+     "spw": 1.54,
+     "fh": 78.6,
+     "inf": 75.7,
+     "issues": [
+      [
+       "MED",
+       "long",
+       "35w"
+      ]
+     ],
+     "text": "El riesgo reordena el tiempo (no la forma de la pirámide): un bug en matching de entidades justifica más tests que un typo de log o un cambio de color en la UI de revisión."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 24,
+     "spw": 1.71,
+     "fh": 79.9,
+     "inf": 76.4,
+     "issues": [],
+     "text": "Si solo mides “número de tests”, puedes hinchar la base con asserts triviales y dejar sin contrato la rama que mueve el clerical queue."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 29,
+     "spw": 2.38,
+     "fh": 34.5,
+     "inf": 29.6,
+     "issues": [],
+     "text": "Clasifica riesgo por impacto (datos incorrectos, regresión silenciosa en el clerical queue, merge de entidades sintéticas mal hecha) y probabilidad (código tocado a menudo, reglas frágiles, historial de bugs)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 34,
+     "spw": 2.03,
+     "fh": 50.4,
+     "inf": 46.4,
+     "issues": [
+      [
+       "MED",
+       "long",
+       "34w"
+      ]
+     ],
+     "text": "En entity resolution, normalización y comparadores son capa de alto riesgo: si fallan, el resto del pipeline hereda basura con confianza falsa y nadie nota el drift hasta que un humano revisa a ciegas."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 14,
+     "spw": 2.29,
+     "fh": 55.4,
+     "inf": 50.4,
+     "issues": [],
+     "text": "No inviertas la pirámide: una batería de E2E lentas no sustituye contratos unitarios de /."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 16,
+     "spw": 2.25,
+     "fh": 55.5,
+     "inf": 50.7,
+     "issues": [],
+     "text": "Heurística práctica: score = impacto × probabilidad; ordena áreas y reparte más casos a las de mayor score."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 15,
+     "spw": 1.2,
+     "fh": 119.5,
+     "inf": 117.1,
+     "issues": [],
+     "text": "Ejemplo sintético de este caso:  (5×4=20) >  (5×3=15) > repo SQL > cola UI."
+    },
+    {
+     "pi": 0,
+     "si": 3,
+     "wc": 20,
+     "spw": 1.3,
+     "fh": 108.4,
+     "inf": 105.8,
+     "issues": [],
+     "text": "Regla de bolsillo para el equipo: score ≥ 15 → ≥ 5 tests de contrato; 8–14 → 2–3; < 8 → smoke + un negativo."
+    },
+    {
+     "pi": 0,
+     "si": 4,
+     "wc": 17,
+     "spw": 1.71,
+     "fh": 87.1,
+     "inf": 83.6,
+     "issues": [],
+     "text": "El score no es ciencia exacta: es una cola de prioridad honestable en la retro del sprint."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.content",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 14,
+     "spw": 1.79,
+     "fh": 85.4,
+     "inf": 81.6,
+     "issues": [],
+     "text": "Si el tiempo es finito, cubre primero normalize/match; luego DB; al final UI."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 21,
+     "spw": 1.9,
+     "fh": 71.1,
+     "inf": 67.2,
+     "issues": [],
+     "text": "Escribe el ranking en el README del paquete de tests: el equipo debe poder discutir la cola de prioridad, no adivinarla."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.heading",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 2.33,
+     "fh": 60.7,
+     "inf": 55.5,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Arrange–Act–Assert y oráculos confiables"
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 9,
+     "spw": 2.67,
+     "fh": 37.7,
+     "inf": 31.7,
+     "issues": [],
+     "text": "AAA separa preparación (Arrange), ejecución (Act) y verificación (Assert)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 34,
+     "spw": 1.56,
+     "fh": 78.6,
+     "inf": 75.7,
+     "issues": [
+      [
+       "MED",
+       "long",
+       "34w"
+      ]
+     ],
+     "text": "Si mezclas el setup con el assert, un fallo no te dice si se rompió el dato de entrada, la función bajo prueba o el comparador: pierdes tiempo en CI y en code review."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 18,
+     "spw": 1.94,
+     "fh": 71.8,
+     "inf": 67.7,
+     "issues": [],
+     "text": "Un test AAA legible se lee en 10 segundos: “dado este raw sintético, al normalizar, espero este oráculo”."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 39,
+     "spw": 1.92,
+     "fh": 51.7,
+     "inf": 48.0,
+     "issues": [
+      [
+       "MED",
+       "long",
+       "39w"
+      ]
+     ],
+     "text": "Un oráculo es la fuente de verdad del assert: (1) valor fijo conocido (), (2) propiedad invariante (longitud ≥ 0 tras normalizar; idempotencia de ) o (3) resultado de un algoritmo de referencia simple que confías más que el código bajo prueba."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 29,
+     "spw": 2.07,
+     "fh": 53.1,
+     "inf": 48.9,
+     "issues": [],
+     "text": "En matching, el oráculo no es un veredicto de fraude ni de parentesco: solo responde si dos cadenas normalizadas son la misma entidad sintética bajo el contrato de igualdad."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 21,
+     "spw": 1.71,
+     "fh": 82.6,
+     "inf": 79.0,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Oráculos frágiles generan flakes (tests que fallan al azar): reloj real (), orden de un , JSON sin , red o disco no mockeados."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 7,
+     "spw": 3.0,
+     "fh": 19.7,
+     "inf": 12.9,
+     "issues": [],
+     "text": "Usa contactos sintéticos deterministas () y fechas literales ()."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 19,
+     "spw": 1.84,
+     "fh": 76.9,
+     "inf": 73.1,
+     "issues": [],
+     "text": "Si el assert depende del azar, del entorno o del orden de inserción, no es contrato: es suerte empaquetada."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.content",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 3,
+     "spw": 1.33,
+     "fh": 123.8,
+     "inf": 120.8,
+     "issues": [],
+     "text": "no es assert."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 23,
+     "spw": 1.83,
+     "fh": 73.8,
+     "inf": 70.1,
+     "issues": [],
+     "text": "El contrato debe fallar ruidosamente si se rompe; un print amable en verde no protege el merge ni el merge request del colega."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.heading",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 1.8,
+     "fh": 93.7,
+     "inf": 89.7,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Discovery y assertions de pytest"
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 2.0,
+     "fh": 79.7,
+     "inf": 75.2,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "pytest descubre funciones  y clases  en archivos  / ."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 16,
+     "spw": 1.81,
+     "fh": 81.8,
+     "inf": 77.9,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Los node ids () identifican cada caso en CI y permiten re-correr solo el fallido con ."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 25,
+     "spw": 1.72,
+     "fh": 78.1,
+     "inf": 74.7,
+     "issues": [],
+     "text": "Sin naming estable no puedes apuntar a un contrato concreto cuando falla la suite a las 2 a.m.: solo ves “falló algo de normalize”."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 16,
+     "spw": 1.94,
+     "fh": 74.3,
+     "inf": 70.1,
+     "issues": [],
+     "text": "Las assertions reescritas de pytest muestran diff útil:  explica ambos lados sin escribir mensajes a mano."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 4,
+     "spw": 3.0,
+     "fh": 22.8,
+     "inf": 15.9,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Para excepciones esperadas usa ."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 30,
+     "spw": 1.87,
+     "fh": 64.2,
+     "inf": 60.5,
+     "issues": [],
+     "text": "En este lab, si aún no instalas pytest, modelamos el mismo contrato con try/except + comprobación de mensaje: el aprendizaje es el criterio (tipo + fragmento), no la magia del import."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 20,
+     "spw": 1.8,
+     "fh": 78.4,
+     "inf": 74.7,
+     "issues": [],
+     "text": "Parametriza con  (o una tabla de tuplas en un bucle) para casos de normalización sin copiar el cuerpo del test."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 30,
+     "spw": 1.8,
+     "fh": 68.2,
+     "inf": 64.7,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Una tabla  es el corazón de los contratos de  y : cada fila es un node id conceptual; si falla la fila 7, sabes exactamente qué raw sintético rompió el oráculo."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.content",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 32,
+     "spw": 1.66,
+     "fh": 74.8,
+     "inf": 71.7,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Si el nombre no empieza por , pytest no lo corre (salvo configuración explícita).  es código de apoyo, no un caso de la suite ni un node id en el reporte de CI."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 16,
+     "spw": 2.19,
+     "fh": 59.3,
+     "inf": 54.6,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Las fixtures inyectan dependencias (datos sintéticos, , relojes fijos) sin globals ni setup copiado en cada test."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 17,
+     "spw": 1.59,
+     "fh": 94.2,
+     "inf": 90.9,
+     "issues": [],
+     "text": "En pytest real escribes  y el nombre del parámetro de la función de test recibe el valor."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 22,
+     "spw": 1.77,
+     "fh": 78.0,
+     "inf": 74.4,
+     "issues": [],
+     "text": "El scope por defecto es function: cada test recibe setup fresco; eso es lo que hace que la suite sea orden-independiente."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 2,
+     "spw": 2.0,
+     "fh": 84.8,
+     "inf": 80.2,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Scopes:  (default), , , ."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 20,
+     "spw": 1.9,
+     "fh": 72.4,
+     "inf": 68.5,
+     "issues": [],
+     "text": "Un fixture session mutado contamina toda la suite y produce flakes de orden (“pasa solo si corre después de X”)."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 21,
+     "spw": 2.48,
+     "fh": 36.8,
+     "inf": 31.6,
+     "issues": [],
+     "text": "Session-scope solo para recursos caros de solo lectura (catálogo estático, configuración inmutable, conexión de lectura a un dataset de fixtures)."
+    },
+    {
+     "pi": 0,
+     "si": 3,
+     "wc": 10,
+     "spw": 1.9,
+     "fh": 82.6,
+     "inf": 78.5,
+     "issues": [],
+     "text": "Si necesitas mutar, vuelve a function o usa una factory."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 12,
+     "spw": 2.25,
+     "fh": 59.6,
+     "inf": 54.7,
+     "issues": [],
+     "text": "Las factory fixtures devuelven callables para crear N entidades sintéticas por caso ()."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 20,
+     "spw": 2.3,
+     "fh": 48.4,
+     "inf": 43.5,
+     "issues": [],
+     "text": "Mecanismo clave de aislamiento: copia profunda de estructuras mutables; un  superficial comparte dicts internos y un test ensucia al siguiente."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 17,
+     "spw": 1.88,
+     "fh": 76.6,
+     "inf": 72.6,
+     "issues": [],
+     "text": "Si ves un fallo que solo aparece con  o al reordenar, sospecha fixture mutable con scope ancho."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.content",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 1.82,
+     "fh": 86.5,
+     "inf": 82.6,
+     "issues": [],
+     "text": "Si mutas un fixture session-scope, el siguiente test ve basura."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 3,
+     "spw": 2.33,
+     "fh": 63.8,
+     "inf": 58.5,
+     "issues": [],
+     "text": "Prefiere function + factory."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 8,
+     "spw": 1.75,
+     "fh": 93.7,
+     "inf": 89.8,
+     "issues": [],
+     "text": "En pytest: scope=\"function\" (default) o factory fixture."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 16,
+     "spw": 1.69,
+     "fh": 89.3,
+     "inf": 85.7,
+     "issues": [],
+     "text": "Prueba excepciones con el tipo y, si aplica, el mensaje ( en pytest real; aquí, try/except + )."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 16,
+     "spw": 1.88,
+     "fh": 78.0,
+     "inf": 74.0,
+     "issues": [],
+     "text": "Un  que solo mira el tipo acepta un mensaje basura; el fragmento es parte del contrato."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 23,
+     "spw": 2.04,
+     "fh": 60.8,
+     "inf": 56.5,
+     "issues": [],
+     "text": "Para floats y scores de matching usa tolerancia () o decimal cuantizado:  exacto en  es trampa pedagógica y de producción en umbrales de matching."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 24,
+     "spw": 1.88,
+     "fh": 69.9,
+     "inf": 66.0,
+     "issues": [],
+     "text": "Fechas: no compares  con literales frágiles. Inyecta el reloj: la función recibe  (o un callable de reloj) y el test pasa un literal fijo ()."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 21,
+     "spw": 1.52,
+     "fh": 94.0,
+     "inf": 90.9,
+     "issues": [],
+     "text": "Así el contrato no cambia de un día al otro ni entre zonas horarias de Lima y un runner en UTC."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 22,
+     "spw": 2.05,
+     "fh": 61.7,
+     "inf": 57.4,
+     "issues": [],
+     "text": "Librerías como freezegun son opcionales; la inyección de parámetro basta, es más explícita y no añade dependencia al CI del motor ER."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 15,
+     "spw": 1.67,
+     "fh": 91.5,
+     "inf": 88.0,
+     "issues": [],
+     "text": "tmp_path (pytest) /  (stdlib) evita escribir en el repo o en el home del desarrollador."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 16,
+     "spw": 1.44,
+     "fh": 104.3,
+     "inf": 101.3,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Dos APIs: (1)  borra al salir del ; (2)  deja un path reabrable para reabrir y assert."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 15,
+     "spw": 1.87,
+     "fh": 79.5,
+     "inf": 75.5,
+     "issues": [],
+     "text": "Usa siempre  en texto y documenta si el contrato incluye el salto de línea final."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.content",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 14,
+     "spw": 1.71,
+     "fh": 89.7,
+     "inf": 86.0,
+     "issues": [],
+     "text": "Nunca compares floats de probabilidad con igualdad bit a bit en tests de matching."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 10,
+     "spw": 1.8,
+     "fh": 88.6,
+     "inf": 84.7,
+     "issues": [],
+     "text": "Define abs_tol/rel_tol y documéntalos en el contrato."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.heading",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 2.6,
+     "fh": 45.7,
+     "inf": 39.9,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Casos negativos y mensajes útiles"
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 15,
+     "spw": 2.33,
+     "fh": 51.5,
+     "inf": 46.5,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Los casos negativos prueban inputs inválidos: , vacío, tipo incorrecto, encoding roto, score fuera de rango."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 25,
+     "spw": 1.92,
+     "fh": 66.1,
+     "inf": 62.2,
+     "issues": [],
+     "text": "Deben fallar de forma controlada (excepción tipada con mensaje), no con un  críptico en la línea 87 de una librería interna ajena a tu contrato."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 16,
+     "spw": 1.75,
+     "fh": 85.5,
+     "inf": 81.8,
+     "issues": [],
+     "text": "Si el motor traga basura en silencio, el matching “funciona” con datos que no debían entrar."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 17,
+     "spw": 1.88,
+     "fh": 76.6,
+     "inf": 72.6,
+     "issues": [],
+     "text": "Mensajes de error útiles nombran el campo y el valor ofensivo (sintético, sin PII real ni tokens)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 15,
+     "spw": 1.73,
+     "fh": 87.5,
+     "inf": 83.8,
+     "issues": [],
+     "text": "Eso acelera el fix en CI:  gana a un genérico  que no dice dónde mirar."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 17,
+     "spw": 2.0,
+     "fh": 69.5,
+     "inf": 65.2,
+     "issues": [],
+     "text": "En un equipo que opera el clerical queue, el mensaje es documentación viva del contrato de entrada."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 9,
+     "spw": 2.56,
+     "fh": 44.3,
+     "inf": 38.6,
+     "issues": [],
+     "text": "Diseña una tabla: input → excepción esperada → fragmento de mensaje."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 18,
+     "spw": 1.89,
+     "fh": 75.1,
+     "inf": 71.2,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Cubre al menos un happy path y tres negativos por función pública del motor (, , validadores de RUC sintético)."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 16,
+     "spw": 1.88,
+     "fh": 78.0,
+     "inf": 74.0,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Es la misma idea que , aplicada a bordes de validación en vez de a oráculos felices."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.title",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 4,
+     "spw": 2.0,
+     "fh": 82.8,
+     "inf": 78.2,
+     "issues": [],
+     "text": "Sin secretos en mensajes"
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.content",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 1.4,
+     "fh": 112.6,
+     "inf": 109.6,
+     "issues": [],
+     "text": "No imprimas tokens ni PII real en asserts de CI."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 8,
+     "spw": 2.5,
+     "fh": 48.7,
+     "inf": 43.1,
+     "issues": [],
+     "text": "El valor ofensivo debe ser sintético o enmascarado."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.heading",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 1.83,
+     "fh": 90.7,
+     "inf": 86.6,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Cobertura por rama y por riesgo"
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 41,
+     "spw": 1.61,
+     "fh": 68.4,
+     "inf": 65.5,
+     "issues": [
+      [
+       "MED",
+       "long",
+       "41w"
+      ]
+     ],
+     "text": "Branch coverage mide si cada rama (if/else) se ejecutó. 100% de líneas no implica 100% de riesgo cubierto: puedes cubrir logs, pretty-print y helpers de formato y dejar sin test la rama de umbral  que mueve el clerical queue."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 13,
+     "spw": 1.85,
+     "fh": 82.8,
+     "inf": 78.8,
+     "issues": [],
+     "text": "El reporte de coverage es un mapa; tú decides dónde poner la lupa."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 23,
+     "spw": 1.96,
+     "fh": 66.0,
+     "inf": 61.9,
+     "issues": [],
+     "text": "Risk coverage: prioriza ramas de negocio (auto-match / review / non-match, campos faltantes, empates de score en el borde del umbral) sobre decoración."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 34,
+     "spw": 1.62,
+     "fh": 75.1,
+     "inf": 72.1,
+     "issues": [
+      [
+       "MED",
+       "long",
+       "34w"
+      ]
+     ],
+     "text": "En un clasificador de pares sintéticos, las tres bandas de umbral son el núcleo del contrato — no el color del badge en la UI ni el orden de las columnas del CSV de evidencia."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 13,
+     "spw": 2.08,
+     "fh": 69.0,
+     "inf": 64.4,
+     "issues": [],
+     "text": "Reporta cobertura como evidencia para el equipo, no como meta vacía del 100%."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 23,
+     "spw": 1.87,
+     "fh": 71.2,
+     "inf": 67.4,
+     "issues": [],
+     "text": "Una rama de umbral sin caso es deuda: en producción el clerical queue verá estados que CI nunca ejercitó y confiará en basura."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 20,
+     "spw": 1.55,
+     "fh": 93.4,
+     "inf": 90.3,
+     "issues": [],
+     "text": "En la retro del sprint, pregunta “¿qué rama de negocio no tiene caso?” antes de “¿llegamos al 90% de líneas?”."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.content",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 21,
+     "spw": 1.67,
+     "fh": 85.4,
+     "inf": 82.0,
+     "issues": [],
+     "text": "Si una rama de 'review' nunca se prueba, la cola de revisión se romperá en producción sin que CI se entere."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.heading",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 2.83,
+     "fh": 30.7,
+     "inf": 24.3,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Mutación conceptual, fallas útiles y mantenimiento"
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 18,
+     "spw": 2.39,
+     "fh": 45.1,
+     "inf": 40.0,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Mutación conceptual: cambia deliberadamente el código (quita un , invierte un umbral, elimina ) y verifica que algún test falle."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 14,
+     "spw": 1.64,
+     "fh": 94.0,
+     "inf": 90.5,
+     "issues": [],
+     "text": "Si la suite sigue verde, el test es teatro de cobertura, no un contrato."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 21,
+     "spw": 1.9,
+     "fh": 71.1,
+     "inf": 67.2,
+     "issues": [],
+     "text": "No necesitas un framework de mutación el primer día: un mutante a mano en un branch local ya expone oráculos débiles."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 12,
+     "spw": 2.33,
+     "fh": 54.6,
+     "inf": 49.5,
+     "issues": [],
+     "text": "Fallas útiles muestran input sintético, esperado vs actual y el contrato violado."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 6,
+     "spw": 1.83,
+     "fh": 90.7,
+     "inf": 86.6,
+     "issues": [],
+     "text": "Evita  o un bare  sin contexto."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 25,
+     "spw": 1.56,
+     "fh": 87.7,
+     "inf": 84.6,
+     "issues": [],
+     "text": "Un dict  (o el rewrite de pytest) acelera el fix en CI y en code review: el colega no tiene que adivinar qué raw entró."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.paragraphs",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 21,
+     "spw": 2.29,
+     "fh": 48.3,
+     "inf": 43.4,
+     "issues": [],
+     "text": "Mantenimiento: borra tests que solo copian la implementación; renombra con intención (); parametriza tablas; no dupliques el mismo oráculo en tres sitios."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 12,
+     "spw": 1.83,
+     "fh": 84.6,
+     "inf": 80.6,
+     "issues": [],
+     "text": "Política del ciclo: bug_repro → regression_test antes de cerrar el ticket."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 16,
+     "spw": 1.88,
+     "fh": 78.0,
+     "inf": 74.0,
+     "issues": [],
+     "text": "En S28 ampliarás estos contratos con dobles () y pruebas de integración entre módulos del motor ER."
+    }
+   ]
+  },
+  {
+   "path": "section27.theory.?.callout.content",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 20,
+     "spw": 2.0,
+     "fh": 66.4,
+     "inf": 62.2,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Si alteras un comparador (quita , invierte umbral) y todos los tests siguen verdes, no tienes contrato: tienes teatro de cobertura."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 14,
+     "spw": 1.86,
+     "fh": 81.1,
+     "inf": 77.1,
+     "issues": [],
+     "text": "Añade el caso que mata al mutante y déjalo en la suite como regresión."
+    }
+   ]
+  },
+  {
+   "path": "section27.iDo.intro",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 27,
+     "spw": 2.15,
+     "fh": 50.4,
+     "inf": 46.0,
+     "issues": [],
+     "text": "Te muestro cómo priorizar riesgos, escribir AAA con oráculos, descubrir tests estilo pytest, aislar fixtures y matar mutantes sobre normalización/matching sintético — inicio de CP-N3-A."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 19,
+     "spw": 1.68,
+     "fh": 86.4,
+     "inf": 82.9,
+     "issues": [],
+     "text": "Observa el contrato (entrada → assert → salida) y el por qué de cada demo antes de tocar los We Do."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.intro",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 15,
+     "spw": 1.93,
+     "fh": 75.5,
+     "inf": 71.4,
+     "issues": [],
+     "text": "24 ejercicios en tres capas por subtema: E1 guiado (micro-bug), E2 independiente, E3 transferencia."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 23,
+     "spw": 2.48,
+     "fh": 34.7,
+     "inf": 29.4,
+     "issues": [
+      [
+       "LOW",
+       "comma_density",
+       "8"
+      ]
+     ],
+     "text": "Cubren pirámide de riesgo, AAA/oráculos, discovery y parametrize, fixtures/scopes, bordes (isclose, raises+match, tempfile), negativos, cobertura de ramas y mutación conceptual."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 18,
+     "spw": 1.67,
+     "fh": 88.5,
+     "inf": 85.0,
+     "issues": [],
+     "text": "Cada starter trae un comentario  que marca el bug a corregir (patrón de caza de fallas del curso)."
+    },
+    {
+     "pi": 0,
+     "si": 3,
+     "wc": 14,
+     "spw": 1.93,
+     "fh": 76.8,
+     "inf": 72.7,
+     "issues": [],
+     "text": "Imprime solo las líneas del oráculo de la solución — sin prints extra de depuración."
+    },
+    {
+     "pi": 0,
+     "si": 4,
+     "wc": 8,
+     "spw": 2.5,
+     "fh": 48.7,
+     "inf": 43.1,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Datos sintéticos ; matching no etiqueta fraude ni parentesco."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 9,
+     "spw": 1.22,
+     "fh": 124.3,
+     "inf": 121.7,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T1-A-E1 · El score de riesgo es ."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 17,
+     "spw": 1.76,
+     "fh": 83.6,
+     "inf": 79.9,
+     "issues": [],
+     "text": "Con impact=5 y likelihood=4, corrige el starter (hoy suma) e imprime solo el score numérico."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 4,
+     "spw": 2.5,
+     "fh": 52.8,
+     "inf": 47.1,
+     "issues": [],
+     "text": "print del producto únicamente"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.tests",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 3,
+     "spw": 2.0,
+     "fh": 83.8,
+     "inf": 79.2,
+     "issues": [],
+     "text": "score numérico = 20"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 1.36,
+     "fh": 113.8,
+     "inf": 110.9,
+     "issues": [],
+     "text": "El score de priorización es producto, no suma: 5×4=20."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 20,
+     "spw": 1.9,
+     "fh": 72.4,
+     "inf": 68.5,
+     "issues": [],
+     "text": "S27-T1-A-E2 · Ordena las áreas por score de riesgo (impacto×probabilidad) descendente e imprime la lista de nombres."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 7,
+     "spw": 2.43,
+     "fh": 54.0,
+     "inf": 48.5,
+     "issues": [],
+     "text": "El starter ordena ascendente: invierte el criterio."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 5,
+     "spw": 2.0,
+     "fh": 81.7,
+     "inf": 77.2,
+     "issues": [],
+     "text": "Solo esa línea de salida."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 1.83,
+     "fh": 90.7,
+     "inf": 86.6,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "imprime solo la lista de nombres"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 2.0,
+     "fh": 78.7,
+     "inf": 74.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "empates: el orden secundario no se pide aquí"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.tests",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 1.71,
+     "fh": 96.8,
+     "inf": 93.0,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "lista de nombres unit antes que e2e"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 2.0,
+     "fh": 75.6,
+     "inf": 71.2,
+     "issues": [],
+     "text": "Orden descendente por impacto×probabilidad: unit (25) antes que e2e (2)."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 21,
+     "spw": 1.71,
+     "fh": 82.6,
+     "inf": 79.0,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T1-A-E3 · Transfiere la pirámide de riesgo: dada la lista , elige la de mayor score e imprime su capa."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 8,
+     "spw": 1.75,
+     "fh": 93.7,
+     "inf": 89.8,
+     "issues": [],
+     "text": "El starter usa  (elige la de menor score)."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 8,
+     "spw": 1.88,
+     "fh": 86.2,
+     "inf": 82.0,
+     "issues": [],
+     "text": "Debe salir  (normalize gana a la UI e2e)."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 1.5,
+     "fh": 106.6,
+     "inf": 103.4,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "imprime el índice de capa (r[2]), no el nombre"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 2.0,
+     "fh": 79.7,
+     "inf": 75.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "empates: no se piden aquí; prioriza score"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.tests",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 1.62,
+     "fh": 101.2,
+     "inf": 97.6,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "capa de la fila con mayor score = unit"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 14,
+     "spw": 1.86,
+     "fh": 81.1,
+     "inf": 77.1,
+     "issues": [],
+     "text": "Priorizar por score (max) pone unit en la base ancha; min invierte la pirámide."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 13,
+     "spw": 1.92,
+     "fh": 78.2,
+     "inf": 74.0,
+     "issues": [],
+     "text": "S27-T1-B-E1 · Implementa normalización de nombre:  + colapsar espacios con split/join."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 9,
+     "spw": 1.89,
+     "fh": 84.3,
+     "inf": 80.2,
+     "issues": [],
+     "text": "Imprime el resultado de  (el starter solo hace strip)."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 5,
+     "spw": 2.0,
+     "fh": 81.7,
+     "inf": 77.2,
+     "issues": [],
+     "text": "Una sola línea de salida."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 1.0,
+     "fh": 141.7,
+     "inf": 139.5,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "tabs y NBSP en prod"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 16,
+     "spw": 1.88,
+     "fh": 78.0,
+     "inf": 74.0,
+     "issues": [],
+     "text": "casefold + split/join colapsa espacios y unifica mayúsculas: ' A B ' → 'a b'. strip solo no basta."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 20,
+     "spw": 1.55,
+     "fh": 93.4,
+     "inf": 90.3,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T1-B-E2 · AAA: con oráculo , haz assert de que  coincide e imprime  solo si el assert no falla."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 7,
+     "spw": 1.86,
+     "fh": 88.3,
+     "inf": 84.1,
+     "issues": [],
+     "text": "El starter imprime  tras un assert correcto."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 1.62,
+     "fh": 101.2,
+     "inf": 97.6,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "no imprimas fail si el contrato se cumple"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 2.17,
+     "fh": 70.7,
+     "inf": 65.9,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "falla ruidosa si rompes el oráculo"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 1.73,
+     "fh": 92.0,
+     "inf": 88.2,
+     "issues": [],
+     "text": "Tras el assert, imprime 'pass' solo si el oráculo se cumplió."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 9,
+     "spw": 1.56,
+     "fh": 104.3,
+     "inf": 100.9,
+     "issues": [],
+     "text": "Un 'fail' después de un assert verde confunde CI."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 22,
+     "spw": 2.18,
+     "fh": 53.5,
+     "inf": 48.9,
+     "issues": [],
+     "text": "S27-T1-B-E3 · Oráculo de matching exacto: normaliza ambos lados ( + colapsar espacios) e imprime True si representan la misma entidad sintética."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 5,
+     "spw": 2.0,
+     "fh": 81.7,
+     "inf": 77.2,
+     "issues": [],
+     "text": "El starter compara crudo ( → False)."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 1.25,
+     "fh": 123.7,
+     "inf": 121.0,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "' '.join(s.casefold().split()) en a y b"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 14,
+     "spw": 2.64,
+     "fh": 34.0,
+     "inf": 28.2,
+     "issues": [],
+     "text": "Matching exacto compara entidades normalizadas, no cadenas crudas: casefold + colapsar espacios en ambos lados."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 20,
+     "spw": 1.65,
+     "fh": 87.4,
+     "inf": 84.0,
+     "issues": [],
+     "text": "S27-T2-A-E1 · Discovery: de la lista de nombres, imprime solo los que empiezan con  (como pytest descubre casos)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 6,
+     "spw": 2.0,
+     "fh": 80.7,
+     "inf": 76.2,
+     "issues": [],
+     "text": "El starter imprime la lista completa."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 4,
+     "spw": 1.25,
+     "fh": 127.8,
+     "inf": 125.0,
+     "issues": [],
+     "text": "helpers no son tests"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 19,
+     "spw": 1.47,
+     "fh": 99.0,
+     "inf": 96.0,
+     "issues": [],
+     "text": "pytest descubre nombres que empiezan con test_*; helper no es un caso de la suite ni un node id."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 16,
+     "spw": 1.5,
+     "fh": 100.5,
+     "inf": 97.4,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T2-A-E2 · Simula un assert con mensaje útil: si left != right imprime , si no ."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 10,
+     "spw": 1.5,
+     "fh": 106.6,
+     "inf": 103.4,
+     "issues": [],
+     "text": "El starter siempre imprime  aunque left='a' y right='b'."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 1.5,
+     "fh": 108.7,
+     "inf": 105.4,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "pytest real mostraría el diff de ambos lados"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 2.43,
+     "fh": 54.0,
+     "inf": 48.5,
+     "issues": [],
+     "text": "Un assert honesto distingue igualdad de desigualdad."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 9,
+     "spw": 1.78,
+     "fh": 91.0,
+     "inf": 87.1,
+     "issues": [],
+     "text": "Siempre imprimir 'ok' es teatro de verde, no contrato."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 17,
+     "spw": 1.76,
+     "fh": 83.6,
+     "inf": 79.9,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T2-A-E3 · Tabla estilo : con , aplica  a cada entrada e imprime la lista de booleanos ."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 10,
+     "spw": 1.7,
+     "fh": 94.6,
+     "inf": 90.9,
+     "issues": [],
+     "text": "El starter compara crudo (sin strip) y falla ambos casos."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hint",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 2.0,
+     "fh": 81.7,
+     "inf": 77.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "list comprehension sobre la tabla"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 1.45,
+     "fh": 108.3,
+     "inf": 105.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "cada fila sería un node id con [param] en pytest real"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 1.9,
+     "fh": 82.6,
+     "inf": 78.5,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "casefold se suma en el contrato real de normalize_name"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.tests",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 1.14,
+     "fh": 131.1,
+     "inf": 128.6,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "lista de bools True, True tras strip"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 21,
+     "spw": 1.95,
+     "fh": 68.3,
+     "inf": 64.2,
+     "issues": [],
+     "text": "Parametrize es una tabla que se ejecuta: no basta con imprimir las tuplas; hay que aplicar el oráculo a cada fila."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 23,
+     "spw": 1.65,
+     "fh": 84.2,
+     "inf": 80.9,
+     "issues": [],
+     "text": "S27-T2-B-E1 · Aislamiento de fixture: copia profunda de una lista de dicts, muta la copia y demuestra que  sigue siendo 1."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 8,
+     "spw": 2.12,
+     "fh": 71.2,
+     "inf": 66.4,
+     "issues": [],
+     "text": "El starter usa  superficial (comparte el dict interno)."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 1.57,
+     "fh": 105.4,
+     "inf": 101.9,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "mutación solo en la copia del test"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 15,
+     "spw": 2.2,
+     "fh": 59.5,
+     "inf": 54.8,
+     "issues": [],
+     "text": "deepcopy aísla dicts anidados; list.copy() superficial comparte el dict interno y contamina el original."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 17,
+     "spw": 1.65,
+     "fh": 90.7,
+     "inf": 87.2,
+     "issues": [],
+     "text": "S27-T2-B-E2 · Política de scopes para datos mutables: el dict  marca qué scopes aíslan bien."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 12,
+     "spw": 1.83,
+     "fh": 84.6,
+     "inf": 80.6,
+     "issues": [],
+     "text": "Elige el scope por defecto de pytest (el marcado True) e imprímelo."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 7,
+     "spw": 2.14,
+     "fh": 71.1,
+     "inf": 66.3,
+     "issues": [],
+     "text": "El starter elige  (False: contamina entre tests)."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hint",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 1.4,
+     "fh": 117.7,
+     "inf": 114.6,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "busca el scope con True"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 2.2,
+     "fh": 64.6,
+     "inf": 59.8,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "session reutiliza estado y no es seguro para listas mutables"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 2.12,
+     "fh": 71.2,
+     "inf": 66.4,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "session solo para recursos caros de solo lectura"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 13,
+     "spw": 1.77,
+     "fh": 87.4,
+     "inf": 83.6,
+     "issues": [],
+     "text": "function-scope es el default seguro de pytest: cada test recibe setup fresco."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 9,
+     "spw": 2.11,
+     "fh": 71.0,
+     "inf": 66.3,
+     "issues": [],
+     "text": "Session-scope sobre listas mutables produce flakes de orden."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 2.0,
+     "fh": 76.6,
+     "inf": 72.2,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T2-B-E3 · Factory fixture:  devuelve n contactos sintéticos ."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 8,
+     "spw": 1.62,
+     "fh": 101.2,
+     "inf": 97.6,
+     "issues": [],
+     "text": "El starter hardcodea 0 e ignora la factory."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 2.2,
+     "fh": 69.7,
+     "inf": 64.8,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "usa la función make definida"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 1.6,
+     "fh": 105.7,
+     "inf": 102.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "ids sintéticos c0, c1, c2"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 1.6,
+     "fh": 105.7,
+     "inf": 102.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "n=0 devuelve lista vacía"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 1.88,
+     "fh": 86.2,
+     "inf": 82.0,
+     "issues": [],
+     "text": "La factory fixture crea N entidades por caso."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 10,
+     "spw": 1.9,
+     "fh": 82.6,
+     "inf": 78.5,
+     "issues": [],
+     "text": "Hardcodear el tamaño no prueba la factory ni el aislamiento."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 14,
+     "spw": 1.5,
+     "fh": 102.6,
+     "inf": 99.4,
+     "issues": [],
+     "text": "S27-T3-A-E1 · Floats en scores de matching: usa  e imprime el booleano."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 13,
+     "spw": 1.77,
+     "fh": 87.4,
+     "inf": 83.6,
+     "issues": [],
+     "text": "El starter usa  exacto (trampa IEEE-754 que también rompe umbrales en producción)."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 5,
+     "spw": 2.0,
+     "fh": 81.7,
+     "inf": 77.2,
+     "issues": [],
+     "text": "Una sola línea de salida."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 12,
+     "spw": 1.58,
+     "fh": 99.6,
+     "inf": 96.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "no uses == en floats de probabilidad ni en thr_auto/thr_review"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 1.91,
+     "fh": 81.1,
+     "inf": 76.9,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "abs_tol en scores de matching; documenta tolerancia en el contrato"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 16,
+     "spw": 1.12,
+     "fh": 123.0,
+     "inf": 120.7,
+     "issues": [],
+     "text": "math.isclose evita la trampa IEEE-754 de 0.1+0.2 en scores de matching."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 10,
+     "spw": 1.6,
+     "fh": 100.6,
+     "inf": 97.2,
+     "issues": [],
+     "text": "Documenta abs_tol/rel_tol en el contrato del umbral."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 24,
+     "spw": 1.79,
+     "fh": 74.9,
+     "inf": 71.2,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T3-A-E2 · Modelo de : captura el  de  e imprime  solo si el mensaje contiene el fragmento  (en CPython suele decir invalid literal)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 7,
+     "spw": 2.14,
+     "fh": 71.1,
+     "inf": 66.3,
+     "issues": [],
+     "text": "El starter imprime  sin inspeccionar el mensaje."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 1.6,
+     "fh": 100.6,
+     "inf": 97.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "print(True) solo si el fragmento está en el mensaje"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 1.88,
+     "fh": 86.2,
+     "inf": 82.0,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "match= es subcadena, no regex completa salvo flags"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.tests",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 2.0,
+     "fh": 78.7,
+     "inf": 74.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "True si el mensaje del ValueError contiene 'invalid'"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 20,
+     "spw": 1.7,
+     "fh": 84.4,
+     "inf": 80.9,
+     "issues": [],
+     "text": "pytest.raises(..., match=) falla si el tipo es correcto pero el mensaje no cuadra: el fragmento es parte del contrato."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 16,
+     "spw": 1.31,
+     "fh": 111.8,
+     "inf": 109.1,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T3-A-E3 · Escribe  en un  de texto (utf-8), reabre por path e imprime ."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 9,
+     "spw": 1.89,
+     "fh": 84.3,
+     "inf": 80.2,
+     "issues": [],
+     "text": "El starter imprime cadena vacía sin leer el archivo."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 2.0,
+     "fh": 80.7,
+     "inf": 76.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "delete=False para conservar el path"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 1.38,
+     "fh": 116.2,
+     "inf": 113.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "encoding utf-8 al escribir y al leer"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 1.4,
+     "fh": 117.7,
+     "inf": 114.6,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "borrar en finally en prod"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 2.5,
+     "fh": 48.7,
+     "inf": 43.1,
+     "issues": [],
+     "text": "NamedTemporaryFile con delete=False deja un path reabrable."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 11,
+     "spw": 1.82,
+     "fh": 86.5,
+     "inf": 82.6,
+     "issues": [],
+     "text": "El contrato lee el contenido (utf-8); no asumas cadena vacía."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 23,
+     "spw": 1.78,
+     "fh": 76.4,
+     "inf": 72.8,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T3-B-E1 · Caso negativo de email: si , lanza , captúralo e imprime el mensaje (texto del contrato), no el nombre del tipo."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 9,
+     "spw": 1.67,
+     "fh": 97.7,
+     "inf": 94.0,
+     "issues": [],
+     "text": "El starter imprime  y pierde el detalle en CI."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 4,
+     "spw": 2.25,
+     "fh": 67.8,
+     "inf": 62.7,
+     "issues": [],
+     "text": "raise ValueError('email vacío')"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 13,
+     "spw": 1.85,
+     "fh": 82.8,
+     "inf": 78.8,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "el mensaje es el contrato del caso negativo; el tipo solo no basta"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 1.91,
+     "fh": 81.1,
+     "inf": 76.9,
+     "issues": [],
+     "text": "El mensaje de la excepción es el contrato del caso negativo."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 12,
+     "spw": 1.67,
+     "fh": 94.6,
+     "inf": 91.0,
+     "issues": [],
+     "text": "Solo imprimir el nombre del tipo no acelera el fix en CI."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 18,
+     "spw": 1.83,
+     "fh": 78.5,
+     "inf": 74.6,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T3-B-E2 · Validación mínima de email sintético (no RFC completo): si  no contiene , imprime ; si no, ."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 8,
+     "spw": 1.88,
+     "fh": 86.2,
+     "inf": 82.0,
+     "issues": [],
+     "text": "El starter siempre imprime  aunque  — teatro de verde."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 2.0,
+     "fh": 75.6,
+     "inf": 71.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "no es validación RFC completa; basta el contrato mínimo del curso"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 9,
+     "spw": 1.67,
+     "fh": 97.7,
+     "inf": 94.0,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "no es validación RFC completa; no uses PII real"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 2.17,
+     "fh": 70.7,
+     "inf": 65.9,
+     "issues": [],
+     "text": "Un email sintético sin '@' es inválido."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 12,
+     "spw": 2.08,
+     "fh": 69.6,
+     "inf": 65.0,
+     "issues": [],
+     "text": "El caso negativo debe fallar de forma controlada, no imprimir siempre 'ok'."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 20,
+     "spw": 1.8,
+     "fh": 78.4,
+     "inf": 74.7,
+     "issues": [],
+     "text": "S27-T3-B-E3 · Mensaje útil sin PII: con  construye e imprime  (nombra el campo y el valor ofensivo sintético)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 12,
+     "spw": 1.75,
+     "fh": 89.6,
+     "inf": 85.8,
+     "issues": [],
+     "text": "El starter imprime un genérico  que no dice dónde mirar en CI."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 1.71,
+     "fh": 96.8,
+     "inf": 93.0,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ],
+      [
+       "MED",
+       "missing_¡",
+       ""
+      ]
+     ],
+     "text": "print(f'campo score inválido: {v!r}')"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 12,
+     "spw": 1.5,
+     "fh": 104.6,
+     "inf": 101.4,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "nombra el campo en el mensaje; no loguees tokens ni PII real"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 2.3,
+     "fh": 58.6,
+     "inf": 53.5,
+     "issues": [],
+     "text": "Mensajes útiles nombran el campo y el valor ofensivo (sintético)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 7,
+     "spw": 2.0,
+     "fh": 79.7,
+     "inf": 75.2,
+     "issues": [],
+     "text": "Un 'error' genérico no dice dónde mirar."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 13,
+     "spw": 1.38,
+     "fh": 110.5,
+     "inf": 107.6,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T4-A-E1 · Dos ramas de negocio:  retorna  si x>0 else ."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 7,
+     "spw": 1.86,
+     "fh": 88.3,
+     "inf": 84.1,
+     "issues": [],
+     "text": "Imprime ambas:  y  en una línea (como )."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 6,
+     "spw": 2.0,
+     "fh": 80.7,
+     "inf": 76.2,
+     "issues": [],
+     "text": "El starter solo imprime una rama."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 1.5,
+     "fh": 110.7,
+     "inf": 107.4,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "ambas ramas en un solo print"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 1.86,
+     "fh": 88.3,
+     "inf": 84.1,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "cubrir hi y lo = branch coverage mínima"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 1.0,
+     "fh": 141.7,
+     "inf": 139.5,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "rama ==0 cae en lo"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 13,
+     "spw": 2.08,
+     "fh": 69.0,
+     "inf": 64.4,
+     "issues": [],
+     "text": "Branch coverage mínima: ejercita ambas ramas (hi y lo) en la misma evidencia."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 8,
+     "spw": 2.12,
+     "fh": 71.2,
+     "inf": 66.4,
+     "issues": [],
+     "text": "Una sola llamada deja una rama sin contrato."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 18,
+     "spw": 1.61,
+     "fh": 91.8,
+     "inf": 88.5,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T4-A-E2 · Risk coverage: dado el set de ramas cubiertas , imprime True si falta la rama ."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 10,
+     "spw": 1.9,
+     "fh": 82.6,
+     "inf": 78.5,
+     "issues": [],
+     "text": "El starter pregunta si  está en el set (respuesta invertida)."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 22,
+     "spw": 1.55,
+     "fh": 91.7,
+     "inf": 88.6,
+     "issues": [],
+     "text": "Si falta la banda 'non' en la evidencia, hay deuda de risk coverage en umbrales de matching — CI no vio non_match."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 14,
+     "spw": 1.5,
+     "fh": 102.6,
+     "inf": 99.4,
+     "issues": [],
+     "text": "S27-T4-A-E3 · Porcentaje de ramas cubiertas: 2 de 3 → entero truncado 66 ()."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 11,
+     "spw": 1.82,
+     "fh": 86.5,
+     "inf": 82.6,
+     "issues": [],
+     "text": "El starter imprime la fracción k/n sin escalar a porcentaje."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 1.88,
+     "fh": 86.2,
+     "inf": 82.0,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "evidencia de cobertura, no meta vacía del 100%"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 2.0,
+     "fh": 79.7,
+     "inf": 75.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "no uses solo line coverage como KPI"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 2.12,
+     "fh": 71.2,
+     "inf": 66.4,
+     "issues": [],
+     "text": "Reporta cobertura como porcentaje legible (int 0–100)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 13,
+     "spw": 1.85,
+     "fh": 82.8,
+     "inf": 78.8,
+     "issues": [],
+     "text": "La fracción k/n sin escalar no es evidencia accionable en el equipo."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 1.8,
+     "fh": 88.6,
+     "inf": 84.7,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T4-B-E1 · Mutante conceptual:  cumple el oráculo ;  no."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 11,
+     "spw": 1.91,
+     "fh": 81.1,
+     "inf": 76.9,
+     "issues": [],
+     "text": "Imprime True solo si good pasa y el mutante queda detectado ()."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 7,
+     "spw": 1.86,
+     "fh": 88.3,
+     "inf": 84.1,
+     "issues": [],
+     "text": "El starter exige que mutant también pase."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hint",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 1.2,
+     "fh": 129.7,
+     "inf": 127.1,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ],
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "good == 'a' and mutant != 'a'"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 1.67,
+     "fh": 100.7,
+     "inf": 97.0,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "el test debe matar al mutante"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 7,
+     "spw": 1.71,
+     "fh": 96.8,
+     "inf": 93.0,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "si ambos pasan, el contrato es teatro"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 1.8,
+     "fh": 93.7,
+     "inf": 89.7,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "mutación de umbral en matching"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 1.9,
+     "fh": 82.6,
+     "inf": 78.5,
+     "issues": [],
+     "text": "El camino bueno debe pasar y el mutante debe fallar."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 12,
+     "spw": 1.92,
+     "fh": 79.6,
+     "inf": 75.4,
+     "issues": [],
+     "text": "Si ambos pasan el oráculo, no hay contrato: hay teatro de cobertura."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 20,
+     "spw": 1.55,
+     "fh": 93.4,
+     "inf": 90.3,
+     "issues": [
+      [
+       "LOW",
+       "comma_density",
+       "5"
+      ],
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "S27-T4-B-E2 · Falla útil para CI: con , , , imprime un dict con keys , ,  (en ese orden mental de diagnóstico)."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 13,
+     "spw": 1.92,
+     "fh": 78.2,
+     "inf": 74.0,
+     "issues": [],
+     "text": "El starter omite el input y solo muestra expected/actual invertidos de rol."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 9,
+     "spw": 1.22,
+     "fh": 124.3,
+     "inf": 121.7,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "sin input el fix en CI es más lento"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 1.5,
+     "fh": 108.7,
+     "inf": 105.4,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "no incluyas PII real en mensajes de CI"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.tests",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 2.17,
+     "fh": 70.7,
+     "inf": 65.9,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "dict con input/expected/actual sintéticos"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 14,
+     "spw": 2.07,
+     "fh": 68.3,
+     "inf": 63.8,
+     "issues": [],
+     "text": "Una falla útil nombra input sintético, esperado y actual; no solo un assert ciego."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.instruction",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 17,
+     "spw": 1.76,
+     "fh": 83.6,
+     "inf": 79.9,
+     "issues": [],
+     "text": "S27-T4-B-E3 · Ciclo bug_repro → regression_test: el bug era comparar sin normalizar ( vs oráculo )."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 11,
+     "spw": 2.09,
+     "fh": 70.2,
+     "inf": 65.6,
+     "issues": [],
+     "text": "Escribe la regresión: aplica  +  e imprime el booleano del contrato (True)."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 12,
+     "spw": 1.67,
+     "fh": 94.6,
+     "inf": 91.0,
+     "issues": [],
+     "text": "El starter se queda en la fase bug_repro (compara crudo → False)."
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.hints",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 9,
+     "spw": 1.56,
+     "fh": 104.3,
+     "inf": 100.9,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "print(got == oracle) debe ser True tras la regresión"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.edgeCases",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 2.25,
+     "fh": 63.7,
+     "inf": 58.7,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "después parametriza varios raw con el mismo oráculo"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.tests",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 3,
+     "spw": 2.0,
+     "fh": 83.8,
+     "inf": 79.2,
+     "issues": [],
+     "text": "regresión verde: True"
+    }
+   ]
+  },
+  {
+   "path": "section27.weDo.steps.?.feedback",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 23,
+     "spw": 1.96,
+     "fh": 66.0,
+     "inf": 61.9,
+     "issues": [],
+     "text": "bug_repro muestra el fallo crudo; regression_test fija el oráculo normalizado para que un mutante sin strip/casefold no sobreviva en CI."
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.title",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 1.9,
+     "fh": 82.6,
+     "inf": 78.5,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Contratos pytest de normalización y matching — inicio CP-N3-A"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.context",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 27,
+     "spw": 1.96,
+     "fh": 61.5,
+     "inf": 57.5,
+     "issues": [
+      [
+       "LOW",
+       "space_before_punct",
+       ""
+      ]
+     ],
+     "text": "Construye una mini suite pytest (o, si aún no instalas pytest, un módulo de asserts equivalentes) sobre normalización y exact match con contactos sintéticos  (caso , run_id )."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 41,
+     "spw": 2.07,
+     "fh": 40.6,
+     "inf": 36.7,
+     "issues": [
+      [
+       "MED",
+       "long",
+       "41w"
+      ]
+     ],
+     "text": "Cada supuesto del ER debe ser un test ejecutable: mapa de riesgo por capa, tests AAA con oráculos fijos, fixtures con aislamiento function-scope, casos negativos con mensajes útiles, cobertura de ramas de umbral y al menos un mutante conceptual eliminado."
+    },
+    {
+     "pi": 0,
+     "si": 2,
+     "wc": 6,
+     "spw": 2.17,
+     "fh": 70.7,
+     "inf": 65.9,
+     "issues": [],
+     "text": "Matching no implica fraude ni parentesco."
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.objectives",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 15,
+     "spw": 2.0,
+     "fh": 71.5,
+     "inf": 67.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Mapa de riesgos con score y capas unit/integration/e2e para normalize, match y umbrales"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.objectives",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 15,
+     "spw": 1.73,
+     "fh": 87.5,
+     "inf": 83.8,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Tests AAA con oráculos fijos para normalize_name y exact_match (al menos 4 casos)"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.objectives",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 15,
+     "spw": 1.8,
+     "fh": 83.5,
+     "inf": 79.7,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Fixture function-scope (o factory) y ≥3 casos negativos con mensajes que nombran el campo"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.objectives",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 13,
+     "spw": 2.15,
+     "fh": 64.3,
+     "inf": 59.7,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Cobertura de las tres ramas de umbral + un mutante conceptual eliminado por regresión"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.objectives",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 14,
+     "spw": 2.29,
+     "fh": 55.4,
+     "inf": 50.4,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "README en español profesional: límites del fixture, evidencia de corrida y ética no-fraude"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.requirements",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 12,
+     "spw": 1.92,
+     "fh": 79.6,
+     "inf": 75.4,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Datos sintéticos únicamente (); sin PII real ni secretos en asserts ni logs"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.requirements",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 15,
+     "spw": 1.8,
+     "fh": 83.5,
+     "inf": 79.7,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Cada bug documentado en el README o en un test de regresión con oráculo fijo"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.requirements",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 12,
+     "spw": 2.42,
+     "fh": 49.6,
+     "inf": 44.3,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Matching solo responde igualdad de entidad sintética: no implica fraude ni parentesco"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.requirements",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 9,
+     "spw": 2.0,
+     "fh": 77.7,
+     "inf": 73.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Demo reproducible:  o el módulo de asserts del starter"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.requirements",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 16,
+     "spw": 1.56,
+     "fh": 96.8,
+     "inf": 93.5,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Inicio de CP-N3-A: contratos del motor ER listos para ampliar con dobles en S28"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.portfolioNote",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 29,
+     "spw": 2.24,
+     "fh": 42.8,
+     "inf": 38.2,
+     "issues": [],
+     "text": "Entrega de inicio CP-N3-A para tu portafolio: carpeta con código de normalización/matching sintético, tests (pytest preferido), README en español profesional con límites y evidencia de corrida."
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.rubric.?.criterion",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 14,
+     "spw": 2.0,
+     "fh": 72.6,
+     "inf": 68.2,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Cubre los objetivos de contratos pytest de esta sección (riesgo, AAA, fixtures, bordes, mutación)"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.rubric.?.criterion",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 3.0,
+     "fh": 21.7,
+     "inf": 14.9,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Correctitud técnica en entorno declarado"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.rubric.?.criterion",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 10,
+     "spw": 1.9,
+     "fh": 82.6,
+     "inf": 78.5,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Privacidad / sin PII real / sin secretos / sin inferencia de fraude"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.rubric.?.criterion",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 6,
+     "spw": 2.17,
+     "fh": 70.7,
+     "inf": 65.9,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Pruebas o casos de borde documentados"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.rubric.?.criterion",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 5,
+     "spw": 2.4,
+     "fh": 57.7,
+     "inf": 52.3,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Código legible y límites claros"
+    }
+   ]
+  },
+  {
+   "path": "section27.youDo.rubric.?.criterion",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 4,
+     "spw": 3.25,
+     "fh": 7.8,
+     "inf": 0.4,
+     "issues": [],
+     "text": "Documentación en español profesional"
+    }
+   ]
+  },
+  {
+   "path": "section27.selfCheck.questions.?.question",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 1.64,
+     "fh": 97.4,
+     "inf": 93.9,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "En la pirámide de pruebas, la base más ancha suele ser:"
+    }
+   ]
+  },
+  {
+   "path": "section27.selfCheck.questions.?.explanation",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 2.18,
+     "fh": 64.7,
+     "inf": 59.9,
+     "issues": [],
+     "text": "La base ancha son muchas unitarias baratas; arriba, pocas E2E caras."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 17,
+     "spw": 1.82,
+     "fh": 80.1,
+     "inf": 76.2,
+     "issues": [],
+     "text": "El riesgo reordena el tiempo (más casos en normalize/match), no invierte la pirámide con solo UI."
+    }
+   ]
+  },
+  {
+   "path": "section27.selfCheck.questions.?.question",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 4,
+     "spw": 2.25,
+     "fh": 67.8,
+     "inf": 62.7,
+     "issues": [],
+     "text": "Un oráculo confiable es:"
+    }
+   ]
+  },
+  {
+   "path": "section27.selfCheck.questions.?.explanation",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 12,
+     "spw": 2.5,
+     "fh": 44.6,
+     "inf": 39.1,
+     "issues": [],
+     "text": "El assert necesita verdad estable: valor fijo, propiedad invariante o referencia simple."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 15,
+     "spw": 1.47,
+     "fh": 103.5,
+     "inf": 100.5,
+     "issues": [],
+     "text": "Un print, el reloj real o el orden de un set producen flakes, no contrato."
+    }
+   ]
+  },
+  {
+   "path": "section27.selfCheck.questions.?.question",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 8,
+     "spw": 1.62,
+     "fh": 101.2,
+     "inf": 97.6,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Si mutas un casefold y ningún test falla:"
+    }
+   ]
+  },
+  {
+   "path": "section27.selfCheck.questions.?.explanation",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 20,
+     "spw": 2.0,
+     "fh": 66.4,
+     "inf": 62.2,
+     "issues": [],
+     "text": "Mutación conceptual detecta tests inútiles: si el mutante vive, hay que añadir regresión (bug_repro → regression_test) que lo mate."
+    }
+   ]
+  },
+  {
+   "path": "section27.selfCheck.questions.?.question",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 9,
+     "spw": 1.44,
+     "fh": 111.0,
+     "inf": 107.8,
+     "issues": [
+      [
+       "MED",
+       "no_term",
+       ""
+      ]
+     ],
+     "text": "Las pruebas de matching en CP-N3-A demuestran:"
+    }
+   ]
+  },
+  {
+   "path": "section27.selfCheck.questions.?.explanation",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 21,
+     "spw": 2.14,
+     "fh": 56.8,
+     "inf": 52.3,
+     "issues": [],
+     "text": "Entity resolution decide si dos registros sintéticos son la misma entidad tras normalizar; no prueba fraude, parentesco ni envío de correos."
+    }
+   ]
+  },
+  {
+   "path": "section27.selfCheck.questions.?.question",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 18,
+     "spw": 1.61,
+     "fh": 91.8,
+     "inf": 88.5,
+     "issues": [],
+     "text": "¿Cuál es el scope por defecto de una fixture de pytest y por qué importa en datos mutables?"
+    }
+   ]
+  },
+  {
+   "path": "section27.selfCheck.questions.?.explanation",
+   "sents": [
+    {
+     "pi": 0,
+     "si": 0,
+     "wc": 11,
+     "spw": 1.73,
+     "fh": 92.0,
+     "inf": 88.2,
+     "issues": [],
+     "text": "El default es function-scope: cada test recibe un setup fresco."
+    },
+    {
+     "pi": 0,
+     "si": 1,
+     "wc": 18,
+     "spw": 2.0,
+     "fh": 68.5,
+     "inf": 64.2,
+     "issues": [],
+     "text": "Mutar un fixture session/module/package sin cuidado produce flakes de orden; deepcopy no es mágico del scope."
+    }
+   ]
+  }
+ ],
+ "all_sents": [
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 1.8,
+   "fh": 93.7,
+   "inf": 89.7,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Estrategia de pruebas con pytest"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 19,
+   "spw": 2.21,
+   "fh": 54.8,
+   "inf": 50.1,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Convertir supuestos de normalización y matching en contratos ejecutables con pytest; cada bug reproducido deja un test de regresión"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 42,
+   "spw": 1.9,
+   "fh": 49.7,
+   "inf": 46.2,
+   "issues": [
+    [
+     "MED",
+     "long",
+     "42w"
+    ]
+   ],
+   "text": "En equipos de data engineering y compliance en Perú (bancos, fintech, retail con padrones de clientes), un motor de entity resolution solo es confiable si normalización y matching son contratos ejecutables con pytest—no scripts que “pasaron una vez en mi laptop”."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 44,
+   "spw": 1.98,
+   "fh": 43.3,
+   "inf": 39.7,
+   "issues": [
+    [
+     "MED",
+     "long",
+     "44w"
+    ],
+    [
+     "LOW",
+     "comma_density",
+     "6"
+    ]
+   ],
+   "text": "En esta sección inicias CP-N3-A: priorizas pruebas por riesgo y capa (unit/contract/integration), escribes tests AAA con oráculos fijos, aíslas datos con fixtures, cubres bordes (excepciones, floats, fechas, tmp) y demuestras con mutación conceptual que la suite realmente protege el contrato."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 11,
+   "spw": 2.64,
+   "fh": 37.4,
+   "inf": 31.6,
+   "issues": [],
+   "text": "Matching solo responde “¿misma entidad sintética?”; nunca etiqueta fraude ni parentesco."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 12,
+   "spw": 1.92,
+   "fh": 79.6,
+   "inf": 75.4,
+   "issues": [],
+   "text": "En S26 orquestaste el VP con evidencia por estado (RPA + analista HITL)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 13,
+   "spw": 1.92,
+   "fh": 78.2,
+   "inf": 74.0,
+   "issues": [],
+   "text": "Ese pipeline asume que  y el matching se comportan igual mañana que hoy."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 19,
+   "spw": 1.84,
+   "fh": 76.9,
+   "inf": 73.1,
+   "issues": [],
+   "text": "Si alguien “arregla” un  o un umbral sin red de seguridad, el clerical queue hereda basura con confianza falsa."
+  },
+  {
+   "pi": 0,
+   "si": 3,
+   "wc": 29,
+   "spw": 1.76,
+   "fh": 71.7,
+   "inf": 68.3,
+   "issues": [],
+   "text": "Aquí inicias CP-N3-A: conviertes esos supuestos en contratos de prueba con pytest, para que un refactor o un typo no rompa en silencio lo que ya automatizaste."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 23,
+   "spw": 1.96,
+   "fh": 66.0,
+   "inf": 61.9,
+   "issues": [],
+   "text": "Trabajamos un módulo sintético sobre contactos fakes del caso * (run_id=, correos ): sin PII real y sin* auto-veredicto de fraude o parentesco."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 12,
+   "spw": 2.08,
+   "fh": 69.6,
+   "inf": 65.0,
+   "issues": [],
+   "text": "Cada bug reproducido debe dejar un test de regresión con oráculo fijo."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 10,
+   "spw": 2.3,
+   "fh": 58.6,
+   "inf": 53.5,
+   "issues": [],
+   "text": "Matching solo responde: ¿son la misma entidad sintética tras normalizar?"
+  },
+  {
+   "pi": 0,
+   "si": 3,
+   "wc": 14,
+   "spw": 1.93,
+   "fh": 76.8,
+   "inf": 72.7,
+   "issues": [],
+   "text": "El resto del curso (S28+) ampliará dobles e integración; hoy sellas la base unitaria."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 32,
+   "spw": 2.19,
+   "fh": 43.0,
+   "inf": 38.6,
+   "issues": [
+    [
+     "LOW",
+     "comma_density",
+     "8"
+    ]
+   ],
+   "text": "Orden de aprendizaje: T1 Diseño (pirámide, riesgo, AAA y oráculos) → T2 Pytest (discovery, asserts, fixtures y scopes) → T3 Bordes (excepciones, floats, fechas, tmp, negativos) → T4 Cobertura (ramas de negocio y mutación conceptual)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 23,
+   "spw": 1.91,
+   "fh": 68.6,
+   "inf": 64.7,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Dual-track honesto: en tu máquina ; en este entorno del curso ejecutamos el mismo contrato como módulo con  +  cuando no invocas el CLI."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 19,
+   "spw": 1.37,
+   "fh": 105.4,
+   "inf": 102.6,
+   "issues": [],
+   "text": "No hay teatro de “pytest sin pytest”: verás formas  reales aunque el runner del curso no sea el CLI."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 2.0,
+   "fh": 79.7,
+   "inf": 75.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Datos seguros (vale para toda la sección)"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 2.71,
+   "fh": 36.8,
+   "inf": 30.7,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Fixtures y ejercicios usan solo contactos sintéticos ."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 9,
+   "spw": 2.33,
+   "fh": 57.7,
+   "inf": 52.5,
+   "issues": [],
+   "text": "Una prueba de similitud no etiqueta fraude ni parentesco."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 20,
+   "spw": 2.0,
+   "fh": 66.4,
+   "inf": 62.2,
+   "issues": [],
+   "text": "Esa ética queda fijada aquí: no la repitas en cada párrafo; sí aplícala en cada assert y mensaje de error."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 2.0,
+   "fh": 81.7,
+   "inf": 77.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Riesgos y pirámide de pruebas"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 13,
+   "spw": 2.38,
+   "fh": 50.5,
+   "inf": 45.3,
+   "issues": [],
+   "text": "La pirámide prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 35,
+   "spw": 1.54,
+   "fh": 78.6,
+   "inf": 75.7,
+   "issues": [
+    [
+     "MED",
+     "long",
+     "35w"
+    ]
+   ],
+   "text": "El riesgo reordena el tiempo (no la forma de la pirámide): un bug en matching de entidades justifica más tests que un typo de log o un cambio de color en la UI de revisión."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 24,
+   "spw": 1.71,
+   "fh": 79.9,
+   "inf": 76.4,
+   "issues": [],
+   "text": "Si solo mides “número de tests”, puedes hinchar la base con asserts triviales y dejar sin contrato la rama que mueve el clerical queue."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 29,
+   "spw": 2.38,
+   "fh": 34.5,
+   "inf": 29.6,
+   "issues": [],
+   "text": "Clasifica riesgo por impacto (datos incorrectos, regresión silenciosa en el clerical queue, merge de entidades sintéticas mal hecha) y probabilidad (código tocado a menudo, reglas frágiles, historial de bugs)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 34,
+   "spw": 2.03,
+   "fh": 50.4,
+   "inf": 46.4,
+   "issues": [
+    [
+     "MED",
+     "long",
+     "34w"
+    ]
+   ],
+   "text": "En entity resolution, normalización y comparadores son capa de alto riesgo: si fallan, el resto del pipeline hereda basura con confianza falsa y nadie nota el drift hasta que un humano revisa a ciegas."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 14,
+   "spw": 2.29,
+   "fh": 55.4,
+   "inf": 50.4,
+   "issues": [],
+   "text": "No inviertas la pirámide: una batería de E2E lentas no sustituye contratos unitarios de /."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 16,
+   "spw": 2.25,
+   "fh": 55.5,
+   "inf": 50.7,
+   "issues": [],
+   "text": "Heurística práctica: score = impacto × probabilidad; ordena áreas y reparte más casos a las de mayor score."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 15,
+   "spw": 1.2,
+   "fh": 119.5,
+   "inf": 117.1,
+   "issues": [],
+   "text": "Ejemplo sintético de este caso:  (5×4=20) >  (5×3=15) > repo SQL > cola UI."
+  },
+  {
+   "pi": 0,
+   "si": 3,
+   "wc": 20,
+   "spw": 1.3,
+   "fh": 108.4,
+   "inf": 105.8,
+   "issues": [],
+   "text": "Regla de bolsillo para el equipo: score ≥ 15 → ≥ 5 tests de contrato; 8–14 → 2–3; < 8 → smoke + un negativo."
+  },
+  {
+   "pi": 0,
+   "si": 4,
+   "wc": 17,
+   "spw": 1.71,
+   "fh": 87.1,
+   "inf": 83.6,
+   "issues": [],
+   "text": "El score no es ciencia exacta: es una cola de prioridad honestable en la retro del sprint."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 14,
+   "spw": 1.79,
+   "fh": 85.4,
+   "inf": 81.6,
+   "issues": [],
+   "text": "Si el tiempo es finito, cubre primero normalize/match; luego DB; al final UI."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 21,
+   "spw": 1.9,
+   "fh": 71.1,
+   "inf": 67.2,
+   "issues": [],
+   "text": "Escribe el ranking en el README del paquete de tests: el equipo debe poder discutir la cola de prioridad, no adivinarla."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 2.33,
+   "fh": 60.7,
+   "inf": 55.5,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Arrange–Act–Assert y oráculos confiables"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 9,
+   "spw": 2.67,
+   "fh": 37.7,
+   "inf": 31.7,
+   "issues": [],
+   "text": "AAA separa preparación (Arrange), ejecución (Act) y verificación (Assert)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 34,
+   "spw": 1.56,
+   "fh": 78.6,
+   "inf": 75.7,
+   "issues": [
+    [
+     "MED",
+     "long",
+     "34w"
+    ]
+   ],
+   "text": "Si mezclas el setup con el assert, un fallo no te dice si se rompió el dato de entrada, la función bajo prueba o el comparador: pierdes tiempo en CI y en code review."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 18,
+   "spw": 1.94,
+   "fh": 71.8,
+   "inf": 67.7,
+   "issues": [],
+   "text": "Un test AAA legible se lee en 10 segundos: “dado este raw sintético, al normalizar, espero este oráculo”."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 39,
+   "spw": 1.92,
+   "fh": 51.7,
+   "inf": 48.0,
+   "issues": [
+    [
+     "MED",
+     "long",
+     "39w"
+    ]
+   ],
+   "text": "Un oráculo es la fuente de verdad del assert: (1) valor fijo conocido (), (2) propiedad invariante (longitud ≥ 0 tras normalizar; idempotencia de ) o (3) resultado de un algoritmo de referencia simple que confías más que el código bajo prueba."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 29,
+   "spw": 2.07,
+   "fh": 53.1,
+   "inf": 48.9,
+   "issues": [],
+   "text": "En matching, el oráculo no es un veredicto de fraude ni de parentesco: solo responde si dos cadenas normalizadas son la misma entidad sintética bajo el contrato de igualdad."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 21,
+   "spw": 1.71,
+   "fh": 82.6,
+   "inf": 79.0,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Oráculos frágiles generan flakes (tests que fallan al azar): reloj real (), orden de un , JSON sin , red o disco no mockeados."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 7,
+   "spw": 3.0,
+   "fh": 19.7,
+   "inf": 12.9,
+   "issues": [],
+   "text": "Usa contactos sintéticos deterministas () y fechas literales ()."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 19,
+   "spw": 1.84,
+   "fh": 76.9,
+   "inf": 73.1,
+   "issues": [],
+   "text": "Si el assert depende del azar, del entorno o del orden de inserción, no es contrato: es suerte empaquetada."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 3,
+   "spw": 1.33,
+   "fh": 123.8,
+   "inf": 120.8,
+   "issues": [],
+   "text": "no es assert."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 23,
+   "spw": 1.83,
+   "fh": 73.8,
+   "inf": 70.1,
+   "issues": [],
+   "text": "El contrato debe fallar ruidosamente si se rompe; un print amable en verde no protege el merge ni el merge request del colega."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 1.8,
+   "fh": 93.7,
+   "inf": 89.7,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Discovery y assertions de pytest"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 2.0,
+   "fh": 79.7,
+   "inf": 75.2,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "pytest descubre funciones  y clases  en archivos  / ."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 16,
+   "spw": 1.81,
+   "fh": 81.8,
+   "inf": 77.9,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Los node ids () identifican cada caso en CI y permiten re-correr solo el fallido con ."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 25,
+   "spw": 1.72,
+   "fh": 78.1,
+   "inf": 74.7,
+   "issues": [],
+   "text": "Sin naming estable no puedes apuntar a un contrato concreto cuando falla la suite a las 2 a.m.: solo ves “falló algo de normalize”."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 16,
+   "spw": 1.94,
+   "fh": 74.3,
+   "inf": 70.1,
+   "issues": [],
+   "text": "Las assertions reescritas de pytest muestran diff útil:  explica ambos lados sin escribir mensajes a mano."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 4,
+   "spw": 3.0,
+   "fh": 22.8,
+   "inf": 15.9,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Para excepciones esperadas usa ."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 30,
+   "spw": 1.87,
+   "fh": 64.2,
+   "inf": 60.5,
+   "issues": [],
+   "text": "En este lab, si aún no instalas pytest, modelamos el mismo contrato con try/except + comprobación de mensaje: el aprendizaje es el criterio (tipo + fragmento), no la magia del import."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 20,
+   "spw": 1.8,
+   "fh": 78.4,
+   "inf": 74.7,
+   "issues": [],
+   "text": "Parametriza con  (o una tabla de tuplas en un bucle) para casos de normalización sin copiar el cuerpo del test."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 30,
+   "spw": 1.8,
+   "fh": 68.2,
+   "inf": 64.7,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Una tabla  es el corazón de los contratos de  y : cada fila es un node id conceptual; si falla la fila 7, sabes exactamente qué raw sintético rompió el oráculo."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 32,
+   "spw": 1.66,
+   "fh": 74.8,
+   "inf": 71.7,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Si el nombre no empieza por , pytest no lo corre (salvo configuración explícita).  es código de apoyo, no un caso de la suite ni un node id en el reporte de CI."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 16,
+   "spw": 2.19,
+   "fh": 59.3,
+   "inf": 54.6,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Las fixtures inyectan dependencias (datos sintéticos, , relojes fijos) sin globals ni setup copiado en cada test."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 17,
+   "spw": 1.59,
+   "fh": 94.2,
+   "inf": 90.9,
+   "issues": [],
+   "text": "En pytest real escribes  y el nombre del parámetro de la función de test recibe el valor."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 22,
+   "spw": 1.77,
+   "fh": 78.0,
+   "inf": 74.4,
+   "issues": [],
+   "text": "El scope por defecto es function: cada test recibe setup fresco; eso es lo que hace que la suite sea orden-independiente."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 2,
+   "spw": 2.0,
+   "fh": 84.8,
+   "inf": 80.2,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Scopes:  (default), , , ."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 20,
+   "spw": 1.9,
+   "fh": 72.4,
+   "inf": 68.5,
+   "issues": [],
+   "text": "Un fixture session mutado contamina toda la suite y produce flakes de orden (“pasa solo si corre después de X”)."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 21,
+   "spw": 2.48,
+   "fh": 36.8,
+   "inf": 31.6,
+   "issues": [],
+   "text": "Session-scope solo para recursos caros de solo lectura (catálogo estático, configuración inmutable, conexión de lectura a un dataset de fixtures)."
+  },
+  {
+   "pi": 0,
+   "si": 3,
+   "wc": 10,
+   "spw": 1.9,
+   "fh": 82.6,
+   "inf": 78.5,
+   "issues": [],
+   "text": "Si necesitas mutar, vuelve a function o usa una factory."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 12,
+   "spw": 2.25,
+   "fh": 59.6,
+   "inf": 54.7,
+   "issues": [],
+   "text": "Las factory fixtures devuelven callables para crear N entidades sintéticas por caso ()."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 20,
+   "spw": 2.3,
+   "fh": 48.4,
+   "inf": 43.5,
+   "issues": [],
+   "text": "Mecanismo clave de aislamiento: copia profunda de estructuras mutables; un  superficial comparte dicts internos y un test ensucia al siguiente."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 17,
+   "spw": 1.88,
+   "fh": 76.6,
+   "inf": 72.6,
+   "issues": [],
+   "text": "Si ves un fallo que solo aparece con  o al reordenar, sospecha fixture mutable con scope ancho."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 1.82,
+   "fh": 86.5,
+   "inf": 82.6,
+   "issues": [],
+   "text": "Si mutas un fixture session-scope, el siguiente test ve basura."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 3,
+   "spw": 2.33,
+   "fh": 63.8,
+   "inf": 58.5,
+   "issues": [],
+   "text": "Prefiere function + factory."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 8,
+   "spw": 1.75,
+   "fh": 93.7,
+   "inf": 89.8,
+   "issues": [],
+   "text": "En pytest: scope=\"function\" (default) o factory fixture."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 16,
+   "spw": 1.69,
+   "fh": 89.3,
+   "inf": 85.7,
+   "issues": [],
+   "text": "Prueba excepciones con el tipo y, si aplica, el mensaje ( en pytest real; aquí, try/except + )."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 16,
+   "spw": 1.88,
+   "fh": 78.0,
+   "inf": 74.0,
+   "issues": [],
+   "text": "Un  que solo mira el tipo acepta un mensaje basura; el fragmento es parte del contrato."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 23,
+   "spw": 2.04,
+   "fh": 60.8,
+   "inf": 56.5,
+   "issues": [],
+   "text": "Para floats y scores de matching usa tolerancia () o decimal cuantizado:  exacto en  es trampa pedagógica y de producción en umbrales de matching."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 24,
+   "spw": 1.88,
+   "fh": 69.9,
+   "inf": 66.0,
+   "issues": [],
+   "text": "Fechas: no compares  con literales frágiles. Inyecta el reloj: la función recibe  (o un callable de reloj) y el test pasa un literal fijo ()."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 21,
+   "spw": 1.52,
+   "fh": 94.0,
+   "inf": 90.9,
+   "issues": [],
+   "text": "Así el contrato no cambia de un día al otro ni entre zonas horarias de Lima y un runner en UTC."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 22,
+   "spw": 2.05,
+   "fh": 61.7,
+   "inf": 57.4,
+   "issues": [],
+   "text": "Librerías como freezegun son opcionales; la inyección de parámetro basta, es más explícita y no añade dependencia al CI del motor ER."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 15,
+   "spw": 1.67,
+   "fh": 91.5,
+   "inf": 88.0,
+   "issues": [],
+   "text": "tmp_path (pytest) /  (stdlib) evita escribir en el repo o en el home del desarrollador."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 16,
+   "spw": 1.44,
+   "fh": 104.3,
+   "inf": 101.3,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Dos APIs: (1)  borra al salir del ; (2)  deja un path reabrable para reabrir y assert."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 15,
+   "spw": 1.87,
+   "fh": 79.5,
+   "inf": 75.5,
+   "issues": [],
+   "text": "Usa siempre  en texto y documenta si el contrato incluye el salto de línea final."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 14,
+   "spw": 1.71,
+   "fh": 89.7,
+   "inf": 86.0,
+   "issues": [],
+   "text": "Nunca compares floats de probabilidad con igualdad bit a bit en tests de matching."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 10,
+   "spw": 1.8,
+   "fh": 88.6,
+   "inf": 84.7,
+   "issues": [],
+   "text": "Define abs_tol/rel_tol y documéntalos en el contrato."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 2.6,
+   "fh": 45.7,
+   "inf": 39.9,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Casos negativos y mensajes útiles"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 15,
+   "spw": 2.33,
+   "fh": 51.5,
+   "inf": 46.5,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Los casos negativos prueban inputs inválidos: , vacío, tipo incorrecto, encoding roto, score fuera de rango."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 25,
+   "spw": 1.92,
+   "fh": 66.1,
+   "inf": 62.2,
+   "issues": [],
+   "text": "Deben fallar de forma controlada (excepción tipada con mensaje), no con un  críptico en la línea 87 de una librería interna ajena a tu contrato."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 16,
+   "spw": 1.75,
+   "fh": 85.5,
+   "inf": 81.8,
+   "issues": [],
+   "text": "Si el motor traga basura en silencio, el matching “funciona” con datos que no debían entrar."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 17,
+   "spw": 1.88,
+   "fh": 76.6,
+   "inf": 72.6,
+   "issues": [],
+   "text": "Mensajes de error útiles nombran el campo y el valor ofensivo (sintético, sin PII real ni tokens)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 15,
+   "spw": 1.73,
+   "fh": 87.5,
+   "inf": 83.8,
+   "issues": [],
+   "text": "Eso acelera el fix en CI:  gana a un genérico  que no dice dónde mirar."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 17,
+   "spw": 2.0,
+   "fh": 69.5,
+   "inf": 65.2,
+   "issues": [],
+   "text": "En un equipo que opera el clerical queue, el mensaje es documentación viva del contrato de entrada."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 9,
+   "spw": 2.56,
+   "fh": 44.3,
+   "inf": 38.6,
+   "issues": [],
+   "text": "Diseña una tabla: input → excepción esperada → fragmento de mensaje."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 18,
+   "spw": 1.89,
+   "fh": 75.1,
+   "inf": 71.2,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Cubre al menos un happy path y tres negativos por función pública del motor (, , validadores de RUC sintético)."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 16,
+   "spw": 1.88,
+   "fh": 78.0,
+   "inf": 74.0,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Es la misma idea que , aplicada a bordes de validación en vez de a oráculos felices."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 4,
+   "spw": 2.0,
+   "fh": 82.8,
+   "inf": 78.2,
+   "issues": [],
+   "text": "Sin secretos en mensajes"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 1.4,
+   "fh": 112.6,
+   "inf": 109.6,
+   "issues": [],
+   "text": "No imprimas tokens ni PII real en asserts de CI."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 8,
+   "spw": 2.5,
+   "fh": 48.7,
+   "inf": 43.1,
+   "issues": [],
+   "text": "El valor ofensivo debe ser sintético o enmascarado."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 1.83,
+   "fh": 90.7,
+   "inf": 86.6,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Cobertura por rama y por riesgo"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 41,
+   "spw": 1.61,
+   "fh": 68.4,
+   "inf": 65.5,
+   "issues": [
+    [
+     "MED",
+     "long",
+     "41w"
+    ]
+   ],
+   "text": "Branch coverage mide si cada rama (if/else) se ejecutó. 100% de líneas no implica 100% de riesgo cubierto: puedes cubrir logs, pretty-print y helpers de formato y dejar sin test la rama de umbral  que mueve el clerical queue."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 13,
+   "spw": 1.85,
+   "fh": 82.8,
+   "inf": 78.8,
+   "issues": [],
+   "text": "El reporte de coverage es un mapa; tú decides dónde poner la lupa."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 23,
+   "spw": 1.96,
+   "fh": 66.0,
+   "inf": 61.9,
+   "issues": [],
+   "text": "Risk coverage: prioriza ramas de negocio (auto-match / review / non-match, campos faltantes, empates de score en el borde del umbral) sobre decoración."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 34,
+   "spw": 1.62,
+   "fh": 75.1,
+   "inf": 72.1,
+   "issues": [
+    [
+     "MED",
+     "long",
+     "34w"
+    ]
+   ],
+   "text": "En un clasificador de pares sintéticos, las tres bandas de umbral son el núcleo del contrato — no el color del badge en la UI ni el orden de las columnas del CSV de evidencia."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 13,
+   "spw": 2.08,
+   "fh": 69.0,
+   "inf": 64.4,
+   "issues": [],
+   "text": "Reporta cobertura como evidencia para el equipo, no como meta vacía del 100%."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 23,
+   "spw": 1.87,
+   "fh": 71.2,
+   "inf": 67.4,
+   "issues": [],
+   "text": "Una rama de umbral sin caso es deuda: en producción el clerical queue verá estados que CI nunca ejercitó y confiará en basura."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 20,
+   "spw": 1.55,
+   "fh": 93.4,
+   "inf": 90.3,
+   "issues": [],
+   "text": "En la retro del sprint, pregunta “¿qué rama de negocio no tiene caso?” antes de “¿llegamos al 90% de líneas?”."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 21,
+   "spw": 1.67,
+   "fh": 85.4,
+   "inf": 82.0,
+   "issues": [],
+   "text": "Si una rama de 'review' nunca se prueba, la cola de revisión se romperá en producción sin que CI se entere."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 2.83,
+   "fh": 30.7,
+   "inf": 24.3,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Mutación conceptual, fallas útiles y mantenimiento"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 18,
+   "spw": 2.39,
+   "fh": 45.1,
+   "inf": 40.0,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Mutación conceptual: cambia deliberadamente el código (quita un , invierte un umbral, elimina ) y verifica que algún test falle."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 14,
+   "spw": 1.64,
+   "fh": 94.0,
+   "inf": 90.5,
+   "issues": [],
+   "text": "Si la suite sigue verde, el test es teatro de cobertura, no un contrato."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 21,
+   "spw": 1.9,
+   "fh": 71.1,
+   "inf": 67.2,
+   "issues": [],
+   "text": "No necesitas un framework de mutación el primer día: un mutante a mano en un branch local ya expone oráculos débiles."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 12,
+   "spw": 2.33,
+   "fh": 54.6,
+   "inf": 49.5,
+   "issues": [],
+   "text": "Fallas útiles muestran input sintético, esperado vs actual y el contrato violado."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 6,
+   "spw": 1.83,
+   "fh": 90.7,
+   "inf": 86.6,
+   "issues": [],
+   "text": "Evita  o un bare  sin contexto."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 25,
+   "spw": 1.56,
+   "fh": 87.7,
+   "inf": 84.6,
+   "issues": [],
+   "text": "Un dict  (o el rewrite de pytest) acelera el fix en CI y en code review: el colega no tiene que adivinar qué raw entró."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 21,
+   "spw": 2.29,
+   "fh": 48.3,
+   "inf": 43.4,
+   "issues": [],
+   "text": "Mantenimiento: borra tests que solo copian la implementación; renombra con intención (); parametriza tablas; no dupliques el mismo oráculo en tres sitios."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 12,
+   "spw": 1.83,
+   "fh": 84.6,
+   "inf": 80.6,
+   "issues": [],
+   "text": "Política del ciclo: bug_repro → regression_test antes de cerrar el ticket."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 16,
+   "spw": 1.88,
+   "fh": 78.0,
+   "inf": 74.0,
+   "issues": [],
+   "text": "En S28 ampliarás estos contratos con dobles () y pruebas de integración entre módulos del motor ER."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 20,
+   "spw": 2.0,
+   "fh": 66.4,
+   "inf": 62.2,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Si alteras un comparador (quita , invierte umbral) y todos los tests siguen verdes, no tienes contrato: tienes teatro de cobertura."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 14,
+   "spw": 1.86,
+   "fh": 81.1,
+   "inf": 77.1,
+   "issues": [],
+   "text": "Añade el caso que mata al mutante y déjalo en la suite como regresión."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 27,
+   "spw": 2.15,
+   "fh": 50.4,
+   "inf": 46.0,
+   "issues": [],
+   "text": "Te muestro cómo priorizar riesgos, escribir AAA con oráculos, descubrir tests estilo pytest, aislar fixtures y matar mutantes sobre normalización/matching sintético — inicio de CP-N3-A."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 19,
+   "spw": 1.68,
+   "fh": 86.4,
+   "inf": 82.9,
+   "issues": [],
+   "text": "Observa el contrato (entrada → assert → salida) y el por qué de cada demo antes de tocar los We Do."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 15,
+   "spw": 1.93,
+   "fh": 75.5,
+   "inf": 71.4,
+   "issues": [],
+   "text": "24 ejercicios en tres capas por subtema: E1 guiado (micro-bug), E2 independiente, E3 transferencia."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 23,
+   "spw": 2.48,
+   "fh": 34.7,
+   "inf": 29.4,
+   "issues": [
+    [
+     "LOW",
+     "comma_density",
+     "8"
+    ]
+   ],
+   "text": "Cubren pirámide de riesgo, AAA/oráculos, discovery y parametrize, fixtures/scopes, bordes (isclose, raises+match, tempfile), negativos, cobertura de ramas y mutación conceptual."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 18,
+   "spw": 1.67,
+   "fh": 88.5,
+   "inf": 85.0,
+   "issues": [],
+   "text": "Cada starter trae un comentario  que marca el bug a corregir (patrón de caza de fallas del curso)."
+  },
+  {
+   "pi": 0,
+   "si": 3,
+   "wc": 14,
+   "spw": 1.93,
+   "fh": 76.8,
+   "inf": 72.7,
+   "issues": [],
+   "text": "Imprime solo las líneas del oráculo de la solución — sin prints extra de depuración."
+  },
+  {
+   "pi": 0,
+   "si": 4,
+   "wc": 8,
+   "spw": 2.5,
+   "fh": 48.7,
+   "inf": 43.1,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Datos sintéticos ; matching no etiqueta fraude ni parentesco."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 9,
+   "spw": 1.22,
+   "fh": 124.3,
+   "inf": 121.7,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T1-A-E1 · El score de riesgo es ."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 17,
+   "spw": 1.76,
+   "fh": 83.6,
+   "inf": 79.9,
+   "issues": [],
+   "text": "Con impact=5 y likelihood=4, corrige el starter (hoy suma) e imprime solo el score numérico."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 4,
+   "spw": 2.5,
+   "fh": 52.8,
+   "inf": 47.1,
+   "issues": [],
+   "text": "print del producto únicamente"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 3,
+   "spw": 2.0,
+   "fh": 83.8,
+   "inf": 79.2,
+   "issues": [],
+   "text": "score numérico = 20"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 1.36,
+   "fh": 113.8,
+   "inf": 110.9,
+   "issues": [],
+   "text": "El score de priorización es producto, no suma: 5×4=20."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 20,
+   "spw": 1.9,
+   "fh": 72.4,
+   "inf": 68.5,
+   "issues": [],
+   "text": "S27-T1-A-E2 · Ordena las áreas por score de riesgo (impacto×probabilidad) descendente e imprime la lista de nombres."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 7,
+   "spw": 2.43,
+   "fh": 54.0,
+   "inf": 48.5,
+   "issues": [],
+   "text": "El starter ordena ascendente: invierte el criterio."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 5,
+   "spw": 2.0,
+   "fh": 81.7,
+   "inf": 77.2,
+   "issues": [],
+   "text": "Solo esa línea de salida."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 1.83,
+   "fh": 90.7,
+   "inf": 86.6,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "imprime solo la lista de nombres"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 2.0,
+   "fh": 78.7,
+   "inf": 74.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "empates: el orden secundario no se pide aquí"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 1.71,
+   "fh": 96.8,
+   "inf": 93.0,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "lista de nombres unit antes que e2e"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 2.0,
+   "fh": 75.6,
+   "inf": 71.2,
+   "issues": [],
+   "text": "Orden descendente por impacto×probabilidad: unit (25) antes que e2e (2)."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 21,
+   "spw": 1.71,
+   "fh": 82.6,
+   "inf": 79.0,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T1-A-E3 · Transfiere la pirámide de riesgo: dada la lista , elige la de mayor score e imprime su capa."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 8,
+   "spw": 1.75,
+   "fh": 93.7,
+   "inf": 89.8,
+   "issues": [],
+   "text": "El starter usa  (elige la de menor score)."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 8,
+   "spw": 1.88,
+   "fh": 86.2,
+   "inf": 82.0,
+   "issues": [],
+   "text": "Debe salir  (normalize gana a la UI e2e)."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 1.5,
+   "fh": 106.6,
+   "inf": 103.4,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "imprime el índice de capa (r[2]), no el nombre"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 2.0,
+   "fh": 79.7,
+   "inf": 75.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "empates: no se piden aquí; prioriza score"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 1.62,
+   "fh": 101.2,
+   "inf": 97.6,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "capa de la fila con mayor score = unit"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 14,
+   "spw": 1.86,
+   "fh": 81.1,
+   "inf": 77.1,
+   "issues": [],
+   "text": "Priorizar por score (max) pone unit en la base ancha; min invierte la pirámide."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 13,
+   "spw": 1.92,
+   "fh": 78.2,
+   "inf": 74.0,
+   "issues": [],
+   "text": "S27-T1-B-E1 · Implementa normalización de nombre:  + colapsar espacios con split/join."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 9,
+   "spw": 1.89,
+   "fh": 84.3,
+   "inf": 80.2,
+   "issues": [],
+   "text": "Imprime el resultado de  (el starter solo hace strip)."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 5,
+   "spw": 2.0,
+   "fh": 81.7,
+   "inf": 77.2,
+   "issues": [],
+   "text": "Una sola línea de salida."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 1.0,
+   "fh": 141.7,
+   "inf": 139.5,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "tabs y NBSP en prod"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 16,
+   "spw": 1.88,
+   "fh": 78.0,
+   "inf": 74.0,
+   "issues": [],
+   "text": "casefold + split/join colapsa espacios y unifica mayúsculas: ' A B ' → 'a b'. strip solo no basta."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 20,
+   "spw": 1.55,
+   "fh": 93.4,
+   "inf": 90.3,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T1-B-E2 · AAA: con oráculo , haz assert de que  coincide e imprime  solo si el assert no falla."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 7,
+   "spw": 1.86,
+   "fh": 88.3,
+   "inf": 84.1,
+   "issues": [],
+   "text": "El starter imprime  tras un assert correcto."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 1.62,
+   "fh": 101.2,
+   "inf": 97.6,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "no imprimas fail si el contrato se cumple"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 2.17,
+   "fh": 70.7,
+   "inf": 65.9,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "falla ruidosa si rompes el oráculo"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 1.73,
+   "fh": 92.0,
+   "inf": 88.2,
+   "issues": [],
+   "text": "Tras el assert, imprime 'pass' solo si el oráculo se cumplió."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 9,
+   "spw": 1.56,
+   "fh": 104.3,
+   "inf": 100.9,
+   "issues": [],
+   "text": "Un 'fail' después de un assert verde confunde CI."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 22,
+   "spw": 2.18,
+   "fh": 53.5,
+   "inf": 48.9,
+   "issues": [],
+   "text": "S27-T1-B-E3 · Oráculo de matching exacto: normaliza ambos lados ( + colapsar espacios) e imprime True si representan la misma entidad sintética."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 5,
+   "spw": 2.0,
+   "fh": 81.7,
+   "inf": 77.2,
+   "issues": [],
+   "text": "El starter compara crudo ( → False)."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 1.25,
+   "fh": 123.7,
+   "inf": 121.0,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "' '.join(s.casefold().split()) en a y b"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 14,
+   "spw": 2.64,
+   "fh": 34.0,
+   "inf": 28.2,
+   "issues": [],
+   "text": "Matching exacto compara entidades normalizadas, no cadenas crudas: casefold + colapsar espacios en ambos lados."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 20,
+   "spw": 1.65,
+   "fh": 87.4,
+   "inf": 84.0,
+   "issues": [],
+   "text": "S27-T2-A-E1 · Discovery: de la lista de nombres, imprime solo los que empiezan con  (como pytest descubre casos)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 6,
+   "spw": 2.0,
+   "fh": 80.7,
+   "inf": 76.2,
+   "issues": [],
+   "text": "El starter imprime la lista completa."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 4,
+   "spw": 1.25,
+   "fh": 127.8,
+   "inf": 125.0,
+   "issues": [],
+   "text": "helpers no son tests"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 19,
+   "spw": 1.47,
+   "fh": 99.0,
+   "inf": 96.0,
+   "issues": [],
+   "text": "pytest descubre nombres que empiezan con test_*; helper no es un caso de la suite ni un node id."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 16,
+   "spw": 1.5,
+   "fh": 100.5,
+   "inf": 97.4,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T2-A-E2 · Simula un assert con mensaje útil: si left != right imprime , si no ."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 10,
+   "spw": 1.5,
+   "fh": 106.6,
+   "inf": 103.4,
+   "issues": [],
+   "text": "El starter siempre imprime  aunque left='a' y right='b'."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 1.5,
+   "fh": 108.7,
+   "inf": 105.4,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "pytest real mostraría el diff de ambos lados"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 2.43,
+   "fh": 54.0,
+   "inf": 48.5,
+   "issues": [],
+   "text": "Un assert honesto distingue igualdad de desigualdad."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 9,
+   "spw": 1.78,
+   "fh": 91.0,
+   "inf": 87.1,
+   "issues": [],
+   "text": "Siempre imprimir 'ok' es teatro de verde, no contrato."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 17,
+   "spw": 1.76,
+   "fh": 83.6,
+   "inf": 79.9,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T2-A-E3 · Tabla estilo : con , aplica  a cada entrada e imprime la lista de booleanos ."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 10,
+   "spw": 1.7,
+   "fh": 94.6,
+   "inf": 90.9,
+   "issues": [],
+   "text": "El starter compara crudo (sin strip) y falla ambos casos."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 2.0,
+   "fh": 81.7,
+   "inf": 77.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "list comprehension sobre la tabla"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 1.45,
+   "fh": 108.3,
+   "inf": 105.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "cada fila sería un node id con [param] en pytest real"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 1.9,
+   "fh": 82.6,
+   "inf": 78.5,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "casefold se suma en el contrato real de normalize_name"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 1.14,
+   "fh": 131.1,
+   "inf": 128.6,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "lista de bools True, True tras strip"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 21,
+   "spw": 1.95,
+   "fh": 68.3,
+   "inf": 64.2,
+   "issues": [],
+   "text": "Parametrize es una tabla que se ejecuta: no basta con imprimir las tuplas; hay que aplicar el oráculo a cada fila."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 23,
+   "spw": 1.65,
+   "fh": 84.2,
+   "inf": 80.9,
+   "issues": [],
+   "text": "S27-T2-B-E1 · Aislamiento de fixture: copia profunda de una lista de dicts, muta la copia y demuestra que  sigue siendo 1."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 8,
+   "spw": 2.12,
+   "fh": 71.2,
+   "inf": 66.4,
+   "issues": [],
+   "text": "El starter usa  superficial (comparte el dict interno)."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 1.57,
+   "fh": 105.4,
+   "inf": 101.9,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "mutación solo en la copia del test"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 15,
+   "spw": 2.2,
+   "fh": 59.5,
+   "inf": 54.8,
+   "issues": [],
+   "text": "deepcopy aísla dicts anidados; list.copy() superficial comparte el dict interno y contamina el original."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 17,
+   "spw": 1.65,
+   "fh": 90.7,
+   "inf": 87.2,
+   "issues": [],
+   "text": "S27-T2-B-E2 · Política de scopes para datos mutables: el dict  marca qué scopes aíslan bien."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 12,
+   "spw": 1.83,
+   "fh": 84.6,
+   "inf": 80.6,
+   "issues": [],
+   "text": "Elige el scope por defecto de pytest (el marcado True) e imprímelo."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 7,
+   "spw": 2.14,
+   "fh": 71.1,
+   "inf": 66.3,
+   "issues": [],
+   "text": "El starter elige  (False: contamina entre tests)."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 1.4,
+   "fh": 117.7,
+   "inf": 114.6,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "busca el scope con True"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 2.2,
+   "fh": 64.6,
+   "inf": 59.8,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "session reutiliza estado y no es seguro para listas mutables"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 2.12,
+   "fh": 71.2,
+   "inf": 66.4,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "session solo para recursos caros de solo lectura"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 13,
+   "spw": 1.77,
+   "fh": 87.4,
+   "inf": 83.6,
+   "issues": [],
+   "text": "function-scope es el default seguro de pytest: cada test recibe setup fresco."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 9,
+   "spw": 2.11,
+   "fh": 71.0,
+   "inf": 66.3,
+   "issues": [],
+   "text": "Session-scope sobre listas mutables produce flakes de orden."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 2.0,
+   "fh": 76.6,
+   "inf": 72.2,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T2-B-E3 · Factory fixture:  devuelve n contactos sintéticos ."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 8,
+   "spw": 1.62,
+   "fh": 101.2,
+   "inf": 97.6,
+   "issues": [],
+   "text": "El starter hardcodea 0 e ignora la factory."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 2.2,
+   "fh": 69.7,
+   "inf": 64.8,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "usa la función make definida"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 1.6,
+   "fh": 105.7,
+   "inf": 102.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "ids sintéticos c0, c1, c2"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 1.6,
+   "fh": 105.7,
+   "inf": 102.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "n=0 devuelve lista vacía"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 1.88,
+   "fh": 86.2,
+   "inf": 82.0,
+   "issues": [],
+   "text": "La factory fixture crea N entidades por caso."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 10,
+   "spw": 1.9,
+   "fh": 82.6,
+   "inf": 78.5,
+   "issues": [],
+   "text": "Hardcodear el tamaño no prueba la factory ni el aislamiento."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 14,
+   "spw": 1.5,
+   "fh": 102.6,
+   "inf": 99.4,
+   "issues": [],
+   "text": "S27-T3-A-E1 · Floats en scores de matching: usa  e imprime el booleano."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 13,
+   "spw": 1.77,
+   "fh": 87.4,
+   "inf": 83.6,
+   "issues": [],
+   "text": "El starter usa  exacto (trampa IEEE-754 que también rompe umbrales en producción)."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 5,
+   "spw": 2.0,
+   "fh": 81.7,
+   "inf": 77.2,
+   "issues": [],
+   "text": "Una sola línea de salida."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 12,
+   "spw": 1.58,
+   "fh": 99.6,
+   "inf": 96.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "no uses == en floats de probabilidad ni en thr_auto/thr_review"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 1.91,
+   "fh": 81.1,
+   "inf": 76.9,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "abs_tol en scores de matching; documenta tolerancia en el contrato"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 16,
+   "spw": 1.12,
+   "fh": 123.0,
+   "inf": 120.7,
+   "issues": [],
+   "text": "math.isclose evita la trampa IEEE-754 de 0.1+0.2 en scores de matching."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 10,
+   "spw": 1.6,
+   "fh": 100.6,
+   "inf": 97.2,
+   "issues": [],
+   "text": "Documenta abs_tol/rel_tol en el contrato del umbral."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 24,
+   "spw": 1.79,
+   "fh": 74.9,
+   "inf": 71.2,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T3-A-E2 · Modelo de : captura el  de  e imprime  solo si el mensaje contiene el fragmento  (en CPython suele decir invalid literal)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 7,
+   "spw": 2.14,
+   "fh": 71.1,
+   "inf": 66.3,
+   "issues": [],
+   "text": "El starter imprime  sin inspeccionar el mensaje."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 1.6,
+   "fh": 100.6,
+   "inf": 97.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "print(True) solo si el fragmento está en el mensaje"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 1.88,
+   "fh": 86.2,
+   "inf": 82.0,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "match= es subcadena, no regex completa salvo flags"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 2.0,
+   "fh": 78.7,
+   "inf": 74.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "True si el mensaje del ValueError contiene 'invalid'"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 20,
+   "spw": 1.7,
+   "fh": 84.4,
+   "inf": 80.9,
+   "issues": [],
+   "text": "pytest.raises(..., match=) falla si el tipo es correcto pero el mensaje no cuadra: el fragmento es parte del contrato."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 16,
+   "spw": 1.31,
+   "fh": 111.8,
+   "inf": 109.1,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T3-A-E3 · Escribe  en un  de texto (utf-8), reabre por path e imprime ."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 9,
+   "spw": 1.89,
+   "fh": 84.3,
+   "inf": 80.2,
+   "issues": [],
+   "text": "El starter imprime cadena vacía sin leer el archivo."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 2.0,
+   "fh": 80.7,
+   "inf": 76.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "delete=False para conservar el path"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 1.38,
+   "fh": 116.2,
+   "inf": 113.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "encoding utf-8 al escribir y al leer"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 1.4,
+   "fh": 117.7,
+   "inf": 114.6,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "borrar en finally en prod"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 2.5,
+   "fh": 48.7,
+   "inf": 43.1,
+   "issues": [],
+   "text": "NamedTemporaryFile con delete=False deja un path reabrable."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 11,
+   "spw": 1.82,
+   "fh": 86.5,
+   "inf": 82.6,
+   "issues": [],
+   "text": "El contrato lee el contenido (utf-8); no asumas cadena vacía."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 23,
+   "spw": 1.78,
+   "fh": 76.4,
+   "inf": 72.8,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T3-B-E1 · Caso negativo de email: si , lanza , captúralo e imprime el mensaje (texto del contrato), no el nombre del tipo."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 9,
+   "spw": 1.67,
+   "fh": 97.7,
+   "inf": 94.0,
+   "issues": [],
+   "text": "El starter imprime  y pierde el detalle en CI."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 4,
+   "spw": 2.25,
+   "fh": 67.8,
+   "inf": 62.7,
+   "issues": [],
+   "text": "raise ValueError('email vacío')"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 13,
+   "spw": 1.85,
+   "fh": 82.8,
+   "inf": 78.8,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "el mensaje es el contrato del caso negativo; el tipo solo no basta"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 1.91,
+   "fh": 81.1,
+   "inf": 76.9,
+   "issues": [],
+   "text": "El mensaje de la excepción es el contrato del caso negativo."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 12,
+   "spw": 1.67,
+   "fh": 94.6,
+   "inf": 91.0,
+   "issues": [],
+   "text": "Solo imprimir el nombre del tipo no acelera el fix en CI."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 18,
+   "spw": 1.83,
+   "fh": 78.5,
+   "inf": 74.6,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T3-B-E2 · Validación mínima de email sintético (no RFC completo): si  no contiene , imprime ; si no, ."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 8,
+   "spw": 1.88,
+   "fh": 86.2,
+   "inf": 82.0,
+   "issues": [],
+   "text": "El starter siempre imprime  aunque  — teatro de verde."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 2.0,
+   "fh": 75.6,
+   "inf": 71.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "no es validación RFC completa; basta el contrato mínimo del curso"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 9,
+   "spw": 1.67,
+   "fh": 97.7,
+   "inf": 94.0,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "no es validación RFC completa; no uses PII real"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 2.17,
+   "fh": 70.7,
+   "inf": 65.9,
+   "issues": [],
+   "text": "Un email sintético sin '@' es inválido."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 12,
+   "spw": 2.08,
+   "fh": 69.6,
+   "inf": 65.0,
+   "issues": [],
+   "text": "El caso negativo debe fallar de forma controlada, no imprimir siempre 'ok'."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 20,
+   "spw": 1.8,
+   "fh": 78.4,
+   "inf": 74.7,
+   "issues": [],
+   "text": "S27-T3-B-E3 · Mensaje útil sin PII: con  construye e imprime  (nombra el campo y el valor ofensivo sintético)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 12,
+   "spw": 1.75,
+   "fh": 89.6,
+   "inf": 85.8,
+   "issues": [],
+   "text": "El starter imprime un genérico  que no dice dónde mirar en CI."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 1.71,
+   "fh": 96.8,
+   "inf": 93.0,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ],
+    [
+     "MED",
+     "missing_¡",
+     ""
+    ]
+   ],
+   "text": "print(f'campo score inválido: {v!r}')"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 12,
+   "spw": 1.5,
+   "fh": 104.6,
+   "inf": 101.4,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "nombra el campo en el mensaje; no loguees tokens ni PII real"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 2.3,
+   "fh": 58.6,
+   "inf": 53.5,
+   "issues": [],
+   "text": "Mensajes útiles nombran el campo y el valor ofensivo (sintético)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 7,
+   "spw": 2.0,
+   "fh": 79.7,
+   "inf": 75.2,
+   "issues": [],
+   "text": "Un 'error' genérico no dice dónde mirar."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 13,
+   "spw": 1.38,
+   "fh": 110.5,
+   "inf": 107.6,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T4-A-E1 · Dos ramas de negocio:  retorna  si x>0 else ."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 7,
+   "spw": 1.86,
+   "fh": 88.3,
+   "inf": 84.1,
+   "issues": [],
+   "text": "Imprime ambas:  y  en una línea (como )."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 6,
+   "spw": 2.0,
+   "fh": 80.7,
+   "inf": 76.2,
+   "issues": [],
+   "text": "El starter solo imprime una rama."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 1.5,
+   "fh": 110.7,
+   "inf": 107.4,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "ambas ramas en un solo print"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 1.86,
+   "fh": 88.3,
+   "inf": 84.1,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "cubrir hi y lo = branch coverage mínima"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 1.0,
+   "fh": 141.7,
+   "inf": 139.5,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "rama ==0 cae en lo"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 13,
+   "spw": 2.08,
+   "fh": 69.0,
+   "inf": 64.4,
+   "issues": [],
+   "text": "Branch coverage mínima: ejercita ambas ramas (hi y lo) en la misma evidencia."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 8,
+   "spw": 2.12,
+   "fh": 71.2,
+   "inf": 66.4,
+   "issues": [],
+   "text": "Una sola llamada deja una rama sin contrato."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 18,
+   "spw": 1.61,
+   "fh": 91.8,
+   "inf": 88.5,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T4-A-E2 · Risk coverage: dado el set de ramas cubiertas , imprime True si falta la rama ."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 10,
+   "spw": 1.9,
+   "fh": 82.6,
+   "inf": 78.5,
+   "issues": [],
+   "text": "El starter pregunta si  está en el set (respuesta invertida)."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 22,
+   "spw": 1.55,
+   "fh": 91.7,
+   "inf": 88.6,
+   "issues": [],
+   "text": "Si falta la banda 'non' en la evidencia, hay deuda de risk coverage en umbrales de matching — CI no vio non_match."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 14,
+   "spw": 1.5,
+   "fh": 102.6,
+   "inf": 99.4,
+   "issues": [],
+   "text": "S27-T4-A-E3 · Porcentaje de ramas cubiertas: 2 de 3 → entero truncado 66 ()."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 11,
+   "spw": 1.82,
+   "fh": 86.5,
+   "inf": 82.6,
+   "issues": [],
+   "text": "El starter imprime la fracción k/n sin escalar a porcentaje."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 1.88,
+   "fh": 86.2,
+   "inf": 82.0,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "evidencia de cobertura, no meta vacía del 100%"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 2.0,
+   "fh": 79.7,
+   "inf": 75.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "no uses solo line coverage como KPI"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 2.12,
+   "fh": 71.2,
+   "inf": 66.4,
+   "issues": [],
+   "text": "Reporta cobertura como porcentaje legible (int 0–100)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 13,
+   "spw": 1.85,
+   "fh": 82.8,
+   "inf": 78.8,
+   "issues": [],
+   "text": "La fracción k/n sin escalar no es evidencia accionable en el equipo."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 1.8,
+   "fh": 88.6,
+   "inf": 84.7,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T4-B-E1 · Mutante conceptual:  cumple el oráculo ;  no."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 11,
+   "spw": 1.91,
+   "fh": 81.1,
+   "inf": 76.9,
+   "issues": [],
+   "text": "Imprime True solo si good pasa y el mutante queda detectado ()."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 7,
+   "spw": 1.86,
+   "fh": 88.3,
+   "inf": 84.1,
+   "issues": [],
+   "text": "El starter exige que mutant también pase."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 1.2,
+   "fh": 129.7,
+   "inf": 127.1,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ],
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "good == 'a' and mutant != 'a'"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 1.67,
+   "fh": 100.7,
+   "inf": 97.0,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "el test debe matar al mutante"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 7,
+   "spw": 1.71,
+   "fh": 96.8,
+   "inf": 93.0,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "si ambos pasan, el contrato es teatro"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 1.8,
+   "fh": 93.7,
+   "inf": 89.7,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "mutación de umbral en matching"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 1.9,
+   "fh": 82.6,
+   "inf": 78.5,
+   "issues": [],
+   "text": "El camino bueno debe pasar y el mutante debe fallar."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 12,
+   "spw": 1.92,
+   "fh": 79.6,
+   "inf": 75.4,
+   "issues": [],
+   "text": "Si ambos pasan el oráculo, no hay contrato: hay teatro de cobertura."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 20,
+   "spw": 1.55,
+   "fh": 93.4,
+   "inf": 90.3,
+   "issues": [
+    [
+     "LOW",
+     "comma_density",
+     "5"
+    ],
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "S27-T4-B-E2 · Falla útil para CI: con , , , imprime un dict con keys , ,  (en ese orden mental de diagnóstico)."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 13,
+   "spw": 1.92,
+   "fh": 78.2,
+   "inf": 74.0,
+   "issues": [],
+   "text": "El starter omite el input y solo muestra expected/actual invertidos de rol."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 9,
+   "spw": 1.22,
+   "fh": 124.3,
+   "inf": 121.7,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "sin input el fix en CI es más lento"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 1.5,
+   "fh": 108.7,
+   "inf": 105.4,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "no incluyas PII real en mensajes de CI"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 2.17,
+   "fh": 70.7,
+   "inf": 65.9,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "dict con input/expected/actual sintéticos"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 14,
+   "spw": 2.07,
+   "fh": 68.3,
+   "inf": 63.8,
+   "issues": [],
+   "text": "Una falla útil nombra input sintético, esperado y actual; no solo un assert ciego."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 17,
+   "spw": 1.76,
+   "fh": 83.6,
+   "inf": 79.9,
+   "issues": [],
+   "text": "S27-T4-B-E3 · Ciclo bug_repro → regression_test: el bug era comparar sin normalizar ( vs oráculo )."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 11,
+   "spw": 2.09,
+   "fh": 70.2,
+   "inf": 65.6,
+   "issues": [],
+   "text": "Escribe la regresión: aplica  +  e imprime el booleano del contrato (True)."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 12,
+   "spw": 1.67,
+   "fh": 94.6,
+   "inf": 91.0,
+   "issues": [],
+   "text": "El starter se queda en la fase bug_repro (compara crudo → False)."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 9,
+   "spw": 1.56,
+   "fh": 104.3,
+   "inf": 100.9,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "print(got == oracle) debe ser True tras la regresión"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 2.25,
+   "fh": 63.7,
+   "inf": 58.7,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "después parametriza varios raw con el mismo oráculo"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 3,
+   "spw": 2.0,
+   "fh": 83.8,
+   "inf": 79.2,
+   "issues": [],
+   "text": "regresión verde: True"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 23,
+   "spw": 1.96,
+   "fh": 66.0,
+   "inf": 61.9,
+   "issues": [],
+   "text": "bug_repro muestra el fallo crudo; regression_test fija el oráculo normalizado para que un mutante sin strip/casefold no sobreviva en CI."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 1.9,
+   "fh": 82.6,
+   "inf": 78.5,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Contratos pytest de normalización y matching — inicio CP-N3-A"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 27,
+   "spw": 1.96,
+   "fh": 61.5,
+   "inf": 57.5,
+   "issues": [
+    [
+     "LOW",
+     "space_before_punct",
+     ""
+    ]
+   ],
+   "text": "Construye una mini suite pytest (o, si aún no instalas pytest, un módulo de asserts equivalentes) sobre normalización y exact match con contactos sintéticos  (caso , run_id )."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 41,
+   "spw": 2.07,
+   "fh": 40.6,
+   "inf": 36.7,
+   "issues": [
+    [
+     "MED",
+     "long",
+     "41w"
+    ]
+   ],
+   "text": "Cada supuesto del ER debe ser un test ejecutable: mapa de riesgo por capa, tests AAA con oráculos fijos, fixtures con aislamiento function-scope, casos negativos con mensajes útiles, cobertura de ramas de umbral y al menos un mutante conceptual eliminado."
+  },
+  {
+   "pi": 0,
+   "si": 2,
+   "wc": 6,
+   "spw": 2.17,
+   "fh": 70.7,
+   "inf": 65.9,
+   "issues": [],
+   "text": "Matching no implica fraude ni parentesco."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 15,
+   "spw": 2.0,
+   "fh": 71.5,
+   "inf": 67.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Mapa de riesgos con score y capas unit/integration/e2e para normalize, match y umbrales"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 15,
+   "spw": 1.73,
+   "fh": 87.5,
+   "inf": 83.8,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Tests AAA con oráculos fijos para normalize_name y exact_match (al menos 4 casos)"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 15,
+   "spw": 1.8,
+   "fh": 83.5,
+   "inf": 79.7,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Fixture function-scope (o factory) y ≥3 casos negativos con mensajes que nombran el campo"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 13,
+   "spw": 2.15,
+   "fh": 64.3,
+   "inf": 59.7,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Cobertura de las tres ramas de umbral + un mutante conceptual eliminado por regresión"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 14,
+   "spw": 2.29,
+   "fh": 55.4,
+   "inf": 50.4,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "README en español profesional: límites del fixture, evidencia de corrida y ética no-fraude"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 12,
+   "spw": 1.92,
+   "fh": 79.6,
+   "inf": 75.4,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Datos sintéticos únicamente (); sin PII real ni secretos en asserts ni logs"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 15,
+   "spw": 1.8,
+   "fh": 83.5,
+   "inf": 79.7,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Cada bug documentado en el README o en un test de regresión con oráculo fijo"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 12,
+   "spw": 2.42,
+   "fh": 49.6,
+   "inf": 44.3,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Matching solo responde igualdad de entidad sintética: no implica fraude ni parentesco"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 9,
+   "spw": 2.0,
+   "fh": 77.7,
+   "inf": 73.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Demo reproducible:  o el módulo de asserts del starter"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 16,
+   "spw": 1.56,
+   "fh": 96.8,
+   "inf": 93.5,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Inicio de CP-N3-A: contratos del motor ER listos para ampliar con dobles en S28"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 29,
+   "spw": 2.24,
+   "fh": 42.8,
+   "inf": 38.2,
+   "issues": [],
+   "text": "Entrega de inicio CP-N3-A para tu portafolio: carpeta con código de normalización/matching sintético, tests (pytest preferido), README en español profesional con límites y evidencia de corrida."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 14,
+   "spw": 2.0,
+   "fh": 72.6,
+   "inf": 68.2,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Cubre los objetivos de contratos pytest de esta sección (riesgo, AAA, fixtures, bordes, mutación)"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 3.0,
+   "fh": 21.7,
+   "inf": 14.9,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Correctitud técnica en entorno declarado"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 10,
+   "spw": 1.9,
+   "fh": 82.6,
+   "inf": 78.5,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Privacidad / sin PII real / sin secretos / sin inferencia de fraude"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 6,
+   "spw": 2.17,
+   "fh": 70.7,
+   "inf": 65.9,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Pruebas o casos de borde documentados"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 5,
+   "spw": 2.4,
+   "fh": 57.7,
+   "inf": 52.3,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Código legible y límites claros"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 4,
+   "spw": 3.25,
+   "fh": 7.8,
+   "inf": 0.4,
+   "issues": [],
+   "text": "Documentación en español profesional"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 1.64,
+   "fh": 97.4,
+   "inf": 93.9,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "En la pirámide de pruebas, la base más ancha suele ser:"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 2.18,
+   "fh": 64.7,
+   "inf": 59.9,
+   "issues": [],
+   "text": "La base ancha son muchas unitarias baratas; arriba, pocas E2E caras."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 17,
+   "spw": 1.82,
+   "fh": 80.1,
+   "inf": 76.2,
+   "issues": [],
+   "text": "El riesgo reordena el tiempo (más casos en normalize/match), no invierte la pirámide con solo UI."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 4,
+   "spw": 2.25,
+   "fh": 67.8,
+   "inf": 62.7,
+   "issues": [],
+   "text": "Un oráculo confiable es:"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 12,
+   "spw": 2.5,
+   "fh": 44.6,
+   "inf": 39.1,
+   "issues": [],
+   "text": "El assert necesita verdad estable: valor fijo, propiedad invariante o referencia simple."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 15,
+   "spw": 1.47,
+   "fh": 103.5,
+   "inf": 100.5,
+   "issues": [],
+   "text": "Un print, el reloj real o el orden de un set producen flakes, no contrato."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 8,
+   "spw": 1.62,
+   "fh": 101.2,
+   "inf": 97.6,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Si mutas un casefold y ningún test falla:"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 20,
+   "spw": 2.0,
+   "fh": 66.4,
+   "inf": 62.2,
+   "issues": [],
+   "text": "Mutación conceptual detecta tests inútiles: si el mutante vive, hay que añadir regresión (bug_repro → regression_test) que lo mate."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 9,
+   "spw": 1.44,
+   "fh": 111.0,
+   "inf": 107.8,
+   "issues": [
+    [
+     "MED",
+     "no_term",
+     ""
+    ]
+   ],
+   "text": "Las pruebas de matching en CP-N3-A demuestran:"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 21,
+   "spw": 2.14,
+   "fh": 56.8,
+   "inf": 52.3,
+   "issues": [],
+   "text": "Entity resolution decide si dos registros sintéticos son la misma entidad tras normalizar; no prueba fraude, parentesco ni envío de correos."
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 18,
+   "spw": 1.61,
+   "fh": 91.8,
+   "inf": 88.5,
+   "issues": [],
+   "text": "¿Cuál es el scope por defecto de una fixture de pytest y por qué importa en datos mutables?"
+  },
+  {
+   "pi": 0,
+   "si": 0,
+   "wc": 11,
+   "spw": 1.73,
+   "fh": 92.0,
+   "inf": 88.2,
+   "issues": [],
+   "text": "El default es function-scope: cada test recibe un setup fresco."
+  },
+  {
+   "pi": 0,
+   "si": 1,
+   "wc": 18,
+   "spw": 2.0,
+   "fh": 68.5,
+   "inf": 64.2,
+   "issues": [],
+   "text": "Mutar un fixture session/module/package sin cuidado produce flakes de orden; deepcopy no es mágico del scope."
+  }
+ ]
+}

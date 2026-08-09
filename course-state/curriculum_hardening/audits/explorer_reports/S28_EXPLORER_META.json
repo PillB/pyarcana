@@ -1,0 +1,9 @@
+{
+  "section": 28,
+  "id": "llm-agents",
+  "file": "src/lib/course/sections/s28-llm-agents.ts",
+  "score_1_to_10": 3.8,
+  "issue_count": 20,
+  "meta_leak_count": 7,
+  "status": "complete"
+}

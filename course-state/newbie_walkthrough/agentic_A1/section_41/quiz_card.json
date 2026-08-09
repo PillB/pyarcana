@@ -1,0 +1,227 @@
+{
+  "section_index": 41,
+  "title": "APIs con FastAPI y contratos HTTP",
+  "outcomes": [
+    "Diseña recursos HTTP y status",
+    "Versiona, pagina e idempotiza",
+    "Estructura routing y dependencies",
+    "Valida, serializa y documenta",
+    "Separa sync/async y background",
+    "Maneja errores, timeouts y lifecycle",
+    "Prueba unit/contract/integration",
+    "Verifica compat, rate limit y obs"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S41: APIs con FastAPI y contratos HTTP",
+      "paragraphs": [
+        "En V3, **S41** retematiza el archivo de plataforma `llm-finetuning` hacia **APIs con FastAPI y contratos HTTP**.",
+        "Incremento: API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "recursos, métodos y status",
+      "paragraphs": [
+        "**recursos, métodos y status** — outcome del blueprint phase3 para `resources-methods-status`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (servicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "idempotencia, paginación y versionado",
+      "paragraphs": [
+        "**idempotencia, paginación y versionado** — outcome del blueprint phase3 para `idempotency-pagination-versioning`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (servicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "routing, dependencies y modelos",
+      "paragraphs": [
+        "**routing, dependencies y modelos** — outcome del blueprint phase3 para `routing-deps-models`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (servicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "validación, serialización y documentación",
+      "paragraphs": [
+        "**validación, serialización y documentación** — outcome del blueprint phase3 para `validation-serialize-docs`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (servicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "sync/async y background boundaries",
+      "paragraphs": [
+        "**sync/async y background boundaries** — outcome del blueprint phase3 para `sync-async-background`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (servicio)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "errores, timeouts y lifecycle",
+      "paragraphs": [
+        "**errores, timeouts y lifecycle** — outcome del blueprint phase3 para `errors-timeouts-lifecycle`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (servicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"total\", 19); print(\"pyramid\", True); print(\"contract\", \"openapi_schema\")"
+    },
+    {
+      "heading": "unit/contract/integration",
+      "paragraphs": [
+        "**unit/contract/integration** — outcome del blueprint phase3 para `unit-contract-integration`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (servicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"allow\"); print(\"429\"); print(\"compat_header\", \"X-API-Version\")"
+    },
+    {
+      "heading": "compatibility, rate limit y observabilidad",
+      "paragraphs": [
+        "**compatibility, rate limit y observabilidad** — outcome del blueprint phase3 para `compat-ratelimit-observability`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (servicio)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"allow\"); print(\"429\"); print(\"compat_header\", \"X-API-Version\")"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S41-T1-B-DEMO",
+      "description": "Demo: recursos, métodos y status",
+      "why": "Demuestra el outcome de S41-T1-A con Python verificable.",
+      "code": "print(201); print(404); print(200)"
+    },
+    {
+      "demoId": "S41-T2-A-DEMO",
+      "description": "Demo: idempotencia, paginación y versionado",
+      "why": "Demuestra el outcome de S41-T1-B con Python verificable.",
+      "code": "print(\"created\"); print(\"replay\"); print(1)"
+    },
+    {
+      "demoId": "S41-T2-B-DEMO",
+      "description": "Demo: routing, dependencies y modelos",
+      "why": "Demuestra el outcome de S41-T2-A con Python verificable.",
+      "code": "print(\"ok:conn\"); print(\"injection\", \"deps\"); print(\"routing\", \"/v1/jobs\")"
+    },
+    {
+      "demoId": "S41-T3-A-DEMO",
+      "description": "Demo: validación, serialización y documentación",
+      "why": "Demuestra el outcome de S41-T2-B con Python verificable.",
+      "code": "print([\"name\",\"priority\"]); print(\"paths\", [\"/v1/jobs\"]); print(\"valid\", True)"
+    },
+    {
+      "demoId": "S41-T3-B-DEMO",
+      "description": "Demo: sync/async y background boundaries",
+      "why": "Demuestra el outcome de S41-T3-A con Python verificable.",
+      "code": "print({\"id\":\"job-1\",\"status\":\"queued\"}); print(\"qlen\", 1); print(\"async\", True)"
+    },
+    {
+      "demoId": "S41-T4-A-DEMO",
+      "description": "Demo: errores, timeouts y lifecycle",
+      "why": "Demuestra el outcome de S41-T3-B con Python verificable.",
+      "code": "print(\"ok\"); print(\"timeout\"); print(\"limit\", 100)"
+    },
+    {
+      "demoId": "S41-T4-B-DEMO",
+      "description": "Demo: unit/contract/integration",
+      "why": "Demuestra el outcome de S41-T4-A con Python verificable.",
+      "code": "print(True); print(False); print(\"unit_first\", True)"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: compatibility, rate limit y observabilidad",
+      "why": "Demuestra el outcome de S41-T4-B con Python verificable.",
+      "code": "print(\"slo_latency_ok\", True); print(\"rate\", \"token_bucket\"); print(\"no_internal_keys\", True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S41 que se preserva es:",
+      "options": [
+        "llm-finetuning",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S41 pertenece a:",
+      "options": [
+        "CP-N4-A (servicio)",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas"
+  ]
+}

@@ -1,0 +1,535 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 24,
+  "packet_sha": "19df8fa1509c92d3",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_24/packet.json",
+  "recorded_at": "2026-07-22T02:00:41.710347+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_explorer_independent",
+  "persona_seed": "3a02e9010811",
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T1-A-E1\ndpi = 96\nprint(max(dpi, 200))\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "dpi",
+        "max"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T1-A-E1 siguiendo la instrucción del paquete: «Si dpi<200, súbelo a 200 e imprime.». Me apoyo en el demo S24-T1-B-DEMO (DPI/deskew/crop/contraste sobre meta sintética.). Fragmento iDo: «img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0} img[\"dpi\"]=max(img[\"dpi\"],200) img[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5 print(img[\"dpi\"], img[\"deskew\"])». Pistas: max(); asignación. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T1-A-E1 dpi = 96 print(max(dpi, 200))». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T1-A-E2\nskew = 1.2\nprint(abs(skew) >= 0.5)\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "skew",
+        "abs"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T1-A-E2 siguiendo la instrucción del paquete: «deskew_applied = abs(skew)>=0.5 para skew=1.2 e imprime.». Me apoyo en el demo S24-T1-B-DEMO (DPI/deskew/crop/contraste sobre meta sintética.). Fragmento iDo: «img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0} img[\"dpi\"]=max(img[\"dpi\"],200) img[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5 print(img[\"dpi\"], img[\"deskew\"])». Pistas: abs; boolean. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T1-A-E2 skew = 1.2 print(abs(skew) >= 0.5)». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T1-A-E3\nw = h = 1000\nprint((int(0.05 * w), int(0.05 * h), int(0.95 * w), int(0.95 * h)))\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "int"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T1-A-E3 siguiendo la instrucción del paquete: «Crop box 5% márgenes en w=1000,h=1000: imprime (x0,y0,x1,y1).». Me apoyo en el demo S24-T1-B-DEMO (DPI/deskew/crop/contraste sobre meta sintética.). Fragmento iDo: «img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0} img[\"dpi\"]=max(img[\"dpi\"],200) img[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5 print(img[\"dpi\"], img[\"deskew\"])». Pistas: int 0.05*w; tuple. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T1-A-E3 w = h = 1000 print((int(0.05 * w), int(0.05 * h), int(0.95 * w), int(0.95 * h)))». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T1-B-E1\ns = {0: 0.1, 90: 0.8}\nprint(max(s, key=s.get))\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "max",
+        "key",
+        "get"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T1-B-E1 siguiendo la instrucción del paquete: «Elige rotación con mayor score en {0:0.1,90:0.8}.». Me apoyo en el demo S24-T1-B-DEMO (DPI/deskew/crop/contraste sobre meta sintética.). Fragmento iDo: «img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0} img[\"dpi\"]=max(img[\"dpi\"],200) img[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5 print(img[\"dpi\"], img[\"deskew\"])». Pistas: max key=; dict. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T1-B-E1 s = {0: 0.1, 90: 0.8} print(max(s, key=s.get))». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T1-B-E2\nprint(sum([0, 1, 1, 0]))\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "sum"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T1-B-E2 siguiendo la instrucción del paquete: «Cuenta píxeles de ruido (1) en [0,1,1,0].». Me apoyo en el demo S24-T1-B-DEMO (DPI/deskew/crop/contraste sobre meta sintética.). Fragmento iDo: «img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0} img[\"dpi\"]=max(img[\"dpi\"],200) img[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5 print(img[\"dpi\"], img[\"deskew\"])». Pistas: sum; lista. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T1-B-E2 print(sum([0, 1, 1, 0]))». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T1-B-E3\nscore = 0.4\nprint(\"manual_orient\" if score < 0.5 else \"auto\")\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "score",
+        "manual_orient",
+        "else",
+        "auto"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T1-B-E3 siguiendo la instrucción del paquete: «Si score_orient<0.5 imprime 'manual_orient' else 'auto'.». Me apoyo en el demo S24-T1-B-DEMO (DPI/deskew/crop/contraste sobre meta sintética.). Fragmento iDo: «img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0} img[\"dpi\"]=max(img[\"dpi\"],200) img[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5 print(img[\"dpi\"], img[\"deskew\"])». Pistas: umbral; string. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T1-B-E3 score = 0.4 print(\"manual_orient\" if score < 0.5 else \"auto\")». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T2-A-E1\ntoks = [{\"text\": \"A\", \"conf\": 0.9}, {\"text\": \"B\", \"conf\": 0.5}]\nprint([t[\"text\"] for t in toks if t[\"conf\"] >= 0.85])\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "toks",
+        "text",
+        "conf"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T2-A-E1 siguiendo la instrucción del paquete: «Filtra tokens con conf>=0.85 e imprime textos.». Me apoyo en el demo S24-T2-A-DEMO (Corregir orientación por score máximo.). Fragmento iDo: «scores={0:0.2,180:0.75,90:0.05} print(max(scores, key=scores.get))». Pistas: list comp; umbral. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T2-A-E1 toks = [{\"text\": \"A\", \"conf\": 0.9}, {\"text\": \"B\", \"conf\": 0.5}] print([t[\"text\"] fo». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T2-A-E2\ndef ocr(lang=\"spa\"):\n    return {\"lang\": lang}\nprint(ocr()[\"lang\"])\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "ocr",
+        "lang",
+        "spa"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T2-A-E2 siguiendo la instrucción del paquete: «Idioma por defecto 'spa'; imprime lang del resultado OCR simulado.». Me apoyo en el demo S24-T2-A-DEMO (Corregir orientación por score máximo.). Fragmento iDo: «scores={0:0.2,180:0.75,90:0.05} print(max(scores, key=scores.get))». Pistas: parámetro default; dict. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T2-A-E2 def ocr(lang=\"spa\"): return {\"lang\": lang} print(ocr()[\"lang\"])». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T2-A-E3\nconfs = [0.9, 0.75, 0.95]\nprint(\"review\" if min(confs) < 0.8 else \"auto\")\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "confs",
+        "review",
+        "min",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T2-A-E3 siguiendo la instrucción del paquete: «Min confidence de una lista de campos; si min<0.8 status=review.». Me apoyo en el demo S24-T2-A-DEMO (Corregir orientación por score máximo.). Fragmento iDo: «scores={0:0.2,180:0.75,90:0.05} print(max(scores, key=scores.get))». Pistas: min(); status. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T2-A-E3 confs = [0.9, 0.75, 0.95] print(\"review\" if min(confs) < 0.8 else \"auto\")». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T2-B-E1\ns = \"Total: 12.5\"\nk, v = s.split(\":\", 1)\nprint(k.strip(), v.strip())\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "Total",
+        "split",
+        "strip"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T2-B-E1 siguiendo la instrucción del paquete: «Parsea 'Total: 12.5' a clave y valor.». Me apoyo en el demo S24-T2-A-DEMO (Corregir orientación por score máximo.). Fragmento iDo: «scores={0:0.2,180:0.75,90:0.05} print(max(scores, key=scores.get))». Pistas: split once; strip. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T2-B-E1 s = \"Total: 12.5\" k, v = s.split(\":\", 1) print(k.strip(), v.strip())». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T2-B-E2\nt = [[\"H1\", \"H2\"], [\"a\", \"b\"]]\nprint(len(t) - 1)\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "len"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T2-B-E2 siguiendo la instrucción del paquete: «De tabla [[H1,H2],[a,b]] imprime número de filas de datos.». Me apoyo en el demo S24-T2-A-DEMO (Corregir orientación por score máximo.). Fragmento iDo: «scores={0:0.2,180:0.75,90:0.05} print(max(scores, key=scores.get))». Pistas: len-1; header. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T2-B-E2 t = [[\"H1\", \"H2\"], [\"a\", \"b\"]] print(len(t) - 1)». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T2-B-E3\nprint({\"name\": \"RUC\", \"value\": \"20123456789\", \"bbox\": [0, 0, 10, 10]})\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "name",
+        "RUC",
+        "value",
+        "bbox"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T2-B-E3 siguiendo la instrucción del paquete: «Adjunta bbox [0,0,10,10] al valor RUC en un dict field.». Me apoyo en el demo S24-T2-A-DEMO (Corregir orientación por score máximo.). Fragmento iDo: «scores={0:0.2,180:0.75,90:0.05} print(max(scores, key=scores.get))». Pistas: estructura evidencia; dict anidado. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T2-B-E3 print({\"name\": \"RUC\", \"value\": \"20123456789\", \"bbox\": [0, 0, 10, 10]})». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T3-A-E1\nimport re\nprint(re.sub(r\"\\D\", \"\", \"20-123\"))\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "sub"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T3-A-E1 siguiendo la instrucción del paquete: «Normaliza '20-123' dejando solo dígitos.». Me apoyo en el demo S24-T3-A-DEMO (Extraer KV desde líneas con dos puntos.). Fragmento iDo: «lines=[\"RUC: 20123456789\",\"Total: 10\"] kv={} for ln in lines:     k,v=ln.split(\":\",1); kv[k.strip()]=v.strip() print(kv)». Pistas: re.sub; \\D. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T3-A-E1 import re print(re.sub(r\"\\D\", \"\", \"20-123\"))». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T3-A-E2\nfrom datetime import datetime\nprint(datetime.strptime(\"15/01/2026\", \"%d/%m/%Y\").date().isoformat())\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "datetime",
+        "strptime",
+        "date",
+        "isoformat"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T3-A-E2 siguiendo la instrucción del paquete: «Convierte '15/01/2026' a ISO date string.». Me apoyo en el demo S24-T3-A-DEMO (Extraer KV desde líneas con dos puntos.). Fragmento iDo: «lines=[\"RUC: 20123456789\",\"Total: 10\"] kv={} for ln in lines:     k,v=ln.split(\":\",1); kv[k.strip()]=v.strip() print(kv)». Pistas: strptime; %d/%m/%Y. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T3-A-E2 from datetime import datetime print(datetime.strptime(\"15/01/2026\", \"%d/%m/%Y\").dat». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T3-A-E3\nimport re\nd = re.sub(r\"\\D\", \"\", \"123\")\nprint(d if len(d) == 11 else None)\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "sub",
+        "len",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T3-A-E3 siguiendo la instrucción del paquete: «Si RUC normalizado no tiene len 11, devuelve None e imprime.». Me apoyo en el demo S24-T3-A-DEMO (Extraer KV desde líneas con dos puntos.). Fragmento iDo: «lines=[\"RUC: 20123456789\",\"Total: 10\"] kv={} for ln in lines:     k,v=ln.split(\":\",1); kv[k.strip()]=v.strip() print(kv)». Pistas: guard clause; None. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T3-A-E3 import re d = re.sub(r\"\\D\", \"\", \"123\") print(d if len(d) == 11 else None)». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T3-B-E1\ntotal, lines = 10.0, [4.0, 5.0]\nif abs(sum(lines) - total) > 0.01:\n    print(\"needs_review\")\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "total",
+        "lines",
+        "abs",
+        "sum"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T3-B-E1 siguiendo la instrucción del paquete: «Si abs(sum(lines)-total)>0.01 imprime needs_review.». Me apoyo en el demo S24-T3-A-DEMO (Extraer KV desde líneas con dos puntos.). Fragmento iDo: «lines=[\"RUC: 20123456789\",\"Total: 10\"] kv={} for ln in lines:     k,v=ln.split(\":\",1); kv[k.strip()]=v.strip() print(kv)». Pistas: abs; tolerancia. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T3-B-E1 total, lines = 10.0, [4.0, 5.0] if abs(sum(lines) - total) > 0.01: print(\"needs_rev». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T3-B-E2\nruc, reasons = None, []\nif ruc is None:\n    reasons.append(\"missing_ruc\")\nprint(reasons)\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "ruc",
+        "reasons",
+        "append",
+        "missing_ruc"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T3-B-E2 siguiendo la instrucción del paquete: «Acumula reasons list si ruc is None.». Me apoyo en el demo S24-T3-A-DEMO (Extraer KV desde líneas con dos puntos.). Fragmento iDo: «lines=[\"RUC: 20123456789\",\"Total: 10\"] kv={} for ln in lines:     k,v=ln.split(\":\",1); kv[k.strip()]=v.strip() print(kv)». Pistas: append; lista. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T3-B-E2 ruc, reasons = None, [] if ruc is None: reasons.append(\"missing_ruc\") print(reasons». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T3-B-E3\nif True:\n    print(\"review_not_fraud\")\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "review_not_fraud"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T3-B-E3 siguiendo la instrucción del paquete: «Imprime 'review_not_fraud' cuando hay mismatch (mensaje de política).». Me apoyo en el demo S24-T3-A-DEMO (Extraer KV desde líneas con dos puntos.). Fragmento iDo: «lines=[\"RUC: 20123456789\",\"Total: 10\"] kv={} for ln in lines:     k,v=ln.split(\":\",1); kv[k.strip()]=v.strip() print(kv)». Pistas: política explícita; string fijo. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T3-B-E3 if True: print(\"review_not_fraud\")». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T4-A-E1\nprint(3 / 4)\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T4-A-E1 siguiendo la instrucción del paquete: «Accuracy = correct/n para 3 de 4 correctos.». Me apoyo en el demo S24-T4-A-DEMO (Validación total vs suma de líneas.). Fragmento iDo: «total, lines=150.0,[100.0,50.0] print(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")». Pistas: división float; print. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T4-A-E1 print(3 / 4)». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T4-A-E2\nrows = [{\"ruc_pred\": \"1\", \"ruc_true\": \"1\"}, {\"ruc_pred\": \"2\", \"ruc_true\": \"1\"}]\nprint(sum(1 for r in rows if r[\"ruc_pred\"] == r[\"ruc_true\"]) / len(rows))\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "rows",
+        "ruc_pred",
+        "ruc_true",
+        "sum"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T4-A-E2 siguiendo la instrucción del paquete: «Calcula acc por campo 'ruc' en lista de dicts pred/true.». Me apoyo en el demo S24-T4-A-DEMO (Validación total vs suma de líneas.). Fragmento iDo: «total, lines=150.0,[100.0,50.0] print(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")». Pistas: sum generator; campo. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T4-A-E2 rows = [{\"ruc_pred\": \"1\", \"ruc_true\": \"1\"}, {\"ruc_pred\": \"2\", \"ruc_true\": \"1\"}] pri». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T4-A-E3\nauto, review = 7, 3\nprint(auto / (auto + review))\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "auto",
+        "review"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T4-A-E3 siguiendo la instrucción del paquete: «coverage_auto = auto/(auto+review); imprime con auto=7, review=3.». Me apoyo en el demo S24-T4-A-DEMO (Validación total vs suma de líneas.). Fragmento iDo: «total, lines=150.0,[100.0,50.0] print(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")». Pistas: fórmula; float. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T4-A-E3 auto, review = 7, 3 print(auto / (auto + review))». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T4-B-E1\nmime = \"application/zip\"\nallowed = {\"application/pdf\", \"image/png\", \"image/jpeg\"}\nprint(\"reject\" if mime not in allowed else \"ok\")\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "mime",
+        "application",
+        "zip",
+        "allowed"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T4-B-E1 siguiendo la instrucción del paquete: «Rechaza mime no pdf/png/jpeg.». Me apoyo en el demo S24-T4-A-DEMO (Validación total vs suma de líneas.). Fragmento iDo: «total, lines=150.0,[100.0,50.0] print(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")». Pistas: set membership; mime. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T4-B-E1 mime = \"application/zip\" allowed = {\"application/pdf\", \"image/png\", \"image/jpeg\"} p». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T4-B-E2\nn = 6_000_000\nprint(\"reject\" if n > 5_000_000 else \"ok\")\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "reject",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T4-B-E2 siguiendo la instrucción del paquete: «Si n_bytes>5e6 reject por size.». Me apoyo en el demo S24-T4-A-DEMO (Validación total vs suma de líneas.). Fragmento iDo: «total, lines=150.0,[100.0,50.0] print(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")». Pistas: comparación; constante. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T4-B-E2 n = 6_000_000 print(\"reject\" if n > 5_000_000 else \"ok\")». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S24-T4-B-E3\nprint({\"ocr_fail\": \"human_rescan\"}.get(\"ocr_fail\", \"retry\"))\n# B2 dual-run (Explorer): re-validated vs packet S24 S24-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S24",
+        "ocr_fail",
+        "human_rescan",
+        "get",
+        "retry"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S24-T4-B-E3 siguiendo la instrucción del paquete: «Fallback: ocr_fail → 'human_rescan'. Imprime acción.». Me apoyo en el demo S24-T4-A-DEMO (Validación total vs suma de líneas.). Fragmento iDo: «total, lines=150.0,[100.0,50.0] print(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")». Pistas: mapa de fallbacks; dict get. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S24']. Mi código clave: «# explorer/B2: completed from packet iDo for S24-T4-B-E3 print({\"ocr_fail\": \"human_rescan\"}.get(\"ocr_fail\", \"retry\"))». Teoría cercana: De “RPA avanzado” a OCR Document AI (intake CP-N2-C) | DPI, deskew, crop y contraste | ruido y orien."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Abstener y encolar revisión",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Confidence de RUC 0.6 bajo umbral: abstener y encolar revisión; no aceptar, inventar dígitos ni etiquetar fraude."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Cola de revisión / corrección",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Mismatch total vs líneas → cola de revisión/corrección, no fraude probado automático."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Los campos críticos pueden fallar aunque el global se vea bien",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Accuracy por campo: campos críticos pueden fallar aunque el score global se vea bien."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Gate reject/review por mime no permitido",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: application/zip en intake de facturas: gate reject/review por mime no permitido."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

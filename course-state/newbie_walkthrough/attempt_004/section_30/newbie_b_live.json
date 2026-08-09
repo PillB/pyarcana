@@ -1,0 +1,280 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 30,
+  "recorded_at": "2026-07-21T22:15:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos only",
+      "required_for_early_exercises": {
+        "exact/token/date comparators": { "in_theory_or_demo": true, "where": "theory + S30-T1-B-DEMO" },
+        "missingness frequency": { "in_theory_or_demo": true, "where": "theory + S30-T2-A-DEMO" },
+        "blocking candidate recall": { "in_theory_or_demo": true, "where": "theory + S30-T2-B-DEMO" },
+        "cost impossible pairs": { "in_theory_or_demo": true, "where": "S30-T3-A-DEMO" },
+        "weighted score thresholds": { "in_theory_or_demo": true, "where": "S30-T3-B-DEMO" },
+        "Union-Find review": { "in_theory_or_demo": true, "where": "theory UF + S30-T4-A-DEMO" },
+        "entity split P/R": { "in_theory_or_demo": true, "where": "theory + S30-T4-B-DEMO + last demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "Si dos registros son la misma entidad",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: ER only same entity — not fraud/relationship."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Fracción de verdaderos matches que sobreviven al blocking",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory candidate recall definition."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "clerical review",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory thresholds: mid band → review."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Leakage de identidad entre train y test",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory entity split anti-leakage."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S30-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "a=b='a'\nprint(1.0 if a == b else 0.0)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["exact comparator"],
+        "note": "Theory exact()."
+      },
+      {
+        "exercise_id": "S30-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "ta, tb = set('a b'.split()), set('b c'.split())\nprint(len(ta & tb) / len(ta | tb))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["token Jaccard"],
+        "note": "Theory token_jaccard; |{b}|/|{a,b,c}| = 1/3."
+      },
+      {
+        "exercise_id": "S30-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "from datetime import date\nd1 = d2 = date(2026, 1, 1)\nprint(1.0 if d1 == d2 else 0.0)\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["date_sim same day"],
+        "note": "Theory date_sim delta 0 → 1.0."
+      },
+      {
+        "exercise_id": "S30-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "a,b='', 'x'\nif a == '' or b == '':\n    print('missing')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["missingness"],
+        "note": "Theory compare_field missing."
+      },
+      {
+        "exercise_id": "S30-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "freq=10\nprint(1 / freq)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["frequency weight"],
+        "note": "Theory frequency_weight base/f."
+      },
+      {
+        "exercise_id": "S30-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('informative_missing')\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["informative missingness"],
+        "note": "Theory informative missingness by source."
+      },
+      {
+        "exercise_id": "S30-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "last,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["block_key"],
+        "note": "Theory/demo block_key last|city."
+      },
+      {
+        "exercise_id": "S30-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "found,gold_n=1,2\nprint(found / gold_n)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["candidate recall"],
+        "note": "Theory recall = found/gold."
+      },
+      {
+        "exercise_id": "S30-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "n=4\nprint(n * (n - 1) // 2)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["block cost C(n,2)"],
+        "note": "Theory cost n_b^2 / pairs in block."
+      },
+      {
+        "exercise_id": "S30-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "sizes=[3,5]\nprint(sum(n * (n - 1) // 2 for n in sizes))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["total block cost"],
+        "note": "S30-T3-A-DEMO cost=lambda sizes: sum(n*(n-1)//2 ...)."
+      },
+      {
+        "exercise_id": "S30-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "ta,tb='person','org'\nprint(ta != tb)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["impossible pairs"],
+        "note": "Demo impossible person vs org."
+      },
+      {
+        "exercise_id": "S30-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('filter_before_score')\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["pipeline policy"],
+        "note": "Theory: blocking + impossible filters before heavy scorer."
+      },
+      {
+        "exercise_id": "S30-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["weighted average score"],
+        "note": "S30-T3-B-DEMO weighted sims."
+      },
+      {
+        "exercise_id": "S30-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "s,t_high,t_low=0.7,0.9,0.5\nif s >= t_high:\n    print('auto_match')\nelif s <= t_low:\n    print('non_match')\nelse:\n    print('review')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["thresholds", "review"],
+        "note": "Theory + decide() starter pattern."
+      },
+      {
+        "exercise_id": "S30-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print({'name': 0.9, 'email': 1.0})\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["explainable field scores"],
+        "note": "Theory explain score per field; demo explain dict."
+      },
+      {
+        "exercise_id": "S30-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "p={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)] = find(a)\nunion(1,2)\nunion(2,3)\nprint(find(1) == find(3))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["Union-Find", "cluster consistency"],
+        "note": "Theory UnionFind + S30-T4-A-DEMO; starter provides find."
+      },
+      {
+        "exercise_id": "S30-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print(['match', 'non_match', 'uncertain'])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["clerical review actions"],
+        "note": "Theory review actions match/non-match/uncertain."
+      },
+      {
+        "exercise_id": "S30-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('ER_only_same_entity')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["privacy/gate policy"],
+        "note": "Theory ER only same entity; note ER_not_fraud."
+      },
+      {
+        "exercise_id": "S30-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "a,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a, b} <= train_e else 'test')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["entity split"],
+        "note": "S30-T4-B-DEMO set subset train_e."
+      },
+      {
+        "exercise_id": "S30-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "matches,n=1,5\nprint(matches / n)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["match prevalence"],
+        "note": "Theory document match prevalence."
+      },
+      {
+        "exercise_id": "S30-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print('entity_split')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["anti-leakage policy"],
+        "note": "Theory split por entidad."
+      },
+      {
+        "exercise_id": "S30-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "tp,fp=2,1\nprint(round(tp / (tp + fp), 2))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["precision"],
+        "note": "Theory prf precision."
+      },
+      {
+        "exercise_id": "S30-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "tp,fn=2,2\nprint(tp / (tp + fn))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["recall"],
+        "note": "Theory prf recall."
+      },
+      {
+        "exercise_id": "S30-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print(['missing_phone'])\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["error slices"],
+        "note": "Theory error slices include missing phone."
+      }
+    ],
+    "summary": {
+      "n_exercises": 24,
+      "n_answered": 24,
+      "n_blocked_exercises": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4
+    }
+  }
+}

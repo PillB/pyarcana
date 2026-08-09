@@ -1,0 +1,158 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "section_id": "setup",
+  "phase": "PHASE_4_IN_PROGRESS",
+  "block": "S01-T1-A",
+  "block_status": "COMPLETE",
+  "generated_at": "2026-07-20T08:30:00Z",
+  "prompt_version": "3.2",
+
+  "preamble": {
+    "objective": "Author S01-T1-A (intérprete y REPL) with full pedagogical package and executed code evidence.",
+    "scope_in": ["S01-T1-A only", "types/UI minimal support for V3 exercise metadata", "local-python verification"],
+    "scope_out": ["S01-T1-B", "exam A/B/C for this slug", "section passed", "S02"]
+  },
+
+  "pre_round_research": {
+    "executed_at": "2026-07-20",
+    "sources_reused": ["SRC-S01-002 docs.python.org interpreter", "s01_phase2 decisions DEC-R03/R06"],
+    "notes": [
+      "Demo must run local-python; browser-pyodide does not teach PATH/interpreter selection.",
+      "Andamiaje: REPL transcript → script entrypoint → diagnostic transfer."
+    ]
+  },
+
+  "artifacts_authored": {
+    "theory": {
+      "heading": "El intérprete Python y el REPL",
+      "subtopicId": "S01-T1-A",
+      "file": "src/lib/course/sections/s01-setup.ts",
+      "has_code": true,
+      "has_callout": true,
+      "paragraphs": 3
+    },
+    "demo": {
+      "demoId": "S01-T1-A-DEMO",
+      "environment": "local-python",
+      "description": "Verificar el intérprete y abrir una sesión REPL mínima",
+      "executed": true
+    },
+    "exercises": [
+      {
+        "id": "S01-T1-A-E1",
+        "kind": "guided",
+        "hints": 2,
+        "starter": true,
+        "solution": true,
+        "edgeCases": 2,
+        "tests": true,
+        "feedback": true
+      },
+      {
+        "id": "S01-T1-A-E2",
+        "kind": "independent",
+        "hints": 2,
+        "starter": true,
+        "solution": true,
+        "edgeCases": 2,
+        "tests": true,
+        "feedback": true,
+        "solution_executed": true
+      },
+      {
+        "id": "S01-T1-A-E3",
+        "kind": "transfer",
+        "hints": 2,
+        "starter": true,
+        "solution": true,
+        "edgeCases": 2,
+        "tests": true,
+        "feedback": true,
+        "solution_executed": "rubric/document — no runtime code"
+      }
+    ]
+  },
+
+  "platform_changes": [
+    {
+      "file": "src/lib/types.ts",
+      "change": "Optional V3 fields on TheoryBlock, IDoStep, WeDoStep (subtopicId, demoId, hints[], edgeCases, tests, feedback, kind, id, environment)"
+    },
+    {
+      "file": "src/components/course/SectionView.tsx",
+      "change": "WeDoTab renders dual hints, kind/id badge, edgeCases/feedback/tests when solution revealed"
+    },
+    {
+      "file": "src/lib/course/sections/s01-setup.ts",
+      "change": "T1-A theory + demo + E1/E2/E3; learning outcome for interpreter/REPL; iDo intro updated"
+    }
+  ],
+
+  "execution_evidence": {
+    "environment": "local-python",
+    "host_python": "Python 3.9.6 (/usr/bin/python3)",
+    "note": "Host is 3.9.6; course targets 3.12+. Content teaches verification of whatever interpreter responds; install guidance remains 3.12+ from python.org.",
+    "commands": [
+      {
+        "cmd": "python3 --version",
+        "result": "Python 3.9.6",
+        "status": "PASS"
+      },
+      {
+        "cmd": "python3 -c \"print(2+2); print(type('Hola')); import sys; print(sys.version.split()[0])\"",
+        "result": "4 / <class 'str'> / 3.9.6",
+        "status": "PASS",
+        "maps_to": "S01-T1-A-DEMO + E1"
+      },
+      {
+        "cmd": "python3 hello_sys.py",
+        "result": "Hola, soy Maria Quispe\\nPython 3.9.6; exit_code=0",
+        "status": "PASS",
+        "maps_to": "S01-T1-A-E2 solution"
+      }
+    ],
+    "unverified": [],
+    "tsc": {
+      "status": "SKIPPED",
+      "reason": "node_modules absent in workspace; no bun/npm install run this session (side-effectful). Types are optional-field only; backward compatible."
+    }
+  },
+
+  "block_gate_S01_T1_A": {
+    "theory_present": true,
+    "demo_present_and_executed": true,
+    "three_exercises_complete": true,
+    "each_exercise_has_starter_2hints_solution_edges_tests_feedback": true,
+    "environment_declared": "local-python",
+    "no_p0_introduced": true,
+    "authorized_to_proceed": "S01-T1-B",
+    "blocked": false
+  },
+
+  "remaining_s01_phase4": [
+    "S01-T1-B",
+    "S01-T2-A",
+    "S01-T2-B",
+    "S01-T3-A",
+    "S01-T3-B",
+    "S01-T4-A",
+    "S01-T4-B",
+    "topic evaluations T1–T4",
+    "You Do CP-N1-A increment"
+  ],
+
+  "retrospection": {
+    "what_worked": [
+      "Optional type fields avoided breaking other 51 sections",
+      "E2 solution executed on host Python with real exit 0",
+      "UI dual-hint path ready for all future V3 exercises"
+    ],
+    "limitations": [
+      "Host Python 3.9.6 ≠ course target 3.12+ — documented honestly",
+      "No node_modules: UI not browser-tested this session",
+      "Exam variant for interpreter-selection still missing (PHASE 5)"
+    ],
+    "next_single_action": "PHASE 4 block 2: Author S01-T1-B (terminal, rutas, procesos y códigos de salida) only."
+  }
+}

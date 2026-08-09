@@ -1,0 +1,513 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_A1",
+  "section_index": 19,
+  "packet_sha": "9cf3216f6747a5b0",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_19/packet.json",
+  "recorded_at": "2026-07-21T22:06:00.281287+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T1-A-E1\npregunta = 'comparar regiones'\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "pregunta",
+        "comparar",
+        "regiones",
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T1-A-E1. Instruction del paquete: Dada pregunta de comparación entre 3 regiones, imprime chart recomendado 'bar'.. Hints: Asigna chart='bar'.; print el valor.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T1-A-E2\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Devuelve",
+        "dict",
+        "pregunta"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T1-A-E2. Instruction del paquete: Devuelve dict pregunta/audiencia/chart para audiencia ejecutivo y comparación de totales.. Hints: Incluye las 3 claves.; chart bar.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T1-A-E3\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Escribe",
+        "elige_chart",
+        "pregunta"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T1-A-E3. Instruction del paquete: Escribe elige_chart(pregunta) que devuelva 'line' si 'tendencia' in pregunta else 'bar'; prueba con dos strings.. Hints: in para substring.; Dos prints.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T1-B-E1\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "valores",
+        "imprime",
+        "visual"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T1-B-E1. Instruction del paquete: Con valores 50 y 45, imprime inflación visual si baseline=40 vs 0 (ratio de alturas de la diferencia).. Hints: altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.; factor = truco/honesto.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T1-B-E2\nylim_bottom = 0\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "ylim_bottom",
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Imprime",
+        "honesto"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T1-B-E2. Instruction del paquete: Imprime 'honesto' si ylim_bottom==0 else 'revisar'.. Hints: Variable ylim_bottom=0.; print condicional.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T1-B-E3\nencoding = 'dual_axis'\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "encoding",
+        "dual_axis",
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Dado"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T1-B-E3. Instruction del paquete: Dado encoding='dual_axis', imprime 'riesgo_alto' ; si 'position', 'ok'.. Hints: if/elif.; Prueba dual_axis.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T2-A-E1\nimport matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "print",
+        "alt_words"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T2-A-E1. Instruction del paquete: Crea figura bar de [1,2] y verifica get_ylim()[0]==0 tras set_ylim(0,3); imprime True/False.. Hints: matplotlib Agg.; plt.close.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T2-A-E2\nimport matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "print",
+        "alt_words"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T2-A-E2. Instruction del paquete: Asigna ylabel 'PEN' a un Axes y print get_ylabel().. Hints: set_ylabel.; Agg backend.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T2-A-E3\nimport matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "print",
+        "alt_words"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T2-A-E3. Instruction del paquete: Función meta_bar(labels, values) crea bar chart y devuelve dict n_bars y ylim0; print con ['A','B'] [3,4].. Hints: len(values).; set_ylim(0, max*1.2).. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T2-B-E1\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Imprime",
+        "export",
+        "dict"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T2-B-E1. Instruction del paquete: Imprime export dict con fmt png, dpi 120, panels 2.. Hints: Dict literal.; print.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T2-B-E2\nversion = 3\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "version",
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Construye",
+        "nombre"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T2-B-E2. Instruction del paquete: Construye nombre fig_cpn2b_v{version}.png para version=3.. Hints: f-string.; print nombre.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T2-B-E3\nimport matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "print",
+        "alt_words"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T2-B-E3. Instruction del paquete: Crea 1x2 subplots, set titles Vol y Med, devuelve lista de titles; print.. Hints: ax.get_title().; close fig.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T3-A-E1\nrows=[{'region':'Lima','median':28},{'region':'Cusco','median':22}]\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "region",
+        "Lima",
+        "median",
+        "Cusco",
+        "print",
+        "alt_words",
+        "len"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T3-A-E1. Instruction del paquete: Filtra rows por region=='Lima' e imprime el median del primero.. Hints: list comp o next.; print valor.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T3-A-E2\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Arma",
+        "tooltip",
+        "string"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T3-A-E2. Instruction del paquete: Arma tooltip string '{region}: {v} PEN (n={n})' con Lima 28 n=40.. Hints: f-string.; print.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T3-A-E3\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Implementa",
+        "tooltip",
+        "row"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T3-A-E3. Instruction del paquete: Implementa tooltip(row) y pruébalo con dict region/median/n.. Hints: Incluye unidad PEN.; Función pura.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T3-B-E1\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Dado",
+        "chart",
+        "Lima"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T3-B-E1. Instruction del paquete: Dado chart={'Lima':1} y table=[{'region':'Lima','v':1}], imprime parity True si coinciden.. Hints: Compara valores.; print True.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T3-B-E2\nimport json\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "json",
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Serializa"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T3-B-E2. Instruction del paquete: Serializa state filtro_region=Lima a string JSON compacto (json.dumps).. Hints: import json.; print.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T3-B-E3\ntable=[{'region':'Lima','v':28},{'region':'Cusco','v':22}]\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "table",
+        "region",
+        "Lima",
+        "Cusco",
+        "print",
+        "alt_words",
+        "len",
+        "alt"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T3-B-E3. Instruction del paquete: Genera alt_text desde table list de dicts region/v; une con '; '.. Hints: join.; Incluye PEN.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T4-A-E1\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "Imprime",
+        "caption",
+        "unidad"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T4-A-E1. Instruction del paquete: Imprime caption con unidad PEN y fuente sintetico.. Hints: f-string o dict.; Ambas menciones.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T4-A-E2\ncap={'unidad':'PEN','fuente':'x','limitacion':'web'}\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "cap",
+        "unidad",
+        "PEN",
+        "fuente",
+        "limitacion",
+        "web",
+        "print",
+        "alt_words"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T4-A-E2. Instruction del paquete: Valida que caption dict tenga claves unidad, fuente, limitacion; imprime True.. Hints: set de keys.; issuperset.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T4-A-E3\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "pie",
+        "cap",
+        "devuelve"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T4-A-E3. Instruction del paquete: Función pie(cap) devuelve string unido con ' | ' de items; prueba con 2 claves.. Hints: join items.; orden de inserción dict.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T4-B-E1\nclaim = 'Lima es la mejor del Perú'\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "claim",
+        "Lima",
+        "mejor",
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T4-B-E1. Instruction del paquete: Si claim contiene 'del Perú' sin 'muestra', imprime RECHAZADO.. Hints: in checks.; Caso: 'mejor del Perú'.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T4-B-E2\nalt = 'Lima 28 PEN n=40'\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "alt",
+        "Lima",
+        "PEN",
+        "print",
+        "alt_words",
+        "len",
+        "split",
+        "Alt"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T4-B-E2. Instruction del paquete: Alt text debe mencionar 'n='; imprime True si 'n=' in alt.. Hints: substring.; alt de ejemplo.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S19-T4-B-E3\nprint(\"alt_words\", len(alt.split()\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "alt_words",
+        "len",
+        "alt",
+        "split",
+        "classify_claim",
+        "text",
+        "PERMITIDO"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S19-T4-B-E3. Instruction del paquete: classify_claim(text) -> PERMITIDO si 'muestra' in text else RECHAZADO; prueba 2 textos.. Hints: Función binaria simple didáctica.; Dos prints.. Teoría activa: De “Bases de Datos y ORMs” a visualización accesible (mapa) | pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplotlib / Seaborn | composición, annotations y exportación | . iDo demos: S19-T1-B-DEMO | S19-T2-A-DEMO | S19-T2-B-DEMO | S19-T3-A-DEMO | S19-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Barras con baseline 0",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: «pregunta, audiencia y chart choice» + ejes honestos: comparar magnitudes → barras; pie_3d rejected in demos. Barras with baseline 0 for absolute magnitudes."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Repetir los mismos números clave del chart",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: «estado, performance y alternativas accesibles» — alternativa accesible: tabla + resumen textual con los mismos números que el chart. Parity is required, not optional fluff."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Sobreclaim / generalización indebida",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: «color, contraste… y no sobreclaim» — «Lima lidera en la muestra web» ≠ «Lima es la mejor región del país». National superlative is overclaim."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Unidad, fuente y limitaciones",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: «unidades, fuente y limitaciones» — pie de figura: Unidad | Fuente | Corte | Limitación. Portfolio figure without fuente is rejected."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "3c7d94871af2"
+}

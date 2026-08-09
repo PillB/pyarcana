@@ -1,0 +1,1042 @@
+{
+  "attempt_id": "agentic_G1",
+  "section_index": 30,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "78058f8237924509"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "databases-orm",
+      "title": "Visualización y comunicación accesible",
+      "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+      "learningOutcomes": [
+        "Elegir charts por pregunta y audiencia",
+        "Diseñar ejes, escalas y encodings honestos",
+        "Producir figuras Matplotlib (estilo Seaborn opcional)",
+        "Anotar y exportar de forma reproducible",
+        "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+        "Proveer alternativas accesibles y cuidar performance",
+        "Documentar unidades, fuente y limitaciones",
+        "Aplicar contraste, alt text y no sobreclaim"
+      ]
+    },
+    {
+      "index": 20,
+      "id": "rag",
+      "title": "Automatización robusta de Excel",
+      "tagline": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+      "learningOutcomes": [
+        "Manipular sheets, celdas, tablas y named ranges",
+        "Distinguir fórmulas de valores cacheados",
+        "Aplicar estilos, charts y plantillas",
+        "Manejar fechas, locales, merged cells y protección",
+        "Conciliar totales y trabajar con pivots lógicos",
+        "Preservar estructura y validaciones",
+        "Operar batch con corruptos y locks",
+        "Garantizar backups, idempotencia y tests estructurales"
+      ]
+    },
+    {
+      "index": 21,
+      "id": "fastapi",
+      "title": "Documentos, plantillas y reportes trazables",
+      "tagline": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+      "learningOutcomes": [
+        "Separar datos y presentación con Jinja",
+        "Renderizar condiciones/tablas con formato seguro",
+        "Generar, abrir, extraer y renderizar DOCX/PDF locales",
+        "Distinguir PDF digital de imagen/OCR",
+        "Estructurar informe ejecutivo con método y hallazgos",
+        "Embeber gráficos/tablas con fuentes y limitaciones",
+        "Revisar redacción, a11y y consistencia numérica",
+        "Documentar provenance y flujo de aprobación"
+      ]
+    },
+    {
+      "index": 22,
+      "id": "rapidfuzz-entity",
+      "title": "Email, identidad y aprobación humana",
+      "tagline": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+      "learningOutcomes": [
+        "Construir mensajes MIME con encoding y attachments",
+        "Sanitizar templates HTML de correo",
+        "Configurar OAuth/service account con scopes mínimos",
+        "Crear drafts vía adaptadores con expiración",
+        "Resolver y verificar destinatarios",
+        "Aplicar privacidad y mínima divulgación en listas",
+        "Implementar approval queue y state machine",
+        "Garantizar idempotencia, audit log y reintentos seguros"
+      ]
+    },
+    {
+      "index": 23,
+      "id": "computer-vision",
+      "title": "Browser RPA con Playwright",
+      "tagline": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente",
+      "learningOutcomes": [
+        "Usar locators orientados a usuario",
+        "Aplicar auto-waiting y assertions fiables",
+        "Automatizar formularios, uploads y downloads",
+        "Modelar auth y Page Objects",
+        "Diagnosticar con trace, screenshot y logs",
+        "Diseñar retries y recovery robustos",
+        "Priorizar API/export sobre RPA",
+        "Respetar ToS/CAPTCHA y handoff humano"
+      ]
+    },
+    {
+      "index": 24,
+      "id": "rpa-advanced",
+      "title": "OCR y Document AI",
+      "tagline": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
+      "learningOutcomes": [
+        "Preprocesar imágenes (DPI, deskew, crop, contraste)",
+        "Corregir ruido y orientación",
+        "Ejecutar OCR con idiomas, layout y confidence",
+        "Extraer texto, tablas y pares clave–valor",
+        "Normalizar a schema de extracción",
+        "Validar cross-field y encolar revisión",
+        "Evaluar exactitud por campo en golden set",
+        "Manejar privacidad, hostiles y fallback"
+      ]
+    },
+    {
+      "index": 25,
+      "id": "streamlit-dashboards",
+      "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "tagline": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
+      "learningOutcomes": [
+        "Elegir regla vs modelo especializado vs LLM",
+        "Usar model cards, licencias y decidir local/cloud",
+        "Ejecutar pipelines/endpoints de Hugging Face",
+        "Operar batching, timeout, cache, costo y fallback",
+        "Diseñar prompts con salida estructurada",
+        "Usar thinking/tools/checkpoints de forma controlada",
+        "Evaluar con golden set, schema y revisión humana",
+        "Mitigar injection, exfiltración, sesgo y minimizar datos"
+      ]
+    },
+    {
+      "index": 26,
+      "id": "integrator-phase1",
+      "title": "Orquestación y VP RPA + AI Analyst",
+      "tagline": "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas",
+      "learningOutcomes": [
+        "Modelar tasks/flows/DAG con estados",
+        "Configurar límites, metadata y schedules",
+        "Implementar checkpoints, retry/backoff y dead-letter",
+        "Garantizar idempotencia, concurrencia y rollback",
+        "Diseñar revisión humana de análisis/reporte/destinatario",
+        "Operar aprobación, rechazo, edición y auditoría",
+        "Definir SLO, alerts y runbook",
+        "Validar E2E, seguridad, costo y métricas de valor"
+      ]
+    },
+    {
+      "index": 27,
+      "id": "async-concurrency",
+      "title": "Estrategia de pruebas con pytest",
+      "tagline": "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
+      "learningOutcomes": [
+        "Priorizar pruebas según riesgo y pirámide",
+        "Escribir tests AAA con oráculos confiables",
+        "Usar discovery y assertions de pytest",
+        "Aislar estado con fixtures y scopes",
+        "Cubrir excepciones, floats, fechas y tmp files",
+        "Diseñar casos negativos con mensajes útiles",
+        "Medir cobertura por rama y riesgo",
+        "Interpretar mutación conceptual y fallas útiles"
+      ]
+    },
+    {
+      "index": 28,
+      "id": "llm-agents",
+      "title": "Pruebas de datos, propiedades e integración",
+      "tagline": "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
+      "learningOutcomes": [
+        "Generar casos desde invariantes",
+        "Aplicar tests metamórficos y de simetría",
+        "Validar contratos de schema/calidad",
+        "Detectar drift y reconciliar goldens",
+        "Doblar HTTP/DB/reloj con control",
+        "Escribir contract tests sin sobre-mocking",
+        "Montar integración/E2E con containers (concepto)",
+        "Eliminar flakes y fijar determinismo en CI"
+      ]
+    },
+    {
+      "index": 29,
+      "id": "mlops",
+      "title": "SQL avanzado y modelado relacional",
+      "tagline": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia",
+      "learningOutcomes": [
+        "Modelar claves y constraints correctos",
+        "Preservar temporalidad y provenance",
+        "Escribir CTEs, windows y anti-joins",
+        "Razonar cardinalidad, NULL y planes",
+        "Elegir isolation y garantizar ACID",
+        "Implementar upserts y recuperación",
+        "Diseñar índices y migrations seguras",
+        "Aplicar repository, pooling y tests"
+      ]
+    }
+  ],
+  "active": {
+    "id": "security-infra",
+    "index": 30,
+    "title": "Entity resolution probabilístico",
+    "tagline": "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
+    "jobRelevance": "Cierras **CP-N3-A** con un **Testable Entity Resolution Engine**: comparadores, blocking con recall medido, pesos/umbrales, clerical review y métricas pairwise/cluster sobre datos sintéticos etiquetados. ER solo decide **misma entidad**, no relación ni riesgo/fraude.",
+    "learningOutcomes": [
+      "Comparar exact/edit/token/fecha",
+      "Tratar missingness y frecuencia",
+      "Diseñar blocking con recall medido",
+      "Controlar costo y pares imposibles",
+      "Estimar pesos y umbrales",
+      "Operar review y consistencia de cluster",
+      "Partir datos por entidad sin leakage",
+      "Reportar métricas pairwise/cluster y slices"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S30-T1-A",
+        "heading": "exact, edit/token y fecha",
+        "paragraphs": [
+          "**Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
+          "Cada comparador devuelve score en [0,1] o nivel ordinal (agree/disagree) para pesos tipo Fellegi–Sunter simplificado.",
+          "Explica el score: guarda qué campo y qué función produjeron el valor (auditoría)."
+        ],
+        "code": "def exact(a, b):\n    return 1.0 if a == b else 0.0\n\ndef token_jaccard(a, b):\n    ta, tb = set(a.casefold().split()), set(b.casefold().split())\n    if not ta and not tb:\n        return 1.0\n    if not ta or not tb:\n        return 0.0\n    return len(ta & tb) / len(ta | tb)\n\ndef edit_sim(a, b):\n    # distancia de Levenshtein normalizada (simple)\n    la, lb = len(a), len(b)\n    if la == 0 and lb == 0:\n        return 1.0\n    dp = list(range(lb + 1))\n    for i, ca in enumerate(a, 1):\n        prev, dp[0] = dp[0], i\n        for j, cb in enumerate(b, 1):\n            cur = dp[j]\n            dp[j] = prev if ca == cb else 1 + min(prev, dp[j], dp[j - 1])\n            prev = cur\n    dist = dp[lb]\n    return 1.0 - dist / max(la, lb)\n\ndef date_sim(d1, d2, tol_days=3):\n    delta = abs((d1 - d2).days)\n    if delta == 0:\n        return 1.0\n    if delta <= tol_days:\n        return 0.5\n    return 0.0\n\nfrom datetime import date\nprint(\"exact\", exact(\"ana@example.pe\", \"ana@example.pe\"))\nprint(\"token\", round(token_jaccard(\"Ana López\", \"López Ana\"), 3))\nprint(\"edit\", round(edit_sim(\"María\", \"Maria\"), 3))\nprint(\"date\", date_sim(date(2020, 1, 1), date(2020, 1, 2)))",
+        "code_output": "exact 1.0\ntoken 1.0\nedit 0.8\ndate 0.5"
+      },
+      {
+        "subtopicId": "S30-T1-B",
+        "heading": "missingness informativa y frecuencia",
+        "paragraphs": [
+          "**Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
+          "Missingness puede ser **informativa** (ciertas fuentes nunca traen teléfono) — modela por fuente, no asumas MCAR sin evidencia. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+          "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto (u-probability alta en FS). Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable."
+        ],
+        "code": "def compare_field(a, b):\n    if a is None or a == \"\" or b is None or b == \"\":\n        return \"missing\"\n    return \"agree\" if a.casefold() == b.casefold() else \"disagree\"\n\ndef frequency_weight(value, freq_table, base=1.0):\n    # valores frecuentes → menos peso de acuerdo\n    f = freq_table.get(value.casefold(), 1)\n    return base / f\n\nfreq = {\"maría\": 50, \"ximena\": 2}\nprint(\"cmp_miss\", compare_field(\"\", \"Ana\"))\nprint(\"cmp_ok\", compare_field(\"Ana\", \"ana\"))\nprint(\"w_common\", frequency_weight(\"María\", freq))\nprint(\"w_rare\", frequency_weight(\"Ximena\", freq))",
+        "code_output": "cmp_miss missing\ncmp_ok agree\nw_common 0.02\nw_rare 0.5"
+      },
+      {
+        "subtopicId": "S30-T2-A",
+        "heading": "reglas y candidate recall",
+        "paragraphs": [
+          "**Blocking** reduce pares: misma clave (apellido normalizado + CP, email local-part, teléfono últimos 6, etc.). Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
+          "**Candidate recall**: de los pares verdaderamente match en el gold, ¿qué fracción pasó el blocking? Mide con etiquetas sintéticas. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+          "Reglas múltiples en unión (OR) suben recall; intersección (AND) baja candidatos pero puede matar recall. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable."
+        ],
+        "code": "def block_key(rec):\n    name = \" \".join(rec[\"name\"].casefold().split())\n    last = name.split()[-1] if name else \"\"\n    return f\"{last}|{rec.get('city','')[:3].casefold()}\"\n\nrecords = [\n    {\"id\": \"r1\", \"name\": \"Ana López\", \"city\": \"Lima\"},\n    {\"id\": \"r2\", \"name\": \"ANA lopez\", \"city\": \"Lima\"},\n    {\"id\": \"r3\", \"name\": \"Bob Díaz\", \"city\": \"Cusco\"},\n]\nfrom collections import defaultdict\nbuckets = defaultdict(list)\nfor r in records:\n    buckets[block_key(r)].append(r[\"id\"])\n# gold match (r1,r2)\ngold = {frozenset((\"r1\", \"r2\"))}\ncandidates = set()\nfor ids in buckets.values():\n    for i in range(len(ids)):\n        for j in range(i + 1, len(ids)):\n            candidates.add(frozenset((ids[i], ids[j])))\nrecall = len(gold & candidates) / len(gold)\nprint(\"buckets\", {k: v for k, v in buckets.items()})\nprint(\"candidate_recall\", recall)\nprint(\"n_cand\", len(candidates))",
+        "code_output": "buckets {'lópez|lim': ['r1'], 'lopez|lim': ['r2'], 'díaz|cus': ['r3']}\ncandidate_recall 0.0\nn_cand 0"
+      },
+      {
+        "subtopicId": "S30-T2-B",
+        "heading": "combinaciones, costo y pares imposibles",
+        "paragraphs": [
+          "El **costo** es O(suma n_b^2) por bloque. Bloques enormes (clave débil) explotan CPU/memoria. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
+          "**Pares imposibles**: reglas de exclusión (tipo persona vs empresa, fechas de nacimiento incompatibles sintéticas) evitan comparar lo incomparable. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+          "Combina blocking + filtros imposibles antes del scorer pesado. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto."
+        ],
+        "code": "def pair_cost(block_sizes):\n    return sum(n * (n - 1) // 2 for n in block_sizes)\n\ndef impossible(a, b):\n    # sintético: tipos distintos no se comparan\n    return a.get(\"type\") != b.get(\"type\")\n\nsizes = [3, 10, 100]\nprint(\"cost\", pair_cost(sizes))\na, b = {\"type\": \"person\"}, {\"type\": \"org\"}\nprint(\"skip\", impossible(a, b))\nprint(\"policy\", \"filter_before_score\")",
+        "code_output": "cost 4998\nskip True\npolicy filter_before_score"
+      },
+      {
+        "subtopicId": "S30-T3-A",
+        "heading": "pesos/probabilidad y thresholds",
+        "paragraphs": [
+          "Modelo simple: score = suma de pesos por acuerdo/desacuerdo de campos (Fellegi–Sunter didáctico) o promedio ponderado de similitudes. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
+          "**Thresholds**: auto_match ≥ t_high; non_match ≤ t_low; en medio → **review**. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+          "Estima pesos con frecuencias o a mano con documentación; valida en gold sintético (S30-T4). Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable."
+        ],
+        "code": "def pair_score(sims, weights):\n    num = sum(sims[k] * weights[k] for k in weights)\n    den = sum(weights.values())\n    return num / den if den else 0.0\n\ndef decide(score, t_high=0.9, t_low=0.5):\n    if score >= t_high:\n        return \"auto_match\"\n    if score <= t_low:\n        return \"non_match\"\n    return \"review\"\n\nsims = {\"name\": 0.95, \"email\": 1.0, \"phone\": 0.0}\nweights = {\"name\": 0.5, \"email\": 0.4, \"phone\": 0.1}\ns = pair_score(sims, weights)\nprint(\"score\", round(s, 3))\nprint(\"decision\", decide(s))\nprint(\"explain\", sims)",
+        "code_output": "score 0.875\ndecision review\nexplain {'name': 0.95, 'email': 1.0, 'phone': 0.0}"
+      },
+      {
+        "subtopicId": "S30-T3-B",
+        "heading": "entrenamiento, clerical review y cluster consistency",
+        "paragraphs": [
+          "**Entrenamiento/estimación**: ajusta pesos o umbrales con pares etiquetados sintéticos (no PII real). Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto.",
+          "**Clerical review**: cola con score, explicación y acciones match/non-match/uncertain + actor y timestamp. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+          "**Cluster consistency**: si A=B y B=C entonces A=C en la misma entidad; resuelve con Union-Find y revisa contradicciones. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable."
+        ],
+        "code": "class UnionFind:\n    def __init__(self):\n        self.p = {}\n    def find(self, x):\n        self.p.setdefault(x, x)\n        if self.p[x] != x:\n            self.p[x] = self.find(self.p[x])\n        return self.p[x]\n    def union(self, a, b):\n        ra, rb = self.find(a), self.find(b)\n        if ra != rb:\n            self.p[rb] = ra\n\nuf = UnionFind()\n# auto matches\nfor a, b in [(\"e1\", \"e2\"), (\"e2\", \"e3\")]:\n    uf.union(a, b)\nreview_queue = [\n    {\"pair\": (\"e3\", \"e4\"), \"score\": 0.72, \"explain\": {\"name\": 0.8, \"email\": 0.5}}\n]\n# clerical: aprueba e3-e4\nuf.union(\"e3\", \"e4\")\nprint(\"same_cluster\", uf.find(\"e1\") == uf.find(\"e4\"))\nprint(\"queue_n\", len(review_queue))\nprint(\"note\", \"ER_not_fraud\")",
+        "code_output": "same_cluster True\nqueue_n 1\nnote ER_not_fraud"
+      },
+      {
+        "subtopicId": "S30-T4-A",
+        "heading": "labeled pairs y splits por entidad",
+        "paragraphs": [
+          "El **benchmark etiquetado** tiene pares match/non-match sintéticos. Nunca uses el mismo par en train y test de umbrales sin control. Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
+          "**Split por entidad**: si una entidad aparece en train, sus pares no deben filtrar a test (leakage de identidad). Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+          "Documenta tamaños de split y prevalencia de matches (suele ser baja). Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable. Documenta evidencia y límites del fixture `CASO-LIM-030` (run_id=cpn3a-er): sin PII real y sin auto-veredicto."
+        ],
+        "code": "pairs = [\n    {\"a\": \"e1\", \"b\": \"e2\", \"y\": 1},\n    {\"a\": \"e1\", \"b\": \"e3\", \"y\": 0},\n    {\"a\": \"e4\", \"b\": \"e5\", \"y\": 1},\n    {\"a\": \"e4\", \"b\": \"e6\", \"y\": 0},\n]\n# entidades train: e1,e2,e3\ntrain_entities = {\"e1\", \"e2\", \"e3\"}\n\ndef entity_split(pairs, train_entities):\n    train, test = [], []\n    for p in pairs:\n        ents = {p[\"a\"], p[\"b\"]}\n        if ents & train_entities and not ents <= train_entities:\n            # spill: un extremo en train y otro fuera → test o drop; aquí drop de train\n            test.append(p)\n        elif ents <= train_entities:\n            train.append(p)\n        else:\n            test.append(p)\n    return train, test\n\ntr, te = entity_split(pairs, train_entities)\nprint(\"train_n\", len(tr))\nprint(\"test_n\", len(te))\nprint(\"leakage_guard\", True)",
+        "code_output": "train_n 2\ntest_n 2\nleakage_guard True"
+      },
+      {
+        "subtopicId": "S30-T4-B",
+        "heading": "precision/recall, pairwise/cluster metrics y error slices",
+        "paragraphs": [
+          "**Pairwise**: precision/recall/F1 sobre pares predichos vs gold. **Cluster**: métricas a nivel entidad (p.ej. pair completeness/quality simplificado). Un score de matching solo prioriza revisión humana: ER responde *¿misma entidad?* y no infiere colusión, parentesco ni fraude.",
+          "**Error slices**: corta por fuente, apellido frecuente, missing phone, ciudad — encuentra fallas sistemáticas. Contrato operativo: entrada pares sintéticos `CASO-LIM-030` (run_id=cpn3a-er) → decisión auto_match|review|non_match con explicación por campo; error si falta gold o blocking sin recall medido.",
+          "Reporta con datos sintéticos; no conviertas errores en acusaciones de fraude. Caso sintético PE: contactos Lima `@example.pe` en cola clerical con actor/timestamp; fusión de entidades exige consistencia de cluster (Union-Find) y evidencia exportable."
+        ],
+        "code": "def prf(y_true, y_pred):\n    tp = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 1)\n    fp = sum(1 for t, p in zip(y_true, y_pred) if t == 0 and p == 1)\n    fn = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 0)\n    prec = tp / (tp + fp) if tp + fp else 0.0\n    rec = tp / (tp + fn) if tp + fn else 0.0\n    f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0\n    return prec, rec, f1\n\ny_true = [1, 1, 0, 0, 1]\ny_pred = [1, 0, 0, 1, 1]\np, r, f = prf(y_true, y_pred)\n# slice: errores donde pred!=true\nerrors = [i for i, (t, pr) in enumerate(zip(y_true, y_pred)) if t != pr]\nprint(\"precision\", round(p, 3))\nprint(\"recall\", round(r, 3))\nprint(\"f1\", round(f, 3))\nprint(\"error_idx\", errors)",
+        "code_output": "precision 0.667\nrecall 0.667\nf1 0.667\nerror_idx [1, 3]"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S30-T1-A-DEMO",
+          "subtopicId": "S30-T1-A",
+          "environment": "local-python",
+          "description": "Compara exact email, token name y edit simple sobre registros sintéticos.",
+          "why": "Comparadores base del motor ER.",
+          "code": "def exact(a,b):\n    return float(a==b)\ndef jac(a,b):\n    ta,tb=set(a.lower().split()),set(b.lower().split())\n    return len(ta&tb)/len(ta|tb) if ta|tb else 1.0\nprint(exact('a@example.pe','a@example.pe'), round(jac('Ana Lopez','Lopez Ana'),2))\nprint('comparators', 'exact+token')",
+          "language": "python",
+          "output": "1.0 1.0\ncomparators exact+token"
+        },
+        {
+          "demoId": "S30-T1-B-DEMO",
+          "subtopicId": "S30-T1-B",
+          "environment": "local-python",
+          "description": "Clasifica missing vs agree y baja peso por frecuencia de 'maría'.",
+          "why": "Missing y frecuencia calibran acuerdos.",
+          "code": "def cmp(a,b):\n    if not a or not b: return 'missing'\n    return 'agree' if a.lower()==b.lower() else 'disagree'\nfreq={'maría':40,'zoe':1}\nw=lambda v: 1/freq.get(v.lower(),1)\nprint(cmp('','x'), cmp('Ana','ana'), round(w('María'),3), round(w('Zoe'),3))",
+          "language": "python",
+          "output": "missing agree 0.025 1.0"
+        },
+        {
+          "demoId": "S30-T2-A-DEMO",
+          "subtopicId": "S30-T2-A",
+          "environment": "local-python",
+          "description": "Blocking por apellido|ciudad y candidate recall sobre gold sintético.",
+          "why": "Recall de blocking es métrica de diseño.",
+          "code": "from collections import defaultdict\nrecs=[('r1','lopez','lima'),('r2','lopez','lima'),('r3','diaz','cusco')]\ngold={frozenset(('r1','r2'))}\nb=defaultdict(list)\nfor i,last,city in recs:\n    b[f'{last}|{city}'].append(i)\ncand=set()\nfor ids in b.values():\n    for i in range(len(ids)):\n        for j in range(i+1,len(ids)):\n            cand.add(frozenset((ids[i],ids[j])))\nprint('recall', len(gold&cand)/len(gold), 'ncand', len(cand))",
+          "language": "python",
+          "output": "recall 1.0 ncand 1"
+        },
+        {
+          "demoId": "S30-T2-B-DEMO",
+          "subtopicId": "S30-T2-B",
+          "environment": "local-python",
+          "description": "Costo de bloques y filtro de pares imposibles person/org.",
+          "why": "Control de costo antes del scorer.",
+          "code": "cost=lambda sizes: sum(n*(n-1)//2 for n in sizes)\nprint('cost', cost([5,20]))\nprint('impossible', {'type':'person'}!={'type':'org'})",
+          "language": "python",
+          "output": "cost 200\nimpossible True"
+        },
+        {
+          "demoId": "S30-T3-A-DEMO",
+          "subtopicId": "S30-T3-A",
+          "environment": "local-python",
+          "description": "Score ponderado y decisión auto/review/non con umbrales.",
+          "why": "Thresholds separan auto y cola humana.",
+          "code": "sims={'name':0.9,'email':1.0}\nw={'name':0.6,'email':0.4}\ns=sum(sims[k]*w[k] for k in w)/sum(w.values())\ndec='auto_match' if s>=0.9 else ('review' if s>0.5 else 'non_match')\nprint(round(s,3), dec)",
+          "language": "python",
+          "output": "0.94 auto_match"
+        },
+        {
+          "demoId": "S30-T3-B-DEMO",
+          "subtopicId": "S30-T3-B",
+          "environment": "local-python",
+          "description": "Union-Find cluster tras auto-match y un clerical approve.",
+          "why": "Clusters transitivos + review.",
+          "code": "p={}\ndef find(x):\n    p.setdefault(x,x)\n    if p[x]!=x: p[x]=find(p[x])\n    return p[x]\ndef union(a,b):\n    p[find(b)]=find(a)\nunion('e1','e2'); union('e2','e3'); union('e3','e4')\nprint(find('e1')==find('e4'), 'review_applied')",
+          "language": "python",
+          "output": "True review_applied"
+        },
+        {
+          "demoId": "S30-T4-A-DEMO",
+          "subtopicId": "S30-T4-A",
+          "environment": "local-python",
+          "description": "Split por entidad: train solo con {e1,e2,e3}.",
+          "why": "Evita leakage de identidad en evaluación.",
+          "code": "pairs=[('e1','e2',1),('e4','e5',1),('e1','e3',0)]\ntrain_e={'e1','e2','e3'}\ntr=[p for p in pairs if set(p[:2])<=train_e]\nte=[p for p in pairs if not set(p[:2])<=train_e]\nprint('train',len(tr),'test',len(te))",
+          "language": "python",
+          "output": "train 2 test 1"
+        },
+        {
+          "demoId": "S30-T4-B-DEMO",
+          "subtopicId": "S30-T4-B",
+          "environment": "local-python",
+          "description": "Precision/recall/F1 pairwise y lista de índices de error.",
+          "why": "Métricas y slices para el gate CP-N3-A.",
+          "code": "yt=[1,1,0,0]; yp=[1,0,0,0]\ntp=sum(t==1 and p==1 for t,p in zip(yt,yp))\nfp=sum(t==0 and p==1 for t,p in zip(yt,yp))\nfn=sum(t==1 and p==0 for t,p in zip(yt,yp))\nprec=tp/(tp+fp) if tp+fp else 0\nrec=tp/(tp+fn) if tp+fn else 0\nprint(round(prec,2), round(rec,2), [i for i,(t,p) in enumerate(zip(yt,yp)) if t!=p])",
+          "language": "python",
+          "output": "1.0 0.5 [1]"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S30-T1-A-E1",
+          "instruction": "S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "float comparación",
+            "exact"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(1.0 if a == b else 0.0)\n"
+        },
+        {
+          "id": "S30-T1-A-E2",
+          "instruction": "S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "sets",
+            "inter/union"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(len(ta&tb)/len(ta|tb))\n"
+        },
+        {
+          "id": "S30-T1-A-E3",
+          "instruction": "S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "datetime.date",
+            "igualdad"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(1.0 if d == d else 0.0)\n"
+        },
+        {
+          "id": "S30-T1-B-E1",
+          "instruction": "S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "guard",
+            "missingness"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('missing' if (not a or not b) else 'cmp')\n"
+        },
+        {
+          "id": "S30-T1-B-E2",
+          "instruction": "S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "división",
+            "frecuencia"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(1 / freq)\n"
+        },
+        {
+          "id": "S30-T1-B-E3",
+          "instruction": "S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "string",
+            "MCAR vs informativa"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('informative_missing')\n"
+        },
+        {
+          "id": "S30-T2-A-E1",
+          "instruction": "S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "f-string",
+            "blocking"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(f'{last}|{city}')\n"
+        },
+        {
+          "id": "S30-T2-A-E2",
+          "instruction": "S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "división",
+            "recall"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(found / gold_n)\n"
+        },
+        {
+          "id": "S30-T2-A-E3",
+          "instruction": "S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "combinatoria",
+            "costo bloque"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(n*(n-1)//2)\n"
+        },
+        {
+          "id": "S30-T2-B-E1",
+          "instruction": "S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "sum n(n-1)/2",
+            "costo"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(sum(n*(n-1)//2 for n in sizes))\n"
+        },
+        {
+          "id": "S30-T2-B-E2",
+          "instruction": "S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "!=",
+            "filtro"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(ta != tb)\n"
+        },
+        {
+          "id": "S30-T2-B-E3",
+          "instruction": "S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "string",
+            "pipeline"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('filter_before_score')\n"
+        },
+        {
+          "id": "S30-T3-A-E1",
+          "instruction": "S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "suma w*s / suma w",
+            "score"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n"
+        },
+        {
+          "id": "S30-T3-A-E2",
+          "instruction": "S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "umbrales",
+            "decide"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n"
+        },
+        {
+          "id": "S30-T3-A-E3",
+          "instruction": "S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "dict",
+            "explicable"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print({'name': 0.9, 'email': 1.0})\n"
+        },
+        {
+          "id": "S30-T3-B-E1",
+          "instruction": "S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "parent dict",
+            "cluster"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "p={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\n# TODO: imprime la salida contractual (ver instruction / solution output)\n"
+        },
+        {
+          "id": "S30-T3-B-E2",
+          "instruction": "S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "lista",
+            "clerical"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(['match', 'non_match', 'uncertain'])\n"
+        },
+        {
+          "id": "S30-T3-B-E3",
+          "instruction": "S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "string",
+            "gate"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('ER_only_same_entity')\n"
+        },
+        {
+          "id": "S30-T4-A-E1",
+          "instruction": "S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "subset",
+            "split"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('train' if {a,b} <= train_e else 'test')\n"
+        },
+        {
+          "id": "S30-T4-A-E2",
+          "instruction": "S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "división",
+            "base rate"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(matches / n)\n"
+        },
+        {
+          "id": "S30-T4-A-E3",
+          "instruction": "S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "string",
+            "eval"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print('entity_split')\n"
+        },
+        {
+          "id": "S30-T4-B-E1",
+          "instruction": "S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "tp/(tp+fp)",
+            "precision"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(round(tp/(tp+fp), 2))\n"
+        },
+        {
+          "id": "S30-T4-B-E2",
+          "instruction": "S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "tp/(tp+fn)",
+            "recall"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(tp/(tp+fn))\n"
+        },
+        {
+          "id": "S30-T4-B-E3",
+          "instruction": "S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TODO/defecto indicado sin reescribir datos ni asserts. Contrato I/O: imprime las líneas exactas del solution output (pass string = salida del oráculo). Datos sintéticos only; no etiqueta fraude ni parentesco.",
+          "hints": [
+            "lista",
+            "error analysis"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# TODO: completa solo la(s) línea(s) de print/resultado para el contrato de la instrucción\n# forma esperada (referencia): print(['missing_phone'])\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Testable Entity Resolution Engine — cierre CP-N3-A",
+      "context": "Implementa el motor ER sintético de cierre de **CP-N3-A**: comparadores explicables, blocking con candidate recall medido, scorer con umbrales auto/review/non, cola clerical, clusters (Union-Find) y evaluación pairwise con split por entidad y error slices. Benchmark etiquetado sintético only. ER = misma entidad; **no** relación ni riesgo/fraude. No editar seed/checkpoint/ledger ni marcar passed.",
+      "objectives": [
+        "Comparadores exact/edit/token/fecha + missing/frecuencia",
+        "Blocking medido (recall) y control de costo/imposibles",
+        "Pesos, thresholds, review y cluster consistency",
+        "Gold sintético, split por entidad, P/R/F1 y slices",
+        "Suite ejecutable alineada a contratos S27–S29"
+      ],
+      "requirements": [
+        "Datos sintéticos etiquetados; sin PII real",
+        "Candidate recall y métricas reportadas en demo",
+        "Explicación por campo en cola de review",
+        "Cero labels de fraude/parentesco automáticos",
+        "Documentación es-PE del gate CP-N3-A"
+      ],
+      "portfolioNote": "Cierre CP-N3-A: motor ER testeable con blocking medido, review y métricas. Otra lane califica PASS del gate; esta autoría no escribe checkpoint/ledger/seed.",
+      "starterCode": "# CP-N3-A cierre — Testable ER Engine (esqueleto)\nfrom collections import defaultdict\n\ndef normalize(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\ndef block_key(rec: dict) -> str:\n    parts = normalize(rec.get(\"name\", \"\")).split()\n    last = parts[-1] if parts else \"\"\n    return f\"{last}|{rec.get('city', '').casefold()[:3]}\"\n\ndef decide(score: float, t_high=0.9, t_low=0.5) -> str:\n    if score >= t_high:\n        return \"auto_match\"\n    if score <= t_low:\n        return \"non_match\"\n    return \"review\"\n\n# TODO: comparators, candidate pairs, UF clusters, metrics, review queue\nif __name__ == \"__main__\":\n    print(decide(0.95), block_key({\"name\": \"Ana López\", \"city\": \"Lima\"}))\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "El motor ER de CP-N3-A debe decidir:",
+        "options": [
+          "Fraude automático",
+          "Si dos registros son la misma entidad",
+          "Parentescos",
+          "Riesgo crediticio"
+        ]
+      },
+      {
+        "question": "Candidate recall de blocking mide:",
+        "options": [
+          "Solo CPU",
+          "Precisión del scorer final únicamente",
+          "Tamaño del disco",
+          "Fracción de verdaderos matches que sobreviven al blocking"
+        ]
+      },
+      {
+        "question": "Scores entre t_low y t_high van a:",
+        "options": [
+          "clerical review",
+          "auto_match",
+          "non_match",
+          "borrado"
+        ]
+      },
+      {
+        "question": "Split por entidad evita:",
+        "options": [
+          "Usar sqlite",
+          "Blocking",
+          "Leakage de identidad entre train y test",
+          "Review"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "a47a68249e6c41a8"
+}

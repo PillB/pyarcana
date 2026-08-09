@@ -1,0 +1,271 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 3,
+  "packet_sha": "06e920dd4f6b4cf2",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "status": "answered",
+      "code": "edad = 25\nregion = \"Cusco\"\n\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")\n# D2-Explorer: packet-only re-walk S03 S03-T1-A-E1\n",
+      "answer": "edad = 25\nregion = \"Cusco\"\n\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Comparaciones == != < >= y el encadenamiento 18 <= edad <= 65 nacen en la teoría S03. El demo imprime region == Lima y montos con booleanos de negocio sin if todavía.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "status": "answered",
+      "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)\n# D2-Explorer: packet-only re-walk S03 S03-T1-A-E2\n",
+      "answer": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] La allowlist se implementa como set de literales y el operador in. Case sensitivity: dni ≠ DNI; RUC no está en el set del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "status": "answered",
+      "code": "valor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"en validadores usa is None para ausencia; == para valores de negocio; nunca is con enteros\")\n# D2-Explorer: packet-only re-walk S03 S03-T1-A-E3\n",
+      "answer": "valor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"en validadores usa is None para ausencia; == para valores de negocio; nunca is con enteros\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Ausencia se chequea con is None; True == 1 es True pero True is 1 es False. Identidad ≠ igualdad: el validador no usa is para montos ni flags numéricos.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "status": "answered",
+      "code": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))\n# D2-Explorer: packet-only re-walk S03 S03-T1-B-E1\n",
+      "answer": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Son falsy: None, False, 0, 0.0, '', [], {}, set(), range(0); 'x', 1 y [0] son truthy. La teoría lista exactamente estos casos de truthiness en if/and/or.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "status": "answered",
+      "code": "print(\"'' or 'default' →\", '' or 'default')\nprint(\"'Lima' or 'default' →\", 'Lima' or 'default')\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)\n# D2-Explorer: packet-only re-walk S03 S03-T1-B-E2\n",
+      "answer": "print(\"'' or 'default' →\", '' or 'default')\nprint(\"'Lima' or 'default' →\", 'Lima' or 'default')\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] and/or devuelven el operando, no siempre bool: '' or 'default' → 'default'. Short-circuit: 0 and 99 → 0; None or 0 → 0 como predice el hint del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "status": "answered",
+      "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))\n# D2-Explorer: packet-only re-walk S03 S03-T1-B-E3\n",
+      "answer": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Nunca uses truthiness para montos: if not monto rechazaría el 0 válido. El demo decide_monto usa is None, acepta cero y reject en negativo.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "status": "answered",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n# D2-Explorer: packet-only re-walk S03 S03-T2-A-E1\n",
+      "answer": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] if/elif/else: la primera condición verdadera gana y omite el resto. Fronteras del demo: >=80 accept, >=50 review, else reject.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "status": "answered",
+      "code": "def bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n# D2-Explorer: packet-only re-walk S03 S03-T2-A-E2\n",
+      "answer": "def bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Ifs independientes pisan el accept: bad(95) queda review porque >=50 también corre. elif da exclusión mutua; good(95) es accept como en classify_score del demo.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "status": "answered",
+      "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))\n# D2-Explorer: packet-only re-walk S03 S03-T2-A-E3\n",
+      "answer": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Orden de umbrales de mayor a menor; else cubre 0 y negativos como nulo. 75 no es >100 pero sí >50 → medio; primera rama verdadera gana.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "status": "answered",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))\n# D2-Explorer: packet-only re-walk S03 S03-T2-B-E1\n",
+      "answer": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Guard clauses: None MISSING/review, no int BAD_TYPE, luego OUT_OF_RANGE o NEEDS_REVIEW. El demo S03-T2-B-DEMO implementa exactamente este orden y camino feliz OK al final.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "status": "answered",
+      "code": "def validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m > 10000:\n        return \"review\"\n    return \"accept\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)\n# D2-Explorer: packet-only re-walk S03 S03-T2-B-E2\n",
+      "answer": "def validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m > 10000:\n        return \"review\"\n    return \"accept\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Salidas tempranas aplanan la pirámide: un if+return por precondición. Misma semántica: None review, tipo malo reject, outlier >10000 review, 0 accept.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "status": "answered",
+      "code": "def etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:  # muerto: solo se entra al if exterior si x!=0\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"bug 3 →\", etiqueta_bug(3))\nprint(\"Rama muerta: elif x == 0 nunca corre porque si x==0 no entramos al if x!=0 y el elif cuelga de ese if\")\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))\n# D2-Explorer: packet-only re-walk S03 S03-T2-B-E3\n",
+      "answer": "def etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:  # muerto: solo se entra al if exterior si x!=0\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"bug 3 →\", etiqueta_bug(3))\nprint(\"Rama muerta: elif x == 0 nunca corre porque si x==0 no entramos al if x!=0 y el elif cuelga de ese if\")\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Ramas muertas aparecen cuando un if anterior ya cubre el caso; elif x==0 colgaba mal. Reordeno a >0 / <0 / else cero para tres ramas vivas como pide la instrucción.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "status": "answered",
+      "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))\n# D2-Explorer: packet-only re-walk S03 S03-T3-A-E1\n",
+      "answer": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Allowlist de regiones: None o no en set → review; dentro → accept. Política sintética del demo: región desconocida no es reject duro.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "status": "answered",
+      "code": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))\n# D2-Explorer: packet-only re-walk S03 S03-T3-A-E2\n",
+      "answer": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Orden de reglas de dominio: ausencia, hard reject, outlier review, accept. 0 es accept; 60000 outlier review, no reject, alineado a rangos del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "status": "answered",
+      "code": "ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"reject\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))\n# D2-Explorer: packet-only re-walk S03 S03-T3-A-E3\n",
+      "answer": "ALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"reject\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Combino allowlist de tipo_doc con longitudes DNI=8 CE=9 PAS=9 del dominio. Primero MISSING, luego NOT_IN_ALLOWLIST, luego OUT_OF_RANGE de len, else OK.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "status": "answered",
+      "code": "TABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))\n# D2-Explorer: packet-only re-walk S03 S03-T3-B-E1\n",
+      "answer": "TABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Decision table codigo→status: OK accept, MISSING review, OUT_OF_RANGE reject. table.get(code, 'review') cubre FOO como default de códigos desconocidos.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "status": "answered",
+      "code": "def status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))\n# D2-Explorer: packet-only re-walk S03 S03-T3-B-E2\n",
+      "answer": "def status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] match/case brilla con literales finitos y OR patterns; case _ es el default. El demo S03-T3-B-DEMO mapea MISSING|NEEDS_REVIEW a review y OUT_OF_RANGE|... a reject.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "status": "answered",
+      "code": "def map_code(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\":\n            return \"review\"\n        case \"OUT_OF_RANGE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef map_edad(edad: int | None) -> str:\n    if edad is None:\n        return \"review\"\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(map_code(\"OK\"), map_code(\"MISSING\"))\nprint(map_edad(None), map_edad(30), map_edad(10))\nprint(\"Justificación:\", \"match es claro en códigos literales; rangos numéricos de edad se leen mejor con if y comparaciones encadenadas\")\n# D2-Explorer: packet-only re-walk S03 S03-T3-B-E3\n",
+      "answer": "def map_code(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\":\n            return \"review\"\n        case \"OUT_OF_RANGE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef map_edad(edad: int | None) -> str:\n    if edad is None:\n        return \"review\"\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(map_code(\"OK\"), map_code(\"MISSING\"))\nprint(map_edad(None), map_edad(30), map_edad(10))\nprint(\"Justificación:\", \"match es claro en códigos literales; rangos numéricos de edad se leen mejor con if y comparaciones encadenadas\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] match aporta claridad en estados finitos; if encadenado es mejor para 18<=edad<=65. El paquete dice cuándo match aporta más: sujeto literal/estado con case _.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "status": "answered",
+      "code": "def validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": -1, \"expected\": \"reject\"},\n    {\"value\": None, \"expected\": \"review\"},\n    {\"value\": \"x\", \"expected\": \"reject\"},\n]\nfor exx in examples:\n    got = validate_edad(exx[\"value\"])\n    print(exx[\"value\"], got, got == exx[\"expected\"])\n# D2-Explorer: packet-only re-walk S03 S03-T4-A-E1\n",
+      "answer": "def validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": -1, \"expected\": \"reject\"},\n    {\"value\": None, \"expected\": \"review\"},\n    {\"value\": \"x\", \"expected\": \"reject\"},\n]\nfor exx in examples:\n    got = validate_edad(exx[\"value\"])\n    print(exx[\"value\"], got, got == exx[\"expected\"])\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Invariante de edad con examples canónicos accept/reject/review y None como missing. El demo de contacto usa la misma forma field+examples; aquí 30 accept y -1 reject.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "status": "answered",
+      "code": "def validate_apellidos(ap, am):\n    a = (ap or \"\").strip()\n    b = (am or \"\").strip()\n    if not a and not b:\n        return \"reject\"\n    if not a or not b:\n        return \"review\"\n    return \"accept\"\n\ninvariant_text = \"apellido_paterno y apellido_materno no vacíos tras strip para accept; uno falta→review; ambos vacíos→reject\"\nexamples = [\n    {\"ap\": \"Quispe\", \"am\": \"Ñahui\", \"expected\": \"accept\"},\n    {\"ap\": \"Quispe\", \"am\": \"\", \"expected\": \"review\"},\n    {\"ap\": \"  \", \"am\": None, \"expected\": \"reject\"},\n]\nprint(invariant_text)\nfor exx in examples:\n    got = validate_apellidos(exx[\"ap\"], exx[\"am\"])\n    print(exx, \"→\", got, got == exx[\"expected\"])\n# D2-Explorer: packet-only re-walk S03 S03-T4-A-E2\n",
+      "answer": "def validate_apellidos(ap, am):\n    a = (ap or \"\").strip()\n    b = (am or \"\").strip()\n    if not a and not b:\n        return \"reject\"\n    if not a or not b:\n        return \"review\"\n    return \"accept\"\n\ninvariant_text = \"apellido_paterno y apellido_materno no vacíos tras strip para accept; uno falta→review; ambos vacíos→reject\"\nexamples = [\n    {\"ap\": \"Quispe\", \"am\": \"Ñahui\", \"expected\": \"accept\"},\n    {\"ap\": \"Quispe\", \"am\": \"\", \"expected\": \"review\"},\n    {\"ap\": \"  \", \"am\": None, \"expected\": \"reject\"},\n]\nprint(invariant_text)\nfor exx in examples:\n    got = validate_apellidos(exx[\"ap\"], exx[\"am\"])\n    print(exx, \"→\", got, got == exx[\"expected\"])\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Invariante multi-campo en español más examples canónicos accept/review/reject. Strip trata espacios como vacío; ambos vacíos reject, uno falta review.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "status": "answered",
+      "code": "def validate_edad_strict(e):\n    \"\"\"Invariante roto: todo lo no 18-65 es reject (incluye None y menores).\"\"\"\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict 15 →\", validate_edad_strict(15))\nprint(\"strict None →\", validate_edad_strict(None))\n\ndef validate_edad_fixed(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    if e < 18:\n        return \"review\"\n    if e <= 65:\n        return \"accept\"\n    return \"review\"\n\nprint(\"fixed 15 →\", validate_edad_fixed(15))\nprint(\"fixed None →\", validate_edad_fixed(None))\nprint(\"fixed 30 →\", validate_edad_fixed(30))\nprint(\"Invariante:\", \"edad int 18-65 accept; menores o None en review; <0 o >120 reject (no reject duro a menores)\")\n# D2-Explorer: packet-only re-walk S03 S03-T4-A-E3\n",
+      "answer": "def validate_edad_strict(e):\n    \"\"\"Invariante roto: todo lo no 18-65 es reject (incluye None y menores).\"\"\"\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict 15 →\", validate_edad_strict(15))\nprint(\"strict None →\", validate_edad_strict(None))\n\ndef validate_edad_fixed(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    if e < 18:\n        return \"review\"\n    if e <= 65:\n        return \"accept\"\n    return \"review\"\n\nprint(\"fixed 15 →\", validate_edad_fixed(15))\nprint(\"fixed None →\", validate_edad_fixed(None))\nprint(\"fixed 30 →\", validate_edad_fixed(30))\nprint(\"Invariante:\", \"edad int 18-65 accept; menores o None en review; <0 o >120 reject (no reject duro a menores)\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Contraejemplo: edad 15 no debe ser reject si la política de negocio es review para menores. Ajusto guards None/rango extremo y dejo 18-65 accept como en validate_edad del demo.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "status": "answered",
+      "code": "vagos = [\"Error\", \"inválido\", \"bad age\"]\naccionables = [\n    \"Campo 'edad' ausente o ilegible; envía un entero 0–120.\",\n    \"Campo 'edad' inválido: valor fuera de política; usa rango 0–120.\",\n    \"Campo 'edad'=-3 fuera de rango; usa 0–120.\",\n]\nfor a in accionables:\n    print(a)\n# D2-Explorer: packet-only re-walk S03 S03-T4-B-E1\n",
+      "answer": "vagos = [\"Error\", \"inválido\", \"bad age\"]\naccionables = [\n    \"Campo 'edad' ausente o ilegible; envía un entero 0–120.\",\n    \"Campo 'edad' inválido: valor fuera de política; usa rango 0–120.\",\n    \"Campo 'edad'=-3 fuera de rango; usa 0–120.\",\n]\nfor a in accionables:\n    print(a)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Mensaje accionable nombra campo, problema y acción; evita Error o inválido sueltos. El demo validate_edad_msg usa plantillas Campo 'edad'... con !r y rango esperado.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "status": "answered",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [\n    (90, \"accept\"),\n    (80, \"accept\"),\n    (55, \"review\"),\n    (50, \"review\"),\n    (10, \"reject\"),\n]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)\n# D2-Explorer: packet-only re-walk S03 S03-T4-B-E2\n",
+      "answer": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [\n    (90, \"accept\"),\n    (80, \"accept\"),\n    (55, \"review\"),\n    (50, \"review\"),\n    (10, \"reject\"),\n]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Pruebas por rama: al menos un caso accept, review y reject con fronteras 80 y 50. Loop assert/print PASS cubre el motor de score del demo T2-A.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "status": "answered",
+      "code": "def rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e >= 18 and e <= 65:  # fix: >= 18 inclusivo\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    assert got == expected\n# D2-Explorer: packet-only re-walk S03 S03-T4-B-E3\n",
+      "answer": "def rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e >= 18 and e <= 65:  # fix: >= 18 inclusivo\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    assert got == expected\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Off-by-one: edad > 18 dejaba 18 fuera; la frontera inclusiva es >= 18. Mantengo guard de None→review y dejo la suite 18 accept / 17 review en verde.",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "if campo is None:",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] La forma correcta de chequear ausencia es is None, no truthiness if not campo. if not campo rechaza 0 o '' válidos; el paquete separa None de falsy de negocio.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Se ejecuta esa rama y se omiten las siguientes",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] En if/elif/else la primera condición verdadera gana y el resto no se ejecuta. El demo classify_score confía en esa exclusión mutua.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "\"default\"",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] '' or 'default' devuelve 'default' porque la cadena vacía es falsy. and/or devuelven operando: short-circuit del or al primer truthy.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Un set de literales y el operador in",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Allowlist de tipos de documento se implementa como set e in, no ifs anidados por letra. TIPOS_DOC = {DNI, CE, PAS} es el patrón del paquete.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Cuando el sujeto es un literal/estado finito (códigos) y hay case _",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] match/case aporta claridad con códigos literales y case _; no deprecó if ni sirve mejor a rangos. La teoría reserva match para estados finitos del motor de reglas.",
+      "blocked_on": []
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:03.942369+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s03-live"
+}

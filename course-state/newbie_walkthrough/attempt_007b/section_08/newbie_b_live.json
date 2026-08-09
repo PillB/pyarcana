@@ -1,0 +1,269 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_007b",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 8,
+  "recorded_at": "2026-07-21T22:50:00+00:00",
+  "packet_sha": "fe2162fb46a292f0",
+  "persona": "skeptic",
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Evita depender del locale del SO (p. ej. Windows)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: always declare encoding='utf-8' for text I/O."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "escribir temp y os.replace al destino",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory atomic write: temp then os.replace."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Ir a cuarentena con motivo",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory irregular CSV rows → quarantine with reason; no silent drop."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "n_in == n_clean + n_quarantine",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "justification_from_packet": "Theory/demo reconcile_ok equation."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Fallar (exit non-zero) / fail closed",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Gate fail closed if reconcile fails; exit non-zero."
+    }
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S08-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'demo.txt'\np.write_text('hola', encoding='utf-8')\nprint(p.exists())",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["Path", "write_text", "exists"],
+      "justification_from_packet": "Theory pathlib write_text utf-8 + exists."
+    },
+    {
+      "exercise_id": "S08-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'lines.txt'\nwith p.open('w', encoding='utf-8') as f:\n    f.write('a\\nb\\nc\\n')\nlines = [ln.strip() for ln in p.read_text(encoding='utf-8').splitlines()]\nprint(lines)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["with open", "utf-8"],
+      "justification_from_packet": "Theory with path.open + encoding."
+    },
+    {
+      "exercise_id": "S08-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'bad.txt'\np.write_bytes(b'\\xff\\xfe')\ntry:\n    p.read_text(encoding='utf-8')\nexcept UnicodeDecodeError as e:\n    print(type(e).__name__, e)\n    print('sugiere: encoding documentado o quarantine del archivo')",
+      "blocked_on": [],
+      "confidence": 0.92,
+      "concepts_used": ["UnicodeDecodeError"],
+      "justification_from_packet": "Hints catch UnicodeDecodeError on invalid bytes."
+    },
+    {
+      "exercise_id": "S08-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "win = b'a\\r\\nb\\r\\n'\nunix = b'a\\nb\\n'\nprint(b'\\r\\n' in win)\nprint(b'\\r\\n' in unix)",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["CRLF"],
+      "justification_from_packet": "Theory detect \\r\\n for Windows provenance."
+    },
+    {
+      "exercise_id": "S08-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_suffix(path.suffix + '.tmp')\n    tmp.write_text(text, encoding='utf-8')\n    os.replace(tmp, path)\n\ntd = Path(tempfile.mkdtemp())\np = td / 'out.txt'\nwrite_atomic(p, 'ok\\n')\nprint(p.read_text(encoding='utf-8'))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["os.replace atomic"],
+      "justification_from_packet": "Theory atomic temp + os.replace."
+    },
+    {
+      "exercise_id": "S08-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "from pathlib import Path\nimport os, tempfile\ntd = Path(tempfile.mkdtemp())\ndest = td / 'f.txt'\ndest.write_text('PARCIAL', encoding='utf-8')\nprint(dest.read_text(encoding='utf-8'))\ntmp = td / 'f.txt.tmp'\ntmp.write_text('COMPLETO', encoding='utf-8')\nos.replace(tmp, dest)\nprint(dest.read_text(encoding='utf-8'))",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["partial vs atomic"],
+      "justification_from_packet": "Instruction: partial then atomic to COMPLETO."
+    },
+    {
+      "exercise_id": "S08-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import csv, io\nraw = 'id,nombre\\nC001,Ana\\n'\nfor row in csv.DictReader(io.StringIO(raw)):\n    print(row)",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["DictReader"],
+      "justification_from_packet": "Theory csv.DictReader with headers."
+    },
+    {
+      "exercise_id": "S08-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=['id', 'nombre'])\nw.writeheader()\nw.writerow({'id': 'C001', 'nombre': 'Ana'})\nbuf.seek(0)\nrows = list(csv.DictReader(buf))\nn = len(rows)\nprint(n)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["DictWriter"],
+      "justification_from_packet": "Theory DictWriter fieldnames + writeheader."
+    },
+    {
+      "exercise_id": "S08-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "vals = ['10', 'x', '3.5']\nfor v in vals:\n    try:\n        m = float(v)\n        print(v, 'ok', m)\n    except ValueError:\n        print(v, 'reject', 'cast_monto')",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["explicit cast"],
+      "justification_from_packet": "Theory casts explicit; failures to quarantine."
+    },
+    {
+      "exercise_id": "S08-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "header = ['id', 'nombre']\nrow = ['C1', 'Ana', 'x']\nirregular = len(row) != len(header)\nprint(irregular)",
+      "blocked_on": [],
+      "confidence": 0.96,
+      "concepts_used": ["col_count"],
+      "justification_from_packet": "Theory len(row)!=len(header) irregular."
+    },
+    {
+      "exercise_id": "S08-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from pathlib import Path\nimport csv, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'quarantine.csv'\nwith p.open('w', newline='', encoding='utf-8') as f:\n    w = csv.DictWriter(f, fieldnames=['raw', 'reason'])\n    w.writeheader()\n    w.writerow({'raw': 'C002,Luis,EXTRA', 'reason': 'col_count'})\nwith p.open(encoding='utf-8', newline='') as f:\n    for row in csv.DictReader(f):\n        print(row['reason'])",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["quarantine CSV"],
+      "justification_from_packet": "Demo quarantine raw+reason; newline=''."
+    },
+    {
+      "exercise_id": "S08-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "from collections import Counter\nreasons = ['col_count', 'cast_monto', 'col_count', 'schema']\nfor r, c in sorted(Counter(reasons).items()):\n    print(r, c)",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["reason counters"],
+      "justification_from_packet": "Theory reason summary counters for manifest."
+    },
+    {
+      "exercise_id": "S08-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import json\nobj = json.loads('{\"id\":\"C001\"}')\nprint(obj['id'])",
+      "blocked_on": [],
+      "confidence": 0.96,
+      "concepts_used": ["json.loads"],
+      "justification_from_packet": "Theory json.loads/dumps."
+    },
+    {
+      "exercise_id": "S08-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import json\ns = json.dumps({'nombre': 'José'}, ensure_ascii=False)\nprint(s)",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["ensure_ascii=False"],
+      "justification_from_packet": "Theory ensure_ascii=False preserves tildes."
+    },
+    {
+      "exercise_id": "S08-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import json\nfrom datetime import datetime\nobj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}\ntry:\n    print(json.dumps(obj))\nexcept TypeError as e:\n    print('TypeError', e)\n    obj2 = {'ts': obj['ts'].isoformat()}\n    print(json.dumps(obj2))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["isoformat"],
+      "justification_from_packet": "Theory datetime not JSON serializable; isoformat."
+    },
+    {
+      "exercise_id": "S08-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return len(missing) == 0, missing\nprint(validate_schema({'id': 'C1'}, ['id', 'email']))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["required keys"],
+      "justification_from_packet": "Theory validate_schema required keys."
+    },
+    {
+      "exercise_id": "S08-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "obj = {'id': 'C1', 'email': None}\nprint('in', 'email' in obj)\nprint('valor', obj['email'])",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["null vs missing"],
+      "justification_from_packet": "Theory distinguish null vs absent key."
+    },
+    {
+      "exercise_id": "S08-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "a = {'id': 'C1'}\nb = {'id': 'C2', 'segment': 'vip'}\na.setdefault('segment', 'standard')\nb.setdefault('segment', 'standard')\nprint(a)\nprint(b)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["setdefault"],
+      "justification_from_packet": "Theory optional field default without overwrite."
+    },
+    {
+      "exercise_id": "S08-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'f.bin'\np.write_bytes(b'abc')\ndigest = hashlib.sha256(p.read_bytes()).hexdigest()\nprint(digest[:8], len(digest))",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["sha256"],
+      "justification_from_packet": "Theory hashlib.sha256 hexdigest."
+    },
+    {
+      "exercise_id": "S08-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from pathlib import Path\nimport shutil, tempfile\ntd = Path(tempfile.mkdtemp())\nsrc = td / 'in.csv'\nsrc.write_text('a\\n', encoding='utf-8')\nbak = Path(str(src) + '.bak')\nshutil.copy2(src, bak)\nprint(bak.read_bytes() == src.read_bytes())",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["shutil.copy2"],
+      "justification_from_packet": "Demo backup with shutil.copy2."
+    },
+    {
+      "exercise_id": "S08-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'clients.csv'\np.write_text('id\\nC1\\n', encoding='utf-8')\nprovenance = {\n    'path': p.name,\n    'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),\n    'bytes': p.stat().st_size,\n}\nprint(provenance)",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["provenance"],
+      "justification_from_packet": "Theory provenance path/sha256/bytes."
+    },
+    {
+      "exercise_id": "S08-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "manifest = {\n    'run_id': 'demo-001',\n    'n_in': 5,\n    'n_clean': 4,\n    'n_quarantine': 1,\n    'inputs': [{'name': 'clients.csv', 'sha256': 'deadbeef'}],\n}\nprint(sorted(manifest))",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["manifest keys"],
+      "justification_from_packet": "Demo manifest run_id n_in n_clean n_quarantine inputs."
+    },
+    {
+      "exercise_id": "S08-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def reconcile(n_in, n_clean, n_quar):\n    return n_in == n_clean + n_quar\nprint(reconcile(5, 3, 2))\nprint(reconcile(5, 3, 1))",
+      "blocked_on": [],
+      "confidence": 0.97,
+      "concepts_used": ["reconcile"],
+      "justification_from_packet": "Theory n_in == n_clean + n_quarantine."
+    },
+    {
+      "exercise_id": "S08-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def run(n_in, n_clean, n_quar):\n    if n_in != n_clean + n_quar:\n        print('ERROR reconcile', n_in, n_clean, n_quar)\n        print('exit_code', 1)\n        return 1\n    print('OK')\n    return 0\nrun(4, 2, 2)\nrun(4, 2, 1)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["fail closed"],
+      "justification_from_packet": "Gate fail closed: exit 1 if reconcile fails."
+    }
+  ]
+}

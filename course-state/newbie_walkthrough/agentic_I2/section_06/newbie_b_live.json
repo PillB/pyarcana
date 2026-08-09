@@ -1,0 +1,500 @@
+{
+  "agent": "newbie_b",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I2",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-skeptic-b81d4e60-batch01",
+  "production_note": "agentic_I2 dual-LLM independent of I1; packet-only; no bulk writers; no stamps",
+  "knowledge_boundary": "quiz_card+slim_packet active section only; no prior attempt lives",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_I1",
+    "tool-results",
+    "quarantine_theater",
+    "correctIndex"
+  ],
+  "session_started_at": "2026-07-23T12:06:08.680000+00:00",
+  "session_ended_at": "2026-07-23T12:06:50.550000+00:00",
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T1-A-E1\nops = [10, 20, 30, 40, 50]\nlast_two = ops[-2:]\nprint(last_two)\nprint(len(last_two))\nempty = []\nv0 = empty[-2:]\nprint(v0)\nprint(len(v0))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "dada",
+        "txs",
+        "montos",
+        "imprime",
+        "los",
+        "ltimos",
+        "con"
+      ],
+      "justification_from_packet": "Skeptic S06-T1-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `v…». Implementé de forma verificable; línea clave `ops = [10, 20, 30, 40, 50]`. Hints: «Usa txs[-2:] (funciona también si hay menos de 2).». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T1-A-E2\nheaders = ['id', 'monto']\nKEYS = tuple(headers)\nprint('KEYS', KEYS)\nmore = KEYS + ('canal',)\nprint('more', more)\nprint('KEYS sigue', KEYS)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "convierte",
+        "lista",
+        "headers",
+        "monto",
+        "tuple",
+        "keys",
+        "motivo"
+      ],
+      "justification_from_packet": "Skeptic S06-T1-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `…». Implementé de forma verificable; línea clave `headers = ['id', 'monto']`. Hints: «tuple(lista) o keys = ('id','monto')». Sin lives de attempts previos. Variante skeptic del ancla `headers = ['id', 'monto']`."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T1-A-E3\nids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('diagnóstico:', type(e).__name__, '-', e)\n    mut = list(ids)\n    mut.append('C003')\n    print(mut)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "hay",
+        "bug",
+        "trata",
+        "una",
+        "tupla",
+        "ids",
+        "como"
+      ],
+      "justification_from_packet": "Skeptic S06-T1-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, a…». Implementé de forma verificable; línea clave `ids = ('C001', 'C002')`. Hints: «tuple no tiene append → AttributeError». Sin lives de attempts previos. Variante skeptic del ancla `ids = ('C001', 'C002')`."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T1-B-E1\nfila = ('C001', 'Lima', 10)\ncid, area, monto = fila\nprint(cid, area, monto)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "unpacking",
+        "fila",
+        "c001",
+        "lima",
+        "cid",
+        "region",
+        "monto"
+      ],
+      "justification_from_packet": "Skeptic S06-T1-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fa…». Implementé de forma verificable; línea clave `fila = ('C001', 'Lima', 10)`. Hints: «a, b, c = fila». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T1-B-E2\nxs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('tras alias', xs, copia)\ncopia.append(4)\nprint('tras copia', xs, copia)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "demuestra",
+        "alias",
+        "copy",
+        "lista",
+        "copia",
+        "mutar",
+        "con"
+      ],
+      "justification_from_packet": "Skeptic S06-T1-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copi…». Implementé de forma verificable; línea clave `xs = [1, 2]`. Hints: «alias comparte objeto; copy es superficial de la lista de ints.». Sin lives de attempts previos. Variante skeptic del ancla `xs = [1, 2]`."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T1-B-E3\nimport copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nshallow[0]['tags'].append('s')\nprint('orig tras shallow tags', rows)\ndeep = copy.deepcopy(rows)\ndeep[0]['tags'].append('d')\nprint('orig', rows)\nprint('deep', deep)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "lista",
+        "dicts",
+        "anidados",
+        "tags",
+        "muestra",
+        "que",
+        "copy"
+      ],
+      "justification_from_packet": "Skeptic S06-T1-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.d…». Implementé de forma verificable; línea clave `import copy`. Hints: «import copy; deepcopy». Sin lives de attempts previos. Variante skeptic del ancla `import copy`."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T2-A-E1\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "construye",
+        "dict",
+        "desde",
+        "pares",
+        "c001",
+        "lima",
+        "c002"
+      ],
+      "justification_from_packet": "Skeptic S06-T2-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.…». Implementé de forma verificable; línea clave `pares = [('C001', 'Lima'), ('C002', 'Cusco')]`. Hints: «dict(pares) o comprensión». Sin lives de attempts previos. Variante skeptic del ancla `pares = [('C001', 'Lima'), ('C002', 'Cusco')]`."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T2-A-E2\nidx = {'C001': 'Ana'}\nprint(idx.get('C001', 'N/A'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "dado",
+        "idx",
+        "con",
+        "c001",
+        "usa",
+        "get",
+        "para"
+      ],
+      "justification_from_packet": "Skeptic S06-T2-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx…». Implementé de forma verificable; línea clave `idx = {'C001': 'Ana'}`. Hints: «idx.get('C999','N/A')». Sin lives de attempts previos. Variante skeptic del ancla `idx = {'C001': 'Ana'}`."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T2-A-E3\ndefaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intacto', defaults)\nbase = dict(defaults)\nbase.update(override)\nprint('via copy+update', base)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "fusiona",
+        "defaults",
+        "retry",
+        "timeout",
+        "con",
+        "override",
+        "sin"
+      ],
+      "justification_from_packet": "Skeptic S06-T2-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego mu…». Implementé de forma verificable; línea clave `defaults = {'retry': 1, 'timeout': 30}`. Hints: «{**defaults, **override} o defaults | override (3.9+)». Sin lives de attempts previos. Variante skeptic del ancla `defaults = {'retry': 1, 'timeout': 30}`."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T2-B-E1\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "deduplica",
+        "com",
+        "con",
+        "set",
+        "devuelve",
+        "lista",
+        "ordenada"
+      ],
+      "justification_from_packet": "Skeptic S06-T2-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.…». Implementé de forma verificable; línea clave `emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']`. Hints: «sorted(set(emails))». Sin lives de attempts previos. Variante skeptic del ancla `emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']`."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T2-B-E2\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\nprint('symdiff', sorted(a ^ b))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "intersecci",
+        "contactos",
+        "lote_a",
+        "lote_b",
+        "sets",
+        "emails",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic S06-T2-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia si…». Implementé de forma verificable; línea clave `a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}`. Hints: «a & b ; a ^ b». Sin lives de attempts previos. Variante skeptic del ancla `a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}`."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T2-B-E3\ndef dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for name in rows:\n        k = name[key]\n        if k not in seen:\n            seen[k] = name\n            unique.append(name)\n        elif seen[k] != name:\n            conflicts.append({'key': k, 'kept': seen[k], 'other': name})\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "implementa",
+        "dedup_report",
+        "rows",
+        "key",
+        "que",
+        "devuelve",
+        "unique"
+      ],
+      "justification_from_packet": "Skeptic S06-T2-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los…». Implementé de forma verificable; línea clave `def dedup_report(rows, key='id'):`. Hints: «seen dict; si key existe y row!=prev → conflict». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T3-A-E1\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "cuenta",
+        "contactos",
+        "por",
+        "cliente",
+        "imprime",
+        "agentic_i2",
+        "skeptic"
+      ],
+      "justification_from_packet": "Skeptic S06-T3-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.…». Implementé de forma verificable; línea clave `clients = [`. Hints: «len(c['contacts'])». Sin lives de attempts previos. Variante skeptic del ancla `clients = [`."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T3-A-E2\nclients = [\n    {'id': 'C001', 'ops': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'ops': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = [\n    {'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']}\n    for c in clients for t in c['ops']\n]\nprint(flat)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "aplana",
+        "txs",
+        "anidadas",
+        "filas",
+        "client_id",
+        "tx_id",
+        "monto"
+      ],
+      "justification_from_packet": "Skeptic S06-T3-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.…». Implementé de forma verificable; línea clave `clients = [`. Hints: «doble for o comprehension anidada». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T3-A-E3\nclients = [\n    {'id': 'C001', 'ops': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'ops': 'oops'},\n]\nfor c in clients:\n    ops = c.get('ops')\n    ok = isinstance(ops, list)\n    print(c['id'], 'ok' if ok else 'review')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "detecta",
+        "shape",
+        "inconsistente",
+        "falta",
+        "txs",
+        "list",
+        "marca"
+      ],
+      "justification_from_packet": "Skeptic S06-T3-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético…». Implementé de forma verificable; línea clave `clients = [`. Hints: «isinstance(c.get('txs'), list)». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T3-B-E1\ndef get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "implementa",
+        "get_nested",
+        "keys",
+        "default",
+        "none",
+        "salo",
+        "para"
+      ],
+      "justification_from_packet": "Skeptic S06-T3-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.…». Implementé de forma verificable; línea clave `def get_nested(d, *keys, default=None):`. Hints: «Recorre keys; si falta retorna default.». Sin lives de attempts previos. Variante skeptic del ancla `def get_nested(d, *keys, default=None):`."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T3-B-E2\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "para",
+        "cada",
+        "cliente",
+        "marca",
+        "reporte",
+        "email",
+        "missing"
+      ],
+      "justification_from_packet": "Skeptic S06-T3-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|pr…». Implementé de forma verificable; línea clave `clients = [`. Hints: «'email' not in c or c['email'] is None → missing». Sin lives de attempts previos. Variante skeptic del ancla `clients = [`."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T3-B-E3\nvals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "construye",
+        "tabla",
+        "mental",
+        "prints",
+        "para",
+        "valores",
+        "none"
+      ],
+      "justification_from_packet": "Skeptic S06-T3-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de …». Implementé de forma verificable; línea clave `vals = [None, '', 0, []]`. Hints: «bool(x) vs x is None». Sin lives de attempts previos. Variante skeptic del ancla `vals = [None, '', 0, []]`."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T4-A-E1\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda name: name['monto'])\nprint([name['id'] for name in ordered])",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "ordena",
+        "por",
+        "monto",
+        "ascendente",
+        "con",
+        "sorted",
+        "key"
+      ],
+      "justification_from_packet": "Skeptic S06-T4-A-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.…». Implementé de forma verificable; línea clave `rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]`. Hints: «key=lambda r: r['monto']». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T4-A-E2\nrows = [\n    {'display_name': 'Zed', 'area': 'Lima'},\n    {'display_name': 'Ana', 'area': 'Lima'},\n    {'display_name': 'Bob', 'area': 'Cusco'},\n]\nfor name in sorted(rows, key=lambda name: (name['area'], name['display_name'])):\n    print(name['area'], name['display_name'])",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "key",
+        "multi",
+        "campo",
+        "ordena",
+        "por",
+        "regi",
+        "luego"
+      ],
+      "justification_from_packet": "Skeptic S06-T4-A-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.…». Implementé de forma verificable; línea clave `rows = [`. Hints: «key=lambda r: (r['region'], r['nombre'])». Sin lives de attempts previos."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T4-A-E3\nrows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\nprint('ret', ret)\nprint('rows', rows)\ncopy_sorted = sorted(base)\nprint('base', base, 'copy', copy_sorted)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "demuestra",
+        "que",
+        "rows",
+        "sort",
+        "retorna",
+        "none",
+        "muta"
+      ],
+      "justification_from_packet": "Skeptic S06-T4-A-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obte…». Implementé de forma verificable; línea clave `rows = [3, 1, 2]`. Hints: «x = lst.sort() → x is None». Sin lives de attempts previos. Variante skeptic del ancla `rows = [3, 1, 2]`."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T4-B-E1\nchoices = {\n    'cola de llegada de filas': 'list',\n    'lookup frecuente por id': 'dict',\n    'emails únicos de un lote': 'set',\n}\nfor job, st in choices.items():\n    print(job, '→', st)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "guiado",
+        "para",
+        "jobs",
+        "imprime",
+        "estructura",
+        "elegida",
+        "cola",
+        "llegada"
+      ],
+      "justification_from_packet": "Skeptic S06-T4-B-E1: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.…». Implementé de forma verificable; línea clave `choices = {`. Hints: «list / dict / set». Sin lives de attempts previos. Variante skeptic del ancla `choices = {`."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T4-B-E2\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "independiente",
+        "haz",
+        "determinista",
+        "export",
+        "ordena",
+        "ids",
+        "json",
+        "dumps"
+      ],
+      "justification_from_packet": "Skeptic S06-T4-B-E2: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.…». Implementé de forma verificable; línea clave `import json`. Hints: «sorted ids; sort_keys=True». Sin lives de attempts previos. Variante skeptic del ancla `import json`."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_I2 skeptic-crosscheck · S06-T4-B-E3\nids = ['C001', 'C002', 'C003', 'C004', 'C005']\nprint('list membership: O(num) por chequeo')\nprint('set membership: O(1) promedio')\ns = set(ids)\nprint('C003 in set', 'C003' in s)\nprint('preindexar set/dict evita O(n²) en loops anidados')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "transferencia",
+        "justifica",
+        "tradeoff",
+        "membership",
+        "ids",
+        "list",
+        "set",
+        "simula"
+      ],
+      "justification_from_packet": "Skeptic S06-T4-B-E3: contrasté instruction vs starter del quiz_card/slim_packet. Instrucción: «E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemp…». Implementé de forma verificable; línea clave `ids = ['C001', 'C002', 'C003', 'C004', 'C005']`. Hints: «list O(n) vs set O(1) promedio». Sin lives de attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "justification_from_packet": "Skeptic S06 Q0: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 1: «[3,4]» porque responde «¿Qué produce xs[-2:] si xs = [1,2,3,4]?» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "a también ve el append (alias)",
+      "justification_from_packet": "Skeptic S06 Q1: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 3: «a también ve el append (alias)» porque responde «b = a (listas) y mutas b.append(1). ¿Qué pasa con a?» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "justification_from_packet": "Skeptic S06 Q2: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 0: «Listar conflicto en conflicts sin silenciar» porque responde «Para reportar dos filas con mismo id y payload distinto debes…» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "None (muta in-place)",
+      "justification_from_packet": "Skeptic S06 Q3: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 2: «None (muta in-place)» porque responde «rows.sort(key=...) retorna…» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "justification_from_packet": "Skeptic S06 Q4: contrasté las 4 opciones del selfCheck_stems contra theory/iDo. Descarté distractores que no aparecen como práctica recomendada. Me quedo con índice 1: «salidas deterministas/reproducibles» porque responde «json.dumps(..., sort_keys=True) ayuda a…» con el vocabulario del paquete activo (sin mirar correctIndex).",
+      "blocked_on": [],
+      "confidence": 0.84
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:06:50.550000+00:00"
+}

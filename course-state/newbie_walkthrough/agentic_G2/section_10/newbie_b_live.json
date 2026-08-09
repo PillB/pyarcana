@@ -1,0 +1,298 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-ske-s10-7eaaece2f1",
+  "production_note": "agentic_G2 dual-LLM skeptic: packet-only; no generators; independent of G1",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "code": "def greet(name):\n    return f\"hola {name}\"\ndef main():\n    print(greet(\"mundo\"))\nif __name__ == \"__main__\":\n    main()",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T1-A-E1] no side effects al import. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "__main__"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "code": "# paquete minimo\n# mypkg/__init__.py vacio + mypkg/cli.py con main\nprint(__name__)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T1-A-E2] base packaging. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "package"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "code": "__all__ = [\"parse_row\"]\ndef parse_row(r):\n    return r\nprint(__all__)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T1-A-E3] superficie estable. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "__all__"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "code": "def load_config(defaults, file_cfg, env, flags):\n    cfg = dict(defaults)\n    cfg.update(file_cfg or {})\n    cfg.update(env or {})\n    cfg.update(flags or {})\n    return cfg\nprint(load_config({\"a\":1}, {\"a\":2}, {\"a\":3}, {\"a\":4}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T1-B-E1] precedencia defaults<file<env<flags. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "config"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "code": "import os\ndef env_or(key, default):\n    return os.environ.get(key, default)\nprint(env_or(\"NOEXISTE_PYARCANA\", \"def\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T1-B-E2] capa env. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "env"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "code": "def merge_cfg(*layers):\n    out = {}\n    for layer in layers:\n        if layer:\n            out.update(layer)\n    return out\nprint(merge_cfg({\"x\":1}, {\"x\":2, \"y\":3}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T1-B-E3] ultima gana. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "merge"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"--n\", type=int, default=1)\n# args = p.parse_args([])  # en demo\nprint(p.parse_args([]).n)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T2-A-E1] CLI basica. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "argparse"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"path\")\nprint(p.parse_args([\"data.csv\"]).path)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T2-A-E2] uso tipico ingest. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "args"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "code": "import argparse, sys\np = argparse.ArgumentParser()\np.add_argument(\"--strict\", action=\"store_true\")\nprint(p.parse_args([]).strict, p.parse_args([\"--strict\"]).strict)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T2-A-E3] strict mode. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "flags"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "code": "def exit_usage():\n    raise SystemExit(2)\ntry:\n    exit_usage()\nexcept SystemExit as e:\n    print(\"code\", e.code)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T2-B-E1] convencion argparse. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "exit 2"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "code": "def run(ok):\n    return 0 if ok else 1\nprint(run(True), run(False))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T2-B-E2] codigos de salida. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "exit codes"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "code": "import sys\nprint(\"json-out\")\nprint(\"progress\", file=sys.stderr)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T2-B-E3] stdout limpio. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "stderr"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "code": "# pyproject snippet\ntoml = \nprint(\"0.1.0\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T3-A-E1] SemVer base. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "version"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "code": "def bump(ver, kind):\n    maj, mi, pa = map(int, ver.split(\".\"))\n    if kind == \"major\":\n        return f\"{maj+1}.0.0\"\n    if kind == \"minor\":\n        return f\"{maj}.{mi+1}.0\"\n    return f\"{maj}.{mi}.{pa+1}\"\nprint(bump(\"0.1.0\", \"minor\"), bump(\"0.1.0\", \"patch\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T3-A-E2] 0.2.0 y 0.1.1. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "semver"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "code": "changelog = [\"0.2.0: add validate subcommand\", \"0.1.0: initial cli\"]\nprint(\"\\n\".join(changelog))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T3-A-E3] comunicar cambios. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "changelog"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "code": "ignore = [\".env\", \"*.pyc\", \".venv/\", \"dist/\"]\nprint(\"\\n\".join(ignore))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T3-B-E1] packaging hygiene. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "gitignore"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "code": "# no commitear\nsecret_paths = [\".env\", \"secrets.yaml\"]\nprint(secret_paths)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T3-B-E2] API_TOKEN fuera. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "secrets"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "code": "readme = \"pip install -e .\\npython -m mypkg.cli --help\"\nprint(readme)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T3-B-E3] onboarding CLI. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "readme"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "code": "def subcommands():\n    return {\"ingest\": \"run ingest\", \"validate\": \"run validate\"}\nprint(sorted(subcommands()))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T4-A-E1] CLI multi-command. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "subcommands"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "code": "def dispatch(cmd, registry):\n    if cmd not in registry:\n        raise SystemExit(2)\n    return registry[cmd]\nprint(dispatch(\"ingest\", {\"ingest\": \"ok\"}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T4-A-E2] router CLI. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "dispatch"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "code": "help_text = \"usage: tool [ingest|validate] [--strict]\"\nprint(help_text)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T4-A-E3] documenta interface. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "help"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "code": "def smoke_cli():\n    return {\"exit\": 0, \"stdout\": \"{\\\"ok\\\": true}\"}\nprint(smoke_cli())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T4-B-E1] exit 0 + json. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "smoke"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "code": "checklist = [\"entry __main__\", \"stderr logs\", \"no .env in sdist\"]\nprint(checklist)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T4-B-E2] higiene. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "release"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "code": "def public_api():\n    return [\"main\", \"load_config\", \"dispatch\"]\nprint(public_api())",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S10-T4-B-E3] superficie versionada. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección.",
+      "concepts_used": [
+        "api"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Patron entrypoint de modulos S10. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Tabla de precedencia de config del paquete."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Convencion argparse exit 2. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "stdout reservado a datos. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SemVer: feature compatible = minor. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Secretos fuera del repo. Verifiqué la rúbrica del instruction y los tests del quiz_card; la solución se apoya solo en lo explícito del slim_packet/theory de esta sección."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:07:46.956049+00:00",
+  "session_started_at": "2026-07-23T07:07:24.312313+00:00",
+  "session_ended_at": "2026-07-23T07:07:46.956049+00:00"
+}

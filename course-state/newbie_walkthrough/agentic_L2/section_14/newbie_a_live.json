@@ -1,0 +1,261 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-a-7c91e2f4b8-s14",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "id": "S14-T1-A-E1",
+      "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T1-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Crea un nd. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(flags.dtype, flags.shape, flags.ndim)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "id": "S14-T1-A-E2",
+      "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T1-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(scores.itemsize, scores.nbytes, scores.tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "id": "S14-T1-A-E3",
+      "code": "import numpy as np\ndef check(a):\n    if getattr(a, \"ndim\", None) != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\ncheck(np.array([1.0, 2.0], dtype=np.float64))\ntry:\n    check(np.array([[1.0, 2.0]], dtype=np.float64))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T1-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Val. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento:     print(\"err\", e)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "id": "S14-T1-B-E1",
+      "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nprint(np.where(score >= 0.5)[0].tolist())\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T1-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Dado score. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(np.where(score >= 0.5)[0].tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "id": "S14-T1-B-E2",
+      "code": "import numpy as np\nids = np.array(['C001', 'C002', 'C003', 'C004'])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nprint(ids[scores < np.median(scores)].tolist())\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T1-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cre. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(ids[scores < np.median(scores)].tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "id": "S14-T1-B-E3",
+      "code": "import numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T1-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Fan. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(a[order].tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "id": "S14-T2-A-E1",
+      "code": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(f\"{np.round(M.mean(axis=0), 2).tolist()} | {np.round(M.mean(axis=1), 2).tolist()}\")\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T2-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Matriz 2x3. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(f\"{np.round(M.mean(axis=0), 2).tolist()} | {np.round(M.mean(axis=1), 2).to). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "id": "S14-T2-A-E2",
+      "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(scores.std(axis=0), 4).tolist())\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T2-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(np.round(scores.std(axis=0), 4).tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "id": "S14-T2-A-E3",
+      "code": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 1).tolist())\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T2-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Nor. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(np.round(Xc.mean(axis=1), 1).tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "id": "S14-T2-B-E1",
+      "code": "import numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nprint((M + w).tolist())\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T2-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma el ve. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print((M + w).tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "id": "S14-T2-B-E2",
+      "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\nout = a[:, None] * b\nprint(out.shape, out.tolist())\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T2-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Con. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(out.shape, out.tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "id": "S14-T2-B-E3",
+      "code": "import numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print('incompatible')\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T2-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Det. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento:     print('incompatible')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "id": "S14-T3-A-E1",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw.tolist())\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T3-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Toma raw=[. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(raw.tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "id": "S14-T3-A-E2",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\nc = raw[:2].copy()\nc[0] = 9\nprint(raw.tolist(), c.tolist())\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T3-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Rep. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(raw.tolist(), c.tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "id": "S14-T3-A-E3",
+      "code": "import numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print('blocked')\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T3-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Mar. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento:     print('blocked')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "id": "S14-T3-B-E1",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T3-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cuenta cuá. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(int(np.isnan(x).sum()))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "id": "S14-T3-B-E2",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(float(np.nanmean(x)))\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T3-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Cal. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(float(np.nanmean(x)))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "id": "S14-T3-B-E3",
+      "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T3-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Ree. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(float(np.nansum(y)))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "id": "S14-T4-A-E1",
+      "code": "import numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\nloop = sum(a[i]*b[i] for i in range(len(a)))\nvec = (a*b).sum()\nprint(abs(loop-vec)<1e-6)\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T4-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Suma a*b c. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(abs(loop-vec)<1e-6)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "id": "S14-T4-A-E2",
+      "code": "import numpy as np\na = np.arange(5, dtype=float)\nprint(float((a**2).sum()))\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T4-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Imp. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(float((a**2).sum()))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "id": "S14-T4-A-E3",
+      "code": "import numpy as np, time\nn=10000\na=np.zeros(n); b=np.ones(n)\nt0=time.perf_counter(); c=a+b; _=time.perf_counter()-t0\nprint('timed', bool(np.isclose(c.mean(), 1.0)))\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T4-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Mid. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print('timed', bool(np.isclose(c.mean(), 1.0)))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "id": "S14-T4-B-E1",
+      "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes==8000)\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T4-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Imprime nb. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(a.nbytes, a.nbytes==8000)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "id": "S14-T4-B-E2",
+      "code": "import numpy as np\nprint(bool(np.allclose([1.0, 2.0], [1.0+1e-9, 2.0], atol=1e-8)))\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T4-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: Usa. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(bool(np.allclose([1.0, 2.0], [1.0+1e-9, 2.0], atol=1e-8)))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "id": "S14-T4-B-E3",
+      "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print('fail')\n",
+      "justification_from_packet": "Como explorer en NumPy y cómputo vectorizado, resolví S14-T4-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`/ids C00x) en NumPy vectorizado. Tarea: ass. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento:     print('fail')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "En NumPy y cómputo vectorizado (S14) elijo la opción «dtype» para la pregunta «¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "En NumPy y cómputo vectorizado (S14) elijo la opción «Filtrar o seleccionar elementos que cumplen la condición» para la pregunta «Una máscara booleana a > 0.5 se usa principalmente para:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "En NumPy y cómputo vectorizado (S14) elijo la opción «Por columna (colapsa filas)» para la pregunta «axis=0 en una reducción sobre una matriz 2D suele agregar:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "En NumPy y cómputo vectorizado (S14) elijo la opción «Puede mutar el array base porque suele ser un view» para la pregunta «Mutar un slice simple de un ndarray normalmente:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:14.542831+00:00",
+  "session_started_at": "2026-07-23T17:22:15.546841Z",
+  "session_ended_at": "2026-07-23T17:23:01.095996Z",
+  "receipt_response_sha256": "5f5acf124cb0c55ba9c88b8b26dec12f3ec554d3f19486996d031d936f10dda8",
+  "receipt_exercises_sha256": "2d7d32e7054623d354d53b54bd14068b3978a5b786c0d48dafd3de1f759bddc2",
+  "receipt_selfcheck_sha256": "f199bd5e23d621c0103cf8ffbb62fd37b1d0e221588b50380da05233599ad38a"
+}

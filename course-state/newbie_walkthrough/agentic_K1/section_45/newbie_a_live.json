@@ -1,0 +1,365 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 45,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s45-b5a82ac47d",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "id": "S45-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritative\":False,\"cache_ttl_s\":300}}\nmeets_contract = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\nstatus = \"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\"\nprint(\"S45-T1-A\", status)\n",
+      "justification_from_packet": "En el paquete de S45 (Cloud, almacenamiento, colas e infraestructura), el ejercicio S45-T1-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S45-T1-A-E1 · Calcula el contrato de `object store, relacional y cache` sobre `CASO-IQU-045-1A`. La entrada es el dict c…",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "id": "S45-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'cache_ttl_s', 'blob_store', 'cache_authoritative', 'case_id', 'transactions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\n    return \"PASS\" if meets else 'REDESIGN_PERSISTENCE'\n\nvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = {k: v for k, v in valid.items() if k != 'cache_ttl_s'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S45-T1-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a cache_ttl_s debe ocurrir antes de esa rama. Después aplica la regla de S45-T1-A: object/relati. Instruction: S45-T1-A-E2 · Modela tres rutas de `object store, relacional y cache`: fixture válido, fixture adver…",
+      "confidence": 0.898,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "id": "S45-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'cache_ttl_s', 'blob_store', 'cache_authoritative', 'case_id', 'transactions'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'WRITE_STORE_ADR'\n    meets = not (record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\")\n    if not meets:\n        return 'REDESIGN_PERSISTENCE'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': False, 'cache_ttl_s': 300}\ninvalid = {'case_id': 'CASO-IQU-045-1A', 'blob_store': 'object', 'transactions': 'relational', 'cache_authoritative': True, 'cache_ttl_s': 300}\nincomplete = {k: v for k, v in valid.items() if k != 'cache_ttl_s'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S45-T1-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S45-T1-A-E3 · Simula fallo cerrado para `object store, relacional y cache` con tres fixtures distintos. `CASO-IQU-045-1A…",
+      "confidence": 0.894,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "id": "S45-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\nmeets_contract = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\"\nprint(\"S45-T1-B\", status)\n",
+      "justification_from_packet": "En el paquete de S45 (Cloud, almacenamiento, colas e infraestructura), el ejercicio S45-T1-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S45-T1-B-E1 · Compara el contrato de `consistencia, lifecycle y backups` sobre `CASO-IQU-045-1B`. La entrada es el dict …",
+      "confidence": 0.751,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "id": "S45-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'operation', 'backup_age_h', 'rpo_h', 'rto_minutes', 'consistency', 'case_id', 'restore_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\n    return \"PASS\" if meets else 'DECLARE_DATA_LOSS_RISK'\n\nvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 200, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nincomplete = {k: v for k, v in valid.items() if k != 'rto_minutes'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S45-T1-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama. Después aplica la regla de S45-T1-B: consistencia . Instruction: S45-T1-B-E2 · Verifica tres rutas de `consistencia, lifecycle y backups`: fixture válido, fixture ad…",
+      "confidence": 0.834,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "id": "S45-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'operation', 'backup_age_h', 'rpo_h', 'rto_minutes', 'consistency', 'case_id', 'restore_minutes'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RUN_RESTORE_DRILL'\n    meets = not (record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"])\n    if not meets:\n        return 'DECLARE_DATA_LOSS_RISK'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 4, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\ninvalid = {'case_id': 'CASO-IQU-045-1B', 'operation': 'job-status', 'consistency': 'read-after-write', 'backup_age_h': 200, 'rpo_h': 6, 'restore_minutes': 25, 'rto_minutes': 30}\nincomplete = {k: v for k, v in valid.items() if k != 'rto_minutes'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S45-T1-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S45-T1-B-E3 · Extiende fallo cerrado para `consistencia, lifecycle y backups` con tres fixtures distintos. `CASO-IQU-045…",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T1-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "id": "S45-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\nmeets_contract = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\nstatus = \"PASS\" if meets_contract else \"NACK_AND_RETRY\"\nprint(\"S45-T2-A\", status)\n",
+      "justification_from_packet": "En el paquete de S45 (Cloud, almacenamiento, colas e infraestructura), el ejercicio S45-T2-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S45-T2-A-E1 · Filtra el contrato de `queue/event y delivery semantics` sobre `CASO-IQU-045-2A`. La entrada es el dict co…",
+      "confidence": 0.725,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "id": "S45-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'effect_durable', 'delivery', 'acked_after_effect', 'idempotency_key', 'backoff', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\n    return \"PASS\" if meets else 'NACK_AND_RETRY'\n\nvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = {k: v for k, v in valid.items() if k != 'backoff'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S45-T2-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a backoff debe ocurrir antes de esa rama. Después aplica la regla de S45-T2-A: ack posterior al . Instruction: S45-T2-A-E2 · Clasifica tres rutas de `queue/event y delivery semantics`: fixture válido, fixture ad…",
+      "confidence": 0.827,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "id": "S45-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'effect_durable', 'delivery', 'acked_after_effect', 'idempotency_key', 'backoff', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'VERIFY_DELIVERY_SEMANTICS'\n    meets = not (not record[\"acked_after_effect\"] or not record[\"idempotency_key\"])\n    if not meets:\n        return 'NACK_AND_RETRY'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': True, 'idempotency_key': 'job-iqu-1', 'backoff': True}\ninvalid = {'case_id': 'CASO-IQU-045-2A', 'delivery': 'at-least-once', 'effect_durable': True, 'acked_after_effect': False, 'idempotency_key': 'job-iqu-1', 'backoff': True}\nincomplete = {k: v for k, v in valid.items() if k != 'backoff'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S45-T2-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S45-T2-A-E3 · Defiende fallo cerrado para `queue/event y delivery semantics` con tres fixtures distintos. `CASO-IQU-045-…",
+      "confidence": 0.854,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "id": "S45-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\nmeets_contract = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\nstatus = \"PASS\" if meets_contract else \"DEDUP_OR_DLQ\"\nprint(\"S45-T2-B\", status)\n",
+      "justification_from_packet": "En el paquete de S45 (Cloud, almacenamiento, colas e infraestructura), el ejercicio S45-T2-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S45-T2-B-E1 · Modela el contrato de `dedup, ordering y dead-letter` sobre `CASO-IQU-045-2B`. La entrada es el dict compl…",
+      "confidence": 0.752,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "id": "S45-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'ordered_partition', 'message_ids', 'processed_ids', 'terminal_in_dlq', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\n    return \"PASS\" if meets else 'DEDUP_OR_DLQ'\n\nvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2', 'x'}, 'ordered_partition': True, 'terminal_in_dlq': True}\nincomplete = {k: v for k, v in valid.items() if k != 'terminal_in_dlq'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S45-T2-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a terminal_in_dlq debe ocurrir antes de esa rama. Después aplica la regla de S45-T2-B: deduplica. Instruction: S45-T2-B-E2 · Audita tres rutas de `dedup, ordering y dead-letter`: fixture válido, fixture adverso …",
+      "confidence": 0.803,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "id": "S45-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'ordered_partition', 'message_ids', 'processed_ids', 'terminal_in_dlq', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INSPECT_MESSAGE_ORDER'\n    meets = not (len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"])\n    if not meets:\n        return 'DEDUP_OR_DLQ'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2'}, 'ordered_partition': True, 'terminal_in_dlq': True}\ninvalid = {'case_id': 'CASO-IQU-045-2B', 'message_ids': ['m1', 'm1', 'm2'], 'processed_ids': {'m1', 'm2', 'x'}, 'ordered_partition': True, 'terminal_in_dlq': True}\nincomplete = {k: v for k, v in valid.items() if k != 'terminal_in_dlq'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S45-T2-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S45-T2-B-E3 · Recupera fallo cerrado para `dedup, ordering y dead-letter` con tres fixtures distintos. `CASO-IQU-045-2B`…",
+      "confidence": 0.796,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T2-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "id": "S45-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\nmeets_contract = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\nstatus = \"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\"\nprint(\"S45-T3-A\", status)\n",
+      "justification_from_packet": "En el paquete de S45 (Cloud, almacenamiento, colas e infraestructura), el ejercicio S45-T3-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S45-T3-A-E1 · Verifica el contrato de `compute, autoscaling y networking` sobre `CASO-IQU-045-3A`. La entrada es el dict…",
+      "confidence": 0.922,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "id": "S45-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'target_per_worker', 'backlog', 'quota_workers', 'workers', 'case_id', 'backpressure', 'private_network'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\n    return \"PASS\" if meets else 'APPLY_BACKPRESSURE'\n\nvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 200, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nincomplete = {k: v for k, v in valid.items() if k != 'backpressure'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S45-T3-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a backpressure debe ocurrir antes de esa rama. Después aplica la regla de S45-T3-A: workers dent. Instruction: S45-T3-A-E2 · Decide tres rutas de `compute, autoscaling y networking`: fixture válido, fixture adve…",
+      "confidence": 0.893,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "id": "S45-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'target_per_worker', 'backlog', 'quota_workers', 'workers', 'case_id', 'backpressure', 'private_network'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CAPACITY'\n    meets = not (record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"])\n    if not meets:\n        return 'APPLY_BACKPRESSURE'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 4, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\ninvalid = {'case_id': 'CASO-IQU-045-3A', 'backlog': 80, 'workers': 200, 'target_per_worker': 25, 'quota_workers': 6, 'private_network': True, 'backpressure': True}\nincomplete = {k: v for k, v in valid.items() if k != 'backpressure'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S45-T3-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S45-T3-A-E3 · Contrasta fallo cerrado para `compute, autoscaling y networking` con tres fixtures distintos. `CASO-IQU-04…",
+      "confidence": 0.806,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "id": "S45-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\nmeets_contract = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\nstatus = \"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\"\nprint(\"S45-T3-B\", status)\n",
+      "justification_from_packet": "En el paquete de S45 (Cloud, almacenamiento, colas e infraestructura), el ejercicio S45-T3-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S45-T3-B-E1 · Clasifica el contrato de `IAM, private paths y egress` sobre `CASO-IQU-045-3B`. La entrada es el dict comp…",
+      "confidence": 0.857,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "id": "S45-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'egress_host', 'private_path', 'allowed_actions', 'case_id', 'requested_action', 'egress_allow'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    return \"PASS\" if meets else 'DENY_IAM_OR_EGRESS'\n\nvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'queue:ack', 'object:get'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': set(), 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nincomplete = {k: v for k, v in valid.items() if k != 'egress_allow'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S45-T3-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a egress_allow debe ocurrir antes de esa rama. Después aplica la regla de S45-T3-B: acción IAM m. Instruction: S45-T3-B-E2 · Calcula tres rutas de `IAM, private paths y egress`: fixture válido, fixture adverso y…",
+      "confidence": 0.917,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "id": "S45-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'egress_host', 'private_path', 'allowed_actions', 'case_id', 'requested_action', 'egress_allow'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_SCOPED_POLICY'\n    meets = not (record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"])\n    if not meets:\n        return 'DENY_IAM_OR_EGRESS'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': {'queue:ack', 'object:get'}, 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\ninvalid = {'case_id': 'CASO-IQU-045-3B', 'allowed_actions': set(), 'requested_action': 'object:get', 'private_path': True, 'egress_host': 'api.internal', 'egress_allow': {'api.internal'}}\nincomplete = {k: v for k, v in valid.items() if k != 'egress_allow'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S45-T3-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S45-T3-B-E3 · Instrumenta fallo cerrado para `IAM, private paths y egress` con tres fixtures distintos. `CASO-IQU-045-3B…",
+      "confidence": 0.811,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T3-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "id": "S45-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\nmeets_contract = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REJECT_IAC_PLAN\"\nprint(\"S45-T4-A\", status)\n",
+      "justification_from_packet": "En el paquete de S45 (Cloud, almacenamiento, colas e infraestructura), el ejercicio S45-T4-A-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S45-T4-A-E1 · Audita el contrato de `configuración declarativa y environments` sobre `CASO-IQU-045-4A`. La entrada es el…",
+      "confidence": 0.884,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "id": "S45-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'environment', 'declared_resources', 'secret_values_in_plan', 'planned_resources', 'destructive_changes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\n    return \"PASS\" if meets else 'REJECT_IAC_PLAN'\n\nvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}\nincomplete = {k: v for k, v in valid.items() if k != 'destructive_changes'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S45-T4-A-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a destructive_changes debe ocurrir antes de esa rama. Después aplica la regla de S45-T4-A: plan . Instruction: S45-T4-A-E2 · Compara tres rutas de `configuración declarativa y environments`: fixture válido, fixt…",
+      "confidence": 0.924,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "id": "S45-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'environment', 'declared_resources', 'secret_values_in_plan', 'planned_resources', 'destructive_changes', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_DRIFT'\n    meets = not (record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0)\n    if not meets:\n        return 'REJECT_IAC_PLAN'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': False, 'destructive_changes': 0}\ninvalid = {'case_id': 'CASO-IQU-045-4A', 'declared_resources': {'bucket', 'queue'}, 'planned_resources': {'bucket', 'queue'}, 'environment': 'staging', 'secret_values_in_plan': True, 'destructive_changes': 0}\nincomplete = {k: v for k, v in valid.items() if k != 'destructive_changes'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S45-T4-A-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S45-T4-A-E3 · Aísla fallo cerrado para `configuración declarativa y environments` con tres fixtures distintos. `CASO-IQU…",
+      "confidence": 0.762,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-A"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "id": "S45-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\nmeets_contract = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\nstatus = \"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\"\nprint(\"S45-T4-B\", status)\n",
+      "justification_from_packet": "En el paquete de S45 (Cloud, almacenamiento, colas e infraestructura), el ejercicio S45-T4-B-E1 (guided) trae un fixture y un predicado defectuoso. Los hints piden que el predicado sea verdadero porque el caso conserva el contrato del subtema. Ajusté la expresión booleana (no los datos) para que imprima PASS según la instruction: S45-T4-B-E1 · Decide el contrato de `costos, quotas, recovery y portability` sobre `CASO-IQU-045-4B`. La entrada es el d…",
+      "confidence": 0.848,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "id": "S45-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {'portable_export', 'quota_used', 'quota_limit', 'forecast_pen', 'case_id', 'restore_tested', 'budget_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + missing[0]\n    meets = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\n    return \"PASS\" if meets else 'FREEZE_SCALE_OUT'\n\nvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 1000000, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = {k: v for k, v in valid.items() if k != 'portable_export'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "justification_from_packet": "Para S45-T4-B-E2 el quiz_card exige tres salidas (PASS / rechazo de contenido / MISSING:campo). Primero calculo missing sobre el schema del fixture del starter E1; luego reutilizo la regla de dominio ya corregida. Hints: Primero se calcula `missing`; ningún acceso a portable_export debe ocurrir antes de esa rama. Después aplica la regla de S45-T4-B: costo/cuo. Instruction: S45-T4-B-E2 · Filtra tres rutas de `costos, quotas, recovery y portability`: fixture válido, fixture…",
+      "confidence": 0.868,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "id": "S45-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {'portable_export', 'quota_used', 'quota_limit', 'forecast_pen', 'case_id', 'restore_tested', 'budget_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COST_OWNER_REVIEW'\n    meets = not (record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"])\n    if not meets:\n        return 'FREEZE_SCALE_OUT'\n    return \"CONTINUE\"\n\nvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 820, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\ninvalid = {'case_id': 'CASO-IQU-045-4B', 'forecast_pen': 1000000, 'budget_pen': 1000, 'quota_used': 72, 'quota_limit': 100, 'restore_tested': True, 'portable_export': True}\nincomplete = {k: v for k, v in valid.items() if k != 'portable_export'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "justification_from_packet": "En S45-T4-B-E3 (transfer) el paquete pide fallo cerrado: CONTINUE solo con datos completos y contrato OK; REJECT_* si el contenido incumple; REQUEST_*/ESCALATE_* si falta el campo crítico — la ausencia no es breach. Me basé en los fixtures CASO del paquete y en: S45-T4-B-E3 · Demuestra fallo cerrado para `costos, quotas, recovery y portability` con tres fixtures distintos. `CASO-I…",
+      "confidence": 0.844,
+      "concepts_used": [
+        "Cloud, almacenamiento, colas e infraestructura",
+        "S45-T4-B"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Como Explorer en S45 «Cloud, almacenamiento, colas e infraestructura», leí el stem «¿Qué evidencia permite aprobar `object store, relacional y cache` en CASO-IQU-045?» y las opciones del selfCheck del paquete. Elegí el índice 0 («ADR de persistencia con fuente de verdad») porque alinea con la evidencia de aprobación del subtema en theory/outcomes, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.831,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Como Explorer en S45 «Cloud, almacenamiento, colas e infraestructura», leí el stem «Si ocurre la condición de error de S45, ¿qué respuesta preserva seguridad y auditabilidad?» y las opciones del selfCheck del paquete. Elegí el índice 2 («emitir SEND_TO_DLQ y conservar evidencia») porque alinea con la respuesta fail-closed que conserva evidencia ante error, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.83,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Como Explorer en S45 «Cloud, almacenamiento, colas e infraestructura», leí el stem «¿Cuál resultado demuestra el gate `CP-N4-B · job asíncrono resiliente`?» y las opciones del selfCheck del paquete. Elegí el índice 3 («reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos») porque alinea con el criterio del gate CP descrito en el paquete, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.765,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Como Explorer en S45 «Cloud, almacenamiento, colas e infraestructura», leí el stem «¿Qué tratamiento de `CASO-IQU-045` respeta el alcance del curso?» y las opciones del selfCheck del paquete. Elegí el índice 1 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») porque alinea con el tratamiento sintético y trazable del CASO del curso, sin inventar evidencia ni usar datos reales fuera de alcance.",
+      "confidence": 0.852,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:23.617961+00:00",
+  "session_started_at": "2026-07-23T14:41:19.084587+00:00",
+  "session_ended_at": "2026-07-23T14:41:44.204587+00:00",
+  "receipt_response_sha256": "bb686793bacbf2bdd04f79766b6774afd30e2e5d77a4e351284791e3c9531e7b",
+  "receipt_exercises_sha256": "55217c922f2a75f92bd6572e60f536a8d5eb44c97f3f56e0c103398e2f430441",
+  "receipt_selfcheck_sha256": "681ef712b5a81b392f7cc7e686f48c38597870b812b4ddb5d5b89eaeb5cc2dd8"
+}

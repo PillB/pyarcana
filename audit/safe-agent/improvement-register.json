@@ -1,0 +1,41 @@
+{
+  "improvements": [
+    {
+      "improvement_id": "IMP-SA-001",
+      "title": "Full axe-core pass on every S01–S52 learning tab",
+      "rationale": "Protocol requires axe + manual a11y; current change adds keyboard/mobile smoke only",
+      "status": "deferred",
+      "blocked_by": "scope — separate a11y campaign"
+    },
+    {
+      "improvement_id": "IMP-SA-002",
+      "title": "Server API should return completedSections and quizScores for true multi-device merge",
+      "rationale": "Client merge preserves local fields but cannot restore them from server if local storage cleared",
+      "status": "deferred"
+    },
+    {
+      "improvement_id": "IMP-SA-003",
+      "title": "Replace remaining curriculum pedagogical sleep()/mock examples noise in anti-vibecode scanner with content-aware filters",
+      "rationale": "Audit false positives from lesson code samples (time.sleep, mock pipelines)",
+      "status": "deferred"
+    },
+    {
+      "improvement_id": "IMP-SA-004",
+      "title": "Wire secret scanning (gitleaks/GitHub secret scanning) as required check",
+      "rationale": "Protocol CI safety gates list secret scan",
+      "status": "deferred"
+    },
+    {
+      "improvement_id": "IMP-SA-005",
+      "title": "Two independent full S01–S52 zero-Python agentic learner runs",
+      "rationale": "Historical READY gate still open per AGENT_STATE.md",
+      "status": "deferred"
+    },
+    {
+      "improvement_id": "IMP-SA-006",
+      "title": "Add ErrorBoundary around app shell",
+      "rationale": "Prior VIBE_CODED_AUDIT finding U2",
+      "status": "deferred"
+    }
+  ]
+}

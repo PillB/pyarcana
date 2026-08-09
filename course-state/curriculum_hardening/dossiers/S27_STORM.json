@@ -1,0 +1,777 @@
+{
+  "section": 27,
+  "title": "Estrategia de pruebas con pytest",
+  "file": "s27-async-concurrency.ts",
+  "n_required": 27,
+  "n_logged": 27,
+  "generated_at": "2026-07-24T04:31:14.861+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "no fraud/parentesco labels in tests; synthetic contacts only",
+    "v3_retarget": "pytest strategy not asyncio concurrency",
+    "expert_pass_at": "2026-07-24T04:31:14.861+00:00"
+  },
+  "unique_foci": 27,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "risk pyramid unit heavy",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Docs",
+          "url": "https://docs.pytest.org/en/stable/",
+          "note": "discovery fixtures"
+        },
+        {
+          "family": "pytest",
+          "title": "Getting started",
+          "url": "https://docs.pytest.org/en/stable/getting-started.html",
+          "note": "first tests"
+        },
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "scopes"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 1/27: «risk pyramid unit heavy» via pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «risk pyramid unit heavy».",
+      "expand_scope": "E1/E2/E3 + docs for «risk pyramid unit heavy»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 1/27: «risk pyramid unit heavy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "impact likelihood prioritization",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Getting started",
+          "url": "https://docs.pytest.org/en/stable/getting-started.html",
+          "note": "first tests"
+        },
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "scopes"
+        },
+        {
+          "family": "pytest",
+          "title": "Parametrize",
+          "url": "https://docs.pytest.org/en/stable/how-to/parametrize.html",
+          "note": "tables"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 2/27: «impact likelihood prioritization» via pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «impact likelihood prioritization».",
+      "expand_scope": "E1/E2/E3 + docs for «impact likelihood prioritization»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 2/27: «impact likelihood prioritization» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "AAA arrange act assert",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "scopes"
+        },
+        {
+          "family": "pytest",
+          "title": "Parametrize",
+          "url": "https://docs.pytest.org/en/stable/how-to/parametrize.html",
+          "note": "tables"
+        },
+        {
+          "family": "pytest",
+          "title": "Assertions",
+          "url": "https://docs.pytest.org/en/stable/how-to/assert.html",
+          "note": "assert rewrite"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 3/27: «AAA arrange act assert» via pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «AAA arrange act assert».",
+      "expand_scope": "E1/E2/E3 + docs for «AAA arrange act assert»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 3/27: «AAA arrange act assert» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "reliable oracles fixed values",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Parametrize",
+          "url": "https://docs.pytest.org/en/stable/how-to/parametrize.html",
+          "note": "tables"
+        },
+        {
+          "family": "pytest",
+          "title": "Assertions",
+          "url": "https://docs.pytest.org/en/stable/how-to/assert.html",
+          "note": "assert rewrite"
+        },
+        {
+          "family": "Coverage.py",
+          "title": "Docs",
+          "url": "https://coverage.readthedocs.io/",
+          "note": "branch coverage"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 4/27: «reliable oracles fixed values» via Coverage.py, pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reliable oracles fixed values».",
+      "expand_scope": "E1/E2/E3 + docs for «reliable oracles fixed values»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 4/27: «reliable oracles fixed values» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "pytest discovery test_ star",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Assertions",
+          "url": "https://docs.pytest.org/en/stable/how-to/assert.html",
+          "note": "assert rewrite"
+        },
+        {
+          "family": "Coverage.py",
+          "title": "Docs",
+          "url": "https://coverage.readthedocs.io/",
+          "note": "branch coverage"
+        },
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 5/27: «pytest discovery test_ star» via Coverage.py, Python, pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pytest discovery test_ star».",
+      "expand_scope": "E1/E2/E3 + docs for «pytest discovery test_ star»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 5/27: «pytest discovery test_ star» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "node ids path name param",
+      "research": [
+        {
+          "family": "Coverage.py",
+          "title": "Docs",
+          "url": "https://coverage.readthedocs.io/",
+          "note": "branch coverage"
+        },
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        },
+        {
+          "family": "Real Python",
+          "title": "Effective Python Testing",
+          "url": "https://realpython.com/python-testing/",
+          "note": "pyramid AAA"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 6/27: «node ids path name param» via Coverage.py, Python, Real Python (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «node ids path name param».",
+      "expand_scope": "E1/E2/E3 + docs for «node ids path name param»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 6/27: «node ids path name param» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "assert rewrite useful diffs",
+      "research": [
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        },
+        {
+          "family": "Real Python",
+          "title": "Effective Python Testing",
+          "url": "https://realpython.com/python-testing/",
+          "note": "pyramid AAA"
+        },
+        {
+          "family": "Coursera",
+          "title": "Software testing Python",
+          "url": "https://www.coursera.org/courses?query=software%20testing%20python",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 7/27: «assert rewrite useful diffs» via Coursera, Python, Real Python (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «assert rewrite useful diffs».",
+      "expand_scope": "E1/E2/E3 + docs for «assert rewrite useful diffs»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 7/27: «assert rewrite useful diffs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "parametrize tables",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "Effective Python Testing",
+          "url": "https://realpython.com/python-testing/",
+          "note": "pyramid AAA"
+        },
+        {
+          "family": "Coursera",
+          "title": "Software testing Python",
+          "url": "https://www.coursera.org/courses?query=software%20testing%20python",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 8/27: «parametrize tables» via Coursera, MIT, Real Python (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «parametrize tables».",
+      "expand_scope": "E1/E2/E3 + docs for «parametrize tables»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 8/27: «parametrize tables» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "fixtures inject no globals",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Software testing Python",
+          "url": "https://www.coursera.org/courses?query=software%20testing%20python",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "asserts"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 9/27: «fixtures inject no globals» via Coursera, Harvard, MIT (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fixtures inject no globals».",
+      "expand_scope": "E1/E2/E3 + docs for «fixtures inject no globals»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 9/27: «fixtures inject no globals» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "scopes function session pollution",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "asserts"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 10/27: «scopes function session pollution» via Harvard, MIT, Py4E (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «scopes function session pollution».",
+      "expand_scope": "E1/E2/E3 + docs for «scopes function session pollution»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 10/27: «scopes function session pollution» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "tmp_path NamedTemporaryFile",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "asserts"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 11/27: «tmp_path NamedTemporaryFile» via Harvard, Live, Py4E (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «tmp_path NamedTemporaryFile».",
+      "expand_scope": "E1/E2/E3 + docs for «tmp_path NamedTemporaryFile»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 11/27: «tmp_path NamedTemporaryFile» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "exceptions match message",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "pytest",
+          "title": "Docs",
+          "url": "https://docs.pytest.org/en/stable/",
+          "note": "discovery fixtures"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 12/27: «exceptions match message» via Live, Py4E, pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «exceptions match message».",
+      "expand_scope": "E1/E2/E3 + docs for «exceptions match message»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 12/27: «exceptions match message» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "floats math isclose scores",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "pytest",
+          "title": "Docs",
+          "url": "https://docs.pytest.org/en/stable/",
+          "note": "discovery fixtures"
+        },
+        {
+          "family": "pytest",
+          "title": "Getting started",
+          "url": "https://docs.pytest.org/en/stable/getting-started.html",
+          "note": "first tests"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 13/27: «floats math isclose scores» via Live, pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «floats math isclose scores».",
+      "expand_scope": "E1/E2/E3 + docs for «floats math isclose scores»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 13/27: «floats math isclose scores» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "synthetic UTC dates no now",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Docs",
+          "url": "https://docs.pytest.org/en/stable/",
+          "note": "discovery fixtures"
+        },
+        {
+          "family": "pytest",
+          "title": "Getting started",
+          "url": "https://docs.pytest.org/en/stable/getting-started.html",
+          "note": "first tests"
+        },
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "scopes"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 14/27: «synthetic UTC dates no now» via pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «synthetic UTC dates no now».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic UTC dates no now»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 14/27: «synthetic UTC dates no now» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "negative cases typed errors",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Getting started",
+          "url": "https://docs.pytest.org/en/stable/getting-started.html",
+          "note": "first tests"
+        },
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "scopes"
+        },
+        {
+          "family": "pytest",
+          "title": "Parametrize",
+          "url": "https://docs.pytest.org/en/stable/how-to/parametrize.html",
+          "note": "tables"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 15/27: «negative cases typed errors» via pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «negative cases typed errors».",
+      "expand_scope": "E1/E2/E3 + docs for «negative cases typed errors»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 15/27: «negative cases typed errors» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "useful error messages no PII",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "scopes"
+        },
+        {
+          "family": "pytest",
+          "title": "Parametrize",
+          "url": "https://docs.pytest.org/en/stable/how-to/parametrize.html",
+          "note": "tables"
+        },
+        {
+          "family": "pytest",
+          "title": "Assertions",
+          "url": "https://docs.pytest.org/en/stable/how-to/assert.html",
+          "note": "assert rewrite"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 16/27: «useful error messages no PII» via pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «useful error messages no PII».",
+      "expand_scope": "E1/E2/E3 + docs for «useful error messages no PII»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 16/27: «useful error messages no PII» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "happy path plus three negatives",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Parametrize",
+          "url": "https://docs.pytest.org/en/stable/how-to/parametrize.html",
+          "note": "tables"
+        },
+        {
+          "family": "pytest",
+          "title": "Assertions",
+          "url": "https://docs.pytest.org/en/stable/how-to/assert.html",
+          "note": "assert rewrite"
+        },
+        {
+          "family": "Coverage.py",
+          "title": "Docs",
+          "url": "https://coverage.readthedocs.io/",
+          "note": "branch coverage"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 17/27: «happy path plus three negatives» via Coverage.py, pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «happy path plus three negatives».",
+      "expand_scope": "E1/E2/E3 + docs for «happy path plus three negatives»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 17/27: «happy path plus three negatives» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "branch vs risk coverage",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Assertions",
+          "url": "https://docs.pytest.org/en/stable/how-to/assert.html",
+          "note": "assert rewrite"
+        },
+        {
+          "family": "Coverage.py",
+          "title": "Docs",
+          "url": "https://coverage.readthedocs.io/",
+          "note": "branch coverage"
+        },
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 18/27: «branch vs risk coverage» via Coverage.py, Python, pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «branch vs risk coverage».",
+      "expand_scope": "E1/E2/E3 + docs for «branch vs risk coverage»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 18/27: «branch vs risk coverage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "threshold match review no-match",
+      "research": [
+        {
+          "family": "Coverage.py",
+          "title": "Docs",
+          "url": "https://coverage.readthedocs.io/",
+          "note": "branch coverage"
+        },
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        },
+        {
+          "family": "Real Python",
+          "title": "Effective Python Testing",
+          "url": "https://realpython.com/python-testing/",
+          "note": "pyramid AAA"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 19/27: «threshold match review no-match» via Coverage.py, Python, Real Python (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «threshold match review no-match».",
+      "expand_scope": "E1/E2/E3 + docs for «threshold match review no-match»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 19/27: «threshold match review no-match» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "mutation conceptual strip invert",
+      "research": [
+        {
+          "family": "Python",
+          "title": "unittest.mock",
+          "url": "https://docs.python.org/3/library/unittest.mock.html",
+          "note": "doubles"
+        },
+        {
+          "family": "Real Python",
+          "title": "Effective Python Testing",
+          "url": "https://realpython.com/python-testing/",
+          "note": "pyramid AAA"
+        },
+        {
+          "family": "Coursera",
+          "title": "Software testing Python",
+          "url": "https://www.coursera.org/courses?query=software%20testing%20python",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 20/27: «mutation conceptual strip invert» via Coursera, Python, Real Python (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «mutation conceptual strip invert».",
+      "expand_scope": "E1/E2/E3 + docs for «mutation conceptual strip invert»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 20/27: «mutation conceptual strip invert» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "useful failures expected actual",
+      "research": [
+        {
+          "family": "Real Python",
+          "title": "Effective Python Testing",
+          "url": "https://realpython.com/python-testing/",
+          "note": "pyramid AAA"
+        },
+        {
+          "family": "Coursera",
+          "title": "Software testing Python",
+          "url": "https://www.coursera.org/courses?query=software%20testing%20python",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 21/27: «useful failures expected actual» via Coursera, MIT, Real Python (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «useful failures expected actual».",
+      "expand_scope": "E1/E2/E3 + docs for «useful failures expected actual»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 21/27: «useful failures expected actual» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "delete copy-paste tests",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Software testing Python",
+          "url": "https://www.coursera.org/courses?query=software%20testing%20python",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "asserts"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 22/27: «delete copy-paste tests» via Coursera, Harvard, MIT (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «delete copy-paste tests».",
+      "expand_scope": "E1/E2/E3 + docs for «delete copy-paste tests»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 22/27: «delete copy-paste tests» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "CP-N3-A gate",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "asserts"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 23/27: «CP-N3-A gate» via Harvard, MIT, Py4E (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N3-A gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N3-A gate»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 23/27: «CP-N3-A gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "V3 not asyncio",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "asserts"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 24/27: «V3 not asyncio» via Harvard, Live, Py4E (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not asyncio».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not asyncio»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 24/27: «V3 not asyncio» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "pair bridge to S28",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "pytest",
+          "title": "Docs",
+          "url": "https://docs.pytest.org/en/stable/",
+          "note": "discovery fixtures"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 25/27: «pair bridge to S28» via Live, Py4E, pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair bridge to S28».",
+      "expand_scope": "E1/E2/E3 + docs for «pair bridge to S28»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 25/27: «pair bridge to S28» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "CASO-LIM-027 synthetic Lima",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "pytest",
+          "title": "Docs",
+          "url": "https://docs.pytest.org/en/stable/",
+          "note": "discovery fixtures"
+        },
+        {
+          "family": "pytest",
+          "title": "Getting started",
+          "url": "https://docs.pytest.org/en/stable/getting-started.html",
+          "note": "first tests"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 26/27: «CASO-LIM-027 synthetic Lima» via Live, pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CASO-LIM-027 synthetic Lima».",
+      "expand_scope": "E1/E2/E3 + docs for «CASO-LIM-027 synthetic Lima»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 26/27: «CASO-LIM-027 synthetic Lima» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "no fraud labels in tests",
+      "research": [
+        {
+          "family": "pytest",
+          "title": "Docs",
+          "url": "https://docs.pytest.org/en/stable/",
+          "note": "discovery fixtures"
+        },
+        {
+          "family": "pytest",
+          "title": "Getting started",
+          "url": "https://docs.pytest.org/en/stable/getting-started.html",
+          "note": "first tests"
+        },
+        {
+          "family": "pytest",
+          "title": "Fixtures",
+          "url": "https://docs.pytest.org/en/stable/how-to/fixtures.html",
+          "note": "scopes"
+        }
+      ],
+      "synthesize": "S27 «Estrategia de pruebas con pytest» cycle 27/27: «no fraud labels in tests» via pytest (CASO-LIM-027 / CP-N3-A pytest).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no fraud labels in tests».",
+      "expand_scope": "E1/E2/E3 + docs for «no fraud labels in tests»; V3 roadmap; pair S27 pytest → S28 data/property/integration.",
+      "re_synthesize": "Decision 27/27: «no fraud labels in tests» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

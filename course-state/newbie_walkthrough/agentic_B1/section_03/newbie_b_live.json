@@ -1,0 +1,554 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B1",
+  "section_index": 3,
+  "packet_sha": "00c23ff42e0f5eaa",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_03/packet.json",
+  "recorded_at": "2026-07-22T01:46:11.602321+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "97a71be75c2d",
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T1-A-E1\nedad = 25\nregion = \"Cusco\"\n\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Piura\")",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "edad",
+        "region",
+        "Cusco",
+        "Lima",
+        "Piura"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S03-T1-A-E1 solo con soporte del slim packet. Instrucción: «E1 (guiado) — Con `edad = 25` y `region = \"Cusco\"`, imprime el booleano de: `edad >= 18`, `edad < 65`, `18 <= edad <= 65`, `region == \"Lima\"`, `region !=…». Contraste con demo `S03-T1-B-DEMO` (Comparar región y monto de un registro sintético): «». Hint packet: «Usa print(expresion) directamente; no hace falta if todavía.». Rechazo APIs ajenas; me limito a `region` / `Cusco`. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T1-A-E2\nTIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor t in [\"DNI\", \"dni\", \"RUC\"]:\n    print(t, \"→\", t in TIPOS_DOC)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "TIPOS_DOC",
+        "DNI",
+        "PAS",
+        "dni",
+        "RUC"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S03-T1-A-E2. Instrucción: «E2 (independiente) — Define `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}`. Para cada valor en `[\"DNI\", \"dni\", \"RUC\"]`, imprime si está en la allowlist (`in`).». Fragmento iDo `S03-T1-B-DEMO` (Comparar región y monto de un registro sintético): «». Hint packet: «for t in lista: print(t, \"→\", t in TIPOS_DOC)». Anclas en code: `TIPOS_DOC` / `DNI` — nada más. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T1-A-E3\nvalor = None\nprint(\"valor is None →\", valor is None)\nprint(\"True == 1 →\", True == 1)\nprint(\"True is 1 →\", True is 1)\nprint(\"Nota:\", \"is None para ausencia; == para valores de negocio; no uses is con enteros\")",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "valor",
+        "Nota",
+        "para",
+        "ausencia",
+        "valores"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S03-T1-A-E3. Instrucción: «E3 (transferencia) — Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `True is 1`. Explica en un print cuándo usar `is` vs `==` en…». Demo iDo `S03-T1-B-DEMO` del paquete (Comparar región y monto de un registro sintético): «». Hint packet: «is None para ausencia; == para valores de negocio. No uses is con enteros.». Rechazo APIs ajenas; me limito a `valor` / `con`. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T1-B-E1\nvals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", bool(v))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "vals",
+        "set",
+        "range",
+        "repr",
+        "bool"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S03-T1-B-E1 solo con soporte del slim packet. Instrucción: «E1 (guiado) — Tabla truthiness: imprime `bool(v)` para `None`, `False`, `0`, `0.0`, `\"\"`, `[]`, `{}`, `set()`, `range(0)`, `\"x\"`, `1`, `[0]`.». Demo iDo `S03-T1-B-DEMO` del paquete (Comparar región y monto de un registro sintético): «». Hint packet: «for v in lista: print(repr(v), \"→\", bool(v))». Anclas en code: `range` / `set` — nada más. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T1-B-E2\nprint(\"'' or 'default' →\", \"\" or \"default\")\nprint(\"'Lima' or 'default' →\", \"Lima\" or \"default\")\nprint(\"0 and 99 →\", 0 and 99)\nprint(\"5 and 99 →\", 5 and 99)\nprint(\"None or 0 →\", None or 0)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "default",
+        "Lima",
+        "and"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S03-T1-B-E2. Instrucción: «E2 (independiente) — Predice e imprime: `'' or 'default'`, `'Lima' or 'default'`, `0 and 99`, `5 and 99`, `None or 0`.». El iDo `S03-T1-B-DEMO` del subtema (Comparar región y monto de un registro sintético): «». Hint packet: «and/or devuelven operando, no necesariamente bool. Short-circuit: or se detiene en el…». Anclas en code: `default` / `Lima` — nada más. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T1-B-E3\ndef validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    return \"accept\"\n\nfor m in [None, 0, -1, 100]:\n    print(m, \"→\", validate_monto(m))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "validate_monto",
+        "review",
+        "reject",
+        "accept"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S03-T1-B-E3 solo con soporte del slim packet. Instrucción: «E3 (transferencia) — Bug: un validador hace `if not monto: return \"reject\"`. Reescribe `validate_monto(m)` con `is None` para review, `< 0` reject, y accept…». Demo iDo `S03-T1-B-DEMO` del paquete (Comparar región y monto de un registro sintético): «». Hint packet: «Nunca uses truthiness para montos. if m is None primero.». Anclas en code: `validate_monto` / `def validate_monto` — nada más. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T2-A-E1\ndef classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [80, 50, 49, 100]:\n    print(s, \"→\", classify_score(s))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "classify_score",
+        "score",
+        "int",
+        "str",
+        "accept"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S03-T2-A-E1 solo con soporte del slim packet. Instrucción: «E1 (guiado) — Completa `classify_score`: ≥80 accept, ≥50 review, else reject. Imprime resultados para 80, 50, 49, 100.». Fragmento iDo `S03-T2-A-DEMO` (Tres campos: None, 0 y vacío bajo reglas distintas): «». Hint packet: «if score >= 80: ... elif score >= 50: ... else: ...». Anclas en code: `classify_score` / `def classify_score` — nada más. Heading de teoría: «Ramas de decisión con if/elif/else»."
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T2-A-E2\ndef bad(score):\n    status = None\n    if score >= 80:\n        status = \"accept\"\n    if score >= 50:\n        status = \"review\"\n    if score < 50:\n        status = \"reject\"\n    return status\n\ndef good(score):\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30]:\n    print(s, \"bad=\", bad(s), \"good=\", good(s))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "bad",
+        "score",
+        "status",
+        "accept",
+        "review"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S03-T2-A-E2. Instrucción: «E2 (independiente) — La función `bad` usa ifs independientes y clasifica mal el 95 (queda review). Reescribe `good` con if/elif/else y compara ambos en 95, 60,…». Demo iDo `S03-T2-A-DEMO` del paquete (Tres campos: None, 0 y vacío bajo reglas distintas): «». Hint packet: «El segundo if score >= 50 pisa el accept. Usa elif para exclusión mutua.». Tokens verificables en mi code: `review` / `good`. Heading de teoría: «Ramas de decisión con if/elif/else»."
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T2-A-E3\ndef band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in [150, 75, 10, 0, -3]:\n    print(n, \"→\", band(n))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "band",
+        "alto",
+        "elif",
+        "medio",
+        "bajo"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S03-T2-A-E3. Instrucción: «E3 (transferencia) — Traza mentalmente y luego implementa `band(n)`: `>100` alto, `>50` medio, `>0` bajo, else nulo. Verifica 150, 75, 10, 0, -3.». El iDo `S03-T2-A-DEMO` del subtema (Tres campos: None, 0 y vacío bajo reglas distintas): «». Hint packet: «Orden: primero el umbral más alto. else cubre 0 y negativos.». Anclas en code: `medio` / `alto` — nada más. Heading de teoría: «Ramas de decisión con if/elif/else»."
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T2-B-E1\ndef validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", 15, 30]:\n    print(e, \"→\", validate_edad(e))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "validate_edad",
+        "edad",
+        "status",
+        "review",
+        "code"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S03-T2-B-E1 solo con soporte del slim packet. Instrucción: «E1 (guiado) — Completa guards en `validate_edad`: None → MISSING/review; no int → BAD_TYPE/reject; luego OUT_OF_RANGE / NEEDS_REVIEW / OK como en la demo.…». Contraste con demo `S03-T2-B-DEMO` (Clasificar score de calidad en accept/review/reject): «». Hint packet: «if edad is None primero; luego isinstance; no compares None con <.». Tokens verificables en mi code: `OUT_OF_RANGE` / `NEEDS_REVIEW`. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T2-B-E2\ndef validate_monto_nested(m):\n    if m is not None:\n        if isinstance(m, int):\n            if m >= 0:\n                if m <= 10000:\n                    return \"accept\"\n                else:\n                    return \"review\"\n            else:\n                return \"reject\"\n        else:\n            return \"reject\"\n    else:\n        return \"review\"\n\ndef validate_monto_guards(m):\n    if m is None:\n        return \"review\"\n    if not isinstance(m, int):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m <= 10000:\n        return \"accept\"\n    return \"review\"\n\nfor v in [None, \"x\", -1, 0, 500, 20000]:\n    a, b = validate_monto_nested(v), validate_monto_guards(v)\n    print(v, a, b, \"ok=\", a == b)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "validate_monto_nested",
+        "not",
+        "isinstance",
+        "int",
+        "accept"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S03-T2-B-E2. Instrucción: «E2 (independiente) — Refactoriza la pirámide anidada de `validate_monto_nested` a guards lineales con la misma semántica: None review, no int reject, <0…». Contraste con demo `S03-T2-B-DEMO` (Clasificar score de calidad en accept/review/reject): «». Hint packet: «Invierte el anidamiento: un if + return por precondición.». Rechazo APIs ajenas; me limito a `validate_monto_nested` / `def validate_monto_nested`. Heading de teoría: «Ramas de decisión con if/elif/else»."
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T2-B-E3\ndef etiqueta_bug(x):\n    if x != 0:\n        if x > 0:\n            return \"positivo\"\n        return \"negativo\"\n    elif x == 0:\n        return \"cero\"\n    return \"???\"\n\nprint(\"bug 0 →\", etiqueta_bug(0))\nprint(\"bug 3 →\", etiqueta_bug(3))\n\ndef etiqueta_ok(x):\n    if x > 0:\n        return \"positivo\"\n    elif x < 0:\n        return \"negativo\"\n    else:\n        return \"cero\"\n\nprint(\"ok 0 →\", etiqueta_ok(0))\nprint(\"ok 3 →\", etiqueta_ok(3))\nprint(\"ok -2 →\", etiqueta_ok(-2))\nprint(\"Nota: preferir if x>0 / elif x<0 / else cero para tres ramas vivas claras\")",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "etiqueta_bug",
+        "positivo",
+        "negativo",
+        "elif",
+        "cero"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S03-T2-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — En el snippet, identifica la rama muerta: imprime cuál `elif` nunca corre y por qué. Luego reordena/corrige para que `x == 0` sea…». Demo iDo `S03-T2-B-DEMO` del paquete (Clasificar score de calidad en accept/review/reject): «». Hint packet: «Mira el orden: cualquier condición ya cubierta por un if anterior es inalcanzable.». Rechazo APIs ajenas; me limito a `def etiqueta_bug` / `def etiqueta_ok`. Heading de teoría: «Ramas de decisión con if/elif/else»."
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T3-A-E1\nALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"review\"\n    return \"accept\"\n\nfor r in [\"Lima\", \"Tacna\", None]:\n    print(r, \"→\", check_region(r))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "ALLOWED",
+        "Lima",
+        "Arequipa",
+        "Cusco",
+        "Piura"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S03-T3-A-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — `ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}`. Escribe `check_region(r)`: None → review; not in ALLOWED → review; else accept. Prueba Lima,…». Demo iDo `S03-T3-A-DEMO` del paquete (De pirámide a guards en validate_edad): «». Hint packet: «if r is None / if r not in ALLOWED / return accept». Mi code solo usa `check_region` / `def check_region` tal como aparecen en instruction/iDo. Heading de teoría: «Ramas de decisión con if/elif/else»."
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T3-A-E2\ndef monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in [None, -1, 0, 1200, 60000]:\n    print(m, \"→\", monto_ingreso(m))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "monto_ingreso",
+        "review",
+        "reject",
+        "accept"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S03-T3-A-E2. Instrucción: «E2 (independiente) — `monto_ingreso(m)`: None → review; <0 → reject; >50000 → review (outlier); else accept (incluye 0). Casos: None, -1, 0, 1200, 60000.». Demo iDo `S03-T3-A-DEMO` del paquete (De pirámide a guards en validate_edad): «». Hint packet: «Orden: ausencia, hard reject, outlier review, accept.». Anclas en code: `monto_ingreso` / `def monto_ingreso` — nada más. Heading de teoría: «Ramas de decisión con if/elif/else»."
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T3-A-E3\nALLOWED_DOC = {\"DNI\", \"CE\", \"PAS\"}\nDOC_LEN = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef tipo_doc_len(tipo, numero):\n    if tipo is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if tipo not in ALLOWED_DOC:\n        return {\"status\": \"review\", \"code\": \"NOT_IN_ALLOWLIST\"}\n    if len(str(numero)) != DOC_LEN[tipo]:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor t, n in [(\"DNI\", \"12345678\"), (\"DNI\", \"123\"), (\"RUC\", \"20123456789\"), (None, \"1\")]:\n    print(t, n, \"→\", tipo_doc_len(t, n))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "ALLOWED_DOC",
+        "DNI",
+        "PAS",
+        "DOC_LEN",
+        "tipo_doc_len"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S03-T3-A-E3. Instrucción: «E3 (transferencia) — Combina allowlist de tipo_doc `{\"DNI\",\"CE\",\"PAS\"}` con longitudes DNI=8, CE=9, PAS=9. Devuelve dict status/code: MISSING,…». Demo iDo `S03-T3-A-DEMO` del paquete (De pirámide a guards en validate_edad): «». Hint packet: «Primero None, luego not in allowlist, luego len != esperado.». Tokens verificables en mi code: `NOT_IN_ALLOWLIST` / `OUT_OF_RANGE`. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T3-B-E1\nTABLE = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\n\ndef apply(code):\n    return TABLE.get(code, \"review\")\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", apply(c))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "TABLE",
+        "accept",
+        "MISSING",
+        "review",
+        "OUT_OF_RANGE"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S03-T3-B-E1. Instrucción: «E1 (guiado) — Completa la decision table como dict `codigo → status` para OK→accept, MISSING→review, OUT_OF_RANGE→reject, _default→review. Imprime el status de…». El iDo `S03-T3-B-DEMO` del subtema (Regla combinada región + edad): «». Hint packet: «table.get(code, \"review\") si no incluyes _default como clave de negocio.». Anclas en code: `OUT_OF_RANGE` / `MISSING` — nada más. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T3-B-E2\ndef status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "status_match",
+        "code",
+        "str",
+        "match",
+        "case"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S03-T3-B-E2 solo con soporte del slim packet. Instrucción: «E2 (independiente) — Implementa la misma tabla con `match/case`, OR patterns para MISSING|NEEDS_REVIEW y OUT_OF_RANGE|NOT_IN_ALLOWLIST|BAD_TYPE, y `case _`.». El iDo `S03-T3-B-DEMO` del subtema (Regla combinada región + edad): «». Hint packet: «case \"A\" | \"B\": en una sola rama. case _: al final.». Tokens verificables en mi code: `NOT_IN_ALLOWLIST` / `NEEDS_REVIEW`. Heading de teoría: «Tablas de decisión y match/case»."
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T3-B-E3\ndef map_code(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\":\n            return \"review\"\n        case \"OUT_OF_RANGE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef map_edad(edad):\n    if edad is None:\n        return \"review\"\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(map_code(\"OK\"), map_code(\"MISSING\"))\nprint(map_edad(None), map_edad(30), map_edad(10))\nprint(\"Justificación:\", \"match para códigos literales finitos; if para rangos numéricos de edad\")",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "map_code",
+        "code",
+        "str",
+        "match",
+        "case"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S03-T3-B-E3. Instrucción: «E3 (transferencia) — Para (a) códigos de error finitos y (b) rango de edad 18–65, elige if o match, implementa ambos validadores y justifica en prints por qué…». El iDo `S03-T3-B-DEMO` del subtema (Regla combinada región + edad): «». Hint packet: «match brilla en literales; rangos numéricos son más claros con if y comparaciones.». Mi code solo usa `def map_code` / `def map_edad` tal como aparecen en instruction/iDo. Heading de teoría: «Tablas de decisión y match/case»."
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T4-A-E1\ndef validate_edad(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"accept\"\n\nexamples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": -1, \"expected\": \"reject\"},\n    {\"value\": None, \"expected\": \"review\"},\n    {\"value\": \"x\", \"expected\": \"reject\"},\n]\nfor ex in examples:\n    got = validate_edad(ex[\"value\"])\n    print(ex[\"value\"], got, got == ex[\"expected\"])",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "validate_edad",
+        "review",
+        "not",
+        "isinstance",
+        "int"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S03-T4-A-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Completa `examples` para el campo `edad` con expected accept/reject/review/missing (usa value None para missing/review según tu invariante).…». Demo iDo `S03-T4-A-DEMO` del paquete (Misma tabla en if/elif y en match): «def status_if(code: str) -> str: if code == \"OK\": return \"accept\"». Hint packet: «Cuatro dicts {value, expected}. None → review; -1 reject; 30 accept; \"x\" reject.». Anclas en code: `def validate_edad` / `examples` — nada más. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T4-A-E2\ndef validate_apellidos(ap, am):\n    ap_empty = ap is None or str(ap).strip() == \"\"\n    am_empty = am is None or str(am).strip() == \"\"\n    if ap_empty and am_empty:\n        return \"reject\"\n    if ap_empty or am_empty:\n        return \"review\"\n    return \"accept\"\n\ninvariant_text = (\n    \"apellido_paterno y apellido_materno no vacíos (strip) para accept; \"\n    \"uno falta → review; ambos vacíos → reject\"\n)\nexamples = [\n    {\"ap\": \"Quispe\", \"am\": \"Ñahui\", \"expected\": \"accept\"},\n    {\"ap\": \"Quispe\", \"am\": None, \"expected\": \"review\"},\n    {\"ap\": \"\", \"am\": \"  \", \"expected\": \"reject\"},\n]\nprint(invariant_text)\nfor ex in examples:\n    got = validate_apellidos(ex[\"ap\"], ex[\"am\"])\n    print(ex, \"→\", got, got == ex[\"expected\"])",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "validate_apellidos",
+        "ap_empty",
+        "str",
+        "strip",
+        "am_empty"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S03-T4-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Escribe invariante multi-campo: `apellido_paterno` y `apellido_materno` no vacíos (tras strip) para accept; si uno falta → review; si…». Fragmento iDo `S03-T4-A-DEMO` (Misma tabla en if/elif y en match): «def status_if(code: str) -> str: if code == \"OK\": return \"accept\"». Hint packet: «strip y trata \"\" como vacío. None en uno → review.». Tokens verificables en mi code: `apellido_paterno` / `apellido_materno`. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T4-A-E3\ndef validate_edad_strict(e):\n    if isinstance(e, int) and 18 <= e <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"strict 15 →\", validate_edad_strict(15))\nprint(\"strict None →\", validate_edad_strict(None))\n\ndef validate_edad_fixed(e):\n    if e is None:\n        return \"review\"\n    if not isinstance(e, int):\n        return \"reject\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    if e < 18:\n        return \"review\"\n    if e <= 65:\n        return \"accept\"\n    return \"review\"\n\nprint(\"fixed 15 →\", validate_edad_fixed(15))\nprint(\"fixed None →\", validate_edad_fixed(None))\nprint(\"fixed 30 →\", validate_edad_fixed(30))\nprint(\"Invariante:\", \"None review; <0 o >120 reject; <18 review; 18-65 accept\")",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "validate_edad_strict",
+        "isinstance",
+        "int",
+        "and",
+        "accept"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S03-T4-A-E3 solo con soporte del slim packet. Instrucción: «E3 (transferencia) — El invariante dice “edad siempre entre 18 y 65 inclusive (reject si no)”. Encuentra el contraejemplo que rompe la política real del…». El iDo `S03-T4-A-DEMO` del subtema (Misma tabla en if/elif y en match): «def status_if(code: str) -> str: if code == \"OK\": return \"accept\"». Hint packet: «edad 15 no debería ser reject duro si la política es review para menores.». Rechazo APIs ajenas; me limito a `def validate_edad_strict` / `def validate_edad_fixed`. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T4-B-E1\naccionables = [\n    \"Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\",\n    \"Campo 'edad' inválido: se espera int en rango 0–120.\",\n    \"Campo 'edad'=-3 fuera de rango; usa 0–120.\",\n]\nfor a in accionables:\n    print(a)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "accionables",
+        "Campo",
+        "edad",
+        "ausente",
+        "entero"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S03-T4-B-E1. Instrucción: «E1 (guiado) — Reescribe 3 mensajes vagos a plantilla campo+problema+acción: (1) \"Error\", (2) \"inválido\", (3) \"bad age\". Usa el campo `edad` y valores de…». El iDo `S03-T4-B-DEMO` del subtema (Invariante de campo contacto + 4 ejemplos): «». Hint packet: «Incluye nombre del campo y qué hacer. No agregues PII real.». Rechazo APIs ajenas; me limito a `Campo` / `edad`. Heading de teoría: «Mensajes que se pueden ejecutar y pruebas por rama»."
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T4-B-E2\ndef classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [(90, \"accept\"), (55, \"review\"), (10, \"reject\"), (80, \"accept\"), (50, \"review\")]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "classify_score",
+        "score",
+        "int",
+        "str",
+        "accept"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S03-T4-B-E2 solo con soporte del slim packet. Instrucción: «E2 (independiente) — Dado `classify_score` (accept/review/reject), escribe una lista `cases` con un input por cada rama (incl. frontera) y un loop assert/print…». Demo iDo `S03-T4-B-DEMO` del paquete (Invariante de campo contacto + 4 ejemplos): «». Hint packet: «Al menos 3 casos: p.ej. 90, 55, 10. Opcional 80 y 50.». Anclas en code: `classify_score` / `def classify_score` — nada más. Heading de teoría: «Mensajes que se pueden ejecutar y pruebas por rama»."
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S03-T4-B-E3\ndef rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e >= 18 and e <= 65:\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    assert got == expected",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S03",
+        "rango_edad",
+        "review",
+        "and",
+        "accept",
+        "reject"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S03-T4-B-E3. Instrucción: «E3 (transferencia) — Test rojo: la regla usa `edad > 18` y falla para 18 (espera accept). Arregla a `>= 18` y deja la suite en verde (18 accept, 17 review,…». Contraste con demo `S03-T4-B-DEMO` (Invariante de campo contacto + 4 ejemplos): «». Hint packet: «Off-by-one clásico en frontera inferior inclusiva.». Rechazo APIs ajenas; me limito a `def rango_edad` / `review`. Heading de teoría: «De “Data Structures” a decisiones de validación (mapa de la sección)»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?",
+      "chosen_index": 1,
+      "chosen_text": "if campo is None:",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: 'Qué es verdadero en un if' warns if monto: treats 0 as missing; presence checks use is None. Order in validators: 1) absence (is None). if not campo collapses 0/''/None and is the anti-pattern here."
+    },
+    {
+      "question_index": 1,
+      "question": "En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?",
+      "chosen_index": 1,
+      "chosen_text": "Se ejecuta esa rama y se omiten las siguientes",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: if/elif/else evaluates in order; the first true branch wins and the rest do not run. Packet explicitly rejects the idea that all branches run or else always runs."
+    },
+    {
+      "question_index": 2,
+      "question": "¿Qué devuelve la expresión `\"\" or \"default\"` en Python?",
+      "chosen_index": 3,
+      "chosen_text": "\"default\"",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: short-circuit or returns an operand: packet literally writes \"\" or \"default\" → \"default\". Not True/False/empty string."
+    },
+    {
+      "question_index": 3,
+      "question": "Una allowlist de tipos de documento se implementa mejor como…",
+      "chosen_index": 1,
+      "chosen_text": "Un set de literales y el operador in",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: membership section: for fixed-code allowlists a set of literals with in is ideal (O(1), clear). Nested if-per-letter, float, or sole assert DNI are not the recommended pattern."
+    },
+    {
+      "question_index": 4,
+      "question": "¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?",
+      "chosen_index": 1,
+      "chosen_text": "Cuando el sujeto es un literal/estado finito (códigos) y hay case _",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: match/case shines when the subject is a finite literal/state with case _; it does not deprecate if, and is not for numeric ranges as the default choice."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  }
+}

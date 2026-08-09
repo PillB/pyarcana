@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_K1",
+  "section_index": 32,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s32-d7261af08121",
+  "production_note": "agentic_K1 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "id": "S32-T1-A-E1",
+      "code": "# Cruzado Skeptic del fixture S32-T1-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)",
+      "justification_from_packet": "Skeptic-B: el weDo S32-T1-A-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Relaciona los campos `schema, row, catalog_ok` con la regla explicada en S32-T1-A.', 'El predicado correcto debe ser verdadero porque el fixture conserva row keys ⊆ catalog con catalog_ok; revisa dirección de comparación, conjuntos y negaciones.'] y en el tramo «S32-T1-A-E1 · Calcula el contrato de `numéricas/categóricas/texto` sobre `CASO-LIM-032-1A`» sin inventar APIs fuera del card.",
+      "confidence": 0.68,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "id": "S32-T1-A-E2",
+      "code": "# Cruzado Skeptic del fixture S32-T1-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Para S32-T1-A-E2 del paquete «Feature engineering y pipelines sin leakage» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S32-T1-A-E2 · Modela tres rutas de `numéricas/categóricas/texto`: fixture válido, fixture adverso y registro s». Hint usado: «Primero se calcula `missing`; ningún acceso a schema debe ocurrir antes de esa rama.». [Ske-32-E2]",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "id": "S32-T1-A-E3",
+      "code": "# Cruzado Skeptic del fixture S32-T1-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {'case_id', 'schema'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CATALOG\"\n    return \"CONTINUE\" if True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{k: True for k in required if k != \"case_id\"}}\n# refine known good flags\nif \"catalog_ok\" in valid:\n    valid[\"catalog_ok\"] = True\nif \"silent_fill\" in valid:\n    valid[\"silent_fill\"] = False\nif \"means_fraud\" in valid:\n    valid[\"means_fraud\"] = False\nif \"causal\" in valid:\n    valid[\"causal\"] = False\nif \"use\" in valid:\n    valid[\"use\"] = \"triage\"\ninvalid = dict(valid)\nif \"catalog_ok\" in invalid:\n    invalid[\"catalog_ok\"] = False\nelif \"silent_fill\" in invalid:\n    invalid[\"silent_fill\"] = True\nelif \"means_fraud\" in invalid:\n    invalid[\"means_fraud\"] = True\nelif \"causal\" in invalid:\n    invalid[\"causal\"] = True\nelif \"use\" in invalid:\n    invalid[\"use\"] = \"fraud_label\"\nincomplete = {k: v for k, v in valid.items() if k != list(required)[1]}\nprint(decide(valid), decide(invalid), decide(incomplete))",
+      "justification_from_packet": "En «Feature engineering y pipelines sin leakage» resolví S32-T1-A-E3 (transfer) leyendo la instruction del quiz_card: «S32-T1-A-E3 · Contrasta fallo cerrado para `numéricas/categóricas/texto` con tres fixtures distintos. `CASO-LIM-032-1A` debe continuar, el a…». La pista «Una ausencia no equivale a breach: enrútala a `REQUEST_CATALOG` antes de evaluar el contenido.» fijó el patrón observable; conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "id": "S32-T1-B-E1",
+      "code": "# Cruzado Skeptic del fixture S32-T1-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)",
+      "justification_from_packet": "Skeptic-B: el weDo S32-T1-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Relaciona los campos `values, median, silent_fill` con la regla explicada en S32-T1-B.', 'El predicado correcto debe ser verdadero porque el fixture conserva mediana de train con silent_fill=False; revisa dirección de comparación, conjuntos y negaciones.'] y en el tramo «S32-T1-B-E1 · Calcula el contrato de `missing indicators, escalamiento y encoding` sobre `» sin inventar APIs fuera del card.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "id": "S32-T1-B-E2",
+      "code": "# Cruzado Skeptic del fixture S32-T1-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Skeptic-B: el weDo S32-T1-B-E2 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Primero se calcula `missing`; ningún acceso a median debe ocurrir antes de esa rama.', 'Después aplica la regla de S32-T1-B: mediana de train con silent_fill=False. El fixture adverso debe fallar por contenido, no por schema.'] y en el tramo «S32-T1-B-E2 · Modela tres rutas de `missing indicators, escalamiento y encoding`: fixture » sin inventar APIs fuera del card.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "id": "S32-T1-B-E3",
+      "code": "# Cruzado Skeptic del fixture S32-T1-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MEDIAN\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Para S32-T1-B-E3 del paquete «Feature engineering y pipelines sin leakage» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S32-T1-B-E3 · Contrasta fallo cerrado para `missing indicators, escalamiento y encoding` con tres fixtures dis». Hint usado: «Una ausencia no equivale a breach: enrútala a `REQUEST_MEDIAN` antes de evaluar el contenido.». [Ske-32-E3]",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "id": "S32-T2-A-E1",
+      "code": "# Cruzado Skeptic del fixture S32-T2-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)",
+      "justification_from_packet": "Cruce theory/iDo de S32 con el starter de S32-T2-A-E1: la salida contractual sigue «S32-T2-A-E1 · Calcula el contrato de `shared contact/address, distance y graph features` sobre `CASO». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "id": "S32-T2-A-E2",
+      "code": "# Cruzado Skeptic del fixture S32-T2-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is True else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Para S32-T2-A-E2 del paquete «Feature engineering y pipelines sin leakage» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S32-T2-A-E2 · Modela tres rutas de `shared contact/address, distance y graph features`: fixture válido, fixtur». Hint usado: «Primero se calcula `missing`; ningún acceso a degree debe ocurrir antes de esa rama.». [Ske-32-E2]",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "id": "S32-T2-A-E3",
+      "code": "# Cruzado Skeptic del fixture S32-T2-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GRAPH_FEAT\"\n    return \"CONTINUE\" if record[\"uses_label\"] is True else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Skeptic-B: el weDo S32-T2-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Una ausencia no equivale a breach: enrútala a `REQUEST_GRAPH_FEAT` antes de evaluar el contenido.', 'Para datos completos reutiliza la regla que demostró graph feats sin usar label de decisión; solo ese caso devuelve `CONTINUE`.'] y en el tramo «S32-T2-A-E3 · Contrasta fallo cerrado para `shared contact/address, distance y graph featu» sin inventar APIs fuera del card.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "id": "S32-T2-B-E1",
+      "code": "# Cruzado Skeptic del fixture S32-T2-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)",
+      "justification_from_packet": "Skeptic-B: el weDo S32-T2-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Relaciona los campos `events, t, w, includes_t` con la regla explicada en S32-T2-B.', 'El predicado correcto debe ser verdadero porque el fixture conserva ventana half-open sin incluir t; revisa dirección de comparación, conjuntos y negaciones.'] y en el tramo «S32-T2-B-E1 · Calcula el contrato de `ventanas y frecuencia` sobre `CASO-LIM-032-2B`. La e» sin inventar APIs fuera del card.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "id": "S32-T2-B-E2",
+      "code": "# Cruzado Skeptic del fixture S32-T2-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is True else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Cruce theory/iDo de S32 con el starter de S32-T2-B-E2: la salida contractual sigue «S32-T2-B-E2 · Modela tres rutas de `ventanas y frecuencia`: fixture válido, fixture adverso y regist». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "id": "S32-T2-B-E3",
+      "code": "# Cruzado Skeptic del fixture S32-T2-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WINDOW\"\n    return \"CONTINUE\" if record[\"includes_t\"] is True else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Cruce theory/iDo de S32 con el starter de S32-T2-B-E3: la salida contractual sigue «S32-T2-B-E3 · Contrasta fallo cerrado para `ventanas y frecuencia` con tres fixtures distintos. `CAS». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "id": "S32-T3-A-E1",
+      "code": "# Cruzado Skeptic del fixture S32-T3-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)",
+      "justification_from_packet": "Para S32-T3-A-E1 del paquete «Feature engineering y pipelines sin leakage» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S32-T3-A-E1 · Calcula el contrato de `ColumnTransformer y custom transformers` sobre `CASO-LIM-032-3A`. La ent». Hint usado: «Relaciona los campos `fitted, mode, transform_before_fit` con la regla explicada en S32-T3-A.». [Ske-32-E1]",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "id": "S32-T3-A-E2",
+      "code": "# Cruzado Skeptic del fixture S32-T3-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is True else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Cruce theory/iDo de S32 con el starter de S32-T3-A-E2: la salida contractual sigue «S32-T3-A-E2 · Modela tres rutas de `ColumnTransformer y custom transformers`: fixture válido, fixtur». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "id": "S32-T3-A-E3",
+      "code": "# Cruzado Skeptic del fixture S32-T3-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIT_STATE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is True else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Skeptic-B: el weDo S32-T3-A-E3 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Una ausencia no equivale a breach: enrútala a `REQUEST_FIT_STATE` antes de evaluar el contenido.', 'Para datos completos reutiliza la regla que demostró transformer fitted con mode y sin transform prematuro; solo ese caso devuelve `CONTINUE`.'] y en el tramo «S32-T3-A-E3 · Contrasta fallo cerrado para `ColumnTransformer y custom transformers` con t» sin inventar APIs fuera del card.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "id": "S32-T3-B-E1",
+      "code": "# Cruzado Skeptic del fixture S32-T3-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is False or not record[\"version\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)",
+      "justification_from_packet": "Cruce theory/iDo de S32 con el starter de S32-T3-B-E1: la salida contractual sigue «S32-T3-B-E1 · Calcula el contrato de `fit/transform y persistencia` sobre `CASO-LIM-032-3B`. La entr». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "id": "S32-T3-B-E2",
+      "code": "# Cruzado Skeptic del fixture S32-T3-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"versioned\"] is False or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Cruce theory/iDo de S32 con el starter de S32-T3-B-E2: la salida contractual sigue «S32-T3-B-E2 · Modela tres rutas de `fit/transform y persistencia`: fixture válido, fixture adverso y». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "id": "S32-T3-B-E3",
+      "code": "# Cruzado Skeptic del fixture S32-T3-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STATE_JSON\"\n    return \"CONTINUE\" if record[\"versioned\"] is False or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Para S32-T3-B-E3 del paquete «Feature engineering y pipelines sin leakage» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S32-T3-B-E3 · Contrasta fallo cerrado para `fit/transform y persistencia` con tres fixtures distintos. `CASO-L». Hint usado: «Una ausencia no equivale a breach: enrútala a `REQUEST_STATE_JSON` antes de evaluar el contenido.». [Ske-32-E3]",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "id": "S32-T4-A-E1",
+      "code": "# Cruzado Skeptic del fixture S32-T4-A-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = record[\"overlap\"] > 0\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)",
+      "justification_from_packet": "Para S32-T4-A-E1 del paquete «Feature engineering y pipelines sin leakage» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S32-T4-A-E1 · Calcula el contrato de `split por entidad/grupo/tiempo` sobre `CASO-LIM-032-4A`. La entrada es e». Hint usado: «Relaciona los campos `n_train, n_test, overlap` con la regla explicada en S32-T4-A.». [Ske-32-E1]",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "id": "S32-T4-A-E2",
+      "code": "# Cruzado Skeptic del fixture S32-T4-A-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"overlap\"] > 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Cruce theory/iDo de S32 con el starter de S32-T4-A-E2: la salida contractual sigue «S32-T4-A-E2 · Modela tres rutas de `split por entidad/grupo/tiempo`: fixture válido, fixture adverso». No marqué fraude/parentesco; solo el oráculo del ejercicio. conf=0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "id": "S32-T4-A-E3",
+      "code": "# Cruzado Skeptic del fixture S32-T4-A-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SPLIT_KEYS\"\n    return \"CONTINUE\" if record[\"overlap\"] > 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "En «Feature engineering y pipelines sin leakage» resolví S32-T4-A-E3 (transfer) leyendo la instruction del quiz_card: «S32-T4-A-E3 · Contrasta fallo cerrado para `split por entidad/grupo/tiempo` con tres fixtures distintos. `CASO-LIM-032-4A` debe continuar, e…». La pista «Una ausencia no equivale a breach: enrútala a `REQUEST_SPLIT_KEYS` antes de evaluar el contenido.» fijó el patrón observable; conf~0.66.",
+      "confidence": 0.66,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "id": "S32-T4-B-E1",
+      "code": "# Cruzado Skeptic del fixture S32-T4-B-E1 (packet-only) · revisión dual\nrecord = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = bool(record[\"leaky\"]) or record[\"skew\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)",
+      "justification_from_packet": "Skeptic-B: el weDo S32-T4-B-E1 pide demostrar el contrato de salida del paquete activo. Me basé en hints ['Relaciona los campos `leaky, skew, feature_set` con la regla explicada en S32-T4-B.', 'El predicado correcto debe ser verdadero porque el fixture conserva sin leaky names, sin skew y con feature_set id; revisa dirección de comparación, conjuntos y negaciones.'] y en el tramo «S32-T4-B-E1 · Calcula el contrato de `leakage, train–serve skew y versionado` sobre `CASO-» sin inventar APIs fuera del card.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "id": "S32-T4-B-E2",
+      "code": "# Cruzado Skeptic del fixture S32-T4-B-E2 (packet-only) · revisión dual\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)",
+      "justification_from_packet": "Para S32-T4-B-E2 del paquete «Feature engineering y pipelines sin leakage» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S32-T4-B-E2 · Modela tres rutas de `leakage, train–serve skew y versionado`: fixture válido, fixture adverso y». Hint usado: «Primero se calcula `missing`; ningún acceso a feature_set debe ocurrir antes de esa rama.». [Ske-32-E2]",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "id": "S32-T4-B-E3",
+      "code": "# Cruzado Skeptic del fixture S32-T4-B-E3 (packet-only) · revisión dual\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FEATURE_SET_ID\"\n    return \"CONTINUE\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)",
+      "justification_from_packet": "Para S32-T4-B-E3 del paquete «Feature engineering y pipelines sin leakage» conservé el fixture del starter y completé solo el defecto/TODO. Instruction ancla: «S32-T4-B-E3 · Contrasta fallo cerrado para `leakage, train–serve skew y versionado` con tres fixtures distinto». Hint usado: «Una ausencia no equivale a breach: enrútala a `REQUEST_FEATURE_SET_ID` antes de evaluar el contenido.». [Ske-32-E3]",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Feature engineering y pipelines sin leakage"
+      ],
+      "blocked_on": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Desde el packet S32, para «Una ventana half-open [t−w, t) excluye:» la lectura de outcomes/theory apunta a «El instante t y el futuro». Justificación packet-only sin claves offline. conf=0.72.",
+      "confidence": 0.72,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic-B en S32 Q1: elijo «Fallar de forma explícita» porque el stem «Transform antes de fit debe:» del quiz_card de «Feature engineering y pipelines sin leakage» alinea con theory/iDo; descarto opciones de fraude automático o parentesco fuera de alcance. conf~0.71.",
+      "confidence": 0.71,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Selfcheck Q2 de «Feature engineering y pipelines sin leakage»: la opción índice 2 («Es leakage de identidad») es la que el paquete sostiene frente a «Overlap de entidades entre train y test:». Las demás contradicen outcomes de la sección. [Skeptic-B-32-q2]",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Desde el packet S32, para «Un nombre de feature con 'label' o 'decision':» la lectura de outcomes/theory apunta a «Es red flag de leakage». Justificación packet-only sin claves offline. conf=0.79.",
+      "confidence": 0.79,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:32:21.409864+00:00",
+  "session_started_at": "2026-07-23T13:32:09.774681Z",
+  "session_ended_at": "2026-07-23T13:32:21.406522Z",
+  "receipt_response_sha256": "bc294defc42c68d7e6fc8bb26a5b814f3f507f0648956b0671a320ab97e16c37",
+  "receipt_exercises_sha256": "dcb39df219012b9b629280f50eebeb2f403d0037ad8b960566b963f67d05ea6b",
+  "receipt_selfcheck_sha256": "01916729582b5704eeb545a3adc5aab2c079e07cb174ea548363a7434868283b"
+}

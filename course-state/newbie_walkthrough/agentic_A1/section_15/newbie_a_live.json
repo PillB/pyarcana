@@ -1,0 +1,505 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A1",
+  "section_index": 15,
+  "packet_sha": "0a7cc2a44a3dfd8e",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_15/packet.json",
+  "recorded_at": "2026-07-21T22:08:46.485052+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T1-A-E1. Instruction del paquete: Crea un DataFrame con columnas cliente_id y score (2 filas) y pon cliente_id como index; imprime index.tolist().. Hints: set_index('cliente_id').; index.tolist().. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T1-A-E2. Instruction del paquete: Crea una Series de scores con index C001,C002 name='score' e imprime s['C002'].. Hints: pd.Series(..., index=..., name=...).; Acceso por etiqueta.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T1-A-E3. Instruction del paquete: Alinea dos Series por index (unión) sumando scores; imprime el resultado ordenado por index.. Hints: s1.add(s2, fill_value=0).; sort_index.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "print",
+        "json",
+        "dumps",
+        "manifest"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T1-B-E1. Instruction del paquete: Lee un CSV en StringIO con columnas a,b y na_values=['NA']; imprime cuántos NA hay en b.. Hints: pd.read_csv(StringIO(...), na_values=...).; isna().sum().. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "print",
+        "json",
+        "dumps",
+        "manifest"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T1-B-E2. Instruction del paquete: Lee CSV con parse_dates=['fecha'] e imprime el dtype de fecha como string.. Hints: parse_dates=['fecha'].; str(df['fecha'].dtype).. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "print",
+        "json",
+        "dumps",
+        "manifest"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T1-B-E3. Instruction del paquete: Lee solo usecols cliente_id,monto desde CSV e imprime columns.tolist().. Hints: usecols=[...].; Verifica que no entre 'z'.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({'cliente_id':['C001','C002'], 'score':[0.4,0.9]})\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "score",
+        "print"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T2-A-E1. Instruction del paquete: Con df de scores, usa loc para filas score>=0.5 e imprime cliente_id list.. Hints: df.loc[df.score>=0.5, 'cliente_id'].; tolist().. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({'score':[1.0, 2.0]})\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "print",
+        "json",
+        "dumps",
+        "manifest"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T2-A-E2. Instruction del paquete: Usa assign para crear col doble=score*2 e imprime la lista.. Hints: df.assign(doble=...).; No mutar in-place obligatorio.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T2-A-E3. Instruction del paquete: Imprime el valor iloc[1, 0] de un DF 2x2 de enteros [[1,2],[3,4]].. Hints: iloc posición 1,0 → 3.; No uses loc.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({'score':[0.2, 0.9]})\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "print",
+        "json",
+        "dumps",
+        "manifest"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T2-B-E1. Instruction del paquete: Asigna con loc la columna flag='x' donde score<0.5; imprime flag list (con NaN como None en to_dict cuidado: usa fillna).. Hints: df.loc[mask, 'flag'] = 'x'.; Imprime lista con fillna('').. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({'score':[0.2, 0.9, 0.7]})\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "print",
+        "json",
+        "dumps",
+        "manifest"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T2-B-E2. Instruction del paquete: Filtra score>0.5, haz copy, añade col ok=True; imprime ok list del subset.. Hints: subset = df.loc[...].copy().; subset['ok']=True.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T2-B-E3. Instruction del paquete: Demuestra que modificar un copy no cambia el DF original: imprime score original tras mutar la copia.. Hints: c = df.copy(); c.iloc[0,0]=99.; print df original.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({'region':['lima','Lima']})\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "lima",
+        "Lima",
+        "print",
+        "json"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T3-A-E1. Instruction del paquete: Convierte columna region a category tras str.title(); imprime dtype name.. Hints: astype('category').; str.title primero.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T3-A-E2. Instruction del paquete: to_numeric con errors=coerce sobre ['1','a','3']; imprime lista de floats/NaN (usa where isna).. Hints: pd.to_numeric(..., errors='coerce').; tolist() con nan.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T3-A-E3. Instruction del paquete: to_datetime errors=coerce; cuenta NaT en ['2024-01-01','no-fecha'].. Hints: isna().sum().; NaT cuenta como na.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({'monto':['1','x']})\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "print",
+        "json",
+        "dumps",
+        "manifest"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T3-B-E1. Instruction del paquete: Aplica to_numeric a monto y reporta cuántos nuevos NaN se introdujeron (1 en el fixture).. Hints: Compara isna antes/después.; errors=coerce.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T3-B-E2. Instruction del paquete: Si falta columna 'monto' en schema, lanza KeyError e imprime 'missing'.. Hints: if col not in df.columns.; try/except KeyError.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T3-B-E3. Instruction del paquete: Castea cliente_id a string dtype e imprime str(dtype).. Hints: astype('string').; dtype string de pandas.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import StringIO\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "print",
+        "json",
+        "dumps",
+        "manifest"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T4-A-E1. Instruction del paquete: Exporta DF a CSV en StringIO sin index y relee; imprime columns.. Hints: to_csv(buf, index=False).; read_csv.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nfrom io import BytesIO\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "BytesIO",
+        "print",
+        "json",
+        "dumps",
+        "manifest"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T4-A-E2. Instruction del paquete: to_excel a BytesIO con openpyxl; imprime True si bytes > 0.. Hints: engine='openpyxl'.; getvalue().. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T4-A-E3. Instruction del paquete: Emite dict contrato {col: str(dtype)} para un DF de dos columnas e imprímelo ordenado por clave.. Hints: dict comprehension.; sorted items o print dict estable.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T4-B-E1. Instruction del paquete: Calcula memory_usage deep sum de un DF simple e imprime int > 0.. Hints: memory_usage(deep=True).sum().; int(...).. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys",
+        "True"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T4-B-E2. Instruction del paquete: Construye manifest con keys rows y columns; imprime rows.. Hints: len(df) y columns.tolist().; dict.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd, hashlib\nprint(json.dumps(manifest, sort_keys=True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "hashlib",
+        "print",
+        "json",
+        "dumps",
+        "manifest",
+        "sort_keys"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S15-T4-B-E3. Instruction del paquete: sha1 de to_csv index=False; imprime primeros 8 hex.. Hints: hashlib.sha1(blob).hexdigest()[:8].; encode utf-8.. Teoría activa: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Excel y opciones de parser | loc/iloc, filtros y assign | chained assignment y copy semantics | string. iDo demos: S15-T1-B-DEMO | S15-T2-A-DEMO | S15-T2-B-DEMO | S15-T3-A-DEMO | S15-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S15 Q0: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «loc/iloc, filtros y assign»: «**loc** etiqueta; **iloc** posición. Filtros booleanos: df.loc[df.score < 0.5, cols]». La selección por etiquetas de index/columnas es loc."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S15 Q1: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «chained assignment y copy semantics»: «**SettingWithCopyWarning** aparece al asignar sobre un slice que puede ser view o copy. El resultado es impredecible». Relacionado con chained assignment, no con Parquet/openpyxl."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S15 Q2: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «coerción explícita y schema» + uso de to_numeric: errors='coerce' convierte valores inválidos a NaN en la coerción tipada (no borra la columna ni eleva siempre). Schema dict + to_numeric/astype listan fallos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S15 Q3: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «índices, formatos, provenance y memoria»: «Un **manifest** registra filas, columnas, dtypes, memory_usage y provenance (fuente, timestamp, hash simple)». Mínimo: filas, columnas y provenance/hash; nunca PII real ni contraseñas."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "e3dc7f5f37b3"
+}

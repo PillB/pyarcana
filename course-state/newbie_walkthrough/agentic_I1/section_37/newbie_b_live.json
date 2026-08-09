@@ -1,0 +1,326 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 37,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-skeptic-s37-1784810440",
+  "production_note": "agentic_I1 dual-LLM Skeptic: solved from quiz_card+slim_packet only; direct agent output; packet-only; no bulk writers; no stamps; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"n\", 1000)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S37-T1-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T1-A-E1 · CASO-LIM-037-1A: reporta el tamaño del fixture de profile con métrica wall. Contrato: print n 1000, metric 'wall', ok True. El…». Hints: Todo wall_ms viaja con su n.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S37-T1-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `metrics = [\"wall\", \"cpu\", \"memory\"]`. Soporte: «S37-T1-A-E2 · Lista las tres métricas base del profile: wall, cpu, memory. Imprime la lista, ok True, n 3. Starter solo ['wall'] (defect). C…». Hints: Wall=reloj, CPU=procesador, memory=pico.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"same_result\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S37-T1-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T1-A-E3 · Correctitud junto a velocidad: imprime same_result True, ok True, n 1. Starter False (defect: permite «optimizar» cambiando el…». Hints: Performance sin same_result es regresión.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S37-T1-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `import statistics`. Soporte: «S37-T1-B-E1 · Mediana de [5,1,4] con statistics.median; imprime 4, n_runs 3, warmup True. Starter usa mean (defect). Fixture de bench sintét…». Hints: median es robusta a un outlier de run.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"warmup\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S37-T1-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T1-B-E2 · Política de warmup: imprime warmup True, discard_first True, ok True. Starter niega warmup (defect). Contrato del fixture de C…». Hints: Descarta la primera corrida (cold start).. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2, 9]\nprint(max(xs))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic S37-T1-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `xs = [1, 2, 9]`. Soporte: «S37-T1-B-E3 · Proxy de p95 en muestra chica: imprime max([1,2,9])=9 como proxy, proxy 'p95_small_n', ok True. Starter imprime min (defect). …». Hints: Con N tiny, max es proxy pesimista de lab.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 10\nprint(n * (n - 1) // 2)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S37-T2-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `n = 10`. Soporte: «S37-T2-A-E1 · Pares completos para n=10: usa n*(n-1)//2 = 45 (no n*n). Imprime 45, n 10, ok True. Starter usa n*n=100 (defect). Contrato all…». Hints: Pares no ordenados: n*(n-1)//2.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S37-T2-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `all_p, blocked = 45, 10`. Soporte: «S37-T2-A-E2 · Reducción de pares: blocked=10, all=45 → round(1-10/45,3)=0.778. Imprime 0.778, ok True, blocking True. Starter imprime blocke…». Hints: reduction = 1 - blocked/all.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"blocking\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S37-T2-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T2-A-E3 · Prioriza algoritmo: imprime prefer 'blocking', ok True, micro False. Starter prefiere 'micro_loop' (defect). Complejidad y blo…». Hints: Bajar pares O(n²) domina micro-optimizar.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"structure\", \"set\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S37-T2-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T2-B-E1 · Estructura preferida para membership: imprime structure 'set', ok True, scan False. Starter 'list' con scan True (defect). Con…». Hints: set/dict evitan scan lineal repetido.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nrows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = sum(1 for city, _ in rows if city == \"Lima\")\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S37-T2-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `rows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]`. Soporte: «S37-T2-B-E2 · Inverted index: filas Lima×2 → imprime 2, city 'Lima', ok True. Starter cuenta 0 (defect). Fixture de ciudades sintéticas sin …». Hints: Cuenta entidades por clave de blocking.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"order\", [\"block\", \"score\"])\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic S37-T2-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T2-B-E3 · Orden operativo: imprime order ['block','score'], ok True, n 2. Starter ['score','block'] (defect: scorea el cartesiano). Tran…». Hints: Primero reduces candidatos; luego features.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn, size = 10, 4\nprint((n + size - 1) // size)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S37-T3-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `n, size = 10, 4`. Soporte: «S37-T3-A-E1 · Chunks: 10 items size 4 → ceil = 3 chunks. Imprime 3, size 4, ok True. Starter usa n//size=2 (defect). Planifica el job out-of…». Hints: Ceil: (n+size-1)//size.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"id\", \"amt\"])\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S37-T3-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T3-A-E2 · Columnar subset: imprime ['id','amt'], ok True, columnar True. Starter incluye raw_blob y notes (defect). Contrato de lectura …». Hints: Lee solo columnas usadas por el scorer.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"dtype\", \"int32\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S37-T3-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T3-A-E3 · dtype angosto: imprime dtype 'int32', ok True, mem 'lower'. Starter 'int64' y mem 'higher' (defect). Política de memoria del f…». Hints: Si el rango cabe en int32, ahorras memoria.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\nkey = (\"fs-v1\", \"cut\")\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S37-T3-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `key = (\"fs-v1\", \"cut\")`. Soporte: «S37-T3-B-E1 · Cache key completa: imprime ('fs-v1','cut'), hit True, ok True. Starter key incompleta solo ('fs-v1',) (defect: colisiones). F…». Hints: Key = versión de features + cutoff.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"version_change\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S37-T3-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T3-B-E2 · Razón de invalidación: imprime 'version_change', ok True, stale True. Starter 'never' (defect). Contrato de diseño del cache d…». Hints: Al cambiar feature set, invalida.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"ooc\", \"chunk\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic S37-T3-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T3-B-E3 · Out-of-core: imprime ooc 'chunk', ok True, ram 'bounded'. Starter ooc 'load_all' (defect). Cuando n no cabe en RAM del worker …». Hints: chunk/spill acotan RAM.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 9\nprint(measured <= budget)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S37-T4-A-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `budget, measured = 10, 9`. Soporte: «S37-T4-A-E1 · Budget pass: measured 9 <= budget 10 → True. Imprime True, budget 10, measured 9. Starter compara al revés (defect). Assert de…». Hints: pass si measured <= budget.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 12\nprint(measured <= budget)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S37-T4-A-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `budget, measured = 10, 12`. Soporte: «S37-T4-A-E2 · Budget fail: measured 12 > budget 10 → False. Imprime False, budget 10, measured 12. Starter fuerza True (defect: test siempre…». Hints: El test debe poder fallar.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"latency_p95\", \"memory\", \"pairs\"])\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S37-T4-A-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T4-A-E3 · Campos del budget: imprime ['latency_p95','memory','pairs'], ok True, n 3. Starter solo ['latency_p95'] (defect). Contrato mul…». Hints: Latencia sola no basta.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbefore, after = 80, 20\nprint(before / after)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S37-T4-B-E1: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `before, after = 80, 20`. Soporte: «S37-T4-B-E1 · Speedup 80/20 = 4.0 (ratio, no resta). Imprime 4.0, ok True, micro_only False. Starter 80-20=60 (defect). Fixture before/after…». Hints: speedup = before_ms / after_ms.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"clarity\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S37-T4-B-E2: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T4-B-E2 · Claridad sobre shaving 2%: imprime prefer 'clarity', ok True, shave '2pct_no'. Starter prefer 'opaque_2pct' (defect). Política…». Hints: Costo total incluye bugs y review.. Verificación independiente I1; sin copiar lives previos."
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Skeptic re-check — instruction vs starter defect\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic S37-T4-B-E3: contrasté starter vs instruction del quiz_card/slim_packet; corregí defecto o TODO. Ancla `case_id = \"CASO-LIM-SYN\"`. Soporte: «S37-T4-B-E3 · Claves del reporte before/after: imprime ['before','after','dataset','hardware'], ok True, n 4. Starter omite hardware (defect…». Hints: Sin hardware/dataset el speedup no es comparable.. Verificación independiente I1; sin copiar lives previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_option": "Estabilizar benches descartando cold start",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q0: re-leí stem «Warmup sirve para:» y opciones; descarto distractores. Elijo idx 0 «Estabilizar benches descartando cold start» por coherencia con theory del paquete (Warmup / sirve / para); sin mirar correctIndex."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_option": "Pares candidatos O(n²)",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q1: re-leí stem «Blocking reduce:» y opciones; descarto distractores. Elijo idx 2 «Pares candidatos O(n²)» por coherencia con theory del paquete (Blocking / reduce); sin mirar correctIndex."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_option": "Falla si se rompe el límite acordado",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q2: re-leí stem «Performance budget en CI:» y opciones; descarto distractores. Elijo idx 3 «Falla si se rompe el límite acordado» por coherencia con theory del paquete (Performance / budget); sin mirar correctIndex."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_option": "Teatro; prioriza claridad y algos",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q3: re-leí stem «Microoptimizar 2% sin medición:» y opciones; descarto distractores. Elijo idx 1 «Teatro; prioriza claridad y algos» por coherencia con theory del paquete (Microoptimizar / medición); sin mirar correctIndex."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_option": "No es comparable entre cambios de dataset",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck Q4: re-leí stem «Un wall_ms sin n en el reporte:» y opciones; descarto distractores. Elijo idx 0 «No es comparable entre cambios de dataset» por coherencia con theory del paquete (wall / reporte); sin mirar correctIndex."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:41:06+00:00",
+  "session_started_at": "2026-07-23T12:40:40+00:00",
+  "session_ended_at": "2026-07-23T12:41:06+00:00"
+}

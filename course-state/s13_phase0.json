@@ -1,0 +1,274 @@
+{
+  "version": "3.2",
+  "section": "S13",
+  "section_id": "rpa-automation",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "prompt_version": "3.2",
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Contar temas en blueprint de S13 = 4",
+        "status": "pass",
+        "evidence": "V3 roadmap S13 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar subtemas en blueprint de S13 = 8 (4×2)",
+        "status": "blocked",
+        "evidence": "Contenido de plataforma no está estructurado como 4×2 V3; requiere retematización en PHASE 4."
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios del estudiante",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar demos = 8, ejercicios = 24 para S13",
+        "status": "blocked",
+        "evidence": "Inventario plataforma: demos/ejercicios por debajo del vector canónico (ver counting_summary en phase1)."
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes de examen A/B/C",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar variantes = 24 (8×3) para S13",
+        "status": "blocked",
+        "evidence": "seed.ts: 4 conceptos × 3 = 12 variantes por section_id de plataforma; target V3 = 24."
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Cada sección tiene evaluación por tema, examen acumulativo y proyecto",
+        "source": "V3 prompt §4",
+        "acceptance_test": "4 topic evaluations + 1 section exam + 1 project increment for S13",
+        "status": "partial",
+        "evidence": "selfCheck + youDo presentes; faltan 4 evaluaciones por tema y retheme del proyecto al gate V3."
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma: español peruano profesional",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Contenido de S13 en español peruano sin caricaturas",
+        "status": "pass",
+        "evidence": "Contenido plataforma usa tono profesional y contexto peruano (regiones, S/, empresas locales)."
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/colusión/fraude",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S13: entity_resolution_score separado de relationship_signal_score; sin inferencia automática de parentesco/fraude",
+        "status": "partial",
+        "evidence": "Principio se formaliza en S11–S13 V3; contenido legado no modela ER/relación."
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Todo código debe ejecutarse o marcarse UNVERIFIED",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Código de S13 ejecutado en entorno declarado",
+        "status": "partial",
+        "evidence": "Outputs embebidos en demos legacy; re-verificación formal en PHASE 7 / TECHNICALLY_VERIFIED."
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S13 no usa PII real de personas",
+        "status": "pass",
+        "evidence": "Preferencia V3: datasets sintéticos de cliente/transacción; demos legacy usan datos de muestra."
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S13-001",
+        "requirement": "S13 cubre: Identidad — Normalización, blocking y entity resolution; Verdad etiquetada, precision/recall y revisión clerical",
+        "source": "V3 roadmap S13 T1",
+        "acceptance_test": "Contenido de S13 incluye ambos subtemas de T1",
+        "status": "fail",
+        "evidence": "Plataforma rpa-automation (RPA & Automatización con IA) no enseña el tema V3 'Identidad' como ownership canónico."
+      },
+      {
+        "id": "REQ-S13-002",
+        "requirement": "S13 cubre: Relación — Email/teléfono/dirección compartidos, distancia y apellidos; Transacciones directas y contrapartes comunes",
+        "source": "V3 roadmap S13 T2",
+        "acceptance_test": "Contenido de S13 incluye ambos subtemas de T2",
+        "status": "fail",
+        "evidence": "Plataforma rpa-automation (RPA & Automatización con IA) no enseña el tema V3 'Relación' como ownership canónico."
+      },
+      {
+        "id": "REQ-S13-003",
+        "requirement": "S13 cubre: Decisión — Score de evidencia, incertidumbre y explicación; Umbral de revisión, abstención y no inferencia automática",
+        "source": "V3 roadmap S13 T3",
+        "acceptance_test": "Contenido de S13 incluye ambos subtemas de T3",
+        "status": "fail",
+        "evidence": "Plataforma rpa-automation (RPA & Automatización con IA) no enseña el tema V3 'Decisión' como ownership canónico."
+      },
+      {
+        "id": "REQ-S13-004",
+        "requirement": "S13 cubre: Producto — Dashboard/mapa pseudonimizado y ficha de caso; Privacidad, acceso, pruebas, demo y runbook",
+        "source": "V3 roadmap S13 T4",
+        "acceptance_test": "Contenido de S13 incluye ambos subtemas de T4",
+        "status": "fail",
+        "evidence": "Plataforma rpa-automation (RPA & Automatización con IA) no enseña el tema V3 'Producto' como ownership canónico."
+      },
+      {
+        "id": "REQ-S13-005",
+        "requirement": "S13 incremento/gate: Familiarity Evidence Dashboard con ER determinista basado en reglas, datos sintéticos, entity_resolution_score separado de relationship_signal_score, geoevidencia trazable, revisión humana y límites explícitos. Promoción: tres capstones N1, regresión S1–S13 y CF-1 aprobados.",
+        "source": "V3 roadmap S13 Incremento/gate",
+        "acceptance_test": "You Do / project cumple el gate V3",
+        "status": "fail",
+        "evidence": "You Do actual: Capstone: Invoice Digitizer Bot — PDF folder → OCR/extract → LLM structure → SQLite + Excel"
+      },
+      {
+        "id": "REQ-S13-006",
+        "requirement": "S13 proyecto: cierre CP-N1-C y regresión N1 (capstone CP-N1-C (cierre) + CF-1 + Level-1 regression)",
+        "source": "V3 roadmap S13 Proyecto + capstone_ledger",
+        "acceptance_test": "Incremento de proyecto alineado a capstone",
+        "status": "fail",
+        "evidence": "Proyecto de plataforma desalineado; ver phase3 project_increment"
+      },
+      {
+        "id": "REQ-S13-007",
+        "requirement": "S13 entorno: local/cloud controlado",
+        "source": "V3 roadmap S13",
+        "acceptance_test": "Demos declaran entorno correcto",
+        "status": "pass",
+        "evidence": "Target environment local/cloud controlado"
+      },
+      {
+        "id": "REQ-S13-008",
+        "requirement": "S13 prerrequisitos: S01, S02, S03, S04, S05, S06, S07, S08, S09, S10, S11, S12",
+        "source": "V3 roadmap S13",
+        "acceptance_test": "Prerrequisitos documentados en blueprint",
+        "status": "pass",
+        "evidence": "['S01', 'S02', 'S03', 'S04', 'S05', 'S06', 'S07', 'S08', 'S09', 'S10', 'S11', 'S12']"
+      },
+      {
+        "id": "REQ-S13-009",
+        "requirement": "Contenido legado de plataforma no se elimina; se inventaría y planifica reubicación",
+        "source": "Instrucciones LANE-N1B-FACTORY + course_requirements authority",
+        "acceptance_test": "Archivo src/lib/course/sections/s13-rpa-automation.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Esta lane solo escribe course-state artifacts; no reescribe .ts grandes"
+      },
+      {
+        "id": "REQ-S13-010",
+        "requirement": "S13 cierra CP-N1-C, ejecuta regresión de Nivel 1 (S1–S13) y completa CF-1",
+        "source": "V3 roadmap S13 + capstone_ledger CP-N1-C + CF-1",
+        "acceptance_test": "CP-N1-C PASS + N1-REGRESSION PASS + CF-1 PASS; section not marked passed until then",
+        "status": "fail",
+        "evidence": "Capstone ledger: CP-N1-C PARTIAL (FamiliarityDashboard component exists); CF-1 NOT_STARTED; N1 regression not run"
+      },
+      {
+        "id": "REQ-S13-011",
+        "requirement": "entity_resolution_score separado de relationship_signal_score; sin inferencia automática de parentesco/fraude",
+        "source": "V3 privacy principles + S13 gate",
+        "acceptance_test": "Dashboard y modelo exponen ambos scores; no is_fraud/is_family automático",
+        "status": "partial",
+        "evidence": "Componente FamiliarityDashboard parcial; requiere alineación V3 en producción"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S13 carga en la plataforma con id estable 'rpa-automation'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "Section id rpa-automation registrado en COURSE_SECTIONS",
+        "status": "pass",
+        "evidence": "index imports src/lib/course/sections/s13-rpa-automation.ts; id: 'rpa-automation'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "S13 tiene especificación de examen en seed/roadmap de plataforma",
+        "source": "prisma/seed.ts + learning_roadmap.md",
+        "acceptance_test": "4 conceptos legacy × 3 presentes; 8 V3 pendientes",
+        "status": "partial",
+        "evidence": "seed 'rpa-automation': 4 concepts × 3 = 12; 0 alineados a V3 S13"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz renderizan",
+        "source": "CourseSection shape + SectionView",
+        "acceptance_test": "theory[], iDo, weDo, youDo, selfCheck presentes",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s13-rpa-automation.ts incluye shape actual"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S13-001",
+      "issue": "V3 define S13 como 'Familiarity Evidence Dashboard y cierre de nivel'. Plataforma id 'rpa-automation' es 'RPA & Automatización con IA' (src/lib/course/sections/s13-rpa-automation.ts).",
+      "resolution": "Mantener section_id de plataforma (learning_roadmap.md authority). TARGET de producción = topics V3 4×2. Contenido legado inventariado, no borrado.",
+      "authority": "learning_roadmap.md = id/title platform; V3 = counting + outcomes target",
+      "impact": "No claim de section passed. PHASE 4+ retheme.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S13-002",
+      "issue": "You Do plataforma = 'Capstone: Invoice Digitizer Bot — PDF folder → OCR/extract → LLM structure → SQLite + Excel'. V3 project = 'cierre CP-N1-C y regresión N1'.",
+      "resolution": "Mapear You Do legacy; TARGET project_increment en phase3.",
+      "authority": "V3 Incremento/gate S13",
+      "impact": "You Do reescritura en PHASE 4; no borrar hasta reemplazo verificado",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S13-003",
+      "issue": "Exam bank 4×3 legacy vs 8×3 V3 subtopics",
+      "resolution": "PHASE 5 introduce 8 familias A/B/C V3; legacy se reasigna o retira en seed coordinado",
+      "authority": "V3 counting contract",
+      "impact": "12 vs 24 variants; 0 cobertura skills V3",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S13-005",
+      "issue": "S13 es gate CP-N1-C + regresión N1 + CF-1, pero ledger muestra CP-N1-C PARTIAL y CF-1 NOT_STARTED; contenido es RPA/Invoice bot",
+      "resolution": "Blueprint phase3 declara cierre de nivel y checklist de regresión; implementación posterior. No marcar passed.",
+      "authority": "V3 S13 + capstone_ledger",
+      "impact": "Bloquea promoción a S14 hasta gates reales",
+      "status": "recorded"
+    }
+  ],
+  "v3_section_snapshot": {
+    "v3_label": "S13 — Familiarity Evidence Dashboard y cierre de nivel",
+    "prerequisite": "S01, S02, S03, S04, S05, S06, S07, S08, S09, S10, S11, S12",
+    "environment": "local/cloud controlado",
+    "project": "cierre CP-N1-C y regresión N1",
+    "topics": {
+      "T1": "Identidad: Normalización, blocking y entity resolution; Verdad etiquetada, precision/recall y revisión clerical",
+      "T2": "Relación: Email/teléfono/dirección compartidos, distancia y apellidos; Transacciones directas y contrapartes comunes",
+      "T3": "Decisión: Score de evidencia, incertidumbre y explicación; Umbral de revisión, abstención y no inferencia automática",
+      "T4": "Producto: Dashboard/mapa pseudonimizado y ficha de caso; Privacidad, acceso, pruebas, demo y runbook"
+    },
+    "increment_gate": "Familiarity Evidence Dashboard con ER determinista basado en reglas, datos sintéticos, entity_resolution_score separado de relationship_signal_score, geoevidencia trazable, revisión humana y límites explícitos. Promoción: tres capstones N1, regresión S1–S13 y CF-1 aprobados.",
+    "capstone": "CP-N1-C (cierre) + CF-1 + Level-1 regression"
+  },
+  "platform_section_snapshot": {
+    "section_id": "rpa-automation",
+    "index": 13,
+    "title": "RPA & Automatización con IA",
+    "shortTitle": "RPA & Automatización",
+    "file": "src/lib/course/sections/s13-rpa-automation.ts",
+    "orphan_files": [],
+    "youDo": "Capstone: Invoice Digitizer Bot — PDF folder → OCR/extract → LLM structure → SQLite + Excel",
+    "exam_concepts_seed": [
+      "playwright-vs-selenium",
+      "ollama-local-llm",
+      "ocr-tesseract",
+      "prefect-orchestration"
+    ],
+    "lines": 1723
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1"
+  }
+}

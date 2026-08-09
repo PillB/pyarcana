@@ -1,0 +1,289 @@
+{
+  "agent": "b",
+  "section_index": 51,
+  "recorded_at": "2026-08-01T15:26:17.805991+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "trace reconstruible sin PII",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          5.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "emitir ROLLBACK_AND_CONTAIN y conservar evidencia",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          3.0,
+          3.15,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          9.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "chosen_text": "redactar email/authorization/prompt_raw y rechazar el export si queda PII",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          5.0,
+          6.0,
+          9.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "REDACT_AND_QUARANTINE_TRACE y bloquear promoción hasta una nueva redacción",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.3,
+          6.0,
+          7.0,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S51-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-MOQ-051 · trace contract gate\n# DEFECT: invierte meets_contract: falla si hay trace_id o si pii_in_trace\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\nrecord = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\nmeets_contract = not record[\"trace_id\"] or record[\"pii_in_trace\"]\nstatus = \"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\"\nprint(\"S51-T1-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "aprueba",
+          "añade",
+          "usa",
+          "abre",
+          "conserva",
+          "devolver",
+          "basura",
+          "startswith"
+        ]
+      },
+      {
+        "exercise_id": "S51-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con campos presentes devuelve PASS si no",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige `spans_complete` (cuatro nombres, no `len==1`) y `v",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: PASS si total==0 o p95 > slo (bug).n2. Sum",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si total==0 o p95 > slo (bug).n2. Primero mis",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Implementa `reconcile_tokens` (suma por etapa == total).n2.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T2-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not immutable o hay `latest` (bug).n2. Rec",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte el predicado de pin.n2. Primero missing de",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige `versions_pinned` (all pinneados, no any latest).n2",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si author==approver o scope admin (bug).n2. E",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte dual-control.n2. Primero missing.n3. Luego",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. `sod_ok`: author ≠ approver y risk válido.n2. `access_polic",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si availability < slo o drift > max (bug).n2.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-MOQ-051 · assess SLO fidelity\n# DEFECT: PASS sin owner o con drift/availability fuera de SLO\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"availability\", \"availability_slo\", \"faithfulness\", \"faithfulness_slo\", \"drift\", \"max_drift\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"] else \"OPEN_COPILOT_INCIDENT\"\n\nvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\ninvalid = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.8,\"availability_slo\":0.995,\"faithfulness\":0.4,\"faithfulness_slo\":0.9,\"drift\":0.3,\"max_drift\":0.08,\"owner\":\"\"}}\nincomplete = {**valid}\nincomplete.pop(\"owner\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sli",
+          "SLI",
+          "starter",
+          "invierte",
+          "tripleta",
+          "multi",
+          "devolver",
+          "luego"
+        ]
+      },
+      {
+        "exercise_id": "S51-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Implementa `error_budget_burn` (errors/allowed en ventana 1",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not contained o minutos > RTO (bug).n2. Ex",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte contención/RTO.n2. Primero missing.n3. Lue",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. `within_rto`: minutos ≤ RTO y pin `copilot-*`.n2. `ir_compl",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si falta incertidumbre/citas/confirmed (bug).",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte uncertainty/citations/confirmed.n2. Primer",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T4-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. `evidence_visible`: incertidumbre + citas + effect_summary.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T4-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not keyboard o contraste < min o not appea",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte keyboard/contraste/appeal.n2. Primero miss",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S51-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S51-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Implementa `meets_wcag_aa` con las cinco anclas (teclado, l",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "17d7f0f5e4850608"
+  }
+}

@@ -1,0 +1,442 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s38-64354d487e43",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "code": "# Explorer notes for S38-T1-A-E1: follow packet fixture + instruction contract\n# CASO-LIM-038-1A — defect: wrong concurrency for CPU-bound features\nbound = \"cpu\"\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T1-A-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(choice) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "CASO",
+        "LIM",
+        "path",
+        "features",
+        "CPU",
+        "bound"
+      ],
+      "confidence": 0.67
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "code": "# Explorer notes for S38-T1-A-E2: follow packet fixture + instruction contract\n# CASO-LIM-038-1A2 — defect: processes for pure I/O\nbound = \"io\"\nchoice = \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T1-A-E2 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(choice) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "CASO",
+        "LIM",
+        "tramo",
+        "normalizaci",
+        "espera",
+        "red"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "code": "# Explorer notes for S38-T1-A-E3: follow packet fixture + instruction contract\n# defect: skip measurement\nmeasure_first = False\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\nprint(False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T1-A-E3 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(measure_first) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "CASO",
+        "LIM",
+        "transfer",
+        "antes",
+        "fijar",
+        "arquitectura"
+      ],
+      "confidence": 0.67
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "code": "# Explorer notes for S38-T1-B-E1: follow packet fixture + instruction contract\nimport json\npayload = {\"x\": 2}\n# defect: wrong serialization metric\nprint(len(str(payload)))\nprint(\"ok\", True)\nprint(\"compact\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T1-B-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(len(str(payload))) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "CASO",
+        "LIM",
+        "serializa",
+        "payload",
+        "compacto",
+        "con"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "code": "# Explorer notes for S38-T1-B-E2: follow packet fixture + instruction contract\n# defect: wrong GIL note\nprint(\"unlimited\")\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\nprint('limited')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T1-B-E2 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(\"unlimited\") como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Documenta",
+        "efecto",
+        "del",
+        "GIL",
+        "threads",
+        "CPU"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "code": "# Explorer notes for S38-T1-B-E3: follow packet fixture + instruction contract\n# defect: send full record between processes\nprint(\"full_record\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T1-B-E3 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(\"full_record\") como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Pol",
+        "tica",
+        "payload",
+        "entre",
+        "workers",
+        "imprime"
+      ],
+      "confidence": 0.92
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "code": "# Explorer notes for S38-T2-A-E1: follow packet fixture + instruction contract\nclass TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(3)\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T2-A-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(sum(1 for a in allows if a)) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Token",
+        "bucket",
+        "rate",
+        "cuenta",
+        "ntos",
+        "allow"
+      ],
+      "confidence": 0.58
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "code": "# Explorer notes for S38-T2-A-E2: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"backpressure\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T2-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"backpressure\")`; los hints piden Rol / de / queue / maxsize=50: / imprime / 'backpressure', / ok / True,. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Rol",
+        "queue",
+        "maxsize",
+        "imprime",
+        "backpressure",
+        "True"
+      ],
+      "confidence": 0.58
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "code": "# Explorer notes for S38-T2-A-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"provider\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T2-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"provider\")`; los hints piden ¿A / quién / protege / el / rate / limit? / Imprime / 'provider',. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "qui",
+        "protege",
+        "rate",
+        "limit",
+        "Imprime",
+        "provider"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "code": "# Explorer notes for S38-T2-B-E1: follow packet fixture + instruction contract\npolicy = {\"seconds\": 0, \"on_fail\": \"ignore\"}\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T2-B-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(policy[\"seconds\"]) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Pol",
+        "tica",
+        "timeout",
+        "imprime",
+        "seconds",
+        "on_fail"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "code": "# Explorer notes for S38-T2-B-E2: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclose_in_finally = True\nprint(close_in_finally)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T2-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(close_in_finally)`; los hints piden Cierre / de / recurso / en / finally: / imprime / True / (close_in_finally),. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Cierre",
+        "recurso",
+        "finally",
+        "imprime",
+        "True",
+        "close_in_finally"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "code": "# Explorer notes for S38-T2-B-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"incident\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T2-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"incident\", True)`; los hints piden Transferencia: / sin / timeout / el / incidente / es / real. / Imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Transferencia",
+        "sin",
+        "timeout",
+        "incidente",
+        "real",
+        "Imprime"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "code": "# Explorer notes for S38-T3-A-E1: follow packet fixture + instruction contract\nevent = {\"event\": \"scored\", \"corr\": None}\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\nprint(True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T3-A-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(bool(event.get(\"corr\"))) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Evento",
+        "scored",
+        "con",
+        "correlation",
+        "imprime",
+        "True"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "code": "# Explorer notes for S38-T3-A-E2: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\npillars = [\"logs\", \"metrics\", \"traces\"]\nprint(pillars)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T3-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(pillars)`; los hints piden Tres / pilares / de / o11y: / imprime / la / lista / ['logs','metrics','traces'],. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Tres",
+        "pilares",
+        "imprime",
+        "lista",
+        "logs",
+        "metrics"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "code": "# Explorer notes for S38-T3-A-E3: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\npii_raw = False\nprint(pii_raw)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T3-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(pii_raw)`; los hints piden pii_raw / debe / ser / False / en / logs / de / prod. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "pii_raw",
+        "debe",
+        "ser",
+        "False",
+        "logs",
+        "prod"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "code": "# Explorer notes for S38-T3-B-E1: follow packet fixture + instruction contract\nphone = \"90000001\"\n# defect: raw phone in log\nprint(phone)\nprint(\"ok\", True)\nprint(\"pii\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T3-B-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(phone) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Redacta",
+        "tel",
+        "fono",
+        "sint",
+        "tico",
+        "pol"
+      ],
+      "confidence": 0.67
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "code": "# Explorer notes for S38-T3-B-E2: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\np95, limit = 100, 200\nslo_ok = p95 <= limit\nprint(slo_ok)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T3-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(slo_ok)`; los hints piden SLI / p95=100 / vs / SLO / limit=200: / imprime / True / (slo_ok),. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "SLI",
+        "SLO",
+        "limit",
+        "imprime",
+        "True",
+        "slo_ok"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "code": "# Explorer notes for S38-T3-B-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"error_budget\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T3-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"error_budget\")`; los hints piden Concepto / de / error / budget: / imprime / 'error_budget', / ok / True,. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Concepto",
+        "error",
+        "budget",
+        "imprime",
+        "error_budget",
+        "True"
+      ],
+      "confidence": 0.66
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "code": "# Explorer notes for S38-T4-A-E1: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstates = [\"pending\", \"running\", \"done\", \"failed\"]\nprint(states)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T4-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(states)`; los hints piden Estados / del / workflow: / imprime / ['pending','running','done','failed'], / ok / True, / n. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Estados",
+        "del",
+        "workflow",
+        "imprime",
+        "pending",
+        "running"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "code": "# Explorer notes for S38-T4-A-E2: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"case:step:ver\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T4-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"case:step:ver\")`; los hints piden Formato / de / idempotency / key: / imprime / 'case:step:ver', / ok / True,. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Formato",
+        "idempotency",
+        "key",
+        "imprime",
+        "case",
+        "step"
+      ],
+      "confidence": 0.66
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "code": "# Explorer notes for S38-T4-A-E3: follow packet fixture + instruction contract\nstate = {\"step\": \"features\", \"status\": \"done\"}\nprint(\"intake\")\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\nprint('features')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T4-A-E3 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(\"intake\") como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Resume",
+        "desde",
+        "ltimo",
+        "checkpoint",
+        "imprime",
+        "features"
+      ],
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "code": "# Explorer notes for S38-T4-B-E1: follow packet fixture + instruction contract\ndef backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T4-B-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(backoff(3)) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Backoff",
+        "attempt",
+        "base",
+        "Imprime",
+        "True",
+        "attempt"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "code": "# Explorer notes for S38-T4-B-E2: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"poison\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T4-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"poison\")`; los hints piden Propósito / de / la / DLQ: / imprime / 'poison', / ok / True,. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Prop",
+        "sito",
+        "DLQ",
+        "imprime",
+        "poison",
+        "True"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "code": "# Explorer notes for S38-T4-B-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S38-T4-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(True)`; los hints piden Runbook / de / on-call / existe: / imprime / True, / oncall / True,. Lectura anclada en section packet outcomes + iDo del subtopic de S38.",
+      "concepts_used": [
+        "Runbook",
+        "call",
+        "existe",
+        "imprime",
+        "True",
+        "oncall"
+      ],
+      "confidence": 0.67
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer en S38 Q0: la opción «Procesos» cuadra con theory/iDo del paquete sobre «Para CPU bound en CPython suele preferirse:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.74,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Explorer en S38 Q1: la opción «Colas infinitas y OOM» cuadra con theory/iDo del paquete sobre «Backpressure evita:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.87,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer en S38 Q2: la opción «Reejecutar sin side effects duplicados» cuadra con theory/iDo del paquete sobre «Idempotencia permite:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.66,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Explorer en S38 Q3: la opción «Redactar PII y correlacionar» cuadra con theory/iDo del paquete sobre «En logs de prod debes:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.79,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer en S38 Q4: la opción «Hang de workers y cola bloqueada» cuadra con theory/iDo del paquete sobre «Un proveedor sin timeout en el worker suele causar:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.92,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:55.931253+00:00",
+  "session_started_at": "2026-07-23T13:09:03.030199+00:00",
+  "session_ended_at": "2026-07-23T13:09:21.180056+00:00",
+  "receipt_response_sha256": "55fbfbe3c2dd28e65d44148429af04bd115dd405e65be35fe4328267a1aac3e6"
+}

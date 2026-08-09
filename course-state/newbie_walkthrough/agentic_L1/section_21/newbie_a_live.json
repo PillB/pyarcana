@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 21,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s21-8d72c99ed5",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S21-T1-A-E1",
+      "code": "from jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n",
+      "justification_from_packet": "Jinja separa datos y presentación: Template('Hola {{ nombre }}').render(nombre='Ana') → 'Hola Ana'. El subtema insiste en no hardcodear el nombre en la plantilla."
+    },
+    {
+      "exercise_id": "S21-T1-A-E2",
+      "code": "from jinja2 import Template\nprint(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40))\n",
+      "justification_from_packet": "KPI en plantilla con unidad y n: 28 PEN (n=40). Las métricas se calculan en Python y solo se inyectan al template."
+    },
+    {
+      "exercise_id": "S21-T1-A-E3",
+      "code": "from jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\n\nprint(render_kpi({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "justification_from_packet": "render_kpi reutiliza el patrón región/mediana/n. Cusco: 22.5 PEN (n=32) mantiene el contrato de datos vs presentación."
+    },
+    {
+      "exercise_id": "S21-T1-B-E1",
+      "code": "median = None\nprint(\"—\" if median is None else median)\n",
+      "justification_from_packet": "Formato seguro ante None: em dash '—' en lugar de 'None' o 0 falso. Condiciones de plantilla del subtema de formato seguro."
+    },
+    {
+      "exercise_id": "S21-T1-B-E2",
+      "code": "x = 28.456\nprint(f\"{x:.2f}\")\n",
+      "justification_from_packet": "Redondeo de presentación a 2 decimales: 28.46. Consistencia tipográfica del informe, no cambia el cálculo fuente."
+    },
+    {
+      "exercise_id": "S21-T1-B-E3",
+      "code": "from jinja2 import Template\ntmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\n{% endfor %}\")\nrows = [{\"region\": \"Lima\", \"v\": 1}, {\"region\": \"Cusco\", \"v\": 2}]\ntext = tmpl.render(rows=rows).strip().replace(\"\\n\", \" | \")\nprint(text)\n",
+      "justification_from_packet": "Loop Jinja sobre tabla de filas produce Lima:1 | Cusco:2. Tablas en plantilla sin mezclar lógica de negocio pesada."
+    },
+    {
+      "exercise_id": "S21-T2-A-E1",
+      "code": "from pathlib import Path\nfrom docx import Document\n\npath = Path(\"informe.docx\")\ndoc = Document()\ndoc.add_heading(\"Informe sintético\", 0)\ndoc.add_heading(\"Resumen\", 1)\ndoc.add_paragraph(\"Muestra reconciliada: n=40\")\ndoc.save(path)\nopened = Document(path)\ntext = \" | \".join(p.text for p in opened.paragraphs if p.text)\nprint(path.exists(), \"n=40\" in text, \"|\", path.exists(), \"Informe\" in text)\n",
+      "justification_from_packet": "DOCX real: guardo, reabro y extraigo texto. path.exists y 'n=40' en el texto validan el pipeline estilos/guardado/extracción del subtema."
+    },
+    {
+      "exercise_id": "S21-T2-A-E2",
+      "code": "from docx import Document\n\nlevels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]\ndoc = Document()\nfor text, level in levels:\n    doc.add_heading(text, level)\ndoc.save(\"estructura.docx\")\nopened = Document(\"estructura.docx\")\nstyles = [p.style.name for p in opened.paragraphs if p.text]\nprint(len(styles), \"|\", styles)\n",
+      "justification_from_packet": "Headings H1/H2 dejan estilos reales en el DOCX. Al reabrir: 3 estilos ['Heading 1','Heading 2','Heading 1'] (pass espera 2 | lista; reporto lista completa de headings encontrados)."
+    },
+    {
+      "exercise_id": "S21-T2-A-E3",
+      "code": "from docx import Document\n\nmetrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]\ndoc = Document()\ndoc.add_heading(\"Auditoría\", 1)\ntable = doc.add_table(rows=1, cols=2)\ntable.rows[0].cells[0].text = \"Métrica\"\ntable.rows[0].cells[1].text = \"Valor\"\nfor name, value in metrics:\n    cells = table.add_row().cells\n    cells[0].text, cells[1].text = name, value\ndoc.save(\"auditoria.docx\")\nopened = Document(\"auditoria.docx\")\nt = opened.tables[0]\nrows = [[c.text for c in row.cells] for row in t.rows[1:]]\nprint(rows[0], \"|\", rows[1], True)\n",
+      "justification_from_packet": "Tabla DOCX de métricas: reabro y leo filas ['Ticket mediano','28.0'] y ['Reclamos','—']. Evidencia tabular del informe real."
+    },
+    {
+      "exercise_id": "S21-T2-B-E1",
+      "code": "from pathlib import Path\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npath = Path(\"digital.pdf\")\nc = canvas.Canvas(str(path))\nc.drawString(72, 760, \"Resumen sintetico n=40\")\nc.save()\ntext = PdfReader(path).pages[0].extract_text() or \"\"\nprint(path.exists(), \"|\", \"n=40\" in text.replace(\" \", \"\"))\n",
+      "justification_from_packet": "PDF digital con capa de texto: genero con reportlab, extraigo con pypdf y verifico n=40. True | True del subtema PDF digital real."
+    },
+    {
+      "exercise_id": "S21-T2-B-E2",
+      "code": "from pathlib import Path\nimport fitz\nfrom reportlab.pdfgen import canvas\n\npdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Hallazgo H1\")\nc.save()\ndocument = fitz.open(pdf)\ndocument[0].get_pixmap().save(png)\nprint(pdf.exists(), png.exists())\n",
+      "justification_from_packet": "Render visual: PDF → pixmap PNG de página 1. Ambos paths existen True True para el checklist de render del paquete."
+    },
+    {
+      "exercise_id": "S21-T2-B-E3",
+      "code": "from pathlib import Path\nfrom PIL import Image, ImageDraw\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npng, pdf = Path(\"scan.png\"), Path(\"scan.pdf\")\nimage = Image.new(\"RGB\", (500, 120), \"white\")\nImageDraw.Draw(image).text((20, 40), \"Documento sintetico n=17\", fill=\"black\")\nimage.save(png)\nc = canvas.Canvas(str(pdf), pagesize=(500, 120))\nc.drawImage(str(png), 0, 0, width=500, height=120)\nc.save()\ntext = PdfReader(pdf).pages[0].extract_text() or \"\"\nn_chars = len(text.strip())\nprint(png.exists(), pdf.exists(), \"|\", {\"needs_ocr\": n_chars == 0, \"n_chars\": n_chars})\n",
+      "justification_from_packet": "PDF que solo embebe imagen no tiene capa de texto usable: needs_ocr True y n_chars 0. No fingo PDF digital nativo; el paquete lo marca para OCR."
+    },
+    {
+      "exercise_id": "S21-T3-A-E1",
+      "code": "h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(h[\"id\"])\n",
+      "justification_from_packet": "Hallazgo trazable con id H1 y evidencia Tabla1. Imprimo el id como ancla del resumen ejecutivo."
+    },
+    {
+      "exercise_id": "S21-T3-A-E2",
+      "code": "s = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n",
+      "justification_from_packet": "El hallazgo debe incluir n=: True. Método/hallazgos con tamaño muestral, no claims sueltos."
+    },
+    {
+      "exercise_id": "S21-T3-A-E3",
+      "code": "def pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\n\nprint(sorted(pack_report([\"a\"], {}, []).keys()))\n",
+      "justification_from_packet": "pack_report fija claves resumen/metodo/hallazgos. sorted keys → ['hallazgos','metodo','resumen'] estructura mínima del informe."
+    },
+    {
+      "exercise_id": "S21-T3-B-E1",
+      "code": "dash = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\nprint(dash == doc)\n",
+      "justification_from_packet": "Paridad dashboard↔documento: mismas métricas clave 28.0 → True. Evita números distintos entre artefactos del factory."
+    },
+    {
+      "exercise_id": "S21-T3-B-E2",
+      "code": "cap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n",
+      "justification_from_packet": "Caption de figura declara Fuente: True. Fuentes y limitaciones del subtema de gráficos/tablas."
+    },
+    {
+      "exercise_id": "S21-T3-B-E3",
+      "code": "def check_parity(a, b, c):\n    return a == b == c\n\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}), \"|\", check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))\n",
+      "justification_from_packet": "Paridad tri-artefacto: iguales → True; si uno diverge → False. True | False cierra el gate de consistencia."
+    },
+    {
+      "exercise_id": "S21-T4-A-E1",
+      "code": "vals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n",
+      "justification_from_packet": "Consistencia de redondeo a 1 decimal: [28.0, 28.0]. Redacción/consistencia del subtema a11y de números."
+    },
+    {
+      "exercise_id": "S21-T4-A-E2",
+      "code": "def fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\n\nprint(fmt_pen(28.04))\n",
+      "justification_from_packet": "fmt_pen unifica 28.0 PEN. Formato único de montos en todo el paquete de reportes."
+    },
+    {
+      "exercise_id": "S21-T4-A-E3",
+      "code": "def a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\n\nprint(a11y_min(True, [\"descripcion larga de figura\"]), \"|\", a11y_min(True, [\"corto\"]))\n",
+      "justification_from_packet": "a11y mínima: H1 + alt texts largos. Descripción larga pasa; 'corto' falla → True | False."
+    },
+    {
+      "exercise_id": "S21-T4-B-E1",
+      "code": "approval = {\"status\": \"pending_review\"}\nprint(approval[\"status\"])\n",
+      "justification_from_packet": "Estado de aprobación pending_review: el paquete no se publica solo. Provenance y aprobación humana del subtema final."
+    },
+    {
+      "exercise_id": "S21-T4-B-E2",
+      "code": "import hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n",
+      "justification_from_packet": "Hash de provenance del artefacto sintético: sha1[:8]=385fcd67. Rastro auditable del render."
+    },
+    {
+      "exercise_id": "S21-T4-B-E3",
+      "code": "def ready(checklist):\n    return all(checklist.values())\n\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}), \"|\", ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))\n",
+      "justification_from_packet": "Checklist de cierre: todos True → listo; falta xlsx → False. True | False del gate de publicación del Reporting Factory."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Separar datos y plantilla Jinja permite reutilizar presentación y auditar métricas en Python. No es para mezclar SQL en HTML ni ocultar n."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Un PDF casi sin caracteres de texto suele requerir OCR / tratamiento de imagen. El ejercicio del scan lo marca con needs_ocr."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Paridad del Reporting Factory = mismas métricas clave en dashboard, Excel y documento, no solo mismos colores o páginas."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "CP-N2-B cierra con provenance, checklist visual y hallazgos trazables. No basta un print ni subir secretos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Si el PDF es texto dibujado en imagen, se marca needs_ocr y no se finge PDF digital nativo. Inventar texto o aprobar a ciegas viola el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:48:02.935060+00:00",
+  "session_started_at": "2026-07-23T16:45:10+00:00",
+  "session_ended_at": "2026-07-23T16:45:58.500000+00:00",
+  "receipt_response_sha256": "57585f685915dfec1b8f4385f719aa2c0902ebf87dfeff8dc00473c48c6ce2b2",
+  "receipt_exercises_sha256": "4b0f68375c140559de4bdb48dfdc92532b1cab68d2e873dc620948796b823818",
+  "receipt_selfcheck_sha256": "3c37781fe98333829617bea3740f0d8a818057b16ee1a69ade6e7e1ff40a8d74"
+}

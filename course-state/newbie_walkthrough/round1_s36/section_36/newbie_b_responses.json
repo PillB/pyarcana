@@ -1,0 +1,499 @@
+{
+  "agent": "b",
+  "section_index": 36,
+  "recorded_at": "2026-08-01T15:21:15.474268+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          4.0,
+          2.0,
+          1.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Hipótesis de fracción rara a flaggear (capacidad de cola)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          5.0,
+          3.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Etiquetar culpa en el eje PC2",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          3.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          3.0,
+          1.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "chosen_text": "Leakage temporal",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          2.0,
+          1.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          4.0,
+          4.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 2,
+        "chosen_text": "Tiene al menos min_samples vecinos en eps contando el propio punto",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          2.0,
+          8.15,
+          4.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 0,
+        "chosen_text": "Hay acuerdo sobre el número de clusters k; la estabilidad de etiquetas exige otra métrica (p. ej. ARI)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          12.0,
+          4.0,
+          4.0,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S36-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nxs = [1, 2]\n\ndef centroid(vals):\n # DEFECT: devuelve la suma, no la media; sin guard de vacío\n return sum(vals)\n\nprint(centroid(xs))\nprint(\"n\", len(xs))\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "abre",
+          "lanza",
+          "tres",
+          "empty",
+          "bug",
+          "falta",
+          "dividir"
+        ]
+      },
+      {
+        "exercise_id": "S36-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nx, mu, sd = 4, 0, 2\n\ndef zscore(x, mu, sd):\n # DEFECT: debe devolver (z, safe_sd) con z=(x-mu)/safe_sd y safe_sd=sd or 1.0\n return x - mu\n\nz = zscore(x, mu, sd)  # DEFECT: desempaca (z, safe_sd); no uses sd crudo abajo\nprint(z)\nprint(\"safe_sd\", sd)  # DEFECT: imprime el safe_sd devuelto, no el sd de entrada\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "luego",
+          "calcular",
+          "define",
+          "devuelve",
+          "hardcodees",
+          "falta",
+          "bug"
+        ]
+      },
+      {
+        "exercise_id": "S36-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Corrige labels con `argmin |x − c_i|` (nearest centroid).n2. Agrupa por label y calcula medias `c1`/`c2`.n3. Implemen",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S36-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nseed_a = {2: 0.2, 3: 0.6, 4: 0.5}\nseed_b = {2: 0.22, 3: 0.58, 4: 0.51}\nk_a = min(seed_a, key=seed_a.get) # DEFECT: debe ser max\nk_b = max(seed_b, key=seed_b.get)\nprint(\"k\", k_a)\nprint(\"score\", seed_a[k_a])\nprint(\"multi_seed\", k_a == k_b)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "bien",
+          "starter",
+          "abre",
+          "reordenes",
+          "bool",
+          "está",
+          "bug",
+          "cámbialo"
+        ]
+      },
+      {
+        "exercise_id": "S36-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nseed_a = {2: 0.4, 3: 0.55, 4: 0.52}\nseed_b = {2: 0.41, 3: 0.54, 4: 0.50}\nk_a = min(seed_a, key=seed_a.get) # DEFECT: debe ser max\nk_b = max(seed_b, key=seed_b.get)\nprint(\"k\", k_a)\nprint(\"stable\", k_a == k_b)\nprint(\"sanction_from_metric\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "está",
+          "calcules",
+          "imprime",
+          "argmax",
+          "gate",
+          "aquí",
+          "ARI",
+          "bandera"
+        ]
+      },
+      {
+        "exercise_id": "S36-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nseed_a = {2: 0.2, 3: 0.6}\nseed_b = {2: 0.25, 3: 0.58}\nk_a = max(seed_a, key=seed_a.get)\nk_b = max(seed_b, key=seed_b.get)\nstable = k_a != k_b # DEFECT\nprint(\"stable\", stable)\nprint(\"k\", k_a)\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "correctos",
+          "lee",
+          "starter",
+          "bug",
+          "cámbialo",
+          "están"
+        ]
+      },
+      {
+        "exercise_id": "S36-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nx, y = 4, 6\nw0, w1 = 0.5, 0.5\npc = x + y # DEFECT: ignora pesos\nprint(pc)\nprint(\"exploratory\", True)\nprint(\"decision_model\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "aquí",
+          "peso",
+          "starter",
+          "abre",
+          "normalices",
+          "salvo",
+          "coordenada",
+          "multiplica"
+        ]
+      },
+      {
+        "exercise_id": "S36-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\npts = [(1, 1), (3, 1)]\nw = (1, 0)\npc = [w[1] * x + w[0] * y for x, y in pts] # DEFECT\nprint(\"pc\", pc)\nprint(\"n\", len(pc))\nprint(\"decision_model\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "starter",
+          "orden",
+          "bug",
+          "hardcodees",
+          "revisa",
+          "imprime",
+          "usa"
+        ]
+      },
+      {
+        "exercise_id": "S36-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nw0, w1 = 0.8, 0.2\nmass = abs(w0) + abs(w1)\nshare = abs(w1) / mass # DEFECT: invierte el eje\nprint(\"use\", \"exploratory\")\nprint(\"weight_share_pc1\", share)\nprint(\"auto_reject\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "lee",
+          "starter",
+          "fórmula",
+          "bug",
+          "hardcodees",
+          "usa"
+        ]
+      },
+      {
+        "exercise_id": "S36-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\naxis_name = \"PC1_feature_mix\"\nnamed = True # DEFECT: debe chequear tokens prohibidos\nprint(\"axis_named_by_business\", named)\nprint(\"use\", \"exploratory\")\nprint(\"auto_label\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "pasar",
+          "calcula",
+          "abre",
+          "cambies",
+          "fixture",
+          "tres",
+          "bug"
+        ]
+      },
+      {
+        "exercise_id": "S36-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nimport statistics\nfeatures = [2.0, 4.0, 6.0]\nmissing_ok = all(x is not None for x in features)\nscale_ok = False # DEFECT: debe ser pstdev(features) > 0\nready = scale_ok and missing_ok\nprint(\"ready\", ready)\nprint(\"scale_ok\", scale_ok)\nprint(\"missing_ok\", missing_ok)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "tres",
+          "bug",
+          "revisa",
+          "usa"
+        ]
+      },
+      {
+        "exercise_id": "S36-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\npc = [1.2, 1.8, 8.2]\nmean_pc = sum(pc) / len(pc)\nfar = max(pc) - mean_pc > 3.0\nprint(\"guilt\", True) # DEFECT\nprint(\"action\", \"auto_block\") # DEFECT\nprint(\"far\", far)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cálculo",
+          "cambia",
+          "pass",
+          "correcto",
+          "deja"
+        ]
+      },
+      {
+        "exercise_id": "S36-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nimport statistics\nxs = [1, 1, 1, 10]\nref = xs[:3]\nmu = statistics.mean(ref)\nsd = statistics.pstdev(ref) or 1\nz = 0 # DEFECT\nflags = [1 if x > mu + z * sd else 0 for x in xs]\nprint(\"flags\", flags)\nprint(\"method\", \"rule_sigma\")\nprint(\"misconduct\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "lista",
+          "starter",
+          "abre",
+          "bug",
+          "cámbialo",
+          "hardcodees"
+        ]
+      },
+      {
+        "exercise_id": "S36-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\ndef path_length_toy(x, pool, cuts):\n active = list(pool)\n depth = 0\n for t in cuts:\n  depth += 1\n  left = [v for v in active if v < t]\n  right = [v for v in active if v >= t]\n  active = left if x >= t else right  # DEFECT: lados invertidos\n  if len(active) <= 1:\n   break\n return depth\n\npool = [10, 11, 10, 12, 50]\ncuts = [15, 30, 40]\nprint(\"path_rare\", path_length_toy(50, pool, cuts))\nprint(\"path_normal\", path_length_toy(10, pool, cuts))\nprint(\"misconduct\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "cambies",
+          "fijos",
+          "bug",
+          "revisa",
+          "imprime",
+          "usa"
+        ]
+      },
+      {
+        "exercise_id": "S36-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nimport statistics\nxs = [10, 11, 10, 50]\nref = xs[:3]\nmu = statistics.mean(ref)\nsd = statistics.pstdev(ref) or 1.0\nz = 0  # DEFECT: debe ser 3\nflags = [1 if x > mu + z * sd else 0 for x in xs]\nroute = \"auto_fire\" if any(flags) else \"pass\"  # DEFECT\nprint(\"flags\", flags)\nprint(\"route\", route)\nprint(\"auto_sanction\", True)  # DEFECT\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "umbral",
+          "false",
+          "starter",
+          "human_review",
+          "rareza",
+          "tiene",
+          "correcto",
+          "meta"
+        ]
+      },
+      {
+        "exercise_id": "S36-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nn, contamination = 200, 0.1\nprint(int(n + contamination)) # DEFECT\nprint(\"is_fraud_rate\", False)\nprint(\"use\", \"capacity_tuning\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "cambia",
+          "abre",
+          "redondees",
+          "tres",
+          "bug",
+          "distinto"
+        ]
+      },
+      {
+        "exercise_id": "S36-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\ncapacity, expected = 8, 10\noverflow = expected < capacity # DEFECT\nprint(\"overflow\", overflow)\nprint(\"action\", \"lower_contamination\")\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambies",
+          "fixture",
+          "bug",
+          "revisa",
+          "usa"
+        ]
+      },
+      {
+        "exercise_id": "S36-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nimport statistics\nref = [10, 11, 10, 12]\nx_new = 50\nprint(\"kind\", \"outlier_as_guilt\") # DEFECT: calcula z vs. ref\nprint(\"misconduct\", True)\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "false",
+          "in_distribution",
+          "sobre",
+          "asigna",
+          "imprime",
+          "siempre"
+        ]
+      },
+      {
+        "exercise_id": "S36-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nimport statistics\ntrain = [10, 11, 10, 12]\nfuture = [11, 10, 50]\n# DEFECT: fit sobre train+future (leakage de magnitud)\npool = train + future\nmu = statistics.mean(pool)\nsd = statistics.pstdev(pool) or 1.0\nflags = [1 if x > mu + 3 * sd else 0 for x in future]\nprint(\"flags\", flags)\nprint(\"backtest\", True)\nprint(\"leakage\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "umbral",
+          "starter",
+          "calcula",
+          "abre",
+          "bug",
+          "score"
+        ]
+      },
+      {
+        "exercise_id": "S36-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\ntrain_months = [\"2026-01\", \"2026-02\"] # DEFECT: test no debe estar en train\ntest_month = \"2026-02\"\n\ndef has_leakage(train, test):\n return test in train\n\nprint(\"leakage\", has_leakage(train_months, test_month))\nprint(\"order\", \"temporal\")\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "mes",
+          "tres",
+          "incluye",
+          "bug",
+          "revisa",
+          "quita",
+          "función",
+          "deja"
+        ]
+      },
+      {
+        "exercise_id": "S36-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nrates = [0.1, 0.5]\nspike = (max(rates) - min(rates)) >= 0.9 # DEFECT threshold\nprint(\"spike\", spike)\nprint(\"action\", \"investigate\")\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "umbral",
+          "sin",
+          "debe",
+          "corrige",
+          "false",
+          "fórmula",
+          "constantes",
+          "hardcodees"
+        ]
+      },
+      {
+        "exercise_id": "S36-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nranked = [1, 0, 1, 0]\nk = 4 # DEFECT\nprint(sum(ranked[:k]) / k)\nprint(\"k\", k)\nprint(\"auto_guilt\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "abre",
+          "fórmula",
+          "bug",
+          "cámbialo",
+          "reordenes",
+          "ranking"
+        ]
+      },
+      {
+        "exercise_id": "S36-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nn_labels, n_flags = 5, 40\nhuman_in_loop = False # DEFECT: debe ser n_labels < n_flags\nlabels = \"scarce\" if n_labels < n_flags else \"dense\"\nprint(human_in_loop)\nprint(\"ok\", True)\nprint(\"labels\", labels)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "orden",
+          "bug",
+          "derívalo",
+          "revisa",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S36-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-036 sintético · lab stdlib\n# Repara solo el DEFECT; conserva el contrato de prints.\nn_labels, n_total = 3, 100\n\ndef choose_metric(n_labels, n_total):\n return \"global_accuracy\" # DEFECT: ignora umbral de escasez\n\nprint(choose_metric(n_labels, n_total))\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "string",
+          "sin",
+          "implementa",
+          "abre",
+          "fijo",
+          "bug",
+          "hardcodees",
+          "condición"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "a5fa3c045d95aa12"
+  }
+}

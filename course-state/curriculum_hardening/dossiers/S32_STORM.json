@@ -1,0 +1,917 @@
+{
+  "section": 32,
+  "title": "Feature engineering y pipelines sin leakage",
+  "file": "s32-microservices.ts",
+  "n_required": 32,
+  "n_logged": 32,
+  "generated_at": "2026-07-24T04:38:48.782+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "features≠fraud labels; no future leakage; synthetic only",
+    "v3_retarget": "feature engineering not microservices Docker",
+    "expert_pass_at": "2026-07-24T04:38:48.782+00:00"
+  },
+  "unique_foci": 32,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "feature catalog dtype missing policy",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Compose Pipeline",
+          "url": "https://scikit-learn.org/stable/modules/compose.html",
+          "note": "pipelines"
+        },
+        {
+          "family": "sklearn",
+          "title": "ColumnTransformer",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html",
+          "note": "columns"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model persistence",
+          "url": "https://scikit-learn.org/stable/model_persistence.html",
+          "note": "serialize"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 1/32: «feature catalog dtype missing policy» via sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «feature catalog dtype missing policy».",
+      "expand_scope": "E1/E2/E3 + docs for «feature catalog dtype missing policy»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 1/32: «feature catalog dtype missing policy» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "available at decision time t",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "ColumnTransformer",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html",
+          "note": "columns"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model persistence",
+          "url": "https://scikit-learn.org/stable/model_persistence.html",
+          "note": "serialize"
+        },
+        {
+          "family": "sklearn",
+          "title": "Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+          "note": "leakage"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 2/32: «available at decision time t» via sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «available at decision time t».",
+      "expand_scope": "E1/E2/E3 + docs for «available at decision time t»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 2/32: «available at decision time t» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "numeric categorical text types",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Model persistence",
+          "url": "https://scikit-learn.org/stable/model_persistence.html",
+          "note": "serialize"
+        },
+        {
+          "family": "sklearn",
+          "title": "Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+          "note": "leakage"
+        },
+        {
+          "family": "sklearn",
+          "title": "TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
+          "note": "time split"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 3/32: «numeric categorical text types» via sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «numeric categorical text types».",
+      "expand_scope": "E1/E2/E3 + docs for «numeric categorical text types»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 3/32: «numeric categorical text types» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "missing indicator preserves absence",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+          "note": "leakage"
+        },
+        {
+          "family": "sklearn",
+          "title": "TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
+          "note": "time split"
+        },
+        {
+          "family": "Feast",
+          "title": "Docs",
+          "url": "https://docs.feast.dev/",
+          "note": "feature store"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 4/32: «missing indicator preserves absence» via Feast, sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «missing indicator preserves absence».",
+      "expand_scope": "E1/E2/E3 + docs for «missing indicator preserves absence»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 4/32: «missing indicator preserves absence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "mu sigma train only zscore",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
+          "note": "time split"
+        },
+        {
+          "family": "Feast",
+          "title": "Docs",
+          "url": "https://docs.feast.dev/",
+          "note": "feature store"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "skew"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 5/32: «mu sigma train only zscore» via Feast, Google, sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «mu sigma train only zscore».",
+      "expand_scope": "E1/E2/E3 + docs for «mu sigma train only zscore»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 5/32: «mu sigma train only zscore» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "one-hot unknown column",
+      "research": [
+        {
+          "family": "Feast",
+          "title": "Docs",
+          "url": "https://docs.feast.dev/",
+          "note": "feature store"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "skew"
+        },
+        {
+          "family": "Coursera",
+          "title": "MLOps specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops",
+          "note": "MLEP"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 6/32: «one-hot unknown column» via Coursera, Feast, Google (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «one-hot unknown column».",
+      "expand_scope": "E1/E2/E3 + docs for «one-hot unknown column»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 6/32: «one-hot unknown column» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "graph shared address degree path features",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "skew"
+        },
+        {
+          "family": "Coursera",
+          "title": "MLOps specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops",
+          "note": "MLEP"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 7/32: «graph shared address degree path features» via Coursera, Google, deeplearning.ai (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «graph shared address degree path features».",
+      "expand_scope": "E1/E2/E3 + docs for «graph shared address degree path features»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 7/32: «graph shared address degree path features» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "no decision label as feature",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "MLOps specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops",
+          "note": "MLEP"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 8/32: «no decision label as feature» via Coursera, MIT, deeplearning.ai (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no decision label as feature».",
+      "expand_scope": "E1/E2/E3 + docs for «no decision label as feature»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 8/32: «no decision label as feature» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "half-open window t-w t",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 9/32: «half-open window t-w t» via Harvard, MIT, deeplearning.ai (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «half-open window t-w t».",
+      "expand_scope": "E1/E2/E3 + docs for «half-open window t-w t»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 9/32: «half-open window t-w t» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "ts equals t is temporal leakage",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 10/32: «ts equals t is temporal leakage» via Harvard, MIT, Py4E (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ts equals t is temporal leakage».",
+      "expand_scope": "E1/E2/E3 + docs for «ts equals t is temporal leakage»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 10/32: «ts equals t is temporal leakage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "fit then transform never reverse",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 11/32: «fit then transform never reverse» via Harvard, Live, Py4E (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «fit then transform never reverse».",
+      "expand_scope": "E1/E2/E3 + docs for «fit then transform never reverse»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 11/32: «fit then transform never reverse» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "persist median vocab JSON",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "Compose Pipeline",
+          "url": "https://scikit-learn.org/stable/modules/compose.html",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 12/32: «persist median vocab JSON» via Live, Py4E, sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «persist median vocab JSON».",
+      "expand_scope": "E1/E2/E3 + docs for «persist median vocab JSON»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 12/32: «persist median vocab JSON» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "feature set version fs-vN",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "Compose Pipeline",
+          "url": "https://scikit-learn.org/stable/modules/compose.html",
+          "note": "pipelines"
+        },
+        {
+          "family": "sklearn",
+          "title": "ColumnTransformer",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html",
+          "note": "columns"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 13/32: «feature set version fs-vN» via Live, sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «feature set version fs-vN».",
+      "expand_scope": "E1/E2/E3 + docs for «feature set version fs-vN»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 13/32: «feature set version fs-vN» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "entity group split no overlap",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Compose Pipeline",
+          "url": "https://scikit-learn.org/stable/modules/compose.html",
+          "note": "pipelines"
+        },
+        {
+          "family": "sklearn",
+          "title": "ColumnTransformer",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html",
+          "note": "columns"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model persistence",
+          "url": "https://scikit-learn.org/stable/model_persistence.html",
+          "note": "serialize"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 14/32: «entity group split no overlap» via sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «entity group split no overlap».",
+      "expand_scope": "E1/E2/E3 + docs for «entity group split no overlap»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 14/32: «entity group split no overlap» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "time split train before cutoff",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "ColumnTransformer",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html",
+          "note": "columns"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model persistence",
+          "url": "https://scikit-learn.org/stable/model_persistence.html",
+          "note": "serialize"
+        },
+        {
+          "family": "sklearn",
+          "title": "Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+          "note": "leakage"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 15/32: «time split train before cutoff» via sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «time split train before cutoff».",
+      "expand_scope": "E1/E2/E3 + docs for «time split train before cutoff»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 15/32: «time split train before cutoff» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "label decision name red flag",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Model persistence",
+          "url": "https://scikit-learn.org/stable/model_persistence.html",
+          "note": "serialize"
+        },
+        {
+          "family": "sklearn",
+          "title": "Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+          "note": "leakage"
+        },
+        {
+          "family": "sklearn",
+          "title": "TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
+          "note": "time split"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 16/32: «label decision name red flag» via sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «label decision name red flag».",
+      "expand_scope": "E1/E2/E3 + docs for «label decision name red flag»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 16/32: «label decision name red flag» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "train serve skew threshold",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+          "note": "leakage"
+        },
+        {
+          "family": "sklearn",
+          "title": "TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
+          "note": "time split"
+        },
+        {
+          "family": "Feast",
+          "title": "Docs",
+          "url": "https://docs.feast.dev/",
+          "note": "feature store"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 17/32: «train serve skew threshold» via Feast, sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «train serve skew threshold».",
+      "expand_scope": "E1/E2/E3 + docs for «train serve skew threshold»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 17/32: «train serve skew threshold» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "reject promote with leakage",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
+          "note": "time split"
+        },
+        {
+          "family": "Feast",
+          "title": "Docs",
+          "url": "https://docs.feast.dev/",
+          "note": "feature store"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "skew"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 18/32: «reject promote with leakage» via Feast, Google, sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reject promote with leakage».",
+      "expand_scope": "E1/E2/E3 + docs for «reject promote with leakage»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 18/32: «reject promote with leakage» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "CP-N3-B feature gate",
+      "research": [
+        {
+          "family": "Feast",
+          "title": "Docs",
+          "url": "https://docs.feast.dev/",
+          "note": "feature store"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "skew"
+        },
+        {
+          "family": "Coursera",
+          "title": "MLOps specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops",
+          "note": "MLEP"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 19/32: «CP-N3-B feature gate» via Coursera, Feast, Google (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N3-B feature gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N3-B feature gate»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 19/32: «CP-N3-B feature gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "V3 not microservices",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "skew"
+        },
+        {
+          "family": "Coursera",
+          "title": "MLOps specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops",
+          "note": "MLEP"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 20/32: «V3 not microservices» via Coursera, Google, deeplearning.ai (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not microservices».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not microservices»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 20/32: «V3 not microservices» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "pair from S31 graph evidence",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "MLOps specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops",
+          "note": "MLEP"
+        },
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 21/32: «pair from S31 graph evidence» via Coursera, MIT, deeplearning.ai (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S31 graph evidence».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S31 graph evidence»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 21/32: «pair from S31 graph evidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "synthetic CASO-LIM-032",
+      "research": [
+        {
+          "family": "deeplearning.ai",
+          "title": "Data engineering",
+          "url": "https://www.deeplearning.ai/specializations/data-engineering",
+          "note": "pipelines"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 22/32: «synthetic CASO-LIM-032» via Harvard, MIT, deeplearning.ai (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «synthetic CASO-LIM-032».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic CASO-LIM-032»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 22/32: «synthetic CASO-LIM-032» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "ColumnTransformer custom",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 23/32: «ColumnTransformer custom» via Harvard, MIT, Py4E (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ColumnTransformer custom».",
+      "expand_scope": "E1/E2/E3 + docs for «ColumnTransformer custom»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 23/32: «ColumnTransformer custom» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "not_fitted fail loud",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 24/32: «not_fitted fail loud» via Harvard, Live, Py4E (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «not_fitted fail loud».",
+      "expand_scope": "E1/E2/E3 + docs for «not_fitted fail loud»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 24/32: «not_fitted fail loud» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "apply train median on serve",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "Compose Pipeline",
+          "url": "https://scikit-learn.org/stable/modules/compose.html",
+          "note": "pipelines"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 25/32: «apply train median on serve» via Live, Py4E, sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «apply train median on serve».",
+      "expand_scope": "E1/E2/E3 + docs for «apply train median on serve»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 25/32: «apply train median on serve» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "vocab change bumps version",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "sklearn",
+          "title": "Compose Pipeline",
+          "url": "https://scikit-learn.org/stable/modules/compose.html",
+          "note": "pipelines"
+        },
+        {
+          "family": "sklearn",
+          "title": "ColumnTransformer",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html",
+          "note": "columns"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 26/32: «vocab change bumps version» via Live, sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «vocab change bumps version».",
+      "expand_scope": "E1/E2/E3 + docs for «vocab change bumps version»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 26/32: «vocab change bumps version» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "group sizes reported",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Compose Pipeline",
+          "url": "https://scikit-learn.org/stable/modules/compose.html",
+          "note": "pipelines"
+        },
+        {
+          "family": "sklearn",
+          "title": "ColumnTransformer",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html",
+          "note": "columns"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model persistence",
+          "url": "https://scikit-learn.org/stable/model_persistence.html",
+          "note": "serialize"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 27/32: «group sizes reported» via sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «group sizes reported».",
+      "expand_scope": "E1/E2/E3 + docs for «group sizes reported»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 27/32: «group sizes reported» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "contact features not fraud labels",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "ColumnTransformer",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html",
+          "note": "columns"
+        },
+        {
+          "family": "sklearn",
+          "title": "Model persistence",
+          "url": "https://scikit-learn.org/stable/model_persistence.html",
+          "note": "serialize"
+        },
+        {
+          "family": "sklearn",
+          "title": "Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+          "note": "leakage"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 28/32: «contact features not fraud labels» via sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «contact features not fraud labels».",
+      "expand_scope": "E1/E2/E3 + docs for «contact features not fraud labels»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 28/32: «contact features not fraud labels» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "schema hash in artifacts",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Model persistence",
+          "url": "https://scikit-learn.org/stable/model_persistence.html",
+          "note": "serialize"
+        },
+        {
+          "family": "sklearn",
+          "title": "Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+          "note": "leakage"
+        },
+        {
+          "family": "sklearn",
+          "title": "TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
+          "note": "time split"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 29/32: «schema hash in artifacts» via sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «schema hash in artifacts».",
+      "expand_scope": "E1/E2/E3 + docs for «schema hash in artifacts»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 29/32: «schema hash in artifacts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "CI leak scan names",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Common pitfalls",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+          "note": "leakage"
+        },
+        {
+          "family": "sklearn",
+          "title": "TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
+          "note": "time split"
+        },
+        {
+          "family": "Feast",
+          "title": "Docs",
+          "url": "https://docs.feast.dev/",
+          "note": "feature store"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 30/32: «CI leak scan names» via Feast, sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CI leak scan names».",
+      "expand_scope": "E1/E2/E3 + docs for «CI leak scan names»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 30/32: «CI leak scan names» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "window policy documented catalog",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split",
+          "note": "time split"
+        },
+        {
+          "family": "Feast",
+          "title": "Docs",
+          "url": "https://docs.feast.dev/",
+          "note": "feature store"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "skew"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 31/32: «window policy documented catalog» via Feast, Google, sklearn (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «window policy documented catalog».",
+      "expand_scope": "E1/E2/E3 + docs for «window policy documented catalog»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 31/32: «window policy documented catalog» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "serve unknown feature reject",
+      "research": [
+        {
+          "family": "Feast",
+          "title": "Docs",
+          "url": "https://docs.feast.dev/",
+          "note": "feature store"
+        },
+        {
+          "family": "Google",
+          "title": "Rules of ML",
+          "url": "https://developers.google.com/machine-learning/guides/rules-of-ml",
+          "note": "skew"
+        },
+        {
+          "family": "Coursera",
+          "title": "MLOps specialization",
+          "url": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops",
+          "note": "MLEP"
+        }
+      ],
+      "synthesize": "S32 «Feature engineering y pipelines sin leakage» cycle 32/32: «serve unknown feature reject» via Coursera, Feast, Google (CASO-LIM-032 / CP-N3-B features).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «serve unknown feature reject».",
+      "expand_scope": "E1/E2/E3 + docs for «serve unknown feature reject»; V3 roadmap; pair S32 features from S31 graph → S33 models next.",
+      "re_synthesize": "Decision 32/32: «serve unknown feature reject» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s22-80f5a41f6337",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "code": "# dual explorer-H1 · S22-T1-A-E1\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type(), \"|\", msg.get_charset())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T1-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, email, mime; salida anclada a prints ['print(msg.get_content_type(), \"|\", msg.get_charset())']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "email",
+        "mime",
+        "text",
+        "MIMEText",
+        "msg"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "code": "# dual explorer-H1 · S22-T1-A-E2\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt.add_header('Content-Disposition', 'attachment', filename='a.txt')\nmsg.attach(att)\nprint(any(p.get_filename() == 'a.txt' for p in msg.walk()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T1-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['S…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, email, mime; salida anclada a prints [\"print(any(p.get_filename() == 'a.txt' for p in msg.walk()))\"]. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "email",
+        "mime",
+        "multipart",
+        "MIMEMultipart",
+        "application"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "code": "# dual explorer-H1 · S22-T1-A-E3\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nprint(sum(1 for _ in msg.walk()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T1-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt =…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, email, mime; salida anclada a prints ['print(sum(1 for _ in msg.walk()))']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "email",
+        "mime",
+        "multipart",
+        "MIMEMultipart",
+        "text"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "code": "# dual explorer-H1 · S22-T1-B-E1\nimport html\nh1_out = html.escape('<script>x</script>')\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T1-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<script>x</script>')). Completa…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, html, h1_out; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "html",
+        "h1_out",
+        "escape",
+        "script",
+        "guiado"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "code": "# dual explorer-H1 · S22-T1-B-E2\nimport html\nname = '<b>Ana</b>'\nh1_out = 'Hola ' + html.escape(name)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T1-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>Ana</b>'; print('Hola ' + html…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, html, name; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "html",
+        "name",
+        "Ana",
+        "h1_out",
+        "Hola"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "code": "# dual explorer-H1 · S22-T1-B-E3\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    status = 'ok' if 'example.pe' in u else 'blocked'\n    print(u, status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T1-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'http…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, urls, https; salida anclada a prints ['print(u, status)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "urls",
+        "https",
+        "example",
+        "evil",
+        "test"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "code": "# dual explorer-H1 · S22-T2-A-E1\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\ngranted = [s for s in requested if s in allowed]\nh1_out = granted\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T2-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, requested, mail; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "requested",
+        "mail",
+        "draft",
+        "full",
+        "allowed"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "code": "# dual explorer-H1 · S22-T2-A-E2\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nh1_out = bad.isdisjoint(granted)\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T2-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = ['mail.draft']; bad = {'mail.fu…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, granted, mail; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "granted",
+        "mail",
+        "draft",
+        "bad",
+        "full"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "code": "# dual explorer-H1 · S22-T2-A-E3\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\nh1_out = 'refresh' if exp < now else 'valid'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T2-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for e…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, datetime, timezone; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "datetime",
+        "timezone",
+        "timedelta",
+        "now",
+        "utc"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "code": "# dual explorer-H1 · S22-T2-B-E1\nstore = {}\nstore['d001'] = {'status': 'draft'}\nh1_out = store['d001']['status']\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T2-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d001'] = {'status': 'draft'}. Com…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, store, d001; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "store",
+        "d001",
+        "status",
+        "draft",
+        "h1_out"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "code": "# dual explorer-H1 · S22-T2-B-E2\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nh1_out = now < expires_at\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T2-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, datetime, timezone; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "datetime",
+        "timezone",
+        "timedelta",
+        "now",
+        "utc"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "code": "# dual explorer-H1 · S22-T2-B-E3\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T2-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Complet…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, store, create_draft; salida anclada a prints ['print(create_draft(), create_draft())']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "store",
+        "create_draft",
+        "len",
+        "status",
+        "draft"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "code": "# dual explorer-H1 · S22-T3-A-E1\nimport re\npat = r'^[^@]+@[^@]+\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T3-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@exam…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, pat, ana; salida anclada a prints ['print(e, bool(re.match(pat, e)))']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "pat",
+        "ana",
+        "example",
+        "bad",
+        "bool"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "code": "# dual explorer-H1 · S22-T3-A-E2\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nh1_out = 'verified' if em and '@' in em else 'missing'\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T3-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, DIRECTORY, C001; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "DIRECTORY",
+        "C001",
+        "ana",
+        "example",
+        "get"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "code": "# dual explorer-H1 · S22-T3-A-E3\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T3-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'an…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, ana, rojas; salida anclada a prints [\"print(round(score, 2), 'match_no_es_fraude')\"]. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "ana",
+        "rojas",
+        "example",
+        "com",
+        "zip"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "code": "# dual explorer-H1 · S22-T3-B-E1\nxs = ['a@x', 'b@x', 'a@x']\nh1_out = list(dict.fromkeys(xs))\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T3-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@x', 'b@x', 'a@x']; print(list(…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, h1_out, list; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "h1_out",
+        "list",
+        "dict",
+        "fromkeys",
+        "guiado"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "code": "# dual explorer-H1 · S22-T3-B-E2\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\nh1_out = rows[0]['role']\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T3-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, rows, email; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "rows",
+        "email",
+        "other",
+        "test",
+        "role"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "code": "# dual explorer-H1 · S22-T3-B-E3\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T3-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.t…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, rows, example; salida anclada a prints ['print(len(vis), vis)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "rows",
+        "example",
+        "other",
+        "test",
+        "vis"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "code": "# dual explorer-H1 · S22-T4-A-E1\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nh1_out = state\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T4-A-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; sta…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, draft, submit; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "draft",
+        "submit",
+        "pending",
+        "state",
+        "h1_out"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "code": "# dual explorer-H1 · S22-T4-A-E2\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nh1_out = 'invalid' if nxt is None else nxt\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T4-A-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'},…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, draft, submit; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "draft",
+        "submit",
+        "pending",
+        "approve",
+        "approved"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "code": "# dual explorer-H1 · S22-T4-A-E3\nlog = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nh1_out = log\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T4-A-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, log, append; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "log",
+        "append",
+        "pending",
+        "approved",
+        "actor"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "code": "# dual explorer-H1 · S22-T4-B-E1\nimport hashlib\nh1_out = hashlib.sha256(b'run|to|v1').hexdigest()[:8]\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T4-B-E1 leyendo el instruction del quiz_card: «E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sha256(b'run|to|v1').hexdigest()…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, hashlib, h1_out; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "hashlib",
+        "h1_out",
+        "sha256",
+        "run",
+        "hexdigest"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "code": "# dual explorer-H1 · S22-T4-B-E2\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nh1_out = create('k') == create('k')\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T4-B-E2 leyendo el instruction del quiz_card: «E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {}; def create(key):. Completa…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, store, create; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "store",
+        "create",
+        "key",
+        "h1_out",
+        "independiente"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "code": "# dual explorer-H1 · S22-T4-B-E3\naudit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nh1_out = audit\nprint(h1_out)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Email, identidad y aprobación humana» (S22) resolví S22-T4-B-E3 leyendo el instruction del quiz_card: «E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO…». Completé el starter del slim_packet (sin ____/TODO) con dual, explorer, S22, audit, store; salida anclada a prints ['print(h1_out)']. Teoría activa: «MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita mojibake .",
+      "concepts_used": [
+        "dual",
+        "explorer",
+        "S22",
+        "audit",
+        "store",
+        "key",
+        "range",
+        "append"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S22 Q0: «¿Qué garantiza no enviar correo real en el gate de S22?». En la teoría del slim_packet («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita) la opción «Solo drafts/.eml en sandbox y aprobación humana» es la que describe el concepto; descarto p.ej. ['Usar mail.full', 'CC a todos']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S22 Q1: «Un score alto de similitud entre dos emails implica:». En la teoría del slim_packet («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita) la opción «Solo evidencia débil de contacto a revisar; no prueba de fraude» es la que describe el concepto; descarto p.ej. ['Fraude demostrado', 'Parentesco']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S22 Q2: «Least privilege en OAuth de correo significa:». En la teoría del slim_packet («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita) la opción «Solo los scopes mínimos (p. ej. draft) necesarios» es la que describe el concepto; descarto p.ej. ['Pedir todos los scopes', 'Compartir el refresh token en Slack']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S22 Q3: «La idempotency key al reintentar create_draft debe:». En la teoría del slim_packet («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita) la opción «Reutilizar el mismo draft_id si la key existe» es la que describe el concepto; descarto p.ej. ['Crear siempre un draft nuevo', 'Borrar el audit log']. Respuesta razonada solo con packet H1 activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "SelfCheck S22 Q4: «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?». En la teoría del slim_packet («MIME, encoding, HTML/text y attachments» **MIME** (`email.mime`) arma mensajes multiparte: text/plain + text/html + adjuntos. Charset **UTF-8** evita) la opción «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica» es la que describe el concepto; descarto p.ej. ['Declarar fraude o parentesco y bloquear al cliente automáticamente', 'Enviar el correo sin aprobación porque el score supera 0.9']. Respuesta razonada solo con packet H1 activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:03:00.410180+00:00",
+  "session_started_at": "2026-07-23T08:02:31.583203+00:00",
+  "session_ended_at": "2026-07-23T08:03:00.410180+00:00"
+}

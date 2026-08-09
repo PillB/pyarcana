@@ -1,0 +1,181 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K2",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k2-explorer-s10-82577074fa",
+  "production_note": "agentic_K2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "code": "def _ws(s: str) -> str:\n    return ' '.join(s.strip().split())\n\ndef clean(s: str) -> str:\n    return _ws(s)\n\n__all__ = ['clean']\nprint(__all__)\nprint(clean('  X '))\n",
+      "justification_from_packet": "API pública clean en __all__; _ws es helper privado con _. El módulo expone solo lo documentado."
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "code": "# util compartido evita import circular a↔b\ndef util_norm(s: str) -> str:\n    return s.strip().casefold()\n\ndef a_side(s):\n    return util_norm(s)\n\ndef b_side(s):\n    return util_norm(s) + '!' \nprint('ok', a_side(' Hi '), b_side(' Hi '))\n",
+      "justification_from_packet": "Import circular a→b→a se rompe extrayendo util_norm compartido. Ambos lados importan el util, no entre sí."
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "code": "recs = {\n    \"normalize.py importa compare en el mismo paquete\": \"from . import compare\",\n    \"plugin externo usa familiarity_core\": \"import familiarity_core (absoluto)\",\n    \"script de ops corre el CLI\": \"python -m familiarity_core.cli\",\n}\nfor k, v in recs.items():\n    print(f\"{k} -> {v}\")\n",
+      "justification_from_packet": "Dentro del paquete relativo OK; plugins y scripts usan absoluto o -m. Evita ModuleNotFoundError por cwd."
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "code": "def _tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return ' '.join(_tokenize(s))\n\nnames = ['_tokenize', 'normalize']\npublic = [n for n in names if not n.startswith('_')]\nprivate = [n for n in names if n.startswith('_')]\nprint('public', public)\nprint('private', private)\n",
+      "justification_from_packet": "Convención _: privados no son API. Listar public vs private por prefijo documenta la superficie del módulo."
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "code": "def normalize(s: str) -> str:\n    return s.strip().casefold()\n\ndef compare(a: str, b: str) -> bool:\n    return normalize(a) == normalize(b)\n\n__all__ = ['normalize', 'compare']\nprint(__all__)\nprint(compare(' Ana ', 'ana'))\n",
+      "justification_from_packet": "Fachada reexporta normalize y compare en __all__. El caller importa la superficie estable del paquete."
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "code": "print('BREAKING: compare(a,b)->bool se vuelve compare(a,b)->float score')\nprint('NEW_VERSION: 1.0.0 (major)')\n",
+      "justification_from_packet": "Cambio de firma pública es breaking: documentar old→new y bump major. Semver protege a consumidores del CLI/API."
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "code": "project = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}\nprint(project['name'], project['version'])\nprint(project['requires-python'])\n",
+      "justification_from_packet": "pyproject mínimo: name familiarity-core, version 0.1.0 y requires-python >=3.11. Base del packaging N1."
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "code": "paths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]\nfor p in paths:\n    print(p)\n",
+      "justification_from_packet": "Layout src: __init__, normalize, cli y pyproject. El prefijo src/familiarity_core hace el paquete instalable."
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "code": "causes = [\n    \"cause: paquete no instalado (falta pip install -e .)\",\n    \"cause: nombre del paquete distinto al import (typo)\",\n    \"cause: cwd/PYTHONPATH no ve src tras install incorrecta\",\n]\nfor c in causes:\n    print(c)\n",
+      "justification_from_packet": "ModuleNotFoundError post-install: editable faltante, typo de nombre o PYTHONPATH/cwd. Checklist de diagnóstico del packet."
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "code": "niveles = {\n    \"renombrar normalize a clean_name (API pública)\": \"major\",\n    \"añadir flag --format a report\": \"minor\",\n    \"corregir typo en help\": \"patch\",\n    \"eliminar subcomando compare\": \"major\",\n}\nfor c, n in niveles.items():\n    print(f\"{c}: {n}\")\n",
+      "justification_from_packet": "Semver: breaking→major, feature→minor, fix→patch. Renombrar API pública o eliminar subcomando es major."
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "code": "deps = {\n    \"requires-python\": \">=3.11\",\n    \"dependencies\": [],\n    \"optional-dependencies\": {\"dev\": [\"pytest\"]},\n}\nprint(deps)\n",
+      "justification_from_packet": "N1 con stdlib: dependencies vacías y pytest solo en optional dev. requires-python >=3.11 fija el runtime."
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "code": "print('POLICY: no renombrar entidades de dominio sin major + nota de migración')\nprint('POLICY: versiones de paquete visibles en --version del CLI')\nprint('POLICY: S11 consume solo API pública estable de familiarity_core')\n",
+      "justification_from_packet": "Política hacia S11: renames con major, version en CLI y dominio solo via API pública. Compatibilidad explícita."
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "code": "import argparse\np = argparse.ArgumentParser(prog='familiarity')\nsub = p.add_subparsers(dest='cmd', required=True)\nr = sub.add_parser('report')\nr.add_argument('--format', choices=['text', 'json'], default='text')\nns = p.parse_args(['report', '--format', 'json'])\nprint(ns)\n",
+      "justification_from_packet": "argparse con subparsers: report --format text|json. parse_args de ejemplo deja namespace con cmd y format."
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "code": "codes = {\n    \"normalize ok\": 0,\n    \"archivo de input no existe\": 1,\n    \"flag desconocido\": 2,\n    \"subcomando ausente\": 2,\n    \"validación de config falla al arrancar\": 1,\n}\nfor c, code in codes.items():\n    print(f\"{c}: {code}\")\n",
+      "justification_from_packet": "Exit codes: 0 éxito, 1 runtime/config, 2 usage argparse. Flag desconocido y subcomando ausente son 2."
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "code": "print('HELP: Usa report para generar el resumen del lote sintético')\nprint('HELP: --format text|json elige cómo se imprime el resultado')\nprint('HELP: Si falla, revisa el código de salida (0 ok, 1 error, 2 uso)')\n",
+      "justification_from_packet": "--help para operador no dev: tres líneas claras sin jerga. Describe report, format y códigos de salida."
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "code": "from io import StringIO\n\ndef process(n: int, err: StringIO) -> int:\n    err.write('event=done\\n')\n    return n * 2\n\nerr = StringIO()\nout = process(3, err)\nprint('stdout', out)\nprint('stderr', err.getvalue().strip())\n",
+      "justification_from_packet": "Resultado a stdout (retorno) y log event=done a stderr. Separa datos de diagnóstico como pide el packet CLI."
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "code": "def read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    if path_or_dash == '-':\n        return stdin_text\n    return file_text if file_text is not None else f'read:{path_or_dash}'\n\nprint(read_input('-', stdin_text='from_stdin'))\nprint(read_input('in.txt', file_text='from_file'))\n",
+      "justification_from_packet": "path o '-' para stdin: convención Unix del CLI. read_input unifica ambas fuentes de entrada."
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "code": "print('PROGRESS: logs a stderr con correlation_id')\nprint('DATA: JSON/text del report solo en stdout')\nprint('NEVER: secretos ni PII cruda en ninguno de los streams')\n",
+      "justification_from_packet": "Contrato de streams: progreso stderr, datos stdout, nunca secretos. Operable en pipes y CI."
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "code": "cfg = {\"delimiter\": \",\", \"encoding\": \"utf-8\"}\nenv = {\"ENCODING\": \"latin-1\"}\ncli = {\"encoding\": \"utf-8\"}\n# precedencia: cli > env > file\nfinal = {**cfg, **{k.lower(): v for k, v in env.items()}, **cli}\nprint(final)\nprint('precedence: cli > env > config file')\n",
+      "justification_from_packet": "Precedencia de config: CLI gana sobre env y file. Documentar el orden evita sorpresas en ops."
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "code": "import os\nos.environ['FAM_TOKEN'] = 'secret-demo'\n# lee sin hardcodear en el repo\ntoken = os.environ.get('FAM_TOKEN')\nprint('token_loaded', bool(token))\nprint('never_commit_secrets')\n",
+      "justification_from_packet": "Secretos viven en env, no en git. get del entorno carga el token sin hardcodearlo en el código del paquete."
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "code": "print('ERR: falta --input (usage → exit 2)')\nprint('ERR: config delimiter vacío (runtime → exit 1)')\nprint('ERR: no mezclar ambos mensajes en el mismo flujo sin código')\n",
+      "justification_from_packet": "Errores de usage vs runtime con mensajes claros y exit codes distintos. Operador sabe si reintentar o corregir flags."
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "code": "ignore = ['.venv/', 'dist/', '*.egg-info/', '__pycache__/']\nfor i in ignore:\n    print(i)\n",
+      "justification_from_packet": "No versionar .venv, dist ni egg-info. El git del paquete guarda fuente y pyproject, no artefactos de build."
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "code": "print('python -m build')\nprint('python -m pip install -e .')\nprint('python -m familiarity_core.cli report --format text')\n",
+      "justification_from_packet": "Smoke de packaging: build, install editable y CLI -m. Tres comandos reproducen el flujo del desarrollador."
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "code": "print('CHECK: pyproject name/version/requires-python presentes')\nprint('CHECK: src layout con __init__ y cli')\nprint('CHECK: secrets solo por env; .gitignore de venv/dist')\nprint('CHECK: exit codes 0/1/2 documentados en help')\n",
+      "justification_from_packet": "Checklist de release N1: metadata, layout, secretos y exit codes. Cierra packaging antes del dominio S11."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "if __name__ == '__main__'",
+      "justification_from_packet": "if __name__ == '__main__' separa entrypoint de import. Evita ejecutar el CLI al importar el módulo como librería."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "cli > env > file",
+      "justification_from_packet": "Precedencia correcta de config: CLI sobre env sobre archivo. Así un flag puntual no queda atrapado por defaults de file."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Error de uso/argparse",
+      "justification_from_packet": "Exit code 2 en CLI argparse suele ser usage: flags malos o subcomando ausente. 0 es éxito y 1 runtime típico."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "stderr",
+      "justification_from_packet": "Logs de progreso van a stderr para no contaminar el JSON/datos de stdout. Pipes y redirecciones se mantienen limpios."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "minor (feature aditiva)",
+      "justification_from_packet": "Añadir un subcomando compatible es feature aditiva: minor en semver, no major salvo breaking del anterior."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "chosen_text": ".venv y secretos",
+      "justification_from_packet": "Al git del paquete no van .venv ni secretos. Fuente, tests y pyproject sí; entornos y tokens se regeneran o van en env."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:20:38.855581+00:00",
+  "session_started_at": "2026-07-23T15:20:22.345438+00:00",
+  "session_ended_at": "2026-07-23T15:20:38.854145+00:00",
+  "receipt_response_sha256": "77a9bd173681dc92d07c9b8389a3f102562756a25c4be85c9ef0e57bdb516191",
+  "receipt_exercises_sha256": "3aef91e38fada5cc6a2ea18d0daa7cc8a2da241550852cab05d35bcacf8f625f",
+  "receipt_selfcheck_sha256": "3c39dabe5855a53bacd7747cebd4dc0571e4f7ff765d204c89815e6874dead48"
+}

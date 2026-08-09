@@ -1,0 +1,341 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 50,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s50-8095ba9e8f7a",
+  "production_note": "agentic_K1 dual-LLM Explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S50-T1-A-E1",
+      "code": "# Explorer packet solve S50-T1-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-ICA-050-1A\", **{\"tasks\":40,\"slices\":{\"normal\":25,\"edge\":10,\"adversarial\":5},\"rubric_levels\":{0,1,2,3},\"holdout\":10}}\nmeets_contract = not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_EVAL_DATASET\"\nprint(\"S50-T1-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "task dataset y rubric",
+        "T1"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «task dataset y rubric» usando el fixture CASO-ICA-050 del paquete activo; la rama esperada distingue REBUILD_EVAL_DATASET y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T1-A-E2",
+      "code": "# Explorer packet solve S50-T1-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'slices', 'case_id', 'tasks', 'holdout', 'rubric_levels'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)) else 'REBUILD_EVAL_DATASET'\n\nvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\ninvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 1040, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\nincomplete = {**valid}\nincomplete.pop('holdout', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "task dataset y rubric",
+        "T1"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «task dataset y rubric» usando la instruction de S50-T1-A-E2 y sus hints de dominio; la rama esperada distingue PASS, REBUILD_EVAL_DATASET y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T1-A-E3",
+      "code": "# Explorer packet solve S50-T1-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'slices', 'case_id', 'tasks', 'holdout', 'rubric_levels'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CALIBRATE_RUBRIC'\n    return 'CONTINUE' if (not (sum(record[\"slices\"].values()) != record[\"tasks\"] or record[\"holdout\"] == 0)) else 'REBUILD_EVAL_DATASET'\n\nvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 40, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\ninvalid = {'case_id': 'CASO-ICA-050-1A', 'tasks': 1040, 'slices': {'normal': 25, 'edge': 10, 'adversarial': 5}, 'rubric_levels': {0, 1, 2, 3}, 'holdout': 10}\nincomplete = {**valid}\nincomplete.pop('holdout', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "task dataset y rubric",
+        "T1"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «task dataset y rubric» usando theory «task dataset y rubric» y el iDo de la sección; la rama esperada distingue REBUILD_EVAL_DATASET, CALIBRATE_RUBRIC y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T1-B-E1",
+      "code": "# Explorer packet solve S50-T1-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-ICA-050-1B\", **{\"outcome\":3,\"process\":3,\"trajectory\":2,\"recovery\":3,\"forbidden_tool_used\":False,\"min_dimension\":2}}\nmeets_contract = not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])\nstatus = \"PASS\" if meets_contract else \"FAIL_UNSAFE_TRAJECTORY\"\nprint(\"S50-T1-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "resultado, proceso, trajectory y recovery",
+        "T1"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «resultado, proceso, trajectory y recovery» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue FAIL_UNSAFE_TRAJECTORY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T1-B-E2",
+      "code": "# Explorer packet solve S50-T1-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'case_id', 'recovery', 'outcome', 'trajectory', 'process', 'forbidden_tool_used', 'min_dimension'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])) else 'FAIL_UNSAFE_TRAJECTORY'\n\nvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\ninvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': True, 'min_dimension': 2}\nincomplete = {**valid}\nincomplete.pop('min_dimension', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "resultado, proceso, trajectory y recovery",
+        "T1"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «resultado, proceso, trajectory y recovery» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, FAIL_UNSAFE_TRAJECTORY y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T1-B-E3",
+      "code": "# Explorer packet solve S50-T1-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'case_id', 'recovery', 'outcome', 'trajectory', 'process', 'forbidden_tool_used', 'min_dimension'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'HUMAN_REVIEW_PROCESS'\n    return 'CONTINUE' if (not (record[\"outcome\"] == 3 and record[\"forbidden_tool_used\"])) else 'FAIL_UNSAFE_TRAJECTORY'\n\nvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': False, 'min_dimension': 2}\ninvalid = {'case_id': 'CASO-ICA-050-1B', 'outcome': 3, 'process': 3, 'trajectory': 2, 'recovery': 3, 'forbidden_tool_used': True, 'min_dimension': 2}\nincomplete = {**valid}\nincomplete.pop('min_dimension', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "resultado, proceso, trajectory y recovery",
+        "T1"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «resultado, proceso, trajectory y recovery» usando el fixture CASO-ICA-050 del paquete activo; la rama esperada distingue FAIL_UNSAFE_TRAJECTORY, HUMAN_REVIEW_PROCESS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T2-A-E1",
+      "code": "# Explorer packet solve S50-T2-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-ICA-050-2A\", **{\"deterministic\":0.86,\"human\":0.82,\"llm\":0.8,\"human_llm_agreement\":0.78,\"min_agreement\":0.75}}\nmeets_contract = record[\"human_llm_agreement\"] >= record[\"min_agreement\"]\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_GRADERS\"\nprint(\"S50-T2-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "graders deterministas/humanos/LLM",
+        "T2"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «graders deterministas/humanos/LLM» usando la instruction de S50-T2-A-E1 y sus hints de dominio; la rama esperada distingue RECALIBRATE_GRADERS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T2-A-E2",
+      "code": "# Explorer packet solve S50-T2-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'case_id', 'deterministic', 'human_llm_agreement', 'min_agreement', 'human', 'llm'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"human_llm_agreement\"] >= record[\"min_agreement\"]) else 'RECALIBRATE_GRADERS'\n\nvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\ninvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 100.75}\nincomplete = {**valid}\nincomplete.pop('min_agreement', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "graders deterministas/humanos/LLM",
+        "T2"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «graders deterministas/humanos/LLM» usando theory «graders deterministas/humanos/LLM» y el iDo de la sección; la rama esperada distingue PASS, RECALIBRATE_GRADERS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T2-A-E3",
+      "code": "# Explorer packet solve S50-T2-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'case_id', 'deterministic', 'human_llm_agreement', 'min_agreement', 'human', 'llm'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ADJUDICATE_DISAGREEMENT'\n    return 'CONTINUE' if (record[\"human_llm_agreement\"] >= record[\"min_agreement\"]) else 'RECALIBRATE_GRADERS'\n\nvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 0.75}\ninvalid = {'case_id': 'CASO-ICA-050-2A', 'deterministic': 0.86, 'human': 0.82, 'llm': 0.8, 'human_llm_agreement': 0.78, 'min_agreement': 100.75}\nincomplete = {**valid}\nincomplete.pop('min_agreement', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "graders deterministas/humanos/LLM",
+        "T2"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «graders deterministas/humanos/LLM» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue RECALIBRATE_GRADERS, ADJUDICATE_DISAGREEMENT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T2-B-E1",
+      "code": "# Explorer packet solve S50-T2-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-ICA-050-2B\", **{\"anchor_accuracy\":0.92,\"min_anchor_accuracy\":0.9,\"order_gap\":0.02,\"max_order_gap\":0.05,\"holdout_touched\":False}}\nmeets_contract = not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_JUDGE\"\nprint(\"S50-T2-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [
+        "calibración, order bias y conjunto retenido",
+        "T2"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «calibración, order bias y conjunto retenido» usando el escenario sintético sin PII del curso; la rama esperada distingue INVALIDATE_JUDGE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T2-B-E2",
+      "code": "# Explorer packet solve S50-T2-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'case_id', 'anchor_accuracy', 'max_order_gap', 'min_anchor_accuracy', 'holdout_touched', 'order_gap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])) else 'INVALIDATE_JUDGE'\n\nvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\ninvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 100.02, 'max_order_gap': 0.05, 'holdout_touched': False}\nincomplete = {**valid}\nincomplete.pop('holdout_touched', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "concepts_used": [
+        "calibración, order bias y conjunto retenido",
+        "T2"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «calibración, order bias y conjunto retenido» usando el fixture fixture de S50-T2-B-E2 del paquete activo; la rama esperada distingue PASS, INVALIDATE_JUDGE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T2-B-E3",
+      "code": "# Explorer packet solve S50-T2-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'case_id', 'anchor_accuracy', 'max_order_gap', 'min_anchor_accuracy', 'holdout_touched', 'order_gap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'SEAL_NEW_HOLDOUT'\n    return 'CONTINUE' if (not (record[\"order_gap\"] > record[\"max_order_gap\"] or record[\"holdout_touched\"])) else 'INVALIDATE_JUDGE'\n\nvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 0.02, 'max_order_gap': 0.05, 'holdout_touched': False}\ninvalid = {'case_id': 'CASO-ICA-050-2B', 'anchor_accuracy': 0.92, 'min_anchor_accuracy': 0.9, 'order_gap': 100.02, 'max_order_gap': 0.05, 'holdout_touched': False}\nincomplete = {**valid}\nincomplete.pop('holdout_touched', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [
+        "calibración, order bias y conjunto retenido",
+        "T2"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «calibración, order bias y conjunto retenido» usando la instruction de S50-T2-B-E3 y sus hints de dominio; la rama esperada distingue INVALIDATE_JUDGE, SEAL_NEW_HOLDOUT y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T3-A-E1",
+      "code": "# Explorer packet solve S50-T3-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-ICA-050-3A\", **{\"injection_blocked\":True,\"exfiltration_bytes\":0,\"tool_scope\":\"read-only\",\"tool_args_valid\":True,\"severity\":\"P0\"}}\nmeets_contract = not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"BLOCK_SECURITY_P0\"\nprint(\"S50-T3-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "prompt injection, exfiltración y tool misuse",
+        "T3"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «prompt injection, exfiltración y tool misuse» usando theory «prompt injection, exfiltración y tool misuse» y el iDo de la sección; la rama esperada distingue BLOCK_SECURITY_P0 y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T3-A-E2",
+      "code": "# Explorer packet solve S50-T3-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'tool_scope', 'case_id', 'exfiltration_bytes', 'injection_blocked', 'tool_args_valid', 'severity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)) else 'BLOCK_SECURITY_P0'\n\nvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\ninvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': False, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nincomplete = {**valid}\nincomplete.pop('severity', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "prompt injection, exfiltración y tool misuse",
+        "T3"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «prompt injection, exfiltración y tool misuse» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue PASS, BLOCK_SECURITY_P0 y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T3-A-E3",
+      "code": "# Explorer packet solve S50-T3-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'tool_scope', 'case_id', 'exfiltration_bytes', 'injection_blocked', 'tool_args_valid', 'severity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PRESERVE_ATTACK_TRACE'\n    return 'CONTINUE' if (not (not record[\"injection_blocked\"] or record[\"exfiltration_bytes\"] > 0)) else 'BLOCK_SECURITY_P0'\n\nvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': True, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\ninvalid = {'case_id': 'CASO-ICA-050-3A', 'injection_blocked': False, 'exfiltration_bytes': 0, 'tool_scope': 'read-only', 'tool_args_valid': True, 'severity': 'P0'}\nincomplete = {**valid}\nincomplete.pop('severity', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "prompt injection, exfiltración y tool misuse",
+        "T3"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «prompt injection, exfiltración y tool misuse» usando el escenario sintético sin PII del curso; la rama esperada distingue BLOCK_SECURITY_P0, PRESERVE_ATTACK_TRACE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T3-B-E1",
+      "code": "# Explorer packet solve S50-T3-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-ICA-050-3B\", **{\"document_instruction_treated_as_data\":True,\"poisoned_chunks_removed\":3,\"tool_permissions\":{\"read\"},\"requested_permission\":\"read\"}}\nmeets_contract = not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_POISONED_CORPUS\"\nprint(\"S50-T3-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "indirect injection, data poisoning y least privilege",
+        "T3"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «indirect injection, data poisoning y least privilege» usando el fixture CASO-ICA-050 del paquete activo; la rama esperada distingue QUARANTINE_POISONED_CORPUS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T3-B-E2",
+      "code": "# Explorer packet solve S50-T3-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'case_id', 'tool_permissions', 'requested_permission', 'document_instruction_treated_as_data', 'poisoned_chunks_removed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])) else 'QUARANTINE_POISONED_CORPUS'\n\nvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\ninvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nincomplete = {**valid}\nincomplete.pop('requested_permission', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "indirect injection, data poisoning y least privilege",
+        "T3"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «indirect injection, data poisoning y least privilege» usando la instruction de S50-T3-B-E2 y sus hints de dominio; la rama esperada distingue PASS, QUARANTINE_POISONED_CORPUS y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T3-B-E3",
+      "code": "# Explorer packet solve S50-T3-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'case_id', 'tool_permissions', 'requested_permission', 'document_instruction_treated_as_data', 'poisoned_chunks_removed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REDUCE_TOOL_PRIVILEGE'\n    return 'CONTINUE' if (not (not record[\"document_instruction_treated_as_data\"] or record[\"requested_permission\"] not in record[\"tool_permissions\"])) else 'QUARANTINE_POISONED_CORPUS'\n\nvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': True, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\ninvalid = {'case_id': 'CASO-ICA-050-3B', 'document_instruction_treated_as_data': False, 'poisoned_chunks_removed': 3, 'tool_permissions': {'read'}, 'requested_permission': 'read'}\nincomplete = {**valid}\nincomplete.pop('requested_permission', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "indirect injection, data poisoning y least privilege",
+        "T3"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «indirect injection, data poisoning y least privilege» usando theory «indirect injection, data poisoning y least privilege» y el iDo de la sección; la rama esperada distingue QUARANTINE_POISONED_CORPUS, REDUCE_TOOL_PRIVILEGE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T4-A-E1",
+      "code": "# Explorer packet solve S50-T4-A-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-ICA-050-4A\", **{\"supported_claims\":18,\"total_claims\":20,\"min_support_rate\":0.9,\"unsupported_critical\":0,\"abstained_when_empty\":True}}\nmeets_contract = not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])\nstatus = \"PASS\" if meets_contract else \"BLOCK_HALLUCINATION_REGRESSION\"\nprint(\"S50-T4-A\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "hallucination y abstención",
+        "T4"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «hallucination y abstención» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue BLOCK_HALLUCINATION_REGRESSION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T4-A-E2",
+      "code": "# Explorer packet solve S50-T4-A-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'abstained_when_empty', 'case_id', 'unsupported_critical', 'total_claims', 'supported_claims', 'min_support_rate'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])) else 'BLOCK_HALLUCINATION_REGRESSION'\n\nvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\ninvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 1000, 'abstained_when_empty': True}\nincomplete = {**valid}\nincomplete.pop('abstained_when_empty', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [
+        "hallucination y abstención",
+        "T4"
+      ],
+      "justification_from_packet": "Anclé la decisión de PASS/rechazo en «hallucination y abstención» usando el escenario sintético sin PII del curso; la rama esperada distingue PASS, BLOCK_HALLUCINATION_REGRESSION y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T4-A-E3",
+      "code": "# Explorer packet solve S50-T4-A-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'abstained_when_empty', 'case_id', 'unsupported_critical', 'total_claims', 'supported_claims', 'min_support_rate'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_ABSTENTION_SLICE'\n    return 'CONTINUE' if (not (record[\"unsupported_critical\"] > 0 or not record[\"abstained_when_empty\"])) else 'BLOCK_HALLUCINATION_REGRESSION'\n\nvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 0, 'abstained_when_empty': True}\ninvalid = {'case_id': 'CASO-ICA-050-4A', 'supported_claims': 18, 'total_claims': 20, 'min_support_rate': 0.9, 'unsupported_critical': 1000, 'abstained_when_empty': True}\nincomplete = {**valid}\nincomplete.pop('abstained_when_empty', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [
+        "hallucination y abstención",
+        "T4"
+      ],
+      "justification_from_packet": "Apliqué la regla del paquete sobre «hallucination y abstención» usando el fixture CASO-ICA-050 del paquete activo; la rama esperada distingue BLOCK_HALLUCINATION_REGRESSION, REVIEW_ABSTENTION_SLICE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T4-B-E1",
+      "code": "# Explorer packet solve S50-T4-B-E1: fix predicate so valid fixture PASSes\nrecord = {\"case_id\": \"CASO-ICA-050-4B\", **{\"p95_ms\":850,\"slo_ms\":1000,\"cost_pen\":0.07,\"cost_cap_pen\":0.1,\"cache_acl_safe\":True,\"rollback_minutes\":8,\"rto_minutes\":10}}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AI_RELEASE\"\nprint(\"S50-T4-B\", status)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "latency/cost/caching, incident response y rollback",
+        "T4"
+      ],
+      "justification_from_packet": "Derivé el predicado del contrato de «latency/cost/caching, incident response y rollback» usando la instruction de S50-T4-B-E1 y sus hints de dominio; la rama esperada distingue ROLLBACK_AI_RELEASE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T4-B-E2",
+      "code": "# Explorer packet solve S50-T4-B-E2: three-route assess for contract gate\ndef assess(record: dict) -> str:\n    required = {'case_id', 'slo_ms', 'rto_minutes', 'p95_ms', 'cost_pen', 'rollback_minutes', 'cache_acl_safe', 'cost_cap_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])) else 'ROLLBACK_AI_RELEASE'\n\nvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\ninvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 1850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\nincomplete = {**valid}\nincomplete.pop('rto_minutes', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "latency/cost/caching, incident response y rollback",
+        "T4"
+      ],
+      "justification_from_packet": "Seguí el fixture y la instruction de «latency/cost/caching, incident response y rollback» usando theory «latency/cost/caching, incident response y rollback» y el iDo de la sección; la rama esperada distingue PASS, ROLLBACK_AI_RELEASE y no inventa evidencia ni oculta el fallo."
+    },
+    {
+      "exercise_id": "S50-T4-B-E3",
+      "code": "# Explorer packet solve S50-T4-B-E3: closed-fail decide continue/breach/uncertainty\ndef decide(record: dict) -> str:\n    required = {'case_id', 'slo_ms', 'rto_minutes', 'p95_ms', 'cost_pen', 'rollback_minutes', 'cache_acl_safe', 'cost_cap_pen'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ACTIVATE_INCIDENT_RESPONSE'\n    return 'CONTINUE' if (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"cache_acl_safe\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"])) else 'ROLLBACK_AI_RELEASE'\n\nvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\ninvalid = {'case_id': 'CASO-ICA-050-4B', 'p95_ms': 1850, 'slo_ms': 1000, 'cost_pen': 0.07, 'cost_cap_pen': 0.1, 'cache_acl_safe': True, 'rollback_minutes': 8, 'rto_minutes': 10}\nincomplete = {**valid}\nincomplete.pop('rto_minutes', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "completed_from_packet",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "latency/cost/caching, incident response y rollback",
+        "T4"
+      ],
+      "justification_from_packet": "Implementé la ruta de evaluación para «latency/cost/caching, incident response y rollback» usando umbrales y dueños mencionados en outcomes; la rama esperada distingue ROLLBACK_AI_RELEASE, ACTIVATE_INCIDENT_RESPONSE y no inventa evidencia ni oculta el fallo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.75,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «dataset versionado y rúbrica calibrada» para «¿Qué evidencia permite aprobar `task dataset y rubric` en CASO-ICA-050?» porque la theory/outcomes de S50 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 1 del quiz_card activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «emitir BLOCK_CANDIDATE y conservar evidencia» para «Si ocurre la condición de error de S50, ¿qué respuesta preserva seguridad y audi» porque la theory/outcomes de S50 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 3 del quiz_card activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.57,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «evals retenidos y adversariales son repetibles y prueban recuperación, no solo texto final» para «¿Cuál resultado demuestra el gate `CP-N4-C · quality gate de IA adversarial`?» porque la theory/outcomes de S50 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 0 del quiz_card activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer elijo la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para «¿Qué tratamiento de `CASO-ICA-050` respeta el alcance del curso?» porque la theory/outcomes de S50 exigen evidencia contractual medible y fallar cerrado sin PII ni atajos de demo; índice 2 del quiz_card activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:34:43.733095+00:00",
+  "session_started_at": "2026-07-23T13:34:27.019340+00:00",
+  "session_ended_at": "2026-07-23T13:34:43.729991+00:00",
+  "receipt_response_sha256": "623a3c87a9add9a9d1aa8fcaaa1305e5758f14db5a4ca0f526e6b90dfe4cd37e",
+  "receipt_exercises_sha256": "1a3994885223b15410033d37b4ce65bacae74e38d50a7a6e8473e25277e7f4a3",
+  "receipt_selfcheck_sha256": "cada7893fc685871e2c49bf5ae0bc238ac8f9484d5e09396646ef59f33f19bd7"
+}

@@ -1,0 +1,189 @@
+{
+  "section": 6,
+  "title": "Colecciones y estructuras de datos",
+  "file": "s06-numpy.ts",
+  "n_required": 6,
+  "n_logged": 6,
+  "generated_at": "2026-07-24T04:54:36.301+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "C_S01_S22",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "synthetic only; conflicts reported; deterministic export",
+    "v3_retarget": "collections memory not NumPy arrays",
+    "expert_pass_at": "2026-07-24T04:54:36.301+00:00"
+  },
+  "unique_foci": 6,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "list vs tuple contracts",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Data structures",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html",
+          "note": "list dict set"
+        },
+        {
+          "family": "Python",
+          "title": "copy module",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "note": "shallow deep"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "sort_keys"
+        }
+      ],
+      "synthesize": "S6 «Colecciones y estructuras de datos» cycle 1/6: «list vs tuple contracts» via Python (CP-N1-B in-memory store).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «list vs tuple contracts».",
+      "expand_scope": "E1/E2/E3 + docs for «list vs tuple contracts»; V3 roadmap; pair S06 store → S07 acquisition next.",
+      "re_synthesize": "Decision 1/6: «list vs tuple contracts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "slicing last N txs",
+      "research": [
+        {
+          "family": "Python",
+          "title": "copy module",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "note": "shallow deep"
+        },
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "sort_keys"
+        },
+        {
+          "family": "Python Wiki",
+          "title": "TimeComplexity",
+          "url": "https://wiki.python.org/moin/TimeComplexity",
+          "note": "cost"
+        }
+      ],
+      "synthesize": "S6 «Colecciones y estructuras de datos» cycle 2/6: «slicing last N txs» via Python, Python Wiki (CP-N1-B in-memory store).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «slicing last N txs».",
+      "expand_scope": "E1/E2/E3 + docs for «slicing last N txs»; V3 roadmap; pair S06 store → S07 acquisition next.",
+      "re_synthesize": "Decision 2/6: «slicing last N txs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "membership O n list",
+      "research": [
+        {
+          "family": "Python",
+          "title": "json",
+          "url": "https://docs.python.org/3/library/json.html",
+          "note": "sort_keys"
+        },
+        {
+          "family": "Python Wiki",
+          "title": "TimeComplexity",
+          "url": "https://wiki.python.org/moin/TimeComplexity",
+          "note": "cost"
+        },
+        {
+          "family": "Py4E",
+          "title": "Lists",
+          "url": "https://www.py4e.com/html3/08-lists",
+          "note": "lists ped"
+        }
+      ],
+      "synthesize": "S6 «Colecciones y estructuras de datos» cycle 3/6: «membership O n list» via Py4E, Python, Python Wiki (CP-N1-B in-memory store).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «membership O n list».",
+      "expand_scope": "E1/E2/E3 + docs for «membership O n list»; V3 roadmap; pair S06 store → S07 acquisition next.",
+      "re_synthesize": "Decision 3/6: «membership O n list» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "unpacking shape fail good",
+      "research": [
+        {
+          "family": "Python Wiki",
+          "title": "TimeComplexity",
+          "url": "https://wiki.python.org/moin/TimeComplexity",
+          "note": "cost"
+        },
+        {
+          "family": "Py4E",
+          "title": "Lists",
+          "url": "https://www.py4e.com/html3/08-lists",
+          "note": "lists ped"
+        },
+        {
+          "family": "Python",
+          "title": "Sorting HOWTO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "note": "sorted key"
+        }
+      ],
+      "synthesize": "S6 «Colecciones y estructuras de datos» cycle 4/6: «unpacking shape fail good» via Py4E, Python, Python Wiki (CP-N1-B in-memory store).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «unpacking shape fail good».",
+      "expand_scope": "E1/E2/E3 + docs for «unpacking shape fail good»; V3 roadmap; pair S06 store → S07 acquisition next.",
+      "re_synthesize": "Decision 4/6: «unpacking shape fail good» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "alias same object bug",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Lists",
+          "url": "https://www.py4e.com/html3/08-lists",
+          "note": "lists ped"
+        },
+        {
+          "family": "Python",
+          "title": "Sorting HOWTO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "note": "sorted key"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "structures"
+        }
+      ],
+      "synthesize": "S6 «Colecciones y estructuras de datos» cycle 5/6: «alias same object bug» via Harvard, Py4E, Python (CP-N1-B in-memory store).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «alias same object bug».",
+      "expand_scope": "E1/E2/E3 + docs for «alias same object bug»; V3 roadmap; pair S06 store → S07 acquisition next.",
+      "re_synthesize": "Decision 5/6: «alias same object bug» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "shallow vs deep copy",
+      "research": [
+        {
+          "family": "Python",
+          "title": "Sorting HOWTO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "note": "sorted key"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "structures"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "aliasing"
+        }
+      ],
+      "synthesize": "S6 «Colecciones y estructuras de datos» cycle 6/6: «shallow vs deep copy» via Harvard, MIT, Python (CP-N1-B in-memory store).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «shallow vs deep copy».",
+      "expand_scope": "E1/E2/E3 + docs for «shallow vs deep copy»; V3 roadmap; pair S06 store → S07 acquisition next.",
+      "re_synthesize": "Decision 6/6: «shallow vs deep copy» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

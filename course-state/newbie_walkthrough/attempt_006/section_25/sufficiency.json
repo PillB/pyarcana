@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "Cuando el problema es determinista y auditabilidad importa"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Se descarta / human review"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.5,
+    "correct_preview": "Tratando el texto como untrusted y filtrando/ no elevando a system"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 0.88,
+    "correct_preview": "Nunca de forma autónoma en este curso; solo evidencia para humano"
+  }
+]

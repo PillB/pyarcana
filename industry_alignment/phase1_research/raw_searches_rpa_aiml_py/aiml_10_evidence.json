@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://merinova.substack.com/p/how-to-build-a-machine-learning-portfolio",
+    "name": "How to build a Machine Learning portfolio in 2024? - Meri Nova",
+    "snippet": "Pick 1-2 areas of expertise in Machine Learning, from CV, NLP, Recommendation Systems, Reinforcement Learning or GenAI. Then build your portfolio accordingly.",
+    "host_name": "merinova.substack.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.quora.com/What-are-some-good-machine-learning-projects-to-show-in-your-portfolio",
+    "name": "What are some good machine learning projects to show in  - Quora",
+    "snippet": "A project in your portfolio can be a partial work where you prepared data for machine learning use. Build it incrementally. Store it in Git ...",
+    "host_name": "www.quora.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://datatalks.club/podwiki/wiki/machine-learning-portfolio-projects",
+    "name": "ML Portfolio Projects | DataTalks.Club Podcast Wiki",
+    "snippet": "ML portfolio evidence owns the baseline, validation, evaluation, and serving story. MLOps vs DataOps covers deployment and monitoring context,",
+    "host_name": "datatalks.club",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=rQo1vkCe8OE",
+    "name": "How to Build a Machine Learning/Data Science Portfolio That Gets",
+    "snippet": "00:40 How to pick a topic for data science/machine learning projects ... Data Scientist/Machine Learning Engineer) at Twitch/Amazon. Outside ...",
+    "host_name": "www.youtube.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/MachineLearning/comments/1bsezcf/d_whats_more_impressive_in_a_ml_portfolio",
+    "name": "[D] What's more impressive in a ML portfolio: implementing a paper",
+    "snippet": "Personally, I would be more impressed with someone who knows how to take ML models to production. Of course building good models has it's own set of challenges.",
+    "host_name": "www.reddit.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/data-science-collective/how-to-build-a-machine-learning-data-science-portfolio-that-gets-you-hired-edaa510e07cd",
+    "name": "How to Build a Machine Learning/Data Science Portfolio That Gets",
+    "snippet": "The key here is that when you source original data, you demonstrate valuable skills that employers are looking for: resourcefulness, creativity, ...",
+    "host_name": "medium.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.deeplearning.ai/t/project-portfolios/492298",
+    "name": "Project portfolios - AI Discussions - DeepLearning.AI Community",
+    "snippet": "Try to demonstrate your skills in web development, deployment, and CI/CD as these are useful skills that you should acquire as an engineer.",
+    "host_name": "community.deeplearning.ai",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/tushar2704/ML-Portfolio",
+    "name": "Machine Learning Projects - GitHub",
+    "snippet": "Welcome to my Machine Learning Portfolio! This repository showcases a collection of machine learning projects in various domains, demonstrating my skills ...",
+    "host_name": "github.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

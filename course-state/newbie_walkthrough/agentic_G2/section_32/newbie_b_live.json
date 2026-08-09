@@ -1,0 +1,286 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 32,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-skp-s32-98ebe443f845",
+  "production_note": "agentic_G2 dual-LLM skeptic: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "code": "# skeptic S32-T1-A-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T1-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «numéricas/categóricas/texto»: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog . Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], `. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "code": "# skeptic S32-T1-A-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T1-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «numéricas/categóricas/texto»: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog . Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "code": "# skeptic S32-T1-A-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {'case_id', 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CATALOG'\n    return 'CONTINUE' if record.get('catalog_ok') is True else 'REJECT_UNKNOWN_FEATURE'\nvalid = {'case_id': 'CASO-LIM-032-1A', 'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}\ninvalid = {'case_id': 'CASO-LIM-032-1A', 'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}\nuncertain = {k: v for k, v in valid.items() if k != 'schema'}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T1-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «numéricas/categóricas/texto»: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog . Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "code": "# skeptic S32-T1-B-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T1-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «missing indicators, escalamiento y encoding»: Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage de e. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, `. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "code": "# skeptic S32-T1-B-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T1-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «missing indicators, escalamiento y encoding»: Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage de e. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "code": "# skeptic S32-T1-B-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MEDIAN\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T1-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «missing indicators, escalamiento y encoding»: Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage de e. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "code": "# skeptic S32-T2-A-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T2-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «shared contact/address, distance y graph features»: Features relacionales (shared address, degree, min path) resumen evidencia de grafo. No conviertas el score de matching en label de parentesco o fr. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "code": "# skeptic S32-T2-A-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T2-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «shared contact/address, distance y graph features»: Features relacionales (shared address, degree, min path) resumen evidencia de grafo. No conviertas el score de matching en label de parentesco o fr. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "code": "# skeptic S32-T2-A-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GRAPH_FEAT\"\n    return \"CONTINUE\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T2-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «shared contact/address, distance y graph features»: Features relacionales (shared address, degree, min path) resumen evidencia de grafo. No conviertas el score de matching en label de parentesco o fr. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "code": "# skeptic S32-T2-B-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T2-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «ventanas y frecuencia»: Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el workbench sintético de Red Andina . Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': `. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "code": "# skeptic S32-T2-B-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T2-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «ventanas y frecuencia»: Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el workbench sintético de Red Andina . Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "code": "# skeptic S32-T2-B-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WINDOW\"\n    return \"CONTINUE\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T2-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «ventanas y frecuencia»: Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el workbench sintético de Red Andina . Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "code": "# skeptic S32-T3-A-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T3-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «ColumnTransformer y custom transformers»: Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fallar de forma exp. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'trans`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "code": "# skeptic S32-T3-A-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T3-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «ColumnTransformer y custom transformers»: Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fallar de forma exp. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "code": "# skeptic S32-T3-A-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIT_STATE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T3-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «ColumnTransformer y custom transformers»: Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fallar de forma exp. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "code": "# skeptic S32-T3-B-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is True or not record[\"version\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T3-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «fit/transform y persistencia»: El estado (mediana, vocab) se serializa a JSON y se reutiliza en serve. Si el vocab cambia, version bump del feature set. Aplicar med de train al batch de serve evita s. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'f`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "code": "# skeptic S32-T3-B-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"versioned\"] is True or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T3-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «fit/transform y persistencia»: El estado (mediana, vocab) se serializa a JSON y se reutiliza en serve. Si el vocab cambia, version bump del feature set. Aplicar med de train al batch de serve evita s. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "code": "# skeptic S32-T3-B-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STATE_JSON\"\n    return \"CONTINUE\" if record[\"versioned\"] is True or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T3-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «fit/transform y persistencia»: El estado (mediana, vocab) se serializa a JSON y se reutiliza en serve. Si el vocab cambia, version bump del feature set. Aplicar med de train al batch de serve evita s. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "code": "# skeptic S32-T4-A-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = record[\"overlap\"] > 0\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T4-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «split por entidad/grupo/tiempo»: Split temporal (train ts < cutoff) y group split por entity evitan overlap. Si una entidad aparece en train y test, hay leakage de identidad. En el workbench sintétic. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap':`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "code": "# skeptic S32-T4-A-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"overlap\"] > 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T4-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «split por entidad/grupo/tiempo»: Split temporal (train ts < cutoff) y group split por entity evitan overlap. Si una entidad aparece en train y test, hay leakage de identidad. En el workbench sintétic. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "code": "# skeptic S32-T4-A-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SPLIT_KEYS\"\n    return \"CONTINUE\" if record[\"overlap\"] > 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T4-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «split por entidad/grupo/tiempo»: Split temporal (train ts < cutoff) y group split por entity evitan overlap. Si una entidad aparece en train y test, hay leakage de identidad. En el workbench sintétic. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "code": "# skeptic S32-T4-B-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = bool(record[\"leaky\"]) or record[\"skew\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T4-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «leakage, train–serve skew y versionado»: Nombres con label o decision en features son red flags. Si serve_mean se desvía >tol de train_mean, hay skew. El feature set id fs-vN congela el contrato. En . Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "code": "# skeptic S32-T4-B-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"leaky\"]) or record[\"skew\"] is False else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T4-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «leakage, train–serve skew y versionado»: Nombres con label o decision en features son red flags. Si serve_mean se desvía >tol de train_mean, hay skew. El feature set id fs-vN congela el contrato. En . Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "code": "# skeptic S32-T4-B-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FEATURE_SET_ID\"\n    return \"CONTINUE\" if bool(record[\"leaky\"]) or record[\"skew\"] is False else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S32-T4-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «leakage, train–serve skew y versionado»: Nombres con label o decision en features son red flags. Si serve_mean se desvía >tol de train_mean, hay skew. El feature set id fs-vN congela el contrato. En . Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S32-T4-B"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S32 Q0: descarté distractores (fraude/parentesco/teatro) y me quedo con «El instante t y el futuro» (idx 3). Soporte lexical del slim_packet: «numéricas/categóricas/texto»: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog con dtype y missing ."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S32 Q1: descarté distractores (fraude/parentesco/teatro) y me quedo con «Fallar de forma explícita» (idx 1). Soporte lexical del slim_packet: «numéricas/categóricas/texto»: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog con dtype y missing ."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S32 Q2: descarté distractores (fraude/parentesco/teatro) y me quedo con «Es leakage de identidad» (idx 2). Soporte lexical del slim_packet: «numéricas/categóricas/texto»: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog con dtype y missing ."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S32 Q3: descarté distractores (fraude/parentesco/teatro) y me quedo con «Es red flag de leakage» (idx 0). Soporte lexical del slim_packet: «numéricas/categóricas/texto»: Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog con dtype y missing ."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:32:27.466739+00:00",
+  "session_started_at": "2026-07-23T06:31:12.466739+00:00",
+  "session_ended_at": "2026-07-23T06:32:27.466739+00:00"
+}

@@ -1,0 +1,482 @@
+{
+  "index": 39,
+  "id": "integrator-phase2",
+  "title": "Responsible ML Case Triage y cierre de nivel",
+  "file": "s39-integrator-phase2.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Cierre CP-N3-C + regresión N3 + CF-3",
+      "len": 36
+    },
+    {
+      "i": 1,
+      "text": "En V3, S39 cierra el nivel 3 con el sistema demoable Responsible ML Case Triage. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ranking, calibración, explicación, monitoreo y colas) en un recorrido que un revisor humano puede auditar de punta a punta con fixtures sintéticos peruanos.",
+      "len": 336
+    },
+    {
+      "i": 2,
+      "text": "Contrato de promoción (conceptual, no auto-ejecutado aquí). Entrada: entregables CP-N3-A, CP-N3-B y CP-N3-C, más smoke de regresión S27–S39 y el expediente de CF-3. Salida esperada de esta sección: bundle e2e con packets, audit, cards y notas de gate. Error: reclamar PASS en ledger, seed o checkpoint desde la lane de autoría. Criterio: la calificación de promoción y CF-3 ocurre en lane separada; aquí solo dejas evidencia reproducible.",
+      "len": 438
+    },
+    {
+      "i": 3,
+      "text": "Orden pedagógico de esta sección: T1 Arquitectura del flujo (pipeline y ownership) → T2 Workbench del revisor (packet, decisión y apelación) → T3 Riesgo y ops (privacidad, fairness, drift y human_only) → T4 Producto y cierre (aceptación, demo, cards, valor y postmortem). El caso sintético CASO-LIM-039 modela una cola de revisión para una fintech ficticia en Lima: datos inventados, sin PII real y sin etiqueta automática de fraude.",
+      "len": 433
+    },
+    {
+      "i": 4,
+      "text": "intake → ER → relación → features → modelo",
+      "len": 42
+    },
+    {
+      "i": 5,
+      "text": "El flujo canónico N3 es una cadena con fronteras claras: intake normaliza registros sintéticos; ER decide misma entidad (no familia ni culpa); el grafo relacional expone paths de co-ocurrencia; features se materializan sin leakage de labels futuros; el modelo emite un score de prioridad; la cola recibe el caso para revisión humana. Cada etapa tiene schema de entrada/salida y un dueño de contrato.",
+      "len": 399
+    },
+    {
+      "i": 6,
+      "text": "Contrato operativo. Entrada: payload con run_id, registros de intake y configuración de umbral. Salida de este subtema: stages ordenados, label_space en needs_review y bandera auto_fraud=False. Error: reordenar etapas, saltar ER, o mapear score a veredicto legal. Criterio de éxito: el pipeline es reproducible, fallas se aíslan por etapa y el score solo ordena trabajo humano.",
+      "len": 377
+    },
+    {
+      "i": 7,
+      "text": "Aplicación al caso sintético CASO-LIM-039-T1A (cola de onboarding digital en Lima): dos registros comparten un teléfono sintético; ER puede proponer misma entidad; el grafo muestra un path de longitud 2; el score 0.66 sugiere prioridad media de cola. Nada de eso prueba fraude, parentesco ni intención: solo justifica que un revisor mire el evidence packet.",
+      "len": 357
+    },
+    {
+      "i": 8,
+      "text": "contratos, versiones y ownership",
+      "len": 32
+    },
+    {
+      "i": 9,
+      "text": "Cada artefacto del triage — motor de ER, graph_schema, feature_set, ranker, umbral y plantilla de packet — debe tener owner, versión semver y política de compatibilidad. Sin owner no hay on-call; sin versión no hay regresión; sin política de breaking change el revisor recibe un packet que el modelo ya no entiende.",
+      "len": 315
+    },
+    {
+      "i": 10,
+      "text": "Contrato operativo. Entrada: registry de artefactos con ver, owner y flag de breaking change. Salida: inventario ordenado, conteo de owners distintos y decisión major/minor. Error: publicar un breaking change como patch o dejar un artefacto sin owner. Criterio de éxito: todo artefacto en producción del triage tiene dueño contactable y bump major documentado cuando el contrato se rompe.",
+      "len": 388
+    },
+    {
+      "i": 11,
+      "text": "En CASO-LIM-039-T1B, el equipo de plataforma en Lima versiona er_engine 1.2.0 (data-quality), graph_schema 3.0.0 (investigations), feature_set fs-v3 (ml-platform) y ranker 2.1.0 (ml-risk). Si el schema del grafo elimina un tipo de nodo, el bump es major y la regresión S27–S39 debe revalidar paths antes de reabrir la cola automática.",
+      "len": 334
+    },
+    {
+      "i": 12,
+      "text": "queue, evidence packet y explicación",
+      "len": 36
+    },
+    {
+      "i": 13,
+      "text": "La cola ordena casos por score calibrado y capacidad del equipo; el evidence packet es lo que el revisor ve: hechos sintéticos, path de grafo, top features, incertidumbre (in/out of distribution) y contribuciones del modelo. Un número suelto no es un workbench: sin path ni evidencia el caso no debe entrar a cola humana como «listo».",
+      "len": 334
+    },
+    {
+      "i": 14,
+      "text": "Contrato operativo. Entrada: case_id, score, evidence[], graph_path[], uncertainty y opcionalmente model_contrib. Salida: packet mínimo con claves auditables y capas de explicación (S35). Error: packet con solo score o sin graph_path cuando el modelo usó señales relacionales. Criterio de éxito: el revisor puede reconstruir por qué el caso llegó a cola sin confiar en magia del modelo.",
+      "len": 386
+    },
+    {
+      "i": 15,
+      "text": "Para CASO-LIM-039-T2A, el packet incluye score 0.81, evidencia shared_phone_synth, path E1 → ph:900 → E2 e incertidumbre in_distribution. La UI didáctica puede ser un dict en CLI: lo importante es la estructura, no el framework. El revisor decide; el modelo solo prioriza.",
+      "len": 272
+    },
+    {
+      "i": 16,
+      "text": "decisión, override, feedback y apelación",
+      "len": 40
+    },
+    {
+      "i": 17,
+      "text": "Las acciones de cola típicas son queue (priorizar revisión), skip (baja prioridad o sin señal accionable) y escalate. La política automática sugiere; el override humano gana y debe quedar en audit log con actor, razón y timestamp. Sin audit, el override es un riesgo de gobernanza, no un control.",
+      "len": 296
+    },
+    {
+      "i": 18,
+      "text": "Contrato operativo. Entrada: case_id, score, umbral, opcional decisión humana y canal de apelación. Salida: acción final, flag de override y evento en log. Error: override sin registro, o feedback de revisor reinyectado al training set con leakage. Criterio de éxito: cada cambio de decisión es reconstruible y la apelación reabre con otro revisor o supervisor.",
+      "len": 361
+    },
+    {
+      "i": 19,
+      "text": "En CASO-LIM-039-T2B, el auto sugiere queue por score 0.9; un revisor en Lima hace skip por evidencia insuficiente y se loguea override. Si el cliente apela, el caso reabre con reviewer distinto. El feedback mejora reglas o datasets con cuidado de ventana temporal: nunca uses el label de cola como feature del mismo score que la generó.",
+      "len": 336
+    },
+    {
+      "i": 20,
+      "text": "privacidad, fairness y seguridad",
+      "len": 32
+    },
+    {
+      "i": 21,
+      "text": "Antes de abrir el triage a revisores, aplica minimización de PII (solo campos necesarios del packet), RBAC por rol (reviewer vs admin), y prohíbe secretos o tokens en el repo. Fairness operativa: mide tasas de envío a cola y de override por slices sintéticos de producto o canal, no para afirmar culpa de un grupo real.",
+      "len": 319
+    },
+    {
+      "i": 22,
+      "text": "Contrato operativo. Entrada: checklist con pii_minimized, rbac, secrets_in_repo, slice_metrics e input_limits. Salida: release_ok booleano y blockers nominados. Error: secrets_in_repo True, packet sin control de rol, o ausencia de métricas por slice. Criterio de éxito: checklist firmado por owner de riesgo antes de promover el flujo a demo de aceptación.",
+      "len": 356
+    },
+    {
+      "i": 23,
+      "text": "Para CASO-LIM-039-T3A, el release de la cola en un entorno de laboratorio limeño exige límites de tamaño en adjuntos sintéticos del packet, validación de URLs (sin SSRF a evidence remota) y slice metrics de false-queue rate. El checklist no declara «sistema justo para siempre»: solo evidencia mínima de release responsable.",
+      "len": 324
+    },
+    {
+      "i": 24,
+      "text": "drift, incidentes, rollback y human control",
+      "len": 43
+    },
+    {
+      "i": 25,
+      "text": "En producción del triage monitoreas distribución de scores, prevalencia proxy de cola, calibración, latencia del packet y tasa de overrides. Drift no es un veredicto moral: es una señal de que el ranking puede estar desalineado y hay que abstener más o recalibrar. El control humano no se optimiza fuera del sistema para «subir throughput».",
+      "len": 340
+    },
+    {
+      "i": 26,
+      "text": "Contrato operativo. Entrada: flags de drift_high e incident, versión de modelo/umbral y runbook. Salida: modo normal, abstain_more o human_only, más target de rollback. Error: seguir en auto cuando hay incidente de política o de seguridad. Criterio de éxito: interruptor human_only documentado, rollback a modelo/umbral previos y alertas accionables.",
+      "len": 350
+    },
+    {
+      "i": 27,
+      "text": "En CASO-LIM-039-T3B, un pico de score medio sin cambio de intake dispara alerta de calibración: el modo pasa a abstain_more. Si hay incidente T0 de exposición de campos, se fuerza human_only y rollback al ranker anterior. El score nunca se convierte en etiqueta masiva de fraude mientras se investiga.",
+      "len": 301
+    },
+    {
+      "i": 29,
+      "text": "La aceptación de CP-N3-C no es un screenshot: es una lista de criterios ejecutables sobre fixtures sintéticos. Mínimo: corrida e2e, baseline visible en métricas, camino de abstención, audit log de decisiones, prohibición de auto-label de fraude y smoke de regresión S27–S39 documentado.",
+      "len": 286
+    },
+    {
+      "i": 30,
+      "text": "Contrato operativo. Entrada: checklist de aceptación y tres rutas de demo (happy, override, ood_abstain). Salida: conteo de criterios en verde y nota de que CF-3/PASS de promoción es lane separada. Error: demo solo del camino feliz o auto-marcar section_passed. Criterio de éxito: un revisor externo puede repetir la demo sin secretos ni datos reales.",
+      "len": 351
+    },
+    {
+      "i": 31,
+      "text": "Para CASO-LIM-039-T4A, la demo en laboratorio muestra (1) caso con packet completo y queue, (2) override humano a skip con audit, (3) entrada OOD que abstiene. La regresión N3 es una lista de checks de contratos, no un reentrenamiento completo. Esta lane deja el expediente listo; no escribe el PASS de CF-3.",
+      "len": 308
+    },
+    {
+      "i": 32,
+      "text": "model/data/system cards, métricas de valor y postmortem",
+      "len": 55
+    },
+    {
+      "i": 33,
+      "text": "El cierre de nivel exige cards legibles: model card (label_space, límites, no auto-fraude), data card (fixtures sintéticos, ventanas, PII minimizada) y system card (modos ops, owners, rollback). Las métricas de valor del triage son operativas: precisión@k de la cola, tasa de overrides, tiempo mediano de review — no solo AUC offline.",
+      "len": 334
+    },
+    {
+      "i": 34,
+      "text": "Contrato operativo. Entrada: métricas de valor, plantillas de cards y plantilla de postmortem. Salida: tres cards publicables y un postmortem blameless con timeline, root_cause y actions. Error: card vacía, métrica de negocio ausente o postmortem que busca culpables en lugar de causas de sistema. Criterio de éxito: un stakeholder no-ML entiende qué hace el score y cuándo interviene un humano.",
+      "len": 395
+    },
+    {
+      "i": 35,
+      "text": "En CASO-LIM-039-T4B, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola. Tras un incidente de calibración, el postmortem blameless lista rollback y recalibración. Con cards y notas de regresión, el expediente queda listo para la lane de CF-3 — sin auto-declarar promoción.",
+      "len": 313
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Cierre CP-N3-C + regresión N3 + CF-3",
+      "text": "Cierre CP-N3-C + regresión N3 + CF-3"
+    },
+    {
+      "i": 1,
+      "len": 336,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En V3, S39 cierra el nivel 3 con el sistema demoable Responsible ML Case Triage. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ",
+      "text": "En V3, S39 cierra el nivel 3 con el sistema demoable Responsible ML Case Triage. No inventas un producto nuevo: ensamblas lo ya aprendido en S27–S38 (calidad, ER, grafo, features, ranking, calibración, explicación, monitoreo y colas) en un recorrido que un revisor humano puede auditar de punta a punta con fixtures sintéticos peruanos."
+    },
+    {
+      "i": 2,
+      "len": 438,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato de promoción (conceptual, no auto-ejecutado aquí). Entrada: entregables CP-N3-A, CP-N3-B y CP-N3-C, más smoke de regresión S27–S39 y el expediente de CF-3. Salida esperada",
+      "text": "Contrato de promoción (conceptual, no auto-ejecutado aquí). Entrada: entregables CP-N3-A, CP-N3-B y CP-N3-C, más smoke de regresión S27–S39 y el expediente de CF-3. Salida esperada de esta sección: bundle e2e con packets, audit, cards y notas de gate. Error: reclamar PASS en ledger, seed o checkpoint desde la lane de autoría. Criterio: la calificación de promoción y CF-3 ocurre en lane separada; aquí solo dejas evidencia reproducible."
+    },
+    {
+      "i": 3,
+      "len": 433,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden pedagógico de esta sección: T1 Arquitectura del flujo (pipeline y ownership) → T2 Workbench del revisor (packet, decisión y apelación) → T3 Riesgo y ops (privacidad, fairness",
+      "text": "Orden pedagógico de esta sección: T1 Arquitectura del flujo (pipeline y ownership) → T2 Workbench del revisor (packet, decisión y apelación) → T3 Riesgo y ops (privacidad, fairness, drift y human_only) → T4 Producto y cierre (aceptación, demo, cards, valor y postmortem). El caso sintético CASO-LIM-039 modela una cola de revisión para una fintech ficticia en Lima: datos inventados, sin PII real y sin etiqueta automática de fraude."
+    },
+    {
+      "i": 4,
+      "len": 42,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "intake → ER → relación → features → modelo",
+      "text": "intake → ER → relación → features → modelo"
+    },
+    {
+      "i": 5,
+      "len": 399,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El flujo canónico N3 es una cadena con fronteras claras: intake normaliza registros sintéticos; ER decide misma entidad (no familia ni culpa); el grafo relacional expone paths de c",
+      "text": "El flujo canónico N3 es una cadena con fronteras claras: intake normaliza registros sintéticos; ER decide misma entidad (no familia ni culpa); el grafo relacional expone paths de co-ocurrencia; features se materializan sin leakage de labels futuros; el modelo emite un score de prioridad; la cola recibe el caso para revisión humana. Cada etapa tiene schema de entrada/salida y un dueño de contrato."
+    },
+    {
+      "i": 6,
+      "len": 377,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: payload con run_id, registros de intake y configuración de umbral. Salida de este subtema: stages ordenados, label_space en needs_review y bandera auto",
+      "text": "Contrato operativo. Entrada: payload con run_id, registros de intake y configuración de umbral. Salida de este subtema: stages ordenados, label_space en needs_review y bandera auto_fraud=False. Error: reordenar etapas, saltar ER, o mapear score a veredicto legal. Criterio de éxito: el pipeline es reproducible, fallas se aíslan por etapa y el score solo ordena trabajo humano."
+    },
+    {
+      "i": 7,
+      "len": 357,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación al caso sintético CASO-LIM-039-T1A (cola de onboarding digital en Lima): dos registros comparten un teléfono sintético; ER puede proponer misma entidad; el grafo muestra",
+      "text": "Aplicación al caso sintético CASO-LIM-039-T1A (cola de onboarding digital en Lima): dos registros comparten un teléfono sintético; ER puede proponer misma entidad; el grafo muestra un path de longitud 2; el score 0.66 sugiere prioridad media de cola. Nada de eso prueba fraude, parentesco ni intención: solo justifica que un revisor mire el evidence packet."
+    },
+    {
+      "i": 8,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "contratos, versiones y ownership",
+      "text": "contratos, versiones y ownership"
+    },
+    {
+      "i": 9,
+      "len": 315,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Cada artefacto del triage — motor de ER, graph_schema, feature_set, ranker, umbral y plantilla de packet — debe tener owner, versión semver y política de compatibilidad. Sin owner ",
+      "text": "Cada artefacto del triage — motor de ER, graph_schema, feature_set, ranker, umbral y plantilla de packet — debe tener owner, versión semver y política de compatibilidad. Sin owner no hay on-call; sin versión no hay regresión; sin política de breaking change el revisor recibe un packet que el modelo ya no entiende."
+    },
+    {
+      "i": 10,
+      "len": 388,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: registry de artefactos con ver, owner y flag de breaking change. Salida: inventario ordenado, conteo de owners distintos y decisión major/minor. Error:",
+      "text": "Contrato operativo. Entrada: registry de artefactos con ver, owner y flag de breaking change. Salida: inventario ordenado, conteo de owners distintos y decisión major/minor. Error: publicar un breaking change como patch o dejar un artefacto sin owner. Criterio de éxito: todo artefacto en producción del triage tiene dueño contactable y bump major documentado cuando el contrato se rompe."
+    },
+    {
+      "i": 11,
+      "len": 334,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En CASO-LIM-039-T1B, el equipo de plataforma en Lima versiona er_engine 1.2.0 (data-quality), graph_schema 3.0.0 (investigations), feature_set fs-v3 (ml-platform) y ranker 2.1.0 (m",
+      "text": "En CASO-LIM-039-T1B, el equipo de plataforma en Lima versiona er_engine 1.2.0 (data-quality), graph_schema 3.0.0 (investigations), feature_set fs-v3 (ml-platform) y ranker 2.1.0 (ml-risk). Si el schema del grafo elimina un tipo de nodo, el bump es major y la regresión S27–S39 debe revalidar paths antes de reabrir la cola automática."
+    },
+    {
+      "i": 12,
+      "len": 36,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "queue, evidence packet y explicación",
+      "text": "queue, evidence packet y explicación"
+    },
+    {
+      "i": 13,
+      "len": 334,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La cola ordena casos por score calibrado y capacidad del equipo; el evidence packet es lo que el revisor ve: hechos sintéticos, path de grafo, top features, incertidumbre (in/out o",
+      "text": "La cola ordena casos por score calibrado y capacidad del equipo; el evidence packet es lo que el revisor ve: hechos sintéticos, path de grafo, top features, incertidumbre (in/out of distribution) y contribuciones del modelo. Un número suelto no es un workbench: sin path ni evidencia el caso no debe entrar a cola humana como «listo»."
+    },
+    {
+      "i": 14,
+      "len": 386,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: case_id, score, evidence[], graph_path[], uncertainty y opcionalmente model_contrib. Salida: packet mínimo con claves auditables y capas de explicación",
+      "text": "Contrato operativo. Entrada: case_id, score, evidence[], graph_path[], uncertainty y opcionalmente model_contrib. Salida: packet mínimo con claves auditables y capas de explicación (S35). Error: packet con solo score o sin graph_path cuando el modelo usó señales relacionales. Criterio de éxito: el revisor puede reconstruir por qué el caso llegó a cola sin confiar en magia del modelo."
+    },
+    {
+      "i": 15,
+      "len": 272,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Para CASO-LIM-039-T2A, el packet incluye score 0.81, evidencia shared_phone_synth, path E1 → ph:900 → E2 e incertidumbre in_distribution. La UI didáctica puede ser un dict en CLI: ",
+      "text": "Para CASO-LIM-039-T2A, el packet incluye score 0.81, evidencia shared_phone_synth, path E1 → ph:900 → E2 e incertidumbre in_distribution. La UI didáctica puede ser un dict en CLI: lo importante es la estructura, no el framework. El revisor decide; el modelo solo prioriza."
+    },
+    {
+      "i": 16,
+      "len": 40,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "decisión, override, feedback y apelación",
+      "text": "decisión, override, feedback y apelación"
+    },
+    {
+      "i": 17,
+      "len": 296,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Las acciones de cola típicas son queue (priorizar revisión), skip (baja prioridad o sin señal accionable) y escalate. La política automática sugiere; el override humano gana y debe",
+      "text": "Las acciones de cola típicas son queue (priorizar revisión), skip (baja prioridad o sin señal accionable) y escalate. La política automática sugiere; el override humano gana y debe quedar en audit log con actor, razón y timestamp. Sin audit, el override es un riesgo de gobernanza, no un control."
+    },
+    {
+      "i": 18,
+      "len": 361,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: case_id, score, umbral, opcional decisión humana y canal de apelación. Salida: acción final, flag de override y evento en log. Error: override sin regi",
+      "text": "Contrato operativo. Entrada: case_id, score, umbral, opcional decisión humana y canal de apelación. Salida: acción final, flag de override y evento en log. Error: override sin registro, o feedback de revisor reinyectado al training set con leakage. Criterio de éxito: cada cambio de decisión es reconstruible y la apelación reabre con otro revisor o supervisor."
+    },
+    {
+      "i": 19,
+      "len": 336,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En CASO-LIM-039-T2B, el auto sugiere queue por score 0.9; un revisor en Lima hace skip por evidencia insuficiente y se loguea override. Si el cliente apela, el caso reabre con revi",
+      "text": "En CASO-LIM-039-T2B, el auto sugiere queue por score 0.9; un revisor en Lima hace skip por evidencia insuficiente y se loguea override. Si el cliente apela, el caso reabre con reviewer distinto. El feedback mejora reglas o datasets con cuidado de ventana temporal: nunca uses el label de cola como feature del mismo score que la generó."
+    },
+    {
+      "i": 20,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "privacidad, fairness y seguridad",
+      "text": "privacidad, fairness y seguridad"
+    },
+    {
+      "i": 21,
+      "len": 319,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Antes de abrir el triage a revisores, aplica minimización de PII (solo campos necesarios del packet), RBAC por rol (reviewer vs admin), y prohíbe secretos o tokens en el repo. Fair",
+      "text": "Antes de abrir el triage a revisores, aplica minimización de PII (solo campos necesarios del packet), RBAC por rol (reviewer vs admin), y prohíbe secretos o tokens en el repo. Fairness operativa: mide tasas de envío a cola y de override por slices sintéticos de producto o canal, no para afirmar culpa de un grupo real."
+    },
+    {
+      "i": 22,
+      "len": 356,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: checklist con pii_minimized, rbac, secrets_in_repo, slice_metrics e input_limits. Salida: release_ok booleano y blockers nominados. Error: secrets_in_r",
+      "text": "Contrato operativo. Entrada: checklist con pii_minimized, rbac, secrets_in_repo, slice_metrics e input_limits. Salida: release_ok booleano y blockers nominados. Error: secrets_in_repo True, packet sin control de rol, o ausencia de métricas por slice. Criterio de éxito: checklist firmado por owner de riesgo antes de promover el flujo a demo de aceptación."
+    },
+    {
+      "i": 23,
+      "len": 324,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Para CASO-LIM-039-T3A, el release de la cola en un entorno de laboratorio limeño exige límites de tamaño en adjuntos sintéticos del packet, validación de URLs (sin SSRF a evidence ",
+      "text": "Para CASO-LIM-039-T3A, el release de la cola en un entorno de laboratorio limeño exige límites de tamaño en adjuntos sintéticos del packet, validación de URLs (sin SSRF a evidence remota) y slice metrics de false-queue rate. El checklist no declara «sistema justo para siempre»: solo evidencia mínima de release responsable."
+    },
+    {
+      "i": 24,
+      "len": 43,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "drift, incidentes, rollback y human control",
+      "text": "drift, incidentes, rollback y human control"
+    },
+    {
+      "i": 25,
+      "len": 340,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En producción del triage monitoreas distribución de scores, prevalencia proxy de cola, calibración, latencia del packet y tasa de overrides. Drift no es un veredicto moral: es una ",
+      "text": "En producción del triage monitoreas distribución de scores, prevalencia proxy de cola, calibración, latencia del packet y tasa de overrides. Drift no es un veredicto moral: es una señal de que el ranking puede estar desalineado y hay que abstener más o recalibrar. El control humano no se optimiza fuera del sistema para «subir throughput»."
+    },
+    {
+      "i": 26,
+      "len": 350,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: flags de drift_high e incident, versión de modelo/umbral y runbook. Salida: modo normal, abstain_more o human_only, más target de rollback. Error: segu",
+      "text": "Contrato operativo. Entrada: flags de drift_high e incident, versión de modelo/umbral y runbook. Salida: modo normal, abstain_more o human_only, más target de rollback. Error: seguir en auto cuando hay incidente de política o de seguridad. Criterio de éxito: interruptor human_only documentado, rollback a modelo/umbral previos y alertas accionables."
+    },
+    {
+      "i": 27,
+      "len": 301,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En CASO-LIM-039-T3B, un pico de score medio sin cambio de intake dispara alerta de calibración: el modo pasa a abstain_more. Si hay incidente T0 de exposición de campos, se fuerza ",
+      "text": "En CASO-LIM-039-T3B, un pico de score medio sin cambio de intake dispara alerta de calibración: el modo pasa a abstain_more. Si hay incidente T0 de exposición de campos, se fuerza human_only y rollback al ranker anterior. El score nunca se convierte en etiqueta masiva de fraude mientras se investiga."
+    },
+    {
+      "i": 29,
+      "len": 286,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "La aceptación de CP-N3-C no es un screenshot: es una lista de criterios ejecutables sobre fixtures sintéticos. Mínimo: corrida e2e, baseline visible en métricas, camino de abstenci",
+      "text": "La aceptación de CP-N3-C no es un screenshot: es una lista de criterios ejecutables sobre fixtures sintéticos. Mínimo: corrida e2e, baseline visible en métricas, camino de abstención, audit log de decisiones, prohibición de auto-label de fraude y smoke de regresión S27–S39 documentado."
+    },
+    {
+      "i": 30,
+      "len": 351,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: checklist de aceptación y tres rutas de demo (happy, override, ood_abstain). Salida: conteo de criterios en verde y nota de que CF-3/PASS de promoción ",
+      "text": "Contrato operativo. Entrada: checklist de aceptación y tres rutas de demo (happy, override, ood_abstain). Salida: conteo de criterios en verde y nota de que CF-3/PASS de promoción es lane separada. Error: demo solo del camino feliz o auto-marcar section_passed. Criterio de éxito: un revisor externo puede repetir la demo sin secretos ni datos reales."
+    },
+    {
+      "i": 31,
+      "len": 308,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Para CASO-LIM-039-T4A, la demo en laboratorio muestra (1) caso con packet completo y queue, (2) override humano a skip con audit, (3) entrada OOD que abstiene. La regresión N3 es u",
+      "text": "Para CASO-LIM-039-T4A, la demo en laboratorio muestra (1) caso con packet completo y queue, (2) override humano a skip con audit, (3) entrada OOD que abstiene. La regresión N3 es una lista de checks de contratos, no un reentrenamiento completo. Esta lane deja el expediente listo; no escribe el PASS de CF-3."
+    },
+    {
+      "i": 32,
+      "len": 55,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "model/data/system cards, métricas de valor y postmortem",
+      "text": "model/data/system cards, métricas de valor y postmortem"
+    },
+    {
+      "i": 33,
+      "len": 334,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El cierre de nivel exige cards legibles: model card (label_space, límites, no auto-fraude), data card (fixtures sintéticos, ventanas, PII minimizada) y system card (modos ops, owne",
+      "text": "El cierre de nivel exige cards legibles: model card (label_space, límites, no auto-fraude), data card (fixtures sintéticos, ventanas, PII minimizada) y system card (modos ops, owners, rollback). Las métricas de valor del triage son operativas: precisión@k de la cola, tasa de overrides, tiempo mediano de review — no solo AUC offline."
+    },
+    {
+      "i": 34,
+      "len": 395,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato operativo. Entrada: métricas de valor, plantillas de cards y plantilla de postmortem. Salida: tres cards publicables y un postmortem blameless con timeline, root_cause y a",
+      "text": "Contrato operativo. Entrada: métricas de valor, plantillas de cards y plantilla de postmortem. Salida: tres cards publicables y un postmortem blameless con timeline, root_cause y actions. Error: card vacía, métrica de negocio ausente o postmortem que busca culpables en lugar de causas de sistema. Criterio de éxito: un stakeholder no-ML entiende qué hace el score y cuándo interviene un humano."
+    },
+    {
+      "i": 35,
+      "len": 313,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "En CASO-LIM-039-T4B, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola. Tras un incidente de calibración, el postmortem blameless lista ro",
+      "text": "En CASO-LIM-039-T4B, precision_at_k=0.55, override_rate=0.12 y median_review_s=90 cuentan la historia de la cola. Tras un incidente de calibración, el postmortem blameless lista rollback y recalibración. Con cards y notas de regresión, el expediente queda listo para la lane de CF-3 — sin auto-declarar promoción."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 17079
+}

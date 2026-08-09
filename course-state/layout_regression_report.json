@@ -1,0 +1,97 @@
+{
+  "lane": "LANE-LAYOUT",
+  "issue": "PLATFORM-LAYOUT-001",
+  "generated_at": "2026-07-20T20:00:00Z",
+  "summary": {
+    "layout_bounds_self_test": "pass",
+    "geometric_analyzer_path_fix": "pass",
+    "geometric_analyzer_run": "pass",
+    "playwright_v3_regression": "partial",
+    "npm_script_test_layout": "pass"
+  },
+  "results": {
+    "layout_bounds_check": {
+      "cmd": "python3 scripts/layout_bounds_check.py --self-test",
+      "also": "npm run test:layout",
+      "exit_code": 0,
+      "ok": true,
+      "checks_passed": 8,
+      "fixtures": [
+        "no_overlap_adjacent",
+        "partial_overlap",
+        "right_overflow",
+        "left_overflow",
+        "clean_grid",
+        "Box.intersects partial",
+        "Box.intersection_area == 25",
+        "edge-touch non-overlap"
+      ]
+    },
+    "geometric_analyzer_paths": {
+      "before": "/home/z/my-project/scripts/screenshots/...",
+      "after": "Path(__file__).resolve().parent / 'screenshots'/...",
+      "GEOMETRY_PATH": "scripts/screenshots/geometry.json",
+      "OUT_DIR": "scripts/screenshots/analysis",
+      "hardcoded_home_z_removed": true
+    },
+    "geometric_analyzer": {
+      "cmd": "python3 scripts/geometric_analyzer.py",
+      "exit_code": 0,
+      "ok": true,
+      "frames_analyzed": 48,
+      "total_overlaps": 0,
+      "total_out_of_bounds": 69,
+      "total_below_fold": 0,
+      "avg_scroll_pct": 686.5,
+      "avg_density_pct": 55.4,
+      "reports_dir": "scripts/screenshots/analysis",
+      "note": "OOB/scroll metrics reflect forensic captures of long course pages; text-element AABB overlaps remain 0."
+    },
+    "playwright_v3_regression": {
+      "cmd": "npx playwright test scripts/v3_regression.spec.ts --reporter=line",
+      "exit_code": 1,
+      "ok": false,
+      "passed": 13,
+      "failed": 4,
+      "total": 17,
+      "browser": "chromium available (desktop-chromium project)",
+      "failures": [
+        {
+          "test": "Capstone Ledger Integrity › capstone gates match V3 specification",
+          "reason": "capstone.evidence_required undefined in capstone_ledger.json"
+        },
+        {
+          "test": "Capstone Ledger Integrity › transversal checkpoints match V3 specification",
+          "reason": "data.transversal_checkpoints undefined"
+        },
+        {
+          "test": "Issue Registry Integrity › issue_registry.json has issues with required fields",
+          "reason": "data.summary.total_issues undefined (schema drift)"
+        },
+        {
+          "test": "Checkpoint Integrity › checkpoint.json has required fields for resumption",
+          "reason": "data.current_section undefined (schema drift)"
+        }
+      ],
+      "note": "Failures are course-state JSON shape mismatches vs older test expectations — not layout/AABB. LANE-LAYOUT does not edit checkpoint/ledger."
+    },
+    "npm_scripts": {
+      "test:layout": "python3 scripts/layout_bounds_check.py --self-test",
+      "test:layout:playwright": "npx playwright test scripts/v3_regression.spec.ts --reporter=line"
+    }
+  },
+  "files_changed": [
+    "scripts/geometric_analyzer.py",
+    "scripts/layout_bounds_check.py",
+    "package.json",
+    "course-state/layout_regression_report.json",
+    "course-state/lanes/LANE-LAYOUT.status.json"
+  ],
+  "forensic_screens": {
+    "path": "scripts/forensic_screens.py",
+    "hardcoded_paths": false,
+    "note": "Already project-relative via argparse --out default scripts/screenshots"
+  },
+  "platform_layout_001_ready_to_close": true,
+  "close_rationale": "Pure geometry AABB checker + fixtures green; geometric_analyzer project-relative and runs (0 text overlaps on 48 frames); test:layout npm script present. Playwright v3 residual failures are ledger/checkpoint schema, out of layout lane scope."
+}

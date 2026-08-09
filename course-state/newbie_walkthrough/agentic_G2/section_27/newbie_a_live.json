@@ -1,0 +1,286 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-exp-s27-0c912ebde36d",
+  "production_note": "agentic_G2 dual-LLM explorer: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "code": "# explorer S27-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T1-A-E1: leí instruction «S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3…» y theory «riesgos y pirámide de pruebas»: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más test. Completé el starter del paquete; línea clave: `impact, likelihood = 5, 4`. Hints/iDo del subtopic S27-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "code": "# explorer S27-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\nprint([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T1-A-E2: leí instruction «S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01,…» y theory «riesgos y pirámide de pruebas»: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más test. Completé el starter del paquete; línea clave: `rows=[('e2e',2,1),('unit',5,5)]`. Hints/iDo del subtopic S27-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "code": "# explorer S27-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\nprint(top_layer == 'unit')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T1-A-E3: leí instruction «S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la…» y theory «riesgos y pirámide de pruebas»: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más test. Completé el starter del paquete; línea clave: `top_layer='unit'`. Hints/iDo del subtopic S27-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "code": "# explorer S27-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\nprint(' '.join(s.casefold().split()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T1-B-E1: leí instruction «S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A  B '. Fixture sintético `CASO-LIM…» y theory «Arrange–Act–Assert y oráculos confiables»: **AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup. La pirámide y el diseño AAA hacen que norm. Completé el starter del paquete; línea clave: `s=' A  B '`. Hints/iDo del subtopic S27-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "code": "# explorer S27-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\nprint('pass')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T1-B-E2: leí instruction «S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3…» y theory «Arrange–Act–Assert y oráculos confiables»: **AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup. La pirámide y el diseño AAA hacen que norm. Completé el starter del paquete; línea clave: `raw='ANA'`. Hints/iDo del subtopic S27-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "code": "# explorer S27-T1-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\nprint(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T1-B-E3: leí instruction «S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-02…» y theory «Arrange–Act–Assert y oráculos confiables»: **AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup. La pirámide y el diseño AAA hacen que norm. Completé el starter del paquete; línea clave: `a,b='X Y','x  y'`. Hints/iDo del subtopic S27-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "code": "# explorer S27-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T2-A-E1: leí instruction «S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-0…» y theory «discovery y assertions»: pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`). La pirámide y el diseño . Completé el starter del paquete; línea clave: `names=['test_a','helper','test_b']`. Hints/iDo del subtopic S27-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "code": "# explorer S27-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\nprint('ok' if left == right else 'fail')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T2-A-E2: leí instruction «S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01…» y theory «discovery y assertions»: pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`). La pirámide y el diseño . Completé el starter del paquete; línea clave: `left,right='a','b'`. Hints/iDo del subtopic S27-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "code": "# explorer S27-T2-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint([(' x ', 'x')])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T2-A-E3: leí instruction «S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CAS…» y theory «discovery y assertions»: pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`). La pirámide y el diseño . Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S27-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "code": "# explorer S27-T2-B-E1\nfrom copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\nprint(orig[0]['n'] == 1)\nprint('isolated', True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T2-B-E1: leí instruction «S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-…» y theory «fixtures, scopes y aislamiento»: Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session. La pirámide y el diseño AAA . Completé el starter del paquete; línea clave: `from copy import deepcopy`. Hints/iDo del subtopic S27-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "code": "# explorer S27-T2-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('function')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T2-B-E2: leí instruction «S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @…» y theory «fixtures, scopes y aislamiento»: Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session. La pirámide y el diseño AAA . Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S27-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "code": "# explorer S27-T2-B-E3\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\nprint(len(make(3)))\nprint(make(2)[0]['id'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T2-B-E3: leí instruction «S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO…» y theory «fixtures, scopes y aislamiento»: Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session. La pirámide y el diseño AAA . Completé el starter del paquete; línea clave: `def make(n):`. Hints/iDo del subtopic S27-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "code": "# explorer S27-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T3-A-E1: leí instruction «S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @…» y theory «excepciones, floats, fechas y archivos temporales»: Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado. La pirámide y el. Completé el starter del paquete; línea clave: `import math`. Hints/iDo del subtopic S27-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "code": "# explorer S27-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n    print('err')\nprint('bad')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T3-A-E2: leí instruction «S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @exampl…» y theory «excepciones, floats, fechas y archivos temporales»: Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado. La pirámide y el. Completé el starter del paquete; línea clave: `except ValueError:`. Hints/iDo del subtopic S27-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "code": "# explorer S27-T3-A-E3\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path = f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T3-A-E3: leí instruction «S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-…» y theory «excepciones, floats, fechas y archivos temporales»: Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado. La pirámide y el. Completé el starter del paquete; línea clave: `import tempfile`. Hints/iDo del subtopic S27-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "code": "# explorer S27-T3-B-E1\nemail = ''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(e)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T3-B-E1: leí instruction «S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027…» y theory «casos negativos y mensajes»: Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada. La pirámide y el diseño AAA hacen que nor. Completé el starter del paquete; línea clave: `email = ''`. Hints/iDo del subtopic S27-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "code": "# explorer S27-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T3-B-E2: leí instruction «S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cp…» y theory «casos negativos y mensajes»: Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada. La pirámide y el diseño AAA hacen que nor. Completé el starter del paquete; línea clave: `s='sin-arroba'`. Hints/iDo del subtopic S27-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "code": "# explorer S27-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\nprint(f'campo score inválido: {v!r}')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T3-B-E3: leí instruction «S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (r…» y theory «casos negativos y mensajes»: Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada. La pirámide y el diseño AAA hacen que nor. Completé el starter del paquete; línea clave: `print(f'campo score inválido: {v!r}')`. Hints/iDo del subtopic S27-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "code": "# explorer S27-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T4-A-E1: leí instruction «S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=…» y theory «branch y risk coverage»: **Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto. La pirámide y el diseño AAA hacen que normalización/matching sean *contr. Completé el starter del paquete; línea clave: `def f(x):`. Hints/iDo del subtopic S27-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "code": "# explorer S27-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\nprint('non' not in hit)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T4-A-E2: leí instruction «S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (r…» y theory «branch y risk coverage»: **Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto. La pirámide y el diseño AAA hacen que normalización/matching sean *contr. Completé el starter del paquete; línea clave: `hit={'auto','review'}`. Hints/iDo del subtopic S27-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "code": "# explorer S27-T4-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\nprint(int(100 * k / n))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T4-A-E3: leí instruction «S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_i…» y theory «branch y risk coverage»: **Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto. La pirámide y el diseño AAA hacen que normalización/matching sean *contr. Completé el starter del paquete; línea clave: `print(int(100 * k / n))`. Hints/iDo del subtopic S27-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "code": "# explorer S27-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\nprint(good == 'a' and mutant != 'a')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T4-B-E1: leí instruction «S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintét…» y theory «mutación conceptual, fallas útiles y mantenimiento»: **Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el te. Completé el starter del paquete; línea clave: `raw=' a '`. Hints/iDo del subtopic S27-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "code": "# explorer S27-T4-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'expected': 1, 'actual': 2})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T4-B-E2: leí instruction «S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-0…» y theory «mutación conceptual, fallas útiles y mantenimiento»: **Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el te. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S27-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "code": "# explorer S27-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('bug_repro → regression_test')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S27-T4-B-E3: leí instruction «S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id…» y theory «mutación conceptual, fallas útiles y mantenimiento»: **Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el te. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S27-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S27-T4-B"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S27 Q0: elegí índice 2 «Pruebas unitarias» porque la theory del paquete dice: «riesgos y pirámide de pruebas»: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests que un typo de log. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S27 Q1: elegí índice 0 «Una fuente de verdad determinista para el assert» porque la theory del paquete dice: «riesgos y pirámide de pruebas»: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests que un typo de log. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S27 Q2: elegí índice 1 «El contrato es débil; el mutante sobrevivió» porque la theory del paquete dice: «riesgos y pirámide de pruebas»: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests que un typo de log. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S27 Q3: elegí índice 3 «Contratos de misma entidad / normalización — no riesgo ni relación» porque la theory del paquete dice: «riesgos y pirámide de pruebas»: La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests que un typo de log. Coherente con learning outcomes y iDo de la sección."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:15:42.466739+00:00",
+  "session_started_at": "2026-07-23T06:14:22.466739+00:00",
+  "session_ended_at": "2026-07-23T06:15:42.466739+00:00"
+}

@@ -1,0 +1,274 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-s10-skeptic-10b7e",
+  "production_note": "agentic_I1 dual-LLM packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "code": "# paquete mínimo\n# familiarity_tools/\n#   __init__.py\n#   normalize.py\nprint(\"layout: src-like package with __init__.py and normalize module\")\nprint(\"import familiarity_tools.normalize\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T1-A-E1 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "code": "# __init__.py exporta API pública\n__all__ = [\"normalize_email\"]\n\ndef normalize_email(s: str) -> str:\n    return s.strip().lower()\n\nprint(__all__, normalize_email(\"  A@B.PE \"))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T1-A-E2 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "code": "def _private_helper(x):\n    return x\n\ndef public_api(x):\n    return _private_helper(x).strip()\n\nprint(public_api(\"  hi \"))\nprint(\"no importes _private_helper desde afuera\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T1-A-E3 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "code": "def main():\n    print(\"cli ok\")\n\nif __name__ == \"__main__\":\n    main()\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T1-B-E1 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "code": "import sys\n\ndef main(argv=None):\n    argv = list(sys.argv[1:] if argv is None else argv)\n    print(\"args\", argv)\n    return 0\n\nif __name__ == \"__main__\":\n    raise SystemExit(main())\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T1-B-E2 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "code": "# al importar no corre main; solo con __name__ == '__main__'\ndef greet():\n    return \"hola\"\n\nif __name__ == \"__main__\":\n    print(greet())\nelse:\n    # simula import\n    print(\"imported, no side effects\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T1-B-E3 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"--input\", required=True)\np.add_argument(\"--verbose\", action=\"store_true\")\nns = p.parse_args([\"--input\", \"data.csv\", \"--verbose\"])\nprint(ns)\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T2-A-E1 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"path\")\np.add_argument(\"--limit\", type=int, default=10)\nprint(p.parse_args([\"in.csv\", \"--limit\", \"5\"]))\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T2-A-E2 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "code": "import argparse, sys\np = argparse.ArgumentParser()\np.add_argument(\"--x\", type=int, required=True)\ntry:\n    p.parse_args([])  # falta --x → error de uso\nexcept SystemExit as e:\n    print(\"exit_code_uso\", e.code)  # típicamente 2\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T2-A-E3 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "code": "import os\ndefaults = {\"timeout\": 30, \"retries\": 1}\nfile_cfg = {\"timeout\": 10}\nenv = {\"TIMEOUT\": \"5\"}\nflags = {\"timeout\": 3}\n# flags > env > file > defaults\ncfg = {**defaults, **file_cfg}\nif \"TIMEOUT\" in env:\n    cfg[\"timeout\"] = int(env[\"TIMEOUT\"])\ncfg.update({k: v for k, v in flags.items() if v is not None})\nprint(cfg)\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T2-B-E1 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "code": "import os\ntoken = os.environ.get(\"API_TOKEN\")\nif not token:\n    print(\"missing API_TOKEN — fail fast\")\nelse:\n    print(\"token_present\", True)\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T2-B-E2 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "code": "# .env no se commitea; API_TOKEN solo en env/secret store\nprint(\"precedence: flags > env > file > defaults\")\nprint(\"never hardcode secrets in repo\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T2-B-E3 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "code": "import json, sys\nrecord = {\"id\": \"C001\", \"status\": \"ok\"}\nprint(json.dumps(record, ensure_ascii=False))\nprint(\"progreso va a stderr, no a stdout\", file=sys.stderr)\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T3-A-E1 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "code": "import sys\ndef log_progress(msg):\n    print(msg, file=sys.stderr)\n\nlog_progress(\"stage=start\")\nprint('{\"ok\": true}')  # data only stdout\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T3-A-E2 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "code": "# exit codes: 0 ok, 2 usage, 1 generic error\nprint(\"0 success; 2 argparse usage; 1 runtime error\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T3-A-E3 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "code": "# versionado semver: +subcomando compatible = minor\nprint(\"añadir subcomando compatible → minor\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T3-B-E1 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "code": "changelog = [\n    \"feat: add validate subcommand\",\n    \"fix: handle empty CSV header\",\n]\nfor c in changelog:\n    print(c)\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T3-B-E2 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "code": "# breaking: renombrar flag requerido sin alias = major\nprint(\"breaking change → major version bump\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T3-B-E3 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "code": "# pyproject.toml mínimo conceptual\nprint('[project]')\nprint('name = \"familiarity-tools\"')\nprint('version = \"0.1.0\"')\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T4-A-E1 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "code": "# entry points console_scripts\nprint('[project.scripts]')\nprint('familiarity-cli = \"familiarity_tools.cli:main\"')\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T4-A-E2 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "code": "print(\"README: install, CLI examples, env vars, no secrets\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T4-A-E3 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "code": "ignore = [\".venv/\", \".env\", \"__pycache__/\", \"*.egg-info/\"]\nfor i in ignore:\n    print(i)\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T4-B-E1 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "code": "print(\"no commitear .env con API_TOKEN; sí pyproject, README, src\")\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T4-B-E2 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "code": "checklist = [\"tests verdes\", \"README actualizado\", \"sin secretos\", \"version bump\"]\nfor c in checklist:\n    print(\"-\", c)\n",
+      "justification_from_packet": "Skeptic: contrasté starter de S10-T4-B-E3 con theory S10 (paquetes, CLI argparse, config y distribución); entregué implementación ejecutable alineada al checklist/tests del paquete.",
+      "concepts_used": [
+        "S10"
+      ],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic: el guardián __main__ evita side effects al importar el paquete.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Flags mandan sobre env y file; defaults solo rellenan huecos.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Argparse usa 2 para usage errors; 0 es éxito.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "stderr = progreso/diagnóstico; no mezclar con JSON de salida.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Feature aditiva compatible sube minor, no major.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "justification_from_packet": "Secretos fuera del repo; pyproject/README/src sí versionan.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T11:12:08Z",
+  "session_started_at": "2026-07-23T11:10:47Z",
+  "session_ended_at": "2026-07-23T11:12:08Z"
+}

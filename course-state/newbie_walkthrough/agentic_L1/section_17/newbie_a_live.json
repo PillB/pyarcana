@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 17,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s17-2938877ec7",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nout = cli.merge(tx, on=\"cliente_id\", how=\"left\")\nprint(len(out))\n",
+      "justification_from_packet": "Un left join por cliente_id conserva todos los clientes aunque no tengan tx: C002 permanece con NaN en monto. len=2 demuestra la cardinalidad del lado left del subtema de claves y joins."
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))\n",
+      "justification_from_packet": "Antes de un merge 1:1 mido is_unique sobre la clave: C001 duplicado → False. No dropeo antes de medir; el paquete exige detectar la cardinalidad rota."
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nout = cli.merge(tx, on=\"cliente_id\", how=\"inner\")\nprint(len(out))\n",
+      "justification_from_packet": "Fan-out 1:m: un cliente con 3 tx multiplica filas en el inner merge → len=3. El subtema de cardinalidad advierte que el lado m infla el resultado aunque left tenga una sola clave."
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist())\n",
+      "justification_from_packet": "Anti-join con indicator=True: left_only son clientes sin match en tx. Filtrar da ['C002'], el huérfano del fixture, patrón del subtema validate/anti-join."
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "code": "import pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\ntry:\n    a.merge(b, on=\"id\", validate=\"one_to_one\")\nexcept Exception:\n    print(\"fail\")\n",
+      "justification_from_packet": "validate='one_to_one' es un gate: si b tiene id duplicado el merge lanza y capturo 'fail'. No uso many_to_many para silenciar el error de cardinalidad."
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(int((m[\"_merge\"] == \"left_only\").sum()))\n",
+      "justification_from_packet": "Cuento huérfanos left_only (no la lista) para un dashboard: 2 de 3 clientes sin tx. Misma idea de anti-join, métrica operable del gate de calidad."
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\nlong = df.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])\nprint(len(long))\n",
+      "justification_from_packet": "melt wide→long: 2 filas × 2 value_vars = 4 filas. El contrato n_long = n_filas * n_value_vars del subtema concat/melt/pivot."
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\nw = long.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\").reset_index()\nprint(w.columns.tolist())\n",
+      "justification_from_packet": "pivot_table con aggfunc sum y reset_index vuelve a wide con columns ['id','a','b']. Es el camino inverso del melt en el mismo subtema de reshape."
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "code": "import pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint(len(pd.concat([a, b], ignore_index=True)))\n",
+      "justification_from_packet": "concat vertical (axis=0) apila casos: dos DF de una fila → len=2. ignore_index evita índices duplicados; no uso axis=1, que alinea columnas."
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "code": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\np = long.pivot_table(index=\"id\", columns=\"mes\", values=\"monto\", aggfunc=\"sum\")\np.columns = [f\"monto_{c}\" for c in p.columns]\nprint(list(p.columns))\n",
+      "justification_from_packet": "Tras pivot, renombro a monto_{mes} para un schema estable de portfolio: ['monto_e','monto_f'] sin MultiIndex crudo, como pide nombres estables long/wide."
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\nprint(set(df.columns) == expected)\n",
+      "justification_from_packet": "Validar schema con sets ignora el orden de columnas: set(columns)==expected → True. Documenta el contrato de columnas post-reshape del subtema."
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\nprint(df.rename(columns={\"a\": \"monto\"}).columns.tolist())\n",
+      "justification_from_packet": "rename(columns={'a':'monto'}) es preferible a reasignar .columns a ciegas. El resultado ['monto'] deja el nombre de portfolio explícito."
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "justification_from_packet": "groupby + sum colapsa por región: Lima 1+2=3 y Cusco 3 → {'Cusco':3.0,'Lima':3.0}. Agregación básica del subtema groupby/agg/transform."
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\nprint(df.groupby(\"region\")[\"monto\"].transform(\"mean\").tolist())\n",
+      "justification_from_packet": "transform reinyecta el agregado al shape original: media Lima=2, Cusco=2 → [2.0,2.0,2.0]. No uso agg porque colapsaría filas."
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0]})\nout = df.groupby(\"region\", as_index=False).agg(total=(\"monto\", \"sum\"), n=(\"monto\", \"count\"))\nprint(out.columns.tolist())\n",
+      "justification_from_packet": "Named agg con as_index=False produce columnas ['region','total','n'] legibles para export. Es el patrón de agregación nombrada del paquete."
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nprint([None if pd.isna(x) else float(x) for x in s])\n",
+      "justification_from_packet": "rolling(2).mean() deja NaN en el primer punto (ventana incompleta) y luego 1.5 y 2.5. Convierto NaN→None para el contrato [None, 1.5, 2.5] de ventanas temporales."
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\nfirst = df.groupby(\"cliente_id\")[\"fecha\"].min().dt.to_period(\"M\").astype(str)\nprint(first.to_dict())\n",
+      "justification_from_packet": "Cohorte mensual = min(fecha) por cliente formateada YYYY-MM. C001 entra en enero, C002 en febrero → {'C001':'2024-01','C002':'2024-02'}, definición del subtema de cohortes."
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "code": "import pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\nprint(float(s.sort_index().rolling(2).mean().iloc[-1]))\n",
+      "justification_from_packet": "Hay que ordenar el índice temporal antes del rolling: tras sort, la ventana final promedia 2 y 3 → 2.5. Sin sort el EDA de series queda incorrecto."
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "code": "parts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)\n",
+      "justification_from_packet": "Reconciliación de totales con tolerancia eps: abs(sum(parts)-total)<1e-9 → True. Evita igualdad frágil de floats en el cierre analítico del portfolio."
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "code": "activos = 40\npagados = 10\nprint(pagados / activos)\n",
+      "justification_from_packet": "La tasa usa el denominador correcto: pagados/activos = 0.25, no 25 ni invertir el ratio. El subtema de denominadores insiste en no maquillar la base."
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "code": "total = 100.0\nlima = 60.0\nprint(total - lima)\n",
+      "justification_from_packet": "Bridge residual: total - lima = 40.0 es el primer escalón de una bridge nacional→Lima→resto del cierre analítico."
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].tolist())\n",
+      "justification_from_packet": "Filtro pre-cutoff: solo fechas <= 2024-01-31 entran en features del pasado → [1.0]. Control anti-leakage del subtema temporal."
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\npre = float(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].sum())\nprint(float(tx[\"monto\"].sum()) - pre)\n",
+      "justification_from_packet": "Delta de leakage = sum_total - sum_pre = 15 - 10 = 5.0: la masa post-cutoff que contaminaría una métrica del pasado si usas el total global."
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"monto\": [3.0, 10.0],\n})\ncutoff = pd.Timestamp(\"2024-02-01\")\npre = tx[tx[\"fecha\"] <= cutoff]\nprint(pre.groupby(\"cliente_id\")[\"monto\"].max().to_dict())\n",
+      "justification_from_packet": "Feature as-of: max monto con fecha<=cutoff por cliente, no el max global post-corte. Queda {'C001': 3.0}; el 10 de mayo queda fuera del as-of febrero."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "validate='one_to_one' hace fallar el merge si la cardinalidad no es 1:1. No imputa nulls ni ordena; es un gate de cardinalidad del subtema de joins."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "left_only en un anti-join marca filas del left sin match en right (huérfanos). No son matches perfectos ni schema drift."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "transform reinyecta el agregado al shape original de filas; agg colapsa a una fila por grupo. Esa es la diferencia clave del subtema groupby."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Leakage temporal es incluir datos posteriores al cutoff en features o métricas del pasado. No es un tema de CSV vs Excel ni de melt."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Si suma(partes) ≠ total de referencia, se documenta el diff con tolerancia eps o se corrige el corte. No se ignora un 10% ni se borra la región grande."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:43:59.390432+00:00",
+  "session_started_at": "2026-07-23T16:40:35+00:00",
+  "session_ended_at": "2026-07-23T16:41:03.600000+00:00",
+  "receipt_response_sha256": "8d3c65274b747c94a3de449d0a3f4b8e4e01c715f5ca090c2f8233ba77c25349",
+  "receipt_exercises_sha256": "f599b0a16708bbb1c8e1e0f2970d3ed8776683ecfe62d7bd8ba2e240167cd2ee",
+  "receipt_selfcheck_sha256": "4141ac665159661f318c001182a462532209656f0fe6fd01ea961f6435c3362e"
+}

@@ -1,0 +1,170 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 2,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s02-0969bbb7ec",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "code": "literales = [0, 3.14, \"Lima\", False, None]\nfor lit in literales:\n    print(repr(lit), \"→\", type(lit).__name__)\n",
+      "justification_from_packet": "Los tipos básicos de S02 son int, float, str, bool y NoneType; type(x).__name__ muestra el nombre legible de cada literal como en la teoría de literales."
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "code": "codigo_int = 42\ncodigo_str = \"42\"\nprint(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__)\nprint(\"igualdad cruda:\", codigo_int == codigo_str)\nprint(\"igualdad tras str():\", str(codigo_int) == codigo_str)\nprint(\"isinstance(True, int) →\", isinstance(True, int))\nprint(\"Nota: bool es subtipo de int, pero en intake modela banderas como bool.\")\n",
+      "justification_from_packet": "La trampa clásica: 42 (int) y \"42\" (str) no son el mismo valor; 42 == \"42\" es False. bool es subtipo de int, pero no se abusa de eso en negocio."
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "code": "campos = {\n    \"nombres\": (\"María José\", str),\n    \"apellido_paterno\": (\"Quispe\", str),\n    \"apellido_materno\": (\"Ñahui\", str),\n    \"contacto\": (\"999000111\", str),\n    \"edad\": (34, int),\n    \"activo\": (True, bool),\n}\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")\n",
+      "justification_from_packet": "El teléfono debe modelarse como str, no int: no es cantidad aritmética y puede tener ceros a la izquierda; apellidos Unicode también son str."
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "code": "raw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)\nassert edad == 21 and type(edad) is int\n",
+      "justification_from_packet": "La conversión usa constructores int/float/str; el texto de formularios trae espacios y se hace valor.strip() antes de convertir."
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "code": "def safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return False, None, f\"ERROR en '{campo}': vacío (raw={valor!r})\"\n    try:\n        return True, int(texto), None\n    except ValueError:\n        msg = f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n        return False, None, msg\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))\n",
+      "justification_from_packet": "Validación profesional: capturar el fallo, nombrar el campo y no tragar el error; el patrón (ok, valor_o_None, mensaje) cubre vacío y ValueError."
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_edad_monto(edad_txt: str, monto_txt: str) -> dict:\n    raw = {\"edad\": edad_txt, \"monto\": monto_txt}\n    clean = {\"edad\": None, \"monto\": None}\n    errors = []\n    try:\n        clean[\"edad\"] = int(edad_txt.strip())\n    except ValueError:\n        errors.append(f\"ERROR en 'edad': no se pudo convertir {edad_txt!r} a int\")\n    try:\n        texto = monto_txt.strip()\n        if texto == \"\":\n            raise InvalidOperation\n        mon = Decimal(texto).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        clean[\"monto\"] = mon\n    except (InvalidOperation, ValueError):\n        errors.append(f\"ERROR en 'monto': no se pudo convertir {monto_txt!r} a Decimal\")\n    return {\"raw\": raw, \"clean\": clean, \"errors\": errors}\n\nprint(parse_edad_monto(\"34\", \"150.50\"))\nprint(parse_edad_monto(\"abc\", \"99.00\"))\nprint(parse_edad_monto(\"21\", \"xyz\"))\n",
+      "justification_from_packet": "Si un campo falla el otro puede seguir OK; raw siempre conserva los strings; monto se parsea con Decimal desde texto, nunca float."
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "code": "nombre_cliente = \"Luis\"\napellido_paterno = \"Ramos\"\nindice = 0\nlongitud = 5\nEDAD_MAXIMA = 120\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)\n",
+      "justification_from_packet": "PEP 8 pide snake_case para variables y UPPER_CASE para constantes; se evitan l/O/I confusos y se prefieren longitud e indice."
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "code": "estado = \"activo\"\ncodigo = 10\nflag = True\nif estado == \"activo\":\n    print(\"ok estado\")\nif codigo == 10:\n    print(\"ok codigo\")\nif flag == True:\n    print(\"ok flag\")\n",
+      "justification_from_packet": "= asigna y == compara igualdad; mezclarlos es el bug de novato más citado; if x = 1 es SyntaxError en Python moderno."
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "code": "encabezados = [\"Nombres\", \"Apellido Paterno\", \"Apellido Materno\", \"Teléfono / Cel\", \"Dirección\", \"Edad (años)\"]\nmapeo = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Teléfono / Cel\": \"contacto\",\n    \"Dirección\": \"direccion\",\n    \"Edad (años)\": \"edad\",\n}\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, \"???\")}\")\n",
+      "justification_from_packet": "En el schema de intake los nombres estables son nombres, apellido_paterno, apellido_materno, contacto, direccion en snake_case sin tildes."
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "code": "print(\"None is None →\", None is None)\nprint(\"[] == [] →\", [] == [])\nprint(\"[] is [] →\", [] is [])\nprint(\"1 == True →\", 1 == True)\nprint(\"1 is True →\", 1 is True)\n",
+      "justification_from_packet": "== compara valor e is compara identidad; el idioma correcto para ausencia es x is None; [] is [] es False porque son objetos distintos."
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "code": "original = [\"a\", \"b\"]\ntrabajo = original.copy()\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)\nassert original == [\"a\", \"b\"] and trabajo == [\"a\", \"b\", \"c\"]\n",
+      "justification_from_packet": "Si b = a y a es lista, b es alias y mutar b muta a; para independizar se usa a.copy() o a[:] (copia superficial)."
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "code": "def make_record(nombres: str, contacto: str) -> dict:\n    return {\n        \"nombres_raw\": nombres,\n        \"contacto_raw\": contacto,\n        \"nombres\": nombres.strip(),\n        \"contacto\": contacto.strip(),\n    }\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")\n",
+      "justification_from_packet": "Patrón de calidad: guarda campo_raw con el texto original y trabaja en clean; si mutas el limpio el raw sigue para auditoría."
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "code": "n = 17\nd = 5\nprint(\"//\", n // d)\nprint(\"%\", n % d)\nprint(\"**\", 2 ** 4)\nprint(\"/\", n / d)\nprint(\"Nota: / es división verdadera y devuelve float\")\nassert n // d == 3 and n % d == 2 and 2 ** 4 == 16 and n / d == 3.4\n",
+      "justification_from_packet": "Los operadores de S02 incluyen // (división entera), % (resto), ** (potencia) y / que devuelve float (división verdadera)."
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "code": "print(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = (-3)**2\nassert cuadrado_neg == 9\nprint(\"assert OK\")\n",
+      "justification_from_packet": "Trampa de precedencia: -3**2 vale -9, no 9, porque el unario menos se aplica al resultado de 3**2; usa (-3)**2 para el cuadrado."
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "code": "linea_a = 50\nlinea_b = 30\nsubtotal = linea_a + linea_b\ntotal = subtotal * (1 + 0.18)\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)\n",
+      "justification_from_packet": "Un precio con IGV 18% se escribe base × (1 + 0.18); paréntesis explícitos evitan bugs de code review al mezclar sumas y tasas."
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "code": "from decimal import Decimal\nprint(\"float\", 0.1 + 0.2)\nprint(\"Decimal\", Decimal(\"0.1\") + Decimal(\"0.2\"))\nassert Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\n",
+      "justification_from_packet": "float no es dinero: 0.1+0.2 da 0.3000…4; Decimal se construye desde str, nunca Decimal(0.1) que arrastra el error del float."
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN\ncuenta = Decimal(\"85.50\")\npropina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\ntotal = (cuenta + propina).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")\n",
+      "justification_from_packet": "Redondeo a céntimos con quantize(Decimal(\"0.01\")) y ROUND_HALF_EVEN; montos en soles se calculan con Decimal, no float."
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_monto(texto: str):\n    t = texto.strip()\n    if t == \"\":\n        return False, None, f\"ERROR en 'monto': vacío (raw={texto!r})\"\n    try:\n        mon = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        return True, mon, None\n    except InvalidOperation:\n        return False, None, f\"ERROR en 'monto': no se pudo convertir {texto!r} a Decimal\"\n\nfor s in [\"150.50\", \"  20.1 \", \"\", \"abc\"]:\n    print(repr(s), \"→\", parse_monto(s))\n",
+      "justification_from_packet": "En intake el monto llega como texto; se parsea con Decimal(texto.strip()), se captura InvalidOperation y se reporta con nombre de campo."
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "code": "nombre = \"José\"\nprint(f\"Hola, {nombre}. Bienvenido al intake.\")\n",
+      "justification_from_packet": "Las f-strings son el formato preferido en S02: legibles, con expresiones cortas; f\"...{nombre}...\" inserta el valor en el saludo."
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "code": "from decimal import Decimal\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(f\"nombres: {nombres}\")\nprint(f\"apellido_paterno: {apellido_paterno}\")\nprint(f\"contacto: {contacto}\")\nprint(f\"monto: S/ {monto:.2f}\")\n",
+      "justification_from_packet": "Tras Decimal, el monto se formatea con :.2f en f-strings sin convertirlo a float; el reporte multi-línea usa etiquetas del schema."
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "code": "def simular_input(nombres: str, contacto: str, edad: str) -> dict:\n    datos = {\"nombres\": nombres, \"contacto\": contacto, \"edad\": edad}\n    types = {k: type(v).__name__ for k, v in datos.items()}\n    return {**datos, \"types\": types}\n\nr = simular_input(\"  Ana  \", \"999\", \"34\")\nprint(r)\nassert r[\"types\"][\"edad\"] == \"str\"\nassert r[\"types\"][\"nombres\"] == \"str\"\nprint(\"OK\")\n",
+      "justification_from_packet": "input siempre devuelve str; en Pyodide se simula con variables o parámetros de función, testeable sin consola interactiva."
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "code": "def parse_nombres(valor: str) -> dict:\n    errors = []\n    clean = valor.strip() if valor and valor.strip() else None\n    if clean is None:\n        errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\")\n    return {\"nombres_raw\": valor, \"nombres\": clean, \"errors\": errors}\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")\n",
+      "justification_from_packet": "El parser conserva *_raw, produce clean con strip y acumula errors; vacío genera mensaje accionable y el raw sigue disponible."
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "code": "original = \"  Ñahui  \"\nraw = original\nclean = original.strip()\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")\n",
+      "justification_from_packet": "Caso Unicode del gate: García, Ñahui, María hacen round-trip sin errores ASCII; raw con espacios y clean strip sin recodificar."
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "code": "def safe_int(campo: str, valor: str):\n    try:\n        return True, int(valor.strip()), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\ndef parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):\n    errors = []\n    rec = {\n        \"nombres_raw\": nombres,\n        \"apellido_paterno_raw\": apellido_paterno,\n        \"apellido_materno_raw\": apellido_materno,\n        \"contacto_raw\": contacto,\n        \"direccion_raw\": direccion,\n        \"edad_raw\": edad,\n        \"nombres\": nombres.strip() if nombres and nombres.strip() else None,\n        \"apellido_paterno\": apellido_paterno.strip() if apellido_paterno and apellido_paterno.strip() else None,\n        \"apellido_materno\": apellido_materno.strip() if apellido_materno and apellido_materno.strip() else None,\n        \"contacto\": contacto.strip() if contacto and contacto.strip() else None,\n        \"direccion\": direccion.strip() if direccion and direccion.strip() else None,\n        \"edad\": None,\n        \"errors\": errors,\n    }\n    if not nombres or not nombres.strip():\n        errors.append(f\"ERROR en 'nombres': vacío (raw={nombres!r})\")\n    if edad is not None:\n        ok, n, err = safe_int(\"edad\", edad)\n        if ok:\n            rec[\"edad\"] = n\n        else:\n            errors.append(err)\n    return rec\n\nr1 = parse_client(\"María\", \"Quispe\", \"Ñahui\", \"999000111\", \"Lima\", \"34\")\nassert r1[\"apellido_materno_raw\"] == \"Ñahui\" and r1[\"errors\"] == []\nr2 = parse_client(\"\", \"Quispe\", \"Ñahui\", \"999\", \"Lima\")\nassert r2[\"nombres_raw\"] == \"\" and any(\"nombres\" in e for e in r2[\"errors\"])\nr3 = parse_client(\"Ana\", \"Díaz\", \"Ramos\", \"999\", \"Cusco\", \"abc\")\nassert r3[\"edad_raw\"] == \"abc\" and any(\"edad\" in e for e in r3[\"errors\"])\nprint(\"3 tests OK\")\n",
+      "justification_from_packet": "El parser de intake recibe el registro, conserva *_raw, limpia con strip y acumula errors sin tragar excepciones; tres casos: Unicode, vacío y número inválido."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "La teoría de literales dice que None es ausencia de valor y su tipo es NoneType, no null ni void ni str vacío."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "type(\"42\").__name__ es str y 42 == \"42\" es False; el int 42 y el texto \"42\" no son el mismo valor según el paquete."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "El teléfono debe modelarse como str: no es cantidad aritmética y puede necesitar ceros a la izquierda u otro formato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Con listas mutables, b = a es un alias: mutar b con append también muta a, que queda [1, 2, 3] como enseña la teoría de identidad."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "El idioma correcto para ausencia es x is None (identidad del objeto), no x == None, aunque a veces parezca funcionar."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:26:11.164666+00:00",
+  "session_started_at": "2026-07-23T16:25:40.152080+00:00",
+  "session_ended_at": "2026-07-23T16:26:11.162674+00:00",
+  "receipt_response_sha256": "3cf2946934dca4484e669108d098d13df2bb495955ce77df3770201e859f9f41",
+  "receipt_exercises_sha256": "d998f7e57a8e61dd71cb21b991b1649b97c0da3be6580d09f534e307b4bcc841",
+  "receipt_selfcheck_sha256": "01c212ef7b83bc6925d1290364a18d0eec77f8ca67277b3ffef4775ab8cfb2a8"
+}

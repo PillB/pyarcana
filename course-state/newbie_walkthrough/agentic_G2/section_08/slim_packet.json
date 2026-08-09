@@ -1,0 +1,702 @@
+{
+  "attempt_id": "agentic_G2",
+  "section_index": 8,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "78058f8237924509"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    }
+  ],
+  "active": {
+    "id": "pandas",
+    "index": 8,
+    "title": "Archivos, CSV, JSON y contratos de ingesta",
+    "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+    "jobRelevance": "El gate **CP-N1-B** se cierra cuando puedes **ingerir archivos reales de negocio** (aunque sean sintéticos en el curso): CSV de clientes, JSON de transacciones, cuarentena con motivo, hashes, backup y **manifest reconciliado**. En junior data/analytics engineering en Perú esto pesa más que un groupby de demo. Id de plataforma `pandas` se conserva; el contenido V3 es stdlib + contratos de ingesta (pandas EDA se difiere al nivel 2).",
+    "learningOutcomes": [
+      "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+      "Manejar newlines y escritura atómica (temp + replace)",
+      "Leer/escribir CSV con headers y casts controlados",
+      "Enviar filas irregulares a cuarentena con motivo",
+      "Serializar/deserializar JSON (array y JSONL)",
+      "Validar schema mínimo, nulls y defaults compatibles",
+      "Calcular hashes, backup y provenance de inputs",
+      "Emitir manifest con conteos reconciliados in=clean+quarantine"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S08-T1-A",
+        "heading": "pathlib, with, modos y encodings",
+        "paragraphs": [
+          "`pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` son convenientes; `with path.open(...) as f` da control de modo. En ingesta de archivos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+          "Modos: `r` lectura, `w` trunca, `a` append, `x` crea exclusivo. Siempre declara **`encoding='utf-8'`** en texto. `errors=` (`strict` default, `replace`) debe ser decisión documentada. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+          "`path.exists()` / `is_file()` evitan sorpresas. No asumas el cwd: usa paths relativos al proyecto o `Path(__file__).resolve().parent`. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «pathlib, with, modos y encodings»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "from pathlib import Path\nimport tempfile, os\ntd = Path(tempfile.mkdtemp())\np = td / \"intake.txt\"\np.write_text(\"línea1\\njosé\\n\", encoding=\"utf-8\")\nprint(p.exists(), p.read_text(encoding=\"utf-8\").splitlines())\nwith p.open(\"a\", encoding=\"utf-8\") as f:\n    f.write(\"extra\\n\")\nprint(p.read_text(encoding=\"utf-8\"))",
+        "code_output": "True ['línea1', 'josé']\nlínea1\njosé\nextra\n"
+      },
+      {
+        "subtopicId": "S08-T1-B",
+        "heading": "Newlines y escritura atómica",
+        "paragraphs": [
+          "CSV en Python: abre con `newline=''` para que el módulo csv controle terminadores. Texto universal: prefiere `\\n` en salidas del pipeline. En ingesta de archivos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+          "**Escritura atómica**: escribe a un archivo temporal en el mismo directorio y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, no dejas el destino truncado. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+          "Detectar `\\r\\n` en inputs ayuda a documentar provenance de origen Windows vs Unix. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Newlines y escritura atómica»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "from pathlib import Path\nimport os, tempfile\ntd = Path(tempfile.mkdtemp())\ndest = td / \"out.txt\"\n\ndef write_atomic(path: Path, text: str) -> None:\n    path = Path(path)\n    tmp = path.with_suffix(path.suffix + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\n\nwrite_atomic(dest, \"hola\\n\")\nprint(dest.read_text(encoding=\"utf-8\"))\nsample = b\"a\\r\\nb\\n\"\nprint(\"tiene CRLF\", b\"\\r\\n\" in sample)",
+        "code_output": "hola\n\ntiene CRLF True"
+      },
+      {
+        "subtopicId": "S08-T2-A",
+        "heading": "Dialectos, headers y tipos",
+        "paragraphs": [
+          "`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldnames`. Cast de tipos (`int`, `Decimal`) es **explícito** y fallos van a reject/cuarentena — no silencies con 0 mágico sin traza. El contrato monetario iniciado en S02 continúa: `Decimal` desde texto y cuantizado a `0.01`, nunca `float`.",
+          "Fechas pueden quedarse como string ISO en N1-B si no hay parser de calendario aún; lo importante es el **contrato de columnas** documentado. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+          "Dialectos (delimitador `;` vs `,`) se configuran; no asumas Excel latam sin mirar el archivo. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Dialectos, headers y tipos»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import csv, io\nfrom decimal import Decimal, InvalidOperation\nraw = \"id,nombre,monto\\nC001,Ana,10.5\\nC002,Luis,20\\n\"\nreader = csv.DictReader(io.StringIO(raw))\nfor row in reader:\n    row[\"monto\"] = Decimal(row[\"monto\"]).quantize(Decimal(\"0.01\"))\n    print(row)",
+        "code_output": "{'id': 'C001', 'nombre': 'Ana', 'monto': Decimal('10.50')}\n{'id': 'C002', 'nombre': 'Luis', 'monto': Decimal('20.00')}"
+      },
+      {
+        "subtopicId": "S08-T2-B",
+        "heading": "Filas irregulares y cuarentena",
+        "paragraphs": [
+          "Filas con **más/menos columnas** que el header son irregulares. No las “arregles” en silencio: mándalas a `quarantine.csv` con **motivo** y conserva el raw. En ingesta de archivos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+          "Resumen de motivos (`contador por reason`) alimenta el manifest y el dashboard de calidad. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+          "Good path escribe solo filas que pasaron schema + casts + normalización. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Filas irregulares y cuarentena»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import csv, io\ntext = \"id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nC003\\n\"\nreader = csv.reader(io.StringIO(text))\nheader = next(reader)\ngood, bad = [], []\nfor row in reader:\n    if len(row) != len(header):\n        bad.append({\"raw\": row, \"reason\": f\"cols {len(row)}!={len(header)}\"})\n    else:\n        good.append(dict(zip(header, row)))\nprint(\"good\", good)\nprint(\"bad\", bad)",
+        "code_output": "good [{'id': 'C001', 'nombre': 'Ana'}]\nbad [{'raw': ['C002', 'Luis', 'EXTRA'], 'reason': 'cols 3!=2'}, {'raw': ['C003'], 'reason': 'cols 1!=2'}]"
+      },
+      {
+        "subtopicId": "S08-T3-A",
+        "heading": "Objetos/arrays y serialización JSON",
+        "paragraphs": [
+          "`json.loads` / `dumps` y `load` / `dump` sobre archivos. JSON objects → dict; arrays → list. **JSONL** (un objeto por línea) es útil para streams de txs. JSON no tiene tipo Decimal: en este curso serializamos montos exactos como strings (`\"10.00\"`) y al leerlos reconstruimos `Decimal`; nunca los degradamos a float.",
+          "`ensure_ascii=False` preserva tildes legibles. `sort_keys=True` ayuda a determinismo en manifests. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+          "`datetime` no es serializable por defecto: convierte a `isoformat()` o str para evitar TypeError. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Objetos/arrays y serialización JSON»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import json\nfrom datetime import date\ndata = [{\"id\": \"T1\", \"día\": date(2026, 1, 15).isoformat()}]\ns = json.dumps(data, ensure_ascii=False, sort_keys=True)\nprint(s)\nprint(json.loads(s)[0][\"id\"])",
+        "code_output": "[{\"día\": \"2026-01-15\", \"id\": \"T1\"}]\nT1"
+      },
+      {
+        "subtopicId": "S08-T3-B",
+        "heading": "Schema, nulls y evolución compatible",
+        "paragraphs": [
+          "Valida **required keys** antes de normalizar. `null` JSON → `None` en Python. Distingue null explícito de clave ausente si la política lo requiere. En ingesta de archivos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+          "Evolución: añadir campo opcional con **default** no rompe lectores viejos. Quitar required sí es breaking. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+          "`validate_schema(obj, required)` retorna ok/errors para cuarentena. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Schema, nulls y evolución compatible»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "def validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return (len(missing) == 0, missing)\n\nprint(validate_schema({\"id\": \"C1\", \"email\": None}, [\"id\", \"email\"]))\nprint(validate_schema({\"id\": \"C1\"}, [\"id\", \"email\"]))\nobj = {\"id\": \"C1\"}\nobj.setdefault(\"segment\", \"default\")\nprint(obj)",
+        "code_output": "(True, [])\n(False, ['email'])\n{'id': 'C1', 'segment': 'default'}"
+      },
+      {
+        "subtopicId": "S08-T4-A",
+        "heading": "Backups, hashes y provenance",
+        "paragraphs": [
+          "`hashlib.sha256` del contenido del input fija un fingerprint en el manifest. Si el CSV cambia, el hash cambia — detectas reprocesos. En ingesta de archivos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+          "Backup: copia `input.bak` o a `backups/` **antes** de transformar. No mutes el original in place. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: pathlib, csv, json, open/with (S01–S08); no pandas de S15, no requests de S12.",
+          "Provenance mínima: `{path, sha256, bytes, received_at}` por fuente. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Backups, hashes y provenance»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "from pathlib import Path\nimport hashlib, tempfile, shutil\ntd = Path(tempfile.mkdtemp())\nsrc = td / \"clients.csv\"\nsrc.write_text(\"id,nombre\\nC001,Ana\\n\", encoding=\"utf-8\")\nh = hashlib.sha256(src.read_bytes()).hexdigest()\nbak = td / \"clients.csv.bak\"\nshutil.copy2(src, bak)\nprint(\"sha256\", h[:16] + \"...\")\nprint(\"bak exists\", bak.exists())\nprint(\"provenance\", {\"path\": str(src.name), \"sha256\": h, \"bytes\": src.stat().st_size})",
+        "code_output": "sha256 206bcfbde4f213a5...\nbak exists True\nprovenance {'path': 'clients.csv', 'sha256': '206bcfbde4f213a5b89c4d88b9a63d7b9c436b3b7c13db84e63445d1574f7eba', 'bytes': 19}"
+      },
+      {
+        "subtopicId": "S08-T4-B",
+        "heading": "Reconciliación y manifest de corrida",
+        "paragraphs": [
+          "Manifest JSON de la corrida: timestamps, versión y una entrada por fuente con `name`, hash y conteos `n_in`, `n_clean`, `n_quarantine`. Los totales de corrida se calculan sumando fuentes; no se escriben a mano. En ingesta de archivos, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta contrato de ingesta y manifest CP-N1-B sin inventar hechos sobre personas reales.",
+          "**Reconciliación en dos niveles**: cada fuente cumple `n_in == n_clean + n_quarantine` y los totales son la suma exacta de las fuentes. Validar solo el agregado puede ocultar un sobrante en CSV compensado por un faltante en JSON. Si cualquier fuente no cuadra, **falla la corrida** — no publiques clean a medias.",
+          "Evidencia del gate CP-N1-B: scripts + fixtures + manifest de demo + tests + README. Caso sintético Perú: CSV/JSON sintéticos de clientes C00x y montos PEN ficticios. Documenta decisión, métrica y límite conocido en el memo del subtema «Reconciliación y manifest de corrida»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import json\nsources = [\n    {\"name\": \"clients.csv\", \"sha256\": \"abc\", \"n_in\": 6, \"n_clean\": 5, \"n_quarantine\": 1},\n    {\"name\": \"transactions.json\", \"sha256\": \"def\", \"n_in\": 4, \"n_clean\": 3, \"n_quarantine\": 1},\n]\nfor source in sources:\n    source[\"reconcile_ok\"] = source[\"n_in\"] == source[\"n_clean\"] + source[\"n_quarantine\"]\nmanifest = {\n    \"sources\": sources,\n    \"n_in\": sum(s[\"n_in\"] for s in sources),\n    \"n_clean\": sum(s[\"n_clean\"] for s in sources),\n    \"n_quarantine\": sum(s[\"n_quarantine\"] for s in sources),\n}\nmanifest[\"reconcile_ok\"] = all(s[\"reconcile_ok\"] for s in sources)\nprint(\"reconcile_ok\", manifest[\"reconcile_ok\"])\nprint([(s[\"name\"], s[\"reconcile_ok\"]) for s in sources])",
+        "code_output": "reconcile_ok True\n[('clients.csv', True), ('transactions.json', True)]"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S08-T1-A-DEMO",
+          "subtopicId": "S08-T1-A",
+          "environment": "local-python",
+          "description": "Leer y escribir intake UTF-8 con Path",
+          "why": "Path + UTF-8 explícito es la base de toda ingesta local del gate.",
+          "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / \"intake.txt\"\np.write_text(\"cliente;José Quispe\\n\", encoding=\"utf-8\")\ntext = p.read_text(encoding=\"utf-8\")\nprint(text.strip())\nprint(\"exists\", p.exists(), \"size\", p.stat().st_size)",
+          "language": "python",
+          "output": "cliente;José Quispe\nexists True size 21"
+        },
+        {
+          "demoId": "S08-T1-B-DEMO",
+          "subtopicId": "S08-T1-B",
+          "environment": "local-python",
+          "description": "write_atomic(path, text)",
+          "why": "os.replace hace el swap atómico del artefacto de salida.",
+          "code": "from pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path: Path, text: str) -> None:\n    path = Path(path)\n    tmp = path.with_name(path.name + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\n\ntd = Path(tempfile.mkdtemp())\ndest = td / \"clean.csv\"\nwrite_atomic(dest, \"id,nombre\\nC001,Ana\\n\")\nprint(dest.read_text(encoding=\"utf-8\"))\nprint(\"tmp gone\", not (td / \"clean.csv.tmp\").exists())",
+          "language": "python",
+          "output": "id,nombre\nC001,Ana\n\ntmp gone True"
+        },
+        {
+          "demoId": "S08-T2-A-DEMO",
+          "subtopicId": "S08-T2-A",
+          "environment": "local-python",
+          "description": "Ingesta CSV con monto Decimal y fecha ISO string",
+          "why": "DictReader + Decimal desde texto; fecha como string ISO documentado.",
+          "code": "import csv, io\nfrom decimal import Decimal\nraw = \"id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n\"\nrows = []\nfor row in csv.DictReader(io.StringIO(raw)):\n    row[\"monto\"] = Decimal(row[\"monto\"]).quantize(Decimal(\"0.01\"))\n    # fecha queda ISO string (contrato N1-B)\n    rows.append(row)\nfor r in rows:\n    print(r[\"id\"], r[\"monto\"], type(r[\"monto\"]).__name__, r[\"fecha\"])",
+          "language": "python",
+          "output": "C001 10.50 Decimal 2026-01-10\nC002 20.00 Decimal 2026-01-11"
+        },
+        {
+          "demoId": "S08-T2-B-DEMO",
+          "subtopicId": "S08-T2-B",
+          "environment": "local-python",
+          "description": "Separar good.csv vs quarantine.csv",
+          "why": "Cuarentena con motivo deja audit trail; good solo tiene filas sanas.",
+          "code": "import csv, io\nfrom pathlib import Path\nimport tempfile\n\ntext = \"id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nbadonly\\n\"\nreader = csv.reader(io.StringIO(text))\nheader = next(reader)\ngood, quar = [], []\nfor row in reader:\n    if len(row) != len(header):\n        quar.append({\"raw\": \",\".join(row), \"reason\": \"col_count\"})\n    else:\n        good.append(dict(zip(header, row)))\ntd = Path(tempfile.mkdtemp())\nwith (td / \"good.csv\").open(\"w\", newline=\"\", encoding=\"utf-8\") as f:\n    w = csv.DictWriter(f, fieldnames=header)\n    w.writeheader()\n    w.writerows(good)\nwith (td / \"quarantine.csv\").open(\"w\", newline=\"\", encoding=\"utf-8\") as f:\n    w = csv.DictWriter(f, fieldnames=[\"raw\", \"reason\"])\n    w.writeheader()\n    w.writerows(quar)\nprint(\"good\", good)\nprint(\"quarantine\", quar)\nprint((td / \"good.csv\").read_text(encoding=\"utf-8\"))",
+          "language": "python",
+          "output": "good [{'id': 'C001', 'nombre': 'Ana'}]\nquarantine [{'raw': 'C002,Luis,EXTRA', 'reason': 'col_count'}, {'raw': 'badonly', 'reason': 'col_count'}]\nid,nombre\nC001,Ana\n"
+        },
+        {
+          "demoId": "S08-T3-A-DEMO",
+          "subtopicId": "S08-T3-A",
+          "environment": "local-python",
+          "description": "Exportar results a JSON array + JSONL",
+          "why": "Array JSON para batch pequeño; JSONL para append y streaming de txs.",
+          "code": "import json\nfrom pathlib import Path\nimport tempfile\nrows = [{\"id\": \"T1\", \"monto\": \"10.00\"}, {\"id\": \"T2\", \"monto\": \"5.00\"}]\ntd = Path(tempfile.mkdtemp())\n(td / \"txs.json\").write_text(\n    json.dumps(rows, ensure_ascii=False, indent=2), encoding=\"utf-8\"\n)\nwith (td / \"txs.jsonl\").open(\"w\", encoding=\"utf-8\") as f:\n    for r in rows:\n        f.write(json.dumps(r, ensure_ascii=False) + \"\\n\")\nprint((td / \"txs.json\").read_text(encoding=\"utf-8\"))\nprint(\"jsonl lines\", (td / \"txs.jsonl\").read_text(encoding=\"utf-8\").splitlines())",
+          "language": "python",
+          "output": "[\n  {\n    \"id\": \"T1\",\n    \"monto\": \"10.00\"\n  },\n  {\n    \"id\": \"T2\",\n    \"monto\": \"5.00\"\n  }\n]\njsonl lines ['{\"id\": \"T1\", \"monto\": \"10.00\"}', '{\"id\": \"T2\", \"monto\": \"5.00\"}']"
+        },
+        {
+          "demoId": "S08-T3-B-DEMO",
+          "subtopicId": "S08-T3-B",
+          "environment": "local-python",
+          "description": "validate_schema(obj, required) + campo opcional nuevo",
+          "why": "Required estricto + defaults opcionales permiten evolucionar el contrato.",
+          "code": "def validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return len(missing) == 0, missing\n\nrequired = [\"id\", \"email\"]\nprint(validate_schema({\"id\": \"C1\", \"email\": None}, required))\nprint(validate_schema({\"id\": \"C1\"}, required))\n# evolución: campo opcional con default\nobj = {\"id\": \"C1\", \"email\": \"a@ex.com\"}\nobj.setdefault(\"segment\", \"standard\")\nprint(obj)",
+          "language": "python",
+          "output": "(True, [])\n(False, ['email'])\n{'id': 'C1', 'email': 'a@ex.com', 'segment': 'standard'}"
+        },
+        {
+          "demoId": "S08-T4-A-DEMO",
+          "subtopicId": "S08-T4-A",
+          "environment": "local-python",
+          "description": "sha256 de input CSV + backup .bak",
+          "why": "Hash + backup del crudo son la provenance mínima del gate.",
+          "code": "from pathlib import Path\nimport hashlib, shutil, tempfile\ntd = Path(tempfile.mkdtemp())\nsrc = td / \"clients.csv\"\nsrc.write_text(\"id,nombre\\nC001,Ana\\n\", encoding=\"utf-8\")\ndigest = hashlib.sha256(src.read_bytes()).hexdigest()\nbak = Path(str(src) + \".bak\")\nshutil.copy2(src, bak)\nprint(digest)\nprint(\"backup_ok\", bak.exists() and bak.read_bytes() == src.read_bytes())",
+          "language": "python",
+          "output": "206bcfbde4f213a5b89c4d88b9a63d7b9c436b3b7c13db84e63445d1574f7eba\nbackup_ok True"
+        },
+        {
+          "demoId": "S08-T4-B-DEMO",
+          "subtopicId": "S08-T4-B",
+          "environment": "local-python",
+          "description": "manifest.json de una corrida ETL",
+          "why": "El manifest prueba reconciliación por fuente y agregada; ninguna fuente puede esconder pérdidas detrás de otra.",
+          "code": "import json\nfrom pathlib import Path\nimport tempfile\nsources = [\n    {\"name\": \"clients.csv\", \"sha256\": \"deadbeef\", \"n_in\": 3, \"n_clean\": 2, \"n_quarantine\": 1},\n    {\"name\": \"transactions.json\", \"sha256\": \"cafebabe\", \"n_in\": 2, \"n_clean\": 2, \"n_quarantine\": 0},\n]\nfor source in sources:\n    source[\"reconcile_ok\"] = source[\"n_in\"] == source[\"n_clean\"] + source[\"n_quarantine\"]\nmanifest = {\n    \"run_id\": \"demo-001\",\n    \"sources\": sources,\n    \"n_in\": sum(s[\"n_in\"] for s in sources),\n    \"n_clean\": sum(s[\"n_clean\"] for s in sources),\n    \"n_quarantine\": sum(s[\"n_quarantine\"] for s in sources),\n    \"reconcile_ok\": all(s[\"reconcile_ok\"] for s in sources),\n}\ntd = Path(tempfile.mkdtemp())\npath = td / \"manifest.json\"\npath.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding=\"utf-8\")\nprint(path.read_text(encoding=\"utf-8\"))",
+          "language": "python",
+          "output": "{\n  \"n_clean\": 4,\n  \"n_in\": 5,\n  \"n_quarantine\": 1,\n  \"reconcile_ok\": true,\n  \"run_id\": \"demo-001\",\n  \"sources\": [\n    {\n      \"n_clean\": 2,\n      \"n_in\": 3,\n      \"n_quarantine\": 1,\n      \"name\": \"clients.csv\",\n      \"reconcile_ok\": true,\n      \"sha256\": \"deadbeef\"\n    },\n    {\n      \"n_clean\": 2,\n      \"n_in\": 2,\n      \"n_quarantine\": 0,\n      \"name\": \"transactions.json\",\n      \"reconcile_ok\": true,\n      \"sha256\": \"cafebabe\"\n    }\n  ]\n}"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S08-T1-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: En un temp dir, crea `Path` a `demo.txt`, escribe 'hola', comprueba `exists` e imprime True/False. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "write_text + exists",
+            "encoding utf-8"
+          ],
+          "kind": "guided",
+          "tests": "True",
+          "starterCode": "from pathlib import Path\nimport tempfile\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T1-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S08-T1-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Escribe 3 líneas con with open, luego lee con readlines strip e imprime la lista. Salida/pass: `['a', 'b', 'c']`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "with path.open('w', encoding='utf-8')",
+            "newline natural \\n"
+          ],
+          "kind": "independent",
+          "tests": "['a','b','c']",
+          "starterCode": "from pathlib import Path\nimport tempfile\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T1-A-E3",
+          "instruction": "E3 (transferencia) — Simula UnicodeDecodeError leyendo bytes latinos como utf-8 strict si es latin-1 content… Mejor: escribe bytes no-UTF8 y captura UnicodeDecodeError al read_text utf-8. Imprime tipo de error y sugiere encoding o quarantine.",
+          "hints": [
+            "path.write_bytes(b'\\xff\\xfe') o latin1 bytes inválidos en utf-8",
+            "try/except UnicodeDecodeError"
+          ],
+          "kind": "transfer",
+          "tests": "UnicodeDecodeError",
+          "starterCode": "from pathlib import Path\nimport tempfile\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T1-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Detecta si un `bytes` sample contiene CRLF `\\r\\n`. Imprime True para sample Windows y False para solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "b'\\r\\n' in data",
+            "Dos samples."
+          ],
+          "kind": "guided",
+          "tests": "True False",
+          "starterCode": "# fixture\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T1-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S08-T1-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Implementa `write_atomic` y verifica contenido final. Salida/pass: `ok`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "tmp + os.replace",
+            "mismo directorio que dest"
+          ],
+          "kind": "independent",
+          "tests": "ok",
+          "starterCode": "from pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T1-B-E3",
+          "instruction": "E3 (transferencia) — Simula fallo mid-write: escribe dest parcial 'PARCIAL' y muestra que un atomic replace posterior deja 'COMPLETO'. Imprime ambos estados.",
+          "hints": [
+            "Primero write no atómico parcial; luego write_atomic",
+            "Contrasta riesgos."
+          ],
+          "kind": "transfer",
+          "tests": "PARCIAL luego COMPLETO",
+          "starterCode": "from pathlib import Path\nimport os, tempfile\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T2-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: DictReader sobre StringIO con header id,nombre; imprime filas dict. Salida/pass: `{'id': 'C001', 'nombre': 'Ana'}`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "csv.DictReader",
+            "io.StringIO"
+          ],
+          "kind": "guided",
+          "tests": "C001 Ana",
+          "starterCode": "import csv, io\nraw = 'id,nombre\\nC001,Ana\\n'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T2-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S08-T2-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Escribe CSV con DictWriter (header id,nombre) a StringIO o temp y relee contando filas de datos = 1. Salida/pass: `1 | {'id': 'C001', 'nombre': 'Ana'}`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12;.",
+          "hints": [
+            "writeheader + writerow",
+            "newline='' si usas open file"
+          ],
+          "kind": "independent",
+          "tests": "1 fila",
+          "starterCode": "import csv, io\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T2-A-E3",
+          "instruction": "E3 (transferencia) — Cast de monto: `Decimal` desde texto + quantize a céntimos; si lanza `InvalidOperation` → reject con motivo. Procesa `['10', 'x', '3.5']` e imprime ok/reject.",
+          "hints": [
+            "Decimal(v).quantize(Decimal('0.01')); except InvalidOperation",
+            "No uses float ni 0 silencioso."
+          ],
+          "kind": "transfer",
+          "tests": "Contrato exacto: ok 10.00; reject x motivo=cast_monto; ok 3.50; sin float().",
+          "starterCode": "from decimal import Decimal, InvalidOperation\n\nvals = ['10', 'x', '3.5']\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T2-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Detecta fila irregular: header len 2, row `['C1','Ana','x']` → irregular True. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "len(row) != len(header)",
+            "print bool"
+          ],
+          "kind": "guided",
+          "tests": "True",
+          "starterCode": "header = ['id', 'nombre']\nrow = ['C1', 'Ana', 'x']\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T2-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Escribe una fila de cuarentena `{raw, reason}` a CSV en temp y relee imprimiendo reason. Salida/pass: `col_count`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "DictWriter fieldnames raw,reason",
+            "newline=''"
+          ],
+          "kind": "independent",
+          "tests": "col_count",
+          "starterCode": "from pathlib import Path\nimport csv, tempfile\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T2-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S08-T2-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Dada lista de reasons, imprime resumen contador sorted por reason. Salida/pass: `cast_monto 1 | col_count 2 | schema 1`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "collections.Counter o dict",
+            "sorted items"
+          ],
+          "kind": "transfer",
+          "tests": "conteos por reason",
+          "starterCode": "from collections import Counter\nreasons = ['col_count', 'cast_monto', 'col_count', 'schema']\nfor k, v in sorted(Counter(reasons).items()):\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T3-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: `json.loads` de fixture `'{\"id\":\"C001\"}'` e imprime id. Salida/pass: `C001`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "json.loads",
+            "dict access"
+          ],
+          "kind": "guided",
+          "tests": "C001",
+          "starterCode": "import json\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T3-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: `dumps` de `{'nombre':'José'}` con ensure_ascii=False e imprime (debe verse José, no \\u). Salida/pass: `{\"nombre\": \"José\"}`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "ensure_ascii=False",
+            "print string"
+          ],
+          "kind": "independent",
+          "tests": "José legible",
+          "starterCode": "import json\ns = json.dumps({'nombre': 'José'}, ensure_ascii=False)\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T3-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S08-T3-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Intenta dumps de dict con datetime y captura TypeError; reintenta con isoformat str. Salida/pass: `TypeError | {\"ts\": \"2026-01-15T10:00:00\"}`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12 solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "datetime no serializable",
+            "convierte a .isoformat()"
+          ],
+          "kind": "transfer",
+          "tests": "TypeError luego ISO",
+          "starterCode": "import json\nfrom datetime import datetime\nobj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}\ntry:\n    json.dumps(obj)\nexcept TypeError as e:\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T3-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Rechaza missing required: obj sin email con required [id,email] → ok False. Salida/pass: `(False, ['email'])`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "list comprehension missing",
+            "print ok, missing"
+          ],
+          "kind": "guided",
+          "tests": "False, ['email']",
+          "starterCode": "def validate_schema(obj, required):\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T3-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: null explícito: `{'id':'C1','email': None}` tiene clave email (presente) con valor None. Imprime 'in' y valor. Salida/pass: `True | None`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "'email' in obj",
+            "None is not missing key"
+          ],
+          "kind": "independent",
+          "tests": "True / None",
+          "starterCode": "obj = {'id': 'C1', 'email': None}\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T3-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S08-T3-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Añade campo opcional `segment` con default `'standard'` vía setdefault sin pisar si ya existe. Dos objs. Salida/pass: primeros tokens de `{'id': 'C1', 'segment': 'standard'} | {'id': 'C2',…` según solution. Conserva el contrato del starter (no borres.",
+          "hints": [
+            "setdefault",
+            "No uses overwrite ciego"
+          ],
+          "kind": "transfer",
+          "tests": "standard vs vip",
+          "starterCode": "a = {'id': 'C1'}\nb = {'id': 'C2', 'segment': 'vip'}\na.setdefault('segment', 'standard')\nb.setdefault('segment', 'standard')\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T4-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Calcula sha256 hex de un archivo temp con contenido conocido e imprime los primeros 8 chars + len digest 64. Salida/pass: `ba7816bf 64`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "hashlib.sha256(path.read_bytes()).hexdigest()",
+            "temp file"
+          ],
+          "kind": "guided",
+          "tests": "len 64",
+          "starterCode": "from pathlib import Path\nimport hashlib, tempfile\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T4-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Copia backup con shutil.copy2 y verifica igualdad de bytes. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas de S15, no requests de S12; solo pathlib, csv, json, open/with (S01–S08).",
+          "hints": [
+            "shutil.copy2",
+            "read_bytes compare"
+          ],
+          "kind": "independent",
+          "tests": "True",
+          "starterCode": "from pathlib import Path\nimport shutil, tempfile\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T4-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S08-T4-A (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Arma dict de provenance `{path, sha256, bytes}` para un temp file e imprímelo (path solo name). Salida/pass: primeros tokens de `{'path': 'clients.csv', 'sha256': 'b776a3a3926835c…` según solution. Conserva el contrato del starter (no borres asserts ni.",
+          "hints": [
+            "stat().st_size",
+            "sha256 completo ok"
+          ],
+          "kind": "transfer",
+          "tests": "3 keys",
+          "starterCode": "from pathlib import Path\nimport hashlib, tempfile\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T4-B-E1",
+          "instruction": "E1 (guiado) — Construye un manifest con `run_id` y `sources`: cada fuente incluye name, sha256, n_in, n_clean, n_quarantine y reconcile_ok. Deriva los tres totales con sum; no los hardcodees.",
+          "hints": [
+            "Calcula reconcile_ok por fuente antes de sumar",
+            "sources contiene clients.csv y transactions.json."
+          ],
+          "kind": "guided",
+          "tests": "Contrato exacto: totales 5/4/1; ambas fuentes reconcile_ok=True; manifest reconcile_ok=True.",
+          "starterCode": "sources = [\n    {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},\n    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},\n]\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T4-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: Implementa `reconcile_sources(sources)`: exige igualdad por cada fuente y también verifica que los totales derivados cuadren. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no.",
+          "hints": [
+            "all(s['n_in'] == s['n_clean'] + s['n_quarantine'] for s in sources)",
+            "Prueba un caso donde el agregado cuadra pero cada fuente no."
+          ],
+          "kind": "independent",
+          "tests": "Contrato exacto: good=True; compensated_bad=False aunque 10 == 9 + 1.",
+          "starterCode": "def reconcile_sources(sources):\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S08-T4-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S08-T4-B (Archivos, CSV, JSON e ingesta). Entrada: fixture sintético del starter (`CASO`/ids C00x) en ingesta de archivos. Tarea: `run(sources)` publica solo si todas las fuentes reconcilian; el caso compensated_bad debe imprimir la fuente rota y exit_code 1. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no.",
+          "hints": [
+            "No publiques clean si no cuadra",
+            "Reporta los nombres de todas las fuentes rotas."
+          ],
+          "kind": "transfer",
+          "tests": "Contrato exacto: good → OK/0; compensated_bad → ERROR sources=clients.csv,transactions.json/1.",
+          "starterCode": "def run(sources):\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Client/Transaction ETL Pipeline (cierre CP-N1-B)",
+      "context": "Cierras el gate **CP-N1-B**. Integras normalizadores (S05–S07) y el modelo en memoria (S06) en un ETL **local-python**: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json` con hashes y reconciliación. CLI instalable se difiere a S10. Sin PII real; sin claims de fraude/parentesco.",
+      "objectives": [
+        "Ingesta CSV y JSON con contratos documentados",
+        "Validar/normalizar y cuarentenar rejects con motivo",
+        "Manifest por fuente con hash, conteos, reconciliación y totales derivados",
+        "Pruebas normal / borde / error",
+        "Fail closed si reconcile no cuadra"
+      ],
+      "requirements": [
+        "Entradas sintéticas clients.csv + transactions.json",
+        "Salidas out/clean/, out/quarantine/, out/manifest.json",
+        "Integrar normalizadores y modelo en memoria",
+        "README + demo local-python reproducible",
+        "Cada fuente cumple n_in == n_clean + n_quarantine o el proceso termina con exit != 0",
+        "Los totales del manifest se derivan de sources; una compensación entre fuentes nunca oculta un error",
+        "Montos entran como texto, se convierten con Decimal y se serializan como texto decimal",
+        "Empaquetado CLI diferido a S10"
+      ],
+      "portfolioNote": "Adjunta manifest de demo, 1 fila de cuarentena con motivo, hashes de inputs y un test de reconciliación fallida (exit 1). Esa carpeta es evidencia del gate CP-N1-B.",
+      "starterCode": "\"\"\"etl_cp_n1_b.py — Client/Transaction ETL Pipeline (cierre CP-N1-B / S08)\nIngesta CSV+JSON sintéticos → clean/quarantine/manifest.\nstdlib only. Local-python.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport csv\nimport hashlib\nimport json\nimport os\nimport shutil\nfrom decimal import Decimal, InvalidOperation\nfrom datetime import datetime, timezone\nfrom pathlib import Path\nfrom typing import Any\n\n# Estructura esperada:\n# data/clients.csv\n# data/transactions.json\n# out/clean/\n# out/quarantine/\n# out/manifest.json\n\n\ndef sha256_file(path: Path) -> str:\n    # TODO\n    raise NotImplementedError\n\n\ndef write_atomic(path: Path, text: str) -> None:\n    # TODO\n    raise NotImplementedError\n\n\ndef load_clients_csv(path: Path) -> tuple[list[dict], list[dict]]:\n    \"\"\"→ (good_rows, quarantine_rows with reason).\"\"\"\n    # TODO irregular rows + casts\n    raise NotImplementedError\n\n\ndef load_transactions_json(path: Path) -> tuple[list[dict], list[dict]]:\n    # TODO schema mínimo id, client_id, monto; Decimal desde texto + quantize(\"0.01\")\n    raise NotImplementedError\n\n\ndef build_manifest(\n    *,\n    sources: list[dict[str, Any]],\n) -> dict[str, Any]:\n    \"\"\"Deriva totales y reconcile_ok desde cada fuente; no acepta totales agregados.\"\"\"\n    # TODO validar name/sha256/conteos; reconcile por fuente; sumar totales\n    raise NotImplementedError\n\n\ndef run(data_dir: Path, out_dir: Path) -> int:\n    \"\"\"Retorna exit code 0/1.\"\"\"\n    # TODO backup, load, write clean/quar, manifest, fail if not reconcile\n    raise NotImplementedError\n\n\ndef main() -> None:\n    root = Path(__file__).resolve().parent\n    code = run(root / \"data\", root / \"out\")\n    raise SystemExit(code)\n\n\nif __name__ == \"__main__\":\n    main()\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "¿Por qué declarar encoding='utf-8' al abrir texto?",
+        "options": [
+          "Es más rápido",
+          "Comprime el archivo",
+          "Activa pathlib",
+          "Evita depender del locale del SO (p. ej. Windows)"
+        ]
+      },
+      {
+        "question": "Escritura atómica típica es…",
+        "options": [
+          "open(dest,'w') y escribir directo siempre",
+          "escribir temp y os.replace al destino",
+          "solo print al stdout",
+          "append eterno al mismo file"
+        ]
+      },
+      {
+        "question": "Una fila CSV con columnas de más debe…",
+        "options": [
+          "Ignorarse en silencio",
+          "Rellenarse con None sin traza",
+          "Ir a cuarentena con motivo",
+          "Pisar el header"
+        ]
+      },
+      {
+        "question": "Reconciliación del manifest exige…",
+        "options": [
+          "n_in == n_clean + n_quarantine",
+          "n_clean > n_in",
+          "solo n_quarantine == 0",
+          "hash del clean == hash del input"
+        ]
+      },
+      {
+        "question": "Si reconcile falla, el pipeline debe…",
+        "options": [
+          "Publicar clean igual",
+          "Borrar el manifest",
+          "Convertir a pandas automáticamente",
+          "Fallar (exit non-zero) / fail closed"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "c234db867d731518"
+}

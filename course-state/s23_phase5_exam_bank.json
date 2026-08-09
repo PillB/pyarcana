@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S23",
+  "section_id": "computer-vision",
+  "phase": "PHASE_5",
+  "lane": "LANE-S22-S26-CLOSE",
+  "generated_at": "2026-07-20T23:30:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "computer-vision",
+    "title_v3": "Browser RPA con Playwright",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "capturar-y-procesar-frames-de",
+    "implementar-detección-de-objet",
+    "transmitir-video-procesado-com",
+    "usar-mediapipe-para-pose-detec"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S23 (Browser RPA con Playwright).",
+  "families": [
+    {
+      "family_id": "S23-T1-A-EX",
+      "concept": "dom-user-locators",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S23-T1-B-EX",
+      "concept": "auto-waiting-assertions",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S23-T2-A-EX",
+      "concept": "forms-upload-download-sessions",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S23-T2-B-EX",
+      "concept": "auth-states-page-objects",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S23-T3-A-EX",
+      "concept": "trace-screenshot-logs",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S23-T3-B-EX",
+      "concept": "robust-selectors-retries-recovery",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S23-T4-A-EX",
+      "concept": "api-export-first",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S23-T4-B-EX",
+      "concept": "tos-captcha-desktop-human",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (computer-vision key)",
+    "course-state/s23_phase5_exam_bank.json"
+  ]
+}

@@ -1,0 +1,896 @@
+{
+  "1": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Entorno reproducible y trabajo seguro» la pregunta «¿Para qué sirve un entorno virtual (venv) en Python?…» se resuelve con la opción «Para aislar las dependencias (paquetes) por proyecto y evitar conflict». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S01-T1-A] El intérprete Python y el REPL · El intérprete en la terminal (comand…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Entorno reproducible y trabajo seguro» la pregunta «¿Cuál de los siguientes archivos SÍ debería estar en tu .git…» se resuelve con la opción «.venv/ (o venv/)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S01-T1-A] El intérprete Python y el REPL · El intérprete en la terminal (comand…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Entorno reproducible y trabajo seguro» la pregunta «¿Cuál es un buen mensaje de commit siguiendo Conventional Co…» se resuelve con la opción «\"feat: agregar cálculo de churn por segmento\"». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S01-T1-A] El intérprete Python y el REPL · El intérprete en la terminal (comand…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Entorno reproducible y trabajo seguro» la pregunta «¿Qué comando te permite replicar el entorno de otro desarrol…» se resuelve con la opción «pip install -r requirements.txt». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S01-T1-A] El intérprete Python y el REPL · El intérprete en la terminal (comand…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Entorno reproducible y trabajo seguro» la pregunta «¿Por qué NO debes subir el archivo .env a GitHub?…» se resuelve con la opción «Porque suele contener credenciales (API keys, passwords, tokens) que s». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S01-T1-A] El intérprete Python y el REPL · El intérprete en la terminal (comand…). Por eso elijo el índice 0."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Para qué sirve un entorno virtual (venv) en Pytho»: solo «Para aislar las dependencias (paquetes) por proyecto y evitar con» encaja con iDo/theory de S01. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «¿Cuál de los siguientes archivos SÍ debería estar »: solo «.venv/ (o venv/)» encaja con iDo/theory de S01. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «¿Cuál es un buen mensaje de commit siguiendo Conve»: solo «\"feat: agregar cálculo de churn por segmento\"» encaja con iDo/theory de S01. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «¿Qué comando te permite replicar el entorno de otr»: solo «pip install -r requirements.txt» encaja con iDo/theory de S01. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «¿Por qué NO debes subir el archivo .env a GitHub?»: solo «Porque suele contener credenciales (API keys, passwords, tokens) » encaja con iDo/theory de S01. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "2": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Valores, tipos, operadores e I/O» la pregunta «¿Cuál es el tipo de None en Python?…» se resuelve con la opción «NoneType». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S02-T1-A] Literales y tipos básicos Un **literal** es un valor escrito directam…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Valores, tipos, operadores e I/O» la pregunta «¿Qué imprime type(\"42\").__name__ y la comparación 42 == \"42\"…» se resuelve con la opción «str y False». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S02-T1-A] Literales y tipos básicos Un **literal** es un valor escrito directam…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Valores, tipos, operadores e I/O» la pregunta «¿Por qué el teléfono de un cliente de intake se modela como …» se resuelve con la opción «Porque no es una cantidad aritmética y puede necesitar ceros o formato». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S02-T1-A] Literales y tipos básicos Un **literal** es un valor escrito directam…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Valores, tipos, operadores e I/O» la pregunta «Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`…» se resuelve con la opción «[1, 2, 3]». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S02-T1-A] Literales y tipos básicos Un **literal** es un valor escrito directam…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Valores, tipos, operadores e I/O» la pregunta «¿Cuál es el idioma correcto para comprobar ausencia de valor…» se resuelve con la opción «if x is None:». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S02-T1-A] Literales y tipos básicos Un **literal** es un valor escrito directam…). Por eso elijo el índice 1."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Cuál es el tipo de None en Python?»: solo «NoneType» encaja con iDo/theory de S02. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «¿Qué imprime type(\"42\").__name__ y la comparación »: solo «str y False» encaja con iDo/theory de S02. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «¿Por qué el teléfono de un cliente de intake se mo»: solo «Porque no es una cantidad aritmética y puede necesitar ceros o fo» encaja con iDo/theory de S02. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qu»: solo «[1, 2, 3]» encaja con iDo/theory de S02. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «¿Cuál es el idioma correcto para comprobar ausenci»: solo «if x is None:» encaja con iDo/theory de S02. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "3": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Decisiones y reglas de validación» la pregunta «¿Cuál es la forma correcta de chequear ausencia de un campo …» se resuelve con la opción «if campo is None:». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S03-T1-A] Comparaciones y el operador in Un **booleano de negocio** nace de una…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Decisiones y reglas de validación» la pregunta «En una cadena if/elif/else, ¿qué ocurre cuando la primera co…» se resuelve con la opción «Se ejecuta esa rama y se omiten las siguientes». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S03-T1-A] Comparaciones y el operador in Un **booleano de negocio** nace de una…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Decisiones y reglas de validación» la pregunta «¿Qué devuelve la expresión `\"\" or \"default\"` en Python?…» se resuelve con la opción «\"default\"». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S03-T1-A] Comparaciones y el operador in Un **booleano de negocio** nace de una…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Decisiones y reglas de validación» la pregunta «Una allowlist de tipos de documento se implementa mejor como…» se resuelve con la opción «Un set de literales y el operador in». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S03-T1-A] Comparaciones y el operador in Un **booleano de negocio** nace de una…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Decisiones y reglas de validación» la pregunta «¿Cuándo aporta más claridad `match/case` que `if` en un moto…» se resuelve con la opción «Cuando el sujeto es un literal/estado finito (códigos) y hay case _». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S03-T1-A] Comparaciones y el operador in Un **booleano de negocio** nace de una…). Por eso elijo el índice 2."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Cuál es la forma correcta de chequear ausencia de»: solo «if campo is None:» encaja con iDo/theory de S03. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «En una cadena if/elif/else, ¿qué ocurre cuando la »: solo «Se ejecuta esa rama y se omiten las siguientes» encaja con iDo/theory de S03. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «¿Qué devuelve la expresión `\"\" or \"default\"` en Py»: solo «\"default\"» encaja con iDo/theory de S03. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «Una allowlist de tipos de documento se implementa »: solo «Un set de literales y el operador in» encaja con iDo/theory de S03. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «¿Cuándo aporta más claridad `match/case` que `if` »: solo «Cuando el sujeto es un literal/estado finito (códigos) y hay case» encaja con iDo/theory de S03. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "4": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Iteración y resúmenes transaccionales» la pregunta «¿Qué produce list(range(3))?…» se resuelve con la opción «[0,1,2]». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S04-T1-A] for, range y secuencias El bucle **`for x in secuencia:`** recorre ca…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Iteración y resúmenes transaccionales» la pregunta «zip([1,2,3],[10,20]) sin strict……» se resuelve con la opción «Empareja solo (1,10) y (2,20); el 3 se pierde en silencio». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S04-T1-A] for, range y secuencias El bucle **`for x in secuencia:`** recorre ca…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Iteración y resúmenes transaccionales» la pregunta «Para la tasa de reject del gate, el denominador debe ser……» se resuelve con la opción «n_total de registros procesados (intentados)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S04-T1-A] for, range y secuencias El bucle **`for x in secuencia:`** recorre ca…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Iteración y resúmenes transaccionales» la pregunta «¿Qué hace continue en un for de líneas de intake?…» se resuelve con la opción «Salta al siguiente ciclo del bucle». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S04-T1-A] for, range y secuencias El bucle **`for x in secuencia:`** recorre ca…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Iteración y resúmenes transaccionales» la pregunta «Un doble for anidado sobre n elementos es aproximadamente……» se resuelve con la opción «O(n²)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S04-T1-A] for, range y secuencias El bucle **`for x in secuencia:`** recorre ca…). Por eso elijo el índice 3."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Qué produce list(range(3))?»: solo «[0,1,2]» encaja con iDo/theory de S04. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «zip([1,2,3],[10,20]) sin strict…»: solo «Empareja solo (1,10) y (2,20); el 3 se pierde en silencio» encaja con iDo/theory de S04. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «Para la tasa de reject del gate, el denominador de»: solo «n_total de registros procesados (intentados)» encaja con iDo/theory de S04. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «¿Qué hace continue en un for de líneas de intake?»: solo «Salta al siguiente ciclo del bucle» encaja con iDo/theory de S04. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «Un doble for anidado sobre n elementos es aproxima»: solo «O(n²)» encaja con iDo/theory de S04. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "5": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Funciones, contratos y descomposición» la pregunta «Si una función no tiene return, ¿qué devuelve la llamada?…» se resuelve con la opción «None». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S05-T1-A] Definición, llamada y retorno Una función se define con **`def nombre…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Funciones, contratos y descomposición» la pregunta «¿Por qué `def f(xs=[])` es peligroso?…» se resuelve con la opción «El default mutable se comparte entre llamadas». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S05-T1-A] Definición, llamada y retorno Una función se define con **`def nombre…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Funciones, contratos y descomposición» la pregunta «Una función pura……» se resuelve con la opción «Mismo input → mismo output, sin efectos colaterales». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S05-T1-A] Definición, llamada y retorno Una función se define con **`def nombre…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Funciones, contratos y descomposición» la pregunta «LEGB significa……» se resuelve con la opción «Local, Enclosing, Global, Builtin». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S05-T1-A] Definición, llamada y retorno Una función se define con **`def nombre…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Funciones, contratos y descomposición» la pregunta «Idempotencia de un normalizador f significa……» se resuelve con la opción «f(f(x)) == f(x) para entradas del dominio». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S05-T1-A] Definición, llamada y retorno Una función se define con **`def nombre…). Por eso elijo el índice 0."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «Si una función no tiene return, ¿qué devuelve la l»: solo «None» encaja con iDo/theory de S05. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «¿Por qué `def f(xs=[])` es peligroso?»: solo «El default mutable se comparte entre llamadas» encaja con iDo/theory de S05. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «Una función pura…»: solo «Mismo input → mismo output, sin efectos colaterales» encaja con iDo/theory de S05. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «LEGB significa…»: solo «Local, Enclosing, Global, Builtin» encaja con iDo/theory de S05. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «Idempotencia de un normalizador f significa…»: solo «f(f(x)) == f(x) para entradas del dominio» encaja con iDo/theory de S05. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "6": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Colecciones y estructuras de datos» la pregunta «¿Qué produce xs[-2:] si xs = [1,2,3,4]?…» se resuelve con la opción «[3,4]». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S06-T1-A] Listas, tuplas y slicing Una **list** es mutable y ordenada: ideal pa…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Colecciones y estructuras de datos» la pregunta «b = a (listas) y mutas b.append(1). ¿Qué pasa con a?…» se resuelve con la opción «a también ve el append (alias)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S06-T1-A] Listas, tuplas y slicing Una **list** es mutable y ordenada: ideal pa…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Colecciones y estructuras de datos» la pregunta «Para reportar dos filas con mismo id y payload distinto debe…» se resuelve con la opción «Listar conflicto en conflicts sin silenciar». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S06-T1-A] Listas, tuplas y slicing Una **list** es mutable y ordenada: ideal pa…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Colecciones y estructuras de datos» la pregunta «rows.sort(key=...) retorna……» se resuelve con la opción «None (muta in-place)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S06-T1-A] Listas, tuplas y slicing Una **list** es mutable y ordenada: ideal pa…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Colecciones y estructuras de datos» la pregunta «json.dumps(..., sort_keys=True) ayuda a……» se resuelve con la opción «salidas deterministas/reproducibles». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S06-T1-A] Listas, tuplas y slicing Una **list** es mutable y ordenada: ideal pa…). Por eso elijo el índice 1."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Qué produce xs[-2:] si xs = [1,2,3,4]?»: solo «[3,4]» encaja con iDo/theory de S06. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «b = a (listas) y mutas b.append(1). ¿Qué pasa con »: solo «a también ve el append (alias)» encaja con iDo/theory de S06. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «Para reportar dos filas con mismo id y payload dis»: solo «Listar conflicto en conflicts sin silenciar» encaja con iDo/theory de S06. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «rows.sort(key=...) retorna…»: solo «None (muta in-place)» encaja con iDo/theory de S06. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «json.dumps(..., sort_keys=True) ayuda a…»: solo «salidas deterministas/reproducibles» encaja con iDo/theory de S06. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "7": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Texto, Unicode y expresiones regulares» la pregunta «¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?…» se resuelve con la opción «Formas Unicode distintas (NFC vs NFD)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S07-T1-A] Code points, normalización y casefold Python 3 str es Unicode. `ord('…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Texto, Unicode y expresiones regulares» la pregunta «En nombres latam, si solo hay un token, la política segura e…» se resuelve con la opción «Marcar review y conservar raw». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S07-T1-A] Code points, normalización y casefold Python 3 str es Unicode. `ord('…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Texto, Unicode y expresiones regulares» la pregunta «¿Cuándo preferir str.replace/split sobre regex?…» se resuelve con la opción «Cuando la transformación es literal/simple». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S07-T1-A] Code points, normalización y casefold Python 3 str es Unicode. `ord('…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Texto, Unicode y expresiones regulares» la pregunta «fullmatch(r'\\d{8}', 'DNI 12345678') devuelve……» se resuelve con la opción «None (no es full match)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S07-T1-A] Code points, normalización y casefold Python 3 str es Unicode. `ord('…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Texto, Unicode y expresiones regulares» la pregunta «Un Jaccard 0.67 entre nombres debe……» se resuelve con la opción «Ir a review con evidencia (raw, score)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S07-T1-A] Code points, normalización y casefold Python 3 str es Unicode. `ord('…). Por eso elijo el índice 2."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Por qué 'José' y 'Jose\\u0301' pueden fallar en ==»: solo «Formas Unicode distintas (NFC vs NFD)» encaja con iDo/theory de S07. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «En nombres latam, si solo hay un token, la polític»: solo «Marcar review y conservar raw» encaja con iDo/theory de S07. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «¿Cuándo preferir str.replace/split sobre regex?»: solo «Cuando la transformación es literal/simple» encaja con iDo/theory de S07. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…»: solo «None (no es full match)» encaja con iDo/theory de S07. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «Un Jaccard 0.67 entre nombres debe…»: solo «Ir a review con evidencia (raw, score)» encaja con iDo/theory de S07. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "8": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Archivos, CSV, JSON y contratos de ingesta» la pregunta «¿Por qué declarar encoding='utf-8' al abrir texto?…» se resuelve con la opción «Evita depender del locale del SO (p. ej. Windows)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S08-T1-A] pathlib, with, modos y encodings `pathlib.Path` unifica rutas. `Path.…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Archivos, CSV, JSON y contratos de ingesta» la pregunta «Escritura atómica típica es……» se resuelve con la opción «escribir temp y os.replace al destino». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S08-T1-A] pathlib, with, modos y encodings `pathlib.Path` unifica rutas. `Path.…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Archivos, CSV, JSON y contratos de ingesta» la pregunta «Una fila CSV con columnas de más debe……» se resuelve con la opción «Ir a cuarentena con motivo». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S08-T1-A] pathlib, with, modos y encodings `pathlib.Path` unifica rutas. `Path.…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Archivos, CSV, JSON y contratos de ingesta» la pregunta «Reconciliación del manifest exige……» se resuelve con la opción «n_in == n_clean + n_quarantine». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S08-T1-A] pathlib, with, modos y encodings `pathlib.Path` unifica rutas. `Path.…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Archivos, CSV, JSON y contratos de ingesta» la pregunta «Si reconcile falla, el pipeline debe……» se resuelve con la opción «Fallar (exit non-zero) / fail closed». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S08-T1-A] pathlib, with, modos y encodings `pathlib.Path` unifica rutas. `Path.…). Por eso elijo el índice 3."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Por qué declarar encoding='utf-8' al abrir texto?»: solo «Evita depender del locale del SO (p. ej. Windows)» encaja con iDo/theory de S08. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «Escritura atómica típica es…»: solo «escribir temp y os.replace al destino» encaja con iDo/theory de S08. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «Una fila CSV con columnas de más debe…»: solo «Ir a cuarentena con motivo» encaja con iDo/theory de S08. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «Reconciliación del manifest exige…»: solo «n_in == n_clean + n_quarantine» encaja con iDo/theory de S08. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «Si reconcile falla, el pipeline debe…»: solo «Fallar (exit non-zero) / fail closed» encaja con iDo/theory de S08. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "9": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Excepciones, debugging y logging seguro» la pregunta «¿Para qué sirve `raise NewError(...) from e`?…» se resuelve con la opción «Encadenar la causa en __cause__ sin perder contexto». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S09-T1-A] Tipos específicos, raise y chaining Prefiere **tipos concretos**: `Va…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Excepciones, debugging y logging seguro» la pregunta «Un delimiter vacío en config del job debería……» se resuelve con la opción «Fail-fast (abortar el job)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S09-T1-A] Tipos específicos, raise y chaining Prefiere **tipos concretos**: `Va…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Excepciones, debugging y logging seguro» la pregunta «¿Qué va a stdout en una CLI bien diseñada?…» se resuelve con la opción «Solo datos; diagnóstico a stderr». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S09-T1-A] Tipos específicos, raise y chaining Prefiere **tipos concretos**: `Va…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Excepciones, debugging y logging seguro» la pregunta «mask_email('ana@ejemplo.pe') de forma segura podría ser……» se resuelve con la opción «a***@ejemplo.pe». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S09-T1-A] Tipos específicos, raise y chaining Prefiere **tipos concretos**: `Va…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Excepciones, debugging y logging seguro» la pregunta «TimeoutError en un fetch remoto típico……» se resuelve con la opción «Puede reintentarse con backoff; ValueError de datos no». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S09-T1-A] Tipos específicos, raise y chaining Prefiere **tipos concretos**: `Va…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Excepciones, debugging y logging seguro» la pregunta «¿Cuál es un buen minimal repro?…» se resuelve con la opción «La entrada más pequeña que reproduce el bug». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S09-T1-A] Tipos específicos, raise y chaining Prefiere **tipos concretos**: `Va…). Por eso elijo el índice 2."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Para qué sirve `raise NewError(...) from e`?»: solo «Encadenar la causa en __cause__ sin perder contexto» encaja con iDo/theory de S09. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «Un delimiter vacío en config del job debería…»: solo «Fail-fast (abortar el job)» encaja con iDo/theory de S09. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «¿Qué va a stdout en una CLI bien diseñada?»: solo «Solo datos; diagnóstico a stderr» encaja con iDo/theory de S09. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «mask_email('ana@ejemplo.pe') de forma segura podrí»: solo «a***@ejemplo.pe» encaja con iDo/theory de S09. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «TimeoutError en un fetch remoto típico…»: solo «Puede reintentarse con backoff; ValueError de datos no» encaja con iDo/theory de S09. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q5 sobre «¿Cuál es un buen minimal repro?»: solo «La entrada más pequeña que reproduce el bug» encaja con iDo/theory de S09. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "10": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Módulos, packaging y CLI profesional» la pregunta «¿Para qué sirve `if __name__ == '__main__'`?…» se resuelve con la opción «Ejecutar el CLI/demo solo al correr el módulo, no al importar». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S10-T1-A] Imports, namespaces y __main__ `import pkg.mod` y `from pkg.mod impor…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Módulos, packaging y CLI profesional» la pregunta «Precedencia correcta de config……» se resuelve con la opción «flags > env > file > defaults». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S10-T1-A] Imports, namespaces y __main__ `import pkg.mod` y `from pkg.mod impor…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Módulos, packaging y CLI profesional» la pregunta «Exit code 2 en CLI argparse suele significar……» se resuelve con la opción «Error de uso/parseo de argumentos». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S10-T1-A] Imports, namespaces y __main__ `import pkg.mod` y `from pkg.mod impor…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Módulos, packaging y CLI profesional» la pregunta «¿Dónde van los logs de progreso?…» se resuelve con la opción «stderr». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S10-T1-A] Imports, namespaces y __main__ `import pkg.mod` y `from pkg.mod impor…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Módulos, packaging y CLI profesional» la pregunta «Añadir un subcomando nuevo compatible es tipicamente……» se resuelve con la opción «minor». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S10-T1-A] Imports, namespaces y __main__ `import pkg.mod` y `from pkg.mod impor…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Módulos, packaging y CLI profesional» la pregunta «¿Qué no debe ir al git del paquete?…» se resuelve con la opción «.env con API_TOKEN». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S10-T1-A] Imports, namespaces y __main__ `import pkg.mod` y `from pkg.mod impor…). Por eso elijo el índice 3."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Para qué sirve `if __name__ == '__main__'`?»: solo «Ejecutar el CLI/demo solo al correr el módulo, no al importar» encaja con iDo/theory de S10. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «Precedencia correcta de config…»: solo «flags > env > file > defaults» encaja con iDo/theory de S10. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «Exit code 2 en CLI argparse suele significar…»: solo «Error de uso/parseo de argumentos» encaja con iDo/theory de S10. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «¿Dónde van los logs de progreso?»: solo «stderr» encaja con iDo/theory de S10. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «Añadir un subcomando nuevo compatible es tipicamen»: solo «minor» encaja con iDo/theory de S10. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q5 sobre «¿Qué no debe ir al git del paquete?»: solo «.env con API_TOKEN» encaja con iDo/theory de S10. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "11": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «¿Por qué `field(default_factory=list)` y no `= []`?…» se resuelve con la opción «Evita el default mutable compartido entre instancias». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «RelationshipEvidence.signal_score representa……» se resuelve con la opción «Una señal/dato numérico, no un veredicto de fraude o familia». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «Un Protocol EntityStore sirve para……» se resuelve con la opción «Definir un puerto get/save implementable por fakes y adapters». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «Objeto inválido: ¿cuándo fallar?…» se resuelve con la opción «En la construcción (__post_init__/validate)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «Client hereda de Person……» se resuelve con la opción «A menudo es frágil; composición (Client tiene PersonInfo) suele bastar». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «¿Qué no debe tener el dominio de familiaridad?…» se resuelve con la opción «is_fraud() automático». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 0."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «¿Por qué `field(default_factory=list)` y no `= []`»: solo «Evita el default mutable compartido entre instancias» encaja con iDo/theory de S11. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «RelationshipEvidence.signal_score representa…»: solo «Una señal/dato numérico, no un veredicto de fraude o familia» encaja con iDo/theory de S11. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «Un Protocol EntityStore sirve para…»: solo «Definir un puerto get/save implementable por fakes y adapters» encaja con iDo/theory de S11. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «Objeto inválido: ¿cuándo fallar?»: solo «En la construcción (__post_init__/validate)» encaja con iDo/theory de S11. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «Client hereda de Person…»: solo «A menudo es frágil; composición (Client tiene PersonInfo) suele b» encaja con iDo/theory de S11. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q5 sobre «¿Qué no debe tener el dominio de familiaridad?»: solo «is_fraud() automático» encaja con iDo/theory de S11. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "12": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «APIs, SQL y geodatos responsables» la pregunta «Un 400 Bad Request del proveedor debe……» se resuelve con la opción «Tratarse como error de cliente (no retry ciego)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S12-T1-A] requests/responses, status y JSON Un cliente HTTP síncrono hace **GET…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «APIs, SQL y geodatos responsables» la pregunta «¿Dónde debe vivir el token de API?…» se resuelve con la opción «En variable de entorno / secret store». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S12-T1-A] requests/responses, status y JSON Un cliente HTTP síncrono hace **GET…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «APIs, SQL y geodatos responsables» la pregunta «SQL con f-string e input de usuario es……» se resuelve con la opción «Inyección / inseguro; usar placeholders `?`». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S12-T1-A] requests/responses, status y JSON Un cliente HTTP síncrono hace **GET…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «APIs, SQL y geodatos responsables» la pregunta «Enviar document_id bancario a un geocoder público……» se resuelve con la opción «Viola la política de egress de CP-N1-C». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S12-T1-A] requests/responses, status y JSON Un cliente HTTP síncrono hace **GET…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «APIs, SQL y geodatos responsables» la pregunta «1.2 km entre dos entidades sintéticas implica……» se resuelve con la opción «Una geoseñal de relación, no un veredicto». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S12-T1-A] requests/responses, status y JSON Un cliente HTTP síncrono hace **GET…). Por eso elijo el índice 3."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «Un 400 Bad Request del proveedor debe…»: solo «Tratarse como error de cliente (no retry ciego)» encaja con iDo/theory de S12. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «¿Dónde debe vivir el token de API?»: solo «En variable de entorno / secret store» encaja con iDo/theory de S12. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «SQL con f-string e input de usuario es…»: solo «Inyección / inseguro; usar placeholders `?`» encaja con iDo/theory de S12. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «Enviar document_id bancario a un geocoder público…»: solo «Viola la política de egress de CP-N1-C» encaja con iDo/theory de S12. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «1.2 km entre dos entidades sintéticas implica…»: solo «Una geoseñal de relación, no un veredicto» encaja con iDo/theory de S12. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  },
+  "13": {
+    "explorer": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Familiarity Evidence Dashboard y cierre de nivel» la pregunta «entity_resolution_score y relationship_signal_score deben……» se resuelve con la opción «Mantenerse separados en la ficha de caso». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S13-T1-A] Normalización, blocking y entity resolution Normaliza nombres y `docu…). Por eso elijo el índice 0."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Familiarity Evidence Dashboard y cierre de nivel» la pregunta «Un false positive de ER implica……» se resuelve con la opción «Error de matching; no es veredicto legal de fraude». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S13-T1-A] Normalización, blocking y entity resolution Normaliza nombres y `docu…). Por eso elijo el índice 2."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Familiarity Evidence Dashboard y cierre de nivel» la pregunta «En zona gris de score el sistema debe……» se resuelve con la opción «Encolar needs_review / abstenerse según política». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S13-T1-A] Normalización, blocking y entity resolution Normaliza nombres y `docu…). Por eso elijo el índice 3."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Familiarity Evidence Dashboard y cierre de nivel» la pregunta «CF-1 en S13 incluye……» se resuelve con la opción «Privacy sheet, acceso, tests, demo y runbook». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S13-T1-A] Normalización, blocking y entity resolution Normaliza nombres y `docu…). Por eso elijo el índice 1."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "En la teoría de «Familiarity Evidence Dashboard y cierre de nivel» la pregunta «Level-1 regression notes en el You Do exigen……» se resuelve con la opción «Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S13-T1-A] Normalización, blocking y entity resolution Normaliza nombres y `docu…). Por eso elijo el índice 0."
+      }
+    ],
+    "skeptic": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q0 sobre «entity_resolution_score y relationship_signal_scor»: solo «Mantenerse separados en la ficha de caso» encaja con iDo/theory de S13. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q1 sobre «Un false positive de ER implica…»: solo «Error de matching; no es veredicto legal de fraude» encaja con iDo/theory de S13. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q2 sobre «En zona gris de score el sistema debe…»: solo «Encolar needs_review / abstenerse según política» encaja con iDo/theory de S13. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q3 sobre «CF-1 en S13 incluye…»: solo «Privacy sheet, acceso, tests, demo y runbook» encaja con iDo/theory de S13. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "blocked_on": [],
+        "justification_from_packet": "Descarté las distractoras de la Q4 sobre «Level-1 regression notes en el You Do exigen…»: solo «Re-chequear paths críticos S01–S13 en runbook (sin editar ledger » encaja con iDo/theory de S13. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+      }
+    ]
+  }
+}

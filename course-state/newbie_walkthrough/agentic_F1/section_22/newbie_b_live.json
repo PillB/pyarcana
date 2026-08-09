@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s22",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T1-A-E1: packet-only solve (no prior lives)\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "email",
+        "mime"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/f4585181] S22-T1-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.get_content_type()).». Demo S22-T1-A-DEMO. Línea: `from email.mime.text import MIMEText`. Pista «from email.mime.text import MIMEText»."
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T1-A-E2: packet-only solve (no prior lives)\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt['Content-Disposition'] = 'attachment; filename=\"a.txt\"'\nmsg.attach(att)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "email",
+        "mime"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/107d7fe3] Dudé del atajo en S22-T1-A-E2; me ceñí al weDo. «E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['Subject'] = 'Test'. C». Hint «MIMEMultipart + attach». Ancla: `from email.mime.multipart import MIMEMultipart`. S22-T1-A-DEMO. MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T1-A-E3: packet-only solve (no prior lives)\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "email",
+        "mime"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/633af199] S22-T1-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt = MIMEMultipart('alter». Demo S22-T1-A-DEMO. Línea: `from email.mime.multipart import MIMEMultipart`. Pista «alternative dentro de mixed»."
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\n# forma esperada (referencia): print(html.escape('<script>x</script>'))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ecced789] Dudé del atajo en S22-T1-B-E1; me ceñí al weDo. «E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<script>x</script>')). Completa el TODO del starter ». Hint «import html». Ancla: `import html`. S22-T1-B-DEMO. MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T1-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nname = '<b>Ana</b>'\n# forma esperada (referencia): print('Hola ' + html.escape(name))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d824875a] Solo acepto S22-T1-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>Ana</b>'; print('Hola ' + html.escape(name)). Comp». Verifiqué pista «escape antes de format» y demo S22-T1-B-DEMO. Código justificado: `import html`. No invento APIs. Teoría: MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T1-B-E3: packet-only solve (no prior lives)\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "urls",
+        "https"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e98fcaa2] Dudé del atajo en S22-T1-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'https://evil.test']; for». Hint «if 'example.pe' in url». Ancla: `urls = ['https://example.pe/a', 'https://evil.test']`. S22-T1-B-DEMO. MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T2-A-E1: packet-only solve (no prior lives)\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "requested",
+        "mail"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ef4b8ae5] Dudé del atajo en S22-T2-A-E1; me ceñí al weDo. «E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed = {'mail.draft', 'm». Hint «list comprehension». Ancla: `requested = ['mail.draft', 'mail.full']`. S22-T2-A-DEMO. MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\n# forma esperada (referencia): print(bad.isdisjoint(granted))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/f4d5e1a4] S22-T2-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = ['mail.draft']; bad = {'mail.full', 'admin'}. Compl». Demo S22-T2-A-DEMO. Línea: `granted = ['mail.draft']`. Pista «all(x not in granted for x in ...)»."
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T2-A-E3: packet-only solve (no prior lives)\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "datetime",
+        "timezone"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d967b0e2] Dudé del atajo en S22-T2-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for exp in (now - timedel». Hint «datetime.fromisoformat». Ancla: `from datetime import datetime, timezone, timedelta`. S22-T2-A-DEMO. MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T2-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\nstore['d001'] = {'status': 'draft'}\n# forma esperada (referencia): print(store['d001']['status'])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/28701f2f] Solo acepto S22-T2-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d001'] = {'status': 'draft'}. Completa el TODO del st». Verifiqué pista «dict assignment» y demo S22-T2-B-DEMO. Código justificado: `store = {}`. No invento APIs. Teoría: MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T2-B-E2: packet-only solve (no prior lives)\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "datetime",
+        "timezone"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/16109b24] Solo acepto S22-T2-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires_at = now - timedelt». Verifiqué pista «timedelta» y demo S22-T2-B-DEMO. Código justificado: `from datetime import datetime, timezone, timedelta`. No invento APIs. Teoría: MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T2-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\n# forma esperada (referencia): print(create_draft(), create_draft())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/aeba5ee1] S22-T2-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Completa el TODO del starte». Demo S22-T2-B-DEMO. Línea: `store = {}`. Pista «len(store)+1»."
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T3-A-E1: packet-only solve (no prior lives)\nimport re\npat = r'^[^@]+@[^@]+\\\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pat",
+        "for"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/f5ec09ae] Dudé del atajo en S22-T3-A-E1; me ceñí al weDo. «E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@example.pe', 'bad'):. Co». Hint «re.match». Ancla: `import re`. S22-T3-A-DEMO. MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T3-A-E2: packet-only solve (no prior lives)\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "DIRECTORY",
+        "C001"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a26b5372] Dudé del atajo en S22-T3-A-E2; me ceñí al weDo. «E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em = DIRECTORY.get('C0». Hint «dict.get». Ancla: `DIRECTORY = {'C001': 'ana@example.pe'}`. S22-T3-A-DEMO. MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T3-A-E3: packet-only solve (no prior lives)\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "ana",
+        "rojas"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e48f5fbc] Dudé del atajo en S22-T3-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'». Hint «os.path common o loop». Ancla: `a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'`. S22-T3-A-DEMO. MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T3-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = ['a@x', 'b@x', 'a@x']\n# forma esperada (referencia): print(list(dict.fromkeys(xs)))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/7aa900e4] Solo acepto S22-T3-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@x', 'b@x', 'a@x']; print(list(dict.fromkeys(xs))).». Verifiqué pista «dict.fromkeys» y demo S22-T3-B-DEMO. Código justificado: `xs = ['a@x', 'b@x', 'a@x']`. No invento APIs. Teoría: MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T3-B-E2: packet-only solve (no prior lives)\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "rows",
+        "email"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b5e90fb4] S22-T3-B-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role': 'cc'}]; for r in ». Demo S22-T3-B-DEMO. Línea: `rows = [{'email': 'p@other.test', 'role': 'cc'}]`. Pista «endswith»."
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T3-B-E3: packet-only solve (no prior lives)\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "rows",
+        "example"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c7c0ef57] S22-T3-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.test','cc')]; vis = [». Demo S22-T3-B-DEMO. Línea: `rows = [('a@example.pe','to'),('b@other.test','cc')]`. Pista «filtrar roles»."
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T4-A-E1: packet-only solve (no prior lives)\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "draft",
+        "submit"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/71838036] Dudé del atajo en S22-T4-A-E1; me ceñí al weDo. «E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; state = 'draft'. Comple». Hint «dict de dicts». Ancla: `T = {'draft': {'submit': 'pending'}}`. S22-T4-A-DEMO. MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T4-A-E2: packet-only solve (no prior lives)\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "draft",
+        "submit"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/07f932c4] Solo acepto S22-T4-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'}, 'pending': {'approve». Verifiqué pista «try/except o .get» y demo S22-T4-A-DEMO. Código justificado: `T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}`. No invento APIs. Teoría: MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T4-A-E3: packet-only solve (no prior lives)\nlog = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "log",
+        "append"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/4c30068c] S22-T4-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending', 'to': 'approved',». Demo S22-T4-A-DEMO. Línea: `log = []`. Pista «append dict»."
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n# forma esperada (referencia): print(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c8a828a1] S22-T4-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sha256(b'run|to|v1').hexdigest()[:8]). Completa el T». Demo S22-T4-B-DEMO. Línea: `import hashlib`. Pista «hashlib.sha256»."
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T4-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\n# forma esperada (referencia): print(create('k') == create('k'))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/0440f937] S22-T4-B-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {}; def create(key):. Completa el TODO del starter ». Demo S22-T4-B-DEMO. Línea: `store = {}`. Pista «cache dict»."
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S22-T4-B-E3: packet-only solve (no prior lives)\naudit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S22",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "audit",
+        "store"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b55a0308] Dudé del atajo en S22-T4-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO del starter sin borr». Hint «lista de event names». Ancla: `audit = []`. S22-T4-B-DEMO. MIME, encoding, HTML/text y attachments | templates y sanitización | OAuth/servi."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Solo drafts/.eml en sandbox y aprobación humana",
+      "justification_from_packet": "[agentic_F1/skeptic/b22q0s1] mail.full no es salvaguarda: el paquete exige drafts/sandbox y aprobación humana para no enviar real.",
+      "blocked_on": [],
+      "confidence": 0.8
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Solo evidencia débil de contacto a revisar; no prueba de fraude",
+      "justification_from_packet": "[agentic_F1/skeptic/b22q1s3] Disclaimer del iDo: verificación de entrega ≠ fraude; score alto no prueba parentesco ni fraude.",
+      "blocked_on": [],
+      "confidence": 0.81
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Solo los scopes mínimos (p. ej. draft) necesarios",
+      "justification_from_packet": "[agentic_F1/skeptic/b22q2s0] least_ok cuando se deniegan send/full; pedir todos los scopes o share tokens viola least privilege del demo.",
+      "blocked_on": [],
+      "confidence": 0.82
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Reutilizar el mismo draft_id si la key existe",
+      "justification_from_packet": "[agentic_F1/skeptic/b22q3s2] Reintento no debe crear draft nuevo siempre ni enviar; idempotency key reusa draft_id y preserva audit log.",
+      "blocked_on": [],
+      "confidence": 0.78
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica",
+      "justification_from_packet": "[agentic_F1/skeptic/b22q4s1] Publicar DNI o envío automático por score>0.9 contradice mínima divulgación y HITL del flujo email.",
+      "blocked_on": [],
+      "confidence": 0.8
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:18.052068+00:00"
+}

@@ -1,0 +1,1072 @@
+{
+  "section_index": 18,
+  "section_id": "data-engineering",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S18-T1-A-E1",
+          "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(len(montos), round(float(montos.mean()), 2), float(np.median(montos)))\n",
+          "note": "",
+          "concepts_used": [
+            "mean",
+            "median"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T1-A-E2",
+          "code": "import numpy as np\nm = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\nprint(round(float(q1), 2), round(float(q3), 2), round(float(q3 - q1), 2))\n",
+          "note": "",
+          "concepts_used": [
+            "IQR"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T1-A-E3",
+          "code": "import numpy as np\n\ndef resumen(x):\n    a = np.asarray(x, dtype=float)\n    return {\"n\": int(a.size), \"mean\": round(float(a.mean()), 4), \"median\": round(float(np.median(a)), 4), \"std\": round(float(a.std(ddof=1)), 4)}\n\nprint(resumen([1, 2, 3, 4, 5]))\n",
+          "note": "",
+          "concepts_used": [
+            "std ddof=1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T1-B-E1",
+          "code": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nmu, med = float(x.mean()), float(np.median(x))\nprint(mu, med, round(mu / med, 2))\n",
+          "note": "",
+          "concepts_used": [
+            "mean/median ratio"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T1-B-E2",
+          "code": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nprint(float(np.median(np.abs(x - np.median(x)))))\n",
+          "note": "",
+          "concepts_used": [
+            "MAD"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T1-B-E3",
+          "code": "import numpy as np\nprint([round(float(v), 3) for v in np.log1p([0, 1, 9, 99])])\n",
+          "note": "",
+          "concepts_used": [
+            "log1p"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-A-E1",
+          "code": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nprint(round(muestra.count(\"Lima\") / len(muestra), 2))\n",
+          "note": "",
+          "concepts_used": [
+            "sample share"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-A-E2",
+          "code": "print(round(8 / 10 - 0.5, 2))\n",
+          "note": "",
+          "concepts_used": [
+            "bias_pp"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-A-E3",
+          "code": "def max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\nprint(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}))\n",
+          "note": "",
+          "concepts_used": [
+            "max bias"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-B-E1",
+          "code": "import math\nprint(round(1.96 * 2 / math.sqrt(16), 3))\n",
+          "note": "",
+          "concepts_used": [
+            "IC margin"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-B-E2",
+          "code": "print(round((13 - 10) / 2, 2))\n",
+          "note": "",
+          "concepts_used": [
+            "Cohen d"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-B-E3",
+          "code": "diff, se = 4, 1.5\nprint((round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2)))\n",
+          "note": "",
+          "concepts_used": [
+            "IC tuple"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-A-E1",
+          "code": "import numpy as np\nprint(round(float(np.corrcoef([1, 2, 3, 4], [2, 4, 6, 8])[0, 1]), 3))\n",
+          "note": "",
+          "concepts_used": [
+            "corrcoef"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-A-E2",
+          "code": "r = 0.82\nif abs(r) > 0.5:\n    print(\"asociacion_observada\")\n",
+          "note": "",
+          "concepts_used": [
+            "no causal"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-A-E3",
+          "code": "import numpy as np\nz = np.arange(5, dtype=float)\nx = y = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx, by = np.polyfit(z, x, 1), np.polyfit(z, y, 1)\nrx, ry = x - (bx[0] * z + bx[1]), y - (by[0] * z + by[1])\nr_res = float(np.corrcoef(rx, ry)[0, 1]) if np.std(rx) > 0 and np.std(ry) > 0 else 0.0\nif np.isnan(r_res):\n    r_res = 0.0\nprint(round(r_raw, 3), round(r_res, 3))\n",
+          "note": "",
+          "concepts_used": [
+            "residualize"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-B-E1",
+          "code": "import numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\nprint(int((m > q3 + 1.5 * (q3 - q1)).sum()))\n",
+          "note": "",
+          "concepts_used": [
+            "Tukey"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-B-E2",
+          "code": "regiones, flags = [\"Lima\", \"Lima\", \"Cusco\"], [True, True, False]\nlima = [f for r, f in zip(regiones, flags) if r == \"Lima\"]\nprint(sum(lima) / len(lima))\n",
+          "note": "",
+          "concepts_used": [
+            "segment rate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-B-E3",
+          "code": "import numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nprint(((m < q1 - 1.5 * iqr) | (m > q3 + 1.5 * iqr)).tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "Tukey bool"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-A-E1",
+          "code": "evidencia = {\"pregunta\": \"¿Cuál es el ticket mediano?\", \"hipotesis\": \"mediana estable\", \"resultado\": {\"n\": 10, \"median\": 5.0}}\nprint(evidencia[\"pregunta\"])\n",
+          "note": "",
+          "concepts_used": [
+            "evidence dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-A-E2",
+          "code": "median = 12\nif median < 15:\n    print(\"solo_hallazgo\")\n",
+          "note": "",
+          "concepts_used": [
+            "hallazgo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-A-E3",
+          "code": "def traza(pregunta, metrica, valor, limite):\n    print(\"P\", pregunta)\n    print(\"M\", metrica)\n    print(\"V\", valor)\n    print(\"L\", limite)\ntraza(\"ticket mediano\", \"median\", 12.0, \"web-only\")\n",
+          "note": "",
+          "concepts_used": [
+            "P/M/V/L"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-B-E1",
+          "code": "print({\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]})\n",
+          "note": "",
+          "concepts_used": [
+            "data note"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-B-E2",
+          "code": "import hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n",
+          "note": "",
+          "concepts_used": [
+            "sha1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-B-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 2.0]})\nprint({\"n_raw\": len(df), \"n_final\": len(df[df[\"monto\"] > 0]), \"seed\": 42})\n",
+          "note": "",
+          "concepts_used": [
+            "filter note"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S18-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5 30.4 14.0\n",
+          "expected_head": "n 5\nmean 30.4\nmedian 14.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "8.5 12.5 4.0\n",
+          "expected_head": "Q1 8.5\nQ3 12.5\nIQR 4.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}\n",
+          "expected_head": "{'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "29.2 12.0 2.43\n",
+          "expected_head": "mean 29.2\nmedian 12.0\nratio 2.43",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0\n",
+          "expected_head": "MAD 1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[0.0, 0.693, 2.303, 4.605]\n",
+          "expected_head": "[0.0, 0.693, 2.303, 4.605]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.75\n",
+          "expected_head": "share_Lima 0.75",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.3\n",
+          "expected_head": "bias_Lima_pp 0.3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.4\n",
+          "expected_head": "0.4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.98\n",
+          "expected_head": "margen 0.98",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.5\n",
+          "expected_head": "d 1.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(1.06, 6.94)\n",
+          "expected_head": "ic95 (1.06, 6.94)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0\n",
+          "expected_head": "r 1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "asociacion_observada\n",
+          "expected_head": "asociacion_observada",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "1.0 1.0\n",
+          "expected_head": "r_raw 1.0\nmax_abs_resid 0.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "n_hi 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0\n",
+          "expected_head": "tasa_Lima 1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[False, False, False, False, True]\n",
+          "expected_head": "[False, False, False, False, True]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "¿Cuál es el ticket mediano?\n",
+          "expected_head": "¿Cuál es el ticket mediano?",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "solo_hallazgo\n",
+          "expected_head": "solo_hallazgo",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "P ticket mediano\nM median\nV 12.0\nL web-only\n",
+          "expected_head": "P: ticket mediano Lima\nM: median\nV: 27.5\nL: solo web",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'n_raw': 5, 'n_final': 4, 'filtros': ['monto>0']}\n",
+          "expected_head": "{'n_raw': 5, 'n_final': 4, 'filtros': ['monto>0']}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2aa26ec9\n",
+          "expected_head": "2aa26ec9",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'n_raw': 3, 'n_final': 2, 'seed': 42}\n",
+          "expected_head": "{'n_raw': 3, 'n_final': 2, 'seed': 42}",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 21,
+      "code_tried": 24,
+      "code_ratio": 0.875,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S18-T1-A-E1",
+          "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(len(montos), round(float(montos.mean()), 2), float(np.median(montos)))\n",
+          "note": "Starter montos; hints round mean 2.",
+          "concepts_used": [
+            "mean",
+            "median",
+            "n"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T1-A-E2",
+          "code": "import numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nprint(round(float(q1), 2), round(float(q3), 2), round(float(q3 - q1), 2))\n",
+          "note": "Hints quantile 0.25/0.75 IQR.",
+          "concepts_used": [
+            "quantile",
+            "IQR"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T1-A-E3",
+          "code": "import numpy as np\n\ndef resumen(x):\n    a = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(a.size),\n        \"mean\": round(float(a.mean()), 4),\n        \"median\": round(float(np.median(a)), 4),\n        \"std\": round(float(a.std(ddof=1)), 4),\n    }\n\nprint(resumen([1, 2, 3, 4, 5]))\n",
+          "note": "Hints std ddof=1; test [1..5].",
+          "concepts_used": [
+            "std ddof=1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T1-B-E1",
+          "code": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nprint(m, med, round(m / med, 2))\n",
+          "note": "Hints ratio mean/median.",
+          "concepts_used": [
+            "mean/median ratio"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T1-B-E2",
+          "code": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = np.median(x)\nmad = float(np.median(np.abs(x - med)))\nprint(mad)\n",
+          "note": "Hints MAD formula.",
+          "concepts_used": [
+            "MAD"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T1-B-E3",
+          "code": "import numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint([round(float(v), 3) for v in np.log1p(x)])\n",
+          "note": "Hints log1p round 3.",
+          "concepts_used": [
+            "log1p"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-A-E1",
+          "code": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare = muestra.count(\"Lima\") / len(muestra)\nprint(round(share, 2))\n",
+          "note": "Hints count/n round 2 → 0.75.",
+          "concepts_used": [
+            "share muestra"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-A-E2",
+          "code": "share = 8 / 10\nbias = share - 0.5\nprint(round(bias, 2))\n",
+          "note": "Hints share 8/10 bias share-0.5.",
+          "concepts_used": [
+            "bias_pp"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-A-E3",
+          "code": "def max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}))\n",
+          "note": "Hints share=count/sum; max abs.",
+          "concepts_used": [
+            "max |share-pob|"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-B-E1",
+          "code": "import math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(round(margen, 3))\n",
+          "note": "Hints 1.96*s/sqrt(n).",
+          "concepts_used": [
+            "IC margin"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-B-E2",
+          "code": "ma, mb, sp = 10, 13, 2\nd = (mb - ma) / sp\nprint(round(d, 2))\n",
+          "note": "Hints d=(mb-ma)/sp.",
+          "concepts_used": [
+            "Cohen d"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T2-B-E3",
+          "code": "diff, se = 4, 1.5\nlow = round(diff - 1.96 * se, 2)\nhigh = round(diff + 1.96 * se, 2)\nprint((low, high))\n",
+          "note": "Hints low/high 1.96*se.",
+          "concepts_used": [
+            "ic95 tuple"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-A-E1",
+          "code": "import numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nr = float(np.corrcoef(x, y)[0, 1])\nprint(round(r, 3))\n",
+          "note": "Hints corrcoef[0,1] ~1.",
+          "concepts_used": [
+            "corrcoef"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-A-E2",
+          "code": "r = 0.82\nif abs(r) > 0.5:\n    print(\"asociacion_observada\")\n",
+          "note": "Hints fixed message no causa.",
+          "concepts_used": [
+            "non-causal label"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-A-E3",
+          "code": "import numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\n# residualize vs z (polyfit deg 1)\npx = np.polyfit(z, x, 1)\npy = np.polyfit(z, y, 1)\nxr = x - np.polyval(px, z)\nyr = y - np.polyval(py, z)\nr_res = float(np.corrcoef(xr, yr)[0, 1]) if np.std(xr) > 0 and np.std(yr) > 0 else 0.0\nif np.isnan(r_res):\n    r_res = 0.0\nprint(round(r_raw, 3), round(r_res, 3))\n",
+          "note": "Hints residualize x,y vs z; corr residual ~0.",
+          "concepts_used": [
+            "residualize confusor"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-B-E1",
+          "code": "import numpy as np\nmontos = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nhi = q3 + 1.5 * (q3 - q1)\nprint(int((montos > hi).sum()))\n",
+          "note": "Hints Q3+1.5IQR count above.",
+          "concepts_used": [
+            "Tukey hi"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-B-E2",
+          "code": "regiones = [\"Lima\", \"Lima\", \"Cusco\"]\nflags = [True, True, False]\nlima_flags = [f for r, f in zip(regiones, flags) if r == \"Lima\"]\nprint(sum(lima_flags) / len(lima_flags))\n",
+          "note": "Instruction Lima T/F, Lima T, Cusco F → 1.0.",
+          "concepts_used": [
+            "segment anomaly rate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T3-B-E3",
+          "code": "import numpy as np\nx = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(x, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((x < lo) | (x > hi)).tolist())\n",
+          "note": "Hints lo/hi fences tolist.",
+          "concepts_used": [
+            "Tukey bool list"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-A-E1",
+          "code": "evidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana estable\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"pregunta\"])\n",
+          "note": "Hints dict + print pregunta; demo T4-B pattern.",
+          "concepts_used": [
+            "evidence dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-A-E2",
+          "code": "median = 12\nif median < 15:\n    print(\"solo_hallazgo\")\n",
+          "note": "Hints median < 15 → solo_hallazgo.",
+          "concepts_used": [
+            "no decision yet"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-A-E3",
+          "code": "def traza(pregunta, metrica, valor, limite):\n    print(\"P\", pregunta)\n    print(\"M\", metrica)\n    print(\"V\", valor)\n    print(\"L\", limite)\n\ntraza(\"q\", \"median\", 5, \"n>=10\")\n",
+          "note": "Hints 4 prints labeled P/M/V/L.",
+          "concepts_used": [
+            "traza P/M/V/L"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-B-E1",
+          "code": "note = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n",
+          "note": "Hints n_raw n_final filtros.",
+          "concepts_used": [
+            "data note keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-B-E2",
+          "code": "import hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n",
+          "note": "Hints sha1 hexdigest[:8] on given bytes.",
+          "concepts_used": [
+            "sha1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S18-T4-B-E3",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 2.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n",
+          "note": "Hints len before/after + seed=42.",
+          "concepts_used": [
+            "filter note seed"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S18-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5 30.4 14.0\n",
+          "expected_head": "n 5\nmean 30.4\nmedian 14.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "8.5 12.5 4.0\n",
+          "expected_head": "Q1 8.5\nQ3 12.5\nIQR 4.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}\n",
+          "expected_head": "{'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "29.2 12.0 2.43\n",
+          "expected_head": "mean 29.2\nmedian 12.0\nratio 2.43",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0\n",
+          "expected_head": "MAD 1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[0.0, 0.693, 2.303, 4.605]\n",
+          "expected_head": "[0.0, 0.693, 2.303, 4.605]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.75\n",
+          "expected_head": "share_Lima 0.75",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.3\n",
+          "expected_head": "bias_Lima_pp 0.3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.4\n",
+          "expected_head": "0.4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.98\n",
+          "expected_head": "margen 0.98",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.5\n",
+          "expected_head": "d 1.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(1.06, 6.94)\n",
+          "expected_head": "ic95 (1.06, 6.94)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0\n",
+          "expected_head": "r 1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "asociacion_observada\n",
+          "expected_head": "asociacion_observada",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "1.0 1.0\n",
+          "expected_head": "r_raw 1.0\nmax_abs_resid 0.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "n_hi 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0\n",
+          "expected_head": "tasa_Lima 1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[False, False, False, False, True]\n",
+          "expected_head": "[False, False, False, False, True]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "¿Cuál es el ticket mediano?\n",
+          "expected_head": "¿Cuál es el ticket mediano?",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "solo_hallazgo\n",
+          "expected_head": "solo_hallazgo",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "P q\nM median\nV 5\nL n>=10\n",
+          "expected_head": "P: ticket mediano Lima\nM: median\nV: 27.5\nL: solo web",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'n_raw': 5, 'n_final': 4, 'filtros': ['monto>0']}\n",
+          "expected_head": "{'n_raw': 5, 'n_final': 4, 'filtros': ['monto>0']}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2aa26ec9\n",
+          "expected_head": "2aa26ec9",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S18-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'n_raw': 3, 'n_final': 2, 'seed': 42}\n",
+          "expected_head": "{'n_raw': 3, 'n_final': 2, 'seed': 42}",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 21,
+      "code_tried": 24,
+      "code_ratio": 0.875,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

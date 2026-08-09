@@ -1,0 +1,543 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-skeptic-s19-a2d7d0a86072",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "pregunta = \"comparar regiones\"\nchart = \"bar\"\nresult = chart\nprint(result)\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "pregunta",
+        "comparar",
+        "regiones",
+        "chart",
+        "bar",
+        "result",
+        "guiado",
+        "Concepto",
+        "choice",
+        "para"
+      ],
+      "justification_from_packet": "Revisé que no se borre el oráculo del starter. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Luego para S19-T1-A-E1: E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: preg… Código imprime ['print(result)']. Hints: [\"Asigna chart='bar'.\", 'print el valor.']."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "meta = {\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}\nresult = meta\nprint(result)\n",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [
+        "meta",
+        "pregunta",
+        "totales",
+        "por",
+        "regi",
+        "audiencia",
+        "ejecutivo",
+        "chart",
+        "bar",
+        "result"
+      ],
+      "justification_from_packet": "Verifiqué la alineación con el subtema de theory. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Luego para S19-T1-A-E2: E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: pr… Código imprime ['print(result)']. Hints: ['Incluye las 3 claves.', 'chart bar.']."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "elige_chart",
+        "pregunta",
+        "return",
+        "line",
+        "tendencia",
+        "lower",
+        "else",
+        "bar",
+        "mensual"
+      ],
+      "justification_from_packet": "Aseguré que el print coincida con el Pass del enunciado. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Luego para S19-T1-A-E3: E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: de… Código imprime ['print(elige_chart(\"tendencia mensual\"))', 'print(elige_chart(\"comparar regiones\"))']. Hints: ['in para substring.', 'Dos prints.']."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "truco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "truco",
+        "hon",
+        "factor",
+        "round",
+        "guiado",
+        "Concepto",
+        "inflaci",
+        "visual",
+        "por",
+        "baseline"
+      ],
+      "justification_from_packet": "Revisé que no se borre el oráculo del starter para S19-T1-B-E1: E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: tru… Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.', 'factor = truco/honesto.'] Código imprime ['print(\"factor\", round(truco / hon, 2))']."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "ylim_bottom = 0\nresult = \"honesto\" if ylim_bottom == 0 else \"revisar\"\nprint(result)\n",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "ylim_bottom",
+        "result",
+        "honesto",
+        "else",
+        "revisar",
+        "independiente",
+        "Concepto",
+        "gate",
+        "Fixture",
+        "S19"
+      ],
+      "justification_from_packet": "Validé que la lógica use solo APIs del paquete activo para S19-T1-B-E2: E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos… Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['Variable ylim_bottom=0.', 'print condicional.'] Código imprime ['print(result)']."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "encoding = \"dual_axis\"\nresult = \"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\"\nprint(result)\n",
+      "confidence": 0.58,
+      "blocked_on": [],
+      "concepts_used": [
+        "encoding",
+        "dual_axis",
+        "result",
+        "riesgo_alto",
+        "else",
+        "transferencia",
+        "Concepto",
+        "riesgo",
+        "position",
+        "Fixture"
+      ],
+      "justification_from_packet": "para S19-T1-B-E3: E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: enco… — comprobé forma completa (sin todo ni protocol notes). Código imprime ['print(result)']. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['if/elif.', 'Prueba dual_axis.']."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "subplots",
+        "bar",
+        "set_ylim"
+      ],
+      "justification_from_packet": "Sostuve el contrato fail-closed cuando aplica. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Luego para S19-T2-A-E1: E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\"… Código imprime ['print(ax.get_ylim()[0] == 0)']. Hints: ['matplotlib Agg.', 'plt.close.']."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\n",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "subplots",
+        "set_ylabel",
+        "PEN"
+      ],
+      "justification_from_packet": "Verifiqué la alineación con el subtema de theory. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Luego para S19-T2-A-E2: E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.us… Código imprime ['print(ax.get_ylabel())']. Hints: ['set_ylabel.', 'Agg backend.']."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"Lima\", \"Cusco\"], [28, 22])\nax.set_xlabel(\"region\")\nax.set_ylabel(\"PEN\")\nprint(ax.get_xlabel(), ax.get_ylabel())\n",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "subplots",
+        "bar",
+        "Lima"
+      ],
+      "justification_from_packet": "para S19-T2-A-E3: E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.u… — verifiqué la alineación con el subtema de theory. Código imprime ['print(ax.get_xlabel(), ax.get_ylabel())']. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['len(values).', 'set_ylim(0, max*1.2).']."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "para S19-T2-B-E1: E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"p… — sostuve el contrato fail-closed cuando aplica. Código imprime ['print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})']. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['Dict literal.', 'print.']."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "version = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "version",
+        "fig_cpn2b_v",
+        "png",
+        "independiente",
+        "Concepto",
+        "nombre",
+        "versionado",
+        "figura",
+        "Fixture",
+        "S19"
+      ],
+      "justification_from_packet": "Verifiqué la alineación con el subtema de theory para S19-T2-B-E2: E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version … Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['f-string.', 'print nombre.'] Código imprime ['print(f\"fig_cpn2b_v{version}.png\")']."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([a.get_title() for a in axes])\n",
+      "confidence": 0.54,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "matplotlib",
+        "use",
+        "Agg",
+        "pyplot",
+        "plt",
+        "fig",
+        "axes",
+        "subplots",
+        "set_title"
+      ],
+      "justification_from_packet": "Como skeptic contrasté fixture vs. instrucción para S19-T2-B-E3: E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.… Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['ax.get_title().', 'close fig.'] Código imprime ['print([a.get_title() for a in axes])']."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nresult = [r[\"region\"] for r in rows], [r[\"median\"] for r in rows]\nprint(result)\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "region",
+        "Lima",
+        "median",
+        "Cusco",
+        "result",
+        "guiado",
+        "Concepto",
+        "filtro",
+        "por"
+      ],
+      "justification_from_packet": "Comprobé forma completa (sin TODO ni protocol notes). Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Luego para S19-T3-A-E1: E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\"… Código imprime ['print(result)']. Hints: ['list comp o next.', 'print valor.']."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(f\"Lima: {28} PEN (n={40})\")\n",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "para S19-T3-A-E2: E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima:… — sostuve el contrato fail-closed cuando aplica. Código imprime ['print(f\"Lima: {28} PEN (n={40})\")']. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['f-string.', 'print.']."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "confidence": 0.57,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "tooltip",
+        "row",
+        "return",
+        "region",
+        "median",
+        "PEN",
+        "Cusco",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "para S19-T3-A-E3: E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row… — como skeptic contrasté fixture vs. instrucción. Código imprime ['print(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))']. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['Incluye unidad PEN.', 'Función pura.']."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "chart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nresult = chart[\"Lima\"] == table[0][\"v\"]\nprint(result)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "chart",
+        "Lima",
+        "table",
+        "region",
+        "result",
+        "guiado",
+        "Concepto",
+        "parity",
+        "tabla",
+        "Fixture"
+      ],
+      "justification_from_packet": "Crucé la Tarea con los hints del quiz_card para S19-T3-B-E1: E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; tab… Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['Compara valores.', 'print True.'] Código imprime ['print(result)']."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "json",
+        "dumps",
+        "filtro_region",
+        "Lima",
+        "ensure_ascii",
+        "independiente",
+        "Concepto",
+        "state",
+        "filtros"
+      ],
+      "justification_from_packet": "para S19-T3-B-E2: E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: pr… — comprobé forma completa (sin todo ni protocol notes). Código imprime ['print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))']. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['import json.', 'print.']."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(sum(r[\"v\"] for r in table), len(table))\n",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [
+        "table",
+        "region",
+        "Lima",
+        "Cusco",
+        "sum",
+        "len",
+        "transferencia",
+        "Concepto",
+        "alt_text",
+        "desde"
+      ],
+      "justification_from_packet": "Crucé la Tarea con los hints del quiz_card. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Luego para S19-T3-B-E3: E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"regi… Código imprime ['print(sum(r[\"v\"] for r in table), len(table))']. Hints: ['join.', 'Incluye PEN.']."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nresult = \"unidad=PEN | fuente=sintetico\"\nprint(result)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "sin",
+        "PII",
+        "real",
+        "case_id",
+        "LIM",
+        "SYN"
+      ],
+      "justification_from_packet": "Crucé la Tarea con los hints del quiz_card. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Luego para S19-T4-A-E1: E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=P… Código imprime ['print(result)']. Hints: ['f-string o dict.', 'Ambas menciones.']."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(sorted(cap.keys()))\n",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "cap",
+        "unidad",
+        "PEN",
+        "fuente",
+        "limitacion",
+        "web",
+        "sorted",
+        "keys",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "Revisé que no se borre el oráculo del starter para S19-T4-A-E2: E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap … Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['set de keys.', 'issuperset.'] Código imprime ['print(sorted(cap.keys()))']."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "pie",
+        "cap",
+        "return",
+        "join",
+        "items",
+        "unidad",
+        "PEN",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Como skeptic contrasté fixture vs. instrucción para S19-T4-A-E3: E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(ca… Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['join items.', 'orden de inserción dict.'] Código imprime ['print(pie({\"unidad\": \"PEN\", \"n\": 10}))']."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "claim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "claim",
+        "Lima",
+        "mejor",
+        "del",
+        "Per",
+        "RECHAZADO",
+        "muestra",
+        "not",
+        "else",
+        "guiado"
+      ],
+      "justification_from_packet": "para S19-T4-B-E1: E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lim… — validé que la lógica use solo apis del paquete activo. Código imprime ['print(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")']. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Hints: ['in checks.', \"Caso: 'mejor del Perú'.\"]."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "alt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "alt",
+        "Lima",
+        "PEN",
+        "replace",
+        "independiente",
+        "Concepto",
+        "text",
+        "debe",
+        "mencionar",
+        "Fixture"
+      ],
+      "justification_from_packet": "Revisé que no se borre el oráculo del starter. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Luego para S19-T4-B-E2: E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Li… Código imprime ['print(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))']. Hints: ['substring.', 'alt de ejemplo.']."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n",
+      "confidence": 0.53,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "classify_claim",
+        "text",
+        "return",
+        "PERMITIDO",
+        "muestra",
+        "else",
+        "RECHAZADO",
+        "lidera",
+        "web"
+      ],
+      "justification_from_packet": "Validé que la lógica use solo APIs del paquete activo. Ancla de theory: «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regione Luego para S19-T4-B-E3: E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: d… Código imprime ['print(classify_claim(\"lidera en la muestra web\"))', 'print(classify_claim(\"es la mejor del país\"))']. Hints: ['Función binaria simple didáctica.', 'Dos prints.']."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Barras con baseline 0",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: el stem se alinea con «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?». Elijo [2] «Barras con baseline 0» porque «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras. Descarto ['[0] Pie 3D', '[1] Dual axis sin escala']. Sección S19."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Repetir los mismos números clave del chart",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "justification_from_packet": "No elijo la trampa de «Una alternativa accesible debe:». Elijo [0] «Repetir los mismos números clave del chart» porque «pregunta, audiencia y chart choice»: El **chart choice** responde a la pregunta, no a la librería de moda. Comparar totales entre 3 regiones → barras. Descarto ['[1] Ser opcional siempre', '[2] Solo ser una imagen más grande']. Sección S19."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Sobreclaim / generalización indebida",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "justification_from_packet": "S19 Q2: «“Lima es la mejor región del Perú” a partir de una muestra web es:» → [1] Sobreclaim / generalización indebida. Contraste de opciones vs. outcomes «ejes, escalas y encodings honestos»: Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita;. Otras opciones (['[0] Un claim permitido', '[2] Un alt text correcto']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Unidad, fuente y limitaciones",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "justification_from_packet": "S19 Q3: «El caption de un gráfico de portfolio debe incluir:» → [3] Unidad, fuente y limitaciones. El iDo/theory sostiene la opción «ejes, escalas y encodings honestos»: Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita;. Otras opciones (['[0] Solo el color favorito', '[1] La contraseña del BI']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "S19 Q4: «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué debe hacer el gate de integridad del dashboard CP» → [2] Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita. La theory del subtema descarta «ejes, escalas y encodings honestos»: Ejes de **magnitudes absolutas en barras** deben incluir cero salvo justificación explícita;. Otras opciones (['[0] Aceptarlo si los colores tienen buen contraste', '[1] Convertirlo automáticamente a dual-axis para “gana']) no cuadran con outcomes/iDo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:18:26+00:00",
+  "session_started_at": "2026-07-23T12:18:15+00:00",
+  "session_ended_at": "2026-07-23T12:18:26+00:00",
+  "receipt_response_sha256": "3e8b2b3e87fa3eca38f35907f23b4c98d29851d22b2e4289f75d921518082dc4"
+}

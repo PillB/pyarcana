@@ -1,0 +1,326 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic",
+  "attempt_id": "agentic_G1",
+  "section_index": 2,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-skeptic-s02-38dd632a",
+  "production_note": "agentic_G1 dual-LLM Skeptic: packet-only; no generators",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "answer": "literales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(repr(lit), \"→\", type(lit).__name__)\n",
+      "code": "literales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(repr(lit), \"→\", type(lit).__name__)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic en S02-T1-A-E1: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "answer": "codigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__)\nprint(\"igualdad cruda:\", codigo_int == codigo_str)\nprint(\"igualdad tras str():\", str(codigo_int) == codigo_str)\nprint(\"isinstance(True, int) →\", isinstance(True, int))\nprint(\"Nota: bool es subtipo de int, pero en intake modela banderas como bool explícito, no como 1/0 accidental.\")\n",
+      "code": "codigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__)\nprint(\"igualdad cruda:\", codigo_int == codigo_str)\nprint(\"igualdad tras str():\", str(codigo_int) == codigo_str)\nprint(\"isinstance(True, int) →\", isinstance(True, int))\nprint(\"Nota: bool es subtipo de int, pero en intake modela banderas como bool explícito, no como 1/0 accidental.\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic en S02-T1-A-E2: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "answer": "campos = {\n    \"nombres\": (\"María José\", str),\n    \"apellido_paterno\": (\"Quispe\", str),\n    \"apellido_materno\": (\"Ñahui\", str),\n    \"contacto\": (\"999000111\", str),  # teléfono\n    \"edad\": (34, int),\n    \"activo\": (True, bool),\n}\n\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")\n",
+      "code": "campos = {\n    \"nombres\": (\"María José\", str),\n    \"apellido_paterno\": (\"Quispe\", str),\n    \"apellido_materno\": (\"Ñahui\", str),\n    \"contacto\": (\"999000111\", str),  # teléfono\n    \"edad\": (34, int),\n    \"activo\": (True, bool),\n}\n\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic en S02-T1-A-E3: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "answer": "raw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)\n",
+      "code": "raw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic en S02-T1-B-E1: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "answer": "def safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return False, None, f\"ERROR en '{campo}': vacío (raw={valor!r})\"\n    try:\n        return True, int(texto), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))\n",
+      "code": "def safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return False, None, f\"ERROR en '{campo}': vacío (raw={valor!r})\"\n    try:\n        return True, int(texto), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic en S02-T1-B-E2: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "answer": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_edad_monto(edad_txt: str, monto_txt: str) -> dict:\n    raw = {\"edad\": edad_txt, \"monto\": monto_txt}\n    clean = {\"edad\": None, \"monto\": None}\n    errors = []\n    try:\n        clean[\"edad\"] = int(edad_txt.strip())\n    except ValueError:\n        errors.append(f\"ERROR en 'edad': no se pudo convertir {edad_txt!r} a int\")\n    try:\n        t = monto_txt.strip()\n        if not t:\n            raise InvalidOperation\n        m = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        clean[\"monto\"] = m\n    except (InvalidOperation, ValueError):\n        errors.append(f\"ERROR en 'monto': no se pudo parsear {monto_txt!r} a Decimal\")\n    return {\"raw\": raw, \"clean\": clean, \"errors\": errors}\n\nfor pair in [(\"34\", \"150.50\"), (\"abc\", \"99.00\"), (\"25\", \"xyz\")]:\n    print(pair, \"→\", parse_edad_monto(*pair))\n",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_edad_monto(edad_txt: str, monto_txt: str) -> dict:\n    raw = {\"edad\": edad_txt, \"monto\": monto_txt}\n    clean = {\"edad\": None, \"monto\": None}\n    errors = []\n    try:\n        clean[\"edad\"] = int(edad_txt.strip())\n    except ValueError:\n        errors.append(f\"ERROR en 'edad': no se pudo convertir {edad_txt!r} a int\")\n    try:\n        t = monto_txt.strip()\n        if not t:\n            raise InvalidOperation\n        m = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        clean[\"monto\"] = m\n    except (InvalidOperation, ValueError):\n        errors.append(f\"ERROR en 'monto': no se pudo parsear {monto_txt!r} a Decimal\")\n    return {\"raw\": raw, \"clean\": clean, \"errors\": errors}\n\nfor pair in [(\"34\", \"150.50\"), (\"abc\", \"99.00\"), (\"25\", \"xyz\")]:\n    print(pair, \"→\", parse_edad_monto(*pair))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T1"
+      ],
+      "justification_from_packet": "Skeptic en S02-T1-B-E3: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "answer": "# Después (bueno):\nnombre_cliente = \"Luis\"\napellido_paterno = \"Ramos\"\nindice = 0\nlongitud = 5\nEDAD_MAXIMA = 120\n\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)\n",
+      "code": "# Después (bueno):\nnombre_cliente = \"Luis\"\napellido_paterno = \"Ramos\"\nindice = 0\nlongitud = 5\nEDAD_MAXIMA = 120\n\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic en S02-T2-A-E1: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "answer": "estado = \"activo\"\ncodigo = 10\nflag = True\n\nif estado == \"activo\":\n    print(\"ok estado\")\nif codigo == 10:\n    print(\"ok codigo\")\nif flag == True:\n    print(\"ok flag\")\n",
+      "code": "estado = \"activo\"\ncodigo = 10\nflag = True\n\nif estado == \"activo\":\n    print(\"ok estado\")\nif codigo == 10:\n    print(\"ok codigo\")\nif flag == True:\n    print(\"ok flag\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic en S02-T2-A-E2: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "answer": "encabezados = [\n    \"Nombres\",\n    \"Apellido Paterno\",\n    \"Apellido Materno\",\n    \"Teléfono / Cel\",\n    \"Dirección\",\n    \"Edad (años)\",\n]\n\nmapeo = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Teléfono / Cel\": \"contacto\",\n    \"Dirección\": \"direccion\",\n    \"Edad (años)\": \"edad\",\n}\n\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, '???')}\")\n",
+      "code": "encabezados = [\n    \"Nombres\",\n    \"Apellido Paterno\",\n    \"Apellido Materno\",\n    \"Teléfono / Cel\",\n    \"Dirección\",\n    \"Edad (años)\",\n]\n\nmapeo = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Teléfono / Cel\": \"contacto\",\n    \"Dirección\": \"direccion\",\n    \"Edad (años)\": \"edad\",\n}\n\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, '???')}\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic en S02-T2-A-E3: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "answer": "print(\"None is None →\", None is None)\nprint(\"[] == [] →\", [] == [])\nprint(\"[] is [] →\", [] is [])\nprint(\"1 == True →\", 1 == True)\nprint(\"1 is True →\", 1 is True)\n# Comentario: usa `is`/`is not` para identidad (sobre todo None); usa `==` para igualdad de valor de negocio.\n",
+      "code": "print(\"None is None →\", None is None)\nprint(\"[] == [] →\", [] == [])\nprint(\"[] is [] →\", [] is [])\nprint(\"1 == True →\", 1 == True)\nprint(\"1 is True →\", 1 is True)\n# Comentario: usa `is`/`is not` para identidad (sobre todo None); usa `==` para igualdad de valor de negocio.\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic en S02-T2-B-E1: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "answer": "original = [\"a\", \"b\"]\ntrabajo = original.copy()  # debe ser copia, no alias\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)\n",
+      "code": "original = [\"a\", \"b\"]\ntrabajo = original.copy()  # debe ser copia, no alias\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic en S02-T2-B-E2: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "answer": "def make_record(nombres: str, contacto: str) -> dict:\n    return {\n        \"nombres_raw\": nombres,\n        \"contacto_raw\": contacto,\n        \"nombres\": nombres.strip(),\n        \"contacto\": contacto.strip(),\n    }\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")\n",
+      "code": "def make_record(nombres: str, contacto: str) -> dict:\n    return {\n        \"nombres_raw\": nombres,\n        \"contacto_raw\": contacto,\n        \"nombres\": nombres.strip(),\n        \"contacto\": contacto.strip(),\n    }\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T2"
+      ],
+      "justification_from_packet": "Skeptic en S02-T2-B-E3: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "answer": "n = 17\nd = 5\nprint(\"//\", n // d)\nprint(\"%\", n % d)\nprint(\"**\", 2 ** 4)\nprint(\"/\", n / d)\nprint(\"Nota: / es división verdadera y devuelve float aunque ambos operandos sean int.\")\n",
+      "code": "n = 17\nd = 5\nprint(\"//\", n // d)\nprint(\"%\", n % d)\nprint(\"**\", 2 ** 4)\nprint(\"/\", n / d)\nprint(\"Nota: / es división verdadera y devuelve float aunque ambos operandos sean int.\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic en S02-T3-A-E1: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "answer": "print(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = (-3)**2  # debe ser 9\nassert cuadrado_neg == 9\nprint(\"assert OK\")\n",
+      "code": "print(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = (-3)**2  # debe ser 9\nassert cuadrado_neg == 9\nprint(\"assert OK\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic en S02-T3-A-E2: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "answer": "linea_a = 50\nlinea_b = 30\nsubtotal = linea_a + linea_b\ntotal = subtotal * (1 + 0.18)\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)\n",
+      "code": "linea_a = 50\nlinea_b = 30\nsubtotal = linea_a + linea_b\ntotal = subtotal * (1 + 0.18)\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic en S02-T3-A-E3: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "answer": "from decimal import Decimal\n\nprint(\"float\", 0.1 + 0.2)\nprint(\"Decimal\", Decimal(\"0.1\") + Decimal(\"0.2\"))\nassert Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\n",
+      "code": "from decimal import Decimal\n\nprint(\"float\", 0.1 + 0.2)\nprint(\"Decimal\", Decimal(\"0.1\") + Decimal(\"0.2\"))\nassert Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic en S02-T3-B-E1: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "answer": "from decimal import Decimal, ROUND_HALF_EVEN\n\ncuenta = Decimal(\"85.50\")\npropina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\ntotal = (cuenta + propina).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")\n",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN\n\ncuenta = Decimal(\"85.50\")\npropina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\ntotal = (cuenta + propina).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic en S02-T3-B-E2: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "answer": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_monto(texto: str):\n    t = texto.strip()\n    if t == \"\":\n        return False, None, f\"ERROR en 'monto': vacío (raw={texto!r})\"\n    try:\n        m = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        return True, m, None\n    except InvalidOperation:\n        return False, None, f\"ERROR en 'monto': no se pudo parsear {texto!r} (use punto decimal)\"\n\nfor s in [\"150.50\", \"  20.1 \", \"\", \"abc\"]:\n    print(repr(s), \"→\", parse_monto(s))\n",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_monto(texto: str):\n    t = texto.strip()\n    if t == \"\":\n        return False, None, f\"ERROR en 'monto': vacío (raw={texto!r})\"\n    try:\n        m = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        return True, m, None\n    except InvalidOperation:\n        return False, None, f\"ERROR en 'monto': no se pudo parsear {texto!r} (use punto decimal)\"\n\nfor s in [\"150.50\", \"  20.1 \", \"\", \"abc\"]:\n    print(repr(s), \"→\", parse_monto(s))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T3"
+      ],
+      "justification_from_packet": "Skeptic en S02-T3-B-E3: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "answer": "nombre = \"José\"\nprint(f\"Hola, {nombre}. Bienvenido al intake.\")\n",
+      "code": "nombre = \"José\"\nprint(f\"Hola, {nombre}. Bienvenido al intake.\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic en S02-T4-A-E1: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "answer": "from decimal import Decimal\n\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(f\"nombres: {nombres}\")\nprint(f\"apellido_paterno: {apellido_paterno}\")\nprint(f\"contacto: {contacto}\")\nprint(f\"monto: S/ {monto:.2f}\")\n",
+      "code": "from decimal import Decimal\n\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(f\"nombres: {nombres}\")\nprint(f\"apellido_paterno: {apellido_paterno}\")\nprint(f\"contacto: {contacto}\")\nprint(f\"monto: S/ {monto:.2f}\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic en S02-T4-A-E2: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "answer": "def simular_intake(nombres: str, contacto: str, edad: str) -> dict:\n    datos = {\"nombres\": nombres, \"contacto\": contacto, \"edad\": edad}\n    return {\n        **datos,\n        \"types\": {k: type(v).__name__ for k, v in datos.items()},\n    }\n\nr = simular_intake(\"  Ana  \", \"999\", \"34\")\nprint(r)\nassert r[\"types\"][\"edad\"] == \"str\"\nassert r[\"types\"][\"nombres\"] == \"str\"\nprint(\"OK\")\n",
+      "code": "def simular_intake(nombres: str, contacto: str, edad: str) -> dict:\n    datos = {\"nombres\": nombres, \"contacto\": contacto, \"edad\": edad}\n    return {\n        **datos,\n        \"types\": {k: type(v).__name__ for k, v in datos.items()},\n    }\n\nr = simular_intake(\"  Ana  \", \"999\", \"34\")\nprint(r)\nassert r[\"types\"][\"edad\"] == \"str\"\nassert r[\"types\"][\"nombres\"] == \"str\"\nprint(\"OK\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic en S02-T4-A-E3: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "answer": "def parse_nombres(valor: str) -> dict:\n    errors = []\n    nombres_raw = valor\n    texto = valor.strip()\n    nombres = texto if texto else None\n    if nombres is None:\n        errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\")\n    return {\"nombres_raw\": nombres_raw, \"nombres\": nombres, \"errors\": errors}\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")\n",
+      "code": "def parse_nombres(valor: str) -> dict:\n    errors = []\n    nombres_raw = valor\n    texto = valor.strip()\n    nombres = texto if texto else None\n    if nombres is None:\n        errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\")\n    return {\"nombres_raw\": nombres_raw, \"nombres\": nombres, \"errors\": errors}\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic en S02-T4-B-E1: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "answer": "original = \"  Ñahui  \"\nraw = original\nclean = original.strip()\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")\n",
+      "code": "original = \"  Ñahui  \"\nraw = original\nclean = original.strip()\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic en S02-T4-B-E2: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "answer": "def safe_int(campo: str, valor: str):\n    if valor is None:\n        return True, None, None\n    try:\n        return True, int(str(valor).strip()), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\ndef parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):\n    errors = []\n    rec = {\n        \"nombres_raw\": nombres,\n        \"apellido_paterno_raw\": apellido_paterno,\n        \"apellido_materno_raw\": apellido_materno,\n        \"contacto_raw\": contacto,\n        \"direccion_raw\": direccion,\n        \"edad_raw\": edad,\n    }\n    def clean_str(campo, val):\n        s = (val or \"\").strip()\n        if not s:\n            errors.append(f\"ERROR en '{campo}': vacío (raw={val!r})\")\n            return None\n        return s\n    rec[\"nombres\"] = clean_str(\"nombres\", nombres)\n    rec[\"apellido_paterno\"] = clean_str(\"apellido_paterno\", apellido_paterno)\n    rec[\"apellido_materno\"] = clean_str(\"apellido_materno\", apellido_materno)\n    rec[\"contacto\"] = clean_str(\"contacto\", contacto)\n    rec[\"direccion\"] = clean_str(\"direccion\", direccion)\n    if edad is not None:\n        ok, n, err = safe_int(\"edad\", edad)\n        rec[\"edad\"] = n\n        if not ok:\n            errors.append(err)\n    else:\n        rec[\"edad\"] = None\n    rec[\"errors\"] = errors\n    return rec\n\n# Suite de 3 tests\nr1 = parse_client(\"María José\", \"Quispe\", \"Ñahui\", \"999000111\", \"Lima\", \"34\")\nassert not r1[\"errors\"] and r1[\"apellido_materno\"] == \"Ñahui\"\nr2 = parse_client(\"\", \"Quispe\", \"Ñahui\", \"999000111\", \"Lima\", \"34\")\nassert any(\"nombres\" in e.lower() for e in r2[\"errors\"])\nr3 = parse_client(\"Ana\", \"Ramos\", \"López\", \"999000111\", \"Cusco\", \"abc\")\nassert r3[\"edad_raw\"] == \"abc\" and any(\"edad\" in e.lower() for e in r3[\"errors\"])\nprint(\"suite OK\", r1[\"nombres\"], r2[\"errors\"][0][:40], r3[\"errors\"][0][:40])\n",
+      "code": "def safe_int(campo: str, valor: str):\n    if valor is None:\n        return True, None, None\n    try:\n        return True, int(str(valor).strip()), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\ndef parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):\n    errors = []\n    rec = {\n        \"nombres_raw\": nombres,\n        \"apellido_paterno_raw\": apellido_paterno,\n        \"apellido_materno_raw\": apellido_materno,\n        \"contacto_raw\": contacto,\n        \"direccion_raw\": direccion,\n        \"edad_raw\": edad,\n    }\n    def clean_str(campo, val):\n        s = (val or \"\").strip()\n        if not s:\n            errors.append(f\"ERROR en '{campo}': vacío (raw={val!r})\")\n            return None\n        return s\n    rec[\"nombres\"] = clean_str(\"nombres\", nombres)\n    rec[\"apellido_paterno\"] = clean_str(\"apellido_paterno\", apellido_paterno)\n    rec[\"apellido_materno\"] = clean_str(\"apellido_materno\", apellido_materno)\n    rec[\"contacto\"] = clean_str(\"contacto\", contacto)\n    rec[\"direccion\"] = clean_str(\"direccion\", direccion)\n    if edad is not None:\n        ok, n, err = safe_int(\"edad\", edad)\n        rec[\"edad\"] = n\n        if not ok:\n            errors.append(err)\n    else:\n        rec[\"edad\"] = None\n    rec[\"errors\"] = errors\n    return rec\n\n# Suite de 3 tests\nr1 = parse_client(\"María José\", \"Quispe\", \"Ñahui\", \"999000111\", \"Lima\", \"34\")\nassert not r1[\"errors\"] and r1[\"apellido_materno\"] == \"Ñahui\"\nr2 = parse_client(\"\", \"Quispe\", \"Ñahui\", \"999000111\", \"Lima\", \"34\")\nassert any(\"nombres\" in e.lower() for e in r2[\"errors\"])\nr3 = parse_client(\"Ana\", \"Ramos\", \"López\", \"999000111\", \"Cusco\", \"abc\")\nassert r3[\"edad_raw\"] == \"abc\" and any(\"edad\" in e.lower() for e in r3[\"errors\"])\nprint(\"suite OK\", r1[\"nombres\"], r2[\"errors\"][0][:40], r3[\"errors\"][0][:40])\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "T4"
+      ],
+      "justification_from_packet": "Skeptic en S02-T4-B-E3: verifiqué cada hueco contra theory+tests del quiz_card S02; rechacé atajos no enseñados en el packet activo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "NoneType",
+      "justification_from_packet": "Descarto 'null' y 'void' (no son el nombre del tipo en Python del packet); solo NoneType aparece en la teoría de literales S02.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "str y False",
+      "justification_from_packet": "Verifico dos hechos del demo: nombre de tipo str para \"42\" e igualdad False entre int y str; la opción combinada es str y False.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Porque no es una cantidad aritmética y puede necesitar ceros o formato",
+      "justification_from_packet": "No creo que PEP 8 prohíba int: el argumento de negocio del packet es formato/ceros y no aritmética del contacto telefónico.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "[1, 2, 3]",
+      "justification_from_packet": "Si fuera copia, a no cambiaría; el packet insiste en alias con listas mutables → a ve el append.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "if x is None:",
+      "justification_from_packet": "Como escéptico rechazo `== None` por hábito: S02-T2-B pide explícitamente `is None` para ausencia en validadores.",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:27:43.516893+00:00",
+  "session_started_at": "2026-07-23T06:26:28.516893+00:00",
+  "session_ended_at": "2026-07-23T06:27:43.516893+00:00"
+}

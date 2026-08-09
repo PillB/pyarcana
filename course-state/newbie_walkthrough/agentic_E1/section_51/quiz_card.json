@@ -1,0 +1,419 @@
+{
+  "section_index": 51,
+  "title": "Observabilidad, gobernanza y UX del copiloto",
+  "outcomes": [
+    "Traza prompts, retrieval y tools",
+    "Mide tokens/costo/latency con redacción",
+    "Registra modelo/prompt/dataset",
+    "Controla cambios, acceso y auditoría",
+    "Opera SLO, feedback y drift",
+    "Responde incidentes y postmortems",
+    "Muestra incertidumbre, citas y confirmaciones",
+    "Diseña a11y, corrección y contestabilidad"
+  ],
+  "theory": [
+    {
+      "heading": "traces de prompts/retrieval/tools",
+      "paragraphs": [
+        "Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de exportar observabilidad.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: trace reconstruible sin PII. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `traces de prompts/retrieval/tools` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es trace reconstruible sin PII. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "tokens, costo, latency y redacción",
+      "paragraphs": [
+        "Tokens, costo y latencia se miden por etapa y percentil; redacción aplica a atributos, eventos, payloads y errores.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: dashboard por etapa con prueba de redacción. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `tokens, costo, latency y redacción` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es dashboard por etapa con prueba de redacción. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "registro de modelo/prompt/dataset",
+      "paragraphs": [
+        "Registry identifica modelo, prompt, dataset, índice y evaluador; un release apunta a un conjunto inmutable de versiones.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: respuesta enlazada a bundle versionado. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `registro de modelo/prompt/dataset` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es respuesta enlazada a bundle versionado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "cambio, acceso, retención y auditoría",
+      "paragraphs": [
+        "Change control registra autor/aprobador/riesgo; acceso y retención son mínimos, audit es append-only y también se depura según política.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: cambio y acceso auditables. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `cambio, acceso, retención y auditoría` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es cambio y acceso auditables. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "SLO, feedback y drift",
+      "paragraphs": [
+        "SLO combina disponibilidad/calidad/latencia; feedback es señal sesgada y drift exige slices, baseline y dueño antes de actuar.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: alerta accionable con owner/runbook. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `SLO, feedback y drift` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es alerta accionable con owner/runbook. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "incidents, rollback y postmortem",
+      "paragraphs": [
+        "Incidente contiene, revierte y comunica; postmortem sin culpa identifica condiciones sistémicas y acciones con fecha.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: simulacro de rollback y acciones verificadas. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `incidents, rollback y postmortem` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es simulacro de rollback y acciones verificadas. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "incertidumbre, citas y confirmaciones",
+      "paragraphs": [
+        "UX muestra incertidumbre, citas y alcance; confirmación resume efecto antes de una acción y permite corregir el dato fuente.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: usuario entiende evidencia y confirma acción. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `incertidumbre, citas y confirmaciones` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es usuario entiende evidencia y confirma acción. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "accesibilidad, corrección y contestabilidad",
+      "paragraphs": [
+        "Accesibilidad cubre teclado/lector/contraste/lenguaje; contestabilidad explica revisión, apelación y respuesta humana sin dark patterns.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: flujo WCAG y apelación completables. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `accesibilidad, corrección y contestabilidad` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es flujo WCAG y apelación completables. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S51-T1-A-DEMO",
+      "description": "Demo: traces de prompts/retrieval/tools",
+      "why": "Hace observable `traces de prompts/retrieval/tools` con un caso local pequeño y deja como evidencia trace reconstruible sin PII; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S51-T1-B-DEMO",
+      "description": "Demo: tokens, costo, latency y redacción",
+      "why": "Hace observable `tokens, costo, latency y redacción` con un caso local pequeño y deja como evidencia dashboard por etapa con prueba de redacción; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S51-T2-A-DEMO",
+      "description": "Demo: registro de modelo/prompt/dataset",
+      "why": "Hace observable `registro de modelo/prompt/dataset` con un caso local pequeño y deja como evidencia respuesta enlazada a bundle versionado; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S51-T2-B-DEMO",
+      "description": "Demo: cambio, acceso, retención y auditoría",
+      "why": "Hace observable `cambio, acceso, retención y auditoría` con un caso local pequeño y deja como evidencia cambio y acceso auditables; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S51-T3-A-DEMO",
+      "description": "Demo: SLO, feedback y drift",
+      "why": "Hace observable `SLO, feedback y drift` con un caso local pequeño y deja como evidencia alerta accionable con owner/runbook; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S51-T3-B-DEMO",
+      "description": "Demo: incidents, rollback y postmortem",
+      "why": "Hace observable `incidents, rollback y postmortem` con un caso local pequeño y deja como evidencia simulacro de rollback y acciones verificadas; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S51-T4-A-DEMO",
+      "description": "Demo: incertidumbre, citas y confirmaciones",
+      "why": "Hace observable `incertidumbre, citas y confirmaciones` con un caso local pequeño y deja como evidencia usuario entiende evidencia y confirma acción; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    },
+    {
+      "demoId": "S51-T4-B-DEMO",
+      "description": "Demo: accesibilidad, corrección y contestabilidad",
+      "why": "Hace observable `accesibilidad, corrección y contestabilidad` con un caso local pequeño y deja como evidencia flujo WCAG y apelación completables; el demo modela el contrato, no un servicio externo.",
+      "code": ""
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué evidencia permite aprobar `traces de prompts/retrieval/tools` en CASO-MOQ-051?",
+      "options": [
+        "un print sin assert ni versión",
+        "una captura de pantalla sin fuente",
+        "trace reconstruible sin PII",
+        "datos personales reales para que parezca auténtico"
+      ]
+    },
+    {
+      "question": "Si ocurre la condición de error de S51, ¿qué respuesta preserva seguridad y auditabilidad?",
+      "options": [
+        "emitir ROLLBACK_COPILOT y conservar evidencia",
+        "continuar y ocultar el warning",
+        "inventar evidencia faltante",
+        "borrar el trace para reducir ruido"
+      ]
+    },
+    {
+      "question": "¿Cuál resultado demuestra el gate `CP-N4-C + CF-5 · copiloto observable y contestable`?",
+      "options": [
+        "el archivo S51 existe, aunque no pruebe el gate",
+        "se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir",
+        "el README afirma que funciona",
+        "se usó la herramienta más nueva"
+      ]
+    },
+    {
+      "question": "¿Qué tratamiento de `CASO-MOQ-051` respeta el alcance del curso?",
+      "options": [
+        "reemplazarlo por datos reales sin consentimiento",
+        "subir secretos para facilitar la demo",
+        "inferir fraude o parentesco desde ER",
+        "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S51-T1-A-E1",
+      "instruction": "S51-T1-A-E1 · Calcula el contrato de `traces de prompts/retrieval/tools` sobre `CASO-MOQ-051-1A`. La entrada es el dict completo del starter; la operación debe demostrar trace completo, bundle versionado y cero PII. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REDACT_AND_QUARANTINE_TRACE` en E2.",
+      "hints": [
+        "Relaciona los campos `trace_id`, `spans`, `versions`, `pii_in_trace` con la regla explicada en S51-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva trace reconstruible sin PII; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-MOQ-051-1A\", **{\"trace_id\":\"tr-moq-51\",\"spans\":{\"prompt\",\"retrieval\",\"tool\",\"answer\"},\"versions\":{\"prompt\":\"p3\",\"model\":\"m2\",\"index\":\"i4\"},\"pii_in_trace\":False}}\nmeets_contract = not record[\"trace_id\"] or record[\"pii_in_trace\"]\nstatus = \"PASS\" if meets_contract else \"REDACT_AND_QUARANTINE_TRACE\"\nprint(\"S51-T1-A\", status)\n"
+    },
+    {
+      "id": "S51-T1-A-E2",
+      "instruction": "S51-T1-A-E2 · Modela tres rutas de `traces de prompts/retrieval/tools`: fixture válido, fixture adverso y registro sin `pii_in_trace`. Entrada: dict con case_id, trace_id, spans, versions, pii_in_trace. Salidas exactas: `PASS`, `REDACT_AND_QUARANTINE_TRACE`, `MISSING:pii_in_trace`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a pii_in_trace debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S51-T1-A: trace completo, bundle versionado y cero PII. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T1-A-E3",
+      "instruction": "S51-T1-A-E3 · Simula fallo cerrado para `traces de prompts/retrieval/tools` con tres fixtures distintos. `CASO-MOQ-051-1A` debe continuar, el adverso debe devolver `REDACT_AND_QUARANTINE_TRACE` y la ausencia de `pii_in_trace` debe devolver `RESTORE_TRACE_CONTEXT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `RESTORE_TRACE_CONTEXT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró trace completo, bundle versionado y cero PII; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T1-B-E1",
+      "instruction": "S51-T1-B-E1 · Compara el contrato de `tokens, costo, latency y redacción` sobre `CASO-MOQ-051-1B`. La entrada es el dict completo del starter; la operación debe demostrar tokens cuadran, p95 bajo SLO y campos redactados. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `ALERT_COST_LATENCY` en E2.",
+      "hints": [
+        "Relaciona los campos `prompt_tokens`, `retrieval_tokens`, `answer_tokens`, `total_tokens`, `p95_ms`, `slo_ms`, `redacted_fields` con la regla explicada en S51-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva dashboard por etapa con prueba de redacción; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-MOQ-051-1B\", **{\"prompt_tokens\":800,\"retrieval_tokens\":400,\"answer_tokens\":300,\"total_tokens\":1500,\"p95_ms\":900,\"slo_ms\":1200,\"redacted_fields\":4}}\nmeets_contract = record[\"total_tokens\"] == 0 or record[\"p95_ms\"] > record[\"slo_ms\"]\nstatus = \"PASS\" if meets_contract else \"ALERT_COST_LATENCY\"\nprint(\"S51-T1-B\", status)\n"
+    },
+    {
+      "id": "S51-T1-B-E2",
+      "instruction": "S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latency y redacción`: fixture válido, fixture adverso y registro sin `redacted_fields`. Entrada: dict con case_id, prompt_tokens, retrieval_tokens, answer_tokens, total_tokens, p95_ms, slo_ms, redacted_fields. Salidas exactas: `PASS`, `ALERT_COST_LATENCY`, `MISSING:redacted_fields`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S51-T1-B: tokens cuadran, p95 bajo SLO y campos redactados. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T1-B-E3",
+      "instruction": "S51-T1-B-E3 · Extiende fallo cerrado para `tokens, costo, latency y redacción` con tres fixtures distintos. `CASO-MOQ-051-1B` debe continuar, el adverso debe devolver `ALERT_COST_LATENCY` y la ausencia de `redacted_fields` debe devolver `FIX_REDACTION_PIPELINE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `FIX_REDACTION_PIPELINE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró tokens cuadran, p95 bajo SLO y campos redactados; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T2-A-E1",
+      "instruction": "S51-T2-A-E1 · Filtra el contrato de `registro de modelo/prompt/dataset` sobre `CASO-MOQ-051-2A`. La entrada es el dict completo del starter; la operación debe demostrar seis versiones explícitas y bundle inmutable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `FREEZE_RELEASE_BUNDLE` en E2.",
+      "hints": [
+        "Relaciona los campos `release`, `model`, `prompt`, `dataset`, `index`, `evaluator`, `immutable` con la regla explicada en S51-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva respuesta enlazada a bundle versionado; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-MOQ-051-2A\", **{\"release\":\"copilot-7\",\"model\":\"m2\",\"prompt\":\"p3\",\"dataset\":\"d5\",\"index\":\"i4\",\"evaluator\":\"e2\",\"immutable\":True}}\nmeets_contract = not record[\"immutable\"] or any(record[k] == \"latest\" for k in (\"model\",\"prompt\",\"dataset\",\"index\"))\nstatus = \"PASS\" if meets_contract else \"FREEZE_RELEASE_BUNDLE\"\nprint(\"S51-T2-A\", status)\n"
+    },
+    {
+      "id": "S51-T2-A-E2",
+      "instruction": "S51-T2-A-E2 · Clasifica tres rutas de `registro de modelo/prompt/dataset`: fixture válido, fixture adverso y registro sin `immutable`. Entrada: dict con case_id, release, model, prompt, dataset, index, evaluator, immutable. Salidas exactas: `PASS`, `FREEZE_RELEASE_BUNDLE`, `MISSING:immutable`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a immutable debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S51-T2-A: seis versiones explícitas y bundle inmutable. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T2-A-E3",
+      "instruction": "S51-T2-A-E3 · Defiende fallo cerrado para `registro de modelo/prompt/dataset` con tres fixtures distintos. `CASO-MOQ-051-2A` debe continuar, el adverso debe devolver `FREEZE_RELEASE_BUNDLE` y la ausencia de `immutable` debe devolver `REGISTER_MISSING_VERSION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REGISTER_MISSING_VERSION` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró seis versiones explícitas y bundle inmutable; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T2-B-E1",
+      "instruction": "S51-T2-B-E1 · Modela el contrato de `cambio, acceso, retención y auditoría` sobre `CASO-MOQ-051-2B`. La entrada es el dict completo del starter; la operación debe demostrar separación de funciones, scope read, retención y audit. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNGOVERNED_CHANGE` en E2.",
+      "hints": [
+        "Relaciona los campos `author`, `approver`, `risk`, `access_scope`, `retention_days`, `audit_append_only` con la regla explicada en S51-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva cambio y acceso auditables; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-MOQ-051-2B\", **{\"author\":\"dev-a\",\"approver\":\"owner-b\",\"risk\":\"medium\",\"access_scope\":\"ops-read\",\"retention_days\":30,\"audit_append_only\":True}}\nmeets_contract = record[\"author\"] == record[\"approver\"] or record[\"access_scope\"].endswith(\"admin\")\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGOVERNED_CHANGE\"\nprint(\"S51-T2-B\", status)\n"
+    },
+    {
+      "id": "S51-T2-B-E2",
+      "instruction": "S51-T2-B-E2 · Audita tres rutas de `cambio, acceso, retención y auditoría`: fixture válido, fixture adverso y registro sin `audit_append_only`. Entrada: dict con case_id, author, approver, risk, access_scope, retention_days, audit_append_only. Salidas exactas: `PASS`, `REJECT_UNGOVERNED_CHANGE`, `MISSING:audit_append_only`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a audit_append_only debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S51-T2-B: separación de funciones, scope read, retención y audit. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T2-B-E3",
+      "instruction": "S51-T2-B-E3 · Recupera fallo cerrado para `cambio, acceso, retención y auditoría` con tres fixtures distintos. `CASO-MOQ-051-2B` debe continuar, el adverso debe devolver `REJECT_UNGOVERNED_CHANGE` y la ausencia de `audit_append_only` debe devolver `REQUEST_INDEPENDENT_APPROVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_INDEPENDENT_APPROVAL` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró separación de funciones, scope read, retención y audit; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T3-A-E1",
+      "instruction": "S51-T3-A-E1 · Verifica el contrato de `SLO, feedback y drift` sobre `CASO-MOQ-051-3A`. La entrada es el dict completo del starter; la operación debe demostrar availability/faithfulness/drift bajo SLO con owner. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `OPEN_COPILOT_INCIDENT` en E2.",
+      "hints": [
+        "Relaciona los campos `availability`, `availability_slo`, `faithfulness`, `faithfulness_slo`, `drift`, `max_drift`, `owner` con la regla explicada en S51-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva alerta accionable con owner/runbook; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-MOQ-051-3A\", **{\"availability\":0.999,\"availability_slo\":0.995,\"faithfulness\":0.93,\"faithfulness_slo\":0.9,\"drift\":0.04,\"max_drift\":0.08,\"owner\":\"ai-oncall\"}}\nmeets_contract = record[\"availability\"] < record[\"availability_slo\"] or record[\"drift\"] > record[\"max_drift\"]\nstatus = \"PASS\" if meets_contract else \"OPEN_COPILOT_INCIDENT\"\nprint(\"S51-T3-A\", status)\n"
+    },
+    {
+      "id": "S51-T3-A-E2",
+      "instruction": "S51-T3-A-E2 · Decide tres rutas de `SLO, feedback y drift`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, availability, availability_slo, faithfulness, faithfulness_slo, drift, max_drift, owner. Salidas exactas: `PASS`, `OPEN_COPILOT_INCIDENT`, `MISSING:owner`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S51-T3-A: availability/faithfulness/drift bajo SLO con owner. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T3-A-E3",
+      "instruction": "S51-T3-A-E3 · Contrasta fallo cerrado para `SLO, feedback y drift` con tres fixtures distintos. `CASO-MOQ-051-3A` debe continuar, el adverso debe devolver `OPEN_COPILOT_INCIDENT` y la ausencia de `owner` debe devolver `TRIAGE_DRIFT_SLICE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró availability/faithfulness/drift bajo SLO con owner; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T3-B-E1",
+      "instruction": "S51-T3-B-E1 · Clasifica el contrato de `incidents, rollback y postmortem` sobre `CASO-MOQ-051-3B`. La entrada es el dict completo del starter; la operación debe demostrar contención, last-good, RTO y acciones con dueño. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLLBACK_AND_CONTAIN` en E2.",
+      "hints": [
+        "Relaciona los campos `contained`, `rolled_back_to`, `rollback_minutes`, `rto_minutes`, `postmortem_actions`, `owners_assigned` con la regla explicada en S51-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva simulacro de rollback y acciones verificadas; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-MOQ-051-3B\", **{\"contained\":True,\"rolled_back_to\":\"copilot-6\",\"rollback_minutes\":7,\"rto_minutes\":10,\"postmortem_actions\":4,\"owners_assigned\":True}}\nmeets_contract = not record[\"contained\"] or record[\"rollback_minutes\"] > record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_AND_CONTAIN\"\nprint(\"S51-T3-B\", status)\n"
+    },
+    {
+      "id": "S51-T3-B-E2",
+      "instruction": "S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y postmortem`: fixture válido, fixture adverso y registro sin `owners_assigned`. Entrada: dict con case_id, contained, rolled_back_to, rollback_minutes, rto_minutes, postmortem_actions, owners_assigned. Salidas exactas: `PASS`, `ROLLBACK_AND_CONTAIN`, `MISSING:owners_assigned`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S51-T3-B: contención, last-good, RTO y acciones con dueño. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T3-B-E3",
+      "instruction": "S51-T3-B-E3 · Instrumenta fallo cerrado para `incidents, rollback y postmortem` con tres fixtures distintos. `CASO-MOQ-051-3B` debe continuar, el adverso debe devolver `ROLLBACK_AND_CONTAIN` y la ausencia de `owners_assigned` debe devolver `CONVENE_INCIDENT_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `CONVENE_INCIDENT_REVIEW` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró contención, last-good, RTO y acciones con dueño; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T4-A-E1",
+      "instruction": "S51-T4-A-E1 · Audita el contrato de `incertidumbre, citas y confirmaciones` sobre `CASO-MOQ-051-4A`. La entrada es el dict completo del starter; la operación debe demostrar incertidumbre/citas visibles y efecto confirmado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_UNCONFIRMED_ACTION` en E2.",
+      "hints": [
+        "Relaciona los campos `uncertainty_shown`, `citations_resolve`, `effect_summary`, `confirmation_required`, `confirmed` con la regla explicada en S51-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva usuario entiende evidencia y confirma acción; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-MOQ-051-4A\", **{\"uncertainty_shown\":True,\"citations_resolve\":True,\"effect_summary\":\"prepara borrador\",\"confirmation_required\":True,\"confirmed\":True}}\nmeets_contract = not record[\"uncertainty_shown\"] or not record[\"citations_resolve\"] or not record[\"confirmed\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNCONFIRMED_ACTION\"\nprint(\"S51-T4-A\", status)\n"
+    },
+    {
+      "id": "S51-T4-A-E2",
+      "instruction": "S51-T4-A-E2 · Compara tres rutas de `incertidumbre, citas y confirmaciones`: fixture válido, fixture adverso y registro sin `confirmed`. Entrada: dict con case_id, uncertainty_shown, citations_resolve, effect_summary, confirmation_required, confirmed. Salidas exactas: `PASS`, `BLOCK_UNCONFIRMED_ACTION`, `MISSING:confirmed`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a confirmed debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S51-T4-A: incertidumbre/citas visibles y efecto confirmado. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T4-A-E3",
+      "instruction": "S51-T4-A-E3 · Aísla fallo cerrado para `incertidumbre, citas y confirmaciones` con tres fixtures distintos. `CASO-MOQ-051-4A` debe continuar, el adverso debe devolver `BLOCK_UNCONFIRMED_ACTION` y la ausencia de `confirmed` debe devolver `ASK_USER_TO_CONFIRM`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `ASK_USER_TO_CONFIRM` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró incertidumbre/citas visibles y efecto confirmado; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T4-B-E1",
+      "instruction": "S51-T4-B-E1 · Decide el contrato de `accesibilidad, corrección y contestabilidad` sobre `CASO-MOQ-051-4B`. La entrada es el dict completo del starter; la operación debe demostrar teclado/lector/contraste y corrección/apelación. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `FAIL_ACCESSIBILITY_GATE` en E2.",
+      "hints": [
+        "Relaciona los campos `keyboard_complete`, `screen_reader_labels`, `contrast_ratio`, `min_contrast`, `correction_available`, `appeal_to_human` con la regla explicada en S51-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva flujo WCAG y apelación completables; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "starterCode": "record = {\"case_id\": \"CASO-MOQ-051-4B\", **{\"keyboard_complete\":True,\"screen_reader_labels\":True,\"contrast_ratio\":5.1,\"min_contrast\":4.5,\"correction_available\":True,\"appeal_to_human\":True}}\nmeets_contract = not record[\"keyboard_complete\"] or record[\"contrast_ratio\"] < record[\"min_contrast\"] or not record[\"appeal_to_human\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_ACCESSIBILITY_GATE\"\nprint(\"S51-T4-B\", status)\n"
+    },
+    {
+      "id": "S51-T4-B-E2",
+      "instruction": "S51-T4-B-E2 · Filtra tres rutas de `accesibilidad, corrección y contestabilidad`: fixture válido, fixture adverso y registro sin `appeal_to_human`. Entrada: dict con case_id, keyboard_complete, screen_reader_labels, contrast_ratio, min_contrast, correction_available, appeal_to_human. Salidas exactas: `PASS`, `FAIL_ACCESSIBILITY_GATE`, `MISSING:appeal_to_human`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a appeal_to_human debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S51-T4-B: teclado/lector/contraste y corrección/apelación. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "starterCode": ""
+    },
+    {
+      "id": "S51-T4-B-E3",
+      "instruction": "S51-T4-B-E3 · Demuestra fallo cerrado para `accesibilidad, corrección y contestabilidad` con tres fixtures distintos. `CASO-MOQ-051-4B` debe continuar, el adverso debe devolver `FAIL_ACCESSIBILITY_GATE` y la ausencia de `appeal_to_human` debe devolver `ROUTE_CONTESTATION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `ROUTE_CONTESTATION` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró teclado/lector/contraste y corrección/apelación; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "starterCode": ""
+    }
+  ],
+  "packet_sha": "c89a65abd3621d96"
+}

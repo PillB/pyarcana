@@ -1,0 +1,300 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-sk-s05-abe9566fc4",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "id": "S05-T1-A-E1",
+      "code": "def doble(n):\n    return n * 2\nprint(doble(21))\n",
+      "justification_from_packet": "return entrega el valor a la llamada; print queda fuera. doble(21)=42. Sin return veríamos None.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "id": "S05-T1-A-E2",
+      "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))\n",
+      "justification_from_packet": "strip + split + join colapsa espacios internos. Patrón del paquete para nombres de intake.",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "id": "S05-T1-A-E3",
+      "code": "def saluda(nombre):\n    return f'Hola {nombre}'\nprint(saluda('Ana'))\n",
+      "justification_from_packet": "Si la función solo print y no return, print(saluda(...)) muestra None. return f-string arregla el contrato.",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "id": "S05-T1-B-E1",
+      "code": "def present(nombre, titulo='Cliente'):\n    return f'{titulo}: {nombre}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))\n",
+      "justification_from_packet": "Default titulo='Cliente' solo si omites el arg. Keyword titulo=VIP sobrescribe. Dos llamadas distintas.",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "id": "S05-T1-B-E2",
+      "code": "def good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))\n",
+      "justification_from_packet": "Default mutable [] se comparte entre llamadas — peligro del paquete. None + crear lista nueva deja [1] y [2] independientes.",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "id": "S05-T1-B-E3",
+      "code": "def normalize_telefono(raw, *, digits_only=True):\n    s = raw.strip()\n    if digits_only:\n        return ''.join(ch for ch in s if ch.isdigit())\n    return s\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))\n",
+      "justification_from_packet": "* fuerza keyword-only digits_only. True → solo dígitos; False → strip. Evita confusiones posicionales.",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "id": "S05-T2-A-E1",
+      "code": "def area(w, h):\n    \"\"\"Retorna el área de un rectángulo w×h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))\n",
+      "justification_from_packet": "Docstring (triple comillas bajo def) es __doc__, no un #. area(3,4)=12 además del texto.",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "id": "S05-T2-A-E2",
+      "code": "def normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower sin espacios. Raises ValueError si falta @ o vacío.\"\"\"\n    s = raw.strip().lower()\n    if not s or '@' not in s:\n        raise ValueError(\"email inválido: se espera texto con @\")\n    return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)\n",
+      "justification_from_packet": "Pre/post en docstring + ValueError accionable. strip+lower; sin @ → err.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "id": "S05-T2-A-E3",
+      "code": "def normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return \" \".join(raw.strip().split())\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == r.strip() and '  ' not in r\nprint('post OK')\n",
+      "justification_from_packet": "Postcondición chequeable con assert: strip y sin '  '. Colapso con join/split del paquete.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "id": "S05-T2-B-E1",
+      "code": "def len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\nprint('nota: el type hint no valida en runtime; len_safe(123) fallaría igual')\n",
+      "justification_from_packet": "Anotaciones documentan contrato y ayudan al editor; Python no las enforce en runtime en S05.",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "id": "S05-T2-B-E2",
+      "code": "from typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    try:\n        n = int(raw.strip())\n    except ValueError:\n        return False, None, 'no es entero'\n    if n < 0:\n        return False, None, 'fuera de dominio (negativo)'\n    return True, n, None\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))\n",
+      "justification_from_packet": "Contrato tupla (ok, value, err). 0 válido; negativo = error de dominio; 'x' ValueError capturado.",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "id": "S05-T2-B-E3",
+      "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if not s or '@' not in s:\n        raise ValueError(f\"email inválido: {raw!r}\")\n    return s\nfor e in ['ok@ex.com', 'malo']:\n    try:\n        print('OK', normalize_email(e))\n    except ValueError:\n        print('SKIP', e)\n",
+      "justification_from_packet": "Elegí raise ValueError: el caller del lote hace try/except por fila y no aborta el batch. Una fila mala → SKIP.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "id": "S05-T3-A-E1",
+      "code": "def strip_collapse(s):\n    return ' '.join(s.strip().split())\n\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\nprint(normalize_nombre('  ana  maría '))\n",
+      "justification_from_packet": "Composición: helper strip_collapse + title en normalize_nombre. Descomposición del monstruo en pasos.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "id": "S05-T3-A-E2",
+      "code": "def norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    return {'nombre': norm_n(nombre), 'email': norm_e(email)}\nprint(normalize_contact('  luis ', '  L@E.COM '))\n",
+      "justification_from_packet": "Orquestador delgado que llama helpers. Dict con nombre y email ya normalizados.",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "id": "S05-T3-A-E3",
+      "code": "def norm_nombre(n):\n    return ' '.join(n.strip().split()).title()\ndef norm_email(e):\n    return e.strip().lower()\ndef norm_tel(t):\n    return ''.join(c for c in t if c.isdigit())\ndef normalize_all(n, e, t):\n    return {'nombre': norm_nombre(n), 'email': norm_email(e), 'tel': norm_tel(t)}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))\n",
+      "justification_from_packet": "Tres funciones de campo + orquestador. Misma idea de descomposición del paquete T3-A.",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "id": "S05-T3-B-E1",
+      "code": "def normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)\n",
+      "justification_from_packet": "Puro: solo dígitos, sin print interno. Idempotencia: f(f(x))==f(x).",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "id": "S05-T3-B-E2",
+      "code": "def normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print('email=', normalize_email(raw))\nprint_report('  Z@W.COM ')\n",
+      "justification_from_packet": "Separo pureza (normalize) de efecto (print_report). El core se puede testear sin capturar stdout.",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "id": "S05-T3-B-E3",
+      "code": "def normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))\n",
+      "justification_from_packet": "Inyección de dependencia: norm es parámetro con default. Alternativa lambda upper demuestra el borde.",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "id": "S05-T4-A-E1",
+      "code": "x = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)\n",
+      "justification_from_packet": "LEGB: asignación en f crea local; global x sigue 1 fuera. Local no pisa global sin keyword global.",
+      "confidence": 0.58,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "id": "S05-T4-A-E2",
+      "code": "def make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))\n",
+      "justification_from_packet": "Closure: inner recuerda k del enclosing. m3(4)=12, m10(4)=40. Factory del paquete.",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "id": "S05-T4-A-E3",
+      "code": "def make_normalizer(mode):\n    if mode == 'digits':\n        def digits(s):\n            return ''.join(c for c in s if c.isdigit())\n        return digits\n    if mode == 'lower':\n        def lower(s):\n            return s.strip().lower()\n        return lower\n    raise ValueError(mode)\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))\n",
+      "justification_from_packet": "Factory por mode sin variable global. digits → 12; lower → hola.",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "id": "S05-T4-B-E1",
+      "code": "def normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('  A@B.COM ') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'\nprint('OK')\n",
+      "justification_from_packet": "Examples/asserts: valor esperado + idempotencia. Pequeña suite antes de refactor.",
+      "confidence": 0.59,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "id": "S05-T4-B-E2",
+      "code": "def normalize_dir(raw):\n    collapsed = ' '.join(raw.strip().split())\n    return collapsed.upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\nprint(normalize_dir(' jr 2 '))\n",
+      "justification_from_packet": "Refactor a dos pasos (collapse + upper) sin cambiar asserts. Misma política, cuerpo más legible.",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "id": "S05-T4-B-E3",
+      "code": "def normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nfor inp, exp in cases:\n    got = normalize_nombre(inp)\n    assert got == exp, (inp, got, exp)\n    print('PASS', inp, got)\nprint('all PASS')\n",
+      "justification_from_packet": "Suite (input, expected) en loop. Mantuve colapso sin title para no invalidar expected — el paquete pide no cambiar política a ciegas.",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [],
+      "answer": "completed_from_packet"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Sin return explícito la llamada devuelve None (no 0 ni False ni error).",
+      "confidence": 0.75,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Default mutable [] se crea una vez y se comparte entre llamadas — el bug clásico del paquete.",
+      "confidence": 0.68,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Pura: mismo input → mismo output sin efectos colaterales (sin print/IO/global).",
+      "confidence": 0.67,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "LEGB = Local, Enclosing, Global, Builtin: orden de resolución de nombres.",
+      "confidence": 0.83,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Idempotencia del normalizador: f(f(x)) == f(x) en el dominio.",
+      "confidence": 0.79,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:17.000473+00:00",
+  "session_started_at": "2026-07-23T14:15:14.424393+00:00",
+  "session_ended_at": "2026-07-23T14:15:39.454393+00:00",
+  "receipt_response_sha256": "e60b2bd1e15d3a8ebe47d5d4eba93d5d67cdf71c958942ebf213af36e4a6050f",
+  "receipt_exercises_sha256": "c86d4447abd3f4c449e3cd9d9e5c887130afab20fbd567baf250073924b18bc9",
+  "receipt_selfcheck_sha256": "b63873a0b79e474e9eee82c92e6a0b4a92691130f5524f8b3072ecf818b0dca4"
+}

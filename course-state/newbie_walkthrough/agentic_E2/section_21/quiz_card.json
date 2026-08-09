@@ -1,0 +1,429 @@
+{
+  "section_index": 21,
+  "title": "Documentos, plantillas y reportes trazables",
+  "outcomes": [
+    "Separar datos y presentación con Jinja",
+    "Renderizar condiciones/tablas con formato seguro",
+    "Generar, abrir, extraer y renderizar DOCX/PDF locales",
+    "Distinguir PDF digital de imagen/OCR",
+    "Estructurar informe ejecutivo con método y hallazgos",
+    "Embeber gráficos/tablas con fuentes y limitaciones",
+    "Revisar redacción, a11y y consistencia numérica",
+    "Documentar provenance y flujo de aprobación"
+  ],
+  "theory": [
+    {
+      "heading": "Jinja y separación datos/presentación",
+      "paragraphs": [
+        "Jinja separa **datos** (dict de contexto en Python) de **presentación** (`{{ var }}`, `{% for %}`). Calcula métricas **antes** del render; la plantilla no es el lugar de joins pesados ni de reglas de negocio opacas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: `Template(...).render(**ctx)`; autoescape en HTML; en texto plano define política de caracteres. Nunca `mark_safe` de input de usuario sin sanitizar. KPIs llegan ya redondeados (1–2 decimales PEN). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: `Hola {{ nombre }}` → `Hola Ana`; KPI `{{ m }} PEN (n={{ n }})` → `28 PEN (n=40)`. Función `render_kpi(ctx)` centraliza el template fijo region/median/n. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "from jinja2 import Template\n\ntmpl = Template(\"Región {{ region }}: mediana {{ median }} PEN (n={{ n }})\")\nprint(tmpl.render(region=\"Lima\", median=28.0, n=40))"
+    },
+    {
+      "heading": "condiciones, tablas y formato seguro",
+      "paragraphs": [
+        "`{% if %}` / `{% for %}` construyen tablas. Formatea números en Python o con filtros explícitos; celdas vacías muestran “—” y documentan missing — **no inventes ceros** que alteren sumas. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato anti-inyección: no marques strings de usuario como safe en HTML. Listas de filas sintéticas se renderizan a líneas `region:value` o filas Markdown/HTML con escape. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: `median is None` → `—`; `28.456` → `28.46` a 2 decimales. La tabla del informe debe reconciliar con el Excel de S20 (mismos region/value). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "from jinja2 import Template\n\ntmpl = Template(\n    \"\"\"{% for r in rows %}- {{ r.region }}: {{ '%.2f'|format(r.median) }} PEN\n{% endfor %}\"\"\"\n)\nrows = [{\"region\": \"Lima\", \"median\": 28.0}, {\"region\": \"Cusco\", \"median\": 22.5}]\nprint(tmpl.render(rows=rows))"
+    },
+    {
+      "heading": "DOCX real: estilos, guardado y extracción",
+      "paragraphs": [
+        "Un **DOCX** trazable tiene secciones fijas (portada, resumen, método, hallazgos, anexos) y estilos reales (Heading 1/2), no solo negrita visual. El `.docx` es un ZIP de XML: el gate verifica firma ZIP, headings extraídos y tamaño. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: crear `informe.docx` con título, heading Resumen, párrafo `n=40`; guardar, reabrir, demostrar extracción de texto/estilos. No confíes en “se veía bien en Word del autor”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso sintético: dos H1 y un H2 contados al reabrir. El mismo `n=40` debe aparecer en resumen y en el data note — paridad con S18/S20. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "from pathlib import Path\nfrom docx import Document\n\npath = Path(\"informe.docx\")\ndoc = Document()\ndoc.add_heading(\"Informe sintético\", level=0)\ndoc.add_heading(\"Resumen ejecutivo\", level=1)\ndoc.add_paragraph(\"Ticket mediano: 28.0 PEN (n=40).\")\ndoc.save(path)\n\nopened = Document(path)\ntext = \"n\".join(p.text for p in opened.paragraphs if p.text)\nprint(path.exists(), path.read_bytes()[:2] == b\"PK\")\nprint(\"Resumen ejecutivo\" in text, \"n=40\" in text)"
+    },
+    {
+      "heading": "PDF digital real: generación, extracción y render",
+      "paragraphs": [
+        "Un **PDF digital** tiene texto seleccionable (pypdf extrae); un **PDF escaneado** es imagen y puede requerir OCR con error rate. Si la extracción queda vacía, el contrato devuelve `needs_ocr` — **no inventa texto**. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: generar PDF local con `n=40`, extraer texto, firmar PDF; render primera página a PNG (PyMuPDF) y verificar existencia de ambos artefactos. Hash del PDF entra al provenance. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: PDF imagen-only con texto dibujado en PNG sintético → pypdf no recupera la capa de texto → `needs_ocr`. El paquete documenta el modo, no finge digital nativo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "from pathlib import Path\nimport fitz\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npdf = Path(\"informe.pdf\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Resumen sintetico: n=40\")\nc.save()\ntext = \"\".join(page.extract_text() or \"\" for page in PdfReader(pdf).pages)\npage = fitz.open(pdf)[0]\npng = Path(\"informe-p1.png\")\npage.get_pixmap(matrix=fitz.Matrix(1, 1)).save(png)\nprint(pdf.read_bytes()[:4] == b\"%PDF\", \"n=40\" in text)\nprint(png.exists(), png.stat().st_size > 0)"
+    },
+    {
+      "heading": "resumen ejecutivo, método y hallazgos",
+      "paragraphs": [
+        "La narrativa separa **resumen ejecutivo**, **método** y **hallazgos**. Cada hallazgo tiene id (H1…) y mapa a evidencia (Tabla 2, Fig 1). No mezcles método con opinión; hallazgo ≠ decisión (eco S18). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: `pack_report(resumen, metodo, hallazgos)` devuelve dict con 3 claves; el resumen debe incluir `n=` o falla validación. H1 referencia `Tabla1` explícitamente. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: hallazgo H1 con evidencia Tabla1; `resumen` con `n=40`. El comité puede auditar de la frase al número en el Excel/dashboard. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "report = {\n    \"resumen\": [\"Ticket mediano Lima 28 PEN en muestra web (n=40)\"],\n    \"metodo\": {\"fuente\": \"sintetico\", \"filtros\": [\"canal=web\"], \"corte\": \"2024-06-30\"},\n    \"hallazgos\": [{\"id\": \"H1\", \"texto\": \"Lima > Cusco en mediana\", \"evidencia\": \"Tabla2\"}],\n}\nprint(report[\"resumen\"][0])\nprint(report[\"hallazgos\"][0][\"evidencia\"])"
+    },
+    {
+      "heading": "gráficos, tablas, fuentes y limitaciones",
+      "paragraphs": [
+        "Inserta figuras del dashboard (S19) y tablas del Excel (S20) con **caption idéntico** en fuente/corte/n. Lista limitaciones al final de hallazgos, no escondidas solo en anexo. Reconcilia checksum de métricas clave entre artefactos. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: caption dict + pie; si el PNG dice mediana 28 y el DOCX dice 30, el gate de consistencia falla. Unidades PEN alineadas a 1 decimal en todo el paquete. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso sintético: tres artefactos (png, xlsx, docx) comparten `run_id` y `n=40`. El memo de limitaciones repite cobertura web-only. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "metrics = {\"median_Lima\": 28.0, \"n_Lima\": 40}\ncaption = \"Fig.1 Ticket mediano | Fuente: sintético | n_Lima=40\"\nassert \"40\" in caption\nbundle = {\"fig\": \"fig1.png\", \"table\": \"tabla2\", \"metrics\": metrics, \"limits\": [\"solo web\"]}\nprint(bundle[\"metrics\"])\nprint(bundle[\"limits\"])"
+    },
+    {
+      "heading": "redacción, accesibilidad y consistencia",
+      "paragraphs": [
+        "Redacción en español profesional (es-PE): evita anglicismos innecesarios en el cuerpo ejecutivo; deja términos técnicos (KPI, SLA) donde el comité los espera. A11y: headings reales, alt de figuras, tablas con encabezados, contraste en HTML.",
+        "Contrato de consistencia: misma precisión decimal (p. ej. 1 decimal PEN) en dashboard, Excel e informe. Glosario breve si introduces siglas nuevas en el paquete. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: “mediana de ticket en Lima” no “median ticket Lima region outperform”. Alt de figura menciona n y unidad; headings del DOCX son estilos, no solo tamaño de fuente. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "vals = [28.04, 28.0, 28]\nprecision = 1\nnorm = [round(float(v), precision) for v in vals]\nprint(norm)\nprint(\"consistente\", len(set(norm)) == 1)"
+    },
+    {
+      "heading": "render visual, provenance y aprobación",
+      "paragraphs": [
+        "Registra **provenance**: run_id, sha de datos, versiones de script, hashes de artefactos. Cola de aprobación: borrador → revisión visual → aprobado/rechazado con comentarios. Sin checklist visual completo, no hay cierre CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato: `ready(checklist)` es True solo si dashboard, xlsx y doc están True. Hash sha1 de payload sintético (8 hex) en el manifiesto. Actor y timestamp en el log de aprobación (preludio de S22). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: checklist incompleto → False; completo → True. El paquete aprobado es la entrada limpia al flujo de email/identidad de S22 (inicio CP-N2-C). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "import hashlib, json\nfrom datetime import datetime, timezone\n\nartifacts = {\"dashboard\": \"ok\", \"xlsx\": \"ok\", \"doc\": \"ok\"}\nprov = {\n    \"run_id\": \"cpn2b-20240630-01\",\n    \"ts\": datetime.now(timezone.utc).strftime(\"%Y-%m-%dT%H:%M:%SZ\"),\n    \"data_sha1_8\": hashlib.sha1(b\"synthetic\").hexdigest()[:8],\n    \"artifacts\": artifacts,\n    \"approval\": {\"status\": \"pending_review\", \"reviewer\": None},\n}\nprint(json.dumps(prov, ensure_ascii=False))"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S21-T1-A-DEMO",
+      "description": "Separar datos de plantilla Jinja con context único",
+      "why": "Un context versionado alimenta todos los renders del factory.",
+      "code": "from jinja2 import Template\n\ncontext = {\n    \"run_id\": \"r1\",\n    \"region\": \"Lima\",\n    \"median\": 28.0,\n    \"n\": 40,\n    \"limit\": \"solo web\",\n}\ntmpl = Template(\n    \"Run {{ run_id }} — {{ region }}: {{ median }} PEN (n={{ n }}). Límite: {{ limit }}.\"\n)\nprint(tmpl.render(**context))"
+    },
+    {
+      "demoId": "S21-T1-B-DEMO",
+      "description": "Render condicional seguro de tabla con missing como em-dash",
+      "why": "Missing explícito evita ceros inventados en el informe.",
+      "code": "from jinja2 import Template\n\ntmpl = Template(\n    \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }}\n{% endfor %}\"\"\"\n)\nrows = [\n    {\"region\": \"Lima\", \"median\": 28.0},\n    {\"region\": \"Cusco\", \"median\": None},\n]\nprint(tmpl.render(rows=rows))"
+    },
+    {
+      "demoId": "S21-T2-A-DEMO",
+      "description": "Crear, guardar y reabrir un DOCX con estilos reales",
+      "why": "Guardar y reabrir verifica el paquete OOXML y sus estilos, no una simulación.",
+      "code": "from pathlib import Path\nfrom docx import Document\n\npath = Path(\"reporte.docx\")\ndoc = Document()\ndoc.add_heading(\"Resumen ejecutivo\", 1)\ndoc.add_paragraph(\"Fuente: sintética; n=40\")\ndoc.save(path)\nreopened = Document(path)\nheadings = [p.text for p in reopened.paragraphs if p.style.name.startswith(\"Heading\")]\nprint(path.suffix, path.read_bytes()[:2] == b\"PK\")\nprint(headings)"
+    },
+    {
+      "demoId": "S21-T2-B-DEMO",
+      "description": "Generar PDF, extraer texto y renderizar una página PNG",
+      "why": "El contrato conserva PDF, texto extraído y render visual como evidencia separada.",
+      "code": "from pathlib import Path\nimport fitz\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npdf = Path(\"reporte.pdf\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Hallazgo H1; n=32\")\nc.save()\ntext = PdfReader(pdf).pages[0].extract_text() or \"\"\npng = Path(\"reporte-p1.png\")\nfitz.open(pdf)[0].get_pixmap().save(png)\nprint(\"H1\" in text, pdf.read_bytes()[:4] == b\"%PDF\")\nprint(png.stat().st_size > 0)"
+    },
+    {
+      "demoId": "S21-T3-A-DEMO",
+      "description": "Estructurar informe en resumen, método y hallazgos con ids",
+      "why": "Ids de hallazgo habilitan revisión y aprobación selectiva.",
+      "code": "informe = {\n    \"resumen\": [\n        \"En muestra web sintética, Lima tiene ticket mediano 28 PEN (n=40).\",\n    ],\n    \"metodo\": {\n        \"fuente\": \"dataset sintético S18\",\n        \"filtros\": [\"monto>0\", \"canal=web\"],\n    },\n    \"hallazgos\": [\n        {\"id\": \"H1\", \"claim\": \"Lima > Cusco en mediana\", \"evidencia\": \"Tabla2\", \"decision\": None},\n    ],\n}\nprint(informe[\"resumen\"][0])\nprint(informe[\"hallazgos\"][0][\"id\"], informe[\"hallazgos\"][0][\"evidencia\"])\nprint(\"decision_none\", informe[\"hallazgos\"][0][\"decision\"] is None)"
+    },
+    {
+      "demoId": "S21-T3-B-DEMO",
+      "description": "Embeber métricas con fuentes/límites y check de paridad",
+      "why": "Paridad entre dashboard, Excel y documento es el corazón del cierre.",
+      "code": "dash = {\"median_Lima\": 28.0}\nxlsx = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\nlimits = [\"cobertura web\", \"n Cusco bajo\"]\nparity = dash == xlsx == doc\nbundle = {\"parity\": parity, \"limits\": limits, \"fuente\": \"sintetico\"}\nprint(bundle)"
+    },
+    {
+      "demoId": "S21-T4-A-DEMO",
+      "description": "Normalizar decimales y validar presencia de headings/alt",
+      "why": "Consistencia tipográfica y a11y mínima antes de mandar a revisión.",
+      "code": "def fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\n\nchecks = {\n    \"decimals\": [fmt_pen(28.04), fmt_pen(28.0)],\n    \"has_h1\": True,\n    \"alts\": [\"Barras mediana por región, n por barra en tooltip\"],\n}\nprint(checks[\"decimals\"])\nprint(\"decimal_ok\", len(set(checks[\"decimals\"])) == 1)\nprint(\"a11y_min\", checks[\"has_h1\"] and all(len(a) > 10 for a in checks[\"alts\"]))"
+    },
+    {
+      "demoId": "S21-T4-B-DEMO",
+      "description": "Registrar provenance y estado de cola de aprobación",
+      "why": "Provenance + checklist visual cierran el Reporting Factory CP-N2-B.",
+      "code": "import hashlib, json\n\nprov = {\n    \"run_id\": \"cpn2b-close-01\",\n    \"data_sha1_8\": hashlib.sha1(b\"rows-synthetic\").hexdigest()[:8],\n    \"artifacts\": [\"dashboard.html\", \"results.xlsx\", \"informe.md\"],\n    \"visual_checklist\": {\"dashboard\": True, \"xlsx\": True, \"doc\": True},\n    \"approval\": {\"status\": \"pending_review\"},\n}\nprint(json.dumps(prov, ensure_ascii=False))\nprint(\"ready_for_review\", all(prov[\"visual_checklist\"].values()))"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Por qué separar datos y plantilla Jinja?",
+      "options": [
+        "Para reutilizar presentación y auditar métricas en Python",
+        "Para mezclar SQL en el HTML",
+        "Para evitar control de versiones",
+        "Para ocultar n"
+      ]
+    },
+    {
+      "question": "Un PDF con casi sin caracteres en capa de texto suele requerir:",
+      "options": [
+        "Ignorar el archivo",
+        "Solo openpyxl",
+        "OCR / tratamiento de imagen",
+        "Borrar limitaciones"
+      ]
+    },
+    {
+      "question": "Paridad en el Reporting Factory significa:",
+      "options": [
+        "Mismos colores",
+        "Mismo número de páginas",
+        "Mismo reviewer",
+        "Mismas métricas clave en dashboard, Excel y documento"
+      ]
+    },
+    {
+      "question": "El cierre de contenido de CP-N2-B incluye:",
+      "options": [
+        "Solo un print",
+        "Provenance, checklist visual y hallazgos trazables",
+        "Subir secretos al repo",
+        "Marcar section_passed desde esta lane"
+      ]
+    },
+    {
+      "question": "El PDF del informe se generó dibujando texto dentro de una imagen; pypdf no extrae capa de texto. ¿Qué debe devolver el contrato de trazabilidad?",
+      "options": [
+        "Marcar needs_ocr (o equivalente) y no fingir PDF digital nativo",
+        "Inventar el texto del resumen a partir del título del archivo",
+        "Aprobar el paquete igual porque el PNG se ve legible en pantalla",
+        "Convertir el PDF a DOCX sin avisar en el provenance"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S21-T1-A-E1",
+      "instruction": "E1 (guiado) — Concepto: render Jinja de saludo. Fixture `S21-T1-A-E1` / datos sintéticos: print(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\")). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Hola Ana`.",
+      "hints": [
+        "jinja2.Template.render.",
+        "print."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n"
+    },
+    {
+      "id": "S21-T1-A-E2",
+      "instruction": "E2 (independiente) — Concepto: template de KPI median y n. Fixture `S21-T1-A-E2` / datos sintéticos: print(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `28 PEN (n=40)`.",
+      "hints": [
+        "Dos variables.",
+        "Incluye PEN."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40))\n"
+    },
+    {
+      "id": "S21-T1-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: render_kpi(ctx) reutilizable. Fixture `S21-T1-A-E3` / datos sintéticos: def render_kpi(ctx):; return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Cusco: 22.5 PEN (n=32)`.",
+      "hints": [
+        "Template dentro o global.",
+        "print resultado."
+      ],
+      "kind": "transfer",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(render_kpi({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n"
+    },
+    {
+      "id": "S21-T1-B-E1",
+      "instruction": "E1 (guiado) — Concepto: missing → em-dash —. Fixture `S21-T1-B-E1` / datos sintéticos: median = None; print(\"—\" if median is None else median). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `—`.",
+      "hints": [
+        "condicional python o jinja.",
+        "print."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmedian = None\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"—\" if median is None else median)\n"
+    },
+    {
+      "id": "S21-T1-B-E2",
+      "instruction": "E2 (independiente) — Concepto: formato a 2 decimales. Fixture `S21-T1-B-E2` / datos sintéticos: x = 28.456; print(f\"{x:.2f}\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `28.46`.",
+      "hints": [
+        "'%.2f' % x o f-string.",
+        "print 28.46."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nx = 28.456\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(f\"{x:.2f}\")\n"
+    },
+    {
+      "id": "S21-T1-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: for de filas region:value. Fixture `S21-T1-B-E3` / datos sintéticos: tmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\\\n{% endfor %}\"); print(tmpl.render(rows=[{\"region\": \"Lima\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Lima:1 | Cusco:2`.",
+      "hints": [
+        "Template for.",
+        "Dos regiones."
+      ],
+      "kind": "transfer",
+      "starterCode": "from jinja2 import Template\ntmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\\\n{% endfor %}\")\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T2-A-E1",
+      "instruction": "E1 (guiado) — Concepto: DOCX con heading y n=. Fixture `S21-T2-A-E1` / datos sintéticos: path = Path(\"informe.docx\"); doc = Document(). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True True | True True`.",
+      "hints": [
+        "La firma de un DOCX comienza con bytes PK porque es un paquete ZIP.",
+        "Extrae `p.text` de los párrafos no vacíos del documento reabierto."
+      ],
+      "kind": "guided",
+      "starterCode": "from pathlib import Path\nfrom docx import Document\n\npath = Path(\"informe.docx\")\ndoc = Document()\ndoc.add_heading(\"Informe sintético\", 0)\ndoc.add_heading(\"Resumen\", 1)\ndoc.add_paragraph(\"Muestra reconciliada: n=40\")\ndoc.save(path)\nopened = Document(path)\ntext = \" | \".join(p.text for p in opened.paragraphs if p.text)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T2-A-E2",
+      "instruction": "E2 (independiente) — Concepto: conteo de estilos Heading. Fixture `S21-T2-A-E2` / datos sintéticos: levels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]; doc = Document(). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `2 | ['Heading 1', 'Heading 2', 'Heading 1']`.",
+      "hints": [
+        "Filtra exactamente `Heading 1` y conserva también la jerarquía completa.",
+        "La evidencia debe provenir del archivo guardado, no del input original."
+      ],
+      "kind": "independent",
+      "starterCode": "from docx import Document\n\nlevels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]\ndoc = Document()\nfor text, level in levels:\n    doc.add_heading(text, level)\ndoc.save(\"estructura.docx\")\nopened = Document(\"estructura.docx\")\nstyles = [p.style.name for p in opened.paragraphs if p.text]\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T2-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: extracción de texto al reabrir. Fixture `S21-T2-A-E3` / datos sintéticos: metrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]; doc = Document(). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['Ticket mediano', '28.0'] | ['Reclamos', '—'] True`.",
+      "hints": [
+        "La tabla debe contener columnas métrica y valor.",
+        "Representa el dato faltante como em dash, no como 0."
+      ],
+      "kind": "transfer",
+      "starterCode": "from docx import Document\n\nmetrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]\ndoc = Document()\ndoc.add_heading(\"Auditoría\", 1)\ntable = doc.add_table(rows=1, cols=2)\ntable.rows[0].cells[0].text = \"Métrica\"\ntable.rows[0].cells[1].text = \"Valor\"\nfor name, value in metrics:\n    cells = table.add_row().cells\n    cells[0].text, cells[1].text = name, value\ndoc.save(\"auditoria.docx\")\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T2-B-E1",
+      "instruction": "E1 (guiado) — Concepto: PDF digital con texto extraíble. Fixture `S21-T2-B-E1` / datos sintéticos: path = Path(\"digital.pdf\"); c = canvas.Canvas(str(path)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | True`.",
+      "hints": [
+        "Comprueba primero los bytes `%PDF`.",
+        "No declares digital sin extraer texto del archivo."
+      ],
+      "kind": "guided",
+      "starterCode": "from pathlib import Path\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npath = Path(\"digital.pdf\")\nc = canvas.Canvas(str(path))\nc.drawString(72, 760, \"Resumen sintetico n=40\")\nc.save()\ntext = PdfReader(path).pages[0].extract_text() or \"\"\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T2-B-E2",
+      "instruction": "E2 (independiente) — Concepto: render página a PNG. Fixture `S21-T2-B-E2` / datos sintéticos: pdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\"); c = canvas.Canvas(str(pdf)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True True`.",
+      "hints": [
+        "Cierra o conserva el documento mientras accedes a la página.",
+        "Verifica tamaño positivo, no solo el nombre del archivo."
+      ],
+      "kind": "independent",
+      "starterCode": "from pathlib import Path\nimport fitz\nfrom reportlab.pdfgen import canvas\n\npdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Hallazgo H1\")\nc.save()\ndocument = fitz.open(pdf)\ndocument[0].get_pixmap().save(png)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T2-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: PDF imagen-only → needs_ocr. Fixture `S21-T2-B-E3` / datos sintéticos: png, pdf = Path(\"scan.png\"), Path(\"scan.pdf\"); image = Image.new(\"RGB\", (500, 120), \"white\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True True | {'needs_ocr': True, 'n_chars': 0}`.",
+      "hints": [
+        "No agregues texto con drawString al PDF: eso crearía capa digital.",
+        "Normaliza `extract_text() or ''` antes de strip()."
+      ],
+      "kind": "transfer",
+      "starterCode": "from pathlib import Path\nfrom PIL import Image, ImageDraw\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npng, pdf = Path(\"scan.png\"), Path(\"scan.pdf\")\nimage = Image.new(\"RGB\", (500, 120), \"white\")\nImageDraw.Draw(image).text((20, 40), \"Documento sintetico n=17\", fill=\"black\")\nimage.save(png)\nc = canvas.Canvas(str(pdf), pagesize=(500, 120))\nc.drawImage(str(png), 0, 0, width=500, height=120)\nc.save()\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T3-A-E1",
+      "instruction": "E1 (guiado) — Concepto: hallazgo H1 con evidencia. Fixture `S21-T3-A-E1` / datos sintéticos: h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}; print(h[\"id\"]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `H1`.",
+      "hints": [
+        "dict.",
+        "print."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nh = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(h[\"id\"])\n"
+    },
+    {
+      "id": "S21-T3-A-E2",
+      "instruction": "E2 (independiente) — Concepto: validar resumen contiene n=. Fixture `S21-T3-A-E2` / datos sintéticos: s = \"mediana 28 PEN n=40\"; print(\"n=\" in s). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+      "hints": [
+        "in.",
+        "caso con n=40."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns = \"mediana 28 PEN n=40\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"n=\" in s)\n"
+    },
+    {
+      "id": "S21-T3-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: pack_report tres claves. Fixture `S21-T3-A-E3` / datos sintéticos: def pack_report(resumen, metodo, hallazgos):; return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `['hallazgos', 'metodo', 'resumen']`.",
+      "hints": [
+        "dict function.",
+        "print."
+      ],
+      "kind": "transfer",
+      "starterCode": "def pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"a\"], {}, []).keys()))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T3-B-E1",
+      "instruction": "E1 (guiado) — Concepto: caption alineado fuente/corte. Fixture `S21-T3-B-E1` / datos sintéticos: dash = {\"median_Lima\": 28.0}; doc = {\"median_Lima\": 28.0}. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+      "hints": [
+        "comparar.",
+        "print."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndash = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(dash == doc)\n"
+    },
+    {
+      "id": "S21-T3-B-E2",
+      "instruction": "E2 (independiente) — Concepto: lista de limitaciones. Fixture `S21-T3-B-E2` / datos sintéticos: cap = \"Fig1 | Fuente: sintetico | n=10\"; print(\"Fuente\" in cap). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True`.",
+      "hints": [
+        "in.",
+        "print bool."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncap = \"Fig1 | Fuente: sintetico | n=10\"\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"Fuente\" in cap)\n"
+    },
+    {
+      "id": "S21-T3-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: checksum de métricas entre artefactos. Fixture `S21-T3-B-E3` / datos sintéticos: def check_parity(a, b, c):; return a == b == c. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | False`.",
+      "hints": [
+        "a==b==c.",
+        "Dos prints."
+      ],
+      "kind": "transfer",
+      "starterCode": "def check_parity(a, b, c):\n    return a == b == c\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}))\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T4-A-E1",
+      "instruction": "E1 (guiado) — Concepto: redacción es-PE de hallazgo. Fixture `S21-T4-A-E1` / datos sintéticos: vals = [28.04, 28.0]; print([round(v, 1) for v in vals]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `[28.0, 28.0]`.",
+      "hints": [
+        "round.",
+        "print."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [28.04, 28.0]\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([round(v, 1) for v in vals])\n"
+    },
+    {
+      "id": "S21-T4-A-E2",
+      "instruction": "E2 (independiente) — Concepto: checklist a11y headings/alt. Fixture `S21-T4-A-E2` / datos sintéticos: def fmt_pen(x):; return f\"{round(float(x), 1)} PEN\". Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `28.0 PEN`.",
+      "hints": [
+        "f-string round 1.",
+        "print."
+      ],
+      "kind": "independent",
+      "starterCode": "def fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\nprint(fmt_pen(28.04))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T4-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: precisión decimal consistente. Fixture `S21-T4-A-E3` / datos sintéticos: def a11y_min(has_h1, alts):; return has_h1 and all(len(a) > 10 for a in alts). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | False`.",
+      "hints": [
+        "all().",
+        "print."
+      ],
+      "kind": "transfer",
+      "starterCode": "def a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"descripcion larga de figura\"]))\nprint(a11y_min(True, [\"corto\"]))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S21-T4-B-E1",
+      "instruction": "E1 (guiado) — Concepto: manifiesto de provenance. Fixture `S21-T4-B-E1` / datos sintéticos: approval = {\"status\": \"pending_review\"}; print(approval[\"status\"]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `pending_review`.",
+      "hints": [
+        "dict.",
+        "print value."
+      ],
+      "kind": "guided",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\napproval = {\"status\": \"pending_review\"}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(approval[\"status\"])\n"
+    },
+    {
+      "id": "S21-T4-B-E2",
+      "instruction": "E2 (independiente) — Concepto: hash sha1[:8] de payload. Fixture `S21-T4-B-E2` / datos sintéticos: print(hashlib.sha1(b\"synthetic\").hexdigest()[:8]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `385fcd67`.",
+      "hints": [
+        "hashlib.sha1.",
+        "print slice."
+      ],
+      "kind": "independent",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n"
+    },
+    {
+      "id": "S21-T4-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: ready(checklist) de paquete. Fixture `S21-T4-B-E3` / datos sintéticos: def ready(checklist):; return all(checklist.values()). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `True | False`.",
+      "hints": [
+        "all(dict.values()).",
+        "print."
+      ],
+      "kind": "transfer",
+      "starterCode": "def ready(checklist):\n    return all(checklist.values())\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\nprint(ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    }
+  ],
+  "packet_sha": "6b4c3320865094ee",
+  "attempt_id": "agentic_E2"
+}

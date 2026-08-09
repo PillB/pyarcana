@@ -1,0 +1,61 @@
+{
+  "section": 5,
+  "section_id": "oop",
+  "file": "src/lib/course/sections/s05-oop.ts",
+  "title": "Funciones, contratos y descomposición",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S05_EXPLORER_REPORT.md",
+  "score_before": 7.8,
+  "score_after_estimate": 9.58,
+  "status": "fixed_validated",
+  "anti_aberration_ok": true,
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15"
+  ],
+  "issues_deferred": [
+    "ISSUE-11"
+  ],
+  "meta_leaks_cleared": ["M1", "M2", "M3", "M4"],
+  "meta_leaks_platform_stable": ["M5"],
+  "oracle_rerun": "41/41",
+  "oracle_breakdown": {
+    "theory_ido": "17/17",
+    "wedo_solutions": "24/24"
+  },
+  "instruction_stats": {
+    "count": 24,
+    "avg_chars": 250.0,
+    "min_chars": 188
+  },
+  "paragraph_stats": {
+    "count": 28,
+    "avg_chars": 332,
+    "under_250": 0
+  },
+  "selfcheck_count": 8,
+  "policies_canonical": {
+    "normalize_nombre": "collapse+title",
+    "normalize_email": "strip+lower+require_@",
+    "normalize_telefono": "digits_only_demo",
+    "normalize_direccion": "collapse+upper"
+  },
+  "this_pass_highlights": [
+    "Deepened last 2 theory paragraphs under 250 chars (now 0 under 250)",
+    "Rethemed residual toys: etiqueta_campo (T1-A-E3), make_phone_prefix (T4-A-E2)",
+    "Sharpened soft tests/hints on T3-A-E2/E3, T4-B-E2/E3",
+    "Revalidated 41/41 oracles; tsc clean; meta greps clean"
+  ],
+  "notes": "Explorer-guided residual pass only (S05_EXPLORER_REPORT.md). All P0/P1/P2 resolved except ISSUE-11 legacy id oop kept stable by design. Hand-crafted content only — no bulk generation. Fleet floor ≥9.5 met (9.58)."
+}

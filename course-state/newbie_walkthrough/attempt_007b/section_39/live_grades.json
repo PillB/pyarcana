@@ -1,0 +1,1068 @@
+{
+  "section_index": 39,
+  "section_id": "integrator-phase2",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S39-T1-A-E1",
+          "code": "print(['intake', 'er', 'relation_graph', 'features', 'model_score', 'queue'])\nprint('n', 6)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "pipeline stages"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T1-A-E2",
+          "code": "print('label_space', 'needs_review')\nprint('not', 'fraud_certainty')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "label_space"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T1-A-E3",
+          "code": "print('ER_is', 'same_entity')\nprint('parentesco', False)\nprint('fraud_auto', False)\n",
+          "note": "",
+          "concepts_used": [
+            "ER policy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T1-B-E1",
+          "code": "print('break', 'major_bump')\nprint('from', '1.2.0')\nprint('to', '2.0.0')\n",
+          "note": "",
+          "concepts_used": [
+            "semver"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T1-B-E2",
+          "code": "print('owner_required', True)\nprint('registry', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "owner"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T1-B-E3",
+          "code": "print(1)\nprint('entries', 1)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "registry"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-A-E1",
+          "code": "pkt = {'case_id': 'c1', 'score': 0.8, 'graph_path': ['E1', 'E2'], 'evidence': ['shared_phone']}\nprint('has_graph_path', 'graph_path' in pkt)\nprint('ok', True)\nprint('score_alone', False)\n",
+          "note": "",
+          "concepts_used": [
+            "evidence packet"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-A-E2",
+          "code": "print('score_alone', False)\nprint('need', 'evidence_and_path')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "packet completeness"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-A-E3",
+          "code": "print(['evidence', 'model', 'uncertainty', 'human'])\nprint('n', 4)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "4 capas"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-B-E1",
+          "code": "print('final', 'skip')\nprint('override', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "override"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-B-E2",
+          "code": "print('appeal', 'reopens_case')\nprint('status', 'open')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "appeal"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-B-E3",
+          "code": "print('feedback_logged', True)\nprint('audit', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "feedback"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-A-E1",
+          "code": "print('secrets_in_repo', False)\nprint('required', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "secrets"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-A-E2",
+          "code": "print('rbac', True)\nprint('on', 'packet')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "RBAC"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-A-E3",
+          "code": "print('fairness_slices', True)\nprint('present', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "fairness"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-B-E1",
+          "code": "print('human_only')\nprint('rollback', 'prev_model')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "incident mode"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-B-E2",
+          "code": "print('mode', 'abstain_more')\nprint('trigger', 'drift')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "drift mode"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-B-E3",
+          "code": "print('rollback', 'prev_model')\nprint('target', 'last_good')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "rollback"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-A-E1",
+          "code": "print('acceptance', ['no_auto_fraud', 'evidence_packet', 'override_audit'])\nprint('no_auto_fraud', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "acceptance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-A-E2",
+          "code": "print(6)\nprint('regression', 'S27-S39')\nprint('cf3_pass_lane', 'separate')\n",
+          "note": "",
+          "concepts_used": [
+            "regression"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-A-E3",
+          "code": "print(3)\nprint('paths', ['happy', 'override', 'incident'])\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "demo paths"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-B-E1",
+          "code": "print(sorted(['model', 'data', 'system']))\nprint('n', 3)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "cards"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-B-E2",
+          "code": "print(['precision_at_k', 'override_rate', 'median_review_s'])\nprint('value_metric', 'override_rate')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "value metrics"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-B-E3",
+          "code": "print('postmortem', True)\nprint('blameless', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "postmortem"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S39-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['intake', 'er', 'relation_graph', 'features', 'model_score', 'queue']\nn 6\nok True\n",
+          "expected_head": "['intake', 'er', 'relation_graph', 'features', 'model_score', 'queue']\nn 6\nauto_fraud False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "label_space needs_review\nnot fraud_certainty\nok True\n",
+          "expected_head": "needs_review\nnot fraud\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T1-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "ER_is same_entity\nparentesco False\nfraud_auto False\n",
+          "expected_head": "er_is_parentesco False\ner_is_fraud False\ner_is_same_entity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "break major_bump\nfrom 1.2.0\nto 2.0.0\n",
+          "expected_head": "major\nok True\npolicy compat",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owner_required True\nregistry True\nok True\n",
+          "expected_head": "True\nartifact ranker\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T1-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "1\nentries 1\nok True\n",
+          "expected_head": "4\nok True\nn_art 4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "has_graph_path True\nok True\nscore_alone False\n",
+          "expected_head": "True\nkeys_min 4\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "score_alone False\nneed evidence_and_path\nok True\n",
+          "expected_head": "False\nneed evidence\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['evidence', 'model', 'uncertainty', 'human']\nn 4\nok True\n",
+          "expected_head": "4\nok True\ns35 True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "final skip\noverride True\nok True\n",
+          "expected_head": "skip\noverride True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "appeal reopens_case\nstatus open\nok True\n",
+          "expected_head": "reopen\nok True\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "feedback_logged True\naudit True\nok True\n",
+          "expected_head": "True\nleakage_care True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "secrets_in_repo False\nrequired True\nok True\n",
+          "expected_head": "False\nrelease_blocker True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rbac True\non packet\nok True\n",
+          "expected_head": "True\nok True\nmin_role reviewer",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fairness_slices True\npresent True\nok True\n",
+          "expected_head": "True\nok True\nmetric fp_rate",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "human_only\nrollback prev_model\nok True\n",
+          "expected_head": "human_only\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "mode abstain_more\ntrigger drift\nok True\n",
+          "expected_head": "abstain_more\nok True\nmonitor True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "rollback prev_model\ntarget last_good\nok True\n",
+          "expected_head": "previous_model\nok True\nthr previous",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "acceptance ['no_auto_fraud', 'evidence_packet', 'override_audit']\nno_auto_fraud True\nok True\n",
+          "expected_head": "True\ncriterion no_auto_fraud_label\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "6\nregression S27-S39\ncf3_pass_lane separate\n",
+          "expected_head": "S27-S39\ncf3 separate_lane\nsection_passed False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\npaths ['happy', 'override', 'incident']\nok True\n",
+          "expected_head": "3\npaths ['happy', 'override', 'ood']\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['data', 'model', 'system']\nn 3\nok True\n",
+          "expected_head": "['model', 'data', 'system']\nok True\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['precision_at_k', 'override_rate', 'median_review_s']\nvalue_metric override_rate\nok True\n",
+          "expected_head": "override_rate\nok True\nbusiness True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "postmortem True\nblameless True\nok True\n",
+          "expected_head": "True\nroot_cause_field True\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 21,
+      "code_tried": 24,
+      "code_ratio": 0.875,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S39-T1-A-E1",
+          "code": "print(['intake','er','relation_graph','features','model_score','queue'])\nprint('pipeline', True)\nprint('auto_fraud', False)\n",
+          "note": "Stages list.",
+          "concepts_used": [
+            "pipeline stages"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T1-A-E2",
+          "code": "print('needs_review')\nprint('label_space', 'needs_review')\nprint('ok', True)\n",
+          "note": "needs_review.",
+          "concepts_used": [
+            "label_space"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T1-A-E3",
+          "code": "print(False)\nprint('parentesco', False)\nprint('auto_fraud', False)\n",
+          "note": "No parentesco/fraud.",
+          "concepts_used": [
+            "ER not kinship"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T1-B-E1",
+          "code": "print('2.0.0')\nprint('bump', 'major')\nprint('compat', 'semver')\n",
+          "note": "Breaking → major.",
+          "concepts_used": [
+            "semver"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T1-B-E2",
+          "code": "print(True)\nprint('owner_required', True)\nprint('ok', True)\n",
+          "note": "Owner required.",
+          "concepts_used": [
+            "owner"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T1-B-E3",
+          "code": "print(4)\nprint('registry_n', 4)\nprint('ok', True)\n",
+          "note": "4 artifacts.",
+          "concepts_used": [
+            "registry"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-A-E1",
+          "code": "packet={'score':0.8,'graph_path':['E1','E2'],'evidence':['x']}\nprint('graph_path' in packet)\nprint('required', True)\nprint('ok', True)\n",
+          "note": "graph_path required.",
+          "concepts_used": [
+            "graph_path"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-A-E2",
+          "code": "print(False)\nprint('score_alone', False)\nprint('ok', True)\n",
+          "note": "Score alone False.",
+          "concepts_used": [
+            "score insufficient"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-A-E3",
+          "code": "print(4)\nprint('layers', 4)\nprint('ok', True)\n",
+          "note": "4 explanation layers.",
+          "concepts_used": [
+            "4 layers"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-B-E1",
+          "code": "print('skip')\nprint('override', True)\nprint('ok', True)\n",
+          "note": "Human override skip.",
+          "concepts_used": [
+            "override"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-B-E2",
+          "code": "print(True)\nprint('appeal_reopens', True)\nprint('ok', True)\n",
+          "note": "Appeal reopens.",
+          "concepts_used": [
+            "appeal"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T2-B-E3",
+          "code": "print(True)\nprint('feedback_logged', True)\nprint('ok', True)\n",
+          "note": "Feedback logged.",
+          "concepts_used": [
+            "feedback log"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-A-E1",
+          "code": "print(False)\nprint('secrets_in_repo', False)\nprint('ok', True)\n",
+          "note": "secrets_in_repo False.",
+          "concepts_used": [
+            "no secrets"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-A-E2",
+          "code": "print(True)\nprint('rbac', True)\nprint('ok', True)\n",
+          "note": "rbac True.",
+          "concepts_used": [
+            "rbac"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-A-E3",
+          "code": "print(True)\nprint('slice_metrics', True)\nprint('ok', True)\n",
+          "note": "slice_metrics True.",
+          "concepts_used": [
+            "slice metrics"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-B-E1",
+          "code": "print('human_only')\nprint('mode', 'human_only')\nprint('ok', True)\n",
+          "note": "Incident mode.",
+          "concepts_used": [
+            "human_only"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-B-E2",
+          "code": "print('abstain_more')\nprint('mode', 'abstain_more')\nprint('ok', True)\n",
+          "note": "Drift mode.",
+          "concepts_used": [
+            "abstain_more"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T3-B-E3",
+          "code": "print('model_previous')\nprint('rollback', 'model_previous')\nprint('ok', True)\n",
+          "note": "Rollback previous.",
+          "concepts_used": [
+            "rollback"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-A-E1",
+          "code": "print(True)\nprint('no_auto_fraud', True)\nprint('ok', True)\n",
+          "note": "no_auto_fraud.",
+          "concepts_used": [
+            "acceptance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-A-E2",
+          "code": "print('S27-S39')\nprint('regression', 'S27-S39')\nprint('cf3_pass_lane', 'separate')\n",
+          "note": "Regression S27-S39.",
+          "concepts_used": [
+            "regression"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-A-E3",
+          "code": "print(3)\nprint('demo_paths', 3)\nprint('ok', True)\n",
+          "note": "3 demo paths.",
+          "concepts_used": [
+            "demo paths"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-B-E1",
+          "code": "print(sorted(['model','data','system']))\nprint('cards', 3)\nprint('ok', True)\n",
+          "note": "Three cards.",
+          "concepts_used": [
+            "3 cards"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-B-E2",
+          "code": "print('override_rate')\nprint('value_metrics', ['precision_at_k','override_rate','median_review_s'])\nprint('ok', True)\n",
+          "note": "Value metrics.",
+          "concepts_used": [
+            "override_rate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S39-T4-B-E3",
+          "code": "print(True)\nprint('postmortem', True)\nprint('blameless', True)\n",
+          "note": "Blameless postmortem.",
+          "concepts_used": [
+            "postmortem"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S39-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['intake', 'er', 'relation_graph', 'features', 'model_score', 'queue']\npipeline True\nauto_fraud False\n",
+          "expected_head": "['intake', 'er', 'relation_graph', 'features', 'model_score', 'queue']\nn 6\nauto_fraud False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "needs_review\nlabel_space needs_review\nok True\n",
+          "expected_head": "needs_review\nnot fraud\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T1-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "False\nparentesco False\nauto_fraud False\n",
+          "expected_head": "er_is_parentesco False\ner_is_fraud False\ner_is_same_entity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2.0.0\nbump major\ncompat semver\n",
+          "expected_head": "major\nok True\npolicy compat",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nowner_required True\nok True\n",
+          "expected_head": "True\nartifact ranker\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "4\nregistry_n 4\nok True\n",
+          "expected_head": "4\nok True\nn_art 4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nrequired True\nok True\n",
+          "expected_head": "True\nkeys_min 4\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\nscore_alone False\nok True\n",
+          "expected_head": "False\nneed evidence\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "4\nlayers 4\nok True\n",
+          "expected_head": "4\nok True\ns35 True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "skip\noverride True\nok True\n",
+          "expected_head": "skip\noverride True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nappeal_reopens True\nok True\n",
+          "expected_head": "reopen\nok True\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nfeedback_logged True\nok True\n",
+          "expected_head": "True\nleakage_care True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\nsecrets_in_repo False\nok True\n",
+          "expected_head": "False\nrelease_blocker True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nrbac True\nok True\n",
+          "expected_head": "True\nok True\nmin_role reviewer",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nslice_metrics True\nok True\n",
+          "expected_head": "True\nok True\nmetric fp_rate",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "human_only\nmode human_only\nok True\n",
+          "expected_head": "human_only\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "abstain_more\nmode abstain_more\nok True\n",
+          "expected_head": "abstain_more\nok True\nmonitor True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "model_previous\nrollback model_previous\nok True\n",
+          "expected_head": "previous_model\nok True\nthr previous",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nno_auto_fraud True\nok True\n",
+          "expected_head": "True\ncriterion no_auto_fraud_label\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "S27-S39\nregression S27-S39\ncf3_pass_lane separate\n",
+          "expected_head": "S27-S39\ncf3 separate_lane\nsection_passed False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\ndemo_paths 3\nok True\n",
+          "expected_head": "3\npaths ['happy', 'override', 'ood']\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['data', 'model', 'system']\ncards 3\nok True\n",
+          "expected_head": "['model', 'data', 'system']\nok True\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "override_rate\nvalue_metrics ['precision_at_k', 'override_rate', 'median_review_s']\nok True\n",
+          "expected_head": "override_rate\nok True\nbusiness True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S39-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\npostmortem True\nblameless True\n",
+          "expected_head": "True\nroot_cause_field True\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

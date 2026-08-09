@@ -1,0 +1,518 @@
+{
+  "agent": "b",
+  "section_index": 38,
+  "recorded_at": "2026-08-01T15:24:49.289225+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "Miles de threads CPU",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.3,
+          3.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          2.0,
+          3.0,
+          0.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Reejecutar sin side effects duplicados",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          1.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "PII completa",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          1.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          4.0,
+          2.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          4.0,
+          5.0,
+          1.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 0,
+        "chosen_text": "DLQ con replay controlado",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          4.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 2,
+        "chosen_text": "Medir el bottleneck (wall vs. CPU) del path caliente y documentar el bound",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          9.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 8,
+        "chosen_index": 1,
+        "chosen_text": "score (siguiente paso pendiente según el mapa del workflow)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.15,
+          7.0,
+          5.0,
+          5.15
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S38-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038-1A — DEFECTO: pick ignora bound (siempre async)\ndef pick(bound: str) -> str:\n    return \"async_or_threads\"  # DEFECTO: CPU-bound necesita processes por el GIL\n\nbound = \"cpu\"\nchoice = pick(bound)\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", choice == \"processes\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "devuelve",
+          "elección",
+          "imprime",
+          "starter",
+          "PII",
+          "mapea",
+          "pii"
+        ]
+      },
+      {
+        "exercise_id": "S38-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038-1A2 — DEFECTO: pick fuerza processes en I/O\ndef pick(bound: str) -> str:\n    return \"processes\"  # DEFECTO: I/O puro debe usar async_or_threads\n\nbound = \"io\"\nchoice = pick(bound)\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", choice == \"async_or_threads\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "fixture",
+          "mapa",
+          "local",
+          "devuelve",
+          "etiqueta",
+          "elección",
+          "paste"
+        ]
+      },
+      {
+        "exercise_id": "S38-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · measure before model (transfer)\nwall_ms, cpu_ms = 100, 95\n# DEFECTO: measure_first=False y choice por moda (async) sin medir bound\nmeasure_first = False\nchoice = \"async_or_threads\"\nprint(choice)\nprint(\"measure_first\", measure_first)\nprint(\"ok\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "imprime",
+          "starter",
+          "wall",
+          "reales",
+          "pools",
+          "modelo",
+          "lee"
+        ]
+      },
+      {
+        "exercise_id": "S38-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · métrica de serialización IPC\nimport json\npayload = {\"x\": 2}\n# DEFECTO: str(dict) no es el contrato de IPC (comillas simples)\nblob = str(payload).encode(\"utf-8\")\nprint(len(blob))\nprint(\"ok\", blob.decode() == '{\"x\": 2}')\nprint(\"format\", \"str\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "starter",
+          "revisa",
+          "solo",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S38-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · GIL CPU threads\ndef gil_status(model: str, bound: str) -> str:\n    # DEFECTO: asume unlimited aunque bound sea cpu en threads\n    return \"unlimited\"\n\nstatus = gil_status(\"threads\", \"cpu\")\nprint(status)\nprint(\"ok\", status == \"limited\")\nprint(\"cpu_threads\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "devuelve",
+          "pueden",
+          "imprime",
+          "starter",
+          "reportar",
+          "pools",
+          "siempre"
+        ]
+      },
+      {
+        "exercise_id": "S38-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · IPC compact payload (transfer)\nimport json\nfull = {\"case_id\": \"c1\", \"email\": \"ana@example.pe\", \"score\": 0.2}\ncompact = {\"case_id\": \"c1\", \"score\": 0.2}\n# DEFECTO: prefiere full_record sin medir bytes ni riesgo de PII\nprefer = \"full_record\"\nprint(prefer)\nprint(\"ok\", prefer == \"compact_payload\")\nprint(\"bytes\", 0)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sintético",
+          "menor",
+          "elige",
+          "fija",
+          "imprime",
+          "starter",
+          "solo",
+          "payload_bytes"
+        ]
+      },
+      {
+        "exercise_id": "S38-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · token bucket rate\n# DEFECTO: rate=3 en vez de 2 del fixture\nclass TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(3)  # DEFECTO: rate del fixture es 2\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", sum(1 for a in allows if a) == 2 and allows[2] is False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "suma",
+          "usa",
+          "imprime",
+          "starter",
+          "refill",
+          "genera",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S38-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · backpressure por maxsize\nfrom queue import Queue\n# DEFECTO: sin maxsize finito — política de cola ilimitada\npolicy = \"unbounded_queue\"\nmaxsize = None  # sin tope documentado\nprint(policy)\nprint(\"ok\", maxsize == 50)\nprint(\"maxsize\", maxsize)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "encola",
+          "dos",
+          "case_id",
+          "imprime",
+          "starter",
+          "instancia",
+          "qsize",
+          "sintéticos"
+        ]
+      },
+      {
+        "exercise_id": "S38-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · rate limit protege al proveedor\nclass TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(99)  # DEFECTO: sin límite real → flood\nfirst, second = b.allow(), b.allow()\nprint(\"flood\")\nprint(\"ok\", first is True and second is False)\nprint(\"ban_risk\", False)  # DEFECTO: no documenta riesgo de ban del proveedor\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "usa",
+          "imprime",
+          "starter",
+          "red",
+          "provider"
+        ]
+      },
+      {
+        "exercise_id": "S38-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · retry/DLQ policy con simulación de latencia\ndef fetch_policy(latency_ms: float, timeout_s: float) -> dict:\n    # DEFECTO: seconds=0 on_fail=ignore → hang sin camino de fallo\n    return {\"seconds\": 0, \"on_fail\": \"ignore\", \"status\": \"ok\"}\n\npol = fetch_policy(latency_ms=8000, timeout_s=5)\nprint(pol[\"seconds\"])\nprint(\"on_fail\", pol[\"on_fail\"])\nprint(\"ok\", pol[\"status\"] == \"timeout\" and pol[\"seconds\"] == 5)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "devuelve",
+          "imprime",
+          "starter",
+          "ignora",
+          "compara",
+          "siempre",
+          "superado"
+        ]
+      },
+      {
+        "exercise_id": "S38-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · cierre de recursos en finally\nclosed = False\ntry:\n    raise RuntimeError(\"fetch mock falló\")\nexcept RuntimeError:\n    pass\n# DEFECTO: no hay finally → conn filtrada\nprint(closed)\nprint(\"resource\", \"conn\")\nprint(\"ok\", closed)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fixture",
+          "local",
+          "imprime",
+          "starter",
+          "añade",
+          "atrapa",
+          "true"
+        ]
+      },
+      {
+        "exercise_id": "S38-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · timeout debe generar incidente operable\ndef needs_incident(latency_ms: float, timeout_s: float) -> bool:\n    if timeout_s <= 0:\n        return False  # DEFECTO: sin presupuesto niega el incidente\n    return latency_ms > timeout_s * 1000\n\ndef action_for(hit: bool) -> str:\n    return \"ignore\"  # DEFECTO: no abre runbook\n\nhit = needs_incident(5000, 0)\nprint(\"incident\", hit)\nprint(\"ok\", hit is True and action_for(hit) == \"open_runbook\")\nprint(\"action\", action_for(hit))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sintético",
+          "fixture",
+          "latencia",
+          "imprime",
+          "starter",
+          "budget",
+          "sobre"
+        ]
+      },
+      {
+        "exercise_id": "S38-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · trace correlation id\ndef emit_scored(case_id: str, corr, score: float) -> dict:\n    # DEFECTO: corr=None en evento scored (ignora el parámetro corr)\n    return {\"event\": \"scored\", \"case_id\": case_id, \"corr\": None, \"score\": score, \"pii_raw\": False}\n\nevent = emit_scored(\"c-synth-1\", \"corr-1\", 0.4)\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", event.get(\"corr\") == \"corr-1\" and event.get(\"pii_raw\") is False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fixture",
+          "sintético",
+          "fija",
+          "imprime",
+          "starter",
+          "recibido",
+          "propaga"
+        ]
+      },
+      {
+        "exercise_id": "S38-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · tres pilares de observabilidad\nORDER = (\"logs\", \"metrics\", \"traces\")\n\ndef active_pillars(signals: dict) -> list:\n    # DEFECTO: solo considera logs\n    return [k for k in ORDER if k == \"logs\" and signals.get(k)]\n\nsignals = {\"logs\": True, \"metrics\": False, \"traces\": False}\npillars = active_pillars(signals)\nprint(pillars)\nprint(\"ok\", pillars == [\"logs\", \"metrics\", \"traces\"])\nprint(\"n\", len(pillars))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "opentelemetry",
+          "imprime",
+          "starter",
+          "señales",
+          "real",
+          "deja",
+          "filtra"
+        ]
+      },
+      {
+        "exercise_id": "S38-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · pii_raw prohibido en logs\ndef redact(s: str) -> str:\n    return s  # DEFECTO: no enmascara\n\nemail = \"ana@example.pe\"\npii_raw = True  # DEFECTO: permite PII cruda\nmasked = redact(email)\nprint(pii_raw)\nprint(\"ok\", masked == \"an***\" and pii_raw is False)\nprint(\"redact\", masked == \"an***\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "implementa",
+          "imprime",
+          "starter",
+          "identidad",
+          "solo"
+        ]
+      },
+      {
+        "exercise_id": "S38-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · redacción de PII en logs\nphone = \"90000001\"\n# DEFECTO: imprime teléfono crudo en el log\nredacted = phone\nprint(redacted)\nprint(\"ok\", redacted == \"90****01\")\nprint(\"pii\", redacted == phone)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fixture",
+          "asigna",
+          "sintético",
+          "starter",
+          "aplica",
+          "redactado"
+        ]
+      },
+      {
+        "exercise_id": "S38-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · SLO multi-SLI (p95 + error_rate)\nsli = {\"p95_ms\": 100, \"error_rate\": 0.01}\nslo = {\"p95_ms\": 200, \"error_rate\": 0.02}\n\ndef slo_ok(sli: dict, slo: dict) -> bool:\n    # DEFECTO: solo p95 y con signo invertido; ignora error_rate\n    return sli[\"p95_ms\"] > slo[\"p95_ms\"]\n\nok = slo_ok(sli, slo)\nprint(ok)\nprint(\"p95\", sli[\"p95_ms\"])\nprint(\"limit\", slo[\"p95_ms\"])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fixture",
+          "sintético",
+          "doble",
+          "imprime",
+          "starter",
+          "umbrales"
+        ]
+      },
+      {
+        "exercise_id": "S38-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · error budget como política operativa\ndef budget_action(remaining: float) -> str:\n    return \"ship_features\"  # DEFECTO: ignora remaining → uptime_only sin consecuencia\n\nbudget_remaining = 0\naction = budget_action(budget_remaining)\nprint(\"uptime_only\")\nprint(\"ok\", action == \"freeze_nonurgent_deploys\")\nprint(\"n\", 0)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fixture",
+          "freeze",
+          "imprime",
+          "starter",
+          "didáctico",
+          "siempre",
+          "error_budget"
+        ]
+      },
+      {
+        "exercise_id": "S38-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · estados del workflow\n# DEFECTO: estados incompletos (sin failed) y terminal mal definido\nWORKFLOW_STATES = [\"pending\", \"running\", \"done\"]\n\ndef is_terminal(status: str) -> bool:\n    return status == \"done\"  # DEFECTO: failed también es terminal\n\nprint(WORKFLOW_STATES)\nprint(\"ok\", \"failed\" in WORKFLOW_STATES and is_terminal(\"failed\"))\nprint(\"n\", len(WORKFLOW_STATES))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fixture",
+          "tres",
+          "sintético",
+          "imprime",
+          "starter",
+          "añade",
+          "solo",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S38-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · idempotency key case:step:ver\ndef idem_key(case: str, step: str, ver: str) -> str:\n    # DEFECTO: omite ver → colisiones al cambiar lógica\n    return f\"{case}:{step}\"\n\nkey = idem_key(\"c-synth-1\", \"features\", \"v3\")\nprint(key)\nprint(\"ok\", key.count(\":\") == 2 and key.endswith(\":v3\"))\nprint(\"dup\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "dos",
+          "imprime",
+          "starter",
+          "puntos",
+          "reales",
+          "formato",
+          "deja"
+        ]
+      },
+      {
+        "exercise_id": "S38-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · checkpoint resume al siguiente paso\nNEXT = {\"features\": \"score\", \"score\": \"notify\", \"notify\": \"done\"}\nstate = {\"last_done\": \"features\", \"status\": \"done\"}\n# DEFECTO: hardcode intake en vez de NEXT[last_done]\nresume = \"intake\"\nprint(resume)\nprint(\"ok\", resume == \"score\")\nprint(\"checkpoint\", state[\"status\"] == \"done\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fixture",
+          "usa",
+          "imprime",
+          "fija",
+          "starter",
+          "true"
+        ]
+      },
+      {
+        "exercise_id": "S38-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · exponential backoff\n# DEFECTO: base*attempt lineal en vez de 2**attempt\ndef backoff(attempt, base=0.1):\n    return base * attempt  # DEFECTO: exponencial base * 2**attempt\nwait = backoff(3)\nprint(wait)\nprint(\"ok\", wait == 0.8)\nprint(\"attempt\", 3)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fixture",
+          "imprime",
+          "starter",
+          "didáctico",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S38-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · poison message a DLQ\ndef route(kind: str) -> str:\n    return \"retry_forever\"  # DEFECTO: veneno no debe reintentarse a ciegas\ndest = route(\"poison\")\nprint(dest)\nprint(\"ok\", dest == \"dlq\")\nprint(\"replay\", \"uncontrolled\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "fixture",
+          "sintético",
+          "controlled",
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S38-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-038 · runbook on-call existe\nrunbook = {}  # DEFECTO: vacío = sin playbook operable\nprint(bool(runbook))\nprint(\"oncall\", False)\nprint(\"ok\", \"restart_worker\" in runbook.get(\"actions\", []))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "define",
+          "imprime",
+          "starter",
+          "transferencia",
+          "mínimas",
+          "operación",
+          "true"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "0dd5518c2f9dcff1"
+  }
+}

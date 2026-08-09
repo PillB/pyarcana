@@ -1,0 +1,164 @@
+{
+  "version": "3.2",
+  "section": "S07",
+  "section_id": "data-acquisition",
+  "phase": "PHASE_1_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "content_inventory": {
+    "section_file": "src/lib/course/sections/s07-data-acquisition.ts",
+    "total_lines": 1259,
+    "structure": {
+      "id": "data-acquisition",
+      "index": 7,
+      "title": "Adquisición de Datos para Data Science",
+      "shortTitle": "Adquisición de Datos",
+      "estimatedHours": 14,
+      "level": "Intermedio"
+    },
+    "theory_blocks": [
+      {
+        "block": 1,
+        "heading": "Generators CSV",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — later performance/IO"
+      },
+      {
+        "block": 2,
+        "heading": "Scraping",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S12-ish APIs later"
+      },
+      {
+        "block": 3,
+        "heading": "APIs REST",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S12"
+      },
+      {
+        "block": 4,
+        "heading": "SQL bridge",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S12"
+      },
+      {
+        "block": 5,
+        "heading": "Regex",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "partial — V3 S7 T3"
+      },
+      {
+        "block": 6,
+        "heading": "collections",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "partial — V3 S6"
+      }
+    ],
+    "learningOutcomes_count": 6,
+    "learningOutcomes_summary": [
+      "generators yield CSV",
+      "scraping BS4/Selenium",
+      "REST APIs paginación",
+      "SQL sqlite3/SQLAlchemy/read_sql",
+      "regex DNI/tel/email",
+      "collections Counter/defaultdict"
+    ],
+    "iDo_note": "Legacy multi-step demo blocks present; not 8 I Do demos V3",
+    "weDo_note": "Legacy guided exercises present; not 24 student exercises",
+    "youDo_project": {
+      "title": "Capstone: Data Acquisition Pipeline — 3 fuentes unificadas en un solo DataFrame",
+      "maps_to_capstone_current": "none explicit V3",
+      "maps_to_capstone_v3_target": "Normalización latinoamericana (CP-N1-B)"
+    },
+    "selfCheck_questions": {
+      "total": 5,
+      "seed_exam_variants": 12,
+      "seed_concepts": [
+        "generators-yield",
+        "sql-injection-safety",
+        "multiprocessing-vs-threads",
+        "logging-best-practices"
+      ],
+      "v3_coverage": "0/8 subtopics"
+    }
+  },
+  "gap_analysis": {
+    "subtopics": "0 structured V3 → 8",
+    "demos": "legacy few → 8",
+    "exercises": "legacy few → 24",
+    "exam_variants": "12 → 24",
+    "topic_evaluations": "0 → 4",
+    "project_retheme": "Capstone: Data Acquisition Pipeline — 3 fuentes unificadas en un solo DataFrame → Normalización latinoamericana (CP-N1-B)",
+    "title_retheme": "Adquisición de Datos para Data Science → Texto, Unicode y expresiones regulares (id 'data-acquisition' stable)"
+  },
+  "canonical_subtopic_inventory_preview": [
+    {
+      "subtopic_id": "S07-T1-A",
+      "slug": "unicode-normalization-casefold",
+      "title": "Code points, normalización y casefold",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S07-T1-B",
+      "slug": "latam-names-particles",
+      "title": "Tildes, ñ, partículas y apellidos compuestos",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S07-T2-A",
+      "slug": "string-ops",
+      "title": "split/join/search/replace",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S07-T2-B",
+      "slug": "names-emails-phones",
+      "title": "Nombres, emails y teléfonos sin sobrevalidación",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S07-T3-A",
+      "slug": "regex-patterns-groups",
+      "title": "Patrones, grupos y anchors",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S07-T3-B",
+      "slug": "compile-extract-limits",
+      "title": "Compilación, extracción y límites de validación",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S07-T4-A",
+      "slug": "exact-token-similarity",
+      "title": "Exacta y por tokens",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S07-T4-B",
+      "slug": "fp-fn-evidence",
+      "title": "FP/FN y conservación de evidencia",
+      "exists_in_content": false
+    }
+  ],
+  "do_not_delete": [
+    "src/lib/course/sections/s07-data-acquisition.ts",
+    "prisma/seed.ts",
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json"
+  ],
+  "phase_1_gate": {
+    "inventory_complete": true,
+    "gaps_quantified": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_2"
+  }
+}

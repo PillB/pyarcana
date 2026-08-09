@@ -1,0 +1,460 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 39,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s39-5f6eb1ff8435",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S39-T1-A-E1",
+      "code": "# dual skeptic-H1 · S39-T1-A-E1\nCANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\nmeets = (\n    record[\"stages\"] == CANON\n    and record[\"label_space\"] == \"needs_review\"\n    and record[\"auto_fraud\"] is False\n)\nstatus = \"PASS\" if meets else \"REJECT_STAGE_ORDER\"\nprint(\"S39-T1-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T1-A-E1: contrasté el Pass del paquete («S39-T1-A-E1 · Valida el contrato del pipeline canónico N3 sobre `CASO-LIM-039-T1A`. Entrada: dict con stages (lista ordenada), label_space y…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, CANON, intake; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S39-T1-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "CANON",
+        "intake",
+        "relation_graph",
+        "features",
+        "model_score"
+      ]
+    },
+    {
+      "exercise_id": "S39-T1-A-E2",
+      "code": "# dual skeptic-H1 · S39-T1-A-E2\nCANON = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\n\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"stages\", \"label_space\", \"auto_fraud\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = (\n        record[\"stages\"] == list(CANON)\n        and record[\"label_space\"] == \"needs_review\"\n        and record[\"auto_fraud\"] is False\n    )\n    return \"PASS\" if ok else \"REJECT_STAGE_ORDER\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-039-T1A\",\n    \"stages\": list(CANON),\n    \"label_space\": \"needs_review\",\n    \"auto_fraud\": False,\n}\ninvalid = {**valid, \"stages\": list(reversed(CANON))}\nincomplete = {k: v for k, v in valid.items() if k != \"label_space\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T1-A-E2: contrasté el Pass del paquete («S39-T1-A-E2 · Modela tres rutas del pipeline N3: fixture válido, stages en orden adverso y registro sin label_space. Entrada: dict con case_…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, CANON, intake; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(assess(valid), assess(invalid), assess(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "CANON",
+        "intake",
+        "relation_graph",
+        "features",
+        "model_score"
+      ]
+    },
+    {
+      "exercise_id": "S39-T1-A-E3",
+      "code": "# dual skeptic-H1 · S39-T1-A-E3\nCANON = ['intake', 'er', 'relation_graph', 'features', 'model_score', 'queue']\ndef decide(record: dict) -> str:\n    if 'stages' not in record:\n        return 'REQUEST_STAGE_LIST'\n    if record.get('er_claims_parentesco') is True:\n        return 'REJECT_ER_SCOPE'\n    if record.get('stages') != list(CANON):\n        return 'REJECT_STAGE_ORDER'\n    return 'CONTINUE'\nvalid = {'stages': list(CANON), 'er_claims_parentesco': False}\nbad_order = {'stages': list(reversed(CANON)), 'er_claims_parentesco': False}\nbad_er = {'stages': list(CANON), 'er_claims_parentesco': True}\nmissing = {'er_claims_parentesco': False}\nprint(decide(valid), decide(bad_order), decide(bad_er), decide(missing))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T1-A-E3: contrasté el Pass del paquete («S39-T1-A-E3 · Fail-closed del pipeline: válido → `CONTINUE`, stages adversos → `REJECT_STAGE_ORDER`, ER pretendiendo parentesco (`er_claims_…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, CANON, intake; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(bad_order), decide(bad_er), decide(missing))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "CANON",
+        "intake",
+        "relation_graph",
+        "features",
+        "model_score"
+      ]
+    },
+    {
+      "exercise_id": "S39-T1-B-E1",
+      "code": "# dual skeptic-H1 · S39-T1-B-E1\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T1B\",\n    \"name\": \"graph_schema\",\n    \"ver\": \"3.0.0\",\n    \"owner\": \"investigations\",\n    \"breaking\": True,\n    \"bump\": \"major\",\n}\nmeets = record[\"breaking\"] is True and record[\"bump\"] == \"major\" and bool(record[\"owner\"])\nstatus = \"PASS\" if meets else \"REJECT_BUMP_POLICY\"\nprint(\"S39-T1-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T1-B-E1: contrasté el Pass del paquete («S39-T1-B-E1 · Valida el contrato de ownership y semver sobre `CASO-LIM-039-T1B`. Entrada: dict artifact con name, ver, owner y breaking. Si…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, record, case_id; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S39-T1-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "T1B"
+      ]
+    },
+    {
+      "exercise_id": "S39-T1-B-E2",
+      "code": "# dual skeptic-H1 · S39-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {\"name\", \"ver\", \"owner\", \"breaking\", \"bump\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if not record[\"owner\"]:\n        return \"MISSING:owner\"\n    if record[\"breaking\"] and record[\"bump\"] != \"major\":\n        return \"REJECT_BUMP_POLICY\"\n    return \"PASS\"\n\nvalid = {\"name\": \"graph_schema\", \"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"}\ninvalid = {**valid, \"bump\": \"minor\"}\nincomplete = {k: v for k, v in valid.items() if k != \"owner\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T1-B-E2: contrasté el Pass del paquete («S39-T1-B-E2 · Tres rutas de registry: artefacto válido (breaking+major+owner), adverso (breaking+minor) y sin owner. Entrada: name, ver, own…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, assess, record; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(assess(valid), assess(invalid), assess(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S39-T1-B-E3",
+      "code": "# dual skeptic-H1 · S39-T1-B-E3\nregistry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\", \"breaking\": False, \"bump\": \"patch\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\", \"breaking\": True, \"bump\": \"major\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\", \"breaking\": False, \"bump\": \"minor\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\", \"breaking\": False, \"bump\": \"patch\"},\n}\ndef decide(reg: dict) -> str:\n    for name, art in reg.items():\n        if not art.get('owner'):\n            return 'ESCALATE_NO_OWNER'\n        if art.get('breaking') and art.get('bump') != 'major':\n            return 'REJECT_BUMP_POLICY'\n    return 'CONTINUE'\nprint(decide(registry), len(registry))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T1-B-E3: contrasté el Pass del paquete («S39-T1-B-E3 · Evalúa un registry de cuatro artefactos sintéticos. Si algún artefacto carece de owner → `ESCALATE_NO_OWNER`; si hay breaking…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, registry, er_engine; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(registry), len(registry))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "registry",
+        "er_engine",
+        "ver",
+        "owner",
+        "data"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-A-E1",
+      "code": "# dual skeptic-H1 · S39-T2-A-E1\npacket = {\n    \"case_id\": \"CASO-LIM-039-T2A\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n}\nmeets = (\n    bool(packet.get(\"case_id\"))\n    and \"score\" in packet\n    and isinstance(packet.get(\"evidence\"), list)\n    and len(packet[\"evidence\"]) > 0\n    and isinstance(packet.get(\"graph_path\"), list)\n    and len(packet[\"graph_path\"]) > 0\n)\nstatus = \"PASS\" if meets else \"REJECT_PACKET_INCOMPLETE\"\nprint(\"S39-T2-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T2-A-E1: contrasté el Pass del paquete («S39-T2-A-E1 · Valida el evidence packet mínimo de `CASO-LIM-039-T2A`. Entrada: dict con case_id, score, evidence (lista no vacía) y graph_pa…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, packet, case_id; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S39-T2-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "packet",
+        "case_id",
+        "CASO",
+        "LIM",
+        "T2A"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-A-E2",
+      "code": "# dual skeptic-H1 · S39-T2-A-E2\ndef assess(packet: dict) -> str:\n    required = {\"case_id\", \"score\", \"evidence\", \"graph_path\"}\n    missing = sorted(required - packet.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if not packet[\"evidence\"] or not packet[\"graph_path\"]:\n        return \"REJECT_PACKET_INCOMPLETE\"\n    return \"PASS\"\n\nvalid = {\"case_id\": \"CASO-LIM-039-T2A\", \"score\": 0.81, \"evidence\": [\"shared_phone_synth\"], \"graph_path\": [\"E1\", \"E2\"]}\ninvalid = {\"case_id\": \"CASO-LIM-039-T2A\", \"score\": 0.81, \"evidence\": [], \"graph_path\": []}\nincomplete = {k: v for k, v in valid.items() if k != \"evidence\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T2-A-E2: contrasté el Pass del paquete («S39-T2-A-E2 · Tres packets: completo, adverso (evidence=[]), y sin graph_path. Entrada: case_id, score, evidence, graph_path. Salidas exacta…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, assess, packet; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(assess(valid), assess(invalid), assess(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "assess",
+        "packet",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-A-E3",
+      "code": "# dual skeptic-H1 · S39-T2-A-E3\ndef decide(packet: dict):\n    if set(packet.keys()) <= {\"case_id\", \"score\"} or (\n        \"evidence\" not in packet and \"graph_path\" not in packet\n    ):\n        return \"REJECT_SCORE_ALONE\", 0\n    if \"uncertainty\" not in packet:\n        return \"REQUEST_UNCERTAINTY\", 0\n    if not packet.get(\"evidence\") or not packet.get(\"graph_path\"):\n        return \"REJECT_PACKET_INCOMPLETE\", 0\n    return \"CONTINUE\", len(packet.get(\"evidence\") or [])\n\nhappy = {\"case_id\": \"CASO-LIM-039-T2A\", \"score\": 0.81, \"evidence\": [\"e1\"], \"graph_path\": [\"E1\", \"E2\"], \"uncertainty\": 0.2}\nprint(*decide(happy))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T2-A-E3: contrasté el Pass del paquete («S39-T2-A-E3 · Workbench fail-closed: packet OK → `CONTINUE` y reporta layers=4; score-only → `REJECT_SCORE_ALONE`; sin uncertainty → `REQUES…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, decide, packet; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*decide(happy))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "decide",
+        "packet",
+        "dict",
+        "set",
+        "keys"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-B-E1",
+      "code": "# dual skeptic-H1 · S39-T2-B-E1\nrecord = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"score\": 0.9,\n    \"threshold\": 0.7,\n    \"human_action\": \"skip\",\n}\nauto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\nfinal = record[\"human_action\"] if record[\"human_action\"] is not None else auto\noverride = record[\"human_action\"] is not None and record[\"human_action\"] != auto\nmeets = final == \"skip\" and override is True\nstatus = \"PASS\" if meets else \"REJECT_OVERRIDE\"\nprint(\"S39-T2-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T2-B-E1: contrasté el Pass del paquete («S39-T2-B-E1 · Aplica override humano sobre `CASO-LIM-039-T2B`. Entrada: score, threshold, human_action. Si hay human_action, final=human_act…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, record, case_id; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S39-T2-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "record",
+        "case_id",
+        "CASO",
+        "LIM",
+        "T2B"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-B-E2",
+      "code": "# dual skeptic-H1 · S39-T2-B-E2\ndef assess(record: dict) -> str:\n    if record.get(\"appeal\"):\n        if not record.get(\"second_reviewer\"):\n            return \"MISSING:second_reviewer\"\n        return \"reopen\"\n    auto = \"queue\" if record[\"score\"] >= record[\"threshold\"] else \"skip\"\n    if record.get(\"human_action\") is not None:\n        return record[\"human_action\"]\n    return auto\n\nbase = {\"case_id\": \"CASO-LIM-039-T2B\", \"score\": 0.9, \"threshold\": 0.7, \"human_action\": None, \"appeal\": False}\nauto_q = dict(base)\noverride = {**base, \"human_action\": \"skip\"}\nappeal = {**base, \"appeal\": True}\nprint(assess(auto_q), assess(override), assess(appeal))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T2-B-E2: contrasté el Pass del paquete («S39-T2-B-E2 · Tres decisiones: auto queue sin humano (`PASS` con final queue), override a skip (`PASS` con override), y apelación sin second…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, assess, record; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(assess(auto_q), assess(override), assess(appeal))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "assess",
+        "record",
+        "dict",
+        "str",
+        "get"
+      ]
+    },
+    {
+      "exercise_id": "S39-T2-B-E3",
+      "code": "# dual skeptic-H1 · S39-T2-B-E3\ndef decide(event: dict):\n    if event.get(\"override\") and not event.get(\"audit_entry\"):\n        return \"REJECT_NO_AUDIT\", False\n    if event.get(\"feedback\") and not event.get(\"feedback_id\"):\n        return \"REQUEST_FEEDBACK_ID\", False\n    if event.get(\"feedback\") and not event.get(\"leakage_care\"):\n        return \"REQUEST_FEEDBACK_ID\", False\n    return \"LOGGED\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T2B\",\n    \"override\": True,\n    \"audit_entry\": True,\n    \"feedback\": True,\n    \"feedback_id\": \"fb-01\",\n    \"leakage_care\": True,\n}\nprint(*decide(happy))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T2-B-E3: contrasté el Pass del paquete («S39-T2-B-E3 · Audit log de feedback: si se registra feedback de revisor, debe incluir leakage_care=True y action logged; si override sin aud…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, decide, event; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*decide(happy))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "decide",
+        "event",
+        "dict",
+        "get",
+        "override"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-A-E1",
+      "code": "# dual skeptic-H1 · S39-T3-A-E1\nchecklist = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nmeets = all([\n    checklist[\"pii_minimized\"],\n    checklist[\"rbac\"],\n    not checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"],\n    checklist[\"input_limits\"],\n])\nstatus = \"PASS\" if meets else \"REJECT_RELEASE\"\nprint(\"S39-T3-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T3-A-E1: contrasté el Pass del paquete («S39-T3-A-E1 · Evalúa el checklist de release de `CASO-LIM-039-T3A`. Entrada: dict con pii_minimized, rbac, secrets_in_repo, slice_metrics, i…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, checklist, case_id; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S39-T3-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "checklist",
+        "case_id",
+        "CASO",
+        "LIM",
+        "T3A"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-A-E2",
+      "code": "# dual skeptic-H1 · S39-T3-A-E2\ndef assess(c: dict) -> str:\n    required = {\"pii_minimized\", \"rbac\", \"secrets_in_repo\", \"slice_metrics\", \"input_limits\"}\n    missing = sorted(required - c.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if c[\"secrets_in_repo\"]:\n        return \"REJECT_SECRETS\"\n    ok = all([\n        c[\"pii_minimized\"], c[\"rbac\"], not c[\"secrets_in_repo\"],\n        c[\"slice_metrics\"], c[\"input_limits\"],\n    ])\n    return \"PASS\" if ok else \"REJECT_RELEASE\"\n\nvalid = {\n    \"pii_minimized\": True, \"rbac\": True, \"secrets_in_repo\": False,\n    \"slice_metrics\": True, \"input_limits\": True,\n}\ninvalid = {**valid, \"secrets_in_repo\": True}\nincomplete = {k: v for k, v in valid.items() if k != 'rbac'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T3-A-E2: contrasté el Pass del paquete («S39-T3-A-E2 · Tres checklists: limpio → `PASS`, secrets_in_repo True → `REJECT_SECRETS`, sin rbac (clave ausente) → `MISSING:rbac`. Entrada:…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, assess, dict; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(assess(valid), assess(invalid), assess(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "assess",
+        "dict",
+        "str",
+        "required",
+        "pii_minimized"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-A-E3",
+      "code": "# dual skeptic-H1 · S39-T3-A-E3\ndef decide(payload: dict):\n    slices = payload.get(\"slices\")\n    if not slices:\n        return \"REQUEST_SLICE_METRICS\", None\n    thr = payload.get(\"fp_threshold\", 0.15)\n    for s in slices:\n        if s.get(\"fp_rate\", 0) > thr:\n            return \"REJECT_SLICE_FP\", \"fp_rate\"\n    return \"CONTINUE\", \"fp_rate\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3A\",\n    \"slices\": [{\"name\": \"canal_app\", \"fp_rate\": 0.08}],\n    \"fp_threshold\": 0.15,\n}\nprint(*decide(happy))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T3-A-E3: contrasté el Pass del paquete («S39-T3-A-E3 · Fairness de cola: si slice_metrics falta → `REQUEST_SLICE_METRICS`; si fp_rate de un slice sintético supera umbral → `REJECT_S…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, decide, payload; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*decide(happy))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "decide",
+        "payload",
+        "dict",
+        "slices",
+        "get"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-B-E1",
+      "code": "# dual skeptic-H1 · S39-T3-B-E1\ndef mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nrecord = {\"case_id\": \"CASO-LIM-039-T3B\", \"drift_high\": True, \"incident\": True}\nm = mode(record[\"drift_high\"], record[\"incident\"])\nmeets = m == \"human_only\"\nstatus = \"PASS\" if meets else \"REJECT_MODE\"\nprint(\"S39-T3-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T3-B-E1: contrasté el Pass del paquete («S39-T3-B-E1 · Calcula el modo ops de `CASO-LIM-039-T3B`. Entrada: drift_high (bool), incident (bool). Prioridad: incident → human_only; si n…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, mode, drift_high; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S39-T3-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "mode",
+        "drift_high",
+        "incident",
+        "human_only",
+        "abstain_more"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-B-E2",
+      "code": "# dual skeptic-H1 · S39-T3-B-E2\ndef mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\n\nprint(mode(False, False), mode(True, False), mode(False, True))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T3-B-E2: contrasté el Pass del paquete («S39-T3-B-E2 · Tres escenarios ops: normal, solo drift → `abstain_more`, solo incident → `human_only`. Entrada: drift_high, incident. Salidas…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, mode, drift_high; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(mode(False, False), mode(True, False), mode(False, True))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "mode",
+        "drift_high",
+        "incident",
+        "human_only",
+        "abstain_more"
+      ]
+    },
+    {
+      "exercise_id": "S39-T3-B-E3",
+      "code": "# dual skeptic-H1 · S39-T3-B-E3\ndef decide(ops: dict):\n    if ops.get(\"incident\"):\n        if not ops.get(\"prev_model_id\"):\n            return \"REQUEST_PREV_MODEL\", None\n        return \"ROLLBACK\", ops[\"prev_model_id\"]\n    if ops.get(\"drift_high\"):\n        return \"MONITOR\", \"abstain_more\"\n    return \"STAY\", \"current_model\"\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T3B\",\n    \"incident\": True,\n    \"drift_high\": False,\n    \"prev_model_id\": \"previous_model\",\n    \"prev_thr\": \"previous\",\n}\nprint(*decide(happy))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T3-B-E3: contrasté el Pass del paquete («S39-T3-B-E3 · Rollback versionado: si incident, target=`previous_model` y thr=`previous`; si falta prev_model_id → `REQUEST_PREV_MODEL`; si…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, decide, ops; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*decide(happy))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "decide",
+        "ops",
+        "dict",
+        "get",
+        "incident"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-A-E1",
+      "code": "# dual skeptic-H1 · S39-T4-A-E1\nacceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nmeets = (\n    \"no_auto_fraud_label\" in acceptance\n    and \"e2e_synthetic_run\" in acceptance\n    and \"audit_log\" in acceptance\n)\nstatus = \"PASS\" if meets else \"REJECT_ACCEPTANCE\"\nprint(\"S39-T4-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T4-A-E1: contrasté el Pass del paquete («S39-T4-A-E1 · Verifica criterios de aceptación de `CASO-LIM-039-T4A`. Entrada: lista acceptance de strings. Debe incluir `no_auto_fraud_labe…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, acceptance, e2e_synthetic_run; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S39-T4-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "acceptance",
+        "e2e_synthetic_run",
+        "baseline_in_metrics",
+        "abstention_path",
+        "audit_log"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-A-E2",
+      "code": "# dual skeptic-H1 · S39-T4-A-E2\ndef assess(notes: dict) -> str:\n    required = {\"regression_scope\", \"cf3_lane\", \"section_passed\"}\n    missing = sorted(required - notes.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if notes[\"section_passed\"] is True:\n        return \"REJECT_AUTO_PASS\"\n    if notes[\"regression_scope\"] != \"S27-S39\":\n        return \"REJECT_AUTO_PASS\"\n    return \"PASS\"\n\nvalid = {\n    \"regression_scope\": \"S27-S39\",\n    \"cf3_lane\": \"separate_lane\",\n    \"section_passed\": False,\n}\ninvalid = {**valid, \"section_passed\": True}\nincomplete = {k: v for k, v in valid.items() if k != \"regression_scope\"}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T4-A-E2: contrasté el Pass del paquete («S39-T4-A-E2 · Documenta regresión y CF-3: scope debe ser `S27-S39`, cf3_lane=`separate_lane`, section_passed debe ser False en esta autoría.…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, assess, notes; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(assess(valid), assess(invalid), assess(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "assess",
+        "notes",
+        "dict",
+        "str",
+        "required"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-A-E3",
+      "code": "# dual skeptic-H1 · S39-T4-A-E3\nCANON = {\"happy\", \"override\", \"ood_abstain\"}\n\ndef decide(paths: list):\n    s = set(paths)\n    if not s:\n        return \"REQUEST_DEMO_PATH\", 0\n    if s == {\"happy\"}:\n        return \"REJECT_HAPPY_ONLY\", 1\n    if not CANON.issubset(s):\n        return \"REQUEST_DEMO_PATH\", len(s)\n    return \"CONTINUE\", 3\n\nprint(*decide([\"happy\", \"override\", \"ood_abstain\"]))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T4-A-E3: contrasté el Pass del paquete («S39-T4-A-E3 · Demo paths: debe haber exactamente las tres rutas happy, override y ood_abstain (nombres canónicos). Si falta una → `REQUEST_D…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, CANON, happy; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*decide([\"happy\", \"override\", \"ood_abstain\"]))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "CANON",
+        "happy",
+        "override",
+        "ood_abstain",
+        "decide"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-B-E1",
+      "code": "# dual skeptic-H1 · S39-T4-B-E1\ncards = [\"model\", \"data\", \"system\"]\nmeets = set(cards) == {\"model\", \"data\", \"system\"}\nstatus = \"PASS\" if meets else \"REJECT_CARDS\"\nprint(\"S39-T4-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T4-B-E1: contrasté el Pass del paquete («S39-T4-B-E1 · Valida las tres cards de cierre sobre `CASO-LIM-039-T4B`. Entrada: lista cards. Debe contener exactamente model, data y system…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, cards, model; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S39-T4-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "cards",
+        "model",
+        "data",
+        "system",
+        "meets"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-B-E2",
+      "code": "# dual skeptic-H1 · S39-T4-B-E2\ndef assess(payload: dict) -> str:\n    if \"value\" not in payload:\n        return \"MISSING:value\"\n    v = payload[\"value\"]\n    if \"override_rate\" not in v:\n        return \"REJECT_VALUE_METRICS\"\n    return \"PASS\"\n\nvalid = {\"value\": {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}}\ninvalid = {\"value\": {\"auc\": 0.91}}\nincomplete = {\"cards\": [\"model\"]}\nprint(assess(valid), assess(invalid), assess(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T4-B-E2: contrasté el Pass del paquete («S39-T4-B-E2 · Métricas de valor: debe existir override_rate (y preferible precision_at_k, median_review_s). Válido → `PASS`; solo auc offlin…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, assess, payload; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(assess(valid), assess(invalid), assess(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "assess",
+        "payload",
+        "dict",
+        "str",
+        "value"
+      ]
+    },
+    {
+      "exercise_id": "S39-T4-B-E3",
+      "code": "# dual skeptic-H1 · S39-T4-B-E3\ndef decide(pm: dict):\n    if pm.get(\"blameless\") is not True:\n        return \"REJECT_BLAMEFUL\", False\n    if not pm.get(\"root_cause\"):\n        return \"REQUEST_ROOT_CAUSE\", False\n    if not pm.get(\"actions\"):\n        return \"REQUEST_ROOT_CAUSE\", False\n    return \"CONTINUE\", True\n\nhappy = {\n    \"case_id\": \"CASO-LIM-039-T4B\",\n    \"blameless\": True,\n    \"root_cause\": \"calib_drift\",\n    \"actions\": [\"rollback\", \"recalibrate\"],\n}\nprint(*decide(happy))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S39/S39-T4-B-E3: contrasté el Pass del paquete («S39-T4-B-E3 · Postmortem blameless: requiere blameless=True, root_cause no vacío y actions no vacía. Si blameless False → `REJECT_BLAMEFUL`;…») con theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Conceptos dual, skeptic, S39, decide, dict; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*decide(happy))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S39",
+        "decide",
+        "dict",
+        "get",
+        "blameless",
+        "not"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S39#0: contrasto stem «El label_space del triage N3 es preferentemente:» con párrafos theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Elijo índice 2 («needs_review / prioridad de cola») porque cuadra con el vocabulario del paquete; distractores ['fraud_certainty', 'parentesco'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S39#1: contrasto stem «CF-3 y regresión S27–S39 en esta lane de autoría:» con párrafos theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Elijo índice 0 («Se documentan; PASS lo califica otra lane») porque cuadra con el vocabulario del paquete; distractores ['Marcan PASS solos en el ledger', 'Se borran al exportar el bundle'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S39#2: contrasto stem «Evidence packet debe incluir:» con párrafos theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Elijo índice 1 («Evidencia y path además del score») porque cuadra con el vocabulario del paquete; distractores ['Solo el score del modelo', 'Solo el owner del repo de ML'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S39#3: contrasto stem «Ante incidente grave el modo seguro es:» con párrafos theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Elijo índice 3 («human_only / rollback a artefacto previo») porque cuadra con el vocabulario del paquete; distractores ['Ignorar y subir throughput', 'Subir contamination del training set'] no sostienen el contrato."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S39#4: contrasto stem «Un breaking change en graph_schema del triage exige:» con párrafos theory/iDo («intake → ER → relación → features → modelo» El flujo canónico N3 es una cadena con fronteras claras: **intake** normaliza registros sintéti). Elijo índice 2 («Bump major, owner contactable y revalidación de paths») porque cuadra con el vocabulario del paquete; distractores ['Bump patch silencioso', 'Borrar el registry'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:30:10.504381+00:00",
+  "session_started_at": "2026-07-23T08:29:39.562188+00:00",
+  "session_ended_at": "2026-07-23T08:30:10.504381+00:00"
+}

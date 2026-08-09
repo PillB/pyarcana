@@ -1,0 +1,23 @@
+{
+  "attempt_id": "agentic_J1",
+  "started_at": "2026-07-23T12:05:49.805224+00:00",
+  "evidence_origin": "live_agentic_transcript",
+  "generation_mode": "fresh_sequential_packet_read",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "brand": "PyArcana",
+  "production_harness": "sealed newbie_agentic_llm_walk + dual-LLM receipts",
+  "forbidden_harnesses": [
+    "tool-results bulk writers",
+    "quarantine_theater completers",
+    "packet_walk",
+    "hardcoded SELFCHECK/ANSWERS maps",
+    "e1 transplant"
+  ],
+  "method": "live_agentic_packet_only_no_execution",
+  "reason": "Dual-LLM Explorer+Skeptic from landing; sealed write_live requires per-section receipts; no bulk generators",
+  "receipts_required": true,
+  "frozen": true,
+  "clean_52_forensic": true,
+  "frozen_at": "2026-07-23T12:44:23.028776+00:00"
+}

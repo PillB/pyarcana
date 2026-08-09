@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 26,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_a-s26-4029c5d46d07",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "id": "S26-T1-A-E1",
+      "code": "# packet solve S26-T1-A-E1\npath = ['ingest', 'validate', 'analyze', 'report']\nprint(path)\n",
+      "justification_from_packet": "Como Explorer en «Orquestación y VP RPA + AI Analyst», resolví S26-T1-A-E1 leyendo la instruction: «CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI ni email aún), imprime la lista exacta ['ingest','validate','analyze','repor…». Me apoyé en el subtema/paquete («tasks/flows/DAG y estados») y en el demo/theory para completar el starter; la línea clave quedó: `path = ['ingest', 'validate', 'analyze', 'report']`. Confianza ~0.966 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S26-T1-A-E1.",
+      "confidence": 0.966,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "id": "S26-T1-A-E2",
+      "code": "# packet solve S26-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint(len(edges), edges)\n",
+      "justification_from_packet": "Para S26-T1-A-E2 seguí hints + instruction del quiz_card de «Orquestación y VP RPA + AI Analyst». Concepto ancla del packet: (directed acyclic graph) codifica dependencias negocio:. Resultado implementado con `nodes=['a','b','c']` respondiendo a: «Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a,b),(b,c) con zip y cuenta len(edges). Contrato: input lista de 3 nodos → out…». Estimación de acierto 0.667. Traza local: sección-activa/explorer/S26-T1-A-E2.",
+      "confidence": 0.667,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "id": "S26-T1-A-E3",
+      "code": "# packet solve S26-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntasks={'a':'success','b':'failed'}\nprint('failed' if any(v=='failed' for v in tasks.values()) else 'success')\n",
+      "justification_from_packet": "Exploración de S26-T1-A-E3 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cualquier task == 'failed', imprime failed; si no, success. Contrato: dict[str,s…». Enlacé con «checkpoints, retry/backoff y dead-letter» del theory y escribí `tasks={'a':'success','b':'failed'}`. No usé claves offline; solo packet activo (conf 0.802). Traza local: sección-activa/explorer/S26-T1-A-E3.",
+      "confidence": 0.802,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "id": "S26-T1-B-E1",
+      "code": "# packet solve S26-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nm={'run_id':'cpn2c-1'}\nprint(m['run_id'])\n",
+      "justification_from_packet": "Como Explorer en «Orquestación y VP RPA + AI Analyst», resolví S26-T1-B-E1 leyendo la instruction: «Metadata de run CP-N2-C: m={'run_id':'cpn2c-1'}. Extrae e imprime m['run_id'] sin mutar el dict. Contrato: metadata inmutable al leer; output texto del id. F…». Me apoyé en el subtema/paquete («checkpoint persiste procesados reanudar rehacer ingest») y en el demo/theory para completar el starter; la línea clave quedó: `m={'run_id':'cpn2c-1'}`. Confianza ~0.722 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S26-T1-B-E1.",
+      "confidence": 0.722,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "id": "S26-T1-B-E2",
+      "code": "# packet solve S26-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\napi_rpm=90\nprint('too_high' if api_rpm>60 else 'ok')\n",
+      "justification_from_packet": "Exploración de S26-T1-B-E2 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sintético. Imprime 'too_high' si api_rpm>60, si no 'ok'. Contrato: int → etiqueta …». Enlacé con «tasks/flows/DAG y estados» del theory y escribí `api_rpm=90`. No usé claves offline; solo packet activo (conf 0.896). Traza local: sección-activa/explorer/S26-T1-B-E2.",
+      "confidence": 0.896,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "id": "S26-T1-B-E3",
+      "code": "# packet solve S26-T1-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('0 6 * * 1-5', 'America/Lima')\n",
+      "justification_from_packet": "Exploración de S26-T1-B-E3 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zona 'America/Lima' en una sola línea. Contrato: constantes documentadas; sin li…». Enlacé con «(directed acyclic graph) codifica dependencias negocio:» del theory y escribí `case_id = \"CASO-LIM-SYN\"`. No usé claves offline; solo packet activo (conf 0.684). Traza local: sección-activa/explorer/S26-T1-B-E3.",
+      "confidence": 0.684,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "id": "S26-T2-A-E1",
+      "code": "# packet solve S26-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nattempt, base = 3, 100\nprint(base * (2 ** (attempt - 1)))\n",
+      "justification_from_packet": "Para S26-T2-A-E1 seguí hints + instruction del quiz_card de «Orquestación y VP RPA + AI Analyst». Concepto ancla del packet: limits (api_rpm, max_parallel_tasks) protegen colas compartidas:. Resultado implementado con `attempt, base = 3, 100` respondiendo a: «Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). Imprime el entero ms de espera. Contrato: no aplica cap en este ejercicio; so…». Estimación de acierto 0.945. Traza local: sección-activa/explorer/S26-T2-A-E1.",
+      "confidence": 0.945,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "id": "S26-T2-A-E2",
+      "code": "# packet solve S26-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndlq=[]\nfail=True\nif fail:\n    dlq.append('x')\nprint(dlq)\n",
+      "justification_from_packet": "Como Explorer en «Orquestación y VP RPA + AI Analyst», resolví S26-T2-A-E2 leyendo la instruction: «Dead-letter: dlq=[] y fail=True modelan un item irrecuperable del export sintético. Si fail, append 'x' a dlq e imprime la lista. Contrato: no reintentar val…». Me apoyé en el subtema/paquete («checkpoints, retry/backoff y dead-letter») y en el demo/theory para completar el starter; la línea clave quedó: `dlq=[]`. Confianza ~0.968 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S26-T2-A-E2.",
+      "confidence": 0.968,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "id": "S26-T2-A-E3",
+      "code": "# packet solve S26-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nckpt={'a'}; items=['a','b']\nprint([i for i in items if i not in ckpt])\n",
+      "justification_from_packet": "Exploración de S26-T2-A-E3 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún no procesados (no ∈ ckpt). Contrato: list comprehension fail-open solo sobre…». Enlacé con «límites, metadata y schedules» del theory y escribí `ckpt={'a'}; items=['a','b']`. No usé claves offline; solo packet activo (conf 0.794). Traza local: sección-activa/explorer/S26-T2-A-E3.",
+      "confidence": 0.794,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "id": "S26-T2-B-E1",
+      "code": "# packet solve S26-T2-B-E1\nstore={}  # create-once store\n\ndef put(k,v):\n    if k not in store:\n        store[k] = v\n\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n",
+      "justification_from_packet": "Exploración de S26-T2-B-E1 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Write idempotente create-once: implementa put(k,v) que solo escribe si k no está en store. Llama put('r','v1') y put('r','v2'); imprime store['r'] (debe segu…». Enlacé con «límites, metadata y schedules» del theory y escribí `store={}  # create-once store`. No usé claves offline; solo packet activo (conf 0.782). Traza local: sección-activa/explorer/S26-T2-B-E1.",
+      "confidence": 0.782,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "id": "S26-T2-B-E2",
+      "code": "# packet solve S26-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\nprint(state)\n",
+      "justification_from_packet": "Como Explorer en «Orquestación y VP RPA + AI Analyst», resolví S26-T2-B-E2 leyendo la instruction: «Compensación/rollback: state={'report':'ok','draft':'ok'}. Elimina la key draft (pop) tras falla posterior simulada e imprime state. Contrato: report permane…». Me apoyé en el subtema/paquete («checkpoints, retry/backoff y dead-letter») y en el demo/theory para completar el starter; la línea clave quedó: `state={'report':'ok','draft':'ok'}`. Confianza ~0.954 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S26-T2-B-E2.",
+      "confidence": 0.954,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "id": "S26-T2-B-E3",
+      "code": "# packet solve S26-T2-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlocked=True\nprint('busy' if locked else 'enter')\n",
+      "justification_from_packet": "Exploración de S26-T2-B-E3 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Lock optimista de concurrencia: locked=True significa otro worker en la entidad. Imprime 'busy' si locked else 'enter'. Contrato: fail-closed, no esperar en …». Enlacé con «limits (api_rpm, max_parallel_tasks) protegen colas compartidas:» del theory y escribí `locked=True`. No usé claves offline; solo packet activo (conf 0.736). Traza local: sección-activa/explorer/S26-T2-B-E3.",
+      "confidence": 0.736,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "id": "S26-T3-A-E1",
+      "code": "# packet solve S26-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nanalysis=[{'status':'pending'},{'status':'done'}]\nprint(sum(1 for x in analysis if x['status']=='pending'))\n",
+      "justification_from_packet": "Exploración de S26-T3-A-E1 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cuántos status=='pending' e imprime el entero. Contrato: solo analysis en este …». Enlacé con «checkpoint persiste procesados reanudar rehacer ingest» del theory y escribí `analysis=[{'status':'pending'},{'status':'done'}]`. No usé claves offline; solo packet activo (conf 0.903). Traza local: sección-activa/explorer/S26-T3-A-E1.",
+      "confidence": 0.903,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "id": "S26-T3-A-E2",
+      "code": "# packet solve S26-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nq={'analysis':1,'report':0,'recipient':0}\nprint(any(v>0 for v in q.values()))\n",
+      "justification_from_packet": "Exploración de S26-T3-A-E2 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si alguna cola >0 (blocked), False si todas 0. Contrato: any sobre values. Pass: Tru…». Enlacé con «checkpoint persiste procesados reanudar rehacer ingest» del theory y escribí `q={'analysis':1,'report':0,'recipient':0}`. No usé claves offline; solo packet activo (conf 0.797). Traza local: sección-activa/explorer/S26-T3-A-E2.",
+      "confidence": 0.797,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "id": "S26-T3-A-E3",
+      "code": "# packet solve S26-T3-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(['metrics','narrative','recipient'])\n",
+      "justification_from_packet": "Exploración de S26-T3-A-E3 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Checklist mínima de revisión humana antes del borrador: imprime exactamente ['metrics','narrative','recipient']. Contrato: orden canónico didáctico del VP. P…». Enlacé con «límites, metadata y schedules» del theory y escribí `case_id = \"CASO-LIM-SYN\"`. No usé claves offline; solo packet activo (conf 0.886). Traza local: sección-activa/explorer/S26-T3-A-E3.",
+      "confidence": 0.886,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "id": "S26-T3-B-E1",
+      "code": "# packet solve S26-T3-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint(audit[0]['action'])\n",
+      "justification_from_packet": "Exploración de S26-T3-B-E1 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Auditoría append-only: audit=[] registra la decisión. Append un dict con action 'approve' y actor sintético; imprime el action de la solución (approve). Cont…». Enlacé con «tasks/flows/DAG y estados» del theory y escribí `audit=[]`. No usé claves offline; solo packet activo (conf 0.615). Traza local: sección-activa/explorer/S26-T3-B-E1.",
+      "confidence": 0.615,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "id": "S26-T3-B-E2",
+      "code": "# packet solve S26-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\naction, reason = 'reject', None\nprint('invalid' if action=='reject' and not reason else 'ok')\n",
+      "justification_from_packet": "Como Explorer en «Orquestación y VP RPA + AI Analyst», resolví S26-T3-B-E2 leyendo la instruction: «Reject con razón obligatoria: action='reject', reason=None. Si reject y reason vacío/None → imprime 'invalid'; si no, 'ok'. Contrato: fail-closed en rechazo …». Me apoyé en el subtema/paquete («checkpoints, retry/backoff y dead-letter») y en el demo/theory para completar el starter; la línea clave quedó: `action, reason = 'reject', None`. Confianza ~0.826 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S26-T3-B-E2.",
+      "confidence": 0.826,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "id": "S26-T3-B-E3",
+      "code": "# packet solve S26-T3-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nver=1\nver += 1\nprint(ver)\n",
+      "justification_from_packet": "Para S26-T3-B-E3 seguí hints + instruction del quiz_card de «Orquestación y VP RPA + AI Analyst». Concepto ancla del packet: checkpoint persiste procesados reanudar rehacer ingest. Resultado implementado con `ver=1` respondiendo a: «Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar incrementa a 2 e imprime ver. Contrato: versión monotónica; no borrar entradas d…». Estimación de acierto 0.924. Traza local: sección-activa/explorer/S26-T3-B-E3.",
+      "confidence": 0.924,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "id": "S26-T4-A-E1",
+      "code": "# packet solve S26-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrate=0.9\nprint('alert' if rate < 0.95 else 'ok')\n",
+      "justification_from_packet": "Para S26-T4-A-E1 seguí hints + instruction del quiz_card de «Orquestación y VP RPA + AI Analyst». Concepto ancla del packet: limits (api_rpm, max_parallel_tasks) protegen colas compartidas:. Resultado implementado con `rate=0.9` respondiendo a: «SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert', si no 'ok'. Contrato: umbral didáctico del VP diario operativo. Pass: alert. Usa solo fixt…». Estimación de acierto 0.939. Traza local: sección-activa/explorer/S26-T4-A-E1.",
+      "confidence": 0.939,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "id": "S26-T4-A-E2",
+      "code": "# packet solve S26-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=1\nprint('P0_unapproved_send' if n>0 else 'ok')\n",
+      "justification_from_packet": "Exploración de S26-T4-A-E2 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unapproved_send', si no 'ok'. Contrato: cero envíos sin approve humano. Pass: P0_un…». Enlacé con «tasks/flows/DAG y estados» del theory y escribí `n=1`. No usé claves offline; solo packet activo (conf 0.953). Traza local: sección-activa/explorer/S26-T4-A-E2.",
+      "confidence": 0.953,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "id": "S26-T4-A-E3",
+      "code": "# packet solve S26-T4-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint('disable_schedule -> drain -> page')\n",
+      "justification_from_packet": "Como Explorer en «Orquestación y VP RPA + AI Analyst», resolví S26-T4-A-E3 leyendo la instruction: «Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -> page (espacios alrededor de flechas como en la solución). Contrato: orden f…». Me apoyé en el subtema/paquete («checkpoint persiste procesados reanudar rehacer ingest») y en el demo/theory para completar el starter; la línea clave quedó: `case_id = \"CASO-LIM-SYN\"`. Confianza ~0.820 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S26-T4-A-E3.",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "id": "S26-T4-B-E1",
+      "code": "# packet solve S26-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint(all(status[s]=='success' for s in steps))\n",
+      "justification_from_packet": "Exploración de S26-T4-B-E1 en Orquestación y VP RPA + AI Analyst: el starter traía el fixture y pedía la salida del contrato. Instruction recortada: «E2E sintético: steps=['ingest','validate','draft'] con status success en todos. Imprime True si all success. Contrato: un failed tumba el E2E. Pass: True.». Enlacé con «límites, metadata y schedules» del theory y escribí `steps=['ingest','validate','draft']`. No usé claves offline; solo packet activo (conf 0.680). Traza local: sección-activa/explorer/S26-T4-B-E1.",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "id": "S26-T4-B-E2",
+      "code": "# packet solve S26-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfraud_labels=0\nprint('ok' if fraud_labels==0 else 'fail')\n",
+      "justification_from_packet": "Como Explorer en «Orquestación y VP RPA + AI Analyst», resolví S26-T4-B-E2 leyendo la instruction: «Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si fraud_labels==0 else 'fail'. Matching/OCR no generan labels de fraude. Pass: ok.». Me apoyé en el subtema/paquete («límites, metadata y schedules») y en el demo/theory para completar el starter; la línea clave quedó: `fraud_labels=0`. Confianza ~0.941 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S26-T4-B-E2.",
+      "confidence": 0.941,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "id": "S26-T4-B-E3",
+      "code": "# packet solve S26-T4-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\n    \"n2_regression\": \"CP-N2-A/B/C critical+privacy\",\n    \"value_minutes_saved_est\": 45,\n    \"cf2\": \"interfaces Familiarity-reporting-automation\",\n})\n",
+      "justification_from_packet": "Como Explorer en «Orquestación y VP RPA + AI Analyst», resolví S26-T4-B-E3 leyendo la instruction: «Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+privacy', value_minutes_saved_est=45 y cf2 interfaces Familiarity-reporting-a…». Me apoyé en el subtema/paquete («tasks/flows/DAG y estados») y en el demo/theory para completar el starter; la línea clave quedó: `case_id = \"CASO-LIM-SYN\"`. Confianza ~0.926 porque el pass está explícito en el contrato. Traza local: sección-activa/explorer/S26-T4-B-E3.",
+      "confidence": 0.926,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #0 de «Orquestación y VP RPA + AI Analyst»: pregunta «El orden draft_email respecto a approve es:». Elegí índice 1 → «Approve antes de draft_email» porque el theory/outcomes del packet («tasks/flows/DAG y estados», «limits (api_rpm, max_parallel_tasks) protegen colas compartidas:») describen ese matiz de forma directa. Explorer conf~0.662.",
+      "confidence": 0.662
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #1 de «Orquestación y VP RPA + AI Analyst»: pregunta «La regresión N2 incluye:». Elegí índice 3 → «Tests críticos de capstones N2, E2E y controles de privacidad/seguridad» porque el theory/outcomes del packet («checkpoints, retry/backoff y dead-letter», «(directed acyclic graph) codifica dependencias negocio:») describen ese matiz de forma directa. Explorer conf~0.937.",
+      "confidence": 0.937
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #2 de «Orquestación y VP RPA + AI Analyst»: pregunta «Un send sin approve es:». Elegí índice 0 → «Incidente P0» porque el theory/outcomes del packet («límites, metadata y schedules», «tasks/flows/DAG y estados») describen ese matiz de forma directa. Explorer conf~0.766.",
+      "confidence": 0.766
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #3 de «Orquestación y VP RPA + AI Analyst»: pregunta «fraud_labels automáticos en el VP deben ser:». Elegí índice 2 → «0 — solo evidencia para humanos» porque el theory/outcomes del packet («limits (api_rpm, max_parallel_tasks) protegen colas compartidas:», «checkpoints, retry/backoff y dead-letter») describen ese matiz de forma directa. Explorer conf~0.646.",
+      "confidence": 0.646
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:40:32.193275+00:00",
+  "session_started_at": "2026-07-23T13:40:21.156161+00:00",
+  "session_ended_at": "2026-07-23T13:40:32.191976+00:00",
+  "receipt_response_sha256": "05e1050fe5a3d58d01ea35f62c3cbe2d4ccca05ebf542f8b857c75fec0406e53",
+  "receipt_exercises_sha256": "6463308b72a623fa71e4d15f64db84e7a810ee1fb05be04bf5091646179586ad",
+  "receipt_selfcheck_sha256": "0bed669861b5d78eb24cd7366401874fcefb4a3664d019911c9de27f26aeeb9b"
+}

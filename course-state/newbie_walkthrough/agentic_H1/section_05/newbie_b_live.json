@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s05-b6d9a27945cf",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "code": "# dual skeptic-H1 · S05-T1-A-E1\ndef doble(n):\n    return n * 2\nprint(doble(21))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T1-A-E1 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos def; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "def"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "code": "# dual skeptic-H1 · S05-T1-A-E2\ndef saludo(nombre, prefijo=\"Hola\"):\n    return f\"{prefijo}, {nombre}\"\nprint(saludo(\"Ana\"))\nprint(saludo(\"Ana\", prefijo=\"Buenas\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T1-A-E2 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos defaults; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "defaults"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "code": "# dual skeptic-H1 · S05-T1-A-E3\ndef area_rect(base, altura):\n    \"\"\"Retorna base*altura; no imprime.\"\"\"\n    return base * altura\nprint(area_rect(3, 4))\nassert area_rect(3, 4) == 12\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T1-A-E3 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos contract; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "contract"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "code": "# dual skeptic-H1 · S05-T1-B-E1\ndef f(xs=None):\n    if xs is None:\n        xs = []\n    xs.append(1)\n    return xs\nprint(f())\nprint(f())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T1-B-E1 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos mutable default; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "mutable default"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "code": "# dual skeptic-H1 · S05-T1-B-E2\ndef normalize_name(s: str) -> str:\n    return \" \".join(s.strip().split())\nprint(normalize_name(\"  Ana   Quispe \"))\nprint(normalize_name(normalize_name(\"  Ana   Quispe \")))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T1-B-E2 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos idempotent; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "idempotent"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "code": "# dual skeptic-H1 · S05-T1-B-E3\ndef parse_edad(txt: str):\n    try:\n        return int(txt.strip())\n    except ValueError as e:\n        raise ValueError(f\"edad invalida: {txt!r}\") from e\nprint(parse_edad(\" 19 \"))\ntry:\n    parse_edad(\"x\")\nexcept ValueError as e:\n    print(type(e).__name__, e)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T1-B-E3 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos errors; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "errors"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "code": "# dual skeptic-H1 · S05-T2-A-E1\ndef add(a, b):\n    return a + b\nprint(add(2, 3))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T2-A-E1 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos params; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "params"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "code": "# dual skeptic-H1 · S05-T2-A-E2\ndef report(*, title, n_rows):\n    return f\"{title}: {n_rows} filas\"\nprint(report(title=\"intake\", n_rows=3))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T2-A-E2 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos kwonly; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "kwonly"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "code": "# dual skeptic-H1 · S05-T2-A-E3\ndef clamp(x, lo=0, hi=100):\n    if x < lo:\n        return lo\n    if x > hi:\n        return hi\n    return x\nprint(clamp(-5), clamp(50), clamp(200))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T2-A-E3 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos clamp; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "clamp"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "code": "# dual skeptic-H1 · S05-T2-B-E1\ndef summarize(nums):\n    return {\"n\": len(nums), \"total\": sum(nums)}\nprint(summarize([1, 2, 3]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T2-B-E1 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos pure; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "pure"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "code": "# dual skeptic-H1 · S05-T2-B-E2\ndef apply_all(fn, values):\n    return [fn(v) for v in values]\nprint(apply_all(lambda x: x * 2, [1, 2, 3]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T2-B-E2 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos hof; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "hof"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "code": "# dual skeptic-H1 · S05-T2-B-E3\ndef pipeline(x, steps):\n    for step in steps:\n        x = step(x)\n    return x\nprint(pipeline(\"  Ana  \", [str.strip, str.upper]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T2-B-E3 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos pipeline; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "pipeline"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "code": "# dual skeptic-H1 · S05-T3-A-E1\ndef outer(msg):\n    def inner():\n        return msg\n    return inner\nprint(outer(\"hola\")())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T3-A-E1 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos closure; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "closure"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "code": "# dual skeptic-H1 · S05-T3-A-E2\nx = 10\ndef show():\n    x = 5  # local\n    return x\nprint(show(), x)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T3-A-E2 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos scope; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "scope"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "code": "# dual skeptic-H1 · S05-T3-A-E3\ndef make_counter():\n    n = 0\n    def inc():\n        nonlocal n\n        n += 1\n        return n\n    return inc\nc = make_counter()\nprint(c(), c(), c())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T3-A-E3 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos nonlocal; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "nonlocal"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "code": "# dual skeptic-H1 · S05-T3-B-E1\ndef safe_div(a, b):\n    if b == 0:\n        return None\n    return a / b\nprint(safe_div(10, 2), safe_div(1, 0))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T3-B-E1 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos guard; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "guard"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "code": "# dual skeptic-H1 · S05-T3-B-E2\ndef validate_score(s):\n    if not isinstance(s, (int, float)):\n        return {\"ok\": False, \"error\": \"type\"}\n    if not 0 <= s <= 100:\n        return {\"ok\": False, \"error\": \"range\"}\n    return {\"ok\": True, \"value\": s}\nprint(validate_score(80), validate_score(-1), validate_score(\"x\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T3-B-E2 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos validate; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "validate"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "code": "# dual skeptic-H1 · S05-T3-B-E3\ndef decompose_intake(raw: dict):\n    errors = []\n    clean = {}\n    for k, v in raw.items():\n        if v is None or (isinstance(v, str) and not v.strip()):\n            errors.append(k)\n        else:\n            clean[k] = v.strip() if isinstance(v, str) else v\n    return clean, errors\nprint(decompose_intake({\"nombres\": \" Ana \", \"edad\": \"\"}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T3-B-E3 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos decompose; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "decompose"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "code": "# dual skeptic-H1 · S05-T4-A-E1\ndef total_lineas(montos):\n    t = 0\n    for m in montos:\n        t += m\n    return t\nprint(total_lineas([10, 20, 5]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T4-A-E1 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos sum; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "sum"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "code": "# dual skeptic-H1 · S05-T4-A-E2\ndef mean(xs):\n    if not xs:\n        return None\n    return sum(xs) / len(xs)\nprint(mean([2, 4, 6]), mean([]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T4-A-E2 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos mean; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "mean"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "code": "# dual skeptic-H1 · S05-T4-A-E3\ndef reject_rate(statuses):\n    n = len(statuses)\n    if n == 0:\n        return None\n    return sum(1 for s in statuses if s == \"reject\") / n\nprint(reject_rate([\"accept\", \"reject\"]), reject_rate([]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T4-A-E3 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos rate; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "rate"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "code": "# dual skeptic-H1 · S05-T4-B-E1\ndef main():\n    print(\"demo funciones S05\")\nif False and __name__ == \"__main__\":\n    main()\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T4-B-E1 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos main; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "main"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "code": "# dual skeptic-H1 · S05-T4-B-E2\ndef build_api():\n    def health():\n        return {\"status\": \"ok\"}\n    return {\"health\": health}\napi = build_api()\nprint(api[\"health\"]())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T4-B-E2 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos factory; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "factory"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "code": "# dual skeptic-H1 · S05-T4-B-E3\ndef document_contract(fn):\n    return {\n        \"name\": fn.__name__,\n        \"doc\": (fn.__doc__ or \"\").strip(),\n    }\ndef parse_monto(s: str) -> str:\n    \"\"\"Normaliza monto textual strip.\"\"\"\n    return s.strip()\nprint(document_contract(parse_monto))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic S05: validé S05-T4-B-E3 contra tests del paquete y la teoría de «Funciones, contratos y descomposición». Conceptos docs; el código/markdown responde el starter del slim_packet sin copiar lives de intentos previos ni tablas de selfcheck hardcodeadas.",
+      "concepts_used": [
+        "docs"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Descarté las distractoras de la Q0 sobre «Si una función no tiene return, ¿qué devuelve la l»: solo «None» encaja con iDo/theory de S05. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Descarté las distractoras de la Q1 sobre «¿Por qué `def f(xs=[])` es peligroso?»: solo «El default mutable se comparte entre llamadas» encaja con iDo/theory de S05. El slim_packet no respalda las otras opciones; índice correcto 2 con evidencia textual del heading y los párrafos del subtópico activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Descarté las distractoras de la Q2 sobre «Una función pura…»: solo «Mismo input → mismo output, sin efectos colaterales» encaja con iDo/theory de S05. El slim_packet no respalda las otras opciones; índice correcto 3 con evidencia textual del heading y los párrafos del subtópico activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Descarté las distractoras de la Q3 sobre «LEGB significa…»: solo «Local, Enclosing, Global, Builtin» encaja con iDo/theory de S05. El slim_packet no respalda las otras opciones; índice correcto 1 con evidencia textual del heading y los párrafos del subtópico activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Descarté las distractoras de la Q4 sobre «Idempotencia de un normalizador f significa…»: solo «f(f(x)) == f(x) para entradas del dominio» encaja con iDo/theory de S05. El slim_packet no respalda las otras opciones; índice correcto 0 con evidencia textual del heading y los párrafos del subtópico activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:40:17.139702+00:00",
+  "session_started_at": "2026-07-23T07:39:51.378073+00:00",
+  "session_ended_at": "2026-07-23T07:40:17.139702+00:00"
+}

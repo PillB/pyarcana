@@ -1,0 +1,526 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A2",
+  "section_index": 31,
+  "packet_sha": "3f385069b8243378",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_31/packet.json",
+  "recorded_at": "2026-07-21T22:16:54.772390+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S31-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nodes = {}\nedges = []\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "nodes",
+        "edges",
+        "print",
+        "pii_full",
+        "False",
+        "Crea",
+        "dict",
+        "ids"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T1-A-E1. Instruction del paquete: Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nodes, n_edges y cuántas aristas son directed=True.. Hints: Usa literales de dict/list.; Cuenta con sum(1 for e in edges if e['directed']).. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "print",
+        "pii_full",
+        "False",
+        "Dada",
+        "lista",
+        "aristas",
+        "src"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T1-A-E2. Instruction del paquete: Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime el nodo con mayor out-strength y su valor.. Hints: Acumula en un dict.; Usa max(out, key=out.get).. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "directed",
+        "True",
+        "etype",
+        "False",
+        "share",
+        "print",
+        "pii_full"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T1-A-E3. Instruction del paquete: Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos ordenados.. Hints: sets para etypes.; sorted(set(...)).. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "rows = [('E1','E2'),('E1','E2'),('E2','E3')]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "print",
+        "pii_full",
+        "False",
+        "Cuenta",
+        "multi",
+        "aristas",
+        "hay"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T1-B-E1. Instruction del paquete: Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo.. Hints: tuple (src,dst) como clave.; Counter o dict.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "record_id",
+        "print",
+        "pii_full",
+        "False",
+        "Filtra",
+        "aristas",
+        "imprime"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T1-B-E2. Instruction del paquete: Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id.. Hints: Compara strings ISO fecha ordenables.; all('record_id' in e for e in filtered).. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "source",
+        "crm",
+        "record_id",
+        "print",
+        "pii_full",
+        "False",
+        "Valida"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T1-B-E3. Instruction del paquete: Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad.. Hints: strip de strings.; n_bad = sum(...).. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "accounts",
+        "owner",
+        "print",
+        "pii_full",
+        "False",
+        "Desde",
+        "genera",
+        "aristas"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T2-A-E1. Instruction del paquete: Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada.. Hints: list comprehension.; sorted por owner luego id.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "contacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "contacts",
+        "print",
+        "pii_full",
+        "False",
+        "Detecta",
+        "valores",
+        "contacto",
+        "compartidos"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T2-A-E2. Instruction del paquete: Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared.. Hints: groupby por value.; filtra len(entities)>=2.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "entities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "entities",
+        "accounts",
+        "contacts",
+        "print",
+        "pii_full",
+        "False",
+        "Construye",
+        "nodos"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T2-A-E3. Instruction del paquete: Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|.. Hints: sets.; union de tres conjuntos.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "canon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "canon",
+        "edges",
+        "print",
+        "pii_full",
+        "False",
+        "Colapsa",
+        "raw_ids",
+        "canonical"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T2-B-E1. Instruction del paquete: Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted.. Hints: map.get(x,x).; set de tuples.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "rows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "src",
+        "dst",
+        "amount",
+        "record_id",
+        "print",
+        "pii_full",
+        "False"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T2-B-E2. Instruction del paquete: Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B').. Hints: defaultdict.; append record_id.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "detail_n=5\naggs=[{'n':2},{'n':3}]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "detail_n",
+        "aggs",
+        "print",
+        "pii_full",
+        "False",
+        "Verifica",
+        "invariante",
+        "sum"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T2-B-E3. Instruction del paquete: Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals.. Hints: sum v['n'].; assert conceptual con print.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "edges=[('a','b'),('b','c'),('a','c')]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "print",
+        "pii_full",
+        "False",
+        "Calcula",
+        "grado",
+        "cada",
+        "nodo"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T3-A-E1. Instruction del paquete: Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys.. Hints: undirected: cuenta ambos extremos.; dict sorted items via sorted keys.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "edges=[('a','b'),('c','d'),('d','e')]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "print",
+        "pii_full",
+        "False",
+        "Encuentra",
+        "componentes",
+        "conexas",
+        "imprime"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T3-A-E2. Instruction del paquete: Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo.. Hints: DFS o BFS.; sort componentes.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "pii_full",
+        "False",
+        "BFS",
+        "path",
+        "cadena",
+        "imprime",
+        "hops"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T3-A-E3. Instruction del paquete: BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops.. Hints: deque BFS.; hops = len(path)-1.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "deg={'H':3,'A':1,'B':1,'C':1}\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "deg",
+        "print",
+        "pii_full",
+        "False",
+        "Normaliza",
+        "degree",
+        "centrality",
+        "max"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T3-B-E1. Instruction del paquete: Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales.. Hints: score = deg/max_deg.; round(score, 2).. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "hub='INF-PAY'\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "hub",
+        "INF",
+        "PAY",
+        "print",
+        "pii_full",
+        "False",
+        "Dado",
+        "top"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T3-B-E2. Instruction del paquete: Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclaimer.. Hints: startswith.; disclaimer fijo.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "incident={'H':['transfer','transfer','shared_phone']}\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "incident",
+        "transfer",
+        "shared_phone",
+        "print",
+        "pii_full",
+        "False",
+        "Filtra",
+        "nodos"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T3-B-E3. Instruction del paquete: Filtra nodos con degree >= 3 y etype_mix que incluya solo 'transfer' vs mixto; imprime high_degree list sorted y flag only_transfer False si hay otros tipos en el grafo del hub.. Hints: revisa edge types incidentes.; set de etypes.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "edges=[('A','B'),('B','C'),('C','D')]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "print",
+        "pii_full",
+        "False",
+        "Implementa",
+        "ego",
+        "seed",
+        "verifica"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T4-A-E1. Instruction del paquete: Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y k=2.. Hints: expansión por capas.; sets.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "edges",
+        "src",
+        "dst",
+        "rid",
+        "print",
+        "pii_full",
+        "False",
+        "Prueba"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T4-A-E2. Instruction del paquete: Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags.. Hints: any self loop.; all weights.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "raw=[('a','b'),('b','c')]\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "raw",
+        "print",
+        "pii_full",
+        "False",
+        "Idempotencia",
+        "construir",
+        "grafo",
+        "dos"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T4-A-E3. Instruction del paquete: Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal True.. Hints: función build → frozenset.; compara.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "email='ana@example.pe'\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "email",
+        "ana",
+        "example",
+        "print",
+        "pii_full",
+        "False",
+        "Redacta",
+        "emails"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T4-B-E1. Instruction del paquete: Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe.. Hints: partition @.; local[:2].. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "path=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "path",
+        "print",
+        "pii_full",
+        "False",
+        "Dado",
+        "nodos",
+        "dict",
+        "edge_evidence"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T4-B-E2. Instruction del paquete: Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden del path.. Hints: zip path path[1:].; get evidence.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S31-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "max_n=500\nprint(\"pii_full\", False)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "max_n",
+        "print",
+        "pii_full",
+        "False",
+        "escala",
+        "n_nodes",
+        "devuelve",
+        "summarize"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S31-T4-B-E3. Instruction del paquete: Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 50 con max_n=500.. Hints: comparar.; dos prints.. Teoría activa: De streaming legado a grafos de evidencia (inicio CP-N3-B) | nodos, aristas, dirección y peso | multigrafo, tiempo y provenance | clientes/entidades/transacciones/contactos | deduplicación y agregació. iDo demos: S31-T1-B-DEMO | S31-T2-A-DEMO | S31-T2-B-DEMO | S31-T3-A-DEMO | S31-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Posición estructural que requiere contexto, no culpa",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Theory [centralidad con interpretación limitada]: «Degree / betweenness / closeness miden estructura, no culpa.» «Nunca automatices “alta centralidad → fraude”.» Mapa: «centralidad y paths no etiquetan fraude ni parentesco.» iDo S31-T4-A-DEMO disclaimer de no-culpabilidad. Score alto = posición estructural con contexto, no culpa."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Auditar source/record_id del hecho relacional",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Theory [multigrafo, tiempo y provenance]: «Provenance: source_system, run_id, record_id permiten auditar de dónde salió la arista. Sin provenance, el grafo es decoración.» iDo S31-T2-A-DEMO multiaristas con provenance por record_id."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Conservar detalle o punteros además del agregado",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Theory [deduplicación y agregación sin borrar detalle]: «Agregar aristas: suma montos… — pero guarda capa de detalle o punteros a record_id.» Multigrafo: «No colapses a una sola arista sin guardar el detalle.» iDo S31-T3-A-DEMO agrega montos conservando lista de record_id."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Un hecho de contacto compartido a investigar con evidencia, no veredicto",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Theory: arista/peso es «hecho relacional» y «evidencia cuantitativa, no veredicto.» Shared phone en iDo S31-T2-B-DEMO / path view shared_phone. No parentesco legal, colusión ni fraude automático — hecho a investigar con evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "a13e9e413816",
+  "run": "agentic_A2_second_consecutive"
+}

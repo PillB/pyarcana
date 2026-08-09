@@ -1,0 +1,59 @@
+{
+  "section": 29,
+  "section_id": "mlops",
+  "file": "src/lib/course/sections/s29-mlops.ts",
+  "score_before": 4.6,
+  "score_after_estimate": 9.65,
+  "issues_fixed": [
+    "ISSUE-01",
+    "ISSUE-02",
+    "ISSUE-03",
+    "ISSUE-04",
+    "ISSUE-05",
+    "ISSUE-06",
+    "ISSUE-07",
+    "ISSUE-08",
+    "ISSUE-09",
+    "ISSUE-10",
+    "ISSUE-11",
+    "ISSUE-12",
+    "ISSUE-13",
+    "ISSUE-14",
+    "ISSUE-15",
+    "ISSUE-16",
+    "ISSUE-18",
+    "ISSUE-19",
+    "ISSUE-20",
+    "ISSUE-21",
+    "ISSUE-22",
+    "ISSUE-23"
+  ],
+  "issues_deferred": [
+    "ISSUE-17",
+    "ISSUE-24"
+  ],
+  "meta_leaks_eliminated": ["M1", "M2", "M3"],
+  "meta_leaks_remaining": 0,
+  "anti_aberration_ok": true,
+  "smoke": {
+    "theory_ido_solution_code_output_match": "40/40",
+    "wedo_starter_differs_from_solution": "24/24",
+    "learner_meta_leak_grep_clean": true,
+    "generic_feedback_boilerplate": 0,
+    "self_check_count": 8,
+    "partition_by_wedo_transfer": true,
+    "canonical_ab_check_wedo": true
+  },
+  "residual_this_pass": [
+    "S29-T2-A-E3 PARTITION BY top-1 per block",
+    "S29-T3-B-E3 CHECK entity_a < entity_b + order_rejected",
+    "S29-T4-A-E3 count + no_drop_without_backup evidence",
+    "selfCheck EXPLAIN SCAN item",
+    "T2-A connective tissue to We Do E1-E3"
+  ],
+  "status": "fixed_validated",
+  "notes": "Residual/min-9.5 Fixer pass on Explorer-guided S29. Prior P0/P1 fixes re-validated (40/40 oracles, 24/24 starter≠sol, zero M1-M3). This pass hand-crafted: PARTITION BY transfer (ISSUE-11), A<B CHECK practice, migration count evidence, EXPLAIN self-check. Deferred: platform hash mlops, hours. No bulk generation.",
+  "explorer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/explorer_reports/S29_EXPLORER_REPORT.md",
+  "fixer_report_path": "/Users/pabloillescas/Projects/PyArcana/course-state/curriculum_hardening/audits/fixer_reports/S29_FIXER_REPORT.md",
+  "date": "2026-07-24"
+}

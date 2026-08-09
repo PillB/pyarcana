@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F1",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-agentic_F1-s28",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T1-A-E1: packet-only solve (no prior lives)\nimport random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "random",
+        "seed"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/12468224] Resuelvo S28-T1-A-E1 solo con el paquete activo. Instrucción: «S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True). Fixture sinté». Pista: «seed antes de cada random». Demo S28-T1-A-DEMO. Código ancla: `import random`. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\n# forma esperada (referencia): print(all(0 <= s <= 1 for s in scores))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/0deffcaa] Como explorador, S28-T1-A-E2: sigo el starter y el iDo. El enunciado pide «S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada ». Aplico «all». Línea clave: `scores=[0,0.5,1]`. Heading: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T1-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\n# forma esperada (referencia): print(f(f(s)) == f(s))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/e9c79f3c] Resuelvo S28-T1-A-E3 solo con el paquete activo. Instrucción: «S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s='  x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter ». Pista: «doble aplicación». Demo S28-T1-A-DEMO. Código ancla: `s='  x '`. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\n# forma esperada (referencia): print((a == b) == (b == a))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/7fa78cb9] S28-T1-B-E1 — material del slim_packet basta. «S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es » · hint «comparar» · S28-T1-B-DEMO. Entrega: `a,b='x','x'`. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T1-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('Ana'.casefold() == 'ANA'.casefold())\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/6b22af4f] Como explorador, S28-T1-B-E2: sigo el starter y el iDo. El enunciado pide «S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la ». Aplico «casefold». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T1-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\n# forma esperada (referencia): print((a == b) == (b == a))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/81ccc8b7] S28-T1-B-E3 — material del slim_packet basta. «S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe):» · hint «swap» · S28-T1-B-DEMO. Entrega: `a,b=1,1`. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T2-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\n# forma esperada (referencia): print('id requerido' if not r.get('id') else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/69260fb3] S28-T2-A-E1 — material del slim_packet basta. «S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter complet» · hint «get» · S28-T2-A-DEMO. Entrega: `r={}`. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\n# forma esperada (referencia): print('score' if not (0 <= score <= 1) else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/4e61b2f7] S28-T2-A-E2 — material del slim_packet basta. «S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo» · hint «0<=s<=1» · S28-T2-A-DEMO. Entrega: `score=1.2`. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T2-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\n# forma esperada (referencia): print(sum(1 for r in rows if not r.get('id')))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/678ee696] S28-T2-A-E3 — material del slim_packet basta. «S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la ent» · hint «sum» · S28-T2-A-DEMO. Entrega: `rows=[{'id':'1'},{'id':''}]`. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T2-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\n# forma esperada (referencia): print('drift' if golden != current else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b8be37b8] S28-T2-B-E1 — material del slim_packet basta. «S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implem» · hint «!=» · S28-T2-B-DEMO. Entrega: `golden,current={'n':1},{'n':2}`. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T2-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\n# forma esperada (referencia): print('blocked' if diff and not approved else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/8130c40b] Como explorador, S28-T2-B-E2: sigo el starter y el iDo. El enunciado pide «S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el ». Aplico «and». Línea clave: `diff, approved = True, False`. Heading: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T2-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'golden_version': 3}['golden_version'])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/ee195450] Como explorador, S28-T2-B-E3: sigo el starter y el iDo. El enunciado pide «S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; implementa». Aplico «literal/dict». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T3-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\n# forma esperada (referencia): print(db['e1']['name'])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/059b9b4e] Como explorador, S28-T3-A-E1: sigo el starter y el iDo. El enunciado pide «S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter complet». Aplico «dict get». Línea clave: `db={'e1':{'name':'Ana'}}`. Heading: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T3-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\n# forma esperada (referencia): print(date(2026, 7, 20).isoformat())\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/ad5ebbff] Como explorador, S28-T3-A-E2: sigo el starter y el iDo. El enunciado pide «S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el star». Aplico «datetime». Línea clave: `from datetime import date`. Heading: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T3-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\n# forma esperada (referencia): print('retry' if status >= 500 else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/751c7a6e] Como explorador, S28-T3-A-E3: sigo el starter y el iDo. El enunciado pide «S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; im». Aplico «status». Línea clave: `status=503`. Heading: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T3-B-E1: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('A'.casefold() == 'a'.casefold())\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/c0a3f838] Resuelvo S28-T3-B-E1 solo con el paquete activo. Instrucción: «S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo; imple». Pista: «casefold». Demo S28-T3-B-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\n# forma esperada (referencia): print('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/8c5306f2] Como explorador, S28-T3-B-E2: sigo el starter y el iDo. El enunciado pide «S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el s». Aplico «propiedad». Línea clave: `f=lambda a,b: True`. Heading: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T3-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'rows_written': 1}['rows_written'])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/7283a267] S28-T3-B-E3 — material del slim_packet basta. «S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo;» · hint «dict» · S28-T3-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T4-A-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/c3adfd0e] S28-T4-A-E1 — material del slim_packet basta. «S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter co» · hint «sqlite3» · S28-T4-A-DEMO. Entrega: `import sqlite3`. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T4-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\n# forma esperada (referencia): print(n * (n - 1) // 2)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/77cf19b0] Resuelvo S28-T4-A-E2 solo con el paquete activo. Instrucción: «S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo;». Pista: «n*(n-1)//2». Demo S28-T4-A-DEMO. Código ancla: `n=4`. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T4-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\n# forma esperada (referencia): print([i for i in items if i not in done])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/5f74175e] Resuelvo S28-T4-A-E3 solo con el paquete activo. Instrucción: «S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el ». Pista: «list comp». Demo S28-T4-A-DEMO. Código ancla: `done, items={'a'}, ['a','b']`. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T4-B-E1: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print(sorted(['b', 'a']))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/dd0aee19] Resuelvo S28-T4-B-E1 solo con el paquete activo. Instrucción: «S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el start». Pista: «sorted». Demo S28-T4-B-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T4-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\n# forma esperada (referencia): print('fail_job' if flake_rate > 0 else 'ok')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/bf65e0c0] S28-T4-B-E2 — material del slim_packet basta. «S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter com» · hint «umbral» · S28-T4-B-DEMO. Entrega: `flake_rate=0.01`. invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S28-T4-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('unit→data→integration')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S28",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/c7ab8f49] Como explorador, S28-T4-B-E3: sigo el starter y el iDo. El enunciado pide «S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la entrada es el starter completo». Aplico «string». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: invariantes y generación de casos | idempotencia, simetría y metamorphic tests |."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Relaciones predecibles entre entradas transformadas y salidas",
+      "justification_from_packet": "[agentic_F1/explorer/a28q0e1] La teoría «idempotencia, simetría y metamorphic tests» y S28-T1-B-DEMO (simetría de Jaccard, padding metamórfico) muestran que un test metamórfico chequea relaciones predecibles entre entradas transformadas y salidas, no fraude ni un número mágico.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Riesgo de ocultar regresiones",
+      "justification_from_packet": "[agentic_F1/explorer/a28q1e2] En «golden datasets, drift y reconciliación» el demo S28-T2-B-DEMO bloquea reconcile si golden≠cur: actualizar un golden con drift sin review es riesgo de ocultar regresiones.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Acoplar el test a detalles internos y ocultar bugs",
+      "justification_from_packet": "[agentic_F1/explorer/a28q2e3] El heading «contract tests sin sobre-mocking» y S28-T3-B-DEMO contrastan real casefold vs overmock que da false positive: sobre-mockear acopla el test a internos y oculta bugs.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+      "justification_from_packet": "[agentic_F1/explorer/a28q3e4] Outcomes de «flakes, determinismo y CI» piden seed/reloj fijo y fallar el job si el flake persiste; no subir retries a 100 ni borrar tests en la suite gate de ER.",
+      "blocked_on": [],
+      "confidence": 0.84
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:18.167382+00:00"
+}

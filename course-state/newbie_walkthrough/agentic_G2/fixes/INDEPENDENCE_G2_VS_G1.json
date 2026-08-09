@@ -1,0 +1,33 @@
+{
+  "baseline": "agentic_G1",
+  "candidate": "agentic_G2",
+  "non_comment_body_identity": "336/2496",
+  "non_comment_body_identity_pct": 13.5,
+  "gate": "must not be >=98% wholesale identity",
+  "pass": true,
+  "g1": {
+    "clean_52": true,
+    "a_pass": 52,
+    "b_pass": 52,
+    "attempt_gates_pass": true
+  },
+  "g2": {
+    "clean_52": true,
+    "a_pass": 52,
+    "b_pass": 52,
+    "attempt_gates_pass": true
+  },
+  "manifests": {
+    "g1_entries": 104,
+    "g2_entries": 104,
+    "min_wall_clock_minutes": 30
+  },
+  "forbidden_not_used": [
+    "packet_walk",
+    "e1_code_map",
+    "_repair_e2",
+    "produce_agent",
+    "apply_*selfcheck ANSWERS"
+  ],
+  "production": "dual-LLM subagents + newbie_agentic_llm_walk (packets/manifest only)"
+}

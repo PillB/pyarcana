@@ -1,0 +1,1609 @@
+     1→import type { CourseSection } from '../../types'
+     2→
+     3→export const section11: CourseSection = {
+     4→  id: 'advanced-topics',
+     5→  index: 11,
+     6→  title: 'Advanced Python for Data Science',
+     7→  shortTitle: 'Advanced Topics',
+     8→  tagline:
+     9→    'Iterators, scraping, APIs, SQL, multiprocessing, regex, collections, profiling, logging, argparse',
+    10→  estimatedHours: 16,
+    11→  level: 'Avanzado',
+    12→  icon: 'Rocket',
+    13→  accentColor: 'bg-gradient-to-br from-orange-500 to-red-600',
+    14→  jobRelevance:
+    15→    'Estos 10 temas son lo que separa un junior que solo sabe Jupyter de un Data Scientist que entrega pipelines production-ready. En empresas peruanas como Interbank, BBVA, Rimac o Mercado Libre, NO te dan un CSV limpio: te dan una API interna, una base SQL con millones de filas, o te dicen "ve y scrapea los precios de la competencia". Tienes que saber consumir APIs con paginación, paralelizar feature engineering con multiprocessing para no esperar 4 horas, loggear estructurado para debuggear en producción, y empaquetar todo como CLI con argparse para que otros ingenieros lo usen. Quien domina estos 10 temas cobra 30-50% más que quien solo sabe pandas + sklearn, porque puede llevar un proyecto de idea a deployment sin depender de nadie más.',
+    16→  learningOutcomes: [
+    17→    { text: 'Construir generators con `yield` para procesar CSVs gigantes sin agotar RAM' },
+    18→    { text: 'Scrapear sitios con requests + BeautifulSoup y automatizar con Selenium cuando hay JS' },
+    19→    { text: 'Consumir REST APIs con requests, manejar JSON y paginación automática' },
+    20→    { text: 'Conectar Python a SQL con sqlite3, SQLAlchemy y pd.read_sql para traer datos a pandas' },
+    21→    { text: 'Paralelizar feature engineering con multiprocessing y concurrent.futures' },
+    22→    { text: 'Limpiar texto y parsear logs con expresiones regulares (re)' },
+    23→    { text: 'Usar collections (Counter, defaultdict, namedtuple, deque) en tu Python diario' },
+    24→    { text: 'Perfil código con timeit, cProfile y line_profiler para encontrar bottlenecks' },
+    25→    { text: 'Configurar logging estructurado para código de DS en producción' },
+    26→    { text: 'Convertir notebooks en herramientas CLI reutilizables con argparse' },
+    27→  ],
+    28→  theory: [
+    29→    {
+    30→      heading: 'Iterators & Generators — `yield` para CSVs gigantes',
+    31→      paragraphs: [
+    32→        'Un iterador es cualquier objeto que implementa `__next__` y devuelve un valor a la vez. Las listas, tuplas, dicts y strings son iterables (puedes iterarlos con `for`) pero no iteradores. Cuando haces `iter(mi_lista)` obtienes un iterador. La diferencia clave: una lista carga TODOS sus elementos en RAM, mientras que un iterador solo calcula el siguiente elemento cuando se le pide. Esto es crucial para data science: si un CSV tiene 50 millones de filas y pesa 8 GB, no puedes cargarlo en una lista — tu laptop muere. Necesitas un iterador que lea línea por línea y procese cada una sin mantener el archivo entero en memoria.',
+    33→        'Un generator es la forma más fácil de crear un iterador: una función que usa `yield` en vez de `return`. Cuando llamas a una función con `yield`, Python no ejecuta la función: devuelve un objeto generator. Cada vez que llamas `next()` sobre ese generator, la función corre hasta el próximo `yield` y pausa su estado. La próxima llamada continúa desde donde quedó. Esto se llama "lazy evaluation" — los valores se calculan solo cuando se necesitan. Para CSVs enormes, esto significa que puedes procesar 50 millones de filas con 50 MB de RAM, no 8 GB. Es la diferencia entre "funciona" y "se cae por OOM".',
+    34→        'En pandas, `pd.read_csv(path, chunksize=10000)` te devuelve un iterador de DataFrames de 10k filas cada uno. Procesas cada chunk, agregas resultados, y nunca tienes el archivo entero en RAM. Combinado con generators propios para filtrar o transformar, puedes construir pipelines que escalan a datasets de cualquier tamaño. Esto es exactamente lo que hacen los data engineers en Mercado Libre cuando procesan logs de navegación (TB por día): no cargan todo, lo streaméan. Si aprendes una sola cosa de esta sección, que sea generators — paga dividendos en cada proyecto.',
+    35→      ],
+    36→      code: {
+    37→        language: 'python',
+    38→        title: 'generadores_csv.py',
+    39→        code: `# === Generador que lee un CSV enorme línea por línea ===
+    40→import csv
+    41→from pathlib import Path
+    42→
+    43→def leer_ventas_lento(path: str):
+    44→    """Sin generador: carga TODO en RAM. Malo para 8GB CSV."""
+    45→    with open(path) as f:
+    46→        return list(csv.DictReader(f))  # ¡OOM en archivos grandes!
+    47→
+    48→def leer_ventas_lazy(path: str):
+    49→    """Con generador: una fila a la vez, ~0 RAM extra."""
+    50→    with open(path) as f:
+    51→        reader = csv.DictReader(f)
+    52→        for fila in reader:
+    53→            yield fila  # pausa aquí hasta que pidan el siguiente
+    54→
+    55→# Uso: procesar 50M de filas sin morir
+    56→ruta = "ventas_peru_2024.csv"  # supongamos 8 GB
+    57→total_ingresos = 0
+    58→for fila in leer_ventas_lazy(ruta):
+    59→    # cada fila es un dict: {"fecha": "...", "monto": "150.50", "region": "Lima"}
+    60→    total_ingresos += float(fila["monto"])
+    61→print(f"Ingresos totales: S/ {total_ingresos:,.2f}")
+    62→# Ingresos totales: S/ 12,450,890.50
+    63→
+    64→# === Generador infinito (serie de Fibonacci) ===
+    65→def fibonacci():
+    66→    a, b = 0, 1
+    67→    while True:
+    68→        yield a
+    69→        a, b = b, a + b
+    70→
+    71→fib = fibonacci()
+    72→primeros_10 = [next(fib) for _ in range(10)]
+    73→print(primeros_10)
+    74→# [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+    75→
+    76→# === Pandas chunksize: generador de DataFrames ===
+    77→import pandas as pd
+    78→
+    79→def agregado_por_region(ruta_csv: str, chunksize: int = 50_000):
+    80→    """Agrega ventas por región sin cargar todo el CSV."""
+    81→    acumulador = {}  # region -> total
+    82→    for chunk in pd.read_csv(ruta_csv, chunksize=chunksize):
+    83→        for region, grupo in chunk.groupby("region"):
+    84→            acumulador[region] = acumulador.get(region, 0) + grupo["monto"].sum()
+    85→    return acumulador
+    86→
+    87→# Resultado en una laptop normal con un CSV de 5GB:
+    88→# {"Lima": 8_500_000, "Arequipa": 1_200_000, "Cusco": 350_000, ...}
+    89→# Peak RAM: ~200MB (no los 5GB del archivo)`,
+    90→      },
+    91→      callout: {
+    92→        type: 'tip',
+    93→        title: 'Cuándo usar generadores',
+    94→        content:
+    95→          'Usa generators cuando: (1) el dataset es >1GB, (2) solo necesitas procesar cada item una vez (no acceso aleatorio), (3) estás construyendo un pipeline de streaming. NO uses generators cuando necesitas acceso aleatorio por índice, o cuando el dataset es chico (<100MB) y la simplicidad de una lista vale más.',
+    96→      },
+    97→    },
+    98→    {
+    99→      heading: 'Web Scraping — requests + BeautifulSoup + Selenium',
+   100→      paragraphs: [
+   101→        'En la vida real como Data Scientist en Perú, rara vez te dan un CSV listo. Lo más común es que te digan "necesitamos monitorear precios de la competencia en Mercado Libre, Falabella y Ripley". Para eso necesitas web scraping: descargar HTML de una página web y extraer datos estructurados. El stack básico es `requests` (descargar HTML) + `BeautifulSoup` (parsear HTML y extraer elementos con selectores CSS). Instalas con `pip install requests beautifulsoup4`. El flujo: haces `requests.get(url)`, pasas `response.text` a `BeautifulSoup(html, "html.parser")`, y luego buscas elementos con `soup.select(".precio")` o `soup.find_all("div", class_="producto")`.',
+   102→        'El scraping simple con requests+BS4 funciona cuando el HTML viene completo desde el servidor (páginas estáticas). Pero el 70% de sitios modernos cargan datos con JavaScript después de la página inicial (SPAs, React, Vue). Si haces `requests.get()` a Mercado Libre o Starbucks, ves un HTML vacío con un `<div id="root"></div>` y los precios NO están — los carga JS. Para estos casos necesitas Selenium: un browser real (Chrome/Firefox) automatizado que ejecuta el JS, espera a que cargue, y te da acceso al DOM final. Selenium es más lento (10-30s por página vs 0.5s con requests) pero es la única opción para JS pesado.',
+   103→        'Reglas de oro del scraping: (1) SIEMPRE respeta `robots.txt` del sitio (`/robots.txt` te dice qué paths permiten), (2) pon un `time.sleep(1-2)` entre requests para no saturar el servidor (es un DoS no intencional si no lo haces), (3) usa headers de navegador real (`User-Agent: Mozilla/...`) porque muchos sitios bloquean `python-requests/2.x`, (4) cachea respuestas a disco para no re-scrapear durante desarrollo, (5) maneja fallos con try/except y reintentos. Para scraping a escala (>10k páginas), considera Scrapy (framework completo) o Playwright (alternativa moderna a Selenium).',
+   104→      ],
+   105→      code: {
+   106→        language: 'python',
+   107→        title: 'scraping_precios.py',
+   108→        code: `import requests
+   109→from bs4 import BeautifulSoup
+   110→import time
+   111→from pathlib import Path
+   112→
+   113→HEADERS = {
+   114→    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+   115→                  "(KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+   116→}
+   117→
+   118→def scrapear_productos_falabella(url: str) -> list[dict]:
+   119→    """Scrapea productos de Falabella (ejemplo estático)."""
+   120→    resp = requests.get(url, headers=HEADERS, timeout=10)
+   121→    resp.raise_for_status()
+   122→    soup = BeautifulSoup(resp.text, "html.parser")
+   123→
+   124→    productos = []
+   125→    for card in soup.select("[data-pod]"):  # selector específico del sitio
+   126→        nombre_el = card.select_one("a.pod-link")
+   127→        precio_el = card.select_one("span.copy10")
+   128→        if nombre_el and precio_el:
+   129→            productos.append({
+   130→                "nombre": nombre_el.get_text(strip=True),
+   131→                "precio": precio_el.get_text(strip=True),
+   132→            })
+   133→    return productos
+   134→
+   135→# === Selenium para páginas con JavaScript ===
+   136→from selenium import webdriver
+   137→from selenium.webdriver.common.by import By
+   138→from selenium.webdriver.support.ui import WebDriverWait
+   139→from selenium.webdriver.support import expected_conditions as EC
+   140→
+   141→def scrapear_mercado_libre(url: str) -> list[dict]:
+   142→    """Mercado Libre carga precios con JS — necesita Selenium."""
+   143→    driver = webdriver.Chrome()  # requiere chromedriver instalado
+   144→    driver.get(url)
+   145→
+   146→    # Esperar a que carguen los precios
+   147→    WebDriverWait(driver, 10).until(
+   148→        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".ui-search-item__group"))
+   149→    )
+   150→
+   151→    productos = []
+   152→    for item in driver.find_elements(By.CSS_SELECTOR, ".ui-search-layout__item"):
+   153→        try:
+   154→            nombre = item.find_element(By.CSS_SELECTOR, "h2").text
+   155→            precio = item.find_element(By.CSS_SELECTOR, ".price-tag-fraction").text
+   156→            productos.append({"nombre": nombre, "precio": precio})
+   157→        except Exception:
+   158→            continue  # algunos items pueden no tener precio (anuncios)
+   159→
+   160→    driver.quit()
+   161→    return productos
+   162→
+   163→# Uso realista con rate limiting y cache
+   164→def scrapear_con_cache(urls: list[str], cache_dir: Path = Path(".cache")) -> list[dict]:
+   165→    cache_dir.mkdir(exist_ok=True)
+   166→    todos = []
+   167→    for url in urls:
+   168→        cache_file = cache_dir / (url.split("/")[-1] + ".html")
+   169→        if cache_file.exists():
+   170→            html = cache_file.read_text()
+   171→        else:
+   172→            time.sleep(2)  # ¡respeta al servidor!
+   173→            html = requests.get(url, headers=HEADERS).text
+   174→            cache_file.write_text(html)
+   175→        soup = BeautifulSoup(html, "html.parser")
+   176→        # ... extraer datos ...
+   177→        todos.append(soup.title.string if soup.title else "sin titulo")
+   178→    return todos`,
+   179→      },
+   180→      callout: {
+   181→        type: 'warning',
+   182→        title: 'Legalidad y ética del scraping',
+   183→        content:
+   184→          'Scrapear datos públicos es legal en la mayoría de jurisdicciones (incluyendo Perú), pero: (1) NO scrapees datos personales sin consentimiento (Ley 29733 de Protección de Datos), (2) NO satures el servidor (es un ataque DoS), (3) revisa los Términos de Servicio — algunos sitios lo prohíben explícitamente, (4) SIEMPRE pon User-Agent identificable y contacto. Cuando dudes, pregunta al sitio o usa su API oficial (siguiente sección).',
+   185→      },
+   186→    },
+   187→    {
+   188→      heading: 'REST APIs — requests + JSON + paginación',
+   189→      paragraphs: [
+   190→        'Una API REST es la forma profesional de consumir datos de un servicio. En vez de scrapear HTML (frágil, ilegal a veces, lento), la API te devuelve datos estructurados en JSON. En Perú, la SUNAT tiene APIs para tipo de cambio, RENIEC para validar DNI, INEI para estadísticas. Bancos como Interbank y BCP exponen APIs internas para sus equipos de data. Mercado Libre, OpenStreetMap, GitHub, Twitter — todos tienen APIs públicas. Como Data Scientist, sabes consumir APIs es OBLIGATORIO: es cómo obtienes datos frescos sin descargar CSVs manualmente cada semana.',
+   191→        'El flujo básico con `requests`: `resp = requests.get(url, params={"key": "value"}, headers={"Authorization": "Bearer TOKEN"})`. La respuesta tiene `resp.status_code` (200=ok, 404=not found, 401=unauthorized, 429=rate limited, 500=server error), `resp.json()` para parsear el body como JSON, y `resp.headers` para metadata. Para APIs que requieren auth, dos patrones: (1) API key en header (`headers={"X-API-Key": "abc123"}`), (2) OAuth2 bearer token (`headers={"Authorization": "Bearer eyJhb..."}`). Guarda tus tokens en variables de entorno (`os.environ["API_KEY"]`), NUNCA en el código.',
+   192→        'Casi toda API devuelve datos paginados: en vez de mandarte 100,000 registros de golpe (mataría su servidor), te manda 50 o 100 por página, junto con un cursor o URL de la siguiente página. Sin paginar, solo ves los primeros 50. Los patrones comunes: (1) `?page=2&per_page=100` (offset/page), (2) `?cursor=abc123` (cursor opaco), (3) link en `response["next"]` (URL completa). Tu código debe loop hasta que no haya más páginas, acumulando resultados. Caso real: scrapear 10,000 productos de una API a 100 por página = 100 requests, ~2 minutos con rate limiting. Siempre maneja errores (429 con backoff exponencial, 5xx con retry) — las APIs fallan.',
+   193→      ],
+   194→      code: {
+   195→        language: 'python',
+   196→        title: 'api_consumption.py',
+   197→        code: `import requests
+   198→import os
+   199→import time
+   200→from typing import Iterator
+   201→
+   202→API_KEY = os.environ.get("MI_API_KEY", "demo")
+   203→
+   204→def get_tipo_cambio_sunat(fecha: str = "2024-01-15") -> dict:
+   205→    """Tipo de cambio SUNAT (ejemplo simplificado)."""
+   206→    url = f"https://api.sunat.gob/tipo-cambio/{fecha}"
+   207→    resp = requests.get(url, timeout=10)
+   208→    resp.raise_for_status()  # lanza excepción si no es 200
+   209→    return resp.json()
+   210→# {"fecha": "2024-01-15", "compra": 3.745, "venta": 3.755}
+   211→
+   212→# === Paginación: traer TODOS los productos ===
+   213→def traer_todos_productos(api_base: str) -> list[dict]:
+   214→    """Loop de paginación hasta que no haya más páginas."""
+   215→    todos = []
+   216→    url = f"{api_base}/products"
+   217→    while url:
+   218→        resp = requests.get(url, headers={"X-API-Key": API_KEY}, timeout=15)
+   219→        if resp.status_code == 429:
+   220→            # Rate limited: esperar y reintentar
+   221→            wait = int(resp.headers.get("Retry-After", 60))
+   222→            print(f"Rate limited, esperando {wait}s...")
+   223→            time.sleep(wait)
+   224→            continue
+   225→        resp.raise_for_status()
+   226→        data = resp.json()
+   227→        todos.extend(data["results"])  # productos de esta página
+   228→        url = data.get("next")  # URL de la siguiente página, o None
+   229→    return todos
+   230→
+   231→# === Generador para paginación lazy (más eficiente en RAM) ===
+   232→def iterar_productos(api_base: str) -> Iterator[dict]:
+   233→    """Generador: yield un producto a la vez, paginando lazy."""
+   234→    url = f"{api_base}/products"
+   235→    while url:
+   236→        resp = requests.get(url, headers={"X-API-Key": API_KEY}, timeout=15)
+   237→        resp.raise_for_status()
+   238→        data = resp.json()
+   239→        for producto in data["results"]:
+   240→            yield producto  # uno a la vez
+   241→        url = data.get("next")
+   242→
+   243→# === POST con JSON body (crear recurso) ===
+   244→def crear_cliente(api_base: str, cliente: dict) -> dict:
+   245→    resp = requests.post(
+   246→        f"{api_base}/clientes",
+   247→        json=cliente,  # serializa a JSON automáticamente
+   248→        headers={"X-API-Key": API_KEY, "Content-Type": "application/json"},
+   249→        timeout=10,
+   250→    )
+   251→    if resp.status_code == 201:
+   252→        return resp.json()
+   253→    raise RuntimeError(f"Error {resp.status_code}: {resp.text}")
+   254→
+   255→# === Retry con backoff exponencial ===
+   256→def get_con_retry(url: str, max_retries: int = 3) -> dict:
+   257→    for intento in range(max_retries):
+   258→        try:
+   259→            resp = requests.get(url, timeout=10)
+   260→            if resp.status_code == 200:
+   261→                return resp.json()
+   262→            if resp.status_code >= 500:  # server error, reintentar
+   263→                wait = 2 ** intento  # 1s, 2s, 4s
+   264→                print(f"Error {resp.status_code}, reintentar en {wait}s")
+   265→                time.sleep(wait)
+   266→                continue
+   267→            resp.raise_for_status()
+   268→        except requests.RequestException as e:
+   269→            print(f"Intento {intento+1} falló: {e}")
+   270→            time.sleep(2 ** intento)
+   271→    raise RuntimeError(f"Fallo después de {max_retries} intentos")`,
+   272→      },
+   273→      callout: {
+   274→        type: 'info',
+   275→        title: 'requests.Session para múltiples requests',
+   276→        content:
+   277→          'Si haces 100 requests al mismo host, crea `s = requests.Session()` y usa `s.get()`. La sesión reutiliza la conexión TCP (keep-alive), lo que es 3-5x más rápido. También persiste cookies y headers default. Para scraping intensivo o polling de API, SIEMPRE usa Session.',
+   278→      },
+   279→    },
+   280→    {
+   281→      heading: 'SQL Databases — sqlite3, SQLAlchemy y pd.read_sql',
+   282→      paragraphs: [
+   283→        'En cualquier trabajo serio de data, los datos NO están en CSVs — están en bases de datos SQL. PostgreSQL, MySQL, SQL Server, Snowflake, BigQuery. Aprender SQL es OBLIGATORIO para DS (la mayoría de entrevistas técnicas incluyen SQL). En Python, el puente entre SQL y tu análisis es la librería `sqlite3` (built-in, para SQLite local), `SQLAlchemy` (ORM/abstracción para cualquier motor), y `pd.read_sql()` (trae datos directamente a un DataFrame). SQLite es perfecta para prototipos: es un archivo `.db` que funciona sin servidor, viene con Python, y soporta el 90% del SQL estándar. Para producción migras a PostgreSQL cambiando una línea.',
+   284→        'El flujo básico con sqlite3: `conn = sqlite3.connect("mi_base.db")`, `cursor = conn.cursor()`, `cursor.execute("SELECT * FROM clientes WHERE region=?", ("Lima",))`, `filas = cursor.fetchall()`. NUNCA uses f-strings para insertar valores en SQL — es vulnerable a SQL injection. SIEMPRE usa parámetros (`?` en sqlite3, `%s` en PostgreSQL). Para pandas, el atajo es `df = pd.read_sql("SELECT * FROM ventas WHERE monto > 1000", conn)` — directo a DataFrame sin loop. Y al revés: `df.to_sql("ventas_nuevas", conn, if_exists="append", index=False)` persiste un DataFrame a una tabla SQL. Esto es oro para pipelines ETL.',
+   285→        'SQLAlchemy agrega una capa de abstracción: defines modelos como clases Python, y SQLAlchemy genera el SQL. Útil cuando tu app crece y quieres cambiar de SQLite a PostgreSQL sin reescribir queries. El patrón `create_engine("sqlite:///mi_base.db")` crea un engine que pasas a `pd.read_sql(query, engine)`. Para DS, el 80% del tiempo solo necesitas sqlite3 + pd.read_sql. SQLAlchemy lo aprendes cuando te toca mantener una app más grande. Lo importante: practica escribir queries SQL reales (JOINs, GROUP BY, window functions) — es la skill #1 que evalúan en entrevistas de Data Analyst.',
+   286→      ],
+   287→      code: {
+   288→        language: 'python',
+   289→        title: 'sql_bridge.py',
+   290→        code: `import sqlite3
+   291→import pandas as pd
+   292→from sqlalchemy import create_engine, Column, Integer, String, Float
+   293→from sqlalchemy.orm import declarative_base, Session
+   294→
+   295→# === 1. SQLite básico (built-in, sin instalar nada) ===
+   296→conn = sqlite3.connect("ventas.db")
+   297→cursor = conn.cursor()
+   298→
+   299→# Crear tabla
+   300→cursor.execute("""
+   301→CREATE TABLE IF NOT EXISTS ventas (
+   302→    id INTEGER PRIMARY KEY,
+   303→    producto TEXT NOT NULL,
+   304→    monto REAL NOT NULL,
+   305→    region TEXT,
+   306→    fecha TEXT
+   307→)
+   308→""")
+   309→
+   310→# Insertar (con parámetros — NUNCA f-strings)
+   311→ventas = [
+   312→    ("Laptop", 3500.0, "Lima", "2024-01-15"),
+   313→    ("Mouse", 45.0, "Arequipa", "2024-01-15"),
+   314→    ("Teclado", 120.0, "Lima", "2024-01-16"),
+   315→]
+   316→cursor.executemany(
+   317→    "INSERT INTO ventas (producto, monto, region, fecha) VALUES (?, ?, ?, ?)",
+   318→    ventas,
+   319→)
+   320→conn.commit()
+   321→
+   322→# Query con parámetros (seguro contra SQL injection)
+   323→region = "Lima"
+   324→cursor.execute("SELECT * FROM ventas WHERE region = ?", (region,))
+   325→lima_ventas = cursor.fetchall()
+   326→# [(1, "Laptop", 3500.0, "Lima", "2024-01-15"), (3, "Teclado", 120.0, "Lima", "2024-01-16")]
+   327→
+   328→# === 2. pd.read_sql — el puente mágico a pandas ===
+   329→df = pd.read_sql("SELECT region, SUM(monto) as total FROM ventas GROUP BY region", conn)
+   330→print(df)
+   331→#       region   total
+   332→# 0   Arequipa    45.0
+   333→# 1      Lima  3620.0
+   334→
+   335→# Y al revés: persistir un DataFrame
+   336→df_nuevo = pd.DataFrame({"producto": ["Monitor"], "monto": [850.0],
+   337→                          "region": ["Cusco"], "fecha": ["2024-01-17"]})
+   338→df_nuevo.to_sql("ventas", conn, if_exists="append", index=False)
+   339→
+   340→# === 3. SQLAlchemy para producción ===
+   341→engine = create_engine("sqlite:///ventas.db")  # cambia a postgresql://... en prod
+   342→
+   343→# Usar con pandas igual que sqlite3
+   344→df_grande = pd.read_sql("""
+   345→    SELECT region, COUNT(*) as n_ventas, AVG(monto) as ticket_promedio
+   346→    FROM ventas
+   347→    GROUP BY region
+   348→    HAVING COUNT(*) > 0
+   349→    ORDER BY n_ventas DESC
+   350→""", engine)
+   351→
+   352→# === 4. SQLAlchemy ORM (modelos como clases) ===
+   353→Base = declarative_base()
+   354→
+   355→class Cliente(Base):
+   356→    __tablename__ = "clientes"
+   357→    id = Column(Integer, primary_key=True)
+   358→    nombre = Column(String, nullable=False)
+   359→    dni = Column(String, unique=True)
+   360→    ingreso_mensual = Column(Float)
+   361→
+   362→Base.metadata.create_all(engine)
+   363→
+   364→with Session(engine) as session:
+   365→    nuevo = Cliente(nombre="María Quispe", dni="12345678", ingreso_mensual=4500)
+   366→    session.add(nuevo)
+   367→    session.commit()
+   368→
+   369→conn.close()`,
+   370→      },
+   371→      callout: {
+   372→        type: 'danger',
+   373→        title: 'SQL Injection — el error #1 de seguridad',
+   374→        content:
+   375→          'NUNCA hagas `cursor.execute(f"SELECT * FROM users WHERE name = \'{name}\'")`. Si `name` viene del usuario y contiene `\' OR 1=1 --`, te borran la tabla. SIEMPRE usa parámetros: `cursor.execute("SELECT * FROM users WHERE name = ?", (name,))`. Es la diferencia entre código production-ready y un CVE esperando pasar.',
+   376→      },
+   377→    },
+   378→    {
+   379→      heading: 'Multiprocessing & concurrent.futures — paralelizar feature engineering',
+   380→      paragraphs: [
+   381→        'Python tiene el famoso GIL (Global Interpreter Lock): solo un thread ejecuta bytecode Python a la vez. Esto significa que threading NO acelera tareas CPU-bound (cálculo puro) — solo ayuda con I/O-bound (red, disco). Para acelerar feature engineering, transformación de imágenes, o hyperparameter sweeps, necesitas `multiprocessing`: procesos separados, cada uno con su propio GIL, corriendo en paralelo en múltiples cores. En una laptop de 8 cores, una tarea CPU-bound puede correr 6-7x más rápido (no 8x por overhead). En servidores cloud con 32 cores, los speedups son dramáticos.',
+   382→        'La API moderna es `concurrent.futures.ProcessPoolExecutor` y `ThreadPoolExecutor`. Patrón básico: `with ProcessPoolExecutor() as executor: results = list(executor.map(func, items))`. Esto crea un pool de procesos workers, distribuye los items, y recolecta resultados. Para tareas CPU-bound (calcular features por cliente, transformar imágenes, encodear videos) usa Process. Para I/O-bound (scrapear 100 URLs, llamar 50 APIs) usa Thread. La regla: si tu función pasa el 90% del tiempo esperando red/disco → Thread; si pasa el 90% calculando → Process.',
+   383→        'El caso de uso clásico en DS: tienes 500k clientes y necesitas calcular 20 features por cliente (RFM, recencia, frecuencia, monetario). En single-process tarda 4 horas. Con `ProcessPoolExecutor(max_workers=8)` y `executor.map(calcular_features, chunks_de_clientes)`, baja a 35 minutos. Otro caso: hyperparameter sweep con 100 configs de modelo — en paralelo corren 8 a la vez. Cuidado con: (1) memoria (cada proceso copia data — pasa chunks chicos, no DataFrames gigantes), (2) funciones lambda (no se pueden picklear — usa funciones top-level con `def`), (3) shared state (multiprocessing tiene Queues y Managers pero es complejo).',
+   384→      ],
+   385→      code: {
+   386→        language: 'python',
+   387→        title: 'paralelo_features.py',
+   388→        code: `import pandas as pd
+   389→import numpy as np
+   390→from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
+   391→import requests
+   392→import time
+   393→
+   394→# === 1. CPU-bound: feature engineering en paralelo ===
+   395→def calcular_features_cliente(cliente_id: int) -> dict:
+   396→    """Simula cómputo pesado por cliente."""
+   397→    # En la vida real: query DB, transforma, calcula 20 features
+   398→    np.random.seed(cliente_id)  # determinista
+   399→    historial = np.random.exponential(30, 365)  # 365 días de compras
+   400→    recencia = 365 - np.argmax(historial[::-1] > 0)  # días desde última compra
+   401→    frecuencia = (historial > 0).sum()
+   402→    monetario = historial.sum()
+   403→    return {
+   404→        "cliente_id": cliente_id,
+   405→        "recencia": recencia,
+   406→        "frecuencia": frecuencia,
+   407→        "monetario": float(monetario),
+   408→        "rfm_score": recencia * 0.3 + frecuencia * 0.4 + monetario * 0.3,
+   409→    }
+   410→
+   411→# Single-process (lento)
+   412→start = time.time()
+   413→n_clientes = 10_000
+   414→resultados_seq = [calcular_features_cliente(i) for i in range(n_clientes)]
+   415→print(f"Secuencial: {time.time() - start:.1f}s")
+   416→# Secuencial: 8.5s
+   417→
+   418→# Paralelo (rápido) — usa todos los cores disponibles
+   419→start = time.time()
+   420→with ProcessPoolExecutor(max_workers=8) as executor:
+   421→    resultados_par = list(executor.map(calcular_features_cliente, range(n_clientes)))
+   422→print(f"Paralelo (8 workers): {time.time() - start:.1f}s")
+   423→# Paralelo (8 workers): 1.4s  (~6x speedup)
+   424→
+   425→# === 2. I/O-bound: scrapear 50 URLs en paralelo ===
+   426→def fetch_url(url: str) -> tuple[str, int]:
+   427→    """Descarga una URL y devuelve (url, status_code)."""
+   428→    try:
+   429→        resp = requests.get(url, timeout=10)
+   430→        return (url, resp.status_code)
+   431→    except Exception as e:
+   432→        return (url, -1)
+   433→
+   434→urls = [f"https://api.mercadolibre.com/items/{i}" for i in range(50)]
+   435→
+   436→# Threads son ideales para I/O
+   437→with ThreadPoolExecutor(max_workers=10) as executor:
+   438→    futures = [executor.submit(fetch_url, url) for url in urls]
+   439→    for future in as_completed(futures):
+   440→        url, status = future.result()
+   441→        # print(f"{url} -> {status}")
+   442→
+   443→# === 3. Procesar un DataFrame en chunks paralelos ===
+   444→def procesar_chunk(chunk: pd.DataFrame) -> pd.DataFrame:
+   445→    """Aplica feature engineering a un chunk del DataFrame."""
+   446→    chunk = chunk.copy()
+   447→    chunk["log_monto"] = np.log1p(chunk["monto"])
+   448→    chunk["monto_zscore"] = (chunk["monto"] - chunk["monto"].mean()) / chunk["monto"].std()
+   449→    return chunk
+   450→
+   451→df_grande = pd.DataFrame({
+   452→    "cliente_id": range(100_000),
+   453→    "monto": np.random.exponential(500, 100_000),
+   454→})
+   455→
+   456→# Partir en 8 chunks, procesar en paralelo, recombinar
+   457→chunks = np.array_split(df_grande, 8)
+   458→with ProcessPoolExecutor(max_workers=8) as executor:
+   459→    chunks_procesados = list(executor.map(procesar_chunk, chunks))
+   460→df_final = pd.concat(chunks_procesados, ignore_index=True)
+   461→print(df_final.head())
+   462→#    cliente_id       monto  log_monto  monto_zscore
+   463→# 0           0  123.456789   4.820282      0.241983
+   464→# 1           1   45.678912   3.842156     -0.901234
+   465→# ...`,
+   466→      },
+   467→      callout: {
+   468→        type: 'tip',
+   469→        title: 'Joblib para scikit-learn',
+   470→        content:
+   471→          'scikit-learn usa joblib internamente para paralelizar (`n_jobs=-1` en GridSearchCV, RandomForest, etc.). Si tu código es sklearn-céntrico, solo pasa `n_jobs=-1`. Para código custom, usa concurrent.futures. Joblib también tiene `Parallel(n_jobs=-1)(delayed(func)(x) for x in items)` que es muy similar a ProcessPoolExecutor.map.',
+   472→      },
+   473→    },
+   474→    {
+   475→      heading: 'Regular Expressions — limpieza de texto y parsing de logs',
+   476→      paragraphs: [
+   477→        'Las expresiones regulares (regex) son un mini-lenguaje para buscar patrones en texto. En data science las usas TODO el tiempo: extraer DNI de strings (`\\d{8}`), validar emails (`^[\\w.-]+@[\\w.-]+\\.\\w+$`), limpiar números de teléfono peruanos (`(?:\\+51)?\\s*9?\\d{8}`), parsear logs de servidor Apache (`^(\\S+) \\S+ \\S+ \\[([^\\]]+)\\] "(\\w+) (\\S+)"`), extraer hashtags de tweets, normalizar fechas en distintos formatos. Sin regex, terminas escribiendo 50 líneas de `str.split()` y `str.startswith()` para algo que regex resuelve en una línea. Vale la pena aprenderlas bien — es una skill transferible a cualquier lenguaje (SQL, JS, Java, bash).',
+   478→        'El módulo en Python es `re`. Las funciones clave: `re.search(patron, texto)` (encuentra el primer match en cualquier posición), `re.match(patron, texto)` (match solo al inicio), `re.findall(patron, texto)` (todos los matches como lista), `re.finditer` (iterador de match objects), `re.sub(patron, reemplazo, texto)` (buscar y reemplazar), `re.split(patron, texto)` (split por patrón). Compila patrones reusados con `re.compile()` para mejor performance. Los caracteres especiales: `.` (cualquier char), `\\d` (dígito), `\\w` (word char), `\\s` (espacio), `+` (1+), `*` (0+), `?` (0 o 1), `{n,m}` (entre n y m), `[]` (conjunto), `()` (grupo capturable), `|` (o).',
+   479→        'Para NLP en español, regex es esencial en el preprocesamiento: (1) quitar acentos para normalización (`unicodedata.normalize("NFD", texto).encode("ascii", "ignore").decode()`), (2) remover URLs (`https?://\\S+`), (3) remover menciones de Twitter (`@\\w+`), (4) tokenización simple (`re.findall(r"\\w+", texto)`), (5) extraer emojis (regex compleja pero existe). Caso de uso real: parsear logs de un servicio web para extraer IPs, timestamps, status codes, y rutas — convertir texto no estructurado en un DataFrame para análisis. Esto se hace MILES de veces al día en equipos de DevOps y SRE.',
+   480→      ],
+   481→      code: {
+   482→        language: 'python',
+   483→        title: 'regex_ejemplos.py',
+   484→        code: `import re
+   485→import pandas as pd
+   486→
+   487→# === 1. Extraer DNIs peruanos (8 dígitos) ===
+   488→texto = "Contactos: Maria 12345678, Juan 87654321, sin dni 12345"
+   489→dnis = re.findall(r"\\b\\d{8}\\b", texto)
+   490→print(dnis)  # ['12345678', '87654321']
+   491→
+   492→# === 2. Validar email ===
+   493→def es_email_valido(email: str) -> bool:
+   494→    patron = r"^[\\w.+-]+@[\\w-]+\\.[\\w.-]+$"
+   495→    return bool(re.match(patron, email))
+   496→
+   497→print(es_email_valido("maria@gmail.com"))   # True
+   498→print(es_email_valido("no-es-email"))       # False
+   499→
+   500→# === 3. Limpiar números de teléfono peruanos ===
+   501→def normalizar_telefono(tel: str) -> str:
+   502→    """Convierte '+51 987 654 321' o '987654321' a '987654321'."""
+   503→    digitos = re.sub(r"\\D", "", tel)  # quitar todo lo que no es dígito
+   504→    if digitos.startswith("51"):
+   505→        digitos = digitos[2:]  # quitar prefijo país
+   506→    return digitos[-9:] if len(digitos) >= 9 else digitos
+   507→
+   508→print(normalizar_telefono("+51 987 654 321"))  # 987654321
+   509→print(normalizar_telefono("987-654-321"))      # 987654321
+   510→
+   511→# === 4. Parsear logs de Apache/Nginx ===
+   512→log_line = '192.168.1.1 - - [15/Jan/2024:10:30:45 -0500] "GET /api/users HTTP/1.1" 200 1234'
+   513→patron_log = re.compile(
+   514→    r'^(\\S+) \\S+ \\S+ \\[([^\\]]+)\\] "(\\w+) (\\S+) [^"]+" (\\d+) (\\d+)$'
+   515→)
+   516→m = patron_log.match(log_line)
+   517→if m:
+   518→    ip, timestamp, metodo, ruta, status, size = m.groups()
+   519→    print(f"IP: {ip}, Status: {status}, Ruta: {ruta}")
+   520→# IP: 192.168.1.1, Status: 200, Ruta: /api/users
+   521→
+   522→# === 5. Aplicar regex a una columna de pandas ===
+   523→df = pd.DataFrame({
+   524→    "tweet": [
+   525→        "Hola @maria chevre tu post https://bit.ly/abc #Peru",
+   526→        "RT @juan: mirá esto https://t.co/xyz #DataScience",
+   527→        "Sin menciones ni URLs, solo texto plano",
+   528→    ]
+   529→})
+   530→
+   531→# Limpiar tweets: quitar URLs, menciones, hashtags
+   532→df["limpio"] = df["tweet"].str.replace(r"https?://\\S+", "", regex=True)
+   533→df["limpio"] = df["limpio"].str.replace(r"@\\w+", "", regex=True)
+   534→df["limpio"] = df["limpio"].str.replace(r"#(\\w+)", r"\\1", regex=True)  # quitar # pero guardar palabra
+   535→df["limpio"] = df["limpio"].str.strip()
+   536→print(df["limpio"].tolist())
+   537→# ['Hola  chevre tu post  Peru',
+   538→#  'RT : mirá esto  DataScience',
+   539→#  'Sin menciones ni URLs, solo texto plano']
+   540→
+   541→# === 6. Extraer fechas en múltiples formatos ===
+   542→fechas = "Reunión 15/01/2024, entrega 2024-02-28, cierre 28.02.24"
+   543→patron_fecha = re.compile(r"\\b(\\d{1,2})[/.-](\\d{1,2})[/.-](\\d{2,4})\\b")
+   544→for dia, mes, anio in patron_fecha.findall(fechas):
+   545→    anio = anio if len(anio) == 4 else "20" + anio
+   546→    print(f"{anio}-{int(mes):02d}-{int(dia):02d}")`,
+   547→      },
+   548→      callout: {
+   549→        type: 'warning',
+   550→        title: 'Catastrophic backtracking',
+   551→        content:
+   552→          'Evita patrones como `(a+)+b` contra strings largos sin "b" al final — causan backtracking exponencial y pueden colgar tu script por horas. Si una regex tarda mucho, simplifícala o usa `re.compile(patron, re.IGNORECASE)` (más rápido). Testea regex con regex101.com antes de ponerlas en producción.',
+   553→      },
+   554→    },
+   555→    {
+   556→      heading: 'collections — Counter, defaultdict, namedtuple, deque',
+   557→      paragraphs: [
+   558→        'El módulo `collections` (built-in) tiene 4 herramientas que TODO Data Scientist debería usar a diario. (1) `Counter`: diccionario especializado para contar. `Counter([1,1,2,3,3,3])` devuelve `Counter({3: 3, 1: 2, 2: 1})`. Tiene `.most_common(n)` para top-N. Reemplaza 5 líneas de `dict.get(k, 0) + 1` por una. (2) `defaultdict`: diccionario con valor default automático. `defaultdict(list)` crea una lista vacía si la key no existe — perfecto para agrupar. Reemplaza el patrón `if k not in d: d[k] = []; d[k].append(v)` por `d[k].append(v)` directo.',
+   559→        '(3) `namedtuple`: tuplas con nombres de campo. `Cliente = namedtuple("Cliente", ["nombre", "dni", "edad"])` te permite hacer `c = Cliente("María", "12345678", 30)` y acceder `c.nombre` en vez de `c[0]`. Más legible que tuplas planas, más liviano que clases. Útil para retornar múltiples valores de una función con claridad. (4) `deque` (double-ended queue): lista optimizada para agregar/quitar por ambos extremos en O(1). Las listas normales son O(n) para `insert(0, x)` o `pop(0)`. Para colas, buffers, sliding windows, deque es la opción correcta.',
+   560→        'En DS real, `Counter` lo usas para histogramas de variables categóricas, top-N productos más vendidos, frecuencia de palabras en NLP. `defaultdict(list)` para groupby manual antes de pasar a pandas (`defaultdict(list); for row in data: groups[row["region"]].append(row["monto"])`). `namedtuple` para estructuras de configuración inmutables o retornos de funciones que devuelven varios resultados. `deque` para mantener una ventana deslizante de los últimos N eventos en streaming (ej: últimos 1000 logs para detectar anomalías). Conocer estas 4 herramientas te hace escribir código 2x más limpio que si solo usas list y dict básicos.',
+   561→      ],
+   562→      code: {
+   563→        language: 'python',
+   564→        title: 'collections_ejemplos.py',
+   565→        code: `from collections import Counter, defaultdict, namedtuple, deque
+   566→import pandas as pd
+   567→
+   568→# === 1. Counter: contar y top-N ===
+   569→ventas = ["laptop", "mouse", "laptop", "teclado", "mouse", "mouse", "monitor"]
+   570→contador = Counter(ventas)
+   571→print(contador)
+   572→# Counter({'mouse': 3, 'laptop': 2, 'teclado': 1, 'monitor': 1})
+   573→
+   574→print(contador.most_common(2))  # top 2 productos
+   575→# [('mouse', 3), ('laptop', 2)]
+   576→
+   577→# Contar palabras en un texto (mini NLP)
+   578→texto = "el gato come pescado el perro come carne el gato duerme"
+   579→frecuencia = Counter(texto.split())
+   580→print(frecuencia.most_common(3))
+   581→# [('el', 3), ('gato', 2), ('come', 2)]
+   582→
+   583→# === 2. defaultdict: agrupar sin if/else ===
+   584→transacciones = [
+   585→    {"cliente": "Maria", "monto": 100},
+   586→    {"cliente": "Juan", "monto": 50},
+   587→    {"cliente": "Maria", "monto": 200},
+   588→    {"cliente": "Pedro", "monto": 75},
+   589→    {"cliente": "Juan", "monto": 30},
+   590→]
+   591→
+   592→# Sin defaultdict (verboso):
+   593→grupos_viejo = {}
+   594→for t in transacciones:
+   595→    if t["cliente"] not in grupos_viejo:
+   596→        grupos_viejo[t["cliente"]] = []
+   597→    grupos_viejo[t["cliente"]].append(t["monto"])
+   598→
+   599→# Con defaultdict (limpio):
+   600→grupos = defaultdict(list)
+   601→for t in transacciones:
+   602→    grupos[t["cliente"]].append(t["monto"])
+   603→
+   604→# Calcular gasto total por cliente
+   605→gasto = {cliente: sum(montos) for cliente, montos in grupos.items()}
+   606→print(gasto)  # {'Maria': 300, 'Juan': 80, 'Pedro': 75}
+   607→
+   608→# defaultdict(int) para contar (alternativa a Counter)
+   609→conteo = defaultdict(int)
+   610→for t in transacciones:
+   611→    conteo[t["cliente"]] += 1
+   612→print(dict(conteo))  # {'Maria': 2, 'Juan': 2, 'Pedro': 1}
+   613→
+   614→# === 3. namedtuple: tuplas con nombres ===
+   615→Cliente = namedtuple("Cliente", ["nombre", "dni", "edad", "ingreso"])
+   616→
+   617→def buscar_cliente(cliente_id: int) -> Cliente:
+   618→    # en la vida real, query a DB
+   619→    return Cliente("María Quispe", "12345678", 32, 4500.0)
+   620→
+   621→c = buscar_cliente(1)
+   622→print(c.nombre)   # María Quispe  (en vez de c[0])
+   623→print(c.edad)     # 32
+   624→print(c.ingreso)  # 4500.0
+   625→nombre, dni, edad, ingreso = c  # desempaquetable como tupla normal
+   626→
+   627→# === 4. deque: colas eficientes ===
+   628→# Mantener ventana deslizante de últimos 5 logs
+   629→ventana = deque(maxlen=5)  # tamaño fijo, descarta viejos automáticamente
+   630→for log_id in range(10):
+   631→    ventana.append(f"log_{log_id}")
+   632→    if log_id >= 4:
+   633→        print(list(ventana))  # últimos 5 siempre
+   634→# ['log_0', 'log_1', 'log_2', 'log_3', 'log_4']
+   635→# ['log_1', 'log_2', 'log_3', 'log_4', 'log_5']
+   636→# ...
+   637→# ['log_5', 'log_6', 'log_7', 'log_8', 'log_9']
+   638→
+   639→# Comparativa de performance: deque vs list para insert(0, x)
+   640→import time
+   641→lista = list(range(100_000))
+   642→dq = deque(range(100_000))
+   643→
+   644→start = time.time()
+   645→for _ in range(1000):
+   646→    lista.insert(0, -1)
+   647→print(f"list.insert(0, x) x1000: {time.time() - start:.3f}s")  # ~0.5s (lento)
+   648→
+   649→start = time.time()
+   650→for _ in range(1000):
+   651→    dq.appendleft(-1)
+   652→print(f"deque.appendleft x1000: {time.time() - start:.3f}s")  # ~0.0001s (10000x más rápido)`,
+   653→      },
+   654→      callout: {
+   655→        type: 'tip',
+   656→        title: 'dataclasses: la evolución moderna de namedtuple',
+   657→        content:
+   658→          'Para estructuras más complejas (con métodos, validación, mutabilidad), usa `@dataclass` (Python 3.7+). Es como namedtuple pero con type hints, valores default, y métodos. Para datos inmutables simples, namedtuple sigue siendo más liviano. Para DTOs, configuraciones, modelos, prefiere dataclass.',
+   659→      },
+   660→    },
+   661→    {
+   662→      heading: 'Profiling & Benchmarking — timeit, cProfile, line_profiler',
+   663→      paragraphs: [
+   664→        'La regla #1 de optimización: NUNCA optimices sin medir primero. La intuición humana sobre qué es lento es pésima — el 80% de las veces, el bottleneck NO es donde crees. Por eso necesitas profiling: medir exactamente dónde se gasta el tiempo. Python tiene 3 herramientas: `timeit` (microbenchmarks de snippets), `cProfile` (perfil de toda una ejecución, función por función), y `line_profiler` (perfil línea por línea de una función específica). Combinadas, te dicen EXACTAMENTE qué optimizar y — más importante — qué NO tocar.',
+   665→        '`timeit` es para comparar implementaciones de un mismo algoritmo. Por ejemplo: ¿es más rápido `[x*2 for x in range(1000)]` o `list(map(lambda x: x*2, range(1000)))`? Con `timeit.timeit(stmt, number=10000)` lo sabes en 2 segundos. Es esencial cuando dudas entre dos formas de escribir algo. `cProfile` es para scripts completos: corres `python -m cProfile -s cumulative mi_script.py` y obtienes una tabla con cada función, cuántas veces se llamó, y cuánto tiempo total gastó. Identificas la función que se come el 80% del tiempo y la atacas.',
+   666→        '`line_profiler` es el más detallado: perfil línea por línea de UNA función. Lo instalas con `pip install line_profiler`, decoras la función con `@profile`, y corres `kernprof -l -v mi_script.py`. Te muestra por cada línea: tiempo total, porcentaje del total, tiempo por llamada. Descubres cosas como "esta línea de pandas .iterrows() se come el 95% del tiempo" — y la reescribes vectorizada para 100x speedup. En DS, el 80% de las optimizaciones son: (1) reemplazar `.iterrows()` con operaciones vectorizadas, (2) usar numpy en vez de Python loops, (3) cachear resultados de funciones puras, (4) usar C-extensions (numba, cython) para hot paths.',
+   667→      ],
+   668→      code: {
+   669→        language: 'python',
+   670→        title: 'profiling_demo.py',
+   671→        code: `# === 1. timeit: comparar dos implementaciones ===
+   672→import timeit
+   673→
+   674→# Lista por comprehension
+   675→t1 = timeit.timeit("[x*2 for x in range(1000)]", number=10000)
+   676→# Map con lambda
+   677→t2 = timeit.timeit("list(map(lambda x: x*2, range(1000)))", number=10000)
+   678→print(f"List comp: {t1:.3f}s")
+   679→print(f"Map+lambda: {t2:.3f}s")
+   680→# List comp: 0.42s
+   681→# Map+lambda: 0.58s  (list comp gana)
+   682→
+   683→# === 2. cProfile: perfil de script completo ===
+   684→# Guarda como perf_demo.py y corre:
+   685→#   python -m cProfile -s cumulative perf_demo.py
+   686→import pandas as pd
+   687→import numpy as np
+   688→
+   689→def procesar_datos_lento(n: int = 100_000):
+   690→    df = pd.DataFrame({"x": np.random.randn(n), "y": np.random.randn(n)})
+   691→    # Forma LENTA (iterrows)
+   692→    resultado = []
+   693→    for _, row in df.iterrows():
+   694→        resultado.append(row["x"] ** 2 + row["y"] ** 2)
+   695→    return sum(resultado)
+   696→
+   697→def procesar_datos_rapido(n: int = 100_000):
+   698→    df = pd.DataFrame({"x": np.random.randn(n), "y": np.random.randn(n)})
+   699→    # Forma RÁPIDA (vectorizada)
+   700→    return float((df["x"] ** 2 + df["y"] ** 2).sum())
+   701→
+   702→# Output de cProfile (top 10 por tiempo cumulativo):
+   703→#    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   704→#       100  185.234    1.852  185.234    1.852 perf_demo.py:5(procesar_datos_lento)
+   705→#   10000000   12.451    0.000   12.451    0.000 {method 'append' of 'list' objects}
+   706→#         1    0.045    0.045    0.045    0.045 perf_demo.py:13(procesar_datos_rapido)
+   707→# → El 99.9% del tiempo está en procesar_datos_lento. Optimiza eso.
+   708→
+   709→# === 3. line_profiler: perfil línea por línea ===
+   710→# Instala: pip install line_profiler
+   711→# Decora la función con @profile (line_profiler la provee)
+   712→# Corre: kernprof -l -v perf_demo.py
+   713→
+   714→# @profile  # descomenta para line_profiler
+   715→def feature_engineering(df):
+   716→    n = len(df)
+   717→    df["log_x"] = np.log1p(df["x"])                # 5% del tiempo
+   718→    df["zscore"] = (df["x"] - df["x"].mean()) / df["x"].std()  # 3%
+   719→    df["rolling_mean"] = df["x"].rolling(7).mean()  # 15%
+   720→    df["categoria"] = pd.cut(df["x"], bins=10, labels=False)  # 8%
+   721→    for i in range(n):  # ESTA LÍNEA: 65% del tiempo
+   722→        df.loc[i, "custom"] = df.loc[i, "x"] * 2  # .loc[i] es lento
+   723→    return df
+   724→
+   725→# Output de line_profiler:
+   726→# Line #  Hits    Time  Per Hit  % Time  Line Contents
+   727→# =====================================================
+   728→#      3     1       5      5.0      0.0  def feature_engineering(df):
+   729→#      4     1   15000  15000.0      5.0    df["log_x"] = np.log1p(df["x"])
+   730→#      5     1    9000   9000.0      3.0    df["zscore"] = ...
+   731→#      6     1   45000  45000.0     15.0    df["rolling_mean"] = ...
+   732→#      7     1   24000  24000.0      8.0    df["categoria"] = pd.cut(...)
+   733→#      8 100001  195000      1.9     65.0    for i in range(n):
+   734→#      9 100000   60000      0.6     20.0      df.loc[i, "custom"] = df.loc[i, "x"] * 2
+   735→# → El loop con .loc[i] es el bottleneck. Vectoriza: df["custom"] = df["x"] * 2 (1 línea, 100x más rápido)
+   736→
+   737→# === 4. memory_profiler (bonus) ===
+   738→# pip install memory_profiler
+   739→# Decorador @profile, corres python -m memory_profiler script.py
+   740→# Te muestra uso de RAM línea por línea — útil para detectar memory leaks.`,
+   741→      },
+   742→      callout: {
+   743→        type: 'info',
+   744→        title: 'Regla de oro: mide, no adivines',
+   745→        content:
+   746→          'Antes de optimizar, SIEMPRE corre cProfile. El 80% de las optimizaciones "intuitivas" no producen speedup real porque atacan el 20% del código. Mide, identifica el hot path, optimiza SOLO ese, vuelve a medir. Itera. Es lo que diferencia a seniors de juniors: los seniors perfilan, los juniors adivinan.',
+   747→      },
+   748→    },
+   749→    {
+   750→      heading: 'Logging — producción DS necesita logs estructurados',
+   751→      paragraphs: [
+   752→        '`print()` es para debugging en desarrollo. `logging` es para producción. La diferencia: print siempre imprime (no puedes desactivarlo sin comentar líneas), no tiene niveles, no tiene timestamps, no escribe a archivo sin redirección. El módulo `logging` (built-in) resuelve todo: niveles (DEBUG/INFO/WARNING/ERROR/CRITICAL), formato configurable (timestamp, nivel, mensaje, módulo), múltiples destinos (consola, archivo, syslog, HTTP), y se desactiva por nivel en producción. En un pipeline de DS en producción, sin logs no puedes debuggear un fallo a las 3am — los logs son tu única pista.',
+   753→        'Configuración básica: `logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s", handlers=[...])`. Creas un logger por módulo con `logger = logging.getLogger(__name__)`. Usas `logger.info("Procesando %d filas", n)` (¡usa %-format, no f-string, para que el formato se aplique solo si el nivel está activo!). En producción subes el nivel a WARNING (ERROR aún mejor) para reducir ruido. Para DS, loggea: inicio/fin de cada etapa del pipeline, cuántos registros procesaste, tiempo de cada etapa, advertencias (datos faltantes, outliers), errores con traceback completo.',
+   754→        'Para logs estructurados (machine-parseable), usa JSON: cada log es un dict con timestamp, level, message, y campos custom (run_id, n_rows, duration_sec). Esto permite buscar en Kibana/Datadog con queries como `level:ERROR AND module:feature_eng AND n_rows>10000`. La librería `structlog` o `python-json-logger` lo facilitan. En empresas serias, los logs van a un sistema centralizado (ELK stack, Splunk, Datadog) donde los consulta el equipo on-call. Como Data Scientist, SIEMPRE loggea tus pipelines — si fallan en prod, los logs son tu única forma de diagnosticar sin reproducir el entorno.',
+   755→      ],
+   756→      code: {
+   757→        language: 'python',
+   758→        title: 'logging_setup.py',
+   759→        code: `import logging
+   760→import sys
+   761→from pathlib import Path
+   762→
+   763→# === 1. Configuración básica ===
+   764→logging.basicConfig(
+   765→    level=logging.INFO,
+   766→    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+   767→    datefmt="%Y-%m-%d %H:%M:%S",
+   768→    handlers=[
+   769→        logging.StreamHandler(sys.stdout),                      # consola
+   770→        logging.FileHandler("pipeline.log", encoding="utf-8"),  # archivo
+   771→    ],
+   772→)
+   773→logger = logging.getLogger(__name__)
+   774→
+   775→# Uso por niveles
+   776→logger.debug("Mensaje detallado (solo en dev)")     # no se muestra si level=INFO
+   777→logger.info("Pipeline iniciado")                      # se muestra
+   778→logger.warning("Dataset tiene 5 nulos, imputando")    # se muestra
+   779→logger.error("Falló la conexión a la API")            # se muestra
+   780→logger.critical("Disco lleno, no se puede escribir")  # se muestra
+   781→
+   782→# === 2. Logger en un pipeline de DS ===
+   783→import pandas as pd
+   784→import time
+   785→
+   786→def run_pipeline(csv_path: str):
+   787→    logger.info("Iniciando pipeline para %s", csv_path)
+   788→
+   789→    start = time.time()
+   790→    try:
+   791→        df = pd.read_csv(csv_path)
+   792→        logger.info("Cargado %d filas, %d columnas en %.2fs",
+   793→                    len(df), df.shape[1], time.time() - start)
+   794→    except FileNotFoundError:
+   795→        logger.error("Archivo no encontrado: %s", csv_path)
+   796→        raise
+   797→
+   798→    # Limpieza
+   799→    n_nulos_antes = df.isnull().sum().sum()
+   800→    if n_nulos_antes > 0:
+   801→        logger.warning("%d nulos detectados, imputando con mediana", n_nulos_antes)
+   802→        df = df.fillna(df.median(numeric_only=True))
+   803→
+   804→    # Feature engineering
+   805→    start = time.time()
+   806→    df["log_monto"] = df["monto"].apply(lambda x: max(0, x))  # placeholder
+   807→    logger.info("Feature engineering completado en %.2fs", time.time() - start)
+   808→
+   809→    # Guardar
+   810→    out_path = csv_path.replace(".csv", "_procesado.parquet")
+   811→    df.to_parquet(out_path)
+   812→    logger.info("Guardado en %s (%d filas)", out_path, len(df))
+   813→
+   814→    return df
+   815→
+   816→# === 3. JSON logging estructurado (producción) ===
+   817→# pip install python-json-logger
+   818→import logging.config
+   819→
+   820→LOG_CONFIG = {
+   821→    "version": 1,
+   822→    "handlers": {
+   823→        "json_file": {
+   824→            "class": "logging.FileHandler",
+   825→            "filename": "pipeline_structured.log",
+   826→            "formatter": "json",
+   827→        },
+   828→    },
+   829→    "formatters": {
+   830→        "json": {
+   831→            "()": "pythonjsonlogger.jsonlogger.JsonFormatter",
+   832→            "format": "%(asctime)s %(name)s %(levelname)s %(message)s",
+   833→        },
+   834→    },
+   835→    "loggers": {
+   836→        "pipeline": {"handlers": ["json_file"], "level": "INFO"},
+   837→    },
+   838→}
+   839→# logging.config.dictConfig(LOG_CONFIG)
+   840→# Cada log se escribe como JSON: {"asctime": "...", "levelname": "INFO", "message": "..."}
+   841→
+   842→# === 4. Logging en archivos rotados (no crecen infinitos) ===
+   843→from logging.handlers import RotatingFileHandler
+   844→
+   845→handler = RotatingFileHandler(
+   846→    "app.log",
+   847→    maxBytes=10 * 1024 * 1024,  # 10 MB por archivo
+   848→    backupCount=5,               # mantener 5 archivos viejos
+   849→)
+   850→handler.setFormatter(logging.Formatter(
+   851→    "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+   852→))
+   853→logger.addHandler(handler)
+   854→
+   855→# Output esperado en pipeline.log:
+   856→# 2024-01-15 10:30:45 [INFO] pipeline: Iniciando pipeline para ventas.csv
+   857→# 2024-01-15 10:30:46 [INFO] pipeline: Cargado 10000 filas, 8 columnas en 0.85s
+   858→# 2024-01-15 10:30:46 [WARNING] pipeline: 45 nulos detectados, imputando con mediana
+   859→# 2024-01-15 10:30:47 [INFO] pipeline: Feature engineering completado en 0.42s
+   860→# 2024-01-15 10:30:47 [INFO] pipeline: Guardado en ventas_procesado.parquet (10000 filas)`,
+   861→      },
+   862→      callout: {
+   863→        type: 'warning',
+   864→        title: 'Nunca uses f-strings en logs',
+   865→        content:
+   866→          'Mal: `logger.info(f"Procesé {n} filas")`. Bien: `logger.info("Procesé %d filas", n)`. Con f-string, el formato se evalúa SIEMPRE, incluso si el nivel está apagado (performance). Con %-format, el formato se aplica solo si el mensaje se va a mostrar. En pipelines con miles de logs debug, esto es 5-10x más rápido.',
+   867→      },
+   868→    },
+   869→    {
+   870→      heading: 'argparse / CLI tooling — de notebook a herramienta reusable',
+   871→      paragraphs: [
+   872→        'Un notebook Jupyter es excelente para explorar, pero no es reusable: tienes que abrirlo, cambiar celdas, re-ejecutar. Para que tu código lo usen otros (o tú mismo en 6 meses), necesitas un CLI (Command Line Interface) con `argparse`. Esto convierte tu script en una herramienta: `python pipeline.py --input ventas.csv --output resultado.parquet --verbose` en vez de editar variables dentro del código. En equipos de data science, los CLIs son la forma estándar de compartir pipelines — un colega hace `pip install -e .` y luego corre `mi-pipeline --help` sin abrir un notebook.',
+   873→        '`argparse` es built-in. Patrón básico: `parser = argparse.ArgumentParser(description="...")`, `parser.add_argument("--input", required=True, help="Archivo CSV de entrada")`, `args = parser.parse_args()`. Tipos (`type=int`, `type=float`), valores default (`default=100`), choices (`choices=["prod", "dev"]`), flags booleanas (`--verbose`, `action="store_true"`), múltiples valores (`nargs="+"` para listas). El atributo `--help` se genera automáticamente desde tus `help=` strings — documentación gratis. Para subcomandos (como `git push`, `git pull`), usa `subparsers`.',
+   874→        'Para proyectos serios, evoluciona a `click` (sintaxis con decoradores más limpia) o `typer` (type hints nativos, autocompletado en shell). Pero argparse es suficiente para 80% de casos. Empaqueta tu CLI como un ejecutable con `pyproject.toml` + `entry_points`: defines `[project.scripts] mi-tool = "mi_paquete.cli:main"` y luego de `pip install -e .`, corres `mi-tool` desde cualquier lado. Esto es lo que hace que tu proyecto parezca "profesional" — un comando instalable, no un script que hay que ejecutar con `python ruta/al/script.py`. En tu portafolio, tener un CLI instalable vale 10x más que un notebook.',
+   875→      ],
+   876→      code: {
+   877→        language: 'python',
+   878→        title: 'cli_pipeline.py',
+   879→        code: `import argparse
+   880→import sys
+   881→import logging
+   882→import pandas as pd
+   883→from pathlib import Path
+   884→
+   885→def main():
+   886→    parser = argparse.ArgumentParser(
+   887→        description="Pipeline de limpieza y feature engineering para datasets de ventas.",
+   888→        epilog="Ejemplo: python cli_pipeline.py --input ventas.csv --output limpio.parquet --verbose",
+   889→    )
+   890→    parser.add_argument("--input", "-i", required=True, type=Path,
+   891→                        help="Ruta al archivo CSV de entrada")
+   892→    parser.add_argument("--output", "-o", required=True, type=Path,
+   893→                        help="Ruta al archivo de salida (.parquet o .csv)")
+   894→    parser.add_argument("--impute-strategy", default="median",
+   895→                        choices=["median", "mean", "drop"],
+   896→                        help="Estrategia para imputar nulos (default: median)")
+   897→    parser.add_argument("--outlier-threshold", type=float, default=1.5,
+   898→                        help="Multiplicador IQR para outliers (default: 1.5)")
+   899→    parser.add_argument("--verbose", "-v", action="store_true",
+   900→                        help="Mostrar logs detallados")
+   901→    parser.add_argument("--chunksize", type=int, default=None,
+   902→                        help="Tamaño de chunk para CSVs grandes (default: cargar todo)")
+   903→
+   904→    args = parser.parse_args()
+   905→
+   906→    # Configurar logging según verbosity
+   907→    level = logging.DEBUG if args.verbose else logging.INFO
+   908→    logging.basicConfig(level=level, format="%(asctime)s [%(levelname)s] %(message)s")
+   909→    logger = logging.getLogger("pipeline")
+   910→
+   911→    # Validar inputs
+   912→    if not args.input.exists():
+   913→        logger.error("Archivo de entrada no existe: %s", args.input)
+   914→        sys.exit(1)
+   915→
+   916→    logger.info("Iniciando pipeline")
+   917→    logger.info("  Input:  %s", args.input)
+   918→    logger.info("  Output: %s", args.output)
+   919→    logger.info("  Impute: %s", args.impute_strategy)
+   920→
+   921→    # Cargar datos
+   922→    if args.chunksize:
+   923→        chunks = pd.read_csv(args.input, chunksize=args.chunksize)
+   924→        df = pd.concat(chunks)
+   925→    else:
+   926→        df = pd.read_csv(args.input)
+   927→    logger.info("Cargadas %d filas, %d columnas", len(df), df.shape[1])
+   928→
+   929→    # Imputar
+   930→    if args.impute_strategy == "median":
+   931→        df = df.fillna(df.median(numeric_only=True))
+   932→    elif args.impute_strategy == "mean":
+   933→        df = df.fillna(df.mean(numeric_only=True))
+   934→    elif args.impute_strategy == "drop":
+   935→        df = df.dropna()
+   936→
+   937→    # Guardar
+   938→    args.output.parent.mkdir(parents=True, exist_ok=True)
+   939→    if args.output.suffix == ".parquet":
+   940→        df.to_parquet(args.output, index=False)
+   941→    else:
+   942→        df.to_csv(args.output, index=False)
+   943→    logger.info("Guardado en %s", args.output)
+   944→
+   945→if __name__ == "__main__":
+   946→    main()
+   947→
+   948→# === Ejemplos de uso desde terminal ===
+   949→# $ python cli_pipeline.py --help
+   950→# usage: cli_pipeline.py [-h] --input INPUT --output OUTPUT ...
+   951→#
+   952→# Pipeline de limpieza y feature engineering para datasets de ventas.
+   953→#
+   954→# options:
+   955→#   -i, --input INPUT           Ruta al archivo CSV de entrada
+   956→#   -o, --output OUTPUT         Ruta al archivo de salida (.parquet o .csv)
+   957→#   --impute-strategy {median,mean,drop}
+   958→#   --outlier-threshold OUTLIER_THRESHOLD
+   959→#   -v, --verbose               Mostrar logs detallados
+   960→#
+   961→# $ python cli_pipeline.py -i ventas.csv -o limpio.parquet --verbose
+   962→# 2024-01-15 [INFO] Iniciando pipeline
+   963→# 2024-01-15 [INFO]   Input: ventas.csv
+   964→# 2024-01-15 [INFO]   Output: limpio.parquet
+   965→# 2024-01-15 [INFO] Cargadas 10000 filas, 8 columnas
+   966→# 2024-01-15 [INFO] Guardado en limpio.parquet
+   967→
+   968→# === pyproject.toml para hacerlo instalable ===
+   969→# [project]
+   970→# name = "pipeline-ventas"
+   971→# version = "0.1.0"
+   972→# [project.scripts]
+   973→# pipeline-ventas = "pipeline.cli:main"
+   974→# Después: pip install -e .  → puedes correr "pipeline-ventas" desde cualquier lado`,
+   975→      },
+   976→      callout: {
+   977→        type: 'tip',
+   978→        title: 'Typer: argparse con type hints',
+   979→        content:
+   980→          'Si ya usas type hints (Python 3.6+), `typer` genera el CLI automáticamente desde tus type hints. `def main(input: Path, output: Path, verbose: bool = False):` se convierte en CLI sin argparse manual. Es lo que usa FastAPI para sus ejemplos. Para proyectos nuevos, prefiere typer sobre argparse.',
+   981→      },
+   982→    },
+   983→  ],
+   984→  iDo: {
+   985→    intro:
+   986→      'Vamos a construir juntos un mini-end-to-end que integra 5 de los 10 temas: scraping de una API con paginación, almacenamiento en SQLite, feature engineering paralelizado, logging estructurado, y empaquetado como CLI. Es exactamente el tipo de pipeline que mantienes en un trabajo real de DS.',
+   987→    steps: [
+   988→      {
+   989→        description: 'Construir un data acquisition pipeline con API paginada + SQLite',
+   990→        code: {
+   991→          language: 'python',
+   992→          title: 'acquire_pipeline.py',
+   993→          code: `import requests
+   994→import sqlite3
+   995→import logging
+   996→import time
+   997→from typing import Iterator
+   998→
+   999→logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+  1000→logger = logging.getLogger("acquire")
+  1001→
+  1002→def iterar_productos(api_base: str, max_pages: int = 50) -> Iterator[dict]:
+  1003→    """Generador: trae productos página por página de una API REST."""
+  1004→    url = f"{api_base}/products"
+  1005→    page = 0
+  1006→    while url and page < max_pages:
+  1007→        resp = requests.get(url, timeout=15)
+  1008→        if resp.status_code == 429:
+  1009→            wait = int(resp.headers.get("Retry-After", 60))
+  1010→            logger.warning("Rate limited, esperando %ds", wait)
+  1011→            time.sleep(wait)
+  1012→            continue
+  1013→        resp.raise_for_status()
+  1014→        data = resp.json()
+  1015→        for producto in data["results"]:
+  1016→            yield producto
+  1017→        url = data.get("next")
+  1018→        page += 1
+  1019→        logger.info("Página %d trajo %d productos", page, len(data["results"]))
+  1020→
+  1021→def guardar_en_sqlite(productos: Iterator[dict], db_path: str = "productos.db"):
+  1022→    """Crea tabla SQLite e inserta productos."""
+  1023→    conn = sqlite3.connect(db_path)
+  1024→    conn.execute("""
+  1025→        CREATE TABLE IF NOT EXISTS productos (
+  1026→            id INTEGER PRIMARY KEY,
+  1027→            nombre TEXT,
+  1028→            precio REAL,
+  1029→            categoria TEXT,
+  1030→            stock INTEGER,
+  1031→            fecha_captura TEXT
+  1032→        )
+  1033→    """)
+  1034→    conn.execute("DELETE FROM productos")  # refresh completo
+  1035→    count = 0
+  1036→    for p in productos:
+  1037→        conn.execute(
+  1038→            "INSERT OR REPLACE INTO productos (id, nombre, precio, categoria, stock, fecha_captura) "
+  1039→            "VALUES (?, ?, ?, ?, ?, ?)",
+  1040→            (p["id"], p["nombre"], p["precio"], p["categoria"], p["stock"], p["fecha"]),
+  1041→        )
+  1042→        count += 1
+  1043→        if count % 100 == 0:
+  1044→            conn.commit()
+  1045→            logger.info("Insertados %d productos", count)
+  1046→    conn.commit()
+  1047→    conn.close()
+  1048→    logger.info("Total insertado: %d productos", count)
+  1049→
+  1050→# Ejecutar
+  1051→productos = iterar_productos("https://api.ejemplo.com", max_pages=20)
+  1052→guardar_en_sqlite(productos, "productos.db")`,
+  1053→        },
+  1054→        why: 'Este patrón (API paginada → generador → SQLite) es el 80% de los pipelines de data acquisition. El generador evita cargar todo en RAM, SQLite persiste para análisis posterior, y el logging te dice exactamente qué pasó si falla a las 3am.',
+  1055→      },
+  1056→      {
+  1057→        description: 'Paralelizar feature engineering con ProcessPoolExecutor',
+  1058→        code: {
+  1059→          language: 'python',
+  1060→          title: 'parallel_features.py',
+  1061→          code: `import sqlite3
+  1062→import pandas as pd
+  1063→import numpy as np
+  1064→from concurrent.futures import ProcessPoolExecutor
+  1065→import time
+  1066→import logging
+  1067→
+  1068→logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+  1069→logger = logging.getLogger("features")
+  1070→
+  1071→def cargar_datos(db_path: str = "productos.db") -> pd.DataFrame:
+  1072→    conn = sqlite3.connect(db_path)
+  1073→    df = pd.read_sql("SELECT * FROM productos", conn)
+  1074→    conn.close()
+  1075→    return df
+  1076→
+  1077→def calcular_features_categoria(categoria: str, df: pd.DataFrame) -> pd.DataFrame:
+  1078→    """Calcula features agregadas por categoría — cómputo pesado."""
+  1079→    sub = df[df["categoria"] == categoria].copy()
+  1080→    if sub.empty:
+  1081→        return pd.DataFrame()
+  1082→    sub["log_precio"] = np.log1p(sub["precio"])
+  1083→    sub["zscore_precio"] = (sub["precio"] - sub["precio"].mean()) / sub["precio"].std()
+  1084→    sub["percentil_precio"] = sub["precio"].rank(pct=True)
+  1085→    sub["es_outlier"] = sub["zscore_precio"].abs() > 3
+  1086→    return sub
+  1087→
+  1088→def feature_engineering_paralelo(df: pd.DataFrame, n_workers: int = 8) -> pd.DataFrame:
+  1089→    categorias = df["categoria"].unique()
+  1090→    logger.info("Procesando %d categorías con %d workers", len(categorias), n_workers)
+  1091→
+  1092→    start = time.time()
+  1093→    chunks = [(cat, df[df["categoria"] == cat]) for cat in categorias]
+  1094→
+  1095→    with ProcessPoolExecutor(max_workers=n_workers) as executor:
+  1096→        # Pasar tuplas (categoria, sub_df) a la función
+  1097→        futures = [executor.submit(calcular_features_categoria, cat, sub) for cat, sub in chunks]
+  1098→        resultados = [f.result() for f in futures]
+  1099→
+  1100→    df_final = pd.concat([r for r in resultados if not r.empty], ignore_index=True)
+  1101→    logger.info("Feature engineering completado en %.2fs", time.time() - start)
+  1102→    return df_final
+  1103→
+  1104→# Uso
+  1105→df = cargar_datos()
+  1106→df_features = feature_engineering_paralelo(df)
+  1107→print(df_features[["nombre", "precio", "log_precio", "zscore_precio", "es_outlier"]].head())`,
+  1108→        },
+  1109→        why: 'Cuando tienes 50 categorías con 10k productos cada una, calcular features secuencialmente tarda 10 minutos. Con ProcessPoolExecutor(max_workers=8), baja a 90 segundos. El truco es partir el trabajo por una clave natural (categoría) y pasar chunks independientes a cada worker.',
+  1110→      },
+  1111→      {
+  1112→        description: 'Empaquetar como CLI con argparse + logging integrado',
+  1113→        code: {
+  1114→          language: 'python',
+  1115→          title: 'cli.py',
+  1116→          code: `import argparse
+  1117→import logging
+  1118→import sys
+  1119→from pathlib import Path
+  1120→
+  1121→def setup_logging(verbose: bool = False, log_file: Path = None):
+  1122→    handlers = [logging.StreamHandler(sys.stdout)]
+  1123→    if log_file:
+  1124→        handlers.append(logging.FileHandler(log_file))
+  1125→    logging.basicConfig(
+  1126→        level=logging.DEBUG if verbose else logging.INFO,
+  1127→        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+  1128→        handlers=handlers,
+  1129→    )
+  1130→
+  1131→def main():
+  1132→    parser = argparse.ArgumentParser(description="Pipeline de productos: API → SQLite → features paralelas")
+  1133→    parser.add_argument("--api-base", default="https://api.ejemplo.com",
+  1134→                        help="URL base de la API")
+  1135→    parser.add_argument("--db", default="productos.db", type=Path,
+  1136→                        help="Archivo SQLite")
+  1137→    parser.add_argument("--max-pages", type=int, default=20,
+  1138→                        help="Máximo de páginas a scrapear")
+  1139→    parser.add_argument("--workers", type=int, default=8,
+  1140→                        help="Número de procesos paralelos")
+  1141→    parser.add_argument("--log-file", type=Path, default="pipeline.log",
+  1142→                        help="Archivo de log")
+  1143→    parser.add_argument("--verbose", "-v", action="store_true")
+  1144→    parser.add_argument("--skip-acquire", action="store_true",
+  1145→                        help="Saltar acquisition (usar DB existente)")
+  1146→    args = parser.parse_args()
+  1147→
+  1148→    setup_logging(args.verbose, args.log_file)
+  1149→    logger = logging.getLogger("main")
+  1150→    logger.info("Config: api=%s db=%s workers=%d", args.api_base, args.db, args.workers)
+  1151→
+  1152→    # Importar funciones de los pasos anteriores
+  1153→    from acquire_pipeline import iterar_productos, guardar_en_sqlite
+  1154→    from parallel_features import cargar_datos, feature_engineering_paralelo
+  1155→
+  1156→    if not args.skip_acquire:
+  1157→        logger.info("Etapa 1: Adquisición de datos via API")
+  1158→        productos = iterar_productos(args.api_base, max_pages=args.max_pages)
+  1159→        guardar_en_sqlite(productos, args.db)
+  1160→    else:
+  1161→        logger.info("Saltando adquisición, usando DB existente")
+  1162→
+  1163→    logger.info("Etapa 2: Feature engineering paralelo")
+  1164→    df = cargar_datos(args.db)
+  1165→    df_features = feature_engineering_paralelo(df, n_workers=args.workers)
+  1166→
+  1167→    # Etapa 3: guardar resultado
+  1168→    out = args.db.with_suffix(".parquet")
+  1169→    df_features.to_parquet(out, index=False)
+  1170→    logger.info("Pipeline completado. Resultado: %s (%d filas)", out, len(df_features))
+  1171→
+  1172→if __name__ == "__main__":
+  1173→    main()
+  1174→
+  1175→# Uso:
+  1176→# $ python cli.py --api-base https://api.ejemplo.com --max-pages 10 --workers 4 -v
+  1177→# $ python cli.py --skip-acquire --workers 8   # solo feature eng sobre DB existente`,
+  1178→        },
+  1179→        why: 'Un CLI convierte tu pipeline en una herramienta. Tus colegas no necesitan leer tu código — corren `python cli.py --help` y entienden qué hace. Los flags te permiten re-correr solo partes (skip-acquire). El log file persiste evidencia de cada corrida. Esto es production-grade.',
+  1180→      },
+  1181→    ],
+  1182→  },
+  1183→  weDo: {
+  1184→    intro:
+  1185→      'Te toca practicar los 3 patrones más importantes: escribir un generador que procesa un CSV grande, consumir una API con paginación, y construir un CLI con argparse + regex + logging. Cada ejercicio tiene starter code y solution code — intenta resolverlo solo primero.',
+  1186→    steps: [
+  1187→      {
+  1188→        instruction:
+  1189→          'Escribe un generador `stream_csv` que lea un CSV grande fila por fila, filtre filas donde monto > 100, y yield diccionarios. Combínalo con un generador `batch` que agrupe de a N items.',
+  1190→        hint: 'Usa `csv.DictReader` dentro del generador. Para batch, acumula en una lista y yield cuando llegues a N. Recuerda: yield pausa la función.',
+  1191→        starterCode: {
+  1192→          language: 'python',
+  1193→          title: 'stream_csv_starter.py',
+  1194→          code: `import csv
+  1195→from typing import Iterator
+  1196→
+  1197→def stream_csv(path: str, monto_min: float = 100.0) -> Iterator[dict]:
+  1198→    """TODO: Lee CSV fila por fila, filtra monto > monto_min, yield dicts."""
+  1199→    pass
+  1200→
+  1201→def batch(items: Iterator, n: int = 100) -> Iterator[list]:
+  1202→    """TODO: Agrupa items de a n, yield listas."""
+  1203→    pass
+  1204→
+  1205→# Test:
+  1206→# for b in batch(stream_csv("ventas.csv", monto_min=500), n=50):
+  1207→#     print(f"Procesando batch de {len(b)} items")`,
+  1208→        },
+  1209→        solutionCode: {
+  1210→          language: 'python',
+  1211→          title: 'stream_csv_solution.py',
+  1212→          code: `import csv
+  1213→from typing import Iterator
+  1214→
+  1215→def stream_csv(path: str, monto_min: float = 100.0) -> Iterator[dict]:
+  1216→    """Lee CSV fila por fila, filtra monto > monto_min, yield dicts."""
+  1217→    with open(path, newline="", encoding="utf-8") as f:
+  1218→        reader = csv.DictReader(f)
+  1219→        for fila in reader:
+  1220→            try:
+  1221→                monto = float(fila.get("monto", 0))
+  1222→            except ValueError:
+  1223→                continue  # saltar filas con monto no numérico
+  1224→            if monto > monto_min:
+  1225→                yield fila
+  1226→
+  1227→def batch(items: Iterator, n: int = 100) -> Iterator[list]:
+  1228→    """Agrupa items de a n, yield listas. El último batch puede tener menos."""
+  1229→    buffer = []
+  1230→    for item in items:
+  1231→        buffer.append(item)
+  1232→        if len(buffer) >= n:
+  1233→            yield buffer
+  1234→            buffer = []
+  1235→    if buffer:  # no olvidar el último partial
+  1236→        yield buffer
+  1237→
+  1238→# Test con un CSV de ejemplo
+  1239→import tempfile, os
+  1240→with tempfile.NamedTemporaryFile("w", suffix=".csv", delete=False) as f:
+  1241→    f.write("cliente,monto,region\\n")
+  1242→    for i in range(1000):
+  1243→        monto = (i % 200) * 1.5  # rango 0 a 300
+  1244→        region = ["Lima", "Arequipa", "Cusco"][i % 3]
+  1245→        f.write(f"cliente_{i},{monto},{region}\\n")
+  1246→    path = f.name
+  1247→
+  1248→# Procesar: solo filas con monto > 100, en batches de 50
+  1249→total_procesado = 0
+  1250→for b in batch(stream_csv(path, monto_min=100), n=50):
+  1251→    total_procesado += len(b)
+  1252→    print(f"Batch de {len(b)} — acumulado: {total_procesado}")
+  1253→
+  1254→print(f"Total filas con monto > 100: {total_procesado}")
+  1255→# Salida esperada: 1000 filas, ~667 tienen monto > 100
+  1256→
+  1257→os.unlink(path)`,
+  1258→        },
+  1259→      },
+  1260→      {
+  1261→        instruction:
+  1262→          'Escribe una función `fetch_all_pages` que consuma una API REST con paginación tipo `?page=N` y devuelva una lista con TODOS los items. Maneja rate limiting (429) con sleep.',
+  1263→        hint: 'Loop while True, params={"page": n}, si data["results"] vacío o no hay "next" → break. Si status 429, lee header "Retry-After" o espera 60s.',
+  1264→        starterCode: {
+  1265→          language: 'python',
+  1266→          title: 'api_pag_starter.py',
+  1267→          code: `import requests
+  1268→import time
+  1269→
+  1270→def fetch_all_pages(base_url: str, per_page: int = 100) -> list[dict]:
+  1271→    """TODO: Trae todas las páginas de una API paginada con ?page=N."""
+  1272→    pass
+  1273→
+  1274→# Test (mock):
+  1275→# data = fetch_all_pages("https://api.example.com/items")
+  1276→# print(f"Total: {len(data)} items")`,
+  1277→        },
+  1278→        solutionCode: {
+  1279→          language: 'python',
+  1280→          title: 'api_pag_solution.py',
+  1281→          code: `import requests
+  1282→import time
+  1283→
+  1284→def fetch_all_pages(base_url: str, per_page: int = 100, max_retries: int = 3) -> list[dict]:
+  1285→    """Trae todas las páginas de una API paginada con ?page=N."""
+  1286→    todos = []
+  1287→    page = 1
+  1288→    session = requests.Session()  # reutilizar conexión
+  1289→    session.headers.update({"User-Agent": "ds-pipeline/1.0"})
+  1290→
+  1291→    while True:
+  1292→        for intento in range(max_retries):
+  1293→            try:
+  1294→                resp = session.get(
+  1295→                    base_url,
+  1296→                    params={"page": page, "per_page": per_page},
+  1297→                    timeout=15,
+  1298→                )
+  1299→                if resp.status_code == 429:
+  1300→                    wait = int(resp.headers.get("Retry-After", 60))
+  1301→                    print(f"Rate limited, esperando {wait}s...")
+  1302→                    time.sleep(wait)
+  1303→                    continue
+  1304→                resp.raise_for_status()
+  1305→                break
+  1306→            except requests.RequestException as e:
+  1307→                wait = 2 ** intento
+  1308→                print(f"Intento {intento+1} falló: {e}, reintentar en {wait}s")
+  1309→                time.sleep(wait)
+  1310→        else:
+  1311→            raise RuntimeError(f"Fallo tras {max_retries} intentos en página {page}")
+  1312→
+  1313→        data = resp.json()
+  1314→        items = data.get("results", data.get("data", []))
+  1315→        if not items:
+  1316→            break  # no hay más
+  1317→        todos.extend(items)
+  1318→        print(f"Página {page}: +{len(items)} (total: {len(todos)})")
+  1319→
+  1320→        # Detectar fin: header Link, campo next, o página vacía
+  1321→        if data.get("next") is None and page >= data.get("total_pages", page):
+  1322→            break
+  1323→        page += 1
+  1324→
+  1325→    return todos
+  1326→
+  1327→# Test con mock (en la vida real, usar http://jsonplaceholder.typicode.com)
+  1328→if __name__ == "__main__":
+  1329→    # Esta API devuelve 100 posts, 10 por página
+  1330→    data = fetch_all_pages("https://jsonplaceholder.typicode.com/posts", per_page=10)
+  1331→    print(f"\\nTotal: {len(data)} items traídos")
+  1332→    print(f"Primer item: {data[0] if data else 'vacío'}")
+  1333→# Output:
+  1334→# Página 1: +10 (total: 10)
+  1335→# Página 2: +10 (total: 20)
+  1336→# ...
+  1337→# Página 10: +10 (total: 100)
+  1338→# Total: 100 items traídos
+  1339→# Primer item: {'userId': 1, 'id': 1, 'title': 'sunt aut facere...', 'body': '...'}`,
+  1340→        },
+  1341→      },
+  1342→      {
+  1343→        instruction:
+  1344→          'Construye un CLI con argparse que tome un archivo de texto, limpie números de teléfono peruanos con regex, loggee cuántos encontró, y guarde el resultado. Debe tener flags --verbose y --output.',
+  1345→        hint: 'Patrón para celulares peruanos: (?:\\+51\\s?)?9\\d{8}. Usa re.findall con word boundaries. argparse con type=Path para archivos.',
+  1346→        starterCode: {
+  1347→          language: 'python',
+  1348→          title: 'clean_phones_starter.py',
+  1349→          code: `import argparse
+  1350→import re
+  1351→import logging
+  1352→from pathlib import Path
+  1353→
+  1354→# TODO: patrón regex para teléfonos peruanos
+  1355→PATRON_TELEFONO = r"..."
+  1356→
+  1357→def limpiar_telefonos(texto: str) -> list[str]:
+  1358→    """TODO: Encuentra y normaliza teléfonos peruanos."""
+  1359→    pass
+  1360→
+  1361→def main():
+  1362→    # TODO: argparse con --input, --output, --verbose
+  1363→    # TODO: configurar logging
+  1364→    # TODO: leer archivo, limpiar, escribir output, loggear count
+  1365→    pass
+  1366→
+  1367→if __name__ == "__main__":
+  1368→    main()`,
+  1369→        },
+  1370→        solutionCode: {
+  1371→          language: 'python',
+  1372→          title: 'clean_phones_solution.py',
+  1373→          code: `import argparse
+  1374→import re
+  1375→import logging
+  1376→import sys
+  1377→from pathlib import Path
+  1378→
+  1379→# Patrón: opcional +51, opcional 9 inicial, 8 dígitos
+  1380→# Acepta: 987654321, +51 987654321, 51-987-654-321, 987 654 321
+  1381→PATRON_TELEFONO = re.compile(
+  1382→    r"(?:\\+?51[\\s-]?)?\\b(9?\\d{8})\\b"
+  1383→)
+  1384→
+  1385→def limpiar_telefonos(texto: str) -> list[str]:
+  1386→    """Encuentra y normaliza teléfonos peruanos a formato 9XXXXXXXX."""
+  1387→    encontrados = PATRON_TELEFONO.findall(texto)
+  1388→    # Normalizar: solo dígitos, asegurar que empiece con 9
+  1389→    normalizados = []
+  1390→    for tel in encontrados:
+  1391→        digitos = re.sub(r"\\D", "", tel)
+  1392→        if len(digitos) == 8 and not digitos.startswith("9"):
+  1393→            continue  # teléfono fijo, no celular
+  1394→        if len(digitos) == 9 and digitos.startswith("9"):
+  1395→            normalizados.append(digitos)
+  1396→    return normalizados
+  1397→
+  1398→def main():
+  1399→    parser = argparse.ArgumentParser(
+  1400→        description="Extrae y normaliza teléfonos peruanos de un archivo de texto."
+  1401→    )
+  1402→    parser.add_argument("--input", "-i", required=True, type=Path,
+  1403→                        help="Archivo de texto de entrada")
+  1404→    parser.add_argument("--output", "-o", required=True, type=Path,
+  1405→                        help="Archivo de salida (un teléfono por línea)")
+  1406→    parser.add_argument("--verbose", "-v", action="store_true",
+  1407→                        help="Mostrar logs detallados")
+  1408→    args = parser.parse_args()
+  1409→
+  1410→    # Logging
+  1411→    level = logging.DEBUG if args.verbose else logging.INFO
+  1412→    logging.basicConfig(
+  1413→        level=level,
+  1414→        format="%(asctime)s [%(levelname)s] %(message)s",
+  1415→        handlers=[logging.StreamHandler(sys.stdout)],
+  1416→    )
+  1417→    logger = logging.getLogger("phone-cleaner")
+  1418→
+  1419→    # Validar
+  1420→    if not args.input.exists():
+  1421→        logger.error("Archivo no existe: %s", args.input)
+  1422→        sys.exit(1)
+  1423→
+  1424→    # Leer
+  1425→    logger.info("Leyendo %s", args.input)
+  1426→    texto = args.input.read_text(encoding="utf-8")
+  1427→    logger.debug("Leídos %d caracteres", len(texto))
+  1428→
+  1429→    # Limpiar
+  1430→    telefonos = limpiar_telefonos(texto)
+  1431→    logger.info("Encontrados %d teléfonos peruanos", len(telefonos))
+  1432→    if args.verbose:
+  1433→        for tel in telefonos[:5]:
+  1434→            logger.debug("  → %s", tel)
+  1435→
+  1436→    # Escribir
+  1437→    args.output.parent.mkdir(parents=True, exist_ok=True)
+  1438→    args.output.write_text("\\n".join(telefonos) + "\\n", encoding="utf-8")
+  1439→    logger.info("Guardado en %s", args.output)
+  1440→
+  1441→if __name__ == "__main__":
+  1442→    main()
+  1443→
+  1444→# === Ejemplo de uso ===
+  1445→# $ echo "Llamar a 987654321 o +51 987 654 321, también 12345678 fijo" > contactos.txt
+  1446→# $ python clean_phones_solution.py -i contactos.txt -o limpios.txt -v
+  1447→# 2024-01-15 [INFO] Leyendo contactos.txt
+  1448→# 2024-01-15 [DEBUG] Leídos 65 caracteres
+  1449→# 2024-01-15 [INFO] Encontrados 2 teléfonos peruanos
+  1450→# 2024-01-15 [DEBUG]   → 987654321
+  1451→# 2024-01-15 [DEBUG]   → 987654321
+  1452→# 2024-01-15 [INFO] Guardado en limpios.txt
+  1453→# $ cat limpios.txt
+  1454→# 987654321
+  1455→# 987654321`,
+  1456→        },
+  1457→      },
+  1458→    ],
+  1459→  },
+  1460→  youDo: {
+  1461→    title: 'Capstone: Pipeline de Adquisición + Limpieza + CLI — production-grade DS tool',
+  1462→    context:
+  1463→      'Construyes un CLI llamado `lead-scraper` que: (1) consume una API REST paginada (puedes usar jsonplaceholder o una API pública real como OpenFoodFacts), (2) limpia texto con regex (extrae emails, normaliza teléfonos), (3) almacena en SQLite con SQLAlchemy, (4) paraleliza un feature engineering simple con concurrent.futures, (5) loggea todo a archivo rotado, (6) se instala como comando con pyproject.toml. Es lo que entregarías en tu primer sprint como Data Scientist en una empresa seria.',
+  1464→    objectives: [
+  1465→      'Consumir una API REST con paginación y manejo de errores (rate limit, retry)',
+  1466→      'Limpiar campos con regex (emails, teléfonos, URLs)',
+  1467→      'Persistir datos en SQLite con SQLAlchemy ORM',
+  1468→      'Paralelizar feature engineering con ProcessPoolExecutor',
+  1469→      'Configurar logging estructurado a archivo rotado',
+  1470→      'Empaquetar como CLI instalable con pyproject.toml',
+  1471→    ],
+  1472→    requirements: [
+  1473→      'src/lead_scraper/acquire.py — función fetch_all_pages(api_url, max_pages) -> list[dict]',
+  1474→      'src/lead_scraper/clean.py — funciones con regex: extract_emails(text), normalize_phones(text), clean_urls(text)',
+  1475→      'src/lead_scraper/db.py — modelos SQLAlchemy + función save_to_db(records)',
+  1476→      'src/lead_scraper/features.py — función parallel_feature_engineering(records, n_workers) usando ProcessPoolExecutor',
+  1477→      'src/lead_scraper/cli.py — CLI con argparse: --api-url, --max-pages, --db, --workers, --verbose, --log-file',
+  1478→      'pyproject.toml con [project.scripts] lead-scraper = "lead_scraper.cli:main"',
+  1479→      'logs/ con rotación a 10MB, 5 backups',
+  1480→      'tests/ con al menos 5 tests (test_clean.py con casos regex, test_features.py)',
+  1481→      'README.md con instrucciones de instalación y uso, badge de tests',
+  1482→    ],
+  1483→    starterCode: `# pyproject.toml
+  1484→[project]
+  1485→name = "lead-scraper"
+  1486→version = "0.1.0"
+  1487→dependencies = ["requests", "sqlalchemy", "pandas"]
+  1488→
+  1489→[project.scripts]
+  1490→lead-scraper = "lead_scraper.cli:main"
+  1491→
+  1492→# src/lead_scraper/cli.py
+  1493→import argparse, logging
+  1494→def main():
+  1495→    parser = argparse.ArgumentParser(description="Lead scraper pipeline")
+  1496→    # TODO: --api-url, --max-pages, --db, --workers, --verbose, --log-file
+  1497→    # TODO: orquestar acquire → clean → db → features
+  1498→    pass
+  1499→
+  1500→# src/lead_scraper/clean.py
+  1501→import re
+  1502→def extract_emails(text: str) -> list[str]:
+  1503→    # TODO: regex para emails
+  1504→    pass
+  1505→def normalize_phones(text: str) -> list[str]:
+  1506→    # TODO: regex para teléfonos peruanos
+  1507→    pass
+  1508→
+  1509→# Continúa con db.py, features.py, acquire.py...`,
+  1510→    portfolioNote:
+  1511→      'Este proyecto es la diferencia entre "sé Python" y "soy Data Scientist production-ready". En entrevistas, los hiring managers te piden "muéstrame un proyecto end-to-end que hayas mantenido". Un CLI instalable con tests, logging estructurado, y manejo de errores profesionales es exactamente eso. Mencionarlo en tu CV como "construí pipelines ETL en Python con SQLAlchemy, multiprocessing y argparse que procesaron X millones de registros" es un diferenciador masivo en el mercado peruano.',
+  1512→    rubric: [
+  1513→      { criterion: 'Adquisición con API paginada + manejo de errores', weight: '20%' },
+  1514→      { criterion: 'Limpieza con regex (emails, teléfonos, URLs) con tests', weight: '15%' },
+  1515→      { criterion: 'Persistencia SQLAlchemy con modelos bien definidos', weight: '15%' },
+  1516→      { criterion: 'Feature engineering paralelizado con concurrent.futures', weight: '15%' },
+  1517→      { criterion: 'Logging estructurado con rotación de archivos', weight: '10%' },
+  1518→      { criterion: 'CLI con argparse, flags completos, --help claro', weight: '10%' },
+  1519→      { criterion: 'Instalable con pip install -e . y entrada lead-scraper', weight: '10%' },
+  1520→      { criterion: 'Tests con pytest + README con badge', weight: '5%' },
+  1521→    ],
+  1522→  },
+  1523→  selfCheck: {
+  1524→    questions: [
+  1525→      {
+  1526→        question: '¿Qué hace la palabra clave `yield` en una función de Python?',
+  1527→        options: [
+  1528→          'Lo mismo que return — termina la función',
+  1529→          'Convierte la función en un generator que pausa su estado y resume en la próxima llamada',
+  1530→          'Lanza una excepción',
+  1531→          'Importa un módulo externo',
+  1532→        ],
+  1533→        correctIndex: 1,
+  1534→        explanation:
+  1535→          'Una función con yield se convierte en un generator. Cada vez que se llama next(), la función corre hasta el próximo yield, devuelve el valor, y pausa su estado. La próxima llamada continúa desde ahí. Esto permite lazy evaluation — clave para procesar datasets grandes sin agotar RAM.',
+  1536→      },
+  1537→      {
+  1538→        question: '¿Cuál es la forma SEGURA de insertar valores en una query SQL en Python?',
+  1539→        options: [
+  1540→          'f"SELECT * FROM users WHERE name = \'{name}\'"',
+  1541→          '"SELECT * FROM users WHERE name = " + name',
+  1542→          'cursor.execute("SELECT * FROM users WHERE name = ?", (name,))',
+  1543→          'cursor.execute("SELECT * FROM users WHERE name = {" + name + "}")',
+  1544→        ],
+  1545→        correctIndex: 2,
+  1546→        explanation:
+  1547→          'Usar parámetros con `?` (sqlite3) o `%s` (PostgreSQL) previene SQL injection. Si construyes la query con f-strings o concatenación, un usuario malicioso puede inyectar `\' OR 1=1 --` y leer/borrar toda la base. SIEMPRE parámetros, nunca concatenación.',
+  1548→      },
+  1549→      {
+  1550→        question: '¿Cuándo usarías ProcessPoolExecutor vs ThreadPoolExecutor?',
+  1551→        options: [
+  1552→          'Thread para CPU-bound, Process para I/O-bound',
+  1553→          'Process para CPU-bound (cálculo), Thread para I/O-bound (red/disco)',
+  1554→          'Siempre Thread — es más rápido',
+  1555→          'Siempre Process — es más seguro',
+  1556→        ],
+  1557→        correctIndex: 1,
+  1558→        explanation:
+  1559→          'El GIL de Python impide que múltiples threads ejecuten bytecode a la vez, así que threads NO aceleran cálculo (CPU-bound). Pero threads SÍ ayudan con I/O porque durante la espera (red, disco), el GIL se libera. Para feature engineering pesado → Process. Para scrapear 100 URLs → Thread.',
+  1560→      },
+  1561→      {
+  1562→        question: '¿Qué función del módulo `re` devuelve TODOS los matches de un patrón como lista?',
+  1563→        options: ['re.search(patron, texto)', 're.match(patron, texto)', 're.findall(patron, texto)', 're.sub(patron, texto)'],
+  1564→        correctIndex: 2,
+  1565→        explanation:
+  1566→          're.findall devuelve todas las coincidencias del patrón en el texto como lista. re.search devuelve solo la primera (como Match object o None). re.match busca solo al inicio del string. re.sub busca y reemplaza. Para extraer todos los DNIs de un texto, re.findall es lo correcto.',
+  1567→      },
+  1568→      {
+  1569→        question: '¿Cuál es la mejor práctica para logging en producción?',
+  1570→        options: [
+  1571→          'Usar print() con timestamps manuales',
+  1572→          'logging.basicConfig con f-strings en los mensajes',
+  1573→          'logging con niveles (INFO/WARNING/ERROR), %-format, y rotación de archivos',
+  1574→          'Solo loggear errores, no info',
+  1575→        ],
+  1576→        correctIndex: 2,
+  1577→        explanation:
+  1578→          'Buen logging usa niveles (puedes subir/bajar verbosidad en prod), %-format (el formato se aplica solo si el nivel está activo — más rápido que f-string), múltiples handlers (consola + archivo), y RotatingFileHandler para que los logs no crezcan infinitamente. Sin logging estructurado, debuggear en producción es imposible.',
+  1579→      },
+  1580→    ],
+  1581→  },
+  1582→  resources: {
+  1583→    docs: [
+  1584→      { label: 'Python — itertools & generators', url: 'https://docs.python.org/3/howto/functional.html', note: 'HOWTO oficial sobre programación funcional con generators' },
+  1585→      { label: 'requests — Quickstart', url: 'https://docs.python-requests.org/en/latest/user/quickstart/', note: 'Documentación oficial de requests' },
+  1586→      { label: 'BeautifulSoup — Docs', url: 'https://www.crummy.com/software/BeautifulSoup/bs4/doc/', note: 'Parser HTML más usado en Python' },
+  1587→      { label: 'SQLAlchemy — Tutorial', url: 'https://docs.sqlalchemy.org/en/20/tutorial/', note: 'Tutorial oficial de SQLAlchemy 2.0' },
+  1588→      { label: 'concurrent.futures — Docs', url: 'https://docs.python.org/3/library/concurrent.futures.html', note: 'API moderna de paralelismo en Python' },
+  1589→      { label: 're — Regular Expressions', url: 'https://docs.python.org/3/library/re.html', note: 'Docs del módulo re' },
+  1590→      { label: 'collections — Container datatypes', url: 'https://docs.python.org/3/library/collections.html', note: 'Counter, defaultdict, namedtuple, deque' },
+  1591→      { label: 'logging — HOWTO', url: 'https://docs.python.org/3/howto/logging.html', note: 'Guía oficial de logging' },
+  1592→      { label: 'argparse — Tutorial', url: 'https://docs.python.org/3/howto/argparse.html', note: 'HOWTO oficial de argparse' },
+  1593→      { label: 'regex101.com', url: 'https://regex101.com/', note: 'Probador interactivo de regex con explicaciones' },
+  1594→    ],
+  1595→    books: [
+  1596→      { label: 'Python Cookbook (David Beazley)', note: 'Capítulos sobre generators, iterators, concurrency — el libro de referencia para Python avanzado.' },
+  1597→      { label: 'Fluent Python (Luciano Ramalho)', note: 'Secciones sobre collections, iterators, descriptors — imprescindible para senior Python.' },
+  1598→      { label: 'Web Scraping with Python (Ryan Mitchell)', note: 'O\'Reilly — scraping con BeautifulSoup, Scrapy, Selenium, y manejo de autenticación.' },
+  1599→      { label: 'SQL for Data Scientists (Renée M. P. Teate)', note: 'SQL enfocado a casos de data science — joins, window functions, CTEs.' },
+  1600→    ],
+  1601→    courses: [
+  1602→      { label: 'Real Python — Generators', url: 'https://realpython.com/introduction-to-python-generators/', note: 'Tutorial completo de generators con ejemplos prácticos' },
+  1603→      { label: 'Real Python — Logging', url: 'https://realpython.com/python-logging/', note: 'Guía completa de logging en Python' },
+  1604→      { label: 'FastAPI docs — async SQL + concurrency', url: 'https://fastapi.tiangolo.com/', note: 'Patrones modernos de async Python aplicables a DS' },
+  1605→      { label: 'Talk Python to Me — Multiprocessing', url: 'https://training.talkpython.fm/courses/details/all-about-python-concurrency', note: 'Curso enfocado en conciencia Python: threads, multiprocessing, asyncio' },
+  1606→    ],
+  1607→  },
+  1608→}
+  1609→

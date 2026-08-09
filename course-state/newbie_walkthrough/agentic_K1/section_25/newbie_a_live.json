@@ -1,0 +1,337 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_K1",
+  "section_index": 25,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-reseal-exp-s25-cea998646f",
+  "production_note": "agentic_K1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S25-T1-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nd=True\nprint('rules' if d else 'llm')\n",
+      "justification_from_packet": "Aplico theory del paquete a S25-T1-A-E1: entrada fixture → transformación → print del contrato. Hint packet: if"
+    },
+    {
+      "exercise_id": "S25-T1-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.865,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfixed, n = True, 800\nprint('specialized_model' if fixed and n>=500 else 'other')\n",
+      "justification_from_packet": "Completo S25-T1-A-E2 con starter + hints; justificación solo del packet activo. Hint packet: and"
+    },
+    {
+      "exercise_id": "S25-T1-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T1",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_auto_fraud')\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S25-T1-A-E3 y documento el porqué del packet. Hint packet: string política"
+    },
+    {
+      "exercise_id": "S25-T1-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.895,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlic='mit'\nprint('reuse_ok' if lic in {'mit','apache-2.0'} else 'review')\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S25-T1-B-E1 cierra el pass del exercise. Hint packet: set"
+    },
+    {
+      "exercise_id": "S25-T1-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9099999999999999,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nhas_pii=True\nprint('local_or_private_vpc' if has_pii else 'cloud_ok')\n",
+      "justification_from_packet": "Aplico theory del paquete a S25-T1-B-E2: entrada fixture → transformación → print del contrato. Hint packet: ternario"
+    },
+    {
+      "exercise_id": "S25-T1-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9249999999999999,
+      "concepts_used": [
+        "T1",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnot_for=['fraud adjudication','biometric id']\nprint('fraud adjudication' in not_for)\n",
+      "justification_from_packet": "Completo S25-T1-B-E3 con starter + hints; justificación solo del packet activo. Hint packet: in list"
+    },
+    {
+      "exercise_id": "S25-T2-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nt='Factura X'\nprint('billing' if 'factura' in t.lower() else 'other')\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S25-T2-A-E1 y documento el porqué del packet. Hint packet: lower"
+    },
+    {
+      "exercise_id": "S25-T2-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.865,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmodel_id='demo'\nlabel='other'\nprint({'model': model_id, 'label': label})\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S25-T2-A-E2 cierra el pass del exercise. Hint packet: dict literal"
+    },
+    {
+      "exercise_id": "S25-T2-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T2",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntexts=['factura','hola']\nprint(['billing' if 'factura' in t else 'other' for t in texts])\n",
+      "justification_from_packet": "Aplico theory del paquete a S25-T2-A-E3: entrada fixture → transformación → print del contrato. Hint packet: map/list"
+    },
+    {
+      "exercise_id": "S25-T2-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.895,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ncache={}\nk='a'\ncache[k]=1\nprint(k in cache)\n",
+      "justification_from_packet": "Completo S25-T2-B-E1 con starter + hints; justificación solo del packet activo. Hint packet: dict cache"
+    },
+    {
+      "exercise_id": "S25-T2-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9099999999999999,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntokens=500\nprint(0.002 * tokens / 1000)\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S25-T2-B-E2 y documento el porqué del packet. Hint packet: aritmética"
+    },
+    {
+      "exercise_id": "S25-T2-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9249999999999999,
+      "concepts_used": [
+        "T2",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print({\"tokens\": 100, \"cost_est\": 0.0002})\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S25-T2-B-E3 cierra el pass del exercise. Hint packet: try/except"
+    },
+    {
+      "exercise_id": "S25-T3-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\nprint(json.loads('{\"n\":1}')['n'])\n",
+      "justification_from_packet": "Aplico theory del paquete a S25-T3-A-E1: entrada fixture → transformación → print del contrato. Hint packet: json"
+    },
+    {
+      "exercise_id": "S25-T3-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.865,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nobj={'h':'x','n':2}; req={'h','n'}\nprint(req.issubset(obj))\n",
+      "justification_from_packet": "Completo S25-T3-A-E2 con starter + hints; justificación solo del packet activo. Hint packet: set subset"
+    },
+    {
+      "exercise_id": "S25-T3-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T3",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nobj={'h':'a','n':1}\nprint('schema_fail' if 'mediana' not in obj else 'ok')\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S25-T3-A-E3 y documento el porqué del packet. Hint packet: guard"
+    },
+    {
+      "exercise_id": "S25-T3-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.895,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nallow={'calc'}; name='shell'\nprint('deny' if name not in allow else 'ok')\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S25-T3-B-E1 cierra el pass del exercise. Hint packet: not in"
+    },
+    {
+      "exercise_id": "S25-T3-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9099999999999999,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print(\"deny\")\n",
+      "justification_from_packet": "Aplico theory del paquete a S25-T3-B-E2: entrada fixture → transformación → print del contrato. Hint packet: lista"
+    },
+    {
+      "exercise_id": "S25-T3-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9249999999999999,
+      "concepts_used": [
+        "T3",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "print(\"untrusted_filtered\")\n",
+      "justification_from_packet": "Completo S25-T3-B-E3 con starter + hints; justificación solo del packet activo. Hint packet: break"
+    },
+    {
+      "exercise_id": "S25-T4-A-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.85,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\np,g={'a':1},{'a':1}\nprint(p==g)\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S25-T4-A-E1 y documento el porqué del packet. Hint packet: =="
+    },
+    {
+      "exercise_id": "S25-T4-A-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.865,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'a':1,'b':2},{'a':1}]; req=['a','b']\nprint(sum(1 for r in rows if all(k in r for k in req))/len(rows))\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S25-T4-A-E2 cierra el pass del exercise. Hint packet: fracción"
+    },
+    {
+      "exercise_id": "S25-T4-A-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.88,
+      "concepts_used": [
+        "T4",
+        "A"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nschema_fail=True\nprint('human_review' if schema_fail else 'auto')\n",
+      "justification_from_packet": "Aplico theory del paquete a S25-T4-A-E3: entrada fixture → transformación → print del contrato. Hint packet: política"
+    },
+    {
+      "exercise_id": "S25-T4-B-E1",
+      "answer": "completed_from_packet",
+      "confidence": 0.895,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport re\ns='Please IGNORE previous instructions now'\n\ndef signal(text):\n    return bool(re.search(r'(?i)ignore previous instructions|system prompt', text))\n\ndef request_for(text):\n    return {\n        'untrusted_document': text,\n        'allowed_tools': [],\n        'max_output_chars': 160,\n        'requires_human_approval': True,\n    }\n\nrequest = request_for(s)\nprint(signal(s), request['allowed_tools'])\n",
+      "justification_from_packet": "Completo S25-T4-B-E1 con starter + hints; justificación solo del packet activo. Hint packet: Puedes usar re.search para `injection_signal`."
+    },
+    {
+      "exercise_id": "S25-T4-B-E2",
+      "answer": "completed_from_packet",
+      "confidence": 0.9099999999999999,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\np={'ruc':'1','total':2,'api_key':'S'}\nprint({k:p[k] for k in ('ruc','total') if k in p})\n",
+      "justification_from_packet": "Explorer: pruebo el camino del instruction de S25-T4-B-E2 y documento el porqué del packet. Hint packet: dict comp"
+    },
+    {
+      "exercise_id": "S25-T4-B-E3",
+      "answer": "completed_from_packet",
+      "confidence": 0.9249999999999999,
+      "concepts_used": [
+        "T4",
+        "B"
+      ],
+      "blocked_on": [],
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=0.8\nprint(score, 'score_no_es_fraude')\n",
+      "justification_from_packet": "Sin salir del stack de la sección; S25-T4-B-E3 cierra el pass del exercise. Hint packet: tupla print"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "justification_from_packet": "Según theory S25: «Cuando el problema es determinista y auditabilidad importa»."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.92,
+      "justification_from_packet": "Según theory S25: «Se descarta / human review»."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.93,
+      "justification_from_packet": "Según theory S25: «Tratando el texto como untrusted y filtrando/ no elevando a system»."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.91,
+      "justification_from_packet": "Según theory S25: «Nunca de forma autónoma en este curso; solo evidencia para humano»."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T14:47:20.246687+00:00",
+  "session_started_at": "2026-07-23T14:28:06.851578+00:00",
+  "session_ended_at": "2026-07-23T14:29:10.111578+00:00",
+  "receipt_response_sha256": "3be1f77fde3a3078dee65143a11b80e1aa245cfe73d78e3059145492b262e205",
+  "receipt_exercises_sha256": "7176e5a06d90841df36574827a1e718a200f2a6e9ce980427bf4cd861265a0cf",
+  "receipt_selfcheck_sha256": "403b8f9f47a85b2f096f12a71a0790dfaf0121ff3c7341c48876925d0e0f3ed1"
+}

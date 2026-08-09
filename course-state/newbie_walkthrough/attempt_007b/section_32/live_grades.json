@@ -1,0 +1,1069 @@
+{
+  "section_index": 32,
+  "section_id": "microservices",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S32-T1-A-E1",
+          "code": "schema = {'a': 'num', 'b': 'cat', 'c': 'num'}\nprint('num', sorted(k for k, v in schema.items() if v == 'num'))\nprint('n', 2)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "feature types"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T1-A-E2",
+          "code": "t = 'hola mundo pe'\nprint('note_len', len(t))\nprint('tokens', len(t.split()))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "text features"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T1-A-E3",
+          "code": "row = {'a': 1, 'b': 2}; cat = {'a', 'b', 'c'}\nprint('ok', set(row) <= cat)\nprint('extra', sorted(set(row) - cat))\nprint('n', len(row))\n",
+          "note": "",
+          "concepts_used": [
+            "feature catalog"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T1-B-E1",
+          "code": "xs = [1.0, None, 3.0]\nvals = [x for x in xs if x is not None]\nmed = sorted(vals)[len(vals) // 2]\nprint('med', med)\nprint('ind', [int(x is None) for x in xs])\nprint('filled', [med if x is None else x for x in xs])\n",
+          "note": "",
+          "concepts_used": [
+            "missing",
+            "median"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T1-B-E2",
+          "code": "vocab = ['app', 'web']\ndef oh(c):\n    return [1 if c == v else 0 for v in vocab] + [1 if c not in vocab else 0]\nprint('app', oh('app'))\nprint('x', oh('branch'))\nprint('dim', len(oh('app')))\n",
+          "note": "",
+          "concepts_used": [
+            "one-hot"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T1-B-E3",
+          "code": "xs = [2.0, 4.0]; mu = 0.0; sd = 2.0\nprint('z', [(x - mu) / sd for x in xs])\nprint('mu', mu)\nprint('sd', sd)\n",
+          "note": "",
+          "concepts_used": [
+            "z-score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-A-E1",
+          "code": "a, b = 'av-1', 'av-1'\nprint('same', int(a == b))\nprint('a', a)\nprint('b', b)\n",
+          "note": "",
+          "concepts_used": [
+            "relational feature"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-A-E2",
+          "code": "adj = {'E1': ['E2', 'E3'], 'E2': ['E1']}\nprint('deg', len(adj['E1']))\nprint('node', 'E1')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "degree"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-A-E3",
+          "code": "pl = {('E1', 'E2'): 1}\nprint('p', pl.get(('E1', 'E2'), 99))\nprint('missing', pl.get(('E1', 'E9'), 99))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "path length"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-B-E1",
+          "code": "ev = [1, 2, 3, 5]; t = 5; W = 3\nprint('n', sum(1 for x in ev if t - W <= x < t))\nprint('t', t)\nprint('W', W)\n",
+          "note": "",
+          "concepts_used": [
+            "time window"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-B-E2",
+          "code": "from collections import Counter\nrows = [('app', 1), ('app', 2), ('web', 2)]\nc = Counter(ch for ch, ts in rows if ts < 3)\nprint('app', c['app'])\nprint('web', c['web'])\nprint('n', sum(c.values()))\n",
+          "note": "",
+          "concepts_used": [
+            "window frequency"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-B-E3",
+          "code": "ev = [(5, 10), (4, 1)]; t = 5\ns = sum(a for ts, a in ev if ts < t)\nprint('sum', s)\nprint('excluded', 10)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "half-open"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-A-E1",
+          "code": "from collections import Counter\nxs = ['a', 'b', 'a', None]\nmode = Counter(x for x in xs if x is not None).most_common(1)[0][0]\nprint('mode', mode)\nprint('out', [mode if x is None else x for x in xs])\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "mode fill"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-A-E2",
+          "code": "def pipe(xs):\n    return [((0 if x is None else x) * 2) for x in xs]\nprint(pipe([1, None, 3]))\nprint('steps', 2)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "pipeline"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-A-E3",
+          "code": "class T:\n    def __init__(self):\n        self.fitted = False\n    def transform(self, xs):\n        if not self.fitted:\n            raise RuntimeError('not fitted')\n        return xs\ntry:\n    T().transform([1])\n    print('raised', False)\nexcept RuntimeError:\n    print('raised', True)\nprint('fitted_default', False)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "fit/transform"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-B-E1",
+          "code": "import json\nst = {'median': 3.5}\nprint(json.loads(json.dumps(st))['median'])\nprint('keys', 1)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "persist state"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-B-E2",
+          "code": "v1 = {'app'}; v2 = {'app', 'web'}\nprint('bump', v1 != v2)\nprint('v', 'fs-v2' if v1 != v2 else 'fs-v1')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "feature version"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-B-E3",
+          "code": "med = 10.0; batch = [None, 12.0]\nprint([med if x is None else x for x in batch])\nprint('med', med)\nprint('n', 2)\n",
+          "note": "",
+          "concepts_used": [
+            "serve transform"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-A-E1",
+          "code": "rows = [{'ts': '2026-01-01'}, {'ts': '2026-02-15'}]\ntr = [r for r in rows if r['ts'] < '2026-02-01']\nprint('train_n', len(tr))\nprint('test_n', len(rows) - len(tr))\nprint('cut', '2026-02-01')\n",
+          "note": "",
+          "concepts_used": [
+            "time split"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-A-E2",
+          "code": "from collections import Counter\nrows = ['E1', 'E1', 'E2']\nprint(dict(Counter(rows)))\nprint('n_ent', 2)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "group split"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-A-E3",
+          "code": "tr, te = {'A', 'B'}, {'C'}\nprint('overlap', len(tr & te))\nprint('ok', len(tr & te) == 0)\nprint('n_tr', len(tr))\n",
+          "note": "",
+          "concepts_used": [
+            "no leakage"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-B-E1",
+          "code": "names = ['amt', 'label_y', 'reviewer_decision']\nprint([n for n in names if 'label' in n or 'decision' in n])\nprint('n', 2)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "leakage names"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-B-E2",
+          "code": "tr, se = 0.0, 0.8\nprint('alert', abs(se - tr) > 0.5)\nprint('delta', round(abs(se - tr), 1))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "serve skew"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-B-E3",
+          "code": "ver = 3\nprint('id', f'fs-v{ver}')\nprint('ver', ver)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "feature set id"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S32-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "num ['a', 'c']\nn 2\nok True\n",
+          "expected_head": "num ['a', 'c']\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "note_len 13\ntokens 3\nok True\n",
+          "expected_head": "note_len 13\ntokens 3\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok True\nextra []\nn 2\n",
+          "expected_head": "ok True\nextra []\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "med 3.0\nind [0, 1, 0]\nfilled [1.0, 3.0, 3.0]\n",
+          "expected_head": "med 3.0\nind [0, 1, 0]\nfilled [1.0, 3.0, 3.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "app [1, 0, 0]\nx [0, 0, 1]\ndim 3\n",
+          "expected_head": "app [1, 0, 0]\nx [0, 0, 1]\ndim 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "z [1.0, 2.0]\nmu 0.0\nsd 2.0\n",
+          "expected_head": "z [1.0, 2.0]\nmu 0.0\nsd 2.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "same 1\na av-1\nb av-1\n",
+          "expected_head": "same 1\na av-1\nb av-1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "deg 2\nnode E1\nok True\n",
+          "expected_head": "deg 2\nnode E1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "p 1\nmissing 99\nok True\n",
+          "expected_head": "p 1\nmissing 99\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n 2\nt 5\nW 3\n",
+          "expected_head": "n 2\nt 5\nW 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "app 2\nweb 1\nn 3\n",
+          "expected_head": "app 2\nweb 1\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sum 1\nexcluded 10\nok True\n",
+          "expected_head": "sum 1\nexcluded 10\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "mode a\nout ['a', 'b', 'a', 'a']\nok True\n",
+          "expected_head": "mode a\nout ['a', 'b', 'a', 'a']\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[2, 0, 6]\nsteps 2\nok True\n",
+          "expected_head": "[2, 0, 6]\nsteps 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "raised True\nfitted_default False\nok True\n",
+          "expected_head": "raised True\nfitted_default False\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3.5\nkeys 1\nok True\n",
+          "expected_head": "3.5\nkeys 1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bump True\nv fs-v2\nok True\n",
+          "expected_head": "bump True\nv fs-v2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[10.0, 12.0]\nmed 10.0\nn 2\n",
+          "expected_head": "[10.0, 12.0]\nmed 10.0\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "train_n 1\ntest_n 1\ncut 2026-02-01\n",
+          "expected_head": "train_n 1\ntest_n 1\ncut 2026-02-01",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'E1': 2, 'E2': 1}\nn_ent 2\nok True\n",
+          "expected_head": "{'E1': 2, 'E2': 1}\nn_ent 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "overlap 0\nok True\nn_tr 2\n",
+          "expected_head": "overlap 0\nok True\nn_tr 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['label_y', 'reviewer_decision']\nn 2\nok True\n",
+          "expected_head": "['label_y', 'reviewer_decision']\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "alert True\ndelta 0.8\nok True\n",
+          "expected_head": "alert True\ndelta 0.8\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "id fs-v3\nver 3\nok True\n",
+          "expected_head": "id fs-v3\nver 3\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S32-T1-A-E1",
+          "code": "schema={'a':'num','b':'cat','c':'num'}\nprint(sorted(k for k,v in schema.items() if v=='num'))\nprint('n_num', sum(1 for v in schema.values() if v=='num'))\nprint('ok', True)\n",
+          "note": "Demo schema filter.",
+          "concepts_used": [
+            "schema num"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T1-A-E2",
+          "code": "t='hola mundo pe'\nprint('note_len', len(t))\nprint('token_count', len(t.split()))\nprint('ok', True)\n",
+          "note": "note_len / tokens.",
+          "concepts_used": [
+            "text features"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T1-A-E3",
+          "code": "row={'a':1,'b':2}; cat={'a','b','c'}\nprint(all(k in cat for k in row))\nprint('extra', [k for k in row if k not in cat])\nprint('ok', True)\n",
+          "note": "Catalog validation.",
+          "concepts_used": [
+            "feature catalog"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T1-B-E1",
+          "code": "xs=[1.0,None,3.0]\nvals=[x for x in xs if x is not None]\nmed=sorted(vals)[len(vals)//2]\nprint('miss_ind', [int(x is None) for x in xs])\nprint('filled', [med if x is None else x for x in xs])\nprint('med', med)\n",
+          "note": "Demo med + miss_ind.",
+          "concepts_used": [
+            "median impute"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T1-B-E2",
+          "code": "vocab={'app','web'}\ndef oh(c):\n    if c not in vocab:\n        return {'app':0,'web':0,'unknown':1}\n    return {'app': int(c=='app'), 'web': int(c=='web'), 'unknown':0}\nprint(oh('app'))\nprint(oh('branch'))\nprint('ok', True)\n",
+          "note": "Theory unknown bucket.",
+          "concepts_used": [
+            "one-hot unknown"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T1-B-E3",
+          "code": "xs=[2.0,4.0]\nmu, sd = 0.0, 2.0\nprint([(x-mu)/sd for x in xs])\nprint('mu', mu, 'sd', sd)\nprint('ok', True)\n",
+          "note": "Demo z-score.",
+          "concepts_used": [
+            "z-score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-A-E1",
+          "code": "a,b='av-1','av-1'\nprint(int(a==b))\nprint('shared_address', a==b)\nprint('not_fraud_label', True)\n",
+          "note": "Relational feature not fraud.",
+          "concepts_used": [
+            "shared address"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-A-E2",
+          "code": "adj={'E1':['E2','E3'],'E2':['E1']}\nprint(len(adj['E1']))\nprint('degree_E1', len(adj['E1']))\nprint('ok', True)\n",
+          "note": "Graph degree feature.",
+          "concepts_used": [
+            "degree feature"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-A-E3",
+          "code": "pl={('E1','E2'):1}\nprint(pl.get(('E1','E2'), 99))\nprint(pl.get(('E1','E9'), 99))\nprint('ok', True)\n",
+          "note": "Demo path_len.",
+          "concepts_used": [
+            "path_len"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-B-E1",
+          "code": "ev=[1,2,3,5]; t=5; W=3\nn=sum(1 for x in ev if t-W <= x < t)\nprint(n)\nprint('window', W)\nprint('half_open', True)\n",
+          "note": "[t-W,t).",
+          "concepts_used": [
+            "half-open window"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-B-E2",
+          "code": "from collections import Counter\nrows=[('app',1),('app',2),('web',2)]\nprint(dict(Counter(c for c,_ in rows)))\nprint('n', len(rows))\nprint('ok', True)\n",
+          "note": "Frequency features.",
+          "concepts_used": [
+            "channel freq"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T2-B-E3",
+          "code": "ev=[(5,10),(4,1)]; t=5\nkept=[a for ts,a in ev if ts < t]\nprint(sum(kept))\nprint('excluded_at_t', True)\nprint('ok', True)\n",
+          "note": "Half-open excludes t.",
+          "concepts_used": [
+            "exclude ts>=t"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-A-E1",
+          "code": "from collections import Counter\nxs=['a','b','a',None]\nvals=[x for x in xs if x is not None]\nmoda=Counter(vals).most_common(1)[0][0]\nout=[moda if x is None else x for x in xs]\nprint('moda', moda)\nprint('out', out)\nprint('ok', True)\n",
+          "note": "Train mode fill.",
+          "concepts_used": [
+            "mode impute"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-A-E2",
+          "code": "xs=[None, 3]\nstep1=[0 if x is None else x for x in xs]\nstep2=[x*2 for x in step1]\nprint(step1)\nprint(step2)\nprint('ok', True)\n",
+          "note": "Compose transformers.",
+          "concepts_used": [
+            "pipeline steps"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-A-E3",
+          "code": "fitted=False\nif not fitted:\n    print('error_not_fitted')\nelse:\n    print('ok')\nprint('flag', fitted)\nprint('guard', True)\n",
+          "note": "Must fit first.",
+          "concepts_used": [
+            "fit before transform"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-B-E1",
+          "code": "import json\nst={'med': 10.0}\ns=json.dumps(st); ld=json.loads(s)\nprint(ld['med'])\nprint('roundtrip', json.loads(json.dumps(st))==st)\nprint('persist', True)\n",
+          "note": "Demo json state.",
+          "concepts_used": [
+            "json persist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-B-E2",
+          "code": "v1={'app'}; v2={'app','web'}\nbump = v1 != v2\nprint(bump)\nprint('v1', v1, 'v2', v2)\nprint('version_policy', 'bump_on_vocab_change')\n",
+          "note": "Bump on vocab change.",
+          "concepts_used": [
+            "version bump"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T3-B-E3",
+          "code": "med=10.0; batch=[None,12.0]\nprint([med if x is None else x for x in batch])\nprint('med', med)\nprint('serve', True)\n",
+          "note": "Apply saved med.",
+          "concepts_used": [
+            "serve with fit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-A-E1",
+          "code": "rows=[{'ts':'2026-01-01'},{'ts':'2026-02-15'}]\ntr=[r for r in rows if r['ts']<'2026-02-01']\nprint(tr)\nprint('n_train', len(tr))\nprint('time_split', True)\n",
+          "note": "Train ts < cutoff.",
+          "concepts_used": [
+            "time split"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-A-E2",
+          "code": "from collections import Counter\nrows=['E1','E1','E2']\nprint(dict(Counter(rows)))\nprint('n', len(rows))\nprint('ok', True)\n",
+          "note": "Group sizes.",
+          "concepts_used": [
+            "entity sizes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-A-E3",
+          "code": "tr,te={'A','B'},{'C'}\nprint(len(tr & te))\nprint('overlap', tr & te)\nprint('ok', len(tr & te)==0)\n",
+          "note": "Entity split.",
+          "concepts_used": [
+            "overlap 0"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-B-E1",
+          "code": "names=['amt','label_y','reviewer_decision']\nleaks=[n for n in names if 'label' in n or 'decision' in n]\nprint(leaks)\nprint('n', len(leaks))\nprint('fs_version', 'v3')\n",
+          "note": "Leakage by name.",
+          "concepts_used": [
+            "leakage names"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-B-E2",
+          "code": "tr,se=0.0,0.8\nalert = abs(se-tr) > 0.5\nprint(alert)\nprint('delta', abs(se-tr))\nprint('skew', True)\n",
+          "note": "Skew monitoring.",
+          "concepts_used": [
+            "train-serve skew"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S32-T4-B-E3",
+          "code": "ver=3\nprint(f'fs-v{ver}')\nprint('format', 'fs-vN')\nprint('ok', True)\n",
+          "note": "fs-vN id.",
+          "concepts_used": [
+            "feature_set_id"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S32-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a', 'c']\nn_num 2\nok True\n",
+          "expected_head": "num ['a', 'c']\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "note_len 13\ntoken_count 3\nok True\n",
+          "expected_head": "note_len 13\ntokens 3\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nextra []\nok True\n",
+          "expected_head": "ok True\nextra []\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "miss_ind [0, 1, 0]\nfilled [1.0, 3.0, 3.0]\nmed 3.0\n",
+          "expected_head": "med 3.0\nind [0, 1, 0]\nfilled [1.0, 3.0, 3.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'app': 1, 'web': 0, 'unknown': 0}\n{'app': 0, 'web': 0, 'unknown': 1}\nok True\n",
+          "expected_head": "app [1, 0, 0]\nx [0, 0, 1]\ndim 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1.0, 2.0]\nmu 0.0 sd 2.0\nok True\n",
+          "expected_head": "z [1.0, 2.0]\nmu 0.0\nsd 2.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "1\nshared_address True\nnot_fraud_label True\n",
+          "expected_head": "same 1\na av-1\nb av-1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\ndegree_E1 2\nok True\n",
+          "expected_head": "deg 2\nnode E1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n99\nok True\n",
+          "expected_head": "p 1\nmissing 99\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "2\nwindow 3\nhalf_open True\n",
+          "expected_head": "n 2\nt 5\nW 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'app': 2, 'web': 1}\nn 3\nok True\n",
+          "expected_head": "app 2\nweb 1\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "1\nexcluded_at_t True\nok True\n",
+          "expected_head": "sum 1\nexcluded 10\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "moda a\nout ['a', 'b', 'a', 'a']\nok True\n",
+          "expected_head": "mode a\nout ['a', 'b', 'a', 'a']\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "[0, 3]\n[0, 6]\nok True\n",
+          "expected_head": "[2, 0, 6]\nsteps 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "error_not_fitted\nflag False\nguard True\n",
+          "expected_head": "raised True\nfitted_default False\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "10.0\nroundtrip True\npersist True\n",
+          "expected_head": "3.5\nkeys 1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "True\nv1 {'app'} v2 {'app', 'web'}\nversion_policy bump_on_vocab_change\n",
+          "expected_head": "bump True\nv fs-v2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[10.0, 12.0]\nmed 10.0\nserve True\n",
+          "expected_head": "[10.0, 12.0]\nmed 10.0\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "[{'ts': '2026-01-01'}]\nn_train 1\ntime_split True\n",
+          "expected_head": "train_n 1\ntest_n 1\ncut 2026-02-01",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'E1': 2, 'E2': 1}\nn 3\nok True\n",
+          "expected_head": "{'E1': 2, 'E2': 1}\nn_ent 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "0\noverlap set()\nok True\n",
+          "expected_head": "overlap 0\nok True\nn_tr 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['label_y', 'reviewer_decision']\nn 2\nfs_version v3\n",
+          "expected_head": "['label_y', 'reviewer_decision']\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\ndelta 0.8\nskew True\n",
+          "expected_head": "alert True\ndelta 0.8\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S32-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "fs-v3\nformat fs-vN\nok True\n",
+          "expected_head": "id fs-v3\nver 3\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 14,
+      "code_tried": 24,
+      "code_ratio": 0.583,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

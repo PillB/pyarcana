@@ -1,0 +1,175 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L1",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l1-explorer-s11-778f15e4fc",
+  "production_note": "agentic_L1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    name: str\n    age: int\n\np = Person(\"Ana\", 30)\nprint(p)\nprint(p.name, p.age)\n",
+      "justification_from_packet": "Para S11-T1-A-E1 me apoyé en «Clases, instancias y dataclass»: Una clase define el molde; una instancia es un objeto concreto. @dataclass genera __init__, __repr__ y opcionalmente comparación. En OOP de dominio, el *porqué*… En el ejercicio usé @dataclass Person. molde + instancia Ana/30. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T1-A."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    tags: list = field(default_factory=list)\n\na = CaseFile(\"C1\")\nb = CaseFile(\"C2\")\na.tags.append(\"x\")\nprint(a.tags, b.tags)\n",
+      "justification_from_packet": "Para S11-T1-A-E2 me apoyé en «Clases, instancias y dataclass»: Una clase define el molde; una instancia es un objeto concreto. @dataclass genera __init__, __repr__ y opcionalmente comparación. En OOP de dominio, el *porqué*… En el ejercicio usé default_factory=list. tags no se comparten entre instancias. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T1-A."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Client:\n    client_id: str\n    name: str\n\nc = Client(\"C001\", \"José\")\nprint(c)\nprint(type(c).__name__)\n",
+      "justification_from_packet": "Para S11-T1-A-E3 me apoyé en «Clases, instancias y dataclass»: Una clase define el molde; una instancia es un objeto concreto. @dataclass genera __init__, __repr__ y opcionalmente comparación. En OOP de dominio, el *porqué*… En el ejercicio usé Client dataclass. client_id estable. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T1-A."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Score:\n    value: float\n    def __post_init__(self):\n        if not 0.0 <= self.value <= 1.0:\n            raise ValueError(\"score fuera de [0,1]\")\n\nprint(Score(0.5))\ntry:\n    Score(1.5)\nexcept ValueError as e:\n    print(\"invalid\", e)\n",
+      "justification_from_packet": "Para S11-T1-B-E1 me apoyé en «Invariantes y estados válidos»: __post_init__ en dataclasses valida justo después de construir. Si el estado es inválido, falla al crear — no dejes objetos a medias. En OOP de dominio, el *por… En el ejercicio usé __post_init__ rango. score 1.5 falla al construir. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T1-B."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Email:\n    raw: str\n    def __post_init__(self):\n        if \"@\" not in self.raw:\n            raise ValueError(\"email inválido\")\n        self.raw = self.raw.strip().casefold()\n\nprint(Email(\"  A@B.COM \"))\n",
+      "justification_from_packet": "Para S11-T1-B-E2 me apoyé en «Invariantes y estados válidos»: __post_init__ en dataclasses valida justo después de construir. Si el estado es inválido, falla al crear — no dejes objetos a medias. En OOP de dominio, el *por… En el ejercicio usé validate email en post_init. strip+casefold. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T1-B."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "code": "print(\"fallar en construccion: evita objetos a medias\")\nprint(\"validate/__post_init__ antes de usar el dominio\")\nprint(\"mejor que descubrir invalidez al final del pipeline\")\n",
+      "justification_from_packet": "Para S11-T1-B-E3 me apoyé en «Invariantes y estados válidos»: __post_init__ en dataclasses valida justo después de construir. Si el estado es inválido, falla al crear — no dejes objetos a medias. En OOP de dominio, el *por… En el ejercicio usé fail early. no objetos a medias. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T1-B."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first: str\n    last: str\n    @property\n    def display_name(self):\n        return f\"{self.first} {self.last}\"\n\nprint(Person(\"Ana\", \"Quispe\").display_name)\n",
+      "justification_from_packet": "Para S11-T2-A-E1 me apoyé en «Propiedades y métodos»: @property expone campos calculados (display_name, masked_email) sin mutación peligrosa desde afuera. En OOP de dominio, el *porqué* es operativo: reduce ambigüe… En el ejercicio usé @property display_name. campo calculado. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T2-A."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Contact:\n    email: str\n    @property\n    def masked_email(self):\n        local, _, dom = self.email.partition(\"@\")\n        return (local[:1] + \"***@\" + dom) if local else \"***@\" + dom\n\nprint(Contact(\"ana@ejemplo.pe\").masked_email)\n",
+      "justification_from_packet": "Para S11-T2-A-E2 me apoyé en «Propiedades y métodos»: @property expone campos calculados (display_name, masked_email) sin mutación peligrosa desde afuera. En OOP de dominio, el *porqué* es operativo: reduce ambigüe… En el ejercicio usé masked_email property. sin mutar raw. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T2-A."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Entity:\n    name: str\n    def initials(self):\n        return \"\".join(p[0].upper() for p in self.name.split() if p)\n\nprint(Entity(\"Ana María\").initials())\n",
+      "justification_from_packet": "Para S11-T2-A-E3 me apoyé en «Propiedades y métodos»: @property expone campos calculados (display_name, masked_email) sin mutación peligrosa desde afuera. En OOP de dominio, el *porqué* es operativo: reduce ambigüe… En el ejercicio usé método initials. comportamiento de dominio. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T2-A."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    entity_id: str\n    document_id: str\n\na = ResolvedEntity(\"E1\", \"DNI-1\")\nb = ResolvedEntity(\"E1\", \"DNI-2\")\nprint(a.entity_id == b.entity_id)\nprint(hash(a) == hash(ResolvedEntity(\"E1\", \"DNI-9\")))\n",
+      "justification_from_packet": "Para S11-T2-B-E1 me apoyé en «Igualdad, hash y mutabilidad consciente»: La identidad de ResolvedEntity usa su entity_id estable, no document_id: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accid… En el ejercicio usé frozen + entity_id. identidad no es document_id. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T2-B."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Key:\n    entity_id: str\n\ns = {Key(\"E1\"), Key(\"E1\"), Key(\"E2\")}\nprint(len(s))\n",
+      "justification_from_packet": "Para S11-T2-B-E2 me apoyé en «Igualdad, hash y mutabilidad consciente»: La identidad de ResolvedEntity usa su entity_id estable, no document_id: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accid… En el ejercicio usé hash en set. dedupe por entity_id. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T2-B."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "code": "print(\"identidad por entity_id estable, no por document_id PII\")\nprint(\"document_id puede corregirse sin fusionar entidades\")\nprint(\"frozen dataclass habilita set/dict seguros\")\n",
+      "justification_from_packet": "Para S11-T2-B-E3 me apoyé en «Igualdad, hash y mutabilidad consciente»: La identidad de ResolvedEntity usa su entity_id estable, no document_id: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accid… En el ejercicio usé política de identidad. PII no define igualdad. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T2-B."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass PersonInfo:\n    name: str\n\n@dataclass\nclass Client:\n    client_id: str\n    person: PersonInfo\n\nc = Client(\"C1\", PersonInfo(\"Ana\"))\nprint(c.client_id, c.person.name)\nprint(\"composicion has-a, no herencia forzada\")\n",
+      "justification_from_packet": "Para S11-T3-A-E1 me apoyé en «Composición antes que herencia»: has-a (composición) suele modelar mejor casos: CaseFile tiene lista de RelationshipEvidence y una ResolvedEntity. En OOP de dominio, el *porqué* es operativo: r… En el ejercicio usé composición Client/PersonInfo. has-a. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T3-A."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    kind: str\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidence: list = field(default_factory=list)\n\ncf = CaseFile(\"CF1\")\ncf.evidence.append(RelationshipEvidence(0.4, \"shared_email\"))\nprint(len(cf.evidence), cf.evidence[0].signal_score)\n",
+      "justification_from_packet": "Para S11-T3-A-E2 me apoyé en «Composición antes que herencia»: has-a (composición) suele modelar mejor casos: CaseFile tiene lista de RelationshipEvidence y una ResolvedEntity. En OOP de dominio, el *porqué* es operativo: r… En el ejercicio usé CaseFile + evidence list. RelationshipEvidence. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T3-A."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "code": "print(\"Client hereda Person suele ser fragil\")\nprint(\"composicion Client tiene PersonInfo basta\")\nprint(\"evita jerarquias profundas en el dominio\")\n",
+      "justification_from_packet": "Para S11-T3-A-E3 me apoyé en «Composición antes que herencia»: has-a (composición) suele modelar mejor casos: CaseFile tiene lista de RelationshipEvidence y una ResolvedEntity. En OOP de dominio, el *porqué* es operativo: r… En el ejercicio usé herencia frágil vs composición. mensaje del theory. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T3-A."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "code": "from typing import Protocol\n\nclass EntityStore(Protocol):\n    def get(self, entity_id: str): ...\n    def save(self, entity) -> None: ...\n\nclass FakeStore:\n    def __init__(self):\n        self._d = {}\n    def get(self, entity_id: str):\n        return self._d.get(entity_id)\n    def save(self, entity) -> None:\n        self._d[entity[\"id\"]] = entity\n\nstore: EntityStore = FakeStore()\nstore.save({\"id\": \"E1\"})\nprint(store.get(\"E1\"))\n",
+      "justification_from_packet": "Para S11-T3-B-E1 me apoyé en «Protocolos y polimorfismo con propósito»: typing.Protocol describe un puerto (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el *porqué* es operativo: reduce … En el ejercicio usé Protocol EntityStore. FakeStore duck typing. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T3-B."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "code": "class InMemoryStore:\n    def __init__(self):\n        self.data = {}\n    def get(self, eid):\n        return self.data.get(eid)\n    def save(self, ent):\n        self.data[ent[\"id\"]] = ent\n        return \"saved\"\n\ns = InMemoryStore()\nprint(s.save({\"id\": \"E2\", \"name\": \"Ada\"}))\nprint(s.get(\"E2\"))\n",
+      "justification_from_packet": "Para S11-T3-B-E2 me apoyé en «Protocolos y polimorfismo con propósito»: typing.Protocol describe un puerto (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el *porqué* es operativo: reduce … En el ejercicio usé InMemoryStore. get/save sin DB. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T3-B."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "code": "print(\"Protocol define puerto get/save\")\nprint(\"fakes y adapters implementan sin herencia de base de datos\")\nprint(\"tests del dominio no necesitan Postgres\")\n",
+      "justification_from_packet": "Para S11-T3-B-E3 me apoyé en «Protocolos y polimorfismo con propósito»: typing.Protocol describe un puerto (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el *porqué* es operativo: reduce … En el ejercicio usé puerto testeable. sin Postgres. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T3-B."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "code": "class Repo:\n    def __init__(self):\n        self._db = {}\n    def get(self, eid):\n        return self._db.get(eid)\n    def save(self, ent):\n        self._db[ent[\"id\"]] = ent\n\nr = Repo()\nr.save({\"id\": \"E1\", \"score\": 0.2})\nprint(r.get(\"E1\"))\n",
+      "justification_from_packet": "Para S11-T4-A-E1 me apoyé en «Repositorios, servicios y serialización»: Repository light: get/save. Service light: orquesta dominio sin conocer CLI ni HTTP. to_dict/from_dict en el borde. En OOP de dominio, el *porqué* es operativo:… En el ejercicio usé Repo light. get/save en memoria. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T4-A."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "code": "def to_dict(entity):\n    return {\"entity_id\": entity[\"entity_id\"], \"name\": entity[\"name\"]}\n\ndef from_dict(d):\n    return {\"entity_id\": d[\"entity_id\"], \"name\": d[\"name\"]}\n\nraw = {\"entity_id\": \"E1\", \"name\": \"Ana\"}\nprint(to_dict(from_dict(raw)))\n",
+      "justification_from_packet": "Para S11-T4-A-E2 me apoyé en «Repositorios, servicios y serialización»: Repository light: get/save. Service light: orquesta dominio sin conocer CLI ni HTTP. to_dict/from_dict en el borde. En OOP de dominio, el *porqué* es operativo:… En el ejercicio usé to_dict/from_dict. borde de serialización. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T4-A."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "code": "print(\"service orquesta dominio sin conocer CLI/HTTP\")\nprint(\"repo get/save en el borde de persistencia\")\nprint(\"to_dict/from_dict en la frontera de serializacion\")\n",
+      "justification_from_packet": "Para S11-T4-A-E3 me apoyé en «Repositorios, servicios y serialización»: Repository light: get/save. Service light: orquesta dominio sin conocer CLI ni HTTP. to_dict/from_dict en el borde. En OOP de dominio, el *porqué* es operativo:… En el ejercicio usé service vs repo. orquestación sin CLI. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T4-A."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "code": "class FakeStore:\n    def __init__(self):\n        self.saved = []\n    def save(self, e):\n        self.saved.append(e)\n\ndef service_register(store, ent):\n    if \"id\" not in ent:\n        raise ValueError(\"id required\")\n    store.save(ent)\n    return \"ok\"\n\nfs = FakeStore()\nprint(service_register(fs, {\"id\": \"E1\"}))\nprint(len(fs.saved))\n",
+      "justification_from_packet": "Para S11-T4-B-E1 me apoyé en «Dependencias y pruebas del dominio»: Tests del dominio son puros: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locale… En el ejercicio usé test con FakeStore. service_register puro. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T4-B."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "code": "def test_no_is_fraud_method():\n    domain_methods = [\"to_dict\", \"validate\", \"signal_score\"]\n    assert \"is_fraud\" not in domain_methods\n    return \"pass\"\n\nprint(test_no_is_fraud_method())\n",
+      "justification_from_packet": "Para S11-T4-B-E2 me apoyé en «Dependencias y pruebas del dominio»: Tests del dominio son puros: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locale… En el ejercicio usé sin is_fraud en dominio. assert de superficie. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T4-B."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "code": "print(\"dominio sin is_fraud() automatico\")\nprint(\"tests puros con fakes del Protocol\")\nprint(\"RelationshipEvidence.signal_score es senal, no veredicto\")\n",
+      "justification_from_packet": "Para S11-T4-B-E3 me apoyé en «Dependencias y pruebas del dominio»: Tests del dominio son puros: sin red, sin DB real. Fakes del Protocol bastan. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en pipelines locale… En el ejercicio usé signal ≠ veredicto. política de familiaridad. Así el código del paquete activo se alinea con la instruction y el demo iDo de S11-T4-B."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #0: «¿Por qué `field(default_factory=list)` y no `= []`?». Elijo «Evita el default mutable compartido entre instancias» porque en «Composición antes que herencia» el paquete indica: has-a (composición) suele modelar mejor casos: CaseFile tiene lista de RelationshipEvidence y una ResolvedEntity. En OOP de dominio, el *porqué* es operativo: reduce ambi. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #1: «RelationshipEvidence.signal_score representa…». Elijo «Una señal/dato numérico, no un veredicto de fraude o familia» porque en «Clases, instancias y dataclass» el paquete indica: Una clase define el molde; una instancia es un objeto concreto. @dataclass genera __init__, __repr__ y opcionalmente comparación. En OOP de dominio, el *porqué* es op. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck #2: «Un Protocol EntityStore sirve para…». Elijo «Definir un puerto get/save implementable por fakes y adapters» porque en «Protocolos y polimorfismo con propósito» el paquete indica: typing.Protocol describe un puerto (EntityStore con get/save) sin forzar herencia. Duck typing estructural. En OOP de dominio, el *porqué* es operativo: reduce ambigüedad en . Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck #3: «Objeto inválido: ¿cuándo fallar?». Elijo «En la construcción (__post_init__/validate)» porque en «Invariantes y estados válidos» el paquete indica: __post_init__ en dataclasses valida justo después de construir. Si el estado es inválido, falla al crear — no dejes objetos a medias. En OOP de dominio, el *porqué* es operat. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck #4: «Client hereda de Person…». Elijo «A menudo es frágil; composición (Client tiene PersonInfo) suele bastar» porque en «Composición antes que herencia» el paquete indica: has-a (composición) suele modelar mejor casos: CaseFile tiene lista de RelationshipEvidence y una ResolvedEntity. En OOP de dominio, el *porqué* es operativo: reduce ambi. Las otras opciones chocan con esa política del theory activo."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck #5: «¿Qué no debe tener el dominio de familiaridad?». Elijo «is_fraud() automático» porque en «Clases, instancias y dataclass» el paquete indica: Una clase define el molde; una instancia es un objeto concreto. @dataclass genera __init__, __repr__ y opcionalmente comparación. En OOP de dominio, el *porqué* es op. Las otras opciones chocan con esa política del theory activo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T16:28:58.566738+00:00",
+  "session_started_at": "2026-07-23T16:26:19.357754+00:00",
+  "session_ended_at": "2026-07-23T16:27:00.964754+00:00",
+  "receipt_response_sha256": "70274240becaf063b9a49ab7c9d48196169d5c05013a13248013e1fb7774b8bd",
+  "receipt_exercises_sha256": "6bb0be478313d7068f6f8b4c40a9709b77c5c0245db008079080ec7594ee7038",
+  "receipt_selfcheck_sha256": "59b2a1b15d974e77bdfbcaca94f3dc7a44da6fd905158c4b25761d78789e44ce"
+}

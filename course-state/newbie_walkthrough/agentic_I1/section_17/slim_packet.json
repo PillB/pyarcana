@@ -1,0 +1,841 @@
+{
+  "attempt_id": "agentic_I1",
+  "section_index": 17,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "78058f8237924509"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    }
+  ],
+  "active": {
+    "id": "packaging",
+    "index": 17,
+    "title": "Joins, reshape, groupby y cierre analítico",
+    "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+    "jobRelevance": "Cerrar un **portfolio de data quality + EDA** en banca, fintech o retail en Perú exige joins con cardinalidad documentada, reshape long/wide estable, groupby con contratos de agregación y reconciliación de totales sin leakage temporal. Esta sección (id `packaging` conservado) retematiza a V3 y **cierra CP-N2-A** con evidencias reproducibles y memo de límites — sin PII real ni claims causales no soportados.",
+    "learningOutcomes": [
+      "Diseñar joins con claves y cardinalidad correctas",
+      "Usar validate y anti-join para detectar fan-out/huérfanos",
+      "Reshapear con concat/melt/pivot",
+      "Mantener nombres estables long/wide",
+      "Agregar con groupby/agg/transform",
+      "Construir ventanas, fechas y cohortes",
+      "Reconciliar denominadores y totales",
+      "Controlar leakage temporal antes/después"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S17-T1-A",
+        "heading": "claves y cardinalidad en joins",
+        "paragraphs": [
+          "`merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, 1:m, m:1, m:m) determina si el número de filas se mantiene, crece (fan-out) o produce cartesianos accidentales. En un maestro de clientes 1:1 la clave debe ser única; en transacciones 1:m es normal que un `cliente_id` se repita.",
+          "Contrato operativo: **antes del merge** verifica dtype alineado (ambos `str` tras normalización S16), unicidad de la clave en el lado 1 (`Series.is_unique` o `nunique()==len`) y cuenta filas pre/post. Si `len(out) >> len(left)` en un supuesto 1:1, hay fan-out o clave sucia — no sigas al EDA.",
+          "Caso sintético Perú: `cli` (C001 Lima, C002 Cusco) left-merge con `tx` (dos filas C001, ninguna C003). Salida esperada: C001 se duplica por monto; C002 queda con NaN en columnas de tx. Documenta `rows_cli → rows_merge` en el portfolio."
+        ],
+        "code": "import pandas as pd\n\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C003\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(\"cli_unique\", cli[\"cliente_id\"].is_unique)\nprint(\"tx_unique\", tx[\"cliente_id\"].is_unique)\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\")\nprint(len(cli), len(tx), len(m))\nprint(m.to_dict(orient=\"list\"))",
+        "code_output": "cli_unique True\ntx_unique False\n2 3 3\n{'cliente_id': ['C001', 'C001', 'C002'], 'region': ['Lima', 'Lima', 'Cusco'], 'monto': [10.0, 5.0, nan]}"
+      },
+      {
+        "subtopicId": "S17-T1-B",
+        "heading": "validate, duplicación accidental y anti-join",
+        "paragraphs": [
+          "El parámetro `validate='one_to_one'|'one_to_many'|...` hace que pandas **falle temprano** con `MergeError` si la cardinalidad real no coincide con el contrato. Es un quality gate de join, no un nice-to-have: un m:m accidental multiplica filas y sesga sumas de montos.",
+          "`indicator=True` agrega la columna `_merge` con valores `left_only` / `right_only` / `both`. El **anti-join** clásico filtra `left_only` (clientes sin transacciones) o, al revés, `right_only` (tx huérfanas sin maestro). Cuenta huérfanos y expórtalos a una tabla de evidencia.",
+          "Caso sintético: cli={C001,C002}, tx={C001,C003}. Left anti-join → C002; right-only → C003. Si intentas `validate='one_to_one'` con C001 duplicado en tx, debes capturar el error e imprimir un fallo controlado — no silenciar con except vacío."
+        ],
+        "code": "import pandas as pd\n\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C003\"], \"monto\": [1.0, 2.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nanti = m[m[\"_merge\"] == \"left_only\"]\nprint(m[\"_merge\"].tolist())\nprint(\"huerfanos\", anti[\"cliente_id\"].tolist())\ntry:\n    cli.merge(pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]}), on=\"cliente_id\", validate=\"one_to_one\")\nexcept pd.errors.MergeError as e:\n    print(\"validate_fail\", True)",
+        "code_output": "['both', 'left_only']\nhuerfanos ['C002']\nvalidate_fail True"
+      },
+      {
+        "subtopicId": "S17-T2-A",
+        "heading": "concat, melt y pivot",
+        "paragraphs": [
+          "`concat` apila filas (`axis=0`) o alinea columnas (`axis=1`). `melt` lleva **wide→long** (ideal para series por mes); `pivot` / `pivot_table` hacen **long→wide** para reportes tabulares. Elige long cuando el análisis es multipunto en el tiempo; wide cuando el stakeholder pide una fila por cliente y columnas por periodo.",
+          "Contrato: declara `id_vars` / `value_vars` o `index`+`columns`+`values`, y en `pivot_table` fija **`aggfunc` explícito** (p. ej. `sum`) para no depender del default. Tras concat, usa `ignore_index=True` o `keys=` si necesitas trazabilidad del origen.",
+          "Fixture sintético: wide con columnas `ene`/`feb` por `cliente_id` → melt a (`cliente_id`,`mes`,`monto`) → pivot_table de regreso. Verifica `len(long)==n_clientes*n_meses` y que la suma de montos se conserve bajo aggfunc sum."
+        ],
+        "code": "import pandas as pd\n\nwide = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"ene\": [1, 2], \"feb\": [3, 4]})\nlong = wide.melt(id_vars=[\"cliente_id\"], var_name=\"mes\", value_name=\"monto\")\nback = long.pivot_table(index=\"cliente_id\", columns=\"mes\", values=\"monto\", aggfunc=\"sum\")\nprint(long.to_dict(orient=\"list\"))\nprint(back.reset_index().to_dict(orient=\"list\"))",
+        "code_output": "{'cliente_id': ['C001', 'C002', 'C001', 'C002'], 'mes': ['ene', 'ene', 'feb', 'feb'], 'monto': [1, 2, 3, 4]}\n{'cliente_id': ['C001', 'C002'], 'ene': [1, 2], 'feb': [3, 4]}"
+      },
+      {
+        "subtopicId": "S17-T2-B",
+        "heading": "long/wide y nombres estables",
+        "paragraphs": [
+          "Tras un pivot, las columnas pueden ser MultiIndex o nombres crudos (`ene`, `feb`). El portfolio exige un **schema estable**: p. ej. `cliente_id`, `monto_ene`, `monto_feb`. Aplanar con f-strings o `map` y **validar** `set(df.columns)==expected` (el orden se documenta aparte si importa al export).",
+          "Contrato de nombres: lista ordenada en el memo del CP-N2-A; cualquier rename silencioso rompe el dashboard o el diff del PR. Prefiere `rename(columns={...})` con dict explícito sobre mutaciones ad hoc de `.columns`.",
+          "Caso: long (`cliente_id`,`mes`,`monto`) → pivot → prefijo `monto_`. Imprime columnas y un booleano de igualdad de sets. Si falta `monto_feb`, el gate de schema del portfolio debe fallar de forma explicable (concepto S16), no más adelante en el plot."
+        ],
+        "code": "import pandas as pd\n\nlong = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"mes\": [\"ene\", \"feb\"],\n    \"monto\": [1.0, 2.0],\n})\nwide = long.pivot(index=\"cliente_id\", columns=\"mes\", values=\"monto\")\nwide.columns = [f\"monto_{c}\" for c in wide.columns]\nwide = wide.reset_index()\nexpected = [\"cliente_id\", \"monto_ene\", \"monto_feb\"]\nprint(wide.columns.tolist())\nprint(set(wide.columns) == set(expected))",
+        "code_output": "['cliente_id', 'monto_ene', 'monto_feb']\nTrue"
+      },
+      {
+        "subtopicId": "S17-T3-A",
+        "heading": "groupby / agg / transform",
+        "paragraphs": [
+          "`groupby` + `agg` **colapsa** grupos a una fila por clave (resúmenes ejecutivos). `transform` **reinyecta** el agregado al shape original (features a nivel fila: monto / media_región). Named aggregation (`total=('monto','sum')`) documenta el contrato de columnas de salida.",
+          "Contrato: `as_index=False` facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar `mean` cuando la pregunta de negocio pide **suma de PEN** o conteos de clientes.",
+          "Caso sintético: regiones Lima/Cusco con montos → `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B)."
+        ],
+        "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"region\": [\"Lima\", \"Lima\", \"Cusco\"],\n    \"monto\": [10.0, 20.0, 5.0],\n})\nagg = df.groupby(\"region\", as_index=False).agg(monto_sum=(\"monto\", \"sum\"), n=(\"monto\", \"size\"))\ndf2 = df.copy()\ndf2[\"monto_region_mean\"] = df2.groupby(\"region\")[\"monto\"].transform(\"mean\")\nprint(agg.to_dict(orient=\"list\"))\nprint(df2[\"monto_region_mean\"].tolist())",
+        "code_output": "{'region': ['Cusco', 'Lima'], 'monto_sum': [5.0, 30.0], 'n': [1, 2]}\n[15.0, 15.0, 5.0]"
+      },
+      {
+        "subtopicId": "S17-T3-B",
+        "heading": "ventanas, fechas y cohortes",
+        "paragraphs": [
+          "`rolling` construye **ventanas móviles** sobre series ordenadas; `resample` requiere DatetimeIndex. Una **cohorte** etiqueta a cada cliente por el periodo de su primera observación válida (p. ej. mes de primera compra), no por la fecha del batch de hoy.",
+          "Contrato: **ordena por fecha** antes de rolling; documenta tamaño de ventana (2 periodos, 7d) y el tratamiento de NaN iniciales. Cohorte = `groupby(cliente_id)[fecha].transform('min').dt.to_period('M')` (o equivalente estable).",
+          "Caso: tx en ene–mar 2024; C001 cohorte 2024-01; media móvil de montos diarios con window=2. Estas series alimentan preguntas de retención del portfolio ejecutivo sin afirmar causalidad — el memo declara no-claims explícitos."
+        ],
+        "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-01-02\", \"2024-01-03\", \"2024-01-04\"]),\n    \"monto\": [1.0, 2.0, 3.0, 4.0],\n}).set_index(\"fecha\")\ndf[\"roll3\"] = df[\"monto\"].rolling(3).mean()\nclientes = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-15\", \"2024-02-10\", \"2024-01-20\"]),\n})\nfirst = clientes.groupby(\"cliente_id\")[\"fecha\"].transform(\"min\")\nclientes[\"cohort\"] = first.dt.to_period(\"M\").astype(str)\nprint(df[\"roll3\"].round(2).tolist())\nprint(clientes[[\"cliente_id\", \"cohort\"]].drop_duplicates().to_dict(orient=\"list\"))",
+        "code_output": "[nan, nan, 2.0, 3.0]\n{'cliente_id': ['C001', 'C002'], 'cohort': ['2024-01', '2024-01']}"
+      },
+      {
+        "subtopicId": "S17-T4-A",
+        "heading": "denominadores y totales",
+        "paragraphs": [
+          "Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia (o la diferencia queda documentada con tolerancia `abs(diff)<eps`). Los **denominadores** de tasas (pagados/activos, completos/universo) deben ser el mismo filtro que declaras en el texto del hallazgo.",
+          "Contrato bridge: `total → segmento_A → residual`. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide.",
+          "Caso sintético: total nacional 100 PEN; partes Lima/Cusco/Arequipa; tasa de completitud 150/200=0.75. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico."
+        ],
+        "code": "import pandas as pd\n\ntotal = 100.0\nparts = pd.Series({\"Lima\": 60.0, \"Cusco\": 30.0, \"Arequipa\": 10.0})\nprint(\"sum_parts\", float(parts.sum()), \"ok\", abs(parts.sum() - total) < 1e-9)\n# tasa: pagados / clientes activos\nactivos = 50\npagados = 20\nprint(\"tasa\", pagados / activos, \"denominador\", activos)",
+        "code_output": "sum_parts 100.0 ok True\ntasa 0.4 denominador 50"
+      },
+      {
+        "subtopicId": "S17-T4-B",
+        "heading": "leakage temporal y controles antes/después",
+        "paragraphs": [
+          "**Leakage temporal** es usar información con fecha posterior al **cutoff** para features o métricas de un periodo “antes”. Invalida comparaciones before/after y cualquier score de “riesgo a enero” que mira febrero.",
+          "Controles: cutoff estricto (`fecha <= t`), agregados solo sobre el subconjunto pre-cutoff, y comparación explícita `sum_total - sum_pre` como **delta de leakage** en el memo. As-of = “solo lo conocido a la fecha t”.",
+          "Caso: C001 con tx 10 PEN en ene y 999 en mar; cutoff 2024-01-31 → feature segura 10, leaky 1009, delta de leakage 999. El cierre CP-N2-A debe demostrar al menos un control as-of de este tipo en el script reproducible."
+        ],
+        "code": "import pandas as pd\n\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-01-15\", \"2024-02-01\"]),\n    \"monto\": [10.0, 5.0, 100.0],\n})\ncutoff = pd.Timestamp(\"2024-01-31\")\npre = tx[tx[\"fecha\"] <= cutoff]\n# mal: usar max global incluyendo febrero\nleak = float(tx[\"monto\"].sum())\nok = float(pre[\"monto\"].sum())\nprint(\"con_leak_total\", leak, \"pre_cutoff\", ok)\nprint(\"leakage_delta\", leak - ok)",
+        "code_output": "con_leak_total 115.0 pre_cutoff 15.0\nleakage_delta 100.0"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S17-T1-A-DEMO",
+          "subtopicId": "S17-T1-A",
+          "environment": "local-python",
+          "description": "Elegir left join clientes-tx y validar fan-out 1:m",
+          "why": "Contar filas pre/post documenta la cardinalidad real del join.",
+          "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"monto\": [3.0, 4.0, 5.0]})\nassert cli[\"cliente_id\"].is_unique\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\")\nprint(\"rows\", len(cli), \"->\", len(m), \"card\", \"1:m\")\nprint(m.groupby(\"cliente_id\").size().to_dict())",
+          "language": "python",
+          "output": "rows 2 -> 3 card 1:m\n{'C001': 2, 'C002': 1}"
+        },
+        {
+          "demoId": "S17-T1-B-DEMO",
+          "subtopicId": "S17-T1-B",
+          "environment": "local-python",
+          "description": "Detectar fan-out con validate y anti-join de clientes sin tx",
+          "why": "validate + anti-join cubren fan-out y huérfanos.",
+          "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]})\nok = cli.merge(tx.drop_duplicates(\"cliente_id\"), on=\"cliente_id\", how=\"left\", validate=\"one_to_one\")\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nanti = m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].unique().tolist()\nprint(\"anti\", anti)\ntry:\n    cli.merge(tx, on=\"cliente_id\", validate=\"one_to_one\")\nexcept Exception:\n    print(\"validate_caught_fanout\", True)",
+          "language": "python",
+          "output": "anti ['C002', 'C003']\nvalidate_caught_fanout True"
+        },
+        {
+          "demoId": "S17-T2-A-DEMO",
+          "subtopicId": "S17-T2-A",
+          "environment": "local-python",
+          "description": "Pasar wide↔long con melt y pivot_table",
+          "why": "melt/pivot son el puente a reportes y series.",
+          "code": "import pandas as pd\nwide = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"m1\": [10, 20], \"m2\": [1, 2]})\nlong = wide.melt(id_vars=\"cliente_id\", var_name=\"periodo\", value_name=\"monto\")\nwide2 = long.pivot_table(index=\"cliente_id\", columns=\"periodo\", values=\"monto\", aggfunc=\"sum\")\nprint(long.shape, wide2.shape)\nprint(long[\"periodo\"].tolist())",
+          "language": "python",
+          "output": "(4, 3) (2, 2)\n['m1', 'm1', 'm2', 'm2']"
+        },
+        {
+          "demoId": "S17-T2-B-DEMO",
+          "subtopicId": "S17-T2-B",
+          "environment": "local-python",
+          "description": "Estabilizar nombres de columnas post-pivot al schema del portfolio",
+          "why": "Schema de columnas estable evita roturas del dashboard.",
+          "code": "import pandas as pd\nlong = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"mes\": [\"ene\", \"feb\"], \"monto\": [1.0, 2.0]})\nw = long.pivot(index=\"cliente_id\", columns=\"mes\", values=\"monto\").reset_index()\nw.columns = [\"cliente_id\" if c == \"cliente_id\" else f\"monto_{c}\" for c in w.columns]\nexpected = {\"cliente_id\", \"monto_ene\", \"monto_feb\"}\nprint(w.columns.tolist(), set(w.columns) == expected)",
+          "language": "python",
+          "output": "['cliente_id', 'monto_ene', 'monto_feb'] True"
+        },
+        {
+          "demoId": "S17-T3-A-DEMO",
+          "subtopicId": "S17-T3-A",
+          "environment": "local-python",
+          "description": "Agregar montos por región y reinyectar media con transform",
+          "why": "agg para reportes; transform para features a nivel fila.",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"region\": [\"Lima\", \"Lima\", \"Arequipa\", \"Arequipa\"],\n    \"monto\": [10.0, 30.0, 5.0, 15.0],\n})\nresumen = df.groupby(\"region\", as_index=False).agg(total=(\"monto\", \"sum\"), n=(\"monto\", \"count\"))\ndf = df.assign(mean_reg=df.groupby(\"region\")[\"monto\"].transform(\"mean\"))\nprint(resumen.to_dict(orient=\"list\"))\nprint(df[\"mean_reg\"].tolist())",
+          "language": "python",
+          "output": "{'region': ['Arequipa', 'Lima'], 'total': [20.0, 40.0], 'n': [2, 2]}\n[20.0, 20.0, 10.0, 10.0]"
+        },
+        {
+          "demoId": "S17-T3-B-DEMO",
+          "subtopicId": "S17-T3-B",
+          "environment": "local-python",
+          "description": "Construir cohorte mensual y media móvil de 2 periodos",
+          "why": "Cohortes + ventanas responden preguntas de evolución temporal.",
+          "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-02-10\", \"2024-01-20\", \"2024-03-01\"]),\n    \"monto\": [1.0, 2.0, 3.0, 4.0],\n})\ntx[\"cohort\"] = tx.groupby(\"cliente_id\")[\"fecha\"].transform(\"min\").dt.to_period(\"M\").astype(str)\ndaily = tx.groupby(\"fecha\", as_index=True)[\"monto\"].sum().sort_index()\nroll = daily.rolling(2).mean()\nprint(tx[[\"cliente_id\", \"cohort\"]].drop_duplicates().to_dict(orient=\"list\"))\nprint([None if pd.isna(x) else round(float(x), 2) for x in roll.tolist()])",
+          "language": "python",
+          "output": "{'cliente_id': ['C001', 'C002'], 'cohort': ['2024-01', '2024-01']}\n[None, 2.0, 2.5, 3.0]"
+        },
+        {
+          "demoId": "S17-T4-A-DEMO",
+          "subtopicId": "S17-T4-A",
+          "environment": "local-python",
+          "description": "Reconciliar total nacional vs suma por región",
+          "why": "Totales y denominadores anclan el EDA ejecutivo.",
+          "code": "import pandas as pd\nparts = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\", \"Arequipa\"], \"monto\": [50.0, 30.0, 20.0]})\ntotal_ref = 100.0\ndiff = float(parts[\"monto\"].sum() - total_ref)\nprint(\"diff\", diff, \"reconciled\", abs(diff) < 1e-9)\n# denominador de tasa de completitud\nn_clientes = 200\nn_completos = 150\nprint(\"tasa\", n_completos / n_clientes, \"den\", n_clientes)",
+          "language": "python",
+          "output": "diff 0.0 reconciled True\ntasa 0.75 den 200"
+        },
+        {
+          "demoId": "S17-T4-B-DEMO",
+          "subtopicId": "S17-T4-B",
+          "environment": "local-python",
+          "description": "Evitar leakage: agregar solo transacciones <= cutoff",
+          "why": "Cutoff y as-of evitan contaminación before/after.",
+          "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]),\n    \"monto\": [10.0, 999.0],\n})\ncutoff = pd.Timestamp(\"2024-01-31\")\nfeat = tx[tx[\"fecha\"] <= cutoff].groupby(\"cliente_id\")[\"monto\"].sum()\nleaky = tx.groupby(\"cliente_id\")[\"monto\"].sum()\nprint(\"safe\", feat.to_dict())\nprint(\"leaky\", leaky.to_dict())\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"]))",
+          "language": "python",
+          "output": "safe {'C001': 10.0}\nleaky {'C001': 1009.0}\ndelta 999.0"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S17-T1-A-E1",
+          "instruction": "E1 (guiado) — Concepto: left join clientes–transacciones. Fixture `FIX-S17-T1A-E1`: cli={C001,C002}, tx={C001:1.0}. Haz `merge` por `cliente_id` con `how='left'` e imprime `len` del resultado. Pass: una línea con `2` (C002 se conserva aunque sin tx).",
+          "hints": [
+            "merge how='left'.",
+            "Cuenta filas."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ncli=pd.DataFrame({'cliente_id':['C001','C002']})\ntx=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\n# TODO\n"
+        },
+        {
+          "id": "S17-T1-A-E2",
+          "instruction": "E2 (independiente) — Concepto: unicidad de clave 1:1. Fixture `FIX-S17-T1A-E2`: cli con `cliente_id` duplicado C001,C001. Imprime `bool(cli['cliente_id'].is_unique)`. Pass exacto: `False`. No uses drop_duplicates para “arreglar” antes de medir.",
+          "hints": [
+            "is_unique.",
+            "Series.cliente_id."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(bool(cli[\"cliente_id\"].is_unique))\n"
+        },
+        {
+          "id": "S17-T1-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: fan-out 1:m. Fixture: 1 cliente C001 y 3 filas de tx con el mismo id. `inner` merge por `cliente_id`; imprime la longitud. Pass: `3`. Demuestra que el lado m multiplica filas aunque el left tenga una sola clave.",
+          "hints": [
+            "merge inner.",
+            "print len."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\n# TODO: inner merge y print(len(...)) → debe ser 3\n"
+        },
+        {
+          "id": "S17-T1-B-E1",
+          "instruction": "E1 (guiado) — Concepto: anti-join con `indicator=True`. Fixture cli={C001,C002}, tx solo C001. Left merge + filtra `_merge=='left_only'`; imprime lista de `cliente_id`. Pass: `['C002']` (huérfano sin transacciones).",
+          "hints": [
+            "merge left indicator.",
+            "filtra _merge."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\n# TODO: left merge indicator=True; print lista left_only\n"
+        },
+        {
+          "id": "S17-T1-B-E2",
+          "instruction": "E2 (independiente) — Concepto: `validate='one_to_one'` como gate. Fixture a={id:1}, b={id:1,1}. Intenta merge one_to_one; ante excepción imprime exactamente `fail`. Pass: `fail`. No uses validate many_to_many para silenciar el error.",
+          "hints": [
+            "try MergeError o Exception.",
+            "validate=."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\n# TODO: validate one_to_one; on Exception print(\"fail\")\n"
+        },
+        {
+          "id": "S17-T1-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: conteo de huérfanos (anti-join). Fixture cli 3 ids, tx solo C001. Cuenta filas `left_only` tras left merge con indicator. Pass entero: `2`. Reporta el conteo, no la lista, para el dashboard de calidad.",
+          "hints": [
+            "left_only count.",
+            "nunique o len."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\n# TODO: cuenta left_only (anti-join) → int 2\n"
+        },
+        {
+          "id": "S17-T2-A-E1",
+          "instruction": "E1 (guiado) — Concepto: melt wide→long. Fixture 2 filas × columnas a,b (`id` 1..2). `melt(id_vars='id', value_vars=['a','b'])` e imprime `len`. Pass: `4`. Contrato: n_long = n_filas * n_value_vars.",
+          "hints": [
+            "melt.",
+            "var_name value_name opcionales."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\n# TODO: melt id_vars=id value_vars a,b; print(len) → 4\n"
+        },
+        {
+          "id": "S17-T2-A-E2",
+          "instruction": "E2 (independiente) — Concepto: pivot_table long→wide. Fixture long id=1, k∈{a,b}, v={1.0,2.0}. `pivot_table` con `aggfunc='sum'`, `reset_index()`, imprime `columns.tolist()`. Pass: `['id', 'a', 'b']`.",
+          "hints": [
+            "aggfunc sum.",
+            "reset_index."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\n# TODO: pivot_table sum + reset_index; print columns.tolist()\n"
+        },
+        {
+          "id": "S17-T2-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: concat vertical. Fixture dos DF de una fila cada uno (columna x). `pd.concat(..., ignore_index=True)` e imprime `len`. Pass: `2`. No uses axis=1 (eso alinea columnas, no apila casos).",
+          "hints": [
+            "pd.concat(..., ignore_index=True).",
+            "mismas cols."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\n# TODO: concat axis=0 ignore_index; print(len) → 2\n"
+        },
+        {
+          "id": "S17-T2-B-E1",
+          "instruction": "E1 (guiado) — Concepto: nombres estables post-pivot. Fixture long id/mes/monto con meses e,f. Pivot y renombra a `monto_{mes}`; imprime `list(columns)`. Pass: `['monto_e', 'monto_f']`. Schema del portfolio, no MultiIndex crudo.",
+          "hints": [
+            "map join o f-string.",
+            "tras pivot."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\n# TODO: pivot y renombra monto_{mes}; print list(columns)\n"
+        },
+        {
+          "id": "S17-T2-B-E2",
+          "instruction": "E2 (independiente) — Concepto: validación de schema de columnas. DF con columns cliente_id, monto_ene; expected={cliente_id, monto_ene}. Imprime `set(columns)==expected`. Pass: `True`. Sets ignoran orden; documenta orden en el memo si exportas CSV.",
+          "hints": [
+            "set igualdad.",
+            "expected fijo."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\n# TODO: print set(df.columns) == expected\n"
+        },
+        {
+          "id": "S17-T2-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: rename explícito. Fixture DF columna `a`. `rename(columns={'a':'monto'})` e imprime columns list. Pass: `['monto']`. Prefiere dict rename sobre reasignar `.columns` a ciegas.",
+          "hints": [
+            "rename(columns=...).",
+            "inplace False."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(df.rename(columns={\"a\": \"monto\"}).columns.tolist())\n"
+        },
+        {
+          "id": "S17-T3-A-E1",
+          "instruction": "E1 (guiado) — Concepto: groupby + sum. Fixture region Lima×2 y Cusco×1 con montos 1,2,3. Imprime `groupby('region')['monto'].sum().to_dict()`. Pass: `{'Cusco': 3.0, 'Lima': 3.0}` (orden de keys puede seguir sort de pandas).",
+          "hints": [
+            "groupby sum.",
+            "to_dict."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\n# TODO: groupby region sum monto → to_dict(); print\n"
+        },
+        {
+          "id": "S17-T3-A-E2",
+          "instruction": "E2 (independiente) — Concepto: transform mean al shape original. Fixture Lima 1.0/3.0 y Cusco 2.0. Imprime lista de `groupby('region')['monto'].transform('mean')`. Pass: `[2.0, 2.0, 2.0]`. No uses agg (colapsa filas).",
+          "hints": [
+            "groupby transform.",
+            "mismas filas que df."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\n# TODO: transform mean; print lista alineada a filas\n"
+        },
+        {
+          "id": "S17-T3-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: named agg + as_index=False. Fixture region Lima/Cusco. `agg(total=('monto','sum'), n=('monto','count'))` e imprime columns.tolist(). Pass: `['region', 'total', 'n']`.",
+          "hints": [
+            "named agg.",
+            "as_index=False."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0]})\n# TODO: named agg total/n as_index=False; print columns\n"
+        },
+        {
+          "id": "S17-T3-B-E1",
+          "instruction": "E1 (guiado) — Concepto: rolling mean. Serie [1,2,3], window=2. Imprime lista con el primer NaN como `None` y el resto float. Pass: `[None, 1.5, 2.5]`. Documenta que el primer punto no tiene ventana completa.",
+          "hints": [
+            "rolling mean.",
+            "tolist y nan check."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print([None if pd.isna(x) else float(x) for x in s])\n"
+        },
+        {
+          "id": "S17-T3-B-E2",
+          "instruction": "E2 (independiente) — Concepto: cohorte mensual por primera fecha. Fixture C001 (ene y mar), C002 (feb). Asigna cohort YYYY-MM con min fecha; imprime dict id→cohort (únicos). Pass: `{'C001': '2024-01', 'C002': '2024-02'}`.",
+          "hints": [
+            "groupby transform min.",
+            "dt.to_period('M')."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\n# TODO: cohort YYYY-MM por min fecha; dict id→cohort\n"
+        },
+        {
+          "id": "S17-T3-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: orden temporal antes de rolling. Serie desordenada por fecha con valores 3,1,2; ordena índice, rolling(2).mean(), imprime último valor float. Pass: `2.5`. Sin sort el resultado es incorrecto para el EDA.",
+          "hints": [
+            "sort_index.",
+            "rolling 2."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\n# TODO: sort_index + rolling(2).mean(); print último float\n"
+        },
+        {
+          "id": "S17-T4-A-E1",
+          "instruction": "E1 (guiado) — Concepto: reconciliación de totales. parts=[10,20,70], total=100. Imprime `abs(sum(parts)-total)<1e-9`. Pass: `True`. Usa tolerancia eps, no igualdad frágil si hubiera floats ruidosos.",
+          "hints": [
+            "sum y abs.",
+            "eps 1e-9."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nparts = [10.0, 20.0, 70.0]\ntotal = 100.0\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(abs(sum(parts) - total) < 1e-9)\n"
+        },
+        {
+          "id": "S17-T4-A-E2",
+          "instruction": "E2 (independiente) — Concepto: tasa con denominador correcto. activos=40, pagados=10. Imprime pagados/activos. Pass: `0.25`. No imprimas 25 ni uses pagados como denominador.",
+          "hints": [
+            "división float.",
+            "print tasa."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nactivos = 40\npagados = 10\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(pagados / activos)\n"
+        },
+        {
+          "id": "S17-T4-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: bridge residual. total=100, lima=60; imprime residual del resto (total-lima). Pass: `40.0`. Es el primer paso de una bridge table nacional→Lima→resto.",
+          "hints": [
+            "total - lima.",
+            "residual."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntotal = 100.0\nlima = 60.0\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(total - lima)\n"
+        },
+        {
+          "id": "S17-T4-B-E1",
+          "instruction": "E1 (guiado) — Concepto: filtro pre-cutoff. Fixture fechas 2024-01-01 y 2024-02-01 con montos 1.0 y 9.0; cutoff 2024-01-31. Imprime lista de montos con fecha<=cutoff. Pass: `[1.0]`.",
+          "hints": [
+            "Timestamp cutoff.",
+            "máscara <=."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\n# TODO: print montos con fecha <= cutoff\n"
+        },
+        {
+          "id": "S17-T4-B-E2",
+          "instruction": "E2 (independiente) — Concepto: delta de leakage. Fixture montos 10 (ene) y 5 (mar); cutoff fin de enero. Imprime float(sum_total - sum_pre). Pass: `5.0`. Ese delta es la contaminación si usas el total global.",
+          "hints": [
+            "total - pre.",
+            "float."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\n# TODO: print delta leakage = sum_total - sum_pre\n"
+        },
+        {
+          "id": "S17-T4-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: feature as-of max. C001 con montos 3 (ene) y 10 (may); cutoff 2024-02-01. max monto con fecha<=cutoff por cliente; imprime dict. Pass: `{'C001': 3.0}`. Prohibido max global post-cutoff.",
+          "hints": [
+            "filter then groupby max.",
+            "un cliente."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"monto\": [3.0, 10.0],\n})\ncutoff = pd.Timestamp(\"2024-02-01\")\n# TODO: max monto as-of cutoff por cliente → dict\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Executive Data Quality & EDA Portfolio (cierre CP-N2-A)",
+      "context": "Integra clientes/transacciones sintéticas limpias (S15–S16) con joins validados (cardinalidad + anti-join), reshape long/wide con schema estable, groupby/agg/transform, reconciliación de totales/denominadores y controles de leakage con cutoff. Entrega script reproducible (`if __name__`), respuestas de negocio con evidencia numérica y memo de límites/no-claims en ES-PE. Sin PII real ni datos de producción.",
+      "objectives": [
+        "Dataset limpio + notebook/script reproducible",
+        "Reconciliación de totales y denominadores",
+        "Preguntas de negocio respondidas con evidencia",
+        "Memo de límites y no-claims"
+      ],
+      "requirements": [
+        "Fixtures sintéticos end-to-end",
+        "Demo reproducible (if __name__ == '__main__')",
+        "Documentación en español profesional",
+        "Alineación al cierre CP-N2-A"
+      ],
+      "portfolioNote": "Este cierre de CP-N2-A debe poder mostrarse a un stakeholder no técnico: métricas, reconciliación, límites y ausencia de claims causales no soportados.",
+      "starterCode": "import pandas as pd\n\ndef portfolio_summary(clientes: pd.DataFrame, tx: pd.DataFrame, cutoff: str) -> dict:\n    \"\"\"Joins, métricas, reconciliación y agregados pre-cutoff.\"\"\"\n    # TODO\n    raise NotImplementedError\n\nif __name__ == \"__main__\":\n    clientes = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]})\n    tx = pd.DataFrame({\n        \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n        \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\", \"2024-01-20\"]),\n        \"monto\": [10.0, 50.0, 5.0],\n    })\n    print(portfolio_summary(clientes, tx, \"2024-01-31\"))\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "validate='one_to_one' en merge sirve para:",
+        "options": [
+          "Fallar si la cardinalidad no es 1:1",
+          "Imputar nulls",
+          "Ordenar el DF",
+          "Crear MultiIndex"
+        ]
+      },
+      {
+        "question": "Un anti-join left_only identifica:",
+        "options": [
+          "Solo matches perfectos",
+          "Duplicados exactos internos",
+          "Filas del left sin match en right",
+          "Schema drift de dtypes"
+        ]
+      },
+      {
+        "question": "transform en groupby:",
+        "options": [
+          "Siempre colapsa a una fila por grupo",
+          "Elimina el index",
+          "Solo funciona con MultiIndex",
+          "Reinyecta el agregado al shape original"
+        ]
+      },
+      {
+        "question": "Leakage temporal ocurre cuando:",
+        "options": [
+          "Usas CSV en vez de Excel",
+          "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+          "Haces melt",
+          "Documentas el denominador"
+        ]
+      },
+      {
+        "question": "En un portfolio ejecutivo, si suma(partes) ≠ total de referencia debes:",
+        "options": [
+          "Documentar diff con tolerancia eps o corregir el corte",
+          "Ignorar la diferencia si es <10%",
+          "Borrar la región más grande",
+          "Cambiar a inner join siempre"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "4dfb9a19457db16f"
+}

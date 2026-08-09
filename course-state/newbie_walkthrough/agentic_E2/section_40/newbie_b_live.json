@@ -1,0 +1,490 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_E2",
+  "section_index": 40,
+  "packet_sha": "ed5e6493245bb7f8",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-b-skeptic-E2-s40-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S40-T1-A-E1\nrecord = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nmeets_contract = record[\"observed_ms\"] <= record[\"target_ms\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "print",
+        "quality",
+        "source",
+        "req",
+        "salida",
+        "case_id"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T1-A-E1 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-040-1A`. La entrada es el dict completo del starter; la operación debe demostrar latencia observada c…». Hints: Relaciona los campos `source`, `stimulus`, `environment`, `response`, `observed_ms`, `target_ms`, `owner` con la regla explicada en S40-T1-A.; El predicado correcto debe ser verdadero porque el fixture conserva escenario QA completo con umbral y dueño; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\"…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S40-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'stimulus', 'owner', 'environment', 'source', 'response', 'observed_ms', 'target_ms', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = record[\"observed_ms\"] <= record[\"target_ms\"]\n    except Exception:\n        return 'REJECT_QA_SCENARIO'\n    return 'PASS' if ok else 'REJECT_QA_SCENARIO'\n\nrecord = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'owner'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "quality",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "s40",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T1-A-E2 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, source, stimulus, environment, resp…». Hints: Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.; Después aplica la regla de S40-T1-A: latencia observada contra umbral y dueño. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S40-T1-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"owner\"\n    try:\n        ok = record[\"observed_ms\"] <= record[\"target_ms\"]\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "quality",
+        "stages",
+        "infrastructure",
+        "true",
+        "s40",
+        "get",
+        "serve"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T1-A-E3 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos. `CASO-LIM-040-1A` debe continuar, el adverso debe devolver `REJECT_QA_SCENARIO` y la …». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró latencia observada contra umbral y dueño; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S40-T1-B-E1\nrecord = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nmeets_contract = record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get) and record.get(\"residual_risk\", 0) <= 3\nstatus = \"PASS\" if meets_contract else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "scores",
+        "risk_owner",
+        "entrada",
+        "residual",
+        "status",
+        "print",
+        "score",
+        "riesgos"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T1-B-E1 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T1-B-E1 · Compara el contrato de `trade-offs, riesgos y criterios medibles` sobre `CASO-LIM-040-1B`. La entrada es el dict completo del starter; la operación debe demostrar alternativa con menor s…». Hints: Relaciona los campos `scores`, `selected`, `risk_owner`, `residual_risk` con la regla explicada en S40-T1-B.; El predicado correcto debe ser verdadero porque el fixture conserva tabla de decisión y riesgo residual aceptado; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"se…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S40-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'scores', 'risk_owner', 'selected', 'residual_risk', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get) and record.get(\"residual_risk\", 0) <= 3\n    except Exception:\n        return 'REOPEN_TRADEOFF'\n    return 'PASS' if ok else 'REOPEN_TRADEOFF'\n\nrecord = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'residual_risk'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "key",
+        "arquitectura",
+        "s40"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T1-B-E2 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fixture adverso y registro sin `residual_risk`. Entrada: dict con case_id, scores, selected, risk_owner…». Hints: Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama.; Después aplica la regla de S40-T1-B: alternativa con menor score y riesgo residual aceptable. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S40-T1-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"residual_risk\"\n    try:\n        ok = record[\"selected\"] == min(record[\"scores\"], key=record[\"scores\"].get) and record.get(\"residual_risk\", 0) <= 3\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "key",
+        "arquitectura",
+        "s40",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T1-B-E3 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos. `CASO-LIM-040-1B` debe continuar, el adverso debe devolver `REOPEN_TRADEOFF` y la ause…». Hints: Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró alternativa con menor score y riesgo residual aceptable; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S40-T2-A-E1\nrecord = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nmeets_contract = all(not (e[0] == \"domain\" and e[1] == \"infrastructure\") for e in record[\"dependencies\"])\nstatus = \"PASS\" if meets_contract else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "status",
+        "print",
+        "capas",
+        "infrastructure",
+        "application",
+        "dependencies",
+        "grafo"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T2-A-E1 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T2-A-E1 · Filtra el contrato de `cohesión/coupling y capas` sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar grafo de dependencias sin dominio hacia…». Hints: Relaciona los campos `layers`, `dependencies` con la regla explicada en S40-T2-A.; El predicado correcto debe ser verdadero porque el fixture conserva diagrama de dependencias sin salto de capa; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S40-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {'layers', 'case_id', 'dependencies'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = all(not (e[0] == \"domain\" and e[1] == \"infrastructure\") for e in record[\"dependencies\"])\n    except Exception:\n        return 'REDRAW_BOUNDARY'\n    return 'PASS' if ok else 'REDRAW_BOUNDARY'\n\nrecord = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'dependencies'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "clasifica",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "s40",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T2-A-E2 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y registro sin `dependencies`. Entrada: dict con case_id, layers, dependencies. Salidas exactas: `PAS…». Hints: Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.; Después aplica la regla de S40-T2-A: grafo de dependencias sin dominio hacia infraestructura. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S40-T2-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"dependencies\"\n    try:\n        ok = all(not (e[0] == \"domain\" and e[1] == \"infrastructure\") for e in record[\"dependencies\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "s40",
+        "get",
+        "ausencia",
+        "layers"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T2-A-E3 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `CASO-LIM-040-2A` debe continuar, el adverso debe devolver `REDRAW_BOUNDARY` y la ausencia de `depend…». Hints: Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró grafo de dependencias sin dominio hacia infraestructura; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S40-T2-B-E1\nrecord = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nmeets_contract = record[\"adapter\"] != record[\"port\"] and (not record[\"domain_imports\"]) and record.get(\"contract_tests\", 0) >= 1\nstatus = \"PASS\" if meets_contract else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "port",
+        "status",
+        "print",
+        "externos",
+        "salida",
+        "case_id",
+        "memorycaserepository"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T2-B-E1 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T2-B-E1 · Modela el contrato de `ports/adapters y dependencia hacia dominio` sobre `CASO-LIM-040-2B`. La entrada es el dict completo del starter; la operación debe demostrar adapter sustituible y …». Hints: Relaciona los campos `port`, `adapter`, `domain_imports`, `contract_tests` con la regla explicada en S40-T2-B.; El predicado correcto debe ser verdadero porque el fixture conserva test del dominio con adapter en memoria; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"Me…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S40-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'contract_tests', 'port', 'domain_imports', 'adapter', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = record[\"adapter\"] != record[\"port\"] and (not record[\"domain_imports\"]) and record.get(\"contract_tests\", 0) >= 1\n    except Exception:\n        return 'INVERT_DEPENDENCY'\n    return 'PASS' if ok else 'INVERT_DEPENDENCY'\n\nrecord = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'contract_tests'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "port",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "hacia",
+        "s40"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T2-B-E2 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case_id, port, adapter, domain_impor…». Hints: Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.; Después aplica la regla de S40-T2-B: adapter sustituible y dominio sin imports externos. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S40-T2-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"contract_tests\"\n    try:\n        ok = record[\"adapter\"] != record[\"port\"] and (not record[\"domain_imports\"]) and record.get(\"contract_tests\", 0) >= 1\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "port",
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "hacia",
+        "s40",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T2-B-E3 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures distintos. `CASO-LIM-040-2B` debe continuar, el adverso debe devolver `INVERT_DEPENDENCY` y la …». Hints: Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró adapter sustituible y dominio sin imports externos; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S40-T3-A-E1\nrecord = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\nmeets_contract = (not bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])) and bool(record.get(\"translations\"))\nstatus = \"PASS\" if meets_contract else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "bool",
+        "disjuntos",
+        "status",
+        "print",
+        "bounded",
+        "términos",
+        "declarada"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T3-A-E1 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T3-A-E1 · Verifica el contrato de `bounded contexts y lenguaje ubicuo` sobre `CASO-LIM-040-3A`. La entrada es el dict completo del starter; la operación debe demostrar términos locales disjuntos y…». Hints: Relaciona los campos `contexts`, `translations` con la regla explicada en S40-T3-A.; El predicado correcto debe ser verdadero porque el fixture conserva glosario ubicuo y context map revisado; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S40-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])) and bool(record.get(\"translations\")) else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"case\",\"score\"}},\"translations\":{}}}\nincomplete = {**valid}\nincomplete.pop(\"translations\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "bool",
+        "results",
+        "rutas",
+        "decisión",
+        "invertido",
+        "print",
+        "required"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T3-A-E2 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adverso y registro sin `translations`. Entrada: dict con case_id, contexts, translations. Salidas exact…». Hints: Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.; Después aplica la regla de S40-T3-A: términos locales disjuntos y traducción declarada. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S40-T3-A-E3\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"translations\"\n    return \"CONTINUE\" if (not bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])) and bool(record.get(\"translations\")) else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"case\",\"score\"}},\"translations\":{}}}\nincomplete = {**valid}\nincomplete.pop(\"translations\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "bool",
+        "results",
+        "fallo",
+        "print",
+        "required",
+        "bounded",
+        "fixtures",
+        "score"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T3-A-E3 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos. `CASO-LIM-040-3A` debe continuar, el adverso debe devolver `SPLIT_CONTEXTS` y la ausencia d…». Hints: Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró términos locales disjuntos y traducción declarada; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S40-T3-B-E1\nrecord = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nmeets_contract = record[\"vo\"].get(\"currency\") == \"PEN\" and record.get(\"vo_frozen\") is True and record.get(\"service_stateless\") is True\nstatus = \"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "value",
+        "entrada",
+        "vo_frozen",
+        "status",
+        "print",
+        "clasifica",
+        "service_stateless",
+        "pen"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T3-B-E1 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T3-B-E1 · Clasifica el contrato de `entities, value objects y servicios` sobre `CASO-LIM-040-3B`. La entrada es el dict completo del starter; la operación debe demostrar identidad estable, VO en P…». Hints: Relaciona los campos `entity_id`, `vo`, `vo_frozen`, `service_stateless` con la regla explicada en S40-T3-B.; El predicado correcto debe ser verdadero porque el fixture conserva invariantes de entity/VO probadas; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\"…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S40-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'vo', 'entity_id', 'vo_frozen', 'service_stateless', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = record[\"vo\"].get(\"currency\") == \"PEN\" and record.get(\"vo_frozen\") is True and record.get(\"service_stateless\") is True\n    except Exception:\n        return 'REJECT_DOMAIN_MODEL'\n    return 'PASS' if ok else 'REJECT_DOMAIN_MODEL'\n\nrecord = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'service_stateless'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "service_stateless",
+        "stages",
+        "infrastructure",
+        "pen",
+        "true",
+        "registro",
+        "s40"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T3-B-E2 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture adverso y registro sin `service_stateless`. Entrada: dict con case_id, entity_id, vo, vo_frozen, serv…». Hints: Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa rama.; Después aplica la regla de S40-T3-B: identidad estable, VO en PEN e invariantes inmutables. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S40-T3-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"service_stateless\"\n    try:\n        ok = record[\"vo\"].get(\"currency\") == \"PEN\" and record.get(\"vo_frozen\") is True and record.get(\"service_stateless\") is True\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "service_stateless",
+        "stages",
+        "infrastructure",
+        "pen",
+        "true",
+        "s40",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T3-B-E3 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos. `CASO-LIM-040-3B` debe continuar, el adverso debe devolver `REJECT_DOMAIN_MODEL` y la au…». Hints: Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró identidad estable, VO en PEN e invariantes inmutables; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S40-T4-A-E1\nrecord = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nmeets_contract = record[\"adr_status\"] == \"accepted\" and {\"alternatives\", \"consequences\", \"rollback\"} <= set(record[\"adr_fields\"])\nstatus = \"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "adr_status",
+        "set",
+        "alternatives",
+        "container",
+        "status",
+        "print",
+        "adr_fields"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T4-A-E1 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T4-A-E1 · Audita el contrato de `diagramas C4/flujo y ADRs` sobre `CASO-LIM-040-4A`. La entrada es el dict completo del starter; la operación debe demostrar C4 mínimo y ADR con alternativas, conse…». Hints: Relaciona los campos `c4_levels`, `adr_fields`, `adr_status` con la regla explicada en S40-T4-A.; El predicado correcto debe ser verdadero porque el fixture conserva C4 enlazado a ADR aceptado y reversible; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S40-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'c4_levels', 'adr_fields', 'adr_status', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = record[\"adr_status\"] == \"accepted\" and {\"alternatives\", \"consequences\", \"rollback\"} <= set(record[\"adr_fields\"])\n    except Exception:\n        return 'RETURN_ADR_TO_DRAFT'\n    return 'PASS' if ok else 'RETURN_ADR_TO_DRAFT'\n\nrecord = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'adr_status'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "adrs",
+        "s40",
+        "get"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T4-A-E2 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y registro sin `adr_status`. Entrada: dict con case_id, c4_levels, adr_fields, adr_status. Salidas exac…». Hints: Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.; Después aplica la regla de S40-T4-A: C4 mínimo y ADR con alternativas, consecuencias y rollback. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S40-T4-A-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"adr_status\"\n    try:\n        ok = record[\"adr_status\"] == \"accepted\" and {\"alternatives\", \"consequences\", \"rollback\"} <= set(record[\"adr_fields\"])\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "adrs",
+        "s40",
+        "get",
+        "ausencia"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T4-A-E3 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CASO-LIM-040-4A` debe continuar, el adverso debe devolver `RETURN_ADR_TO_DRAFT` y la ausencia de `adr_s…». Hints: Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró C4 mínimo y ADR con alternativas, consecuencias y rollback; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic packet-local for S40-T4-B-E1\nrecord = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nmeets_contract = set(record[\"v1_fields\"]) <= set(record[\"v11_fields\"]) and bool(record.get(\"debt_owner\")) and bool(record.get(\"retire_on\"))\nstatus = \"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "entrada",
+        "bool",
+        "set",
+        "status",
+        "print",
+        "block_breaking_change",
+        "eventos",
+        "salida"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T4-B-E1 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T4-B-E1 · Decide el contrato de `APIs, eventos, deuda y evolución compatible` sobre `CASO-LIM-040-4B`. La entrada es el dict completo del starter; la operación debe demostrar campos v1 preservados…». Hints: Relaciona los campos `v1_fields`, `v11_fields`, `debt_owner`, `retire_on` con la regla explicada en S40-T4-B.; El predicado correcto debe ser verdadero porque el fixture conserva consumer contract de versión previa en verde; revisa dirección de comparación, conjuntos y negaciones.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `record = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11…`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic three-route assess for S40-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'v1_fields', 'v11_fields', 'retire_on', 'debt_owner', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    try:\n        ok = set(record[\"v1_fields\"]) <= set(record[\"v11_fields\"]) and bool(record.get(\"debt_owner\")) and bool(record.get(\"retire_on\"))\n    except Exception:\n        return 'BLOCK_BREAKING_CHANGE'\n    return 'PASS' if ok else 'BLOCK_BREAKING_CHANGE'\n\nrecord = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'retire_on'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "registro",
+        "s40",
+        "get",
+        "deuda"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T4-B-E2 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fixture adverso y registro sin `retire_on`. Entrada: dict con case_id, v1_fields, v11_fields, debt_own…». Hints: Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.; Después aplica la regla de S40-T4-B: campos v1 preservados y deuda con owner/fecha. El fixture adverso debe fallar por contenido, no por schema.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# E2-Skeptic fail-closed transfer for S40-T4-B-E3\ndef assess(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"retire_on\"\n    try:\n        ok = set(record[\"v1_fields\"]) <= set(record[\"v11_fields\"]) and bool(record.get(\"debt_owner\")) and bool(record.get(\"retire_on\"))\n    except Exception:\n        return 'REJECT'\n    return 'CONTINUE' if ok else 'REJECT'\n\nrecord = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nvalid = dict(record)\ninvalid = dict(valid)\n# adverse: invert first boolean flag if any\n_flipped=False\nfor _k,_v in list(invalid.items()):\n    if isinstance(_v,bool):\n        invalid[_k]= (not _v)\n        _flipped=True\n        break\nif not _flipped and isinstance(invalid.get('stages'), list):\n    invalid['stages']=list(reversed(invalid['stages']))\nelif not _flipped and 'dependencies' in invalid:\n    invalid['dependencies']=[[\"domain\",\"infrastructure\"]]\nincomplete={k:v for k,v in valid.items() if k != 'field'}\nprint(assess(valid), assess(invalid), assess(incomplete))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "stages",
+        "infrastructure",
+        "true",
+        "s40",
+        "get",
+        "deuda",
+        "ausencia"
+      ],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Skeptic resuelve S40-T4-B-E3 solo con el paquete activo S40 (Arquitectura, DDD y decisiones técnicas). Instruction: «S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos. `CASO-LIM-040-4B` debe continuar, el adverso debe devolver `BLOCK_BREAKING_CHANGE`…». Hints: Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.; Para datos completos reutiliza la regla que demostró campos v1 preservados y deuda con owner/fecha; solo ese caso devuelve `CONTINUE`.. Teoría/iDo: «requisitos funcionales y quality attributes Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, es…». Demos: S40-T1-A-DEMO | S40-T1-B-DEMO | S40-T2-A-DEMO | S40-T2-B-DEMO | S40-T3-A-DEMO | S40-T3-B-DEMO. Completé el starter con el contrato de print/predicado del paquete (p.ej. `def assess(record: dict) -> str:`), sin execution sandbox y sin leer solutions ni correctIndex. Datos sintéticos only; no auto-fraude ni parentesco."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "escenario QA completo con umbral y dueño",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 3 «escenario QA completo con umbral y dueño» para la pregunta «¿Qué evidencia permite aprobar `requisitos funcionales y quality attributes` en CASO-LIM-040?» porque el paquete activo S40 (Arquitectura, DDD y decisiones técnicas) enseña: «Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímulo, entorno, respuesta y medida — para evitar palabras vacía…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "emitir BLOCK_ARCHITECTURE y conservar evidencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 1 «emitir BLOCK_ARCHITECTURE y conservar evidencia» para la pregunta «Si ocurre la condición de error de S40, ¿qué respuesta preserva seguridad y auditabilidad?» porque el paquete activo S40 (Arquitectura, DDD y decisiones técnicas) enseña: «Aplicación de `requisitos funcionales y quality attributes` al caso sintético `CASO-LIM-040`: la evidencia es un escenario QA completo con umbral y dueño. No contiene PII ni secret…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 2 «cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia» para la pregunta «¿Cuál resultado demuestra el gate `CP-N4-A · mapa de arquitectura gobernado`?» porque el paquete activo S40 (Arquitectura, DDD y decisiones técnicas) enseña: «Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímulo, entorno, respuesta y medida — para evitar palabras vacía…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "[E2-Skeptic live packet walk] Elijo índice 0 «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» para la pregunta «¿Qué tratamiento de `CASO-LIM-040` respeta el alcance del curso?» porque el paquete activo S40 (Arquitectura, DDD y decisiones técnicas) enseña: «Aplicación de `requisitos funcionales y quality attributes` al caso sintético `CASO-LIM-040`: la evidencia es un escenario QA completo con umbral y dueño. No contiene PII ni secret…». Anclo la opción en theory/iDo del batch+quiz_card sin mirar correctIndex ni otras attempts; descarto opciones que prometen fraude automático, parentesco, PII real o borrar evidencia."
+    }
+  ],
+  "confusion_points": [],
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T04:37:09.731089+00:00"
+}

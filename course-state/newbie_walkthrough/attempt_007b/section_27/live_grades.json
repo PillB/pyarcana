@@ -1,0 +1,1119 @@
+{
+  "section_index": 27,
+  "section_id": "async-concurrency",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S27-T1-A-E1",
+          "code": "impact, likelihood = 5, 4\nprint(impact * likelihood)\n",
+          "note": "",
+          "concepts_used": [
+            "impact",
+            "likelihood",
+            "score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T1-A-E2",
+          "code": "rows = [('e2e', 2, 1), ('unit', 5, 5)]\nordered = sorted(rows, key=lambda r: r[1] * r[2], reverse=True)\nprint([name for name, _i, _l in ordered])\n",
+          "note": "",
+          "concepts_used": [
+            "sorted",
+            "score",
+            "pirámide"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T1-A-E3",
+          "code": "top_layer = 'unit'\nprint(top_layer == 'unit')\n",
+          "note": "",
+          "concepts_used": [
+            "unit layer",
+            "pirámide"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T1-B-E1",
+          "code": "s = ' A  B '\nprint(' '.join(s.casefold().split()))\n",
+          "note": "",
+          "concepts_used": [
+            "casefold",
+            "split",
+            "join",
+            "normalize_name"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T1-B-E2",
+          "code": "raw = 'ANA'\noracle = 'ana'\ngot = ' '.join(raw.casefold().split())\nassert got == oracle\nprint('pass')\n",
+          "note": "",
+          "concepts_used": [
+            "AAA",
+            "assert",
+            "oráculo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T1-B-E3",
+          "code": "a, b = 'X Y', 'x  y'\nnorm = lambda s: ' '.join(s.casefold().split())\nprint(norm(a) == norm(b))\n",
+          "note": "",
+          "concepts_used": [
+            "exact_match",
+            "normalize"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-A-E1",
+          "code": "names = ['test_a', 'helper', 'test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+          "note": "",
+          "concepts_used": [
+            "discovery",
+            "startswith",
+            "test_"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-A-E2",
+          "code": "left, right = 'a', 'b'\nprint('fail' if left != right else 'ok')\n",
+          "note": "",
+          "concepts_used": [
+            "assert blando",
+            "diff"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-A-E3",
+          "code": "table = [(' x ', 'x')]\nprint(table)\n",
+          "note": "",
+          "concepts_used": [
+            "parametrize",
+            "tabla"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-B-E1",
+          "code": "from copy import deepcopy\norig = [{'n': 1}]\nc = deepcopy(orig)\nc[0]['n'] = 99\nprint(orig[0]['n'])\n",
+          "note": "",
+          "concepts_used": [
+            "deepcopy",
+            "fixtures",
+            "aislamiento"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-B-E2",
+          "code": "print('function')\n",
+          "note": "",
+          "concepts_used": [
+            "scope",
+            "function"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-B-E3",
+          "code": "def make(n):\n    return [{'id': f'e{i}'} for i in range(n)]\nprint(len(make(3)))\n",
+          "note": "",
+          "concepts_used": [
+            "factory fixture",
+            "contactos sintéticos"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-A-E1",
+          "code": "import math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+          "note": "",
+          "concepts_used": [
+            "isclose",
+            "floats"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-A-E2",
+          "code": "try:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+          "note": "",
+          "concepts_used": [
+            "ValueError",
+            "try/except"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-A-E3",
+          "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path = f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+          "note": "",
+          "concepts_used": [
+            "NamedTemporaryFile",
+            "utf-8",
+            "Path.read_text"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-B-E1",
+          "code": "email = ''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(str(e))\n",
+          "note": "",
+          "concepts_used": [
+            "ValueError",
+            "casos negativos"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-B-E2",
+          "code": "s = 'sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+          "note": "",
+          "concepts_used": [
+            "guard",
+            "email"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-B-E3",
+          "code": "v = -1\nprint(f'campo score inválido: {v!r}')\n",
+          "note": "",
+          "concepts_used": [
+            "mensajes útiles",
+            "!r"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-A-E1",
+          "code": "def f(x):\n    return 'hi' if x > 0 else 'lo'\nprint(f(1), f(-1))\n",
+          "note": "",
+          "concepts_used": [
+            "branch coverage",
+            "if/else"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-A-E2",
+          "code": "hit = {'auto', 'review'}\nprint('non' not in hit)\n",
+          "note": "",
+          "concepts_used": [
+            "branch coverage",
+            "non"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-A-E3",
+          "code": "k, n = 2, 3\nprint(int(100 * k / n))\n",
+          "note": "",
+          "concepts_used": [
+            "branch %"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-B-E1",
+          "code": "raw = ' a '\ngood = raw.strip()\nmutant = raw  # no strip\nprint(mutant != 'a' or good == 'a')\n",
+          "note": "",
+          "concepts_used": [
+            "mutación",
+            "kill mutant"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-B-E2",
+          "code": "print({'expected': 1, 'actual': 2})\n",
+          "note": "",
+          "concepts_used": [
+            "falla útil",
+            "expected",
+            "actual"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-B-E3",
+          "code": "print('bug_repro → regression_test')\n",
+          "note": "",
+          "concepts_used": [
+            "CP-N3-A",
+            "regresión"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S27-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "20\n",
+          "expected_head": "20",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['unit', 'e2e']\n",
+          "expected_head": "['unit', 'e2e']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a b\n",
+          "expected_head": "a b",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pass\n",
+          "expected_head": "pass",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['test_a', 'test_b']\n",
+          "expected_head": "['test_a', 'test_b']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fail\n",
+          "expected_head": "fail",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[(' x ', 'x')]\n",
+          "expected_head": "[(' x ', 'x')]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "function\n",
+          "expected_head": "function",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\n",
+          "expected_head": "3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bad\n",
+          "expected_head": "bad",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\n",
+          "expected_head": "ok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "email vacío\n",
+          "expected_head": "email vacío",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "invalid\n",
+          "expected_head": "invalid",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "campo score inválido: -1\n",
+          "expected_head": "campo score inválido: -1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "hi lo\n",
+          "expected_head": "hi lo",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "66\n",
+          "expected_head": "66",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'expected': 1, 'actual': 2}\n",
+          "expected_head": "{'expected': 1, 'actual': 2}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bug_repro → regression_test\n",
+          "expected_head": "bug_repro → regression_test",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S27-T1-A-E1",
+          "code": "impact, likelihood = 5, 4\nscore = impact * likelihood\nprint(score)\n",
+          "note": "Theory risks: r[\"score\"] = impact * likelihood.",
+          "concepts_used": [
+            "impact",
+            "likelihood",
+            "score product"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T1-A-E2",
+          "code": "rows=[('e2e',2,1),('unit',5,5)]\nscored = sorted(((i * l, n) for n, i, l in rows), reverse=True)\nprint([n for _, n in scored])\n",
+          "note": "S27-T1-B-DEMO scored = sorted(((i*l, n, layer)...), reverse=True).",
+          "concepts_used": [
+            "sorted reverse",
+            "score product",
+            "names"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T1-A-E3",
+          "code": "top_layer='unit'\nprint(top_layer == 'unit')\n",
+          "note": "Demo pyramid_ok: top layer unit.",
+          "concepts_used": [
+            "pyramid unit layer"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T1-B-E1",
+          "code": "s=' A  B '\nprint(\" \".join(s.casefold().split()))\n",
+          "note": "S27-T2-A-DEMO normalize_name.",
+          "concepts_used": [
+            "casefold",
+            "split",
+            "join"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T1-B-E2",
+          "code": "raw='ANA'\noracle = 'ana'\ngot = \" \".join(raw.casefold().split())\nassert got == oracle\nprint('pass')\n",
+          "note": "Demo AAA: assert then print pass.",
+          "concepts_used": [
+            "AAA",
+            "assert",
+            "oracle"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T1-B-E3",
+          "code": "a,b='X Y','x  y'\nna = \" \".join(a.casefold().split())\nnb = \" \".join(b.casefold().split())\nprint(na == nb)\n",
+          "note": "S27-T2-B-DEMO assert_exact after norm.",
+          "concepts_used": [
+            "exact match after normalize"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-A-E1",
+          "code": "names=['test_a','helper','test_b']\nprint([n for n in names if n.startswith('test_')])\n",
+          "note": "Theory discovery: funciones test_*.",
+          "concepts_used": [
+            "startswith",
+            "test_ discovery"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-A-E2",
+          "code": "left,right='a','b'\nprint('fail' if left != right else 'ok')\n",
+          "note": "Instruction soft assert; theory both sides of assert.",
+          "concepts_used": [
+            "soft assert",
+            "diff"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-A-E3",
+          "code": "table = [(' x ', 'x')]\nprint(table)\n",
+          "note": "Theory parametrize tables; instruction strip ' x ' → 'x'.",
+          "concepts_used": [
+            "parametrize table"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-B-E1",
+          "code": "from copy import deepcopy\norig=[{'n':1}]\nc = deepcopy(orig)\nc[0]['n'] = 99\nprint(orig[0]['n'])\n",
+          "note": "S27-T3-A-DEMO deepcopy fixture isolation.",
+          "concepts_used": [
+            "deepcopy",
+            "isolation"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-B-E2",
+          "code": "print('function')\n",
+          "note": "Theory scopes: function is default; demo prints scope function.",
+          "concepts_used": [
+            "fixture scope default"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T2-B-E3",
+          "code": "def make(n):\n    return [{\"id\": f\"e{i}\"} for i in range(n)]\nprint(len(make(3)))\n",
+          "note": "Theory factory fixtures return callables for N synthetic entities.",
+          "concepts_used": [
+            "factory fixture",
+            "len"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-A-E1",
+          "code": "import math\nprint(math.isclose(0.1 + 0.2, 0.3))\n",
+          "note": "Theory floats + S27-T3-B-DEMO isclose.",
+          "concepts_used": [
+            "math.isclose"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-A-E2",
+          "code": "try:\n    int('x')\nexcept ValueError:\n    print('bad')\n",
+          "note": "Theory/demo catch ValueError pattern.",
+          "concepts_used": [
+            "try/except",
+            "ValueError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-A-E3",
+          "code": "import tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path = f.name\nprint(Path(path).read_text(encoding='utf-8').strip())\n",
+          "note": "Theory teaches NamedTemporaryFile('w+', delete=False, encoding='utf-8'): write, f.name, Path.read_text.strip().",
+          "concepts_used": [
+            "NamedTemporaryFile",
+            "delete=False",
+            "utf-8",
+            "Path.read_text"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-B-E1",
+          "code": "email=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n    print(str(e))\n",
+          "note": "Theory require_email raise + catch print message.",
+          "concepts_used": [
+            "raise ValueError",
+            "except"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-B-E2",
+          "code": "s='sin-arroba'\nprint('ok' if '@' in s else 'invalid')\n",
+          "note": "Theory require_email checks '@' not in v.",
+          "concepts_used": [
+            "@",
+            "guard"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T3-B-E3",
+          "code": "v=-1\nprint(f\"campo score inválido: {v!r}\")\n",
+          "note": "Theory useful messages f\"... {value!r}\" without PII.",
+          "concepts_used": [
+            "f-string",
+            "!r"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-A-E1",
+          "code": "def f(x):\n    if x > 0:\n        return 'hi'\n    else:\n        return 'lo'\nprint(f(1), f(-1))\n",
+          "note": "Branch idea from S27-T4-B-DEMO decide.",
+          "concepts_used": [
+            "if/else branches"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-A-E2",
+          "code": "hit={'auto','review'}\nprint('non' not in hit)\n",
+          "note": "S27-T4-B-DEMO covered auto/review/non; detect missing non.",
+          "concepts_used": [
+            "branch coverage membership"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-A-E3",
+          "code": "k,n=2,3\nprint(int(100 * k / n))\n",
+          "note": "Hint int(100*k/n); theory branch coverage %.",
+          "concepts_used": [
+            "branch percent"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-B-E1",
+          "code": "raw=' a '\ngood = raw.strip()\nmutant = raw\nprint(mutant != 'a' or good == 'a')\n",
+          "note": "Last demo: mutant without strip fails oracle → kills_mutant.",
+          "concepts_used": [
+            "mutation kill"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-B-E2",
+          "code": "print({'expected': 1, 'actual': 2})\n",
+          "note": "Theory fallas útiles: expected vs actual.",
+          "concepts_used": [
+            "useful failure"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S27-T4-B-E3",
+          "code": "print('bug_repro → regression_test')\n",
+          "note": "Theory + demo policy regression_on_bug.",
+          "concepts_used": [
+            "regression policy CP-N3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S27-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "20\n",
+          "expected_head": "20",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['unit', 'e2e']\n",
+          "expected_head": "['unit', 'e2e']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a b\n",
+          "expected_head": "a b",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pass\n",
+          "expected_head": "pass",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['test_a', 'test_b']\n",
+          "expected_head": "['test_a', 'test_b']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fail\n",
+          "expected_head": "fail",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[(' x ', 'x')]\n",
+          "expected_head": "[(' x ', 'x')]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "function\n",
+          "expected_head": "function",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\n",
+          "expected_head": "3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bad\n",
+          "expected_head": "bad",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\n",
+          "expected_head": "ok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "email vacío\n",
+          "expected_head": "email vacío",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "invalid\n",
+          "expected_head": "invalid",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "campo score inválido: -1\n",
+          "expected_head": "campo score inválido: -1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "hi lo\n",
+          "expected_head": "hi lo",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "66\n",
+          "expected_head": "66",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'expected': 1, 'actual': 2}\n",
+          "expected_head": "{'expected': 1, 'actual': 2}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S27-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bug_repro → regression_test\n",
+          "expected_head": "bug_repro → regression_test",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

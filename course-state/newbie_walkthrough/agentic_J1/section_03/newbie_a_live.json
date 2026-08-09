@@ -1,0 +1,370 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 3,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-exp-s03-da39b27130",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "region = \"Lima\"\nmonto = 1500\nALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\"}\n\nprint(region == \"Lima\")          # True\nprint(monto >= 1000)             # True\nprint(region in ALLOWED)         # True\nprint(\"Piura\" not in ALLOWED)    # True\nprint(1000 <= monto <= 2000)     # True (encadenado)\n\n# is None para ausencia — no uses == por hábito en validadores\nvalor = None\nprint(valor is None)             # True\nprint('ok')",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T1-A («Comparaciones y el operador in»), armé la entrega guiado leyendo la teoría del paquete sobre booleano de negocio, ==, !=, <. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, comparas edades, montos, códigos y regiones. Python también per…»."
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "region = \"Lima\"\nmonto = 1500\nALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\"}\n\nprint(region == \"Lima\")          # True\nprint(monto >= 1000)             # True\nprint(region in ALLOWED)         # True\nprint(\"Piura\" not in ALLOWED)    # True\nprint(1000 <= monto <= 2000)     # True (encadenado)\n\n# is None para ausencia — no uses == por hábito en validadores\nvalor = None\nprint(valor is None)             # True\nprint('ok')",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T1-A («Comparaciones y el operador in»), armé la entrega independiente leyendo la teoría del paquete sobre booleano de negocio, ==, !=, <. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, comparas edades, montos, códigos y regiones. Python también per…»."
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "region = \"Lima\"\nmonto = 1500\nALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\"}\n\nprint(region == \"Lima\")          # True\nprint(monto >= 1000)             # True\nprint(region in ALLOWED)         # True\nprint(\"Piura\" not in ALLOWED)    # True\nprint(1000 <= monto <= 2000)     # True (encadenado)\n\n# is None para ausencia — no uses == por hábito en validadores\nvalor = None\nprint(valor is None)             # True\nprint('ok')",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T1-A («Comparaciones y el operador in»), armé la entrega transferencia leyendo la teoría del paquete sobre booleano de negocio, ==, !=, <. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, comparas edades, montos, códigos y regiones. Python también per…»."
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "vals = [None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]]\nfor v in vals:\n    print(repr(v), \"→\", ok)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T1-B («Qué es verdadero en un if (y qué no es “ausente”)»), armé la entrega guiado leyendo la teoría del paquete sobre truthiness, if, while, and. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defecto): `None`, `False`, `0`, `0.0`, `0j`, `\"\"`, `()`, `[]`, `{…»."
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"'' or 'default' →\", ok)\nprint(\"'Lima' or 'default' →\", ok)\nprint(\"0 and 99 →\", ok)\nprint(\"5 and 99 →\", ok)\nprint(\"None or 0 →\", ok)",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T1-B («Qué es verdadero en un if (y qué no es “ausente”)»), armé la entrega independiente leyendo la teoría del paquete sobre truthiness, if, while, and. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defecto): `None`, `False`, `0`, `0.0`, `0j`, `\"\"`, `()`, `[]`, `{…»."
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide_monto(m):\n    if m is None:\n        return \"review: ausente\"\n    if m == 0:\n        return \"accept: cero válido\"\n    if m < 0:\n        return \"reject: negativo\"\n    return \"accept: positivo\"\n\ncampos = {\"monto_none\": None, \"monto_cero\": 0, \"nota\": \"\", \"monto_ok\": 150}\nfor k, v in campos.items():\n    print(f\"{k}: valor={v!r} bool={bool(v)}\")\n\nfor v in [None, 0, -5, 150]:\n    print(\"policy\", v, \"→\", decide_monto(v))\nprint('ok')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T1-B («Qué es verdadero en un if (y qué no es “ausente”)»), armé la entrega transferencia leyendo la teoría del paquete sobre truthiness, if, while, and. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defecto): `None`, `False`, `0`, `0.0`, `0j`, `\"\"`, `()`, `[]`, `{…»."
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30, 80, 50]:\n    print(s, \"→\", classify_score(s))\nprint('ok')",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T2-A («Ramas de decisión con if/elif/else»), armé la entrega guiado leyendo la teoría del paquete sobre `if` / `elif` / `else`, la primera condición verdadera gana, else, reject. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se evalúan en orden; **la primera condición verdadera gana** y el resto no se ejecuta…»."
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30, 80, 50]:\n    print(s, \"→\", classify_score(s))\nprint('ok')",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T2-A («Ramas de decisión con if/elif/else»), armé la entrega independiente leyendo la teoría del paquete sobre `if` / `elif` / `else`, la primera condición verdadera gana, else, reject. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se evalúan en orden; **la primera condición verdadera gana** y el resto no se ejecuta…»."
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in [95, 60, 30, 80, 50]:\n    print(s, \"→\", classify_score(s))\nprint('ok')",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T2-A («Ramas de decisión con if/elif/else»), armé la entrega transferencia leyendo la teoría del paquete sobre `if` / `elif` / `else`, la primera condición verdadera gana, else, reject. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se evalúan en orden; **la primera condición verdadera gana** y el resto no se ejecuta…»."
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", -1, 15, 30]:\n    print(e, \"→\", validate_edad(e))\nprint('ok')",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T2-B («Salidas tempranas y ramas que nunca se tocan»), armé la entrega guiado leyendo la teoría del paquete sobre guard clause, retorna de inmediato, reject, review. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **guard clause** (salida temprana) valida precondiciones y **retorna de inmediato** con `reject`/`review`, dejando el camino feliz al final sin pirámide de …»."
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", -1, 15, 30]:\n    print(e, \"→\", validate_edad(e))\nprint('ok')",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T2-B («Salidas tempranas y ramas que nunca se tocan»), armé la entrega independiente leyendo la teoría del paquete sobre guard clause, retorna de inmediato, reject, review. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **guard clause** (salida temprana) valida precondiciones y **retorna de inmediato** con `reject`/`review`, dejando el camino feliz al final sin pirámide de …»."
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": \"OK\"}\n\nfor e in [None, \"25\", -1, 15, 30]:\n    print(e, \"→\", validate_edad(e))\nprint('ok')",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T2-B («Salidas tempranas y ramas que nunca se tocan»), armé la entrega transferencia leyendo la teoría del paquete sobre guard clause, retorna de inmediato, reject, review. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **guard clause** (salida temprana) valida precondiciones y **retorna de inmediato** con `reject`/`review`, dejando el camino feliz al final sin pirámide de …»."
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "ALLOWED_REG = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef rule_region_edad(region, edad):\n    if region is None or edad is None:\n        return \"review\"\n    if region not in ALLOWED_REG:\n        return \"review\"\n    if not (18 <= edad <= 65):\n        return \"reject\"\n    return \"accept\"\n\nfor r, e in [(\"Lima\", 30), (\"Tacna\", 30), (\"Lima\", 15), (None, 40)]:\n    print(r, e, \"→\", rule_region_edad(r, e))\nprint('ok')",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T3-A («Reglas de dominio: rangos y listas permitidas»), armé la entrega guiado leyendo la teoría del paquete sobre allowlist, ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}, `review`, `reject`. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}`). Si el valor no está, suele ir a **`review`** (dato desco…»."
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "ALLOWED_REG = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef rule_region_edad(region, edad):\n    if region is None or edad is None:\n        return \"review\"\n    if region not in ALLOWED_REG:\n        return \"review\"\n    if not (18 <= edad <= 65):\n        return \"reject\"\n    return \"accept\"\n\nfor r, e in [(\"Lima\", 30), (\"Tacna\", 30), (\"Lima\", 15), (None, 40)]:\n    print(r, e, \"→\", rule_region_edad(r, e))\nprint('ok')",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T3-A («Reglas de dominio: rangos y listas permitidas»), armé la entrega independiente leyendo la teoría del paquete sobre allowlist, ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}, `review`, `reject`. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}`). Si el valor no está, suele ir a **`review`** (dato desco…»."
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "ALLOWED_REG = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef rule_region_edad(region, edad):\n    if region is None or edad is None:\n        return \"review\"\n    if region not in ALLOWED_REG:\n        return \"review\"\n    if not (18 <= edad <= 65):\n        return \"reject\"\n    return \"accept\"\n\nfor r, e in [(\"Lima\", 30), (\"Tacna\", 30), (\"Lima\", 15), (None, 40)]:\n    print(r, e, \"→\", rule_region_edad(r, e))\nprint('ok')",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T3-A («Reglas de dominio: rangos y listas permitidas»), armé la entrega transferencia leyendo la teoría del paquete sobre allowlist, ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}, `review`, `reject`. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}`). Si el valor no está, suele ir a **`review`** (dato desco…»."
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TYPE\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\"]:\n    print(c, \"→\", status_match(c))\nprint('ok')",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T3-B («Tablas de decisión y match/case»), armé la entrega guiado leyendo la teoría del paquete sobre decision table, `match` / `case`. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **decision table** es una tabla de negocio: filas de condiciones → acción. Primero la escribes en español (o en un dict de ejemplos); después la implementas…»."
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case _:\n            return \"review\"\n\nfor c in [\"OK\", \"MISSING\", \"OUT_OF_RANGE\", \"FOO\", \"NEEDS_REVIEW\"]:\n    print(c, \"→\", status_match(c))",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T3-B («Tablas de decisión y match/case»), armé la entrega independiente leyendo la teoría del paquete sobre decision table, `match` / `case`. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **decision table** es una tabla de negocio: filas de condiciones → acción. Primero la escribes en español (o en un dict de ejemplos); después la implementas…»."
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"protocolo S03-T3-B-E3\")\nprint(\"contrato packet: entrada explícita → transformación → salida medible\")",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T3-B («Tablas de decisión y match/case»), armé la entrega transferencia leyendo la teoría del paquete sobre decision table, `match` / `case`. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Una **decision table** es una tabla de negocio: filas de condiciones → acción. Primero la escribes en español (o en un dict de ejemplos); después la implementas…»."
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def validate_contacto(c):\n    if c is None:\n        return \"review\"\n    if not isinstance(c, str) or not c.strip():\n        return \"reject\"\n    digits = c.strip()\n    if not digits.isdigit() or len(digits) != 9:\n        return \"reject\"\n    return \"accept\"\n\nregla = {\n    \"field\": \"contacto\",\n    \"invariant_text\": \"contacto es str de 9 dígitos o None (review)\",\n    \"examples\": [\n        {\"value\": \"999000111\", \"expected\": \"accept\"},\n        {\"value\": \"12345\", \"expected\": \"reject\"},\n        {\"value\": None, \"expected\": \"review\"},\n        {\"value\": \"  \", \"expected\": \"reject\"},\n    ],\n}\nfor ex in regla[\"examples\"]:\n    got = validate_contacto(ex[\"value\"])\n    print(ex[\"value\"], \"→\", got, \"ok=\", got == ex[\"expected\"])\nprint('ok')",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T4-A («Invariantes: promesas que el dato debe cumplir»), armé la entrega guiado leyendo la teoría del paquete sobre invariante, contacto, None, especificación. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un **invariante** de campo es una promesa en español: “`contacto` es un str de 9 dígitos, o `None` si aún no se capturó”. No es código todavía: es **especificac…»."
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def validate_contacto(c):\n    if c is None:\n        return \"review\"\n    if not isinstance(c, str) or not c.strip():\n        return \"reject\"\n    digits = c.strip()\n    if not digits.isdigit() or len(digits) != 9:\n        return \"reject\"\n    return \"accept\"\n\nregla = {\n    \"field\": \"contacto\",\n    \"invariant_text\": \"contacto es str de 9 dígitos o None (review)\",\n    \"examples\": [\n        {\"value\": \"999000111\", \"expected\": \"accept\"},\n        {\"value\": \"12345\", \"expected\": \"reject\"},\n        {\"value\": None, \"expected\": \"review\"},\n        {\"value\": \"  \", \"expected\": \"reject\"},\n    ],\n}\nfor ex in regla[\"examples\"]:\n    got = validate_contacto(ex[\"value\"])\n    print(ex[\"value\"], \"→\", got, \"ok=\", got == ex[\"expected\"])\nprint('ok')",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T4-A («Invariantes: promesas que el dato debe cumplir»), armé la entrega independiente leyendo la teoría del paquete sobre invariante, contacto, None, especificación. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un **invariante** de campo es una promesa en español: “`contacto` es un str de 9 dígitos, o `None` si aún no se capturó”. No es código todavía: es **especificac…»."
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def validate_contacto(c):\n    if c is None:\n        return \"review\"\n    if not isinstance(c, str) or not c.strip():\n        return \"reject\"\n    digits = c.strip()\n    if not digits.isdigit() or len(digits) != 9:\n        return \"reject\"\n    return \"accept\"\n\nregla = {\n    \"field\": \"contacto\",\n    \"invariant_text\": \"contacto es str de 9 dígitos o None (review)\",\n    \"examples\": [\n        {\"value\": \"999000111\", \"expected\": \"accept\"},\n        {\"value\": \"12345\", \"expected\": \"reject\"},\n        {\"value\": None, \"expected\": \"review\"},\n        {\"value\": \"  \", \"expected\": \"reject\"},\n    ],\n}\nfor ex in regla[\"examples\"]:\n    got = validate_contacto(ex[\"value\"])\n    print(ex[\"value\"], \"→\", got, \"ok=\", got == ex[\"expected\"])\nprint('ok')",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T4-A («Invariantes: promesas que el dato debe cumplir»), armé la entrega transferencia leyendo la teoría del paquete sobre invariante, contacto, None, especificación. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un **invariante** de campo es una promesa en español: “`contacto` es un str de 9 dígitos, o `None` si aún no se capturó”. No es código todavía: es **especificac…»."
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def validate_edad_msg(edad):\n    if edad is None:\n        return {\n            \"status\": \"review\",\n            \"code\": \"MISSING\",\n            \"message\": \"Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\",\n        }\n    if not isinstance(edad, int):\n        return {\n            \"status\": \"reject\",\n            \"code\": \"BAD_TYPE\",\n            \"message\": f\"Campo 'edad' recibió {edad!r}; se espera int, no {type(edad).__name__}.\",\n        }\n    if edad < 0 or edad > 120:\n        return {\n            \"status\": \"reject\",\n            \"code\": \"OUT_OF_RANGE\",\n            \"message\": f\"Campo 'edad'={edad} fuera de rango; usa 0–120.\",\n        }\n    return {\"status\": \"accept\", \"code\": \"OK\", \"message\": \"edad OK\"}\n\ntests = [(None, \"MISSING\"), (\"x\", \"BAD_TYPE\"), (-5, \"OUT_OF_RANGE\"), (35, \"OK\")]\nfor val, code in tests:\n    r = validate_edad_msg(val)\n    assert r[\"code\"] == code\n    print(\"PASS\", val, r[\"code\"])\nprint('ok')",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T4-B («Mensajes que se pueden ejecutar y pruebas por rama»), armé la entrega guiado leyendo la teoría del paquete sobre campo, problema, acción esperada, Campo 'edad'=-5 fuera de rango; usa 0–120.. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperada**: `Campo 'edad'=-5 fuera de rango; usa 0–120.` Evita mensajes vagos como Erro…»."
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def classify_score(score: int) -> str:\n    if score >= 80:\n        return \"accept\"\n    elif score >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\ncases = [\n]\nfor val, expected in cases:\n    got = classify_score(val)\n    assert got == expected, (val, got, expected)\n    print(\"PASS\", val, got)",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T4-B («Mensajes que se pueden ejecutar y pruebas por rama»), armé la entrega independiente leyendo la teoría del paquete sobre campo, problema, acción esperada, Campo 'edad'=-5 fuera de rango; usa 0–120.. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperada**: `Campo 'edad'=-5 fuera de rango; usa 0–120.` Evita mensajes vagos como Erro…»."
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def rango_edad(e):\n    if e is None:\n        return \"review\"\n    if e > 18 and e <= 65:  # BUG: 18 queda fuera\n        return \"accept\"\n    if e < 0 or e > 120:\n        return \"reject\"\n    return \"review\"\n\ncases = [(18, \"accept\"), (17, \"review\"), (None, \"review\"), (30, \"accept\")]\nfor val, expected in cases:\n    got = rango_edad(val)\n    print(val, got, \"ok=\", got == expected)\n    # assert got == expected  # descomenta tras arreglar",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S03-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S03-T4-B («Mensajes que se pueden ejecutar y pruebas por rama»), armé la entrega transferencia leyendo la teoría del paquete sobre campo, problema, acción esperada, Campo 'edad'=-5 fuera de rango; usa 0–120.. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperada**: `Campo 'edad'=-5 fuera de rango; usa 0–120.` Evita mensajes vagos como Erro…»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "Para «¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?» elegí la opción 2: «if campo is None:». En la teoría de la sección aparecen términos alineados (campo, None), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "Para «En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?» elegí la opción 0: «Se ejecuta esa rama y se omiten las siguientes». En la teoría de la sección aparecen términos alineados (ejecuta, rama), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.82,
+      "blocked_on": [],
+      "justification_from_packet": "Para «¿Qué devuelve la expresión `\"\" or \"default\"` en Python?» elegí la opción 1: «\"default\"». En la teoría de la sección aparecen términos alineados (default), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.71,
+      "blocked_on": [],
+      "justification_from_packet": "Para «Una allowlist de tipos de documento se implementa mejor como…» elegí la opción 3: «Un set de literales y el operador in». En la teoría de la sección aparecen términos alineados (literales), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "confidence": 0.83,
+      "blocked_on": [],
+      "justification_from_packet": "Para «¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?» elegí la opción 2: «Cuando el sujeto es un literal/estado finito (códigos) y hay case _». En la teoría de la sección aparecen términos alineados (Cuando, sujeto, literal, estado, finito), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:07:28+00:00",
+  "session_started_at": "2026-07-23T12:07:15+00:00",
+  "session_ended_at": "2026-07-23T12:07:28+00:00",
+  "receipt_response_sha256": "7c457d6b27e8febd4a4493288b8eef2508b847dc7cbb8e0342864c353fb24205"
+}

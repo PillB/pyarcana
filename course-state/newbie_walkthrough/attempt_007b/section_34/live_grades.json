@@ -1,0 +1,1068 @@
+{
+  "section_index": 34,
+  "section_id": "cv-ai-integration",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S34-T1-A-E1",
+          "code": "y, pred = [1, 0], [1, 1]\ntp = sum(p == 1 and t == 1 for p, t in zip(pred, y))\nfp = sum(p == 1 and t == 0 for p, t in zip(pred, y))\nfn = sum(p == 0 and t == 1 for p, t in zip(pred, y))\nprint('tp', tp)\nprint('fp', fp)\nprint('fn', fn)\n",
+          "note": "",
+          "concepts_used": [
+            "confusion"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T1-A-E2",
+          "code": "P, R = 0.5, 0.5\nf1 = 2 * P * R / (P + R)\nprint('f1', f1)\nprint('P', P)\nprint('R', R)\n",
+          "note": "",
+          "concepts_used": [
+            "F1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T1-A-E3",
+          "code": "n, pos = 10, 1\nprint('acc', (n - pos) / n)\nprint('prevalence', pos / n)\nprint('misleading', True)\n",
+          "note": "",
+          "concepts_used": [
+            "accuracy engañosa"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T1-B-E1",
+          "code": "labels = [1, 0, 1]\nk = 3\nprint('p_at_k', sum(labels) / k)\nprint('k', k)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "precision@k"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T1-B-E2",
+          "code": "alerts, capacity = 50, 10\nprint('load', alerts / capacity)\nprint('alerts', alerts)\nprint('capacity', capacity)\n",
+          "note": "",
+          "concepts_used": [
+            "carga revisión"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T1-B-E3",
+          "code": "print('recall_at_k', 2 / 4)\nprint('pos_topk', 2)\nprint('pos_total', 4)\n",
+          "note": "",
+          "concepts_used": [
+            "recall@k"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-A-E1",
+          "code": "n0, n1 = 9, 1\nprint('w1_over_w0', (1 / n1) / (1 / n0))\nprint('inside_cv', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "class weights"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-A-E2",
+          "code": "print('resample_before_split', False)\nprint('policy', 'inside_train_fold')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "resampling policy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-A-E3",
+          "code": "y = [0, 0, 0, 1, 0]\nprint('minority', min(y.count(0), y.count(1)))\nprint('n1', y.count(1))\nprint('n0', y.count(0))\n",
+          "note": "",
+          "concepts_used": [
+            "desbalance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-B-E1",
+          "code": "print('prevalence', 25 / 1000)\nprint('pos', 25)\nprint('n', 1000)\n",
+          "note": "",
+          "concepts_used": [
+            "prevalencia"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-B-E2",
+          "code": "print('precision_depends_on_prevalence', True)\nprint('msg', 'recalibrate_expectations')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "prevalence effect"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-B-E3",
+          "code": "prev = 0.02\nprint('acc_all_neg', 1 - prev)\nprint('prevalence', prev)\nprint('useful', False)\n",
+          "note": "",
+          "concepts_used": [
+            "all-neg accuracy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-A-E1",
+          "code": "print('brier', (1 - 1) ** 2)\nprint('n', 1)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "Brier"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-A-E2",
+          "code": "ps, ys = [0.9, 0.6], [1, 1]\nprint('mean_p', sum(ps) / len(ps))\nprint('freq', sum(ys) / len(ys))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "reliability"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-A-E3",
+          "code": "print('better', 0.1)\nprint('worse', 0.3)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "Brier compare"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-B-E1",
+          "code": "def clip(p):\n    return max(0.0, min(1.0, p))\nprint(clip(1.5), clip(-0.2))\nprint('ok', True)\nprint('range', '[0,1]')\n",
+          "note": "",
+          "concepts_used": [
+            "clip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-B-E2",
+          "code": "print('fit_on', 'calib_holdout')\nprint('not_on_test', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "calibración OOS"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-B-E3",
+          "code": "raw, cal = [0.2, 0.5, 0.8], [0.17, 0.5, 0.83]\nprint(len(raw) == len(cal))\nprint('n', len(raw))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "cal length"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-A-E1",
+          "code": "scores = [0.1, 0.4, 0.6, 0.9]\n# need 2 in review: thr = 0.6 keeps 0.6,0.9\nthr = 0.6\nprint('thr', thr)\nprint('n_review', sum(1 for s in scores if s >= thr))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "umbral capacidad"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-A-E2",
+          "code": "print('cost', 3 * 2 + 1 * 10)\nprint('fp', 3)\nprint('fn', 1)\n",
+          "note": "",
+          "concepts_used": [
+            "costo umbral"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-A-E3",
+          "code": "print('thr-v1', 0.7)\nprint('versioned', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "config thr"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-B-E1",
+          "code": "def d(p, low=0.3, high=0.7):\n    if p >= high:\n        return 'queue'\n    if p <= low:\n        return 'skip'\n    return 'abstain'\nprint(d(0.5))\nprint('low', 0.3)\nprint('high', 0.7)\n",
+          "note": "",
+          "concepts_used": [
+            "abstención"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-B-E2",
+          "code": "scores = [0.4, 0.55, 0.65, 0.9]\nprint('n_0.5', sum(s >= 0.5 for s in scores))\nprint('n_0.6', sum(s >= 0.6 for s in scores))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "sensibilidad thr"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-B-E3",
+          "code": "print({'slice': 'LIM', 'precision': 0.7, 'n': 20})\nprint('fraud_label', False)\nprint('gate', 'CP-N3-B')\n",
+          "note": "",
+          "concepts_used": [
+            "slices"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S34-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tp 1\nfp 1\nfn 0\n",
+          "expected_head": "tp 1\nfp 1\nfn 0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "f1 0.5\nP 0.5\nR 0.5\n",
+          "expected_head": "f1 0.5\nP 0.5\nR 0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "acc 0.9\nprevalence 0.1\nmisleading True\n",
+          "expected_head": "acc 0.9\nprevalence 0.1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T1-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "p_at_k 0.6666666666666666\nk 3\nok True\n",
+          "expected_head": "p_at_3 0.667\nk 3\npos 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T1-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "load 5.0\nalerts 50\ncapacity 10\n",
+          "expected_head": "overload 40\ncapacity 10\nalerts 50",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "recall_at_k 0.5\npos_topk 2\npos_total 4\n",
+          "expected_head": "r_at_k 0.5\npos_topk 2\npos_all 4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "w1_over_w0 9.0\ninside_cv True\nok True\n",
+          "expected_head": "ratio 9.0\nn1 1\ninside_cv True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "resample_before_split False\npolicy inside_train_fold\nok True\n",
+          "expected_head": "resample_before_split False\npolicy inside_train_fold\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "minority 1\nn1 1\nn0 4\n",
+          "expected_head": "minority 1\ncount 1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "prevalence 0.025\npos 25\nn 1000\n",
+          "expected_head": "prevalence 0.025\npos 25\nn 1000",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "precision_depends_on_prevalence True\nmsg recalibrate_expectations\nok True\n",
+          "expected_head": "depends_on_prevalence True\nmetric precision\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "acc_all_neg 0.98\nprevalence 0.02\nuseful False\n",
+          "expected_head": "acc 0.98\nuseful_alone False\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "brier 0\nn 1\nok True\n",
+          "expected_head": "brier 0.0\nn 1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "mean_p 0.75\nfreq 1.0\nok True\n",
+          "expected_head": "mean_p 0.85\nfreq 0.5\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "better 0.1\nworse 0.3\nok True\n",
+          "expected_head": "best 0.1\nworse 0.3\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0 0.0\nok True\nrange [0,1]\n",
+          "expected_head": "1.0 0.0\nok True\nholdout True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fit_on calib_holdout\nnot_on_test True\nok True\n",
+          "expected_head": "fit_on calib_holdout\neval_on test\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nn 3\nok True\n",
+          "expected_head": "True\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "thr 0.6\nn_review 2\nok True\n",
+          "expected_head": "n_review 2\nthr 0.6\nauto_fraud False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cost 16\nfp 3\nfn 1\n",
+          "expected_head": "cost 16\nfp 3\nfn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "thr-v1 0.7\nversioned True\nok True\n",
+          "expected_head": "thr_id thr-v1\nvalue 0.7\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "abstain\nlow 0.3\nhigh 0.7\n",
+          "expected_head": "decision abstain_human\np 0.5\nfraud_label False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "n_0.5 3\nn_0.6 2\nok True\n",
+          "expected_head": "at_0.5 2\nat_0.6 1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'slice': 'LIM', 'precision': 0.7, 'n': 20}\nfraud_label False\ngate CP-N3-B\n",
+          "expected_head": "{'slice': 'LIM', 'precision': 0.5}\nn_slices 1\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 17,
+      "code_tried": 24,
+      "code_ratio": 0.708,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S34-T1-A-E1",
+          "code": "y,pred=[1,0],[1,1]\ntp=sum(p==1 and t==1 for p,t in zip(pred,y))\nfp=sum(p==1 and t==0 for p,t in zip(pred,y))\nfn=sum(p==0 and t==1 for p,t in zip(pred,y))\nprint(tp, fp, fn)\nprint('ok', True)\nprint('cm', True)\n",
+          "note": "Confusion counts.",
+          "concepts_used": [
+            "TP FP FN"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T1-A-E2",
+          "code": "P=R=0.5\nf1=2*P*R/(P+R)\nprint(f1)\nprint('P', P, 'R', R)\nprint('ok', True)\n",
+          "note": "F1 harmonic.",
+          "concepts_used": [
+            "F1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T1-A-E3",
+          "code": "n,pos=10,1\nprint((n-pos)/n)\nprint('prevalence', pos/n)\nprint('misleading', True)\n",
+          "note": "All-neg accuracy trap.",
+          "concepts_used": [
+            "misleading acc"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T1-B-E1",
+          "code": "labels=[1,0,1]\nprint(sum(labels)/len(labels))\nprint('k', 3)\nprint('precision_at_k', True)\n",
+          "note": "Positives in topk/k.",
+          "concepts_used": [
+            "precision@k"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T1-B-E2",
+          "code": "alertas,capacidad=50,10\nprint(alertas/capacidad)\nprint('capacity', capacidad)\nprint('load', True)\n",
+          "note": "Load vs capacity.",
+          "concepts_used": [
+            "load"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T1-B-E3",
+          "code": "print(2/4)\nprint('recall_at_k', 0.5)\nprint('ok', True)\n",
+          "note": "2/4 recall@k.",
+          "concepts_used": [
+            "recall@k"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-A-E1",
+          "code": "n0,n1=9,1\nprint((1/n1)/(1/n0))\nprint('w1', 1/n1, 'w0', 1/n0)\nprint('in_train_fold', True)\n",
+          "note": "Inverse frequency.",
+          "concepts_used": [
+            "class weights"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-A-E2",
+          "code": "print(False)\nprint('resample_before_split', False)\nprint('policy', 'only_inside_train_fold')\n",
+          "note": "resample_before_split False.",
+          "concepts_used": [
+            "no early resample"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-A-E3",
+          "code": "y=[0,0,0,1,0]\nprint(min(y.count(0), y.count(1)))\nprint('minority_count', y.count(1))\nprint('ok', True)\n",
+          "note": "Imbalance count.",
+          "concepts_used": [
+            "minority count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-B-E1",
+          "code": "print(25/1000)\nprint('prevalence', 0.025)\nprint('ok', True)\n",
+          "note": "25/1000.",
+          "concepts_used": [
+            "prevalence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-B-E2",
+          "code": "print('precision_depends_on_prevalence')\nprint('recalibrate_expectations', True)\nprint('ok', True)\n",
+          "note": "Precision depends on prevalence.",
+          "concepts_used": [
+            "precision prevalence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T2-B-E3",
+          "code": "prev=0.02\nprint(1-prev)\nprint('all_neg_acc', 1-prev)\nprint('misleading', True)\n",
+          "note": "1-prev trap.",
+          "concepts_used": [
+            "all-neg acc"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-A-E1",
+          "code": "print((1-1)**2)\nprint('brier_single', 0.0)\nprint('ok', True)\n",
+          "note": "Brier single.",
+          "concepts_used": [
+            "Brier"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-A-E2",
+          "code": "ps=[0.7,0.7]; ys=[1,0]\nprint(sum(ps)/len(ps), sum(ys)/len(ys))\nprint('reliability_bin', True)\nprint('ok', True)\n",
+          "note": "Mean p vs freq.",
+          "concepts_used": [
+            "reliability"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-A-E3",
+          "code": "print(0.1)\nprint('better', 0.1)\nprint('lower_brier_wins', True)\n",
+          "note": "Lower better.",
+          "concepts_used": [
+            "lower Brier"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-B-E1",
+          "code": "def clip(p): return max(0.0, min(1.0, p))\nprint(clip(1.5), clip(-0.2))\nprint('clip', True)\nprint('ok', True)\n",
+          "note": "Prob clip.",
+          "concepts_used": [
+            "clip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-B-E2",
+          "code": "print('holdout')\nprint('holdout_fit', True)\nprint('ok', True)\n",
+          "note": "Calibrator on holdout.",
+          "concepts_used": [
+            "holdout cal"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T3-B-E3",
+          "code": "raw=[0.2,0.8]; cal=[0.15,0.75]\nprint(len(raw)==len(cal))\nprint(len(raw), len(cal))\nprint('ok', True)\n",
+          "note": "Same batch length.",
+          "concepts_used": [
+            "len match"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-A-E1",
+          "code": "scores=[0.1,0.4,0.6,0.9]\nthr=0.6\nprint(thr)\nprint('n_review', sum(s>=thr for s in scores))\nprint('capacity', 2)\n",
+          "note": "Thr vs capacity.",
+          "concepts_used": [
+            "thr capacity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-A-E2",
+          "code": "fp,fn=3,1\nprint(fp*2+fn*10)\nprint('cost', True)\nprint('ok', True)\n",
+          "note": "Cost-sensitive.",
+          "concepts_used": [
+            "cost thr"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-A-E3",
+          "code": "print({'thr-v1': 0.7})\nprint('versioned', True)\nprint('ok', True)\n",
+          "note": "Version thresholds.",
+          "concepts_used": [
+            "version thr"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-B-E1",
+          "code": "def decide(p, low=0.3, high=0.7):\n    if p >= high: return 'queue'\n    if p <= low: return 'skip'\n    return 'abstain'\nprint(decide(0.5))\nprint('fraud_label', False)\nprint('ok', True)\n",
+          "note": "Mid band abstain.",
+          "concepts_used": [
+            "abstain"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-B-E2",
+          "code": "scores=[0.55,0.62,0.4,0.9]\nn05=sum(s>=0.5 for s in scores)\nn06=sum(s>=0.6 for s in scores)\nprint(n05, n06)\nprint('sensitivity', True)\nprint('ok', True)\n",
+          "note": "Count at thr.",
+          "concepts_used": [
+            "thr sensitivity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S34-T4-B-E3",
+          "code": "print({'slice': 'missing_phone', 'precision': 0.4, 'recall': 0.6})\nprint('error_slices', True)\nprint('ok', True)\n",
+          "note": "Metrics by slice.",
+          "concepts_used": [
+            "slice metrics"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S34-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1 1 0\nok True\ncm True\n",
+          "expected_head": "tp 1\nfp 1\nfn 0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\nP 0.5 R 0.5\nok True\n",
+          "expected_head": "f1 0.5\nP 0.5\nR 0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.9\nprevalence 0.1\nmisleading True\n",
+          "expected_head": "acc 0.9\nprevalence 0.1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T1-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "0.6666666666666666\nk 3\nprecision_at_k True\n",
+          "expected_head": "p_at_3 0.667\nk 3\npos 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T1-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "5.0\ncapacity 10\nload True\n",
+          "expected_head": "overload 40\ncapacity 10\nalerts 50",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T1-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "0.5\nrecall_at_k 0.5\nok True\n",
+          "expected_head": "r_at_k 0.5\npos_topk 2\npos_all 4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "9.0\nw1 1.0 w0 0.1111111111111111\nin_train_fold True\n",
+          "expected_head": "ratio 9.0\nn1 1\ninside_cv True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\nresample_before_split False\npolicy only_inside_train_fold\n",
+          "expected_head": "resample_before_split False\npolicy inside_train_fold\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\nminority_count 1\nok True\n",
+          "expected_head": "minority 1\ncount 1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.025\nprevalence 0.025\nok True\n",
+          "expected_head": "prevalence 0.025\npos 25\nn 1000",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "precision_depends_on_prevalence\nrecalibrate_expectations True\nok True\n",
+          "expected_head": "depends_on_prevalence True\nmetric precision\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.98\nall_neg_acc 0.98\nmisleading True\n",
+          "expected_head": "acc 0.98\nuseful_alone False\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0\nbrier_single 0.0\nok True\n",
+          "expected_head": "brier 0.0\nn 1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "0.7 0.5\nreliability_bin True\nok True\n",
+          "expected_head": "mean_p 0.85\nfreq 0.5\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "0.1\nbetter 0.1\nlower_brier_wins True\n",
+          "expected_head": "best 0.1\nworse 0.3\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0 0.0\nclip True\nok True\n",
+          "expected_head": "1.0 0.0\nok True\nholdout True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "holdout\nholdout_fit True\nok True\n",
+          "expected_head": "fit_on calib_holdout\neval_on test\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n2 2\nok True\n",
+          "expected_head": "True\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.6\nn_review 2\ncapacity 2\n",
+          "expected_head": "n_review 2\nthr 0.6\nauto_fraud False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "16\ncost True\nok True\n",
+          "expected_head": "cost 16\nfp 3\nfn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'thr-v1': 0.7}\nversioned True\nok True\n",
+          "expected_head": "thr_id thr-v1\nvalue 0.7\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "abstain\nfraud_label False\nok True\n",
+          "expected_head": "decision abstain_human\np 0.5\nfraud_label False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "3 2\nsensitivity True\nok True\n",
+          "expected_head": "at_0.5 2\nat_0.6 1\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S34-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'slice': 'missing_phone', 'precision': 0.4, 'recall': 0.6}\nerror_slices True\nok True\n",
+          "expected_head": "{'slice': 'LIM', 'precision': 0.5}\nn_slices 1\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 13,
+      "code_tried": 24,
+      "code_ratio": 0.542,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

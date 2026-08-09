@@ -1,0 +1,9 @@
+{
+  "section": 47,
+  "id": "opensource",
+  "file": "src/lib/course/sections/s47-opensource.ts",
+  "score_1_to_10": 5.7,
+  "issue_count": 21,
+  "meta_leak_count": 6,
+  "status": "complete"
+}

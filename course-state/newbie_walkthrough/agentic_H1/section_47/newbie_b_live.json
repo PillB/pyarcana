@@ -1,0 +1,454 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H1",
+  "section_index": 47,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-skeptic-s47-ed646b90a2bc",
+  "production_note": "agentic_H1 dual-LLM skeptic: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "code": "# dual skeptic-H1 · S47-T1-A-E1\nrecord = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\":42,\"params\":{\"depth\":4},\"metric\":0.81,\"rerun_metric\":0.805,\"tolerance\":0.01}}\nmeets_contract = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T1-A-E1: contrasté el Pass del paquete («S47-T1-A-E1 · Calcula el contrato de `tracking y reproducibilidad` sobre `CASO-TAC-047-1A`. La entrada es el dict completo del starter; la o…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S47-T1-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "case_id",
+        "CASO",
+        "TAC",
+        "seed",
+        "params"
+      ]
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "code": "# dual skeptic-H1 · S47-T1-A-E2\ndef assess(record: dict) -> str:\n    required = {'metric', 'rerun_metric', 'tolerance', 'case_id', 'params', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\n    return \"PASS\" if ok else 'MARK_RUN_NONREPRODUCIBLE'\n\nvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01, '_adverse': True}\nincomplete = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T1-A-E2: contrasté el Pass del paquete («S47-T1-A-E2 · Modela tres rutas de `tracking y reproducibilidad`: fixture válido, fixture adverso y registro sin `tolerance`. Entrada: dict…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "metric",
+        "rerun_metric"
+      ]
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "code": "# dual skeptic-H1 · S47-T1-A-E3\ndef decide(record: dict) -> str:\n    required = {'metric', 'rerun_metric', 'tolerance', 'case_id', 'params', 'seed'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'INVESTIGATE_RANDOMNESS'\n    ok = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\n    return \"CONTINUE\" if ok else 'MARK_RUN_NONREPRODUCIBLE'\n\nvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01, '_adverse': True}\nincomplete = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T1-A-E3: contrasté el Pass del paquete («S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos. `CASO-TAC-047-1A` debe continuar, el adve…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "metric",
+        "rerun_metric"
+      ]
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "code": "# dual skeptic-H1 · S47-T1-B-E1\nrecord = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\":\"ds-v3\",\"code\":\"git:abc\",\"env\":\"lock:def\",\"split\":\"holdout-v1\",\"metric_definition\":\"f1-v2\",\"candidate\":0.82,\"baseline\":0.78}}\nmeets_contract = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T1-B-E1: contrasté el Pass del paquete («S47-T1-B-E1 · Compara el contrato de `data/code/env lineage y comparación` sobre `CASO-TAC-047-1B`. La entrada es el dict completo del start…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S47-T1-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "case_id",
+        "CASO",
+        "TAC",
+        "data",
+        "code"
+      ]
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "code": "# dual skeptic-H1 · S47-T1-B-E2\ndef assess(record: dict) -> str:\n    required = {'env', 'candidate', 'case_id', 'code', 'baseline', 'split', 'data', 'metric_definition'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    return \"PASS\" if ok else 'INVALIDATE_COMPARISON'\n\nvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78, '_adverse': True}\nincomplete = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T1-B-E2: contrasté el Pass del paquete («S47-T1-B-E2 · Verifica tres rutas de `data/code/env lineage y comparación`: fixture válido, fixture adverso y registro sin `baseline`. Entra…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "env",
+        "candidate"
+      ]
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "code": "# dual skeptic-H1 · S47-T1-B-E3\ndef decide(record: dict) -> str:\n    required = {'env', 'candidate', 'case_id', 'code', 'baseline', 'split', 'data', 'metric_definition'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RESTORE_LINEAGE'\n    ok = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\n    return \"CONTINUE\" if ok else 'INVALIDATE_COMPARISON'\n\nvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78, '_adverse': True}\nincomplete = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T1-B-E3: contrasté el Pass del paquete («S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos. `CASO-TAC-047-1B` debe continua…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "env",
+        "candidate"
+      ]
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "code": "# dual skeptic-H1 · S47-T2-A-E1\nrecord = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\":{\"age\":\"int\",\"region\":\"str\"},\"output_signature\":{\"priority\":\"float\"},\"stage\":\"staging\",\"approved\":True}}\nmeets_contract = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T2-A-E1: contrasté el Pass del paquete («S47-T2-A-E1 · Filtra el contrato de `firmas, stages y approvals` sobre `CASO-TAC-047-2A`. La entrada es el dict completo del starter; la ope…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S47-T2-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "case_id",
+        "CASO",
+        "TAC",
+        "input_signature",
+        "age"
+      ]
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "code": "# dual skeptic-H1 · S47-T2-A-E2\ndef assess(record: dict) -> str:\n    required = {'input_signature', 'approved', 'output_signature', 'case_id', 'stage'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    return \"PASS\" if ok else 'DENY_MODEL_PROMOTION'\n\nvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T2-A-E2: contrasté el Pass del paquete («S47-T2-A-E2 · Clasifica tres rutas de `firmas, stages y approvals`: fixture válido, fixture adverso y registro sin `approved`. Entrada: dict…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "input_signature",
+        "approved"
+      ]
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "code": "# dual skeptic-H1 · S47-T2-A-E3\ndef decide(record: dict) -> str:\n    required = {'input_signature', 'approved', 'output_signature', 'case_id', 'stage'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_MODEL_APPROVAL'\n    ok = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\n    return \"CONTINUE\" if ok else 'DENY_MODEL_PROMOTION'\n\nvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T2-A-E3: contrasté el Pass del paquete («S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos. `CASO-TAC-047-2A` debe continuar, el adv…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "input_signature",
+        "approved"
+      ]
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "code": "# dual skeptic-H1 · S47-T2-B-E1\nrecord = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\":\"sha256:model\",\"feature_version\":\"features-v3\",\"serving_feature_version\":\"features-v3\",\"card_sections\":{\"use\",\"limits\",\"metrics\",\"risks\"}}}\nmeets_contract = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T2-B-E1: contrasté el Pass del paquete («S47-T2-B-E1 · Modela el contrato de `artefactos, model card y compatibilidad` sobre `CASO-TAC-047-2B`. La entrada es el dict completo del st…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S47-T2-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "case_id",
+        "CASO",
+        "TAC",
+        "artifact_digest",
+        "sha256"
+      ]
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "code": "# dual skeptic-H1 · S47-T2-B-E2\ndef assess(record: dict) -> str:\n    required = {'serving_feature_version', 'case_id', 'feature_version', 'card_sections', 'artifact_digest'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\n    return \"PASS\" if ok else 'REJECT_MODEL_ARTIFACT'\n\nvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'use', 'risks', 'metrics'}}\ninvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'use', 'risks', 'metrics'}, '_adverse': True}\nincomplete = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T2-B-E2: contrasté el Pass del paquete («S47-T2-B-E2 · Audita tres rutas de `artefactos, model card y compatibilidad`: fixture válido, fixture adverso y registro sin `card_sections`…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "serving_feature_version",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "code": "# dual skeptic-H1 · S47-T2-B-E3\ndef decide(record: dict) -> str:\n    required = {'serving_feature_version', 'case_id', 'feature_version', 'card_sections', 'artifact_digest'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COMPLETE_MODEL_CARD'\n    ok = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\n    return \"CONTINUE\" if ok else 'REJECT_MODEL_ARTIFACT'\n\nvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'use', 'risks', 'metrics'}}\ninvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'use', 'risks', 'metrics'}, '_adverse': True}\nincomplete = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T2-B-E3: contrasté el Pass del paquete («S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures distintos. `CASO-TAC-047-2B` debe cont…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "serving_feature_version",
+        "case_id"
+      ]
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "code": "# dual skeptic-H1 · S47-T3-A-E1\nrecord = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\":[0.1,0.4,0.8],\"online_features\":[0.1,0.4,0.8],\"leakage\":False,\"contract_tests\":3}}\nmeets_contract = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T3-A-E1: contrasté el Pass del paquete («S47-T3-A-E1 · Verifica el contrato de `batch/online y feature consistency` sobre `CASO-TAC-047-3A`. La entrada es el dict completo del start…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S47-T3-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "case_id",
+        "CASO",
+        "TAC",
+        "batch_features",
+        "online_features"
+      ]
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "code": "# dual skeptic-H1 · S47-T3-A-E2\ndef assess(record: dict) -> str:\n    required = {'batch_features', 'contract_tests', 'case_id', 'leakage', 'online_features'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    return \"PASS\" if ok else 'DISABLE_INCONSISTENT_SERVING'\n\nvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': True, 'contract_tests': 3}\nincomplete = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T3-A-E2: contrasté el Pass del paquete («S47-T3-A-E2 · Decide tres rutas de `batch/online y feature consistency`: fixture válido, fixture adverso y registro sin `contract_tests`. En…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "batch_features",
+        "contract_tests"
+      ]
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "code": "# dual skeptic-H1 · S47-T3-A-E3\ndef decide(record: dict) -> str:\n    required = {'batch_features', 'contract_tests', 'case_id', 'leakage', 'online_features'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'TRACE_FEATURE_PIPELINE'\n    ok = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\n    return \"CONTINUE\" if ok else 'DISABLE_INCONSISTENT_SERVING'\n\nvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': True, 'contract_tests': 3}\nincomplete = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T3-A-E3: contrasté el Pass del paquete («S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos. `CASO-TAC-047-3A` debe continua…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "batch_features",
+        "contract_tests"
+      ]
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "code": "# dual skeptic-H1 · S47-T3-B-E1\nrecord = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\":120,\"slo_ms\":180,\"batch_size\":16,\"fallback\":\"rules-v2\",\"fallback_tested\":True}}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T3-B-E1: contrasté el Pass del paquete («S47-T3-B-E1 · Clasifica el contrato de `latency, batching y fallback` sobre `CASO-TAC-047-3B`. La entrada es el dict completo del starter; l…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S47-T3-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "case_id",
+        "CASO",
+        "TAC",
+        "p95_ms",
+        "slo_ms"
+      ]
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "code": "# dual skeptic-H1 · S47-T3-B-E2\ndef assess(record: dict) -> str:\n    required = {'slo_ms', 'p95_ms', 'fallback', 'batch_size', 'case_id', 'fallback_tested'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    return \"PASS\" if ok else 'ACTIVATE_SAFE_FALLBACK'\n\nvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 280, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\nincomplete = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2'}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T3-B-E2: contrasté el Pass del paquete («S47-T3-B-E2 · Calcula tres rutas de `latency, batching y fallback`: fixture válido, fixture adverso y registro sin `fallback_tested`. Entrad…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "slo_ms",
+        "p95_ms"
+      ]
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "code": "# dual skeptic-H1 · S47-T3-B-E3\ndef decide(record: dict) -> str:\n    required = {'slo_ms', 'p95_ms', 'fallback', 'batch_size', 'case_id', 'fallback_tested'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'ACTIVATE_SAFE_FALLBACK'\n    ok = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\n    return \"CONTINUE\" if ok else 'ACTIVATE_SAFE_FALLBACK'\n\nvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 280, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\nincomplete = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2'}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T3-B-E3: contrasté el Pass del paquete («S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos. `CASO-TAC-047-3B` debe continuar, e…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "slo_ms",
+        "p95_ms"
+      ]
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "code": "# dual skeptic-H1 · S47-T4-A-E1\nrecord = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\":\"canary\",\"traffic_pct\":5,\"quality_delta\":0.01,\"max_quality_drop\":0.02,\"error_rate\":0.004,\"max_error_rate\":0.01,\"hooks\":True}}\nmeets_contract = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T4-A-E1: contrasté el Pass del paquete («S47-T4-A-E1 · Audita el contrato de `shadow/canary y monitoring hooks` sobre `CASO-TAC-047-4A`. La entrada es el dict completo del starter;…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S47-T4-A\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "case_id",
+        "CASO",
+        "TAC",
+        "mode",
+        "canary"
+      ]
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "code": "# dual skeptic-H1 · S47-T4-A-E2\ndef assess(record: dict) -> str:\n    required = {'mode', 'hooks', 'max_quality_drop', 'traffic_pct', 'case_id', 'error_rate', 'max_error_rate', 'quality_delta'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    return \"PASS\" if ok else 'STOP_CANARY'\n\nvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 50, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T4-A-E2: contrasté el Pass del paquete («S47-T4-A-E2 · Compara tres rutas de `shadow/canary y monitoring hooks`: fixture válido, fixture adverso y registro sin `hooks`. Entrada: dic…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "mode",
+        "hooks"
+      ]
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "code": "# dual skeptic-H1 · S47-T4-A-E3\ndef decide(record: dict) -> str:\n    required = {'mode', 'hooks', 'max_quality_drop', 'traffic_pct', 'case_id', 'error_rate', 'max_error_rate', 'quality_delta'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'COLLECT_MORE_SHADOW_EVIDENCE'\n    ok = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\n    return \"CONTINUE\" if ok else 'STOP_CANARY'\n\nvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 50, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T4-A-E3: contrasté el Pass del paquete («S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos. `CASO-TAC-047-4A` debe continuar, el…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "mode",
+        "hooks"
+      ]
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "code": "# dual skeptic-H1 · S47-T4-B-E1\nrecord = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\":\"1.2.0\",\"last_good\":\"1.1.0\",\"compatible_features\":True,\"rollback_tested\":True,\"retired\":{\"1.0.0\"},\"audit_entry\":True}}\nmeets_contract = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T4-B-E1: contrasté el Pass del paquete («S47-T4-B-E1 · Decide el contrato de `rollback, retirement y audit` sobre `CASO-TAC-047-4B`. La entrada es el dict completo del starter; la o…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, case_id, CASO; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(\"S47-T4-B\", status)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "case_id",
+        "CASO",
+        "TAC",
+        "current",
+        "last_good"
+      ]
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "code": "# dual skeptic-H1 · S47-T4-B-E2\ndef assess(record: dict) -> str:\n    required = {'retired', 'current', 'case_id', 'rollback_tested', 'last_good', 'compatible_features', 'audit_entry'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    return \"PASS\" if ok else 'ROLLBACK_TO_LAST_GOOD'\n\nvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}}\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T4-B-E2: contrasté el Pass del paquete («S47-T4-B-E2 · Filtra tres rutas de `rollback, retirement y audit`: fixture válido, fixture adverso y registro sin `audit_entry`. Entrada: di…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(*results)']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "retired",
+        "current"
+      ]
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "code": "# dual skeptic-H1 · S47-T4-B-E3\ndef decide(record: dict) -> str:\n    required = {'retired', 'current', 'case_id', 'rollback_tested', 'last_good', 'compatible_features', 'audit_entry'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_RETIREMENT'\n    ok = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\n    return \"CONTINUE\" if ok else 'ROLLBACK_TO_LAST_GOOD'\n\nvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}}\nprint(decide(valid), decide(invalid), decide(incomplete))\n# skeptic_check: form+pass contract\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic H1 S47/S47-T4-B-E3: contrasté el Pass del paquete («S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos. `CASO-TAC-047-4B` debe continuar, el…») con theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Conceptos dual, skeptic, S47, dict, str; conservé fixtures del starter y verifiqué forma completa. Prints/resultado: ['print(decide(valid), decide(invalid), decide(incomplete))']. Solo quiz_card+slim_packet de agentic_H1.",
+      "concepts_used": [
+        "dual",
+        "skeptic",
+        "S47",
+        "dict",
+        "str",
+        "required",
+        "retired",
+        "current"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S47#0: contrasto stem «¿Qué evidencia permite aprobar `tracking y reproducibilidad` en CASO-TAC-047?» con párrafos theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Elijo índice 2 («rerun dentro de tolerancia declarada») porque cuadra con el vocabulario del paquete; distractores ['un print sin assert ni versión', 'una captura de pantalla sin fuente'] no sostienen el contrato."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S47#1: contrasto stem «Si ocurre la condición de error de S47, ¿qué respuesta preserva seguridad y auditabilidad?» con párrafos theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Elijo índice 0 («emitir ROLLBACK_MODEL y conservar evidencia») porque cuadra con el vocabulario del paquete; distractores ['continuar y ocultar el warning', 'inventar evidencia faltante'] no sostienen el contrato."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S47#2: contrasto stem «¿Cuál resultado demuestra el gate `CP-N4-B + CF-4 · modelo promovible y reversible`?» con párrafos theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Elijo índice 1 («solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia») porque cuadra con el vocabulario del paquete; distractores ['el archivo S47 existe, aunque no pruebe el gate', 'el README afirma que funciona'] no sostienen el contrato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S47#3: contrasto stem «¿Qué tratamiento de `CASO-TAC-047` respeta el alcance del curso?» con párrafos theory/iDo («tracking y reproducibilidad» Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, n). Elijo índice 3 («mantenerlo sintético, mínimo, trazable y sujeto a revisión humana») porque cuadra con el vocabulario del paquete; distractores ['reemplazarlo por datos reales sin consentimiento', 'subir secretos para facilitar la demo'] no sostienen el contrato."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T08:44:51.307162+00:00",
+  "session_started_at": "2026-07-23T08:44:26.632239+00:00",
+  "session_ended_at": "2026-07-23T08:44:51.307162+00:00"
+}

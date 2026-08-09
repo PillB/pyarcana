@@ -1,0 +1,262 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_I1",
+  "section_index": 26,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i1-skeptic-s26-153924-65",
+  "production_note": "agentic_I1 dual-LLM skeptic: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S26-T1-A-E1",
+      "code": "# skeptic path: packet fixtures only\nprint( [\"ingest\", \"validate\", \"analyze\", \"report\"])\n",
+      "justification_from_packet": "S26-T1-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `print( [\"ingest\", \"validate\", \"analyze\", \"report\"])` cubre la Tarea del packet («CASO-PE orquestación VP: con el path canónico de cuatro pasos de negocio (sin AI»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T1-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint( len(edges), edges)\n",
+      "justification_from_packet": "S26-T1-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `nodes=['a','b','c']` cubre la Tarea del packet («Dado nodes=['a','b','c'] como path lineal del flow sintético, construye edges (a»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T1-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntasks={'a':'success','b':'failed'}\nprint( 'failed' if any(v=='failed' for v in tasks.values()) else 'success')\n",
+      "justification_from_packet": "S26-T1-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `tasks={'a':'success','b':'failed'}` cubre la Tarea del packet («Agregación de estado global del flow: tasks={'a':'success','b':'failed'}. Si cua»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T1-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nm={'run_id':'cpn2c-1'}\nprint( m['run_id'])\n",
+      "justification_from_packet": "S26-T1-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `m={'run_id':'cpn2c-1'}` cubre la Tarea del packet («Metadata de run CP-N2-C: m={'run_id':'cpn2c-1'}. Extrae e imprime m['run_id'] si»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T1-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\napi_rpm=90\nprint( 'too_high' if api_rpm>60 else 'ok')\n",
+      "justification_from_packet": "S26-T1-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `api_rpm=90` cubre la Tarea del packet («Preflight de límites: api_rpm=90 supera el umbral didáctico 60 del adapter sinté»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T1-B-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint( '0 6 * * 1-5', 'America/Lima')\n",
+      "justification_from_packet": "S26-T1-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `case_id = \"CASO-LIM-SYN\"` cubre la Tarea del packet («Schedule del escritorio PE: imprime el cron de días hábiles a las 06:00 y la zon»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T1"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T2-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nattempt, base = 3, 100\nprint( base * (2 ** (attempt - 1)))\n",
+      "justification_from_packet": "S26-T2-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `attempt, base = 3, 100` cubre la Tarea del packet («Backoff exponencial de reintentos: attempt=3, base=100 → base*(2**(attempt-1)). »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T2-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndlq=[]\nfail=True\nif fail:\n    dlq.append('x')\nprint( dlq)\n",
+      "justification_from_packet": "S26-T2-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `dlq=[]` cubre la Tarea del packet («Dead-letter: dlq=[] y fail=True modelan un item irrecuperable del export sintéti»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T2-A-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nckpt={'a'}; items=['a','b']\nprint( [i for i in items if i not in ckpt])\n",
+      "justification_from_packet": "S26-T2-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `ckpt={'a'}; items=['a','b']` cubre la Tarea del packet («Checkpoint de reanudación: ckpt={'a'}; items=['a','b']. Imprime solo los ids aún»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T2-B-E1",
+      "code": "# skeptic path: packet fixtures only\nstore = {}\n\ndef put(k, v):\n    if k not in store:\n        store[k] = v\n\nput(\"r\", \"v1\")\nput(\"r\", \"v2\")\nprint( store.get(\"r\"))\n",
+      "justification_from_packet": "S26-T2-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `store = {}` cubre la Tarea del packet («Write idempotente create-once: implementa put(k,v) que solo escribe si k no está»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T2-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstate={'report':'ok','draft':'ok'}\nstate.pop('draft', None)\nprint( state)\n",
+      "justification_from_packet": "S26-T2-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `state={'report':'ok','draft':'ok'}` cubre la Tarea del packet («Compensación/rollback: state={'report':'ok','draft':'ok'}. Elimina la key draft »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T2-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlocked=True\nprint( 'busy' if locked else 'enter')\n",
+      "justification_from_packet": "S26-T2-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `locked=True` cubre la Tarea del packet («Lock optimista de concurrencia: locked=True significa otro worker en la entidad.»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T2"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nanalysis=[{'status':'pending'},{'status':'done'}]\nprint( sum(1 for x in analysis if x['status']=='pending'))\n",
+      "justification_from_packet": "S26-T3-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `analysis=[{'status':'pending'},{'status':'done'}]` cubre la Tarea del packet («Cola HITL analysis: analysis=[{'status':'pending'},{'status':'done'}]. Cuenta cu»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T3-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nq={'analysis':1,'report':0,'recipient':0}\nprint( any(v>0 for v in q.values()))\n",
+      "justification_from_packet": "S26-T3-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `q={'analysis':1,'report':0,'recipient':0}` cubre la Tarea del packet («Gate multi-cola: q={'analysis':1,'report':0,'recipient':0}. Imprime True si algu»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T3-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint( ['metrics','narrative','recipient'])\n",
+      "justification_from_packet": "S26-T3-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `case_id = \"CASO-LIM-SYN\"` cubre la Tarea del packet («Checklist mínima de revisión humana antes del borrador: imprime exactamente ['me»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint( audit[0]['action'])\n",
+      "justification_from_packet": "S26-T3-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `audit=[]` cubre la Tarea del packet («Auditoría append-only: audit=[] registra la decisión. Append un dict con action »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\naction, reason = 'reject', None\nprint( 'invalid' if action=='reject' and not reason else 'ok')\n",
+      "justification_from_packet": "S26-T3-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `action, reason = 'reject', None` cubre la Tarea del packet («Reject con razón obligatoria: action='reject', reason=None. Si reject y reason v»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T3-B-E3",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nver=1\nver += 1\nprint( ver)\n",
+      "justification_from_packet": "S26-T3-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `ver=1` cubre la Tarea del packet («Edit versiona artefacto del informe sintético: partiendo de ver=1, al editar inc»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T3"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrate=0.9\nprint( 'alert' if rate < 0.95 else 'ok')\n",
+      "justification_from_packet": "S26-T4-A-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `rate=0.9` cubre la Tarea del packet («SLO success_rate del VP: rate=0.9. Si rate < 0.95 imprime 'alert', si no 'ok'. C»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=1\nprint( 'P0_unapproved_send' if n>0 else 'ok')\n",
+      "justification_from_packet": "S26-T4-A-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `n=1` cubre la Tarea del packet («Control P0 de cumplimiento: n=sends_without_approve=1. Si n>0 imprime 'P0_unappr»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T4-A-E3",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint( 'disable_schedule -> drain -> page')\n",
+      "justification_from_packet": "S26-T4-A-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `case_id = \"CASO-LIM-SYN\"` cubre la Tarea del packet («Runbook de incidente one-liner: imprime la secuencia disable_schedule -> drain -»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T4-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\nprint( all(status[s]=='success' for s in steps))\n",
+      "justification_from_packet": "S26-T4-B-E1: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `steps=['ingest','validate','draft']` cubre la Tarea del packet («E2E sintético: steps=['ingest','validate','draft'] con status success en todos. »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfraud_labels=0\nprint( 'ok' if fraud_labels==0 else 'fail')\n",
+      "justification_from_packet": "S26-T4-B-E2: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `fraud_labels=0` cubre la Tarea del packet («Política anti-fraude-auto: fraud_labels=0 en el paquete del VP. Imprime 'ok' si »). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S26-T4-B-E3",
+      "code": "# skeptic path: packet fixtures only\nprint( {\n    \"n2_regression\": \"CP-N2-A/B/C critical+privacy\",\n    \"value_minutes_saved_est\": 45,\n    \"cf2\": \"interfaces Familiarity-reporting-automation\",\n})\n",
+      "justification_from_packet": "S26-T4-B-E3: verifiqué hints + fixture del starter sin borrar asserts; la línea clave `print( {` cubre la Tarea del packet («Cierre de regresión N2: imprime el dict con n2_regression='CP-N2-A/B/C critical+»). No usé APIs fuera del dominio de la sección.",
+      "concepts_used": [
+        "T4"
+      ],
+      "confidence": 0.72
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic S26: contrasté las opciones con theory sobre orquest; descarté distractores y me quedo con índice 1 («Approve antes de draft_email») porque el paquete lo enseña explícitamente frente a «El orden draft_email respecto a approve es:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S26: contrasté las opciones con theory sobre approve; descarté distractores y me quedo con índice 3 («Tests críticos de capstones N2, E2E y controles de privacidad/segurida») porque el paquete lo enseña explícitamente frente a «La regresión N2 incluye:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic S26: contrasté las opciones con theory sobre draft_email; descarté distractores y me quedo con índice 0 («Incidente P0») porque el paquete lo enseña explícitamente frente a «Un send sin approve es:».",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic S26: contrasté las opciones con theory sobre DAG; descarté distractores y me quedo con índice 2 («0 — solo evidencia para humanos») porque el paquete lo enseña explícitamente frente a «fraud_labels automáticos en el VP deben ser:».",
+      "confidence": 0.74
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T15:40:29+00:00",
+  "session_started_at": "2026-07-23T15:39:24+00:00",
+  "session_ended_at": "2026-07-23T15:40:29+00:00"
+}

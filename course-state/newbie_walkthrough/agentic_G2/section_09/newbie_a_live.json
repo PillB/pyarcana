@@ -1,0 +1,298 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 9,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-exp-s09-240a7c22c3",
+  "production_note": "agentic_G2 dual-LLM explorer: packet-only; no generators; independent of G1",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "code": "fallos = [\n    (\"archivo ausente\", \"FileNotFoundError\"),\n    (\"tipo malo\", \"TypeError\"),\n    (\"valor malo\", \"ValueError\"),\n    (\"clave dict\", \"KeyError\"),\n    (\"timeout red\", \"TimeoutError\"),\n]\nfor f, t in fallos:\n    print(f\"{f} -> {t}\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T1-A-E1] mapea 5 fallos a tipos de excepcion. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "exceptions"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "code": "try:\n    int(\"x\")\nexcept ValueError as e:\n    print(type(e).__name__, e)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T1-A-E2] captura ValueError. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "except"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "code": "class IntakeError(Exception):\n    pass\ntry:\n    raise IntakeError(\"campo edad\")\nexcept IntakeError as e:\n    print(e)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T1-A-E3] excepcion de dominio propia. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "custom"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "code": "try:\n    raise ValueError(\"raw\")\nexcept ValueError as e:\n    raise RuntimeError(\"wrap\") from e",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T1-B-E1] raise from encadena causa. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "raise from"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "code": "def load_config(delim):\n    if delim is None or delim == \"\":\n        raise ValueError(\"delimiter vacio: fail-fast\")\n    return delim\ntry:\n    load_config(\"\")\nexcept ValueError as e:\n    print(e)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T1-B-E2] config invalida fail-fast. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "fail-fast"
+      ]
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "code": "def parse_or_quarantine(row):\n    try:\n        return \"ok\", int(row)\n    except ValueError:\n        return \"quarantine\", row\nprint(parse_or_quarantine(\"10\"), parse_or_quarantine(\"x\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "error de fila -> quarantine; no abortar job. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "quarantine"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "code": "import sys\nprint(\"dato\", file=sys.stdout)\nprint(\"diag\", file=sys.stderr)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T2-A-E1] datos stdout; diag stderr. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "streams"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "code": "import logging\nlogging.basicConfig(level=logging.INFO)\nlog = logging.getLogger(\"intake\")\nlog.info(\"filas=%s\", 3)\nprint('{\"n\":3}')",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T2-A-E2] log a logger; JSON a stdout. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "logging"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "code": "def cli_emit(payload, log_msg):\n    import sys\n    print(log_msg, file=sys.stderr)\n    print(payload)\ncli_emit('{\"ok\":true}', \"done\")",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T2-A-E3] helper emit separado. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "cli"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "code": "def mask_email(e):\n    if \"@\" not in e:\n        return \"***\"\n    local, domain = e.split(\"@\", 1)\n    return (local[:1] + \"***@\" + domain) if local else \"***@\" + domain\nprint(mask_email(\"ana@ejemplo.pe\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T2-B-E1] a***@ejemplo.pe style. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "mask"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "code": "def mask_phone(p):\n    digits = \"\".join(c for c in p if c.isdigit())\n    if len(digits) < 4:\n        return \"***\"\n    return \"*\" * (len(digits) - 4) + digits[-4:]\nprint(mask_phone(\"999000111\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T2-B-E2] enmascara dejando ultimos 4. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "mask"
+      ]
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "code": "def safe_log_record(rec):\n    out = dict(rec)\n    if \"email\" in out:\n        e = out[\"email\"]\n        out[\"email\"] = e[0] + \"***@\" + e.split(\"@\")[-1] if e and \"@\" in e else \"***\"\n    return out\nprint(safe_log_record({\"id\": \"C1\", \"email\": \"ana@ejemplo.pe\"}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T2-B-E3] record logeable sin email claro. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "redact"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "code": "def fetch(retry=0):\n    if retry < 2:\n        raise TimeoutError(\"temp\")\n    return \"ok\"\nattempt = 0\nwhile True:\n    try:\n        print(fetch(attempt))\n        break\n    except TimeoutError:\n        attempt += 1\n        if attempt > 3:\n            raise",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T3-A-E1] retry TimeoutError con tope. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "retry"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "code": "def classify_error(e):\n    if isinstance(e, TimeoutError):\n        return \"retryable\"\n    if isinstance(e, ValueError):\n        return \"data\"\n    return \"other\"\nprint(classify_error(TimeoutError()), classify_error(ValueError(\"x\")))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T3-A-E2] clasifica retryable vs data. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "classify"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "code": "import time\ndef backoff(i):\n    return min(2 ** i, 8)\nprint([backoff(i) for i in range(4)])",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T3-A-E3] backoff exponencial acotado. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "backoff"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "code": "def minimal_repro(rows):\n    for r in rows:\n        try:\n            int(r)\n        except ValueError:\n            return r\n    return None\nprint(minimal_repro([\"1\", \"2\", \"x\", \"4\"]))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T3-B-E1] repro minimo: primera fila que falla. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "repro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "code": "def assert_repro(fn, sample):\n    try:\n        fn(sample)\n        return \"no_fail\"\n    except Exception as e:\n        return type(e).__name__\nprint(assert_repro(lambda s: int(s), \"x\"))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "verifica que el repro falla como se espera. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "repro"
+      ]
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "code": "bug_note = {\n    \"input\": \"edad='abc'\",\n    \"expected\": \"ValueError capturado a errors\",\n    \"not\": \"CSV completo de produccion\",\n}\nprint(bug_note)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T3-B-E3] documenta minimal repro. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "docs"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "code": "import traceback\ntry:\n    1/0\nexcept ZeroDivisionError:\n    print(\"caught\")\n    # traceback.print_exc()  # a stderr en debug",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T4-A-E1] captura y opcional traceback. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "traceback"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "code": "def handle(e):\n    return {\"error_type\": type(e).__name__, \"msg\": str(e)}\nprint(handle(ValueError(\"edad\")))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T4-A-E2] estructura de error para API/log. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "error dict"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "code": "errors = []\nfor raw in [\"10\", \"x\"]:\n    try:\n        errors.append((\"ok\", int(raw)))\n    except ValueError as e:\n        errors.append((\"err\", str(e)))\nprint(errors)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T4-A-E3] acumula errores por fila. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "batch"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "code": "def job(config):\n    if not config.get(\"delimiter\"):\n        raise SystemExit(2)\n    return 0\nprint(job({\"delimiter\": \",\"}))",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T4-B-E1] exit 2 estilo uso/config. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "exit codes"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "code": "STEPS = [\"validate_config\", \"read\", \"parse\", \"write\", \"reconcile\"]\nprint(STEPS)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T4-B-E2] pipeline steps nombrados. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "steps"
+      ]
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "code": "runbook = {\n    \"on_TimeoutError\": \"retry with backoff\",\n    \"on_ValueError\": \"quarantine row\",\n    \"on_config_error\": \"fail-fast\",\n}\nprint(runbook)",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "[S09-T4-B-E3] matriz de respuesta a fallos. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos.",
+      "concepts_used": [
+        "runbook"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "raise NewError(...) from e encadena la causa en __cause__."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Delimiter vacio en config es fail-fast del job, no cuarentena de una fila."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "stdout = datos; diagnostico a stderr. Completé el ejercicio con patrones del theory/iDo/hints del paquete activo de la sección, sin ejecutar código externo ni copiar intentos previos."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "mask_email seguro: a***@ejemplo.pe estilo enmascarado."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "TimeoutError puede reintentarse; ValueError de datos no."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Minimal repro: entrada mas pequena que reproduce el bug."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:07:46.951380+00:00",
+  "session_started_at": "2026-07-23T07:07:24.307093+00:00",
+  "session_ended_at": "2026-07-23T07:07:46.951380+00:00"
+}

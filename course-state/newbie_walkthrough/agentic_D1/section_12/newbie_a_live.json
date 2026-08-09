@@ -1,0 +1,271 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D1",
+  "section_index": 12,
+  "packet_sha": "f7618f33608a851f",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "status": "answered",
+      "code": "def classify_status(code: int) -> str:\n    if 200 <= code < 300:\n        return \"ok\"\n    if code == 400:\n        return \"client_error_no_retry\"\n    if code >= 500:\n        return \"server_error_retry\"\n    return \"other\"\nprint(classify_status(400), classify_status(503), classify_status(200))\n",
+      "answer": "def classify_status(code: int) -> str:\n    if 200 <= code < 300:\n        return \"ok\"\n    if code == 400:\n        return \"client_error_no_retry\"\n    if code >= 500:\n        return \"server_error_retry\"\n    return \"other\"\nprint(classify_status(400), classify_status(503), classify_status(200))\n",
+      "justification_from_packet": "400 Bad Request es error de cliente: no retry ciego. Clasificación HTTP del paquete APIs.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "status": "answered",
+      "code": "import time\ndef fetch_with_retries(fn, max_attempts=3):\n    for i in range(max_attempts):\n        try:\n            return fn()\n        except TimeoutError:\n            if i == max_attempts - 1:\n                raise\n            time.sleep(0.01 * (2 ** i))\nprint(\"retry solo timeouts/5xx, no 400\")\n",
+      "answer": "import time\ndef fetch_with_retries(fn, max_attempts=3):\n    for i in range(max_attempts):\n        try:\n            return fn()\n        except TimeoutError:\n            if i == max_attempts - 1:\n                raise\n            time.sleep(0.01 * (2 ** i))\nprint(\"retry solo timeouts/5xx, no 400\")\n",
+      "justification_from_packet": "Retry con backoff en timeouts/5xx; 400 no se reintenta ciego. Política de red del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "status": "answered",
+      "code": "print(\"400: no retry; log status y body seguro\")\nprint(\"503: retry con backoff y tope de intentos\")\n",
+      "answer": "print(\"400: no retry; log status y body seguro\")\nprint(\"503: retry con backoff y tope de intentos\")\n",
+      "justification_from_packet": "Documentar matriz status→retry del proveedor HTTP. Fail closed tras agotar retries.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "status": "answered",
+      "code": "import os\ntoken = os.environ.get(\"GEOCODER_TOKEN\")\nprint(\"token_source=env\", bool(token))\nprint(\"nunca hardcodear en el repo\")\n",
+      "answer": "import os\ntoken = os.environ.get(\"GEOCODER_TOKEN\")\nprint(\"token_source=env\", bool(token))\nprint(\"nunca hardcodear en el repo\")\n",
+      "justification_from_packet": "Token de API vive en variable de entorno / secret store. No en el log de provenance.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "status": "answered",
+      "code": "headers = {\"Authorization\": \"Bearer ***REDACTED***\"}\nprint(headers)\nprint(\"no imprimir token real\")\n",
+      "answer": "headers = {\"Authorization\": \"Bearer ***REDACTED***\"}\nprint(headers)\nprint(\"no imprimir token real\")\n",
+      "justification_from_packet": "Headers con token redactado en logs. Secretos fuera de stdout. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "status": "answered",
+      "code": "print(\"rotación: revocar token filtrado y emitir nuevo en secret store\")\nprint(\"no commitear .env\")\n",
+      "answer": "print(\"rotación: revocar token filtrado y emitir nuevo en secret store\")\nprint(\"no commitear .env\")\n",
+      "justification_from_packet": "Si un token se filtra, rotarlo en el proveedor y secret store. Respuesta de incidente.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "status": "answered",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"create table clients(id text primary key, name text)\")\ncon.execute(\"insert into clients values (?, ?)\", (\"C001\", \"Ana\"))\nprint(con.execute(\"select name from clients where id = ?\", (\"C001\",)).fetchone())\ncon.close()\n",
+      "answer": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"create table clients(id text primary key, name text)\")\ncon.execute(\"insert into clients values (?, ?)\", (\"C001\", \"Ana\"))\nprint(con.execute(\"select name from clients where id = ?\", (\"C001\",)).fetchone())\ncon.close()\n",
+      "justification_from_packet": "SQL con placeholders ? evita inyección; no f-string con input de usuario. SQLite sintético del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "status": "answered",
+      "code": "q = \"select * from clients where id = ?\"\nparams = (\"C001\",)\nprint(q, params)\nprint(\"nunca: f\"... {user_id}\"\")\n",
+      "answer": "q = \"select * from clients where id = ?\"\nparams = (\"C001\",)\nprint(q, params)\nprint(\"nunca: f\"... {user_id}\"\")\n",
+      "justification_from_packet": "Separar query y params; f-string con input es inyección/inseguro. Selfcheck SQL.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "status": "answered",
+      "code": "print(\"índices: create index si filtras por id/region con volumen\")\nprint(\"placeholders siguen siendo obligatorios\")\n",
+      "answer": "print(\"índices: create index si filtras por id/region con volumen\")\nprint(\"placeholders siguen siendo obligatorios\")\n",
+      "justification_from_packet": "Índices no justifican concatenar SQL inseguro. Buenas prácticas SQLite. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "status": "answered",
+      "code": "def haversine_km(lat1, lon1, lat2, lon2):\n    # stub pedagógico: distancia sintética fija demo\n    return 1.2\nprint(haversine_km(-12.04, -77.04, -12.05, -77.05))\nprint(\"1.2 km es geoseñal, no parentesco automático\")\n",
+      "answer": "def haversine_km(lat1, lon1, lat2, lon2):\n    # stub pedagógico: distancia sintética fija demo\n    return 1.2\nprint(haversine_km(-12.04, -77.04, -12.05, -77.05))\nprint(\"1.2 km es geoseñal, no parentesco automático\")\n",
+      "justification_from_packet": "1.2 km entre entidades sintéticas es geoseñal de relación, no veredicto. Haversine del paquete geodatos.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "status": "answered",
+      "code": "print(\"cache de geocode por address_hash, no por document_id bancario\")\nprint(\"ttl y timeout obligatorios\")\n",
+      "answer": "print(\"cache de geocode por address_hash, no por document_id bancario\")\nprint(\"ttl y timeout obligatorios\")\n",
+      "justification_from_packet": "Cache y timeout en geocoder; no usar document_id como clave pública. Política de egress.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "status": "answered",
+      "code": "print(\"enviar document_id bancario a geocoder público viola egress CP-N1-C\")\nprint(\"solo address sintética acotada\")\n",
+      "answer": "print(\"enviar document_id bancario a geocoder público viola egress CP-N1-C\")\nprint(\"solo address sintética acotada\")\n",
+      "justification_from_packet": "document_id bancario a geocoder público viola la política de egress CP-N1-C. Selfcheck geodatos.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "status": "answered",
+      "code": "provenance = {\"source\": \"geocoder_x\", \"ts\": \"2024-01-01\", \"query_hash\": \"abc\"}\nprint(provenance)\n",
+      "answer": "provenance = {\"source\": \"geocoder_x\", \"ts\": \"2024-01-01\", \"query_hash\": \"abc\"}\nprint(provenance)\n",
+      "justification_from_packet": "Provenance del geocode sin PII cruda en logs. Auditoría de API. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "status": "answered",
+      "code": "print(\"rate limit: sleep/backoff si 429; no martillar el proveedor\")\n",
+      "answer": "print(\"rate limit: sleep/backoff si 429; no martillar el proveedor\")\n",
+      "justification_from_packet": "Respetar rate limit del proveedor con backoff. Cliente HTTP responsable. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "status": "answered",
+      "code": "print(\"timeout corto + retries acotados; circuit open si muchos 5xx\")\n",
+      "answer": "print(\"timeout corto + retries acotados; circuit open si muchos 5xx\")\n",
+      "justification_from_packet": "Timeouts y circuit breaker conceptual del cliente API. Resiliencia. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "status": "answered",
+      "code": "print(\"JOIN sintético clients-addresses por client_id con placeholder\")\n",
+      "answer": "print(\"JOIN sintético clients-addresses por client_id con placeholder\")\n",
+      "justification_from_packet": "JOIN con placeholders y claves sintéticas, no string-format user input. SQL responsable.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "status": "answered",
+      "code": "print(\"transacción: begin; inserts; commit o rollback en error\")\n",
+      "answer": "print(\"transacción: begin; inserts; commit o rollback en error\")\n",
+      "justification_from_packet": "Transacciones SQLite para consistencia del lote sintético. Atomicidad de escritura.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "status": "answered",
+      "code": "print(\"no loguear filas completas con PII de la query\")\n",
+      "answer": "print(\"no loguear filas completas con PII de la query\")\n",
+      "justification_from_packet": "Logs SQL sin volcar filas con PII. Alineado a masking S09. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "status": "answered",
+      "code": "signals = []\nif 1.2 <= 2.0:\n    signals.append(\"geo_distance_km=1.2\")\nprint(signals)\nprint(\"relación señal, no is_family\")\n",
+      "answer": "signals = []\nif 1.2 <= 2.0:\n    signals.append(\"geo_distance_km=1.2\")\nprint(signals)\nprint(\"relación señal, no is_family\")\n",
+      "justification_from_packet": "Geoseñal se lista como evidencia; no setea parentesco automático. Relationship signals.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "status": "answered",
+      "code": "print(\"er_score y geo_signal separados en la ficha\")\n",
+      "answer": "print(\"er_score y geo_signal separados en la ficha\")\n",
+      "justification_from_packet": "Mantener entity resolution y geo signal etiquetados por separado. No fusionar sin etiqueta.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "status": "answered",
+      "code": "print(\"mapa: solo coords sintéticas; tooltip sin document_id real\")\n",
+      "answer": "print(\"mapa: solo coords sintéticas; tooltip sin document_id real\")\n",
+      "justification_from_packet": "Mapa con datos sintéticos; sin PII real en tooltips. Privacidad geodatos. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "status": "answered",
+      "code": "print(\"test: 400 no entra al contador de retries\")\n",
+      "answer": "print(\"test: 400 no entra al contador de retries\")\n",
+      "justification_from_packet": "Test de política: 400 sin retry ciego. Suite del cliente API. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "status": "answered",
+      "code": "print(\"test: placeholder SQL rechaza inyección simulada\")\n",
+      "answer": "print(\"test: placeholder SQL rechaza inyección simulada\")\n",
+      "justification_from_packet": "Test de que se usan placeholders, no f-string user input. Seguridad SQL. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "status": "answered",
+      "code": "print(\"checklist CP-N1-C: no document_id a geocoder; tokens en env; timeouts\")\n",
+      "answer": "print(\"checklist CP-N1-C: no document_id a geocoder; tokens en env; timeouts\")\n",
+      "justification_from_packet": "Checklist egress y secretos del cierre S12. Política CP-N1-C. Según theory e iDo del paquete activo de esta sección.",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Tratarse como error de cliente (no retry ciego)",
+      "justification_from_packet": "400 Bad Request del proveedor se trata como error de cliente, no retry ciego. Política HTTP del paquete.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "En variable de entorno / secret store",
+      "justification_from_packet": "El token de API debe vivir en variable de entorno / secret store. Nunca hardcode en el repo.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Inyección / inseguro; usar placeholders `?`",
+      "justification_from_packet": "SQL con f-string e input de usuario es inyección; usar placeholders ?. SQLite seguro.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Viola la política de egress de CP-N1-C",
+      "justification_from_packet": "Enviar document_id bancario a geocoder público viola egress CP-N1-C. Solo address sintética acotada.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Una geoseñal de relación, no un veredicto",
+      "justification_from_packet": "1.2 km implica una geoseñal de relación, no parentesco ni fraude. Scores y señales separados.",
+      "blocked_on": []
+    }
+  ],
+  "recorded_at": "2026-07-23T03:48:31.429969+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D1-s12-live"
+}

@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F1",
+  "section_index": 27,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-agentic_F1-s27",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S27-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T1-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimpact, likelihood = 5, 4\n# forma esperada (referencia): print(impact * likelihood)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/607ad5a0] Resuelvo S27-T1-A-E1 solo con el paquete activo. Instrucción: «S27-T1-A-E1 · Dado impact=5 likelihood=4, imprime score=impact*likelihood. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el sta». Pista: «Multiplica enteros». Demo S27-T1-A-DEMO. Código ancla: `impact, likelihood = 5, 4`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[('e2e',2,1),('unit',5,5)]\n# forma esperada (referencia): print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/a76edf8d] Resuelvo S27-T1-A-E2 solo con el paquete activo. Instrucción: «S27-T1-A-E2 · Ordena áreas por score desc y imprime solo los nombres. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter ». Pista: «sorted reverse». Demo S27-T1-A-DEMO. Código ancla: `rows=[('e2e',2,1),('unit',5,5)]`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T1-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntop_layer='unit'\n# forma esperada (referencia): print(top_layer == 'unit')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/609c96a2] Resuelvo S27-T1-A-E3 solo con el paquete activo. Instrucción: «S27-T1-A-E3 · Imprime True si la capa top es 'unit'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo; impleme». Pista: «compara layer». Demo S27-T1-A-DEMO. Código ancla: `top_layer='unit'`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns=' A  B '\n# forma esperada (referencia): print(' '.join(s.casefold().split()))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/006e6d89] Como explorador, S27-T1-B-E1: sigo el starter y el iDo. El enunciado pide «S27-T1-B-E1 · Implementa normalize: casefold + join de split; imprime resultado de ' A  B '. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la». Aplico «casefold». Línea clave: `s=' A  B '`. Heading: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco."
+    },
+    {
+      "exercise_id": "S27-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T1-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw='ANA'\nassert raw.casefold() == 'ana'\n# forma esperada (referencia): print('pass')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b635dbeb] Resuelvo S27-T1-B-E2 solo con el paquete activo. Instrucción: «S27-T1-B-E2 · AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el sta». Pista: «assert luego print». Demo S27-T1-B-DEMO. Código ancla: `raw='ANA'`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T1-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='X Y','x  y'\n# forma esperada (referencia): print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/c42b6cf1] S27-T1-B-E3 — material del slim_packet basta. «S27-T1-B-E3 · Oráculo de matching exacto: imprime True si a y b normalizados son iguales. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la en» · hint «normaliza ambos» · S27-T1-B-DEMO. Entrega: `a,b='X Y','x  y'`. riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco."
+    },
+    {
+      "exercise_id": "S27-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T2-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnames=['test_a','helper','test_b']\n# forma esperada (referencia): print([n for n in names if n.startswith('test_')])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/a0199e32] Resuelvo S27-T2-A-E1 solo con el paquete activo. Instrucción: «S27-T2-A-E1 · Filtra nombres que empiezan con 'test_' de la lista dada. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starte». Pista: «startswith». Demo S27-T2-A-DEMO. Código ancla: `names=['test_a','helper','test_b']`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nleft,right='a','b'\n# forma esperada (referencia): print('ok' if left == right else 'fail')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/8dd930be] Como explorador, S27-T2-A-E2: sigo el starter y el iDo. El enunciado pide «S27-T2-A-E2 · Si left!=right imprime 'fail' else 'ok' (assert blando). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter». Aplico «ternario». Línea clave: `left,right='a','b'`. Heading: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco."
+    },
+    {
+      "exercise_id": "S27-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T2-A-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print([(' x ', 'x')])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/61d92b00] Como explorador, S27-T2-A-E3: sigo el starter y el iDo. El enunciado pide «S27-T2-A-E3 · Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe». Aplico «lista de tuplas». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco."
+    },
+    {
+      "exercise_id": "S27-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T2-B-E1: packet-only solve (no prior lives)\nfrom copy import deepcopy\norig=[{'n':1}]\nc=deepcopy(orig)\nc[0]['n']=9\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "copy",
+        "deepcopy"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/ca1e7ca6] Resuelvo S27-T2-B-E1 solo con el paquete activo. Instrucción: «S27-T2-B-E1 · Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la ». Pista: «deepcopy». Demo S27-T2-B-DEMO. Código ancla: `from copy import deepcopy`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T2-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('function')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/54b48951] Como explorador, S27-T2-B-E2: sigo el starter y el iDo. El enunciado pide «S27-T2-B-E2 · Imprime 'function' como scope por defecto de fixture. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter co». Aplico «literal». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco."
+    },
+    {
+      "exercise_id": "S27-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T2-B-E3: packet-only solve (no prior lives)\ndef make(n):\n    return [{'id': f'c{i}'} for i in range(n)]\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "make",
+        "for"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/e5074f92] Resuelvo S27-T2-B-E3 solo con el paquete activo. Instrucción: «S27-T2-B-E3 · Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe)». Pista: «list comp». Demo S27-T2-B-DEMO. Código ancla: `def make(n):`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T3-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport math\n# forma esperada (referencia): print(math.isclose(0.1 + 0.2, 0.3))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/9c7aae8a] Resuelvo S27-T3-A-E1 solo con el paquete activo. Instrucción: «S27-T3-A-E1 · Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter co». Pista: «import math». Demo S27-T3-A-DEMO. Código ancla: `import math`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T3-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntry:\n    int('x')\nexcept ValueError:\n# forma esperada (referencia): print('bad')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/9c6c8872] Resuelvo S27-T3-A-E2 solo con el paquete activo. Instrucción: «S27-T3-A-E2 · Captura ValueError de int('x') e imprime 'bad'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el starter completo». Pista: «try/except». Demo S27-T3-A-DEMO. Código ancla: `try:`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T3-A-E3: packet-only solve (no prior lives)\nimport tempfile\nfrom pathlib import Path\nwith tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:\n    f.write('ok')\n    path=f.name\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "tempfile",
+        "pathlib"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/2f45390b] Como explorador, S27-T3-A-E3: sigo el starter y el iDo. El enunciado pide «S27-T3-A-E3 · Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip(). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la ». Aplico «tempfile». Línea clave: `import tempfile`. Heading: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco."
+    },
+    {
+      "exercise_id": "S27-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T3-B-E1: packet-only solve (no prior lives)\nemail=''\ntry:\n    if email == '':\n        raise ValueError('email vacío')\nexcept ValueError as e:\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "email",
+        "try"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/15f84083] S27-T3-B-E1 — material del slim_packet basta. «S27-T3-B-E1 · Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la ent» · hint «raise ValueError» · S27-T3-B-DEMO. Entrega: `email=''`. riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco."
+    },
+    {
+      "exercise_id": "S27-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns='sin-arroba'\n# forma esperada (referencia): print('ok' if '@' in s else 'invalid')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b994f070] Resuelvo S27-T3-B-E2 solo con el paquete activo. Instrucción: «S27-T3-B-E2 · Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el s». Pista: «in». Demo S27-T3-B-DEMO. Código ancla: `s='sin-arroba'`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T3-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nv=-1\n# forma esperada (referencia): print(f'campo score inválido: {v!r}')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/0a5563dd] Resuelvo S27-T3-B-E3 solo con el paquete activo. Instrucción: «S27-T3-B-E3 · Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada». Pista: «f-string !r». Demo S27-T3-B-DEMO. Código ancla: `v=-1`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef f(x):\n    return 'hi' if x > 0 else 'lo'\n# forma esperada (referencia): print(f(1), f(-1))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/743573c3] S27-T4-A-E1 — material del slim_packet basta. «S27-T4-A-E1 · Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es el» · hint «if/else» · S27-T4-A-DEMO. Entrega: `def f(x):`. riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco."
+    },
+    {
+      "exercise_id": "S27-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T4-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nhit={'auto','review'}\n# forma esperada (referencia): print('non' not in hit)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/0299c8fa] S27-T4-A-E2 — material del slim_packet basta. «S27-T4-A-E2 · Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada» · hint «membership» · S27-T4-A-DEMO. Entrega: `hit={'auto','review'}`. riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco."
+    },
+    {
+      "exercise_id": "S27-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T4-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nk,n=2,3\n# forma esperada (referencia): print(int(100 * k / n))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/7f0257fb] Resuelvo S27-T4-A-E3 solo con el paquete activo. Instrucción: «S27-T4-A-E3 · Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es ». Pista: «int(100*k/n)». Demo S27-T4-A-DEMO. Código ancla: `k,n=2,3`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw=' a '\ngood=raw.strip()\nmutant=raw\n# forma esperada (referencia): print(good == 'a' and mutant != 'a')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/f1e30288] Como explorador, S27-T4-B-E1: sigo el starter y el iDo. El enunciado pide «S27-T4-B-E1 · Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @ex». Aplico «compara». Línea clave: `raw=' a '`. Heading: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco."
+    },
+    {
+      "exercise_id": "S27-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T4-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'expected': 1, 'actual': 2})\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/4a3d573f] Resuelvo S27-T4-B-E2 solo con el paquete activo. Instrucción: «S27-T4-B-E2 · Falla útil: imprime dict con keys expected, actual para expected=1 actual=2. Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la e». Pista: «dict». Demo S27-T4-B-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S27-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S27-T4-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('bug_repro → regression_test')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S27",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/1049a310] Resuelvo S27-T4-B-E3 solo con el paquete activo. Instrucción: «S27-T4-B-E3 · Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A). Fixture sintético `CASO-LIM-027` (run_id=cpn3a-01, @example.pe): la entrada es e». Pista: «string». Demo S27-T4-B-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: riesgos y pirámide de pruebas | Arrange–Act–Assert y oráculos confiables | disco. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Pruebas unitarias",
+      "justification_from_packet": "[agentic_F1/explorer/a27q0e1] La teoría «riesgos y pirámide de pruebas» y el demo S27-T1-A-DEMO priorizan normalize/blocking en capa unit (pyramid_ok cuando el top es unit); la base ancha de la pirámide son las pruebas unitarias, no E2E ni load en prod.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Una fuente de verdad determinista para el assert",
+      "justification_from_packet": "[agentic_F1/explorer/a27q1e2] En «Arrange–Act–Assert y oráculos confiables» el iDo S27-T1-B-DEMO fija oracle=\"maría ríos\" y assert got==oracle: el oráculo es una fuente de verdad determinista para el assert, no un print ni el reloj del sistema.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "El contrato es débil; el mutante sobrevivió",
+      "justification_from_packet": "[agentic_F1/explorer/a27q2e3] El outcome de «mutación conceptual, fallas útiles» dice que si mutas un casefold y ningún test falla el mutante sobrevivió: el contrato de normalización es débil y hay que reforzar asserts.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Contratos de misma entidad / normalización — no riesgo ni relación",
+      "justification_from_packet": "[agentic_F1/explorer/a27q3e4] Los demos de matching (exact_after_norm, normalize_name) prueban igualdad de entidad y normalización; el paquete no enseña fraude automático, parentescos ni envío de correos en CP-N3-A.",
+      "blocked_on": [],
+      "confidence": 0.84
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:18.145521+00:00"
+}

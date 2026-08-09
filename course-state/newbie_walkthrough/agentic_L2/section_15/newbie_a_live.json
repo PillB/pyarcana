@@ -1,0 +1,261 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-a-7c91e2f4b8-s15",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "id": "S15-T1-A-E1",
+      "code": "import pandas as pd\ndf = pd.DataFrame({'cliente_id':['C001','C002'],'score':[0.5,0.8]})\ndf=df.set_index('cliente_id')\nprint(df.index.tolist())\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T1-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Crea un. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(df.index.tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "id": "S15-T1-A-E2",
+      "code": "import pandas as pd\ns=pd.Series([0.1,0.9], index=['C001','C002'], name='score')\nprint(s['C002'])\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T1-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(s['C002'])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "id": "S15-T1-A-E3",
+      "code": "import pandas as pd\ns1=pd.Series([1.0,2.0], index=['C001','C002'])\ns2=pd.Series([0.5], index=['C002'])\nprint(s1.add(s2, fill_value=0).sort_index().to_dict())\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T1-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(s1.add(s2, fill_value=0).sort_index().to_dict())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "id": "S15-T1-B-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf=pd.read_csv(StringIO('a,b\\n1,NA\\n2,3\\n'), na_values=['NA'])\nprint(int(df['b'].isna().sum()))\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T1-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Lee un . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(int(df['b'].isna().sum()))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "id": "S15-T1-B-E2",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf=pd.read_csv(StringIO('fecha,v\\n2024-01-01,1\\n'), parse_dates=['fecha'])\nprint(str(df['fecha'].dtype))\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T1-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(str(df['fecha'].dtype))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "id": "S15-T1-B-E3",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf=pd.read_csv(StringIO('cliente_id,monto,extra\\nC001,1,x\\n'), usecols=['cliente_id','monto'])\nprint(df.columns.tolist())\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T1-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(df.columns.tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "id": "S15-T2-A-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'cliente_id':['C001','C002'],'score':[0.4,0.9]})\nprint(df.loc[df['score']>=0.5,'cliente_id'].tolist())\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T2-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Con df . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(df.loc[df['score']>=0.5,'cliente_id'].tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "id": "S15-T2-A-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'score':[1.0,2.0]})\nprint(df.assign(doble=df['score']*2)['doble'].tolist())\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T2-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(df.assign(doble=df['score']*2)['doble'].tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "id": "S15-T2-A-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame([[1,2],[3,4]])\nprint(df.iloc[1,0])\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T2-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(df.iloc[1,0])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "id": "S15-T2-B-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'score':[0.2,0.9]})\ndf['flag']=''\ndf.loc[df['score']<0.5,'flag']='x'\nprint(df['flag'].tolist())\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T2-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Asigna . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(df['flag'].tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "id": "S15-T2-B-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'score':[0.2,0.9,0.7]})\nsub=df.loc[df['score']>0.5].copy()\nsub['ok']=True\nprint(sub['ok'].tolist())\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T2-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(sub['ok'].tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "id": "S15-T2-B-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'score':[1.0,2.0]})\ncp=df.copy()\ncp.loc[0,'score']=99.0\nprint(df['score'].tolist())\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T2-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(df['score'].tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "id": "S15-T3-A-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'region':['lima','Lima']})\ndf['region']=df['region'].str.title().astype('category')\nprint(df['region'].dtype.name)\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T3-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Convier. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(df['region'].dtype.name)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "id": "S15-T3-A-E2",
+      "code": "import pandas as pd\ns=pd.to_numeric(pd.Series(['1','a','3']), errors='coerce')\nprint([float(x) if pd.notna(x) else float('nan') for x in s])\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T3-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print([float(x) if pd.notna(x) else float('nan') for x in s])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "id": "S15-T3-A-E3",
+      "code": "import pandas as pd\ns=pd.to_datetime(pd.Series(['2024-01-01','no-fecha']), errors='coerce')\nprint(int(s.isna().sum()))\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T3-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(int(s.isna().sum()))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "id": "S15-T3-B-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'monto':['1','x']})\nbefore=df['monto'].isna().sum()\nnum=pd.to_numeric(df['monto'], errors='coerce')\nprint(int(num.isna().sum()-before))\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T3-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Aplica . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(int(num.isna().sum()-before))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "id": "S15-T3-B-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'cliente_id':['C001']})\nschema={'monto':'float64'}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print('missing')\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T3-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento:     print('missing')). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "id": "S15-T3-B-E3",
+      "code": "import pandas as pd\ns=pd.Series(['C001']).astype('string')\nprint(str(s.dtype))\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T3-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(str(s.dtype))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "id": "S15-T4-A-E1",
+      "code": "import pandas as pd\nfrom io import StringIO\ndf=pd.DataFrame({'a':[1],'b':[2]})\nbuf=StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nprint(pd.read_csv(buf).columns.tolist())\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T4-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Exporta. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(pd.read_csv(buf).columns.tolist())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "id": "S15-T4-A-E2",
+      "code": "import pandas as pd\nfrom io import BytesIO\ndf=pd.DataFrame({'a':[1]})\nbio=BytesIO()\ndf.to_excel(bio, index=False, engine='openpyxl')\nprint(len(bio.getvalue())>0)\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T4-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(len(bio.getvalue())>0)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "id": "S15-T4-A-E3",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\nprint({c: str(df[c].dtype) for c in sorted(df.columns)})\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T4-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print({c: str(df[c].dtype) for c in sorted(df.columns)})). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "id": "S15-T4-B-E1",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'a':['Lima','Cusco']})\nprint(int(df.memory_usage(deep=True).sum())>0)\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T4-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: Calcula. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(int(df.memory_usage(deep=True).sum())>0)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "id": "S15-T4-B-E2",
+      "code": "import pandas as pd\ndf=pd.DataFrame({'a':[1,2,3]})\nmanifest={'rows':len(df),'columns':df.columns.tolist()}\nprint(manifest['rows'], manifest['columns'])\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T4-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(manifest['rows'], manifest['columns'])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "id": "S15-T4-B-E3",
+      "code": "import pandas as pd, hashlib\ndf=pd.DataFrame({'a':[1]})\nh=hashlib.sha1(df.to_csv(index=False).encode()).hexdigest()[:8]\nprint(h)\n",
+      "justification_from_packet": "Como explorer en Pandas: ingesta, selección y tipos, resolví S15-T4-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (`CASO`/ids C00x) en Pandas ingesta. Tarea: . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(h)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Pandas"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "En Pandas: ingesta, selección y tipos (S15) elijo la opción «loc» para la pregunta «¿Qué método de selección usa etiquetas de index/columnas?» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "En Pandas: ingesta, selección y tipos (S15) elijo la opción «Asignación sobre slices que pueden ser view/copy (chained assignment)» para la pregunta «SettingWithCopyWarning se relaciona con:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "En Pandas: ingesta, selección y tipos (S15) elijo la opción «Convierte inválidos a NaN» para la pregunta «errors='coerce' en to_numeric:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "En Pandas: ingesta, selección y tipos (S15) elijo la opción «Filas, columnas y provenance/hash del artefacto» para la pregunta «Un manifest de export debería incluir al menos:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:14.658094+00:00",
+  "session_started_at": "2026-07-23T17:23:49.354246Z",
+  "session_ended_at": "2026-07-23T17:24:13.436153Z",
+  "receipt_response_sha256": "ca622ef66824f04a298ba3fadcfee3cf565a1b477a9b4a1bc50d8a937838ff84",
+  "receipt_exercises_sha256": "95cae50c4d44700d4ddbad4fd1ecd88082f10e3d17bfc961863029816926f3f3",
+  "receipt_selfcheck_sha256": "6c426e0105f43403a6263756f896f05d4b8f3727d10fee7d3e866777e714c37b"
+}

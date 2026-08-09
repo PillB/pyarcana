@@ -1,0 +1,61 @@
+{
+  "manifest_version": "3.0.0",
+  "capstone_id": "CP-N4-C",
+  "generated_at": "2026-07-29T00:00:00Z",
+  "models": [
+    {
+      "id": "local-rules-v1",
+      "kind": "local",
+      "version": "1.0.0",
+      "description": "Deterministic rule/template adapter. No key, no network.",
+      "max_input_tokens": 4096,
+      "cost_per_1k_tokens": 0.0
+    },
+    {
+      "id": "commercial-stub-v1",
+      "kind": "commercial",
+      "version": "1.0.0",
+      "description": "Provider-neutral commercial contract exercised in test mode (no key).",
+      "max_input_tokens": 8192,
+      "cost_per_1k_tokens": 0.001
+    }
+  ],
+  "prompts": [
+    {
+      "id": "generator-system",
+      "version": "1.0.0",
+      "template": "You are a Generator agent. Plan the next step. Cite doc_ids for every grounded claim."
+    },
+    {
+      "id": "verifier-system",
+      "version": "1.0.0",
+      "template": "You are a Verifier agent. Reject uncited grounded claims and policy violations."
+    },
+    {
+      "id": "rag-answer",
+      "version": "1.0.0",
+      "template": "Answer using only the cited docs. Mark ungrounded claims as [ungrounded]."
+    }
+  ],
+  "datasets": [
+    {
+      "id": "synthetic-ops-kb",
+      "version": "1.0.0",
+      "description": "Synthetic operations knowledge base. No real PII.",
+      "rows": 12
+    },
+    {
+      "id": "red-team-cases",
+      "version": "1.0.0",
+      "description": "Adversarial cases: prompt injection, tool misuse, loops, budget breach.",
+      "rows": 8
+    }
+  ],
+  "indexes": [
+    {
+      "id": "rag-inverted-index-v1",
+      "version": "1.0.0",
+      "description": "Token inverted index over synthetic-ops-kb."
+    }
+  ]
+}

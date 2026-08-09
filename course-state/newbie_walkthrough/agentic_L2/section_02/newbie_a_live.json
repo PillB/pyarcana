@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 2,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s02-7f9380c7dd0e",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "code": "for valor in (0, 3.14, \"Lima\", False, None):\n    print(repr(valor), type(valor).__name__)\n",
+      "justification_from_packet": "Como explorer aplico «Calcular montos en soles con Decimal y redondeo a 2 decimales». En S02-T1-A-E1 resolví: Clasifica estos literales imprimiendo `repr(valor)` y `type(valor).__name__` par. Me guié también por «Literales y tipos básicos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "code": "print(type(42).__name__, type(\"42\").__name__)\nprint(42 == \"42\")\nprint(42 == int(\"42\"))\n",
+      "justification_from_packet": "Como explorer aplico «Parsear un registro sintético de cliente conservando originales y repo». En S02-T1-A-E2 resolví: Demuestra que `42` y `\"42\"` son tipos distintos: imprime ambos `type(...).__name. Me guié también por «Inspección, conversión y validación» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "code": "# Tipos para cliente sintético de intake\ncampos = {\n    \"nombres\": \"Ana\",          # str\n    \"apellido_paterno\": \"Quispe\",  # str\n    \"edad\": 34,                # int\n    \"telefono\": \"987654321\",   # str (identificador, no cantidad)\n    \"monto\": \"150.50\",         # str crudo → Decimal en pipeline\n    \"activo\": True,            # bool\n}\nfor k, v in campos.items():\n    print(k, repr(v), type(v).__name__)\n",
+      "justification_from_packet": "Como explorer aplico «Calcular montos en soles con Decimal y redondeo a 2 decimales». En S02-T1-A-E3 resolví: Para el cliente sintético de intake, elige el tipo Python correcto de cada campo. Me guié también por «Literales y tipos básicos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "code": "raw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)\n",
+      "justification_from_packet": "Como explorer aplico «**`==` compara valor**; **`is` / `is not` comparan identidad** (¿mismo». En S02-T1-B-E1 resolví: Dado `raw = \" 21 \"`, conviértelo a `int` usando `strip` y muestra el valor y su . Me guié también por «Decimal para dinero y redondeo» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "code": "def safe_int(campo, valor):\n    try:\n        return (True, int(str(valor).strip()), None)\n    except (TypeError, ValueError) as e:\n        return (False, None, f\"{campo}: no convertible a int ({e})\")\n\nprint(safe_int(\"edad\", \" 21 \"))\nprint(safe_int(\"edad\", \"x\"))\n",
+      "justification_from_packet": "Como explorer aplico «Parsear un registro sintético de cliente conservando originales y repo». En S02-T1-B-E2 resolví: Implementa `safe_int(campo, valor) -> tuple` que devuelva `(True, int, None)` si. Me guié también por «Inspección, conversión y validación» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "code": "from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\n\ndef parse_edad_monto(edad_txt, monto_txt):\n    raw = {\"edad\": edad_txt, \"monto\": monto_txt}\n    errors = []\n    clean = {}\n    try:\n        clean[\"edad\"] = int(str(edad_txt).strip())\n    except (TypeError, ValueError):\n        errors.append(\"edad: inválida\")\n        clean[\"edad\"] = None\n    try:\n        m = Decimal(str(monto_txt).strip().replace(\",\", \".\"))\n        clean[\"monto\"] = m.quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)\n    except (InvalidOperation, AttributeError):\n        errors.append(\"monto: inválido\")\n        clean[\"monto\"] = None\n    return {\"raw\": raw, \"clean\": clean, \"errors\": errors}\n\nprint(parse_edad_monto(\" 30 \", \"10,5\"))\nprint(parse_edad_monto(\"x\", \"abc\"))\n",
+      "justification_from_packet": "Como explorer aplico «Parsing de intake y mensajes de error». En S02-T1-B-E3 resolví: Pipeline de 2 campos: `edad` (`int`) y `monto` (`Decimal` cuantizado a céntimos). Me guié también por «Inspeccionar con type/isinstance y convertir/validar valores» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "code": "# PEP 8 renames\nnombre_cliente = \"Ana\"      # NombreCliente\napellido_paterno = \"Quispe\" # AP\nindice = 0                  # x\nlongitud = 3                # l\nEDAD_MAXIMA = 65            # EdadMaxima (constante)\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)\n",
+      "justification_from_packet": "Como explorer aplico «Un **literal** es un valor escrito directamente en el código: `34`, `1». En S02-T2-A-E1 resolví: Renombra estas 5 variables a PEP 8: `NombreCliente`, `AP`, `x` (índice), `l` (lo. Me guié también por «Asignación y convenciones de nombres» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "code": "a, b, c = 1, 1, 2\nprint(a == b)\nprint(b == 1)\nprint(c == 2)\n",
+      "justification_from_packet": "Como explorer aplico «**`=` asigna** un nombre a un valor en el namespace actual. **`==` com». En S02-T2-A-E2 resolví: Bug hunt: el siguiente código tiene tres comparaciones rotas con `=` en lugar de. Me guié también por «Operadores y precedencia» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "code": "headers = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Nro Documento\": \"nro_documento\",\n    \"Celular\": \"celular\",\n}\nfor ugly, pep8 in headers.items():\n    print(ugly, \"->\", pep8)\n",
+      "justification_from_packet": "Como explorer aplico «Asignación y convenciones de nombres». En S02-T2-A-E3 resolví: Un CSV de intake llega con encabezados feos. Propón nombres PEP 8 (snake_case) p. Me guié también por «**`==` compara valor**; **`is` / `is not` comparan identidad» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "code": "print(\"None is None\", None is None)\nprint(\"[] == []\", [] == [])\nprint(\"[] is []\", [] is [])\nprint(\"1 == True\", 1 == True)\nprint(\"1 is True\", 1 is True)\n",
+      "justification_from_packet": "Como explorer aplico «Explicar identidad vs igualdad, mutabilidad y conservar copias/valores». En S02-T2-B-E1 resolví: Completa la tabla de predicciones imprimiendo el bool real de: `None is None`, `. Me guié también por «Usar input/print y f-strings para capturar y reportar…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "code": "original = [\"a\", \"b\"]\ntrabajo = original.copy()\ntrabajo.append(\"c\")\nprint(\"original\", original)\nprint(\"trabajo\", trabajo)\nassert original == [\"a\", \"b\"]\n",
+      "justification_from_packet": "Como explorer aplico «Calcular montos en soles con Decimal y redondeo a 2 decimales». En S02-T2-B-E2 resolví: `original = [\"a\", \"b\"]`. Crea `trabajo` como **copia** (no alias), haz `trabajo.. Me guié también por «Literales y tipos básicos» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "code": "def make_record(nombres, contacto):\n    return {\n        \"nombres_raw\": nombres,\n        \"contacto_raw\": contacto,\n        \"nombres\": nombres.strip() if nombres and nombres.strip() else None,\n        \"contacto\": contacto.strip() if contacto and contacto.strip() else None,\n    }\n\nprint(make_record(\"  Ana  \", \" 999 \"))\nprint(make_record(\"   \", \"\"))\n",
+      "justification_from_packet": "Como explorer aplico «**`==` compara valor**; **`is` / `is not` comparan identidad** (¿mismo». En S02-T2-B-E3 resolví: Diseña `make_record(nombres, contacto)` que devuelva un dict con `nombres_raw`, . Me guié también por «Decimal para dinero y redondeo» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "code": "n, d = 17, 5\nprint(\"n//d\", n // d)\nprint(\"n%d\", n % d)\nprint(\"2**4\", 2 ** 4)\nprint(\"n/d\", n / d)\nprint(\"nota: / siempre devuelve float aunque divida enteros\")\n",
+      "justification_from_packet": "Como explorer aplico «Literales y tipos básicos». En S02-T3-A-E1 resolví: Con `n = 17` y `d = 5`, imprime `n // d`, `n % d`, `2 ** 4` y `n / d`. Comenta e. Me guié también por «**`type(x)`** responde “¿qué es esto ahora?”. **`isinstance(» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "code": "print(\"-3**2\", -3 ** 2)\nprint(\"(-3)**2\", (-3) ** 2)\ncuadrado_neg = (-3) ** 2\nassert cuadrado_neg == 9\nprint(\"cuadrado_neg\", cuadrado_neg)\n",
+      "justification_from_packet": "Como explorer aplico «Los operadores aritméticos de S02: **`+`**, **`-`**, **`*`**, **`/`** ». En S02-T3-A-E2 resolví: Demuestra que `-3**2` es `-9` y que `(-3)**2` es `9`. Asigna `cuadrado_neg = (-3. Me guié también por «input, print y f-strings» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "code": "linea_a, linea_b = 50, 30\nsubtotal = linea_a + linea_b\ntotal = subtotal  # sin IGV en este ticket sintético\nprint(\"subtotal\", subtotal, \"total\", total)\nassert subtotal == 80\n",
+      "justification_from_packet": "Como explorer aplico «Los operadores aritméticos de S02: **`+`**, **`-`**, **`*`**, **`/`** ». En S02-T3-A-E3 resolví: Un ticket sintético tiene líneas `50` y `30` (soles, solo para practicar ops). C. Me guié también por «input, print y f-strings» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "code": "from decimal import Decimal\nprint(0.1 + 0.2)\nprint(Decimal(\"0.1\") + Decimal(\"0.2\"))\n",
+      "justification_from_packet": "Como explorer aplico «Parsing de intake y mensajes de error». En S02-T3-B-E1 resolví: Imprime `0.1 + 0.2` (float) y `Decimal(\"0.1\") + Decimal(\"0.2\")`. Importa desde `. Me guié también por «Inspeccionar con type/isinstance y convertir/validar valores» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "code": "from decimal import Decimal, ROUND_HALF_UP\ncuenta = Decimal(\"85.50\")\npropina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)\ntotal = (cuenta + propina).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)\nprint(\"propina\", propina, \"total\", total)\n",
+      "justification_from_packet": "Como explorer aplico «Decimal para dinero y redondeo». En S02-T3-B-E2 resolví: Cuenta de restaurante sintético `Decimal(\"85.50\")`, propina 10%. Calcula propina. Me guié también por «**`input(prompt)`** siempre devuelve **`str`**, aunque el us» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "code": "from decimal import Decimal, InvalidOperation, ROUND_HALF_UP\n\ndef parse_monto(texto: str):\n    s = (texto or \"\").strip()\n    if not s:\n        return (False, None, \"monto vacío\")\n    try:\n        val = Decimal(s.replace(\",\", \".\"))\n        if not val.is_finite():\n            return (False, None, \"monto no finito\")\n        q = val.quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)\n        return (True, q, None)\n    except InvalidOperation:\n        return (False, None, \"monto no parseable\")\n\nfor t in [\"10.5\", \"3,25\", \"\", \"abc\"]:\n    print(t, parse_monto(t))\n",
+      "justification_from_packet": "Como explorer aplico «**`==` compara valor**; **`is` / `is not` comparan identidad** (¿mismo». En S02-T3-B-E3 resolví: Implementa `parse_monto(texto: str)` que devuelva `(ok, Decimal|None, error|None. Me guié también por «Decimal para dinero y redondeo» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "code": "nombre = \"José\"\nprint(f\"Hola, {nombre}. Bienvenido al intake.\")\n",
+      "justification_from_packet": "Como explorer aplico «Parsear un registro sintético de cliente conservando originales y repo». En S02-T4-A-E1 resolví: Con `nombre = \"José\"`, imprime un saludo con f-string: `Hola, José. Bienvenido a. Me guié también por «Inspección, conversión y validación» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "code": "from decimal import Decimal\nnombres = \"Ana\"\napellido_paterno = \"Quispe\"\ncontacto = \"999111222\"\nmonto = Decimal(\"99.5\")\nprint(f\"Cliente: {nombres} {apellido_paterno}\")\nprint(f\"Contacto: {contacto}\")\nprint(f\"Monto: {monto:.2f}\")\n",
+      "justification_from_packet": "Como explorer aplico «**`input(prompt)`** siempre devuelve **`str`**, aunque el usuario escr». En S02-T4-A-E2 resolví: Con nombres, apellido_paterno, contacto y monto `Decimal(\"99.5\")`, imprime un re. Me guié también por «Identificar literales y tipos básicos (int, float,…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "code": "def simular_intake(nombres: str, contacto: str, edad: str) -> dict:\n    return {\n        \"nombres\": nombres.strip(),\n        \"contacto\": contacto.strip(),\n        \"edad_raw\": edad,\n        \"edad\": int(edad.strip()) if str(edad).strip().isdigit() else None,\n    }\n\nprint(simular_intake(\" Ana \", \" 999 \", \"30\"))\n",
+      "justification_from_packet": "Como explorer aplico «Un **literal** es un valor escrito directamente en el código: `34`, `1». En S02-T4-A-E3 resolví: Escribe `simular_intake(nombres: str, contacto: str, edad: str) -> dict` que **n. Me guié también por «Asignación y convenciones de nombres» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "code": "def parse_nombres(valor: str) -> dict:\n    raw = valor\n    cleaned = valor.strip() if valor is not None else \"\"\n    nombres = cleaned if cleaned else None\n    errors = [] if nombres is not None else [\"nombres vacío\"]\n    return {\"nombres_raw\": raw, \"nombres\": nombres, \"errors\": errors}\n\nprint(parse_nombres(\"  Ana  \"))\nprint(parse_nombres(\"   \"))\n",
+      "justification_from_packet": "Como explorer aplico «Asignar nombres con convenciones PEP 8 y distinguir asignación de comp». En S02-T4-B-E1 resolví: Completa `parse_nombres(valor: str) -> dict` con claves `nombres_raw`, `nombres`. Me guié también por «Calcular montos en soles con Decimal y redondeo a 2…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "code": "apellido_materno_raw = \"  Ñahui  \"\napellido_materno = apellido_materno_raw.strip()\nassert apellido_materno == \"Ñahui\"\nprint(repr(apellido_materno_raw), repr(apellido_materno))\n",
+      "justification_from_packet": "Como explorer aplico «Un **parser de intake** recibe un registro sintético, conserva **`*_ra». En S02-T4-B-E2 resolví: Parsea `apellido_materno = \" Ñahui \"` conservando raw con espacios y clean str. Me guié también por «Asignar nombres con convenciones PEP 8 y distinguir…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "code": "def parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):\n    def clean(v):\n        if v is None:\n            return None\n        s = str(v).strip()\n        return s if s else None\n    out = {\n        \"nombres_raw\": nombres,\n        \"apellido_paterno_raw\": apellido_paterno,\n        \"apellido_materno_raw\": apellido_materno,\n        \"contacto_raw\": contacto,\n        \"direccion_raw\": direccion,\n        \"nombres\": clean(nombres),\n        \"apellido_paterno\": clean(apellido_paterno),\n        \"apellido_materno\": clean(apellido_materno),\n        \"contacto\": clean(contacto),\n        \"direccion\": clean(direccion),\n        \"edad\": int(edad) if edad not in (None, \"\") else None,\n        \"errors\": [],\n    }\n    for k in (\"nombres\", \"apellido_paterno\", \"contacto\"):\n        if out[k] is None:\n            out[\"errors\"].append(f\"{k} missing\")\n    return out\n\nprint(parse_client(\"Ana\", \"Quispe\", \"Ñahui\", \"999\", \"Lima\", 30))\n",
+      "justification_from_packet": "Como explorer aplico «**`==` compara valor**; **`is` / `is not` comparan identidad** (¿mismo». En S02-T4-B-E3 resolví: Implementa `parse_client(nombres, apellido_paterno, apellido_materno, contacto, . Me guié también por «Decimal para dinero y redondeo» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «NoneType» porque el paquete en «Literales y tipos básicos» lo sostiene. Pregunta: ¿Cuál es el tipo de None en Python?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «str y False» porque el paquete en «Inspección, conversión y validación» lo sostiene. Pregunta: ¿Qué imprime type(\"42\").__name__ y la comparación 42 == \"42\"?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Porque no es una cantidad aritmética y puede necesitar ceros o formato» porque el paquete en «Asignación y convenciones de nombres» lo sostiene. Pregunta: ¿Por qué el teléfono de un cliente de intake se modela como str?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «[1, 2, 3]» porque el paquete en «Identidad, mutabilidad y copias superficiales» lo sostiene. Pregunta: Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «if x is None:» porque el paquete en «Operadores y precedencia» lo sostiene. Pregunta: ¿Cuál es el idioma correcto para comprobar ausencia de valor?.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:46.916464+00:00",
+  "session_started_at": "2026-07-23T17:16:39.938748Z",
+  "session_ended_at": "2026-07-23T17:17:06.763634Z",
+  "receipt_response_sha256": "9d690bf6a342f2dc966e1d78186570cceced9388fcfbb507194332132aeb195d",
+  "receipt_exercises_sha256": "b9ae1f1858fd19a8e296e9fbce5a114f3b9b74d6fbd0caabe173ddc670fdf612",
+  "receipt_selfcheck_sha256": "b013a4661180914b363edf601d34b5fdabc99321bb6b00614e40311c35dccadc"
+}

@@ -1,0 +1,204 @@
+{
+  "section_index": 18,
+  "title": "EDA, estadística descriptiva e incertidumbre",
+  "outcomes": [
+    "Resumir distribuciones con centro, dispersión y cuantiles",
+    "Elegir métricas robustas y escalas honestas",
+    "Identificar sesgo de población/muestra",
+    "Reportar intervalos y tamaños de efecto básicos",
+    "Interpretar correlación sin confundir causalidad",
+    "Segmentar y marcar anomalías con límites claros",
+    "Estructurar preguntas, hipótesis y evidencia",
+    "Entregar notebook/script reproducible con data notes"
+  ],
+  "theory": [
+    {
+      "heading": "De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección)",
+      "paragraphs": [
+        "En V3, **S18 no es el path principal de Prefect, Parquet ni Great Expectations**. Ese material se reubica conceptualmente hacia ingeniería de datos avanzada. Aquí construyes el **inicio de CP-N2-B**: centro/dispersión, métricas robustas, sesgo muestral, intervalos, correlación sin causalidad y notebooks con data notes.",
+        "El hilo conductor es un **dataset sintético de tickets/montos** (regiones Lima/Arequipa/Cusco, ids `T00x`). Cada hallazgo cita un cálculo y declara incertidumbre.",
+        "Orden: **T1 Distribuciones** → **T2 Inferencia básica** → **T3 Relaciones** → **T4 Comunicación de evidencia**."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "centro, dispersión y cuantiles",
+      "paragraphs": [
+        "El **centro** se resume con media (`mean`) o mediana (`median`). La **dispersión** con desviación estándar (`std`) o rango intercuartílico (**IQR** = Q3−Q1).",
+        "Los **cuantiles** (p25, p50, p75, p90) describen la forma sin asumir normalidad. En montos de tickets, la media se mueve con outliers; la mediana suele ser más estable.",
+        "Reporta siempre n, y preferiblemente min/max o un cuantil alto para contexto de cola."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "métricas robustas y escalas",
+      "paragraphs": [
+        "Métricas **robustas**: mediana, IQR, MAD (median absolute deviation). Resisten outliers mejor que media/std.",
+        "La **escala** importa: log1p de montos reduce asimetría visual; no inventes “crecimiento %” sobre ejes engañosos.",
+        "Elige métrica según la pregunta: “ticket típico” → mediana; “ingreso total esperado” → media (con cola documentada)."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "población, muestra y sesgo",
+      "paragraphs": [
+        "La **población** es el universo de interés; la **muestra** es lo observado. El **sesgo de selección** aparece si el muestreo no es representativo (p. ej. solo Lima).",
+        "Compara distribución de la muestra vs marco conocido (cuotas por región). Documenta exclusiones (filtros de fecha, canal).",
+        "Sin marco poblacional, declara **cobertura limitada** y no generalices a “todos los clientes del Perú”."
+      ],
+      "code": "import numpy as np\n\n# población sintética de tickets por región\npob = {\"Lima\": 0.55, \"Arequipa\": 0.25, \"Cusco\": 0.20}\n# muestra sesgada: sobremuestra Lima\nmuestra = np.array([\"Lima\"] * 40 + [\"Arequipa\"] * 8 + [\"Cusco\"] * 2)\nfrom collections import Counter\nc = Counter(muestra)\nn = len(muestra)\nshare = {k: round(v / n, 3) for k, v in c.items()}\nprint(\"share_muestra\", share)\nprint(\"share_pob\", pob)\nb"
+    },
+    {
+      "heading": "intervalos básicos y tamaño de efecto",
+      "paragraphs": [
+        "Un **intervalo de confianza** (IC) aproximado para la media con n grande: media ± z * (s/√n). Para n pequeño o no normal, sé cauteloso y reporta bootstrap simple si aplica.",
+        "El **tamaño de efecto** (p. ej. diferencia de medias / s pooled, o diferencia de medianas) comunica magnitud, no solo “significativo”.",
+        "Nunca digas “probado” con un solo IC; di “compatible con” y reporta n."
+      ],
+      "code": "import numpy as np\n\nrng = np.random.default_rng(7)\na = rng.normal(100, 15, size=40)\nb = rng.normal(108, 15, size=40)\nma, mb = a.mean(), b.mean()\nsa, sb = a.std(ddof=1), b.std(ddof=1)\n# IC 95% approx para media de b\nse = sb / np.sqrt(len(b))\nic = (mb - 1.96 * se, mb + 1.96 * se)\nsp = np.sqrt((sa**2 + sb**2) / 2)\nd = (mb - ma) / sp\nprint(\"mean_a\", round(ma, 2), \"mean_b\", round(mb, 2))\nprint(\"ic95_b\""
+    },
+    {
+      "heading": "correlación y confusión",
+      "paragraphs": [
+        "La **correlación** (Pearson/Spearman) mide asociación lineal/monótona, no causa. Un confounder puede crear asociación espuria.",
+        "Antes de “X causa Y”, lista causas comunes y diseños que las romperían (experimentos, instrumentos). En EDA, etiqueta como **asociación observada**.",
+        "Pearson es sensible a outliers; Spearman usa rangos y es más robusto a monótonas no lineales leves."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "segmentación, anomalías y causalidad no demostrada",
+      "paragraphs": [
+        "Segmenta por región, canal o cohorte con **reglas explícitas**. Las anomalías (p. ej. Tukey: fuera de [Q1−1.5·IQR, Q3+1.5·IQR]) son candidatos a revisión, no “fraudes demostrados”.",
+        "Marca flags y tasas por segmento; evita claims causales del tipo “Cusco genera outliers porque…”.",
+        "Documenta umbral, n por segmento y si el método es univariado."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "preguntas, hipótesis y evidencia",
+      "paragraphs": [
+        "Separa tres capas: **pregunta de negocio**, **hipótesis comprobable**, **evidencia calculada**. El hallazgo no es la decisión.",
+        "Plantilla: Pregunta → Métrica → Resultado (n, punto, IC) → Límite → Siguiente paso.",
+        "En CP-N2-B, cada slide o celda de insights debe poder rastrearse a un cálculo en el script."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "notebook reproducible y data notes",
+      "paragraphs": [
+        "Un **data note** documenta origen, fecha de corte, filtros, n final y exclusiones. El script debe reejecutarse con seed fijo.",
+        "Fija versiones (pandas/numpy), rutas relativas y outputs en carpeta `out/`. Evita celdas que muten estado sin reorden claro.",
+        "Checklist: seed, schema, n pre/post filtros, hash o conteo de filas, límites de generalización."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S18-T1-B-DEMO",
+      "description": "Resumir distribución de montos sintéticos con centro, dispersión y cuantiles",
+      "why": "Un resumen tabular con n y cuantiles es la base de cualquier hallazgo de distribución.",
+      "code": ""
+    },
+    {
+      "demoId": "S18-T2-A-DEMO",
+      "description": "Comparar media vs mediana/MAD y escala log1p en montos con outlier",
+      "why": "Cuando mean ≫ median, prioriza métricas robustas y declara la cola.",
+      "code": ""
+    },
+    {
+      "demoId": "S18-T2-B-DEMO",
+      "description": "Diagnosticar sesgo de muestreo por región frente a cuotas poblacionales",
+      "why": "El sesgo de cuota se mide en puntos porcentuales, no solo con “se ve bien”.",
+      "code": ""
+    },
+    {
+      "demoId": "S18-T3-A-DEMO",
+      "description": "Reportar IC 95% aproximado y Cohen's d entre dos grupos sintéticos",
+      "why": "Magnitud + intervalo + n comunican incertidumbre mejor que un solo p-value.",
+      "code": ""
+    },
+    {
+      "demoId": "S18-T3-B-DEMO",
+      "description": "Mostrar correlación alta generada por confusor y caída al residualizar",
+      "why": "Enseña a no inferir causalidad solo porque r es alto.",
+      "code": ""
+    },
+    {
+      "demoId": "S18-T4-A-DEMO",
+      "description": "Segmentar por región y marcar anomalías Tukey sin claim causal",
+      "why": "Flags + tasas por segmento; la narrativa causal queda fuera del EDA.",
+      "code": ""
+    },
+    {
+      "demoId": "S18-T4-B-DEMO",
+      "description": "Separar pregunta, hipótesis, evidencia y no-decisión en un dict trazable",
+      "why": "La traza pregunta→cálculo→límite es el artefacto de calidad de CP-N2-B inicio.",
+      "code": "evidencia = {\n    \"pregunta\": \"¿Hay diferencia de ticket mediano Lima vs Cusco?\",\n    \"hipotesis\": \"mediana_Lima > mediana_Cusco en canal web junio\",\n    \"calculo\": \"median por region, n>=30\",\n    \"resultado\": {\"Lima\": 28.0, \"Cusco\": 22.5, \"n_Lima\": 40, \"n_Cusco\": 32},\n    \"incertidumbre\": \"sin IC bootstrap en este corte; muestra web-only\",\n    \"decision\": None,\n}\nprint(evidencia[\"pregunta\"])\nprint(\"hallazgo\", evidencia[\"resultado\"])\nprint(\"decision_es_none\", evidencia[\"decision\"] is None)"
+    },
+    {
+      "demoId": null,
+      "description": "Generar data note con n, filtros, seed y huella de filas",
+      "why": "Data notes hacen auditable el notebook del portfolio.",
+      "code": "import hashlib, json\nimport pandas as pd\n\ndf = pd.DataFrame({\n    \"ticket_id\": [f\"T{i:03d}\" for i in range(1, 6)],\n    \"monto\": [10.0, 12.0, 0.0, 15.0, 11.0],\n    \"region\": [\"Lima\", \"Cusco\", \"Lima\", \"Arequipa\", \"Lima\"],\n})\nn0 = len(df)\ndf2 = df[df[\"monto\"] > 0].copy()\nblob = df2.sort_values(\"ticket_id\").to_csv(index=False).encode()\nnote = {\n    \"origen\": \"sintetico\",\n    \"n_raw\": n0,\n    \"n_final\": len(df2),\n    \"filtros\": [\"monto > 0\"],\n    \"seed\": 18,\n    \"sha1_8\": hashlib.sha1(blob).hexdigest"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué comunica mejor un ticket “típico” con outliers fuertes?",
+      "options": [
+        "Solo la media",
+        "Mediana (y opcionalmente IQR)",
+        "Solo el máximo",
+        "La moda de ids"
+      ]
+    },
+    {
+      "question": "Una correlación alta entre X e Y implica:",
+      "options": [
+        "Que X causa Y",
+        "Asociación observada (no causal por sí sola)",
+        "Que no hay confusores",
+        "Que el IC es innecesario"
+      ]
+    },
+    {
+      "question": "¿Qué debe incluir un data note mínimo?",
+      "options": [
+        "Solo el gráfico final",
+        "Origen, filtros, n y límites de cobertura",
+        "La contraseña del VPN",
+        "El prompt del LLM"
+      ]
+    },
+    {
+      "question": "El sesgo de muestra ocurre cuando:",
+      "options": [
+        "std es alta",
+        "La muestra no representa la población de interés",
+        "Usas mediana",
+        "n > 30"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico"
+  ]
+}

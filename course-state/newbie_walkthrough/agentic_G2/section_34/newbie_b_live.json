@@ -1,0 +1,286 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 34,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-skp-s34-2a27b2f427e4",
+  "production_note": "agentic_G2 dual-LLM skeptic: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S34-T1-A-E1",
+      "code": "# skeptic S34-T1-A-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\nmeets_contract = record[\"accuracy_only\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_ACCURACY_ONLY\"\nprint(\"S34-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T1-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «confusion matrix, precision/recall/F y PR-AUC»: Con desbalance, accuracy engaña. Precision, recall, Fβ y el área bajo la curva precision-recall describen mejor la cola de revisión que un solo porcent. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T1-A-E2",
+      "code": "# skeptic S34-T1-A-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'tp', 'fp', 'fn', 'accuracy_only'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"accuracy_only\"] is False else \"REJECT_ACCURACY_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}\nincomplete = {**valid}\nincomplete.pop(\"tp\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T1-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «confusion matrix, precision/recall/F y PR-AUC»: Con desbalance, accuracy engaña. Precision, recall, Fβ y el área bajo la curva precision-recall describen mejor la cola de revisión que un solo porcent. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T1-A-E3",
+      "code": "# skeptic S34-T1-A-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'tp', 'fp', 'fn', 'accuracy_only'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CONFUSION\"\n    return \"CONTINUE\" if record[\"accuracy_only\"] is False else \"REJECT_ACCURACY_ONLY\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 1, 'fp': 1, 'fn': 0, 'accuracy_only': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1A\", **{'tp': 0, 'fp': 0, 'fn': 0, 'accuracy_only': True}}\nuncertain = {**valid}\nuncertain.pop(\"tp\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T1-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «confusion matrix, precision/recall/F y PR-AUC»: Con desbalance, accuracy engaña. Precision, recall, Fβ y el área bajo la curva precision-recall describen mejor la cola de revisión que un solo porcent. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T1-B-E1",
+      "code": "# skeptic S34-T1-B-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\nmeets_contract = record[\"load\"] > record[\"capacity\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_QUEUE_OVERLOAD\"\nprint(\"S34-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T1-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «top-k y carga de revisión»: precision@k y recall@k miden la calidad de los k primeros de la cola. Si alertas>capacidad, la carga satura al equipo y el thr debe bajar el volumen, no solo maximizar rec. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, '`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T1-B-E2",
+      "code": "# skeptic S34-T1-B-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'precision_at_k', 'load', 'capacity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"load\"] > record[\"capacity\"] else \"REJECT_QUEUE_OVERLOAD\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}\nincomplete = {**valid}\nincomplete.pop(\"capacity\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T1-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «top-k y carga de revisión»: precision@k y recall@k miden la calidad de los k primeros de la cola. Si alertas>capacidad, la carga satura al equipo y el thr debe bajar el volumen, no solo maximizar rec. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T1-B-E3",
+      "code": "# skeptic S34-T1-B-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'precision_at_k', 'load', 'capacity'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CAPACITY\"\n    return \"CONTINUE\" if record[\"load\"] > record[\"capacity\"] else \"REJECT_QUEUE_OVERLOAD\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 8, 'capacity': 10}}\ninvalid = {\"case_id\": \"CASO-LIM-034-1B\", **{'precision_at_k': 0.667, 'load': 50, 'capacity': 10}}\nuncertain = {**valid}\nuncertain.pop(\"capacity\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T1-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «top-k y carga de revisión»: precision@k y recall@k miden la calidad de los k primeros de la cola. Si alertas>capacidad, la carga satura al equipo y el thr debe bajar el volumen, no solo maximizar rec. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-A-E1",
+      "code": "# skeptic S34-T2-A-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\nmeets_contract = record[\"resample_global\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKY_RESAMPLE\"\nprint(\"S34-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T2-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «class weights y resampling dentro de CV»: Class weights o resampling solo dentro del fold de train evitan leakage. Resamplear todo el dataset antes de CV infla métricas y miente sobre producción. En . Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': `. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-A-E2",
+      "code": "# skeptic S34-T2-A-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'n0', 'n1', 'resample_global'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"resample_global\"] is False else \"REJECT_LEAKY_RESAMPLE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': True}}\nincomplete = {**valid}\nincomplete.pop(\"n1\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T2-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «class weights y resampling dentro de CV»: Class weights o resampling solo dentro del fold de train evitan leakage. Resamplear todo el dataset antes de CV infla métricas y miente sobre producción. En . Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-A-E3",
+      "code": "# skeptic S34-T2-A-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'n0', 'n1', 'resample_global'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WEIGHTS\"\n    return \"CONTINUE\" if record[\"resample_global\"] is False else \"REJECT_LEAKY_RESAMPLE\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2A\", **{'n0': 9, 'n1': 1, 'resample_global': True}}\nuncertain = {**valid}\nuncertain.pop(\"n1\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T2-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «class weights y resampling dentro de CV»: Class weights o resampling solo dentro del fold de train evitan leakage. Resamplear todo el dataset antes de CV infla métricas y miente sobre producción. En . Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-B-E1",
+      "code": "# skeptic S34-T2-B-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\nmeets_contract = record[\"accuracy_enough\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_PREVALENCE_BLIND\"\nprint(\"S34-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T2-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «prevalencia y métricas engañosas»: Si la prevalencia cae, la misma especificidad produce peor precision. Un clasificador all-negative luce genial en accuracy cuando la clase positiva es rara. En el w. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-B-E2",
+      "code": "# skeptic S34-T2-B-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'prevalence', 'all_neg_acc', 'accuracy_enough'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"accuracy_enough\"] is False else \"REJECT_PREVALENCE_BLIND\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}\nincomplete = {**valid}\nincomplete.pop(\"prevalence\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T2-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «prevalencia y métricas engañosas»: Si la prevalencia cae, la misma especificidad produce peor precision. Un clasificador all-negative luce genial en accuracy cuando la clase positiva es rara. En el w. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T2-B-E3",
+      "code": "# skeptic S34-T2-B-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'prevalence', 'all_neg_acc', 'accuracy_enough'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_BASE_RATE\"\n    return \"CONTINUE\" if record[\"accuracy_enough\"] is False else \"REJECT_PREVALENCE_BLIND\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': False}}\ninvalid = {\"case_id\": \"CASO-LIM-034-2B\", **{'prevalence': 0.025, 'all_neg_acc': 0.975, 'accuracy_enough': True}}\nuncertain = {**valid}\nuncertain.pop(\"prevalence\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T2-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «prevalencia y métricas engañosas»: Si la prevalencia cae, la misma especificidad produce peor precision. Un clasificador all-negative luce genial en accuracy cuando la clase positiva es rara. En el w. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-A-E1",
+      "code": "# skeptic S34-T3-A-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\nmeets_contract = abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3\nstatus = \"PASS\" if meets_contract else \"REJECT_UNCALIBRATED\"\nprint(\"S34-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T3-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «reliability curves y Brier»: Brier score (media de (p−y)²) y reliability (media de p vs frecuencia en bins) miden si el score se puede leer como probabilidad de priorización, no de culpa. En el workb. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': `. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-A-E2",
+      "code": "# skeptic S34-T3-A-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'brier', 'mean_p', 'freq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3 else \"REJECT_UNCALIBRATED\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}\nincomplete = {**valid}\nincomplete.pop(\"brier\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T3-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «reliability curves y Brier»: Brier score (media de (p−y)²) y reliability (media de p vs frecuencia en bins) miden si el score se puede leer como probabilidad de priorización, no de culpa. En el workb. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-A-E3",
+      "code": "# skeptic S34-T3-A-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'brier', 'mean_p', 'freq'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_BRIER\"\n    return \"CONTINUE\" if abs(record[\"mean_p\"] - record[\"freq\"]) > 0.3 else \"REJECT_UNCALIBRATED\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.1, 'mean_p': 0.5, 'freq': 0.5}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3A\", **{'brier': 0.4, 'mean_p': 0.9, 'freq': 0.2}}\nuncertain = {**valid}\nuncertain.pop(\"brier\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T3-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «reliability curves y Brier»: Brier score (media de (p−y)²) y reliability (media de p vs frecuencia en bins) miden si el score se puede leer como probabilidad de priorización, no de culpa. En el workb. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-B-E1",
+      "code": "# skeptic S34-T3-B-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\nmeets_contract = record[\"calibrator_set\"] == \"train_in_sample\"\nstatus = \"PASS\" if meets_contract else \"REJECT_IN_SAMPLE_CAL\"\nprint(\"S34-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T3-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «calibradores y evaluación fuera de muestra»: Platt o isotonic se ajustan en un set de calibración distinto del train del modelo base. Evaluar calibración en el mismo set de fit es autoengaño. En el w. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-B-E2",
+      "code": "# skeptic S34-T3-B-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'raw', 'cal', 'calibrator_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"calibrator_set\"] == \"train_in_sample\" else \"REJECT_IN_SAMPLE_CAL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}\nincomplete = {**valid}\nincomplete.pop(\"calibrator_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T3-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «calibradores y evaluación fuera de muestra»: Platt o isotonic se ajustan en un set de calibración distinto del train del modelo base. Evaluar calibración en el mismo set de fit es autoengaño. En el w. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T3-B-E3",
+      "code": "# skeptic S34-T3-B-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'raw', 'cal', 'calibrator_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CAL_SET\"\n    return \"CONTINUE\" if record[\"calibrator_set\"] == \"train_in_sample\" else \"REJECT_IN_SAMPLE_CAL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'holdout_v1'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-3B\", **{'raw': [0.2, 0.8], 'cal': [0.25, 0.75], 'calibrator_set': 'train_in_sample'}}\nuncertain = {**valid}\nuncertain.pop(\"calibrator_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T3-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «calibradores y evaluación fuera de muestra»: Platt o isotonic se ajustan en un set de calibración distinto del train del modelo base. Evaluar calibración en el mismo set de fit es autoengaño. En el w. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-A-E1",
+      "code": "# skeptic S34-T4-A-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\nmeets_contract = record[\"thr_id\"] == \"default\"\nstatus = \"PASS\" if meets_contract else \"REJECT_FIXED_THR\"\nprint(\"S34-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T4-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «threshold por costo/capacidad»: El umbral se elige por costo (fp*c_fp+fn*c_fn) y por capacidad de la cola, no por un default 0.5 de librería. El thr se versiona (thr-v1) para auditoría. En el workben. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': `. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-A-E2",
+      "code": "# skeptic S34-T4-A-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'thr', 'n_review', 'thr_id', 'cost'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"thr_id\"] == \"default\" else \"REJECT_FIXED_THR\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}\nincomplete = {**valid}\nincomplete.pop(\"cost\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T4-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «threshold por costo/capacidad»: El umbral se elige por costo (fp*c_fp+fn*c_fn) y por capacidad de la cola, no por un default 0.5 de librería. El thr se versiona (thr-v1) para auditoría. En el workben. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-A-E3",
+      "code": "# skeptic S34-T4-A-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'thr', 'n_review', 'thr_id', 'cost'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_COST_MATRIX\"\n    return \"CONTINUE\" if record[\"thr_id\"] == \"default\" else \"REJECT_FIXED_THR\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.6, 'n_review': 2, 'thr_id': 'thr-v1', 'cost': 16}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4A\", **{'thr': 0.5, 'n_review': 2, 'thr_id': 'default', 'cost': None}}\nuncertain = {**valid}\nuncertain.pop(\"cost\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T4-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «threshold por costo/capacidad»: El umbral se elige por costo (fp*c_fp+fn*c_fn) y por capacidad de la cola, no por un default 0.5 de librería. El thr se versiona (thr-v1) para auditoría. En el workben. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-B-E1",
+      "code": "# skeptic S34-T4-B-E1 packet-only\nrecord = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\nmeets_contract = record[\"decision\"] == \"force_1\"\nstatus = \"PASS\" if meets_contract else \"REJECT_FORCE_LABEL\"\nprint(\"S34-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T4-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «abstención, slices y sensibilidad»: Banda low/high de abstención evita forzar labels en zona gris. Sensibilidad a thr y métricas por slice detectan degradación local antes de promover el modelo. En e. Rechacé predicados invertidos/DEFECTO; código final incluye `record = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-B-E2",
+      "code": "# skeptic S34-T4-B-E2 packet-only\ndef assess(record: dict) -> str:\n    required = {\"case_id\", 'score', 'low', 'high', 'decision'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"decision\"] == \"force_1\" else \"REJECT_FORCE_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}\nincomplete = {**valid}\nincomplete.pop(\"low\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T4-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «abstención, slices y sensibilidad»: Banda low/high de abstención evita forzar labels en zona gris. Sensibilidad a thr y métricas por slice detectan degradación local antes de promover el modelo. En e. Rechacé predicados invertidos/DEFECTO; código final incluye `def assess(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S34-T4-B-E3",
+      "code": "# skeptic S34-T4-B-E3 packet-only\ndef decide(record: dict) -> str:\n    required = {\"case_id\", 'score', 'low', 'high', 'decision'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_ABSTAIN_BAND\"\n    return \"CONTINUE\" if record[\"decision\"] == \"force_1\" else \"REJECT_FORCE_LABEL\"\n\nvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'abstain'}}\ninvalid = {\"case_id\": \"CASO-LIM-034-4B\", **{'score': 0.5, 'low': 0.3, 'high': 0.7, 'decision': 'force_1'}}\nuncertain = {**valid}\nuncertain.pop(\"low\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S34-T4-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «abstención, slices y sensibilidad»: Banda low/high de abstención evita forzar labels en zona gris. Sensibilidad a thr y métricas por slice detectan degradación local antes de promover el modelo. En e. Rechacé predicados invertidos/DEFECTO; código final incluye `def decide(record: dict) -> str:`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S34-T4-B"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S34 Q0: descarté distractores (fraude/parentesco/teatro) y me quedo con «Precision/recall o PR-AUC de la cola» (idx 1). Soporte lexical del slim_packet: «confusion matrix, precision/recall/F y PR-AUC»: Con desbalance, accuracy engaña. Precision, recall, Fβ y el área bajo la curva precision-recall describen mejor la cola de revisión que un solo porcentaje de aciertos. En ."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S34 Q1: descarté distractores (fraude/parentesco/teatro) y me quedo con «Introduce leakage y métricas infladas» (idx 3). Soporte lexical del slim_packet: «confusion matrix, precision/recall/F y PR-AUC»: Con desbalance, accuracy engaña. Precision, recall, Fβ y el área bajo la curva precision-recall describen mejor la cola de revisión que un solo porcentaje de aciertos. En ."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S34 Q2: descarté distractores (fraude/parentesco/teatro) y me quedo con «En un set de calibración fuera de muestra» (idx 0). Soporte lexical del slim_packet: «confusion matrix, precision/recall/F y PR-AUC»: Con desbalance, accuracy engaña. Precision, recall, Fβ y el área bajo la curva precision-recall describen mejor la cola de revisión que un solo porcentaje de aciertos. En ."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S34 Q3: descarté distractores (fraude/parentesco/teatro) y me quedo con «Abstener según política» (idx 2). Soporte lexical del slim_packet: «confusion matrix, precision/recall/F y PR-AUC»: Con desbalance, accuracy engaña. Precision, recall, Fβ y el área bajo la curva precision-recall describen mejor la cola de revisión que un solo porcentaje de aciertos. En ."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:38:27.466739+00:00",
+  "session_started_at": "2026-07-23T06:37:12.466739+00:00",
+  "session_ended_at": "2026-07-23T06:38:27.466739+00:00"
+}

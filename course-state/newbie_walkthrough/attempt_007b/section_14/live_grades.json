@@ -1,0 +1,1131 @@
+{
+  "section_index": 14,
+  "section_id": "security",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S14-T1-A-E1",
+          "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+          "note": "",
+          "concepts_used": [
+            "np.array",
+            "dtype",
+            "uint8",
+            "shape",
+            "ndim"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T1-A-E2",
+          "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "linspace",
+            "float64",
+            "itemsize",
+            "nbytes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T1-A-E3",
+          "code": "import numpy as np\n\ndef validate(a):\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\n\nvalidate(np.array([0.1, 0.2], dtype=np.float64))\ntry:\n    validate(np.array([1, 2]))\nexcept ValueError as e:\n    print(\"err\", e)\n",
+          "note": "",
+          "concepts_used": [
+            "ndim",
+            "dtype",
+            "ValueError",
+            "size"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T1-B-E1",
+          "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nidx = np.where(score >= 0.5)[0]\nprint(idx.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "boolean mask",
+            "np.where"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T1-B-E2",
+          "code": "import numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmed = np.median(scores)\nprint(ids[scores < med].tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "np.median",
+            "boolean index"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T1-B-E3",
+          "code": "import numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "fancy index"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-A-E1",
+          "code": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(np.round(M.mean(axis=0), 2).tolist())\nprint(np.round(M.mean(axis=1), 2).tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "mean",
+            "axis",
+            "round",
+            "tolist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-A-E2",
+          "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(scores.std(axis=0), 4).tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "std",
+            "axis=0"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-A-E3",
+          "code": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 10).tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "keepdims",
+            "mean",
+            "normalize"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-B-E1",
+          "code": "import numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nprint((M + w).tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "broadcast",
+            "zeros"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-B-E2",
+          "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\nout = a[:, None] * b[None, :]\nprint(out.shape, out.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "newaxis",
+            "broadcast",
+            "shape"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-B-E3",
+          "code": "import numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n",
+          "note": "",
+          "concepts_used": [
+            "ValueError",
+            "broadcast fail"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-A-E1",
+          "code": "import numpy as np\nraw = np.array([1, 2, 3])\nv = raw[:2]\nv[0] = 9\nprint(raw.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "view",
+            "slice",
+            "mutate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-A-E2",
+          "code": "import numpy as np\nraw = np.array([1, 2, 3])\nc = raw[:2].copy()\nc[0] = 9\nprint(raw.tolist(), c.tolist())\n",
+          "note": "",
+          "concepts_used": [
+            "copy",
+            "isolate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-A-E3",
+          "code": "import numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print(\"blocked\")\n",
+          "note": "",
+          "concepts_used": [
+            "flags.writeable",
+            "ValueError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-B-E1",
+          "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+          "note": "",
+          "concepts_used": [
+            "isnan",
+            "nan"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-B-E2",
+          "code": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(round(float(np.nanmean(x)), 2))\n",
+          "note": "",
+          "concepts_used": [
+            "nanmean"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-B-E3",
+          "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))\n",
+          "note": "",
+          "concepts_used": [
+            "isinf",
+            "where",
+            "nansum"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-A-E1",
+          "code": "import numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\ns1 = 0.0\nfor i in range(len(a)):\n    s1 += a[i] * b[i]\ns2 = float((a * b).sum())\nprint(abs(s1 - s2) < 1e-6)\n",
+          "note": "",
+          "concepts_used": [
+            "vectorized",
+            "loop",
+            "sum"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-A-E2",
+          "code": "import numpy as np\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))\n",
+          "note": "",
+          "concepts_used": [
+            "sum of squares",
+            "vectorized"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-A-E3",
+          "code": "import numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nc = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", float(c.mean()) == 1.0)\n",
+          "note": "",
+          "concepts_used": [
+            "perf_counter",
+            "vectorized"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-B-E1",
+          "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+          "note": "",
+          "concepts_used": [
+            "nbytes",
+            "float64"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-B-E2",
+          "code": "import numpy as np\nprint(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))\n",
+          "note": "",
+          "concepts_used": [
+            "np.allclose"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-B-E3",
+          "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n",
+          "note": "",
+          "concepts_used": [
+            "assert_allclose",
+            "AssertionError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S14-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "uint8 (3, 2) 2\n",
+          "expected_head": "uint8 (3, 2) 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "8 40 [0.0, 0.25, 0.5, 0.75, 1.0]\n",
+          "expected_head": "8 40 [0.0, 0.25, 0.5, 0.75, 1.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok 2\nerr expected 1d float64\n",
+          "expected_head": "ok 2\nerr expected 1d float64",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1, 3]\n",
+          "expected_head": "[1, 3]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['C001', 'C003']\n",
+          "expected_head": "['C001', 'C003']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[30, 10, 40, 20]\n",
+          "expected_head": "[30, 10, 40, 20]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1.0, 0.5, 0.5]\n[0.67, 0.67]\n",
+          "expected_head": "[1.0, 0.5, 0.5]\n[0.67, 0.67]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[0.2055, 0.2625]\n",
+          "expected_head": "[0.2055, 0.2625]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[0.0, 0.0, 0.0]\n",
+          "expected_head": "[0.0, 0.0, 0.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]\n",
+          "expected_head": "[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]\n",
+          "expected_head": "(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "incompatible\n",
+          "expected_head": "incompatible",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[9, 2, 3]\n",
+          "expected_head": "[9, 2, 3]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1, 2, 3] [9, 2]\n",
+          "expected_head": "[1, 2, 3] [9, 2]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "blocked\n",
+          "expected_head": "blocked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2.0\n",
+          "expected_head": "2.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3.0\n",
+          "expected_head": "3.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "30.0\n",
+          "expected_head": "30.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "timed True\n",
+          "expected_head": "timed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "8000 True\n",
+          "expected_head": "8000 True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fail\n",
+          "expected_head": "fail",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S14-T1-A-E1",
+          "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+          "note": "Instruction lists values [[1,0],[1,1],[0,1]]; hints dtype=uint8 and three attrs.",
+          "concepts_used": [
+            "np.array",
+            "dtype",
+            "shape",
+            "ndim",
+            "uint8"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T1-A-E2",
+          "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes)\n",
+          "note": "Instruction names linspace call; theory defines itemsize/nbytes.",
+          "concepts_used": [
+            "linspace",
+            "itemsize",
+            "nbytes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T1-A-E3",
+          "code": "import numpy as np\n\ndef validate(a):\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"need 1D float64\")\n    print(\"ok\", a.size)\n\nvalidate(np.array([0.1, 0.2], dtype=np.float64))\n",
+          "note": "Hints: check ndim/dtype, raise ValueError; print ok + size when valid.",
+          "concepts_used": [
+            "ndim",
+            "dtype",
+            "ValueError",
+            "size"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T1-B-E1",
+          "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0])\n",
+          "note": "Hints: mask = score >= 0.5; np.where(mask)[0].",
+          "concepts_used": [
+            "boolean mask",
+            "np.where"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T1-B-E2",
+          "code": "import numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.2, 0.8, 0.4, 0.9])\nmed = np.median(scores)\nprint(ids[scores < med])\n",
+          "note": "Hints median + ids[scores < med]; C001..C004 from instruction.",
+          "concepts_used": [
+            "np.median",
+            "boolean index",
+            "C00x"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T1-B-E3",
+          "code": "import numpy as np\na = np.array([10, 20, 30, 40])\nprint(a[[2, 0, 3, 1]])\n",
+          "note": "Theory fancy index a[[0,2]]; reorder by [2,0,3,1].",
+          "concepts_used": [
+            "fancy index"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-A-E1",
+          "code": "import numpy as np\nM = np.array([[1.0, 0.0, 1.0], [1.0, 1.0, 0.0]])\nprint(np.round(M.mean(axis=0), 2).tolist())\nprint(np.round(M.mean(axis=1), 2).tolist())\n",
+          "note": "Hints M.mean(axis=0/1) and np.round(...,2).tolist().",
+          "concepts_used": [
+            "mean",
+            "axis",
+            "np.round",
+            "tolist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-A-E2",
+          "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(np.std(scores, axis=0), 4).tolist())\n",
+          "note": "Hints np.std axis=0; ddof=0 default.",
+          "concepts_used": [
+            "np.std",
+            "axis=0"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-A-E3",
+          "code": "import numpy as np\nX = np.array([[1.0, 3.0], [10.0, 20.0], [2.0, 2.0]])\nnormed = X - X.mean(axis=1, keepdims=True)\nprint(np.round(normed.mean(axis=1), 10).tolist())\n",
+          "note": "Hints row - mean(axis=1, keepdims=True); verify mean ~0.",
+          "concepts_used": [
+            "keepdims",
+            "row center"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-B-E1",
+          "code": "import numpy as np\nM = np.zeros((2, 3))\npesos = np.array([1.0, 2.0, 3.0])\nprint(M + pesos)\n",
+          "note": "Hints zeros + pesos (3,); broadcast aligns right.",
+          "concepts_used": [
+            "broadcast",
+            "zeros"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-B-E2",
+          "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\nprint((a[:, None] * b).shape)\n",
+          "note": "Hints a[:, None] * b → (4,3); theory newaxis.",
+          "concepts_used": [
+            "newaxis",
+            "None",
+            "broadcast"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T2-B-E3",
+          "code": "import numpy as np\ntry:\n    np.zeros((2, 3)) + np.zeros((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n",
+          "note": "Theory: incompatible shapes → ValueError; hints try/except print incompatible.",
+          "concepts_used": [
+            "ValueError",
+            "incompatible shapes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-A-E1",
+          "code": "import numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw)\n",
+          "note": "Hints raw[:2] is view; S14-T3-B-DEMO shows view mutates base.",
+          "concepts_used": [
+            "view",
+            "slice mutate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-A-E2",
+          "code": "import numpy as np\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw)\nprint(copia)\n",
+          "note": "Hints raw[:2].copy(); print raw unchanged and copia.",
+          "concepts_used": [
+            ".copy()"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-A-E3",
+          "code": "import numpy as np\na = np.array([1, 2, 3])\na.flags.writeable = False\ntry:\n    a[0] = 9\nexcept ValueError:\n    print(\"blocked\")\n",
+          "note": "Theory arr.flags.writeable; hints set False and catch ValueError.",
+          "concepts_used": [
+            "flags.writeable"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-B-E1",
+          "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+          "note": "Hints np.isnan(x).sum() as int.",
+          "concepts_used": [
+            "np.isnan"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-B-E2",
+          "code": "import numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(round(float(np.nanmean(x)), 2))\n",
+          "note": "Hints nanmean; result 2.0 with 2 decimals.",
+          "concepts_used": [
+            "np.nanmean"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T3-B-E3",
+          "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\nx2 = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(x2)))\n",
+          "note": "Hints match S14-T4-A-DEMO pattern where(isinf→nan) then nan*.",
+          "concepts_used": [
+            "isinf",
+            "np.where",
+            "nansum"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-A-E1",
+          "code": "import numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\ns_loop = 0.0\nfor i in range(len(a)):\n    s_loop += a[i] * b[i]\ns_vec = (a * b).sum()\nprint(bool(abs(s_loop - s_vec) < 1e-6))\n",
+          "note": "Hints arange float, compare results not times; abs(diff)<1e-6.",
+          "concepts_used": [
+            "loop vs vector",
+            "sum"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-A-E2",
+          "code": "import numpy as np\na = np.arange(5)\nprint(int((a ** 2).sum()))\n",
+          "note": "Hints (a**2).sum(); 0+1+4+9+16=30.",
+          "concepts_used": [
+            "vector sum of squares"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-A-E3",
+          "code": "import numpy as np\nimport time\na = np.zeros(10000)\nb = np.ones(10000)\nt0 = time.perf_counter()\nout = a + b\nelapsed = time.perf_counter() - t0\nprint(\"timed\", float(out.mean()) == 1.0)\n",
+          "note": "Demo S14-T4-B-DEMO uses perf_counter; print timed + mean==1.0.",
+          "concepts_used": [
+            "perf_counter",
+            "vector add"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-B-E1",
+          "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+          "note": "Theory nbytes; hints float64=8 → 8000.",
+          "concepts_used": [
+            "nbytes",
+            "float64"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-B-E2",
+          "code": "import numpy as np\nprint(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))\n",
+          "note": "Theory allclose; hint atol=1e-8 True.",
+          "concepts_used": [
+            "np.allclose"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S14-T4-B-E3",
+          "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0, 0], [0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n",
+          "note": "Theory + last demo use assert_allclose; capture AssertionError print fail.",
+          "concepts_used": [
+            "assert_allclose",
+            "AssertionError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S14-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "uint8 (3, 2) 2\n",
+          "expected_head": "uint8 (3, 2) 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "8 40\n",
+          "expected_head": "8 40 [0.0, 0.25, 0.5, 0.75, 1.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok 2\n",
+          "expected_head": "ok 2\nerr expected 1d float64",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1 3]\n",
+          "expected_head": "[1, 3]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['C001' 'C003']\n",
+          "expected_head": "['C001', 'C003']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[30 10 40 20]\n",
+          "expected_head": "[30, 10, 40, 20]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1.0, 0.5, 0.5]\n[0.67, 0.67]\n",
+          "expected_head": "[1.0, 0.5, 0.5]\n[0.67, 0.67]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[0.2055, 0.2625]\n",
+          "expected_head": "[0.2055, 0.2625]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[0.0, 0.0, 0.0]\n",
+          "expected_head": "[0.0, 0.0, 0.0]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "[[1. 2. 3.]\n [1. 2. 3.]]\n",
+          "expected_head": "[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "(4, 3)\n",
+          "expected_head": "(4, 3) [[0, 0, 0], [0, 1, 2], [0, 2, 4], [0, 3, 6]]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "incompatible\n",
+          "expected_head": "incompatible",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[9 2 3]\n",
+          "expected_head": "[9, 2, 3]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1 2 3]\n[9 2]\n",
+          "expected_head": "[1, 2, 3] [9, 2]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "blocked\n",
+          "expected_head": "blocked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2.0\n",
+          "expected_head": "2.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3.0\n",
+          "expected_head": "3.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "30\n",
+          "expected_head": "30.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "timed True\n",
+          "expected_head": "timed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "8000 True\n",
+          "expected_head": "8000 True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S14-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fail\n",
+          "expected_head": "fail",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 20,
+      "code_tried": 24,
+      "code_ratio": 0.833,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

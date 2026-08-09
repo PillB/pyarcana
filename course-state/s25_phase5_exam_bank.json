@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S25",
+  "section_id": "streamlit-dashboards",
+  "phase": "PHASE_5",
+  "lane": "LANE-S22-S26-CLOSE",
+  "generated_at": "2026-07-20T23:30:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "streamlit-dashboards",
+    "title_v3": "Endpoints de IA, Hugging Face y prompting evaluado",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "construir-aplicaciones-multi-p",
+    "implementar-caching-con-@st",
+    "integrar-plotly-charts-interac",
+    "usar-componentes-clave:-st"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S25 (HF/prompting evaluado). Privacy: matching ≠ fraude.",
+  "families": [
+    {
+      "family_id": "S25-T1-A-EX",
+      "concept": "rule-vs-specialized-vs-llm",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S25-T1-B-EX",
+      "concept": "model-cards-licenses-local-cloud",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S25-T2-A-EX",
+      "concept": "hf-pipelines-endpoints",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S25-T2-B-EX",
+      "concept": "batch-timeout-cache-cost-fallback",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S25-T3-A-EX",
+      "concept": "objective-context-constraints-examples",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S25-T3-B-EX",
+      "concept": "glm-thinking-tools-checkpoints",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S25-T4-A-EX",
+      "concept": "golden-schema-human-review",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S25-T4-B-EX",
+      "concept": "injection-exfil-bias-minimize",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (streamlit-dashboards key)",
+    "course-state/s25_phase5_exam_bank.json"
+  ]
+}

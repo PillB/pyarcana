@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S15",
+  "section_id": "stdlib-deep",
+  "phase": "PHASE_5",
+  "lane": "LANE-S14-S17-CLOSE",
+  "generated_at": "2026-07-20T20:30:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "stdlib-deep"
+  },
+  "retired_from_bank": [
+    "crear-context-managers-con-con",
+    "usar-functools-avanzado:-lru_c",
+    "explotar-itertools:-infinite-i",
+    "implementar-descriptors-con-__"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S15 (Pandas: ingesta, selección y tipos).",
+  "families": [
+    {
+      "family_id": "S15-T1-A-EX",
+      "concept": "series-dataframe-index",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S15-T1-B-EX",
+      "concept": "read-csv-excel-parser",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S15-T2-A-EX",
+      "concept": "loc-iloc-filters-assign",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S15-T2-B-EX",
+      "concept": "chained-assignment-copy",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S15-T3-A-EX",
+      "concept": "strings-nullable-dates-cats",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S15-T3-B-EX",
+      "concept": "explicit-coercion-schema",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S15-T4-A-EX",
+      "concept": "csv-parquet-excel-export",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S15-T4-B-EX",
+      "concept": "index-format-provenance-memory",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (stdlib-deep key)",
+    "course-state/s15_phase5_exam_bank.json"
+  ]
+}

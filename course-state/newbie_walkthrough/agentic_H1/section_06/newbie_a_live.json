@@ -1,0 +1,292 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s06-a4e23aa3c01c",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "code": "# dual explorer-H1 · S06-T1-A-E1\ntxs = [10, 20, 30, 40, 50]\nprint(txs[-2:])\nprint(len(txs[-2:]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T1-A-E1 según el instruction: «E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si …». Aplico slice tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "slice"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "code": "# dual explorer-H1 · S06-T1-A-E2\nxs = [1, 2, 3, 4]\nprint(xs[1:3], xs[:2], xs[2:])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T1-A-E2 según el instruction: «E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEY…». Aplico slice tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "slice"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "code": "# dual explorer-H1 · S06-T1-A-E3\nwindow = [1, 2, 3, 4, 5, 6]\nk = 3\nprint([window[i:i+k] for i in range(0, len(window), k)])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T1-A-E3 según el instruction: «E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError,…». Aplico chunks tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "chunks"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "code": "# dual explorer-H1 · S06-T1-B-E1\na = [1, 2]\nb = a\nb.append(3)\nprint(a, a is b)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T1-B-E1 según el instruction: «E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 v…». Aplico alias tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "alias"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "code": "# dual explorer-H1 · S06-T1-B-E2\na = [1, 2]\nc = a.copy()\nc.append(9)\nprint(a, c, a is c)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T1-B-E2 según el instruction: «E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3…». Aplico copy tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "copy"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "code": "# dual explorer-H1 · S06-T1-B-E3\nrows = [{\"id\": 1}, {\"id\": 2}]\nshallow = rows[:]\nshallow[0][\"id\"] = 99\nprint(rows[0][\"id\"])  # 99 shallow\nimport copy\ndeep = copy.deepcopy(rows)\ndeep[0][\"id\"] = 1\nprint(rows[0][\"id\"], deep[0][\"id\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T1-B-E3 según el instruction: «E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla…». Aplico deepcopy tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "deepcopy"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "code": "# dual explorer-H1 · S06-T2-A-E1\nd = {\"a\": 1, \"b\": 2}\nprint(d.get(\"a\"), d.get(\"c\", 0))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T2-A-E1 según el instruction: «E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.…». Aplico dict tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "dict"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "code": "# dual explorer-H1 · S06-T2-A-E2\nd = {\"nombres\": \"Ana\", \"edad\": 30}\nfor k, v in d.items():\n    print(k, v)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T2-A-E2 según el instruction: «E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyEr…». Aplico items tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "items"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "code": "# dual explorer-H1 · S06-T2-A-E3\nraw = [(\"C1\", \"accept\"), (\"C2\", \"reject\"), (\"C1\", \"review\")]\nby_id = {}\nconflicts = []\nfor i, st in raw:\n    if i in by_id and by_id[i] != st:\n        conflicts.append({\"id\": i, \"prev\": by_id[i], \"new\": st})\n    by_id[i] = st\nprint(by_id, conflicts)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T2-A-E3 según el instruction: «E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Impr…». Aplico conflicts tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "conflicts"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "code": "# dual explorer-H1 · S06-T2-B-E1\ns = {1, 2, 2, 3}\nprint(s, 2 in s)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T2-B-E1 según el instruction: «E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.…». Aplico set tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "set"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "code": "# dual explorer-H1 · S06-T2-B-E2\na, b = {1, 2, 3}, {2, 3, 4}\nprint(a & b, a | b, a - b)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T2-B-E2 según el instruction: «E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y…». Aplico set ops tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "set ops"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "code": "# dual explorer-H1 · S06-T2-B-E3\nseen = set()\norder = []\nfor x in [\"a\", \"b\", \"a\", \"c\", \"b\"]:\n    if x not in seen:\n        seen.add(x)\n        order.append(x)\nprint(order)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T2-B-E3 según el instruction: «E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin elim…». Aplico unique tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "unique"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "code": "# dual explorer-H1 · S06-T3-A-E1\nrows = [{\"id\": \"b\"}, {\"id\": \"a\"}, {\"id\": \"c\"}]\nrows.sort(key=lambda r: r[\"id\"])\nprint(rows)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T3-A-E1 según el instruction: «E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.…». Aplico sort tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "sort"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "code": "# dual explorer-H1 · S06-T3-A-E2\nrows = [{\"score\": 2}, {\"score\": 5}, {\"score\": 1}]\nprint(sorted(rows, key=lambda r: r[\"score\"], reverse=True))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T3-A-E2 según el instruction: «E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.…». Aplico sorted tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "sorted"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "code": "# dual explorer-H1 · S06-T3-A-E3\nfrom operator import itemgetter\nrows = [{\"id\": \"C2\", \"n\": 1}, {\"id\": \"C1\", \"n\": 2}]\nprint(sorted(rows, key=itemgetter(\"id\")))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T3-A-E3 según el instruction: «E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status p…». Aplico itemgetter tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "itemgetter"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "code": "# dual explorer-H1 · S06-T3-B-E1\nt = (1, 2, 3)\nprint(t[0], len(t))\n# t[0] = 9  # TypeError si se descomenta\nprint(\"tuple inmutable\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T3-B-E1 según el instruction: «E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.…». Aplico tuple tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "tuple"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "code": "# dual explorer-H1 · S06-T3-B-E2\npair = (\"C1\", \"accept\")\ni, st = pair\nprint(i, st)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T3-B-E2 según el instruction: «E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime lí…». Aplico unpack tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "unpack"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "code": "# dual explorer-H1 · S06-T3-B-E3\nfrom collections import Counter\nprint(Counter([\"accept\", \"reject\", \"accept\"]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T3-B-E3 según el instruction: «E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si rep…». Aplico Counter tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "Counter"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "code": "# dual explorer-H1 · S06-T4-A-E1\nimport json\nprint(json.dumps({\"b\": 1, \"a\": 2}, sort_keys=True))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T4-A-E1 según el instruction: «E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.…». Aplico json tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "code": "# dual explorer-H1 · S06-T4-A-E2\nimport json\ns = json.dumps([{\"id\": \"C1\"}], ensure_ascii=False)\nprint(s)\nprint(json.loads(s)[0][\"id\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T4-A-E2 según el instruction: «E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.…». Aplico json tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "code": "# dual explorer-H1 · S06-T4-A-E3\nimport json\npayload = {\"ids\": [\"C1\", \"C2\"], \"n\": 2}\nprint(json.dumps(payload, sort_keys=True, indent=2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T4-A-E3 según el instruction: «E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego …». Aplico json tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "json"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "code": "# dual explorer-H1 · S06-T4-B-E1\nrecords = [{\"id\": \"C1\"}, {\"id\": \"C1\"}, {\"id\": \"C2\"}]\nby = {}\nfor r in records:\n    by.setdefault(r[\"id\"], []).append(r)\nprint({k: len(v) for k, v in by.items()})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T4-B-E1 según el instruction: «E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails úni…». Aplico groupby tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "groupby"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "code": "# dual explorer-H1 · S06-T4-B-E2\nfrom collections import defaultdict\ng = defaultdict(list)\nfor r in [{\"region\": \"Lima\"}, {\"region\": \"Cusco\"}, {\"region\": \"Lima\"}]:\n    g[r[\"region\"]].append(r)\nprint(dict(g))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T4-B-E2 según el instruction: «E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez…». Aplico defaultdict tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "defaultdict"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "code": "# dual explorer-H1 · S06-T4-B-E3\ndef merge_unique(rows):\n    seen = {}\n    conflicts = []\n    for r in rows:\n        i = r[\"id\"]\n        if i in seen and seen[i] != r:\n            conflicts.append(i)\n        seen[i] = r\n    return list(seen.values()), conflicts\nprint(merge_unique([{\"id\": \"A\", \"v\": 1}, {\"id\": \"A\", \"v\": 2}, {\"id\": \"B\", \"v\": 1}]))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «Colecciones y estructuras de datos» completé S06-T4-B-E3 según el instruction: «E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad concept…». Aplico merge tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "merge"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Colecciones y estructuras de datos» la pregunta «¿Qué produce xs[-2:] si xs = [1,2,3,4]?…» se resuelve con la opción «[3,4]». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S06-T1-A] Listas, tuplas y slicing Una **list** es mutable y ordenada: ideal pa…). Por eso elijo el índice 1."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Colecciones y estructuras de datos» la pregunta «b = a (listas) y mutas b.append(1). ¿Qué pasa con a?…» se resuelve con la opción «a también ve el append (alias)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S06-T1-A] Listas, tuplas y slicing Una **list** es mutable y ordenada: ideal pa…). Por eso elijo el índice 3."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Colecciones y estructuras de datos» la pregunta «Para reportar dos filas con mismo id y payload distinto debe…» se resuelve con la opción «Listar conflicto en conflicts sin silenciar». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S06-T1-A] Listas, tuplas y slicing Una **list** es mutable y ordenada: ideal pa…). Por eso elijo el índice 0."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Colecciones y estructuras de datos» la pregunta «rows.sort(key=...) retorna……» se resuelve con la opción «None (muta in-place)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S06-T1-A] Listas, tuplas y slicing Una **list** es mutable y ordenada: ideal pa…). Por eso elijo el índice 2."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «Colecciones y estructuras de datos» la pregunta «json.dumps(..., sort_keys=True) ayuda a……» se resuelve con la opción «salidas deterministas/reproducibles». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S06-T1-A] Listas, tuplas y slicing Una **list** es mutable y ordenada: ideal pa…). Por eso elijo el índice 1."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:40:44.711554+00:00",
+  "session_started_at": "2026-07-23T07:40:19.448836+00:00",
+  "session_ended_at": "2026-07-23T07:40:44.711554+00:00"
+}

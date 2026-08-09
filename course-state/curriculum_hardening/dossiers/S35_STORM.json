@@ -1,0 +1,1002 @@
+{
+  "section": 35,
+  "title": "Explicabilidad, equidad e incertidumbre",
+  "file": "s35-system-design.ts",
+  "n_required": 35,
+  "n_logged": 35,
+  "generated_at": "2026-07-24T04:45:39.504+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "B_S23_S35_close",
+  "content_decisions": {
+    "weDo": "CASO DEFECT starters",
+    "git_restore": "NO — worktree DEFECT>HEAD TODO",
+    "ethics": "means_fraud=False; explain≠accuse; OOD abstain; contestability",
+    "v3_retarget": "explainability equity not system-design diagrams only",
+    "expert_pass_at": "2026-07-24T04:45:39.504+00:00",
+    "band_close": "S23-S35 complete with S35"
+  },
+  "unique_foci": 35,
+  "source_url_count": 13,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "permutation importance global map",
+      "research": [
+        {
+          "family": "arXiv",
+          "title": "Model Cards",
+          "url": "https://arxiv.org/abs/1810.03993",
+          "note": "cards"
+        },
+        {
+          "family": "sklearn",
+          "title": "Inspection",
+          "url": "https://scikit-learn.org/stable/inspection.html",
+          "note": "permutation"
+        },
+        {
+          "family": "Molnar",
+          "title": "Interpretable ML",
+          "url": "https://christophm.github.io/interpretable-ml-book/",
+          "note": "limits"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 1/35: «permutation importance global map» via Molnar, arXiv, sklearn (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «permutation importance global map».",
+      "expand_scope": "E1/E2/E3 + docs for «permutation importance global map»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 1/35: «permutation importance global map» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "means_fraud false always",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Inspection",
+          "url": "https://scikit-learn.org/stable/inspection.html",
+          "note": "permutation"
+        },
+        {
+          "family": "Molnar",
+          "title": "Interpretable ML",
+          "url": "https://christophm.github.io/interpretable-ml-book/",
+          "note": "limits"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 2/35: «means_fraud false always» via Google, Molnar, sklearn (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «means_fraud false always».",
+      "expand_scope": "E1/E2/E3 + docs for «means_fraud false always»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 2/35: «means_fraud false always» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "local contrib value times weight",
+      "research": [
+        {
+          "family": "Molnar",
+          "title": "Interpretable ML",
+          "url": "https://christophm.github.io/interpretable-ml-book/",
+          "note": "limits"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 3/35: «local contrib value times weight» via Google, Molnar, NIST (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «local contrib value times weight».",
+      "expand_scope": "E1/E2/E3 + docs for «local contrib value times weight»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 3/35: «local contrib value times weight» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "four layers evidence model uncertainty human",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "FairML",
+          "title": "Book site",
+          "url": "https://fairmlbook.org/",
+          "note": "fairness"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 4/35: «four layers evidence model uncertainty human» via FairML, Google, NIST (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «four layers evidence model uncertainty human».",
+      "expand_scope": "E1/E2/E3 + docs for «four layers evidence model uncertainty human»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 4/35: «four layers evidence model uncertainty human» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "causal false on card",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "FairML",
+          "title": "Book site",
+          "url": "https://fairmlbook.org/",
+          "note": "fairness"
+        },
+        {
+          "family": "MAPIE",
+          "title": "Conformal",
+          "url": "https://mapie.readthedocs.io/",
+          "note": "intervals"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 5/35: «causal false on card» via FairML, MAPIE, NIST (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «causal false on card».",
+      "expand_scope": "E1/E2/E3 + docs for «causal false on card»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 5/35: «causal false on card» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "slice n sample size flag",
+      "research": [
+        {
+          "family": "FairML",
+          "title": "Book site",
+          "url": "https://fairmlbook.org/",
+          "note": "fairness"
+        },
+        {
+          "family": "MAPIE",
+          "title": "Conformal",
+          "url": "https://mapie.readthedocs.io/",
+          "note": "intervals"
+        },
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "practices"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 6/35: «slice n sample size flag» via FairML, MAPIE, TF (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «slice n sample size flag».",
+      "expand_scope": "E1/E2/E3 + docs for «slice n sample size flag»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 6/35: «slice n sample size flag» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "low_n not inequity proof",
+      "research": [
+        {
+          "family": "MAPIE",
+          "title": "Conformal",
+          "url": "https://mapie.readthedocs.io/",
+          "note": "intervals"
+        },
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "practices"
+        },
+        {
+          "family": "Coursera",
+          "title": "Responsible AI",
+          "url": "https://www.coursera.org/courses?query=responsible%20ai%20fairness",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 7/35: «low_n not inequity proof» via Coursera, MAPIE, TF (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «low_n not inequity proof».",
+      "expand_scope": "E1/E2/E3 + docs for «low_n not inequity proof»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 7/35: «low_n not inequity proof» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "proxy district_code high risk",
+      "research": [
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "practices"
+        },
+        {
+          "family": "Coursera",
+          "title": "Responsible AI",
+          "url": "https://www.coursera.org/courses?query=responsible%20ai%20fairness",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 8/35: «proxy district_code high risk» via Coursera, MIT, TF (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «proxy district_code high risk».",
+      "expand_scope": "E1/E2/E3 + docs for «proxy district_code high risk»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 8/35: «proxy district_code high risk» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "mitigate remove proxy feature",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Responsible AI",
+          "url": "https://www.coursera.org/courses?query=responsible%20ai%20fairness",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 9/35: «mitigate remove proxy feature» via Coursera, Harvard, MIT (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «mitigate remove proxy feature».",
+      "expand_scope": "E1/E2/E3 + docs for «mitigate remove proxy feature»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 9/35: «mitigate remove proxy feature» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "score interval p plus q",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 10/35: «score interval p plus q» via Harvard, MIT, Py4E (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «score interval p plus q».",
+      "expand_scope": "E1/E2/E3 + docs for «score interval p plus q»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 10/35: «score interval p plus q» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "point only rejected",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 11/35: «point only rejected» via Harvard, Live, Py4E (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «point only rejected».",
+      "expand_scope": "E1/E2/E3 + docs for «point only rejected»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 11/35: «point only rejected» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "OOD z threshold abstain",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "arXiv",
+          "title": "Model Cards",
+          "url": "https://arxiv.org/abs/1810.03993",
+          "note": "cards"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 12/35: «OOD z threshold abstain» via Live, Py4E, arXiv (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «OOD z threshold abstain».",
+      "expand_scope": "E1/E2/E3 + docs for «OOD z threshold abstain»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 12/35: «OOD z threshold abstain» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "auto_fraud false on OOD",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "arXiv",
+          "title": "Model Cards",
+          "url": "https://arxiv.org/abs/1810.03993",
+          "note": "cards"
+        },
+        {
+          "family": "sklearn",
+          "title": "Inspection",
+          "url": "https://scikit-learn.org/stable/inspection.html",
+          "note": "permutation"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 13/35: «auto_fraud false on OOD» via Live, arXiv, sklearn (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «auto_fraud false on OOD».",
+      "expand_scope": "E1/E2/E3 + docs for «auto_fraud false on OOD»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 13/35: «auto_fraud false on OOD» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "model card out_of_scope fraud_label",
+      "research": [
+        {
+          "family": "arXiv",
+          "title": "Model Cards",
+          "url": "https://arxiv.org/abs/1810.03993",
+          "note": "cards"
+        },
+        {
+          "family": "sklearn",
+          "title": "Inspection",
+          "url": "https://scikit-learn.org/stable/inspection.html",
+          "note": "permutation"
+        },
+        {
+          "family": "Molnar",
+          "title": "Interpretable ML",
+          "url": "https://christophm.github.io/interpretable-ml-book/",
+          "note": "limits"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 14/35: «model card out_of_scope fraud_label» via Molnar, arXiv, sklearn (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «model card out_of_scope fraud_label».",
+      "expand_scope": "E1/E2/E3 + docs for «model card out_of_scope fraud_label»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 14/35: «model card out_of_scope fraud_label» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "contestability channel",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Inspection",
+          "url": "https://scikit-learn.org/stable/inspection.html",
+          "note": "permutation"
+        },
+        {
+          "family": "Molnar",
+          "title": "Interpretable ML",
+          "url": "https://christophm.github.io/interpretable-ml-book/",
+          "note": "limits"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 15/35: «contestability channel» via Google, Molnar, sklearn (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «contestability channel».",
+      "expand_scope": "E1/E2/E3 + docs for «contestability channel»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 15/35: «contestability channel» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "lifecycle proposed to retired",
+      "research": [
+        {
+          "family": "Molnar",
+          "title": "Interpretable ML",
+          "url": "https://christophm.github.io/interpretable-ml-book/",
+          "note": "limits"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 16/35: «lifecycle proposed to retired» via Google, Molnar, NIST (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «lifecycle proposed to retired».",
+      "expand_scope": "E1/E2/E3 + docs for «lifecycle proposed to retired»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 16/35: «lifecycle proposed to retired» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "override by timestamp reason",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "FairML",
+          "title": "Book site",
+          "url": "https://fairmlbook.org/",
+          "note": "fairness"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 17/35: «override by timestamp reason» via FairML, Google, NIST (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «override by timestamp reason».",
+      "expand_scope": "E1/E2/E3 + docs for «override by timestamp reason»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 17/35: «override by timestamp reason» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "silent override rejected",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "FairML",
+          "title": "Book site",
+          "url": "https://fairmlbook.org/",
+          "note": "fairness"
+        },
+        {
+          "family": "MAPIE",
+          "title": "Conformal",
+          "url": "https://mapie.readthedocs.io/",
+          "note": "intervals"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 18/35: «silent override rejected» via FairML, MAPIE, NIST (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «silent override rejected».",
+      "expand_scope": "E1/E2/E3 + docs for «silent override rejected»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 18/35: «silent override rejected» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "CP-N3-C start gate",
+      "research": [
+        {
+          "family": "FairML",
+          "title": "Book site",
+          "url": "https://fairmlbook.org/",
+          "note": "fairness"
+        },
+        {
+          "family": "MAPIE",
+          "title": "Conformal",
+          "url": "https://mapie.readthedocs.io/",
+          "note": "intervals"
+        },
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "practices"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 19/35: «CP-N3-C start gate» via FairML, MAPIE, TF (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-N3-C start gate».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-N3-C start gate»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 19/35: «CP-N3-C start gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "V3 not system design diagrams",
+      "research": [
+        {
+          "family": "MAPIE",
+          "title": "Conformal",
+          "url": "https://mapie.readthedocs.io/",
+          "note": "intervals"
+        },
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "practices"
+        },
+        {
+          "family": "Coursera",
+          "title": "Responsible AI",
+          "url": "https://www.coursera.org/courses?query=responsible%20ai%20fairness",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 20/35: «V3 not system design diagrams» via Coursera, MAPIE, TF (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 not system design diagrams».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 not system design diagrams»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 20/35: «V3 not system design diagrams» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "pair from S34 metrics",
+      "research": [
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "practices"
+        },
+        {
+          "family": "Coursera",
+          "title": "Responsible AI",
+          "url": "https://www.coursera.org/courses?query=responsible%20ai%20fairness",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 21/35: «pair from S34 metrics» via Coursera, MIT, TF (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S34 metrics».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S34 metrics»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 21/35: «pair from S34 metrics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "synthetic CASO-LIM-035 Lima",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Responsible AI",
+          "url": "https://www.coursera.org/courses?query=responsible%20ai%20fairness",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 22/35: «synthetic CASO-LIM-035 Lima» via Coursera, Harvard, MIT (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «synthetic CASO-LIM-035 Lima».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic CASO-LIM-035 Lima»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 22/35: «synthetic CASO-LIM-035 Lima» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "shared_phone drop ranking",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 23/35: «shared_phone drop ranking» via Harvard, MIT, Py4E (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «shared_phone drop ranking».",
+      "expand_scope": "E1/E2/E3 + docs for «shared_phone drop ranking»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 23/35: «shared_phone drop ranking» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "precision at k business metric",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        },
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 24/35: «precision at k business metric» via Harvard, Live, Py4E (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «precision at k business metric».",
+      "expand_scope": "E1/E2/E3 + docs for «precision at k business metric»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 24/35: «precision at k business metric» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "correlation not legal proof",
+      "research": [
+        {
+          "family": "Py4E",
+          "title": "Python for Everybody",
+          "url": "https://www.py4e.com",
+          "note": "progressive"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "arXiv",
+          "title": "Model Cards",
+          "url": "https://arxiv.org/abs/1810.03993",
+          "note": "cards"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 25/35: «correlation not legal proof» via Live, Py4E, arXiv (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «correlation not legal proof».",
+      "expand_scope": "E1/E2/E3 + docs for «correlation not legal proof»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 25/35: «correlation not legal proof» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "differential FP rate groups",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "arXiv",
+          "title": "Model Cards",
+          "url": "https://arxiv.org/abs/1810.03993",
+          "note": "cards"
+        },
+        {
+          "family": "sklearn",
+          "title": "Inspection",
+          "url": "https://scikit-learn.org/stable/inspection.html",
+          "note": "permutation"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 26/35: «differential FP rate groups» via Live, arXiv, sklearn (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «differential FP rate groups».",
+      "expand_scope": "E1/E2/E3 + docs for «differential FP rate groups»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 26/35: «differential FP rate groups» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "appeal without rewrite history",
+      "research": [
+        {
+          "family": "arXiv",
+          "title": "Model Cards",
+          "url": "https://arxiv.org/abs/1810.03993",
+          "note": "cards"
+        },
+        {
+          "family": "sklearn",
+          "title": "Inspection",
+          "url": "https://scikit-learn.org/stable/inspection.html",
+          "note": "permutation"
+        },
+        {
+          "family": "Molnar",
+          "title": "Interpretable ML",
+          "url": "https://christophm.github.io/interpretable-ml-book/",
+          "note": "limits"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 27/35: «appeal without rewrite history» via Molnar, arXiv, sklearn (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «appeal without rewrite history».",
+      "expand_scope": "E1/E2/E3 + docs for «appeal without rewrite history»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 27/35: «appeal without rewrite history» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "drift flag retirement",
+      "research": [
+        {
+          "family": "sklearn",
+          "title": "Inspection",
+          "url": "https://scikit-learn.org/stable/inspection.html",
+          "note": "permutation"
+        },
+        {
+          "family": "Molnar",
+          "title": "Interpretable ML",
+          "url": "https://christophm.github.io/interpretable-ml-book/",
+          "note": "limits"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 28/35: «drift flag retirement» via Google, Molnar, sklearn (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «drift flag retirement».",
+      "expand_scope": "E1/E2/E3 + docs for «drift flag retirement»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 28/35: «drift flag retirement» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "audit event reconstructable",
+      "research": [
+        {
+          "family": "Molnar",
+          "title": "Interpretable ML",
+          "url": "https://christophm.github.io/interpretable-ml-book/",
+          "note": "limits"
+        },
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 29/35: «audit event reconstructable» via Google, Molnar, NIST (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «audit event reconstructable».",
+      "expand_scope": "E1/E2/E3 + docs for «audit event reconstructable»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 29/35: «audit event reconstructable» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "progressive disclosure theory",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Model Cards",
+          "url": "https://modelcards.withgoogle.com/about",
+          "note": "system cards"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "FairML",
+          "title": "Book site",
+          "url": "https://fairmlbook.org/",
+          "note": "fairness"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 30/35: «progressive disclosure theory» via FairML, Google, NIST (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «progressive disclosure theory».",
+      "expand_scope": "E1/E2/E3 + docs for «progressive disclosure theory»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 30/35: «progressive disclosure theory» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "Red Andina fiction case",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "risk"
+        },
+        {
+          "family": "FairML",
+          "title": "Book site",
+          "url": "https://fairmlbook.org/",
+          "note": "fairness"
+        },
+        {
+          "family": "MAPIE",
+          "title": "Conformal",
+          "url": "https://mapie.readthedocs.io/",
+          "note": "intervals"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 31/35: «Red Andina fiction case» via FairML, MAPIE, NIST (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «Red Andina fiction case».",
+      "expand_scope": "E1/E2/E3 + docs for «Red Andina fiction case»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 31/35: «Red Andina fiction case» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "no PII real credentials",
+      "research": [
+        {
+          "family": "FairML",
+          "title": "Book site",
+          "url": "https://fairmlbook.org/",
+          "note": "fairness"
+        },
+        {
+          "family": "MAPIE",
+          "title": "Conformal",
+          "url": "https://mapie.readthedocs.io/",
+          "note": "intervals"
+        },
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "practices"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 32/35: «no PII real credentials» via FairML, MAPIE, TF (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no PII real credentials».",
+      "expand_scope": "E1/E2/E3 + docs for «no PII real credentials»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 32/35: «no PII real credentials» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "explain not accuse",
+      "research": [
+        {
+          "family": "MAPIE",
+          "title": "Conformal",
+          "url": "https://mapie.readthedocs.io/",
+          "note": "intervals"
+        },
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "practices"
+        },
+        {
+          "family": "Coursera",
+          "title": "Responsible AI",
+          "url": "https://www.coursera.org/courses?query=responsible%20ai%20fairness",
+          "note": "MOOC"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 33/35: «explain not accuse» via Coursera, MAPIE, TF (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «explain not accuse».",
+      "expand_scope": "E1/E2/E3 + docs for «explain not accuse»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 33/35: «explain not accuse» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "holdout conformal concept",
+      "research": [
+        {
+          "family": "TF",
+          "title": "Responsible AI",
+          "url": "https://www.tensorflow.org/responsible_ai",
+          "note": "practices"
+        },
+        {
+          "family": "Coursera",
+          "title": "Responsible AI",
+          "url": "https://www.coursera.org/courses?query=responsible%20ai%20fairness",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 34/35: «holdout conformal concept» via Coursera, MIT, TF (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «holdout conformal concept».",
+      "expand_scope": "E1/E2/E3 + docs for «holdout conformal concept»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 34/35: «holdout conformal concept» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "uncertainty before override",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "Responsible AI",
+          "url": "https://www.coursera.org/courses?query=responsible%20ai%20fairness",
+          "note": "MOOC"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "projects"
+        }
+      ],
+      "synthesize": "S35 «Explicabilidad, equidad e incertidumbre» cycle 35/35: «uncertainty before override» via Coursera, Harvard, MIT (CASO-LIM-035 / CP-N3-C case card).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «uncertainty before override».",
+      "expand_scope": "E1/E2/E3 + docs for «uncertainty before override»; V3 roadmap; pair S35 starts CP-N3-C after S34 metrics close.",
+      "re_synthesize": "Decision 35/35: «uncertainty before override» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

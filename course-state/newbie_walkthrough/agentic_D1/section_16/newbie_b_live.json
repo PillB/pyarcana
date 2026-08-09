@@ -1,0 +1,521 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s16-live",
+  "attempt_id": "agentic_D1",
+  "section_index": 16,
+  "packet_sha": "bf1b1f93ca6fbcee",
+  "packet_source": "course-state/newbie_walkthrough/agentic_D1/section_16/slim_packet.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df['id'].isna().sum()))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "C001",
+        "int",
+        "isna",
+        "sum",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T1-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuenta nulls de `id` con `isna` e imprime el entero. P. Hints: isna().sum().; int(...).. Completé el TODO con patrón del fixture/starter y la línea «print(int(df['id'].isna().sum()))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {}\nfor col, pol in policy.items():\n    if pol == 'required':\n        n = int(df[col].isna().sum())\n        if n:\n            viol[col] = n\nprint(viol)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "policy",
+        "required",
+        "optional",
+        "DataFrame",
+        "viol",
+        "col",
+        "pol"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T1-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dict solo con campos required que tengan nulls (valor. Hints: Itera policy.; Incluye solo n>0 required.. Completé el TODO con patrón del fixture/starter y la línea «print(viol)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nprint('fail' if df['id'].isna().any() else 'pass')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "fail",
+        "isna",
+        "any",
+        "else",
+        "pass",
+        "transferencia"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T1-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `fail`; si no, `pass`. No rellenes nulls para forzar. Hints: Usa el dict viol.; Mensaje corto.. Completé el TODO con patrón del fixture/starter y la línea «print('fail' if df['id'].isna().any() else 'pass')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf['monto'] = df['monto'].fillna(0)\nprint(df['was_null'].tolist())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "monto",
+        "was_null",
+        "isna",
+        "fillna",
+        "tolist",
+        "guiado"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T1-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego `fillna(0)`; imprime la lista de was_null. Pass: . Hints: was_null = isna.; luego fillna.. Completé el TODO con patrón del fixture/starter y la línea «print(df['was_null'].tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\nprint('blocked' if rate > 0.3 else 'ok')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "rate",
+        "isna",
+        "mean",
+        "blocked",
+        "else",
+        "independiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T1-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si null_rate>0.3 imprime `blocked`, si no `ok`. Pass: . Hints: mean de isna.; cap 0.3.. Completé el TODO con patrón del fixture/starter y la línea «print('blocked' if rate > 0.3 else 'ok')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nprint(s.fillna(med).tolist())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "med",
+        "median",
+        "fillna",
+        "tolist",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T1-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulos; demuestra que la mediana de valores originales . Hints: median skipna.; fillna(median).. Completé el TODO con patrón del fixture/starter y la línea «print(s.fillna(med).tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "int",
+        "duplicated",
+        "keep",
+        "sum",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T2-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep=False)` True e imprime el entero. Pass: conteo de. Hints: duplicated(keep=False).sum().; Dos filas exactas → 2.. Completé el TODO con patrón del fixture/starter y la línea «print(int(df.duplicated(keep=False).sum()))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\ng = df.groupby('cliente_id')['region'].nunique()\nprint(g[g > 1].index.tolist())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "region",
+        "Lima",
+        "Cusco"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T2-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`nunique>1`); imprime lista de ids en conflicto. Pas. Hints: groupby nunique > 1.; unique ids.. Completé el TODO con patrón del fixture/starter y la línea «print(g[g > 1].index.tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif sub['region'].nunique() > 1:\n    print('conflict')\nelif len(sub) > 1 and sub.drop_duplicates().shape[0] < len(sub):\n    print('exact')\nelse:\n    print('clean')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "region",
+        "Lima",
+        "score",
+        "sub"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T2-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exacto print `exact`; elif conflicto de región print `c. Hints: Lógica en orden.; Fixture simple.. Completé el TODO con patrón del fixture/starter y la línea «    print('clean')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nmask = df.duplicated('id', keep=False)\nq = df[mask]\nclean = df.drop_duplicates('id', keep='first')\nprint(len(q), len(clean))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "mask",
+        "duplicated",
+        "keep",
+        "clean",
+        "drop_duplicates",
+        "first"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T2-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con drop_duplicates keep first; imprime ambos lens. Pas. Hints: duplicated(key, keep=False).; drop_duplicates.. Completé el TODO con patrón del fixture/starter y la línea «print(len(q), len(clean))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nq = df[df.duplicated('id', keep=False)].copy()\nprint(q.columns.tolist())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "batch",
+        "duplicated",
+        "keep",
+        "copy",
+        "columns",
+        "tolist"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T2-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o la de evidencia del fixture); imprime `columns.tol. Hints: copy del mask.; No dropear cols.. Completé el TODO con patrón del fixture/starter y la línea «print(q.columns.tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint('card_ok' if df['id'].nunique() == len(df) else 'card_bad')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "card_ok",
+        "nunique",
+        "len",
+        "else",
+        "card_bad",
+        "transferencia"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T2-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no, otra señal según solution. Pass: `card_ok` en DF . Hints: cardinalidad 1:1.; Comparar nunique y len.. Completé el TODO con patrón del fixture/starter y la línea «print('card_ok' if df['id'].nunique() == len(df) else 'card_bad')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "lima",
+        "CUSCO",
+        "str",
+        "strip",
+        "title",
+        "tolist"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T3-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la lista. Pass: `['Lima', 'Cusco']`. No borres el raw. Hints: str.strip().str.title().; Series string methods.. Completé el TODO con patrón del fixture/starter y la línea «print(s.str.strip().str.title().tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "str",
+        "replace",
+        "regex",
+        "astype",
+        "float",
+        "sum"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T3-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5','S/2']`; imprime la suma. Pass: `3.5`. Normalizar . Hints: str.replace.; astype float.. Completé el TODO con patrón del fixture/starter y la línea «print(float(v.sum()))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint((df['region_raw'] == 'lima').all())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "region_raw",
+        "lima",
+        "region",
+        "str",
+        "title",
+        "all"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T3-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region_raw` sigue igual; imprime evidencia según solutio. Hints: Nueva col no pisa raw.; print both.. Completé el TODO con patrón del fixture/starter y la línea «print((df['region_raw'] == 'lima').all())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "tolist",
+        "guiado",
+        "Concepto",
+        "domain",
+        "bounds",
+        "Marca"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T3-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pass: lista del fixture (True en negativos). No drops. Hints: s < 0.; tolist.. Completé el TODO con patrón del fixture/starter y la línea «print((s < 0).tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "quantile",
+        "iqr",
+        "mask",
+        "tolist",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T3-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pass: lista del oracle (incluye 100). Domain bounds . Hints: quantile 0.25/0.75.; fence q1-1.5iqr.. Completé el TODO con patrón del fixture/starter y la línea «print(s[mask].tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\nprint(label)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "Series",
+        "val",
+        "iloc",
+        "label",
+        "error",
+        "else",
+        "transferencia"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T3-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si solo stat, `ok` else. Pass: `error` (dominio). Pr. Hints: Prioriza error.; Una fila simple.. Completé el TODO con patrón del fixture/starter y la línea «print(label)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "required",
+        "monto",
+        "not",
+        "columns",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T4-A-E1. Instrucción del paquete: E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lista de faltantes. Pass: `['monto']` (u orden del or. Hints: list comprehension.; not in columns.. Completé el TODO con patrón del fixture/starter y la línea «print([c for c in required if c not in df.columns])»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nprint(df.index[df['fin'] < df['inicio']].tolist())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "inicio",
+        "to_datetime",
+        "fin",
+        "index",
+        "tolist",
+        "independiente"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T4-A-E2. Instrucción del paquete: E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista de índices. Pass: índices del fixture. Cada regla . Hints: máscara datetime.; index[mask].tolist().. Completé el TODO con patrón del fixture/starter y la línea «print(df.index[df['fin'] < df['inicio']].tolist())»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint('drift' if missing else 'schema_ok')\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "pandas",
+        "DataFrame",
+        "missing",
+        "monto",
+        "not",
+        "columns",
+        "drift",
+        "else"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T4-A-E3. Instrucción del paquete: E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok`. Pass: cadena del oracle según fixture. Fail-clo. Hints: Usa lista missing.; Mensajes fijos.. Completé el TODO con patrón del fixture/starter y la línea «print('drift' if missing else 'schema_ok')»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "rows_in = 10\nq = 3\nprint(rows_in - q)\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows_in",
+        "guiado",
+        "Concepto",
+        "rows_clean",
+        "Dado",
+        "quarantine_n",
+        "imprime",
+        "quarantine"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T4-B-E1. Instrucción del paquete: E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pass: `7`. Métrica básica del reporte del gate.. Hints: resta simple.; int.. Completé el TODO con patrón del fixture/starter y la línea «print(rows_in - q)»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "audit = [{\"event\": \"start\"}]\naudit.append({'event': 'quarantine'})\nprint(len(audit))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit",
+        "event",
+        "start",
+        "append",
+        "quarantine",
+        "len",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T4-B-E2. Instrucción del paquete: E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `len(audit)`. Pass: longitud del oracle (n_prev+1). N. Hints: audit.append.; lista previa con start.. Completé el TODO con patrón del fixture/starter y la línea «print(len(audit))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "n_q = 1\nprint(bool(n_q == 0))\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "n_q",
+        "bool",
+        "transferencia",
+        "Concepto",
+        "metrics",
+        "pass",
+        "quarantine",
+        "entonces"
+      ],
+      "justification_from_packet": "D1-Skeptic: solo usé theory/iDo/hints/starter del paquete activo «Calidad, limpieza y contratos de datos» para S16-T4-B-E3. Instrucción del paquete: E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q=1. Pass: `False`. Publica métricas aunque el gate. Hints: pass = n_q==0.; json opcional.. Completé el TODO con patrón del fixture/starter y la línea «print(bool(n_q == 0))»; no usé correctIndex ni soluciones externas. Fail-closed a lo enseñado en el packet."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Provocar violación/cuarentena o fail del gate",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: elijo «Provocar violación/cuarentena o fail del gate» para «Un campo marked required con nulls debe:» porque el material de «Calidad, limpieza y contratos de datos» enseña: nulls y políticas por campo | Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido,  | indicadores y límites de im. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Exacto = filas idénticas; conflicto = misma clave con atributos distintos",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: elijo «Exacto = filas idénticas; conflicto = misma clave con atributos distintos» para «Duplicado exacto vs conflicto de clave:» porque el material de «Calidad, limpieza y contratos de datos» enseña: nulls y políticas por campo | Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido,  | indicadores y límites de im. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Auditar y disputar la forma canónica sin perder el valor original",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: elijo «Auditar y disputar la forma canónica sin perder el valor original» para «Conservar region_raw al normalizar sirve para:» porque el material de «Calidad, limpieza y contratos de datos» enseña: nulls y políticas por campo | Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido,  | indicadores y límites de im. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Puede marcar (o borrar) colas legítimas de negocio como si fueran error",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: elijo «Puede marcar (o borrar) colas legítimas de negocio como si fueran error» para «IQR sin domain bounds es riesgoso porque:» porque el material de «Calidad, limpieza y contratos de datos» enseña: nulls y políticas por campo | Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido,  | indicadores y límites de im. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Publicar métricas y cuarentena aunque pass=False",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: elijo «Publicar métricas y cuarentena aunque pass=False» para «Un quality gate que falla debe:» porque el material de «Calidad, limpieza y contratos de datos» enseña: nulls y políticas por campo | Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido,  | indicadores y límites de im. La opción coincide con términos del corpus theory/iDo del slim_packet; descarté alternativas que contradicen el contrato fail-closed del paquete."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "note": "Skeptic: only sequential packets through active section; no external solutions."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:39:55.712630+00:00",
+  "artifact_origin": "direct_agent_output"
+}

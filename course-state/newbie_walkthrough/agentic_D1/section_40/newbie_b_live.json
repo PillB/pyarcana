@@ -1,0 +1,453 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D1",
+  "section_index": 40,
+  "packet_sha": "ed5e6493245bb7f8",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nmeets_contract = record[\"observed_ms\"] <= record[\"target_ms\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n",
+      "answer": "S40-T1-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Calcula",
+        "contrato",
+        "requisitos",
+        "funcionales",
+        "quality",
+        "attributes",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T1-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `record = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"environment\", \"observed_ms\", \"owner\", \"response\", \"source\", \"stimulus\", \"target_ms\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"observed_ms\"] <= record[\"target_ms\"]) else \"REJECT_QA_SCENARIO\"\n\nvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\ninvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 400, 'target_ms': 300, 'owner': 'platform'}\nincomplete = dict(valid)\nincomplete.pop(\"owner\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REJECT_QA_SCENARIO MISSING:owner",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Modela",
+        "tres",
+        "rutas",
+        "requisitos",
+        "funcionales",
+        "quality",
+        "attributes"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T1-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"environment\", \"observed_ms\", \"owner\", \"response\", \"source\", \"stimulus\", \"target_ms\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_QA_OWNER\"\n    return \"CONTINUE\" if (record[\"observed_ms\"] <= record[\"target_ms\"]) else \"REJECT_QA_SCENARIO\"\n\nvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\ninvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 400, 'target_ms': 300, 'owner': 'platform'}\nuncertain = dict(valid)\nuncertain.pop(\"owner\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REJECT_QA_SCENARIO REQUEST_QA_OWNER",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "requisitos",
+        "funcionales",
+        "quality"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T1-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nmeets_contract = record.get(\"case_id\") == 'CASO-LIM-040-1B' and not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))\nstatus = \"PASS\" if meets_contract else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n",
+      "answer": "S40-T1-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Compara",
+        "contrato",
+        "trade",
+        "offs",
+        "riesgos",
+        "criterios",
+        "medibles"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T1-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `record = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"ris`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"residual_risk\", \"risk_owner\", \"scores\", \"selected\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-LIM-040-1B' and not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))) else \"REOPEN_TRADEOFF\"\n\nvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\ninvalid = {'case_id': 'CASO-LIM-040-1B-ADV', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\nincomplete = dict(valid)\nincomplete.pop(\"residual_risk\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REOPEN_TRADEOFF MISSING:residual_risk",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Verifica",
+        "tres",
+        "rutas",
+        "trade",
+        "offs",
+        "riesgos",
+        "criterios"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T1-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"residual_risk\", \"risk_owner\", \"scores\", \"selected\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ESCALATE_RESIDUAL_RISK\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-LIM-040-1B' and not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))) else \"REOPEN_TRADEOFF\"\n\nvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\ninvalid = {'case_id': 'CASO-LIM-040-1B-ADV', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\nuncertain = dict(valid)\nuncertain.pop(\"residual_risk\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REOPEN_TRADEOFF ESCALATE_RESIDUAL_RISK",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "trade",
+        "offs",
+        "riesgos"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T1-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nmeets_contract = record.get(\"case_id\") == 'CASO-LIM-040-2A' and not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))\nstatus = \"PASS\" if meets_contract else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n",
+      "answer": "S40-T2-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Filtra",
+        "contrato",
+        "cohesi",
+        "coupling",
+        "capas",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T2-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `record = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastr`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"dependencies\", \"layers\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-LIM-040-2A' and not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))) else \"REDRAW_BOUNDARY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\ninvalid = {'case_id': 'CASO-LIM-040-2A-ADV', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\nincomplete = dict(valid)\nincomplete.pop(\"dependencies\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REDRAW_BOUNDARY MISSING:dependencies",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "cohesi",
+        "coupling",
+        "capas",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T2-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"dependencies\", \"layers\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_LAYER_OWNER\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-LIM-040-2A' and not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))) else \"REDRAW_BOUNDARY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\ninvalid = {'case_id': 'CASO-LIM-040-2A-ADV', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\nuncertain = dict(valid)\nuncertain.pop(\"dependencies\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REDRAW_BOUNDARY REVIEW_LAYER_OWNER",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "cohesi",
+        "coupling",
+        "capas"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T2-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nmeets_contract = (not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))) and record.get(\"case_id\") == 'CASO-LIM-040-2B'\nstatus = \"PASS\" if meets_contract else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)\n",
+      "answer": "S40-T2-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Modela",
+        "contrato",
+        "ports",
+        "adapters",
+        "dependencia",
+        "hacia",
+        "dominio"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T2-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `record = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"adapter\", \"case_id\", \"contract_tests\", \"domain_imports\", \"port\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))) and record.get(\"case_id\") == 'CASO-LIM-040-2B') else \"INVERT_DEPENDENCY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-LIM-040-2B-ADV', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\nincomplete = dict(valid)\nincomplete.pop(\"contract_tests\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS INVERT_DEPENDENCY MISSING:contract_tests",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Audita",
+        "tres",
+        "rutas",
+        "ports",
+        "adapters",
+        "dependencia",
+        "hacia"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T2-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"adapter\", \"case_id\", \"contract_tests\", \"domain_imports\", \"port\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"DEFINE_PORT_CONTRACT\"\n    return \"CONTINUE\" if ((not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))) and record.get(\"case_id\") == 'CASO-LIM-040-2B') else \"INVERT_DEPENDENCY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-LIM-040-2B-ADV', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\nuncertain = dict(valid)\nuncertain.pop(\"contract_tests\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE INVERT_DEPENDENCY DEFINE_PORT_CONTRACT",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "ports",
+        "adapters",
+        "dependencia"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T2-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\nmeets_contract = record.get(\"case_id\") == 'CASO-LIM-040-3A' and not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))\nstatus = \"PASS\" if meets_contract else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n",
+      "answer": "S40-T3-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Verifica",
+        "contrato",
+        "bounded",
+        "contexts",
+        "lenguaje",
+        "ubicuo",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T3-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `record = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"t`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"case_id\") == 'CASO-LIM-040-3A' and not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))) else \"SPLIT_CONTEXTS\"\n\nvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'score', 'record'}}, 'translations': {'case': 'record'}}\ninvalid = {'case_id': 'CASO-LIM-040-3A-ADV', 'contexts': {'intake': {'case'}, 'er': {'score', 'record'}}, 'translations': {'case': 'record'}}\nincomplete = dict(valid)\nincomplete.pop(\"translations\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS SPLIT_CONTEXTS MISSING:translations",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Decide",
+        "tres",
+        "rutas",
+        "bounded",
+        "contexts",
+        "lenguaje",
+        "ubicuo"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T3-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WORKSHOP_UBIQUITOUS_LANGUAGE\"\n    return \"CONTINUE\" if (record.get(\"case_id\") == 'CASO-LIM-040-3A' and not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))) else \"SPLIT_CONTEXTS\"\n\nvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'score', 'record'}}, 'translations': {'case': 'record'}}\ninvalid = {'case_id': 'CASO-LIM-040-3A-ADV', 'contexts': {'intake': {'case'}, 'er': {'score', 'record'}}, 'translations': {'case': 'record'}}\nuncertain = dict(valid)\nuncertain.pop(\"translations\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE SPLIT_CONTEXTS WORKSHOP_UBIQUITOUS_LANGUAGE",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "bounded",
+        "contexts",
+        "lenguaje"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T3-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nmeets_contract = record.get(\"vo_frozen\") and record.get(\"service_stateless\") and record[\"vo\"].get(\"currency\") in {\"PEN\",\"USD\",\"EUR\"}\nstatus = \"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n",
+      "answer": "S40-T3-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Clasifica",
+        "contrato",
+        "entities",
+        "value",
+        "objects",
+        "servicios",
+        "sobre"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T3-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `record = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"entity_id\", \"service_stateless\", \"vo\", \"vo_frozen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record.get(\"vo_frozen\") and record.get(\"service_stateless\") and record[\"vo\"].get(\"currency\") in {\"PEN\",\"USD\",\"EUR\"}) else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\ninvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'USD'}, 'vo_frozen': False, 'service_stateless': False}\nincomplete = dict(valid)\nincomplete.pop(\"service_stateless\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS REJECT_DOMAIN_MODEL MISSING:service_stateless",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Calcula",
+        "tres",
+        "rutas",
+        "entities",
+        "value",
+        "objects",
+        "servicios"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T3-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"entity_id\", \"service_stateless\", \"vo\", \"vo_frozen\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CLARIFY_INVARIANT\"\n    return \"CONTINUE\" if (record.get(\"vo_frozen\") and record.get(\"service_stateless\") and record[\"vo\"].get(\"currency\") in {\"PEN\",\"USD\",\"EUR\"}) else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\ninvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'USD'}, 'vo_frozen': False, 'service_stateless': False}\nuncertain = dict(valid)\nuncertain.pop(\"service_stateless\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE REJECT_DOMAIN_MODEL CLARIFY_INVARIANT",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "entities",
+        "value",
+        "objects"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T3-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nmeets_contract = (not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)) and record.get(\"case_id\") == 'CASO-LIM-040-4A'\nstatus = \"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)\n",
+      "answer": "S40-T4-A PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Audita",
+        "contrato",
+        "diagramas",
+        "flujo",
+        "ADRs",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T4-A-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `record = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"contex`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"adr_fields\", \"adr_status\", \"c4_levels\", \"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if ((not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)) and record.get(\"case_id\") == 'CASO-LIM-040-4A') else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'context', 'container'}, 'adr_fields': {'rollback', 'decision', 'context', 'alternatives', 'consequences'}, 'adr_status': 'accepted'}\ninvalid = {'case_id': 'CASO-LIM-040-4A-ADV', 'c4_levels': {'context', 'container'}, 'adr_fields': {'rollback', 'decision', 'alternatives', 'context', 'consequences'}, 'adr_status': 'accepted'}\nincomplete = dict(valid)\nincomplete.pop(\"adr_status\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS RETURN_ADR_TO_DRAFT MISSING:adr_status",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Compara",
+        "tres",
+        "rutas",
+        "diagramas",
+        "flujo",
+        "ADRs",
+        "fixture"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T4-A-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"adr_fields\", \"adr_status\", \"c4_levels\", \"case_id\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_ARCH_REVIEW\"\n    return \"CONTINUE\" if ((not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)) and record.get(\"case_id\") == 'CASO-LIM-040-4A') else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'context', 'container'}, 'adr_fields': {'rollback', 'decision', 'context', 'alternatives', 'consequences'}, 'adr_status': 'accepted'}\ninvalid = {'case_id': 'CASO-LIM-040-4A-ADV', 'c4_levels': {'context', 'container'}, 'adr_fields': {'rollback', 'decision', 'alternatives', 'context', 'consequences'}, 'adr_status': 'accepted'}\nuncertain = dict(valid)\nuncertain.pop(\"adr_status\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE RETURN_ADR_TO_DRAFT REQUEST_ARCH_REVIEW",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "diagramas",
+        "flujo",
+        "ADRs"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T4-A-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nmeets_contract = record[\"v11_fields\"] >= record[\"v1_fields\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n",
+      "answer": "S40-T4-B PASS",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Decide",
+        "contrato",
+        "APIs",
+        "eventos",
+        "deuda",
+        "evoluci",
+        "compatible"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T4-B-E1 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `record = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"debt_owner\", \"retire_on\", \"v11_fields\", \"v1_fields\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (record[\"v11_fields\"] >= record[\"v1_fields\"]) else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'status', 'case_id'}, 'v11_fields': {'status', 'case_id', 'priority'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\ninvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'status', 'case_id'}, 'v11_fields': set(), 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nincomplete = dict(valid)\nincomplete.pop(\"retire_on\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "PASS BLOCK_BREAKING_CHANGE MISSING:retire_on",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Filtra",
+        "tres",
+        "rutas",
+        "APIs",
+        "eventos",
+        "deuda",
+        "evoluci"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T4-B-E2 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def assess(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"debt_owner\", \"retire_on\", \"v11_fields\", \"v1_fields\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"NEGOTIATE_VERSION\"\n    return \"CONTINUE\" if (record[\"v11_fields\"] >= record[\"v1_fields\"]) else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'status', 'case_id'}, 'v11_fields': {'status', 'case_id', 'priority'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\ninvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'status', 'case_id'}, 'v11_fields': set(), 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nuncertain = dict(valid)\nuncertain.pop(\"retire_on\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "CONTINUE BLOCK_BREAKING_CHANGE NEGOTIATE_VERSION",
+      "blocked_on": [],
+      "concepts_used": [
+        "S40",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "APIs",
+        "eventos",
+        "deuda"
+      ],
+      "justification_from_packet": "D1-Skeptic: el starter de S40-T4-B-E3 no me convence: el predicado no sostiene el contrato del paquete. Releí instruction/hints/theory y corregí la decisión de dominio sin tocar datos del fixture. Soporte: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos Captura FR y quality attributes Documenta trade-offs». Ancla `def decide(record: dict) -> str:`. Solo paquete activo agentic_D1; sin keys ni otros intentos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Qué evidencia permite aprobar `requisitos funcionales y quality attributes` en CASO-LIM-040?» elijo «escenario QA completo con umbral y dueño» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos\nCaptura FR y quality a». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «Si ocurre la condición de error de S40, ¿qué respuesta preserva seguridad y auditabilidad?» elijo «emitir BLOCK_ARCHITECTURE y conservar evidencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos\nCaptura FR y quality a». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Cuál resultado demuestra el gate `CP-N4-A · mapa de arquitectura gobernado`?» elijo «cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos\nCaptura FR y quality a». Descarto PII real, ocultar fallos o inventar evidencia."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "D1-Skeptic: en «¿Qué tratamiento de `CASO-LIM-040` respeta el alcance del curso?» elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el theory del paquete exige evidencia medible, fronteras/contratos explícitos y rechazo de atajos inseguros. Cita: «mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos\nCaptura FR y quality a». Descarto PII real, ocultar fallos o inventar evidencia."
+    }
+  ],
+  "recorded_at": "2026-07-23T03:39:57.057973+00:00",
+  "agent_instance_id": "newbie-b-skeptic-agentic-D1-s40-live",
+  "code_execution_used": false,
+  "restart_from": "landing",
+  "notes": "D1-Skeptic live solve from slim_packet + exercise_batch_40_52 only; justifications packet-grounded.",
+  "artifact_origin": "direct_agent_output"
+}

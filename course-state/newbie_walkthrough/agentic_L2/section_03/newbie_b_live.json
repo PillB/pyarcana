@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_L2",
+  "section_index": 3,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-skeptic-s03-div-35407005",
+  "production_note": "agentic_L2 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "code": "edad = 25\nregion = \"Cusco\"\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Lima\")\n",
+      "justification_from_packet": "Revisé la teoría «Un **invariante** de campo es una promesa en español: “`cont» del paquete: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, . En S03-T1-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor v in [\"DNI\", \"dni\", \"RUC\"]:\n    print(v, v in TIPOS_DOC)\n",
+      "justification_from_packet": "El heading «Redactar mensajes accionables y cubrir cada rama con un caso» dice en sustancia: Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son . Por eso en S03-T1-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "code": "valor = None\nprint(\"valor is None\", valor is None)\nprint(\"True == 1\", True == 1)\nprint(\"True is 1\", True is 1)\nprint(\"usa is None para ausencia; == para igualdad de valor; is para identidad de singleton\")\n",
+      "justification_from_packet": "Anclé S03-T1-A-E3 en «Reglas de dominio: rangos y listas permitidas»: La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se ev. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "code": "for v in (None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]):\n    print(repr(v), bool(v))\n",
+      "justification_from_packet": "En la lección, «Comparaciones y el operador in» aclara: Una **guard clause** (salida temprana) valida precondiciones y **retorna de inme. Completé S03-T1-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "code": "print(repr('' or 'default'))\nprint(repr('Lima' or 'default'))\nprint(0 and 99)\nprint(5 and 99)\nprint(None or 0)\n",
+      "justification_from_packet": "Tras leer «Qué es verdadero en un if (y qué no es “ausente”)» (Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGIONES = {\"Lim), resolví S03-T1-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m == 0:\n        return \"accept\"  # 0 puede ser válido; no colapsar con if not m\n    return \"accept\"\n\nfor x in (None, -1, 0, 10):\n    print(x, validate_monto(x))\n",
+      "justification_from_packet": "El paquete L2 en «Salidas tempranas y ramas que nunca se tocan» sostiene: Una **decision table** es una tabla de negocio: filas de condiciones → acción. P. S03-T1-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "code": "def classify_score(s):\n    if s >= 80:\n        return \"accept\"\n    elif s >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in (80, 50, 49, 100):\n    print(s, classify_score(s))\n",
+      "justification_from_packet": "Revisé la teoría «Python evalúa la **truthiness** de un valor en `if`, `while`» del paquete: Un **invariante** de campo es una promesa en español: “`contacto` es un str de 9. En S03-T2-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "code": "def bad(s):\n    label = \"reject\"\n    if s >= 50:\n        label = \"review\"\n    if s >= 80:\n        label = \"accept\"\n    # bug típico: ifs independientes mal ordenados en otras versiones\n    return label\n\ndef good(s):\n    if s >= 80:\n        return \"accept\"\n    elif s >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in (95, 60, 10):\n    print(s, \"bad\", bad(s), \"good\", good(s))\n",
+      "justification_from_packet": "El heading «Una **guard clause** (salida temprana) valida precondiciones» dice en sustancia: Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperad. Por eso en S03-T2-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in (150, 75, 10, 0, -1):\n    print(n, band(n))\n",
+      "justification_from_packet": "Anclé S03-T2-A-E3 en «Python evalúa la **truthiness** de un valor en `if`, `while`»: Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, . La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"code\": \"MISSING\", \"status\": \"review\"}\n    if not isinstance(edad, int):\n        return {\"code\": \"BAD_TYPE\", \"status\": \"reject\"}\n    if edad < 0 or edad > 120:\n        return {\"code\": \"OUT_OF_RANGE\", \"status\": \"reject\"}\n    if edad < 18:\n        return {\"code\": \"NEEDS_REVIEW\", \"status\": \"review\"}\n    return {\"code\": \"OK\", \"status\": \"accept\"}\n\nfor e in (None, \"18\", -1, 15, 30):\n    print(e, validate_edad(e))\n",
+      "justification_from_packet": "En la lección, «Distinguir truthiness de presencia semántica y predecir shor» aclara: Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son . Completé S03-T2-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "code": "def validate_monto_nested(m):\n    # guards lineales (misma semántica que pirámide anidada)\n    if m is None:\n        return \"review\"\n    if not isinstance(m, (int, float)):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m > 1_000_000:\n        return \"review\"\n    return \"accept\"\n\nfor m in (None, \"x\", -5, 10, 2_000_000):\n    print(m, validate_monto_nested(m))\n",
+      "justification_from_packet": "Tras leer «Redactar mensajes accionables y cubrir cada rama con un caso» (La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se ev), resolví S03-T2-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "code": "x = 5\n# rama muerta: elif x > 3 nunca se alcanza si if x > 0 va primero con return\nprint(\"elif muerto: 'x > 3' si se escribe después de if x > 0 con return\")\n\ndef fixed(x):\n    if x > 3:\n        return \"gt3\"\n    elif x > 0:\n        return \"gt0\"\n    else:\n        return \"other\"\n\nprint(fixed(5), fixed(2), fixed(0))\n",
+      "justification_from_packet": "El paquete L2 en «Invariantes: promesas que el dato debe cumplir» sostiene: Una **guard clause** (salida temprana) valida precondiciones y **retorna de inme. S03-T2-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"reject\"\n    return \"accept\"\n\nfor r in (None, \"Lima\", \"Tacna\"):\n    print(r, check_region(r))\n",
+      "justification_from_packet": "Revisé la teoría «Distinguir truthiness de presencia semántica y predecir shor» del paquete: Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGIONES = {\"Lim. En S03-T3-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "code": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in (None, -1, 0, 100, 60000):\n    print(m, monto_ingreso(m))\n",
+      "justification_from_packet": "El heading «Distinguir truthiness de presencia semántica y predecir shor» dice en sustancia: Una **decision table** es una tabla de negocio: filas de condiciones → acción. P. Por eso en S03-T3-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "code": "TIPOS = {\"DNI\", \"CE\", \"PAS\"}\nLENS = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef validar_doc(tipo, numero):\n    if tipo is None or numero is None:\n        return {\"status\": \"review\", \"reason\": \"missing\"}\n    if tipo not in TIPOS:\n        return {\"status\": \"reject\", \"reason\": \"tipo\"}\n    if len(str(numero)) != LENS[tipo]:\n        return {\"status\": \"reject\", \"reason\": \"longitud\"}\n    return {\"status\": \"accept\", \"reason\": \"ok\"}\n\nprint(validar_doc(\"DNI\", \"12345678\"))\nprint(validar_doc(\"DNI\", \"123\"))\nprint(validar_doc(\"RUC\", \"12345678901\"))\n",
+      "justification_from_packet": "Anclé S03-T3-A-E3 en «Qué es verdadero en un if (y qué no es “ausente”)»: Un **invariante** de campo es una promesa en español: “`contacto` es un str de 9. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "code": "tabla = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\nfor codigo, status in tabla.items():\n    print(codigo, \"->\", status)\n",
+      "justification_from_packet": "En la lección, «Enunciar invariantes de campo con ejemplos accept/reject/rev» aclara: Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperad. Completé S03-T3-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "code": "def status_for(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NO_MATCH\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in (\"OK\", \"MISSING\", \"NEEDS_REVIEW\", \"OUT_OF_RANGE\", \"NO_MATCH\", \"X\"):\n    print(c, status_for(c))\n",
+      "justification_from_packet": "Tras leer «Una **decision table** es una tabla de negocio: filas de con» (Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, ), resolví S03-T3-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "code": "def by_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NO_MATCH\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef by_if_edad(edad: int) -> str:\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"codes\", [by_match(c) for c in (\"OK\", \"MISSING\", \"OUT_OF_RANGE\")])\nprint(\"edad\", by_if_edad(30), by_if_edad(10))\n",
+      "justification_from_packet": "El paquete L2 en «Implementar rangos y allowlists combinados para reglas de do» sostiene: Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son . S03-T3-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "code": "examples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": 15, \"expected\": \"reject\"},\n    {\"value\": 200, \"expected\": \"review\"},\n    {\"value\": None, \"expected\": \"missing\"},\n]\nfor ex in examples:\n    print(ex)\n",
+      "justification_from_packet": "Revisé la teoría «Qué es verdadero en un if (y qué no es “ausente”)» del paquete: La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se ev. En S03-T4-A-E1 apliqué eso al starter.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "code": "def check_apellidos(paterno, materno):\n    p = (paterno or \"\").strip()\n    m = (materno or \"\").strip()\n    if not p or not m:\n        return \"reject\"\n    return \"accept\"\n\nprint(check_apellidos(\"Quispe\", \"Ñahui\"))\nprint(check_apellidos(\"  \", \"Ñahui\"))\n",
+      "justification_from_packet": "El heading «Escribir if/elif/else que clasifiquen un campo en una sola r» dice en sustancia: Una **guard clause** (salida temprana) valida precondiciones y **retorna de inme. Por eso en S03-T4-A-E2 implementé el contrato sin inventar APIs.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "code": "# Contraejemplo: edad=18 con regla estricta edad > 18 se rechaza injustamente\n# Corrección: 18 <= edad <= 65\n\ndef regla_mala(edad):\n    return \"accept\" if edad > 18 and edad <= 65 else \"reject\"\n\ndef regla_buena(edad):\n    return \"accept\" if 18 <= edad <= 65 else \"reject\"\n\nprint(\"edad=18 mala\", regla_mala(18), \"buena\", regla_buena(18))\n",
+      "justification_from_packet": "Anclé S03-T4-A-E3 en «Python evalúa la **truthiness** de un valor en `if`, `while`»: Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGIONES = {\"Lim. La instruction del quiz_card pide lo mismo con el fixture del lab.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "code": "msgs = {\n    \"Error\": \"campo=edad problema=ausente acción=completar edad en años\",\n    \"inválido\": \"campo=monto problema=formato no numérico acción=usar 12.34\",\n    \"bad age\": \"campo=edad problema=fuera de 18-65 acción=revisar documento\",\n}\nfor k, v in msgs.items():\n    print(k, \"->\", v)\n",
+      "justification_from_packet": "En la lección, «Un mensaje accionable nombra el **campo**, el **problema** y» aclara: Una **decision table** es una tabla de negocio: filas de condiciones → acción. P. Completé S03-T4-B-E1 siguiendo instruction+hints del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "code": "def classify_score(s):\n    if s >= 80:\n        return \"accept\"\n    elif s >= 50:\n        return \"review\"\n    return \"reject\"\n\ncases = [\n    {\"input\": 90, \"expected\": \"accept\"},\n    {\"input\": 60, \"expected\": \"review\"},\n    {\"input\": 10, \"expected\": \"reject\"},\n]\nfor c in cases:\n    got = classify_score(c[\"input\"])\n    print(c, \"got\", got, \"ok\", got == c[\"expected\"])\n",
+      "justification_from_packet": "Tras leer «Reglas de dominio: rangos y listas permitidas» (Un **invariante** de campo es una promesa en español: “`contacto` es un str de 9), resolví S03-T4-B-E2 con el código del starter corregido según el oráculo del material.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "code": "def edad_ok(edad):\n    # test rojo: > 18 fallaba en 18; arreglado a >= 18\n    return 18 <= edad <= 65\n\nsuite = [(18, True), (17, False), (65, True), (66, False)]\nfor edad, exp in suite:\n    assert edad_ok(edad) is exp, (edad, exp)\n    print(edad, edad_ok(edad))\nprint(\"suite pass\")\n",
+      "justification_from_packet": "El paquete L2 en «Tablas de decisión y match/case» sostiene: Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperad. S03-T4-B-E3 queda alineado a esa lectura y a los tests del checklist.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Descarté distractores y me quedo con «if campo is None:». La teoría («Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `») y el enunciado «¿Cuál es la forma correcta de chequear ausencia de un campo » coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Descarté distractores y me quedo con «Se ejecuta esa rama y se omiten las siguientes». La teoría («Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y ») y el enunciado «En una cadena if/elif/else, ¿qué ocurre cuando la primera co» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Descarté distractores y me quedo con «\"default\"». La teoría («La forma canónica de una decisión exclusiva es **`if` / `elif` / `else») y el enunciado «¿Qué devuelve la expresión `\"\" or \"default\"` en Python?» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Descarté distractores y me quedo con «Un set de literales y el operador in». La teoría («Una **guard clause** (salida temprana) valida precondiciones y **retor») y el enunciado «Una allowlist de tipos de documento se implementa mejor como» coinciden.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Descarté distractores y me quedo con «Cuando el sujeto es un literal/estado finito (códigos) y hay case _». La teoría («Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGION») y el enunciado «¿Cuándo aporta más claridad `match/case` que `if` en un moto»…",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T18:37:01.747897+00:00",
+  "session_started_at": "2026-07-23T18:37:01.746525+00:00",
+  "session_ended_at": "2026-07-23T18:37:36.646525+00:00",
+  "receipt_response_sha256": "70a396b4d0be233198e497b39b3bddc9d050ce0b4a7bd2892d390b1cafc7d2b0",
+  "receipt_exercises_sha256": "b517f52cd1a73b47e2bcd4424f7b5b9b7196b12403f24ed26748fff3068bc9aa",
+  "receipt_selfcheck_sha256": "98ffd4c53b7734692f1ad328ae47754a9396c81f1c700600d3e8464a1e4461a6"
+}

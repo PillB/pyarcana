@@ -1,0 +1,324 @@
+{
+  "version": "3.2",
+  "section": "S34",
+  "section_id": "cv-ai-integration",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S31-S39-P4",
+  "generated_at": "2026-07-20T08:26:33Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget cv-ai-integration section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s34-cv-ai-integration.ts",
+      "course-state/s34_phase4_progress.json",
+      "course-state/lanes/LANE-S31-S39-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "cv-ai-integration",
+    "index": 34,
+    "title": "Métricas, desbalance, calibración y umbrales",
+    "shortTitle": "Métricas y umbrales",
+    "tagline": "Relationship Investigation Workbench: grafo + evidencia con ranking calibrado para revisión; no etiqueta fraude automáticamente",
+    "estimatedHours": 14,
+    "learningOutcomes": 8,
+    "youDo": "Relationship Investigation Workbench (cierre CP-N3-B)",
+    "icon": "Gauge",
+    "legacy_note": "cv-ai-integration retargeted to CP-N3-B close metrics/workbench",
+    "capstone": "CP-N3-B (cierre)"
+  },
+  "subtopics_authored": {
+    "S34-T1-A": {
+      "slug": "confusion-pr-f-prauc",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S34-T1-A-DEMO",
+      "exercises": [
+        "S34-T1-A-E1",
+        "S34-T1-A-E2",
+        "S34-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S34-T1-B": {
+      "slug": "topk-review-load",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S34-T1-B-DEMO",
+      "exercises": [
+        "S34-T1-B-E1",
+        "S34-T1-B-E2",
+        "S34-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S34-T2-A": {
+      "slug": "class-weights-resampling-cv",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S34-T2-A-DEMO",
+      "exercises": [
+        "S34-T2-A-E1",
+        "S34-T2-A-E2",
+        "S34-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S34-T2-B": {
+      "slug": "prevalence-misleading-metrics",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S34-T2-B-DEMO",
+      "exercises": [
+        "S34-T2-B-E1",
+        "S34-T2-B-E2",
+        "S34-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S34-T3-A": {
+      "slug": "reliability-brier",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S34-T3-A-DEMO",
+      "exercises": [
+        "S34-T3-A-E1",
+        "S34-T3-A-E2",
+        "S34-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S34-T3-B": {
+      "slug": "calibrators-oos",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S34-T3-B-DEMO",
+      "exercises": [
+        "S34-T3-B-E1",
+        "S34-T3-B-E2",
+        "S34-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S34-T4-A": {
+      "slug": "threshold-cost-capacity",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S34-T4-A-DEMO",
+      "exercises": [
+        "S34-T4-A-E1",
+        "S34-T4-A-E2",
+        "S34-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S34-T4-B": {
+      "slug": "abstention-slices-sensitivity",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S34-T4-B-DEMO",
+      "exercises": [
+        "S34-T4-B-E1",
+        "S34-T4-B-E2",
+        "S34-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Relationship Investigation Workbench (cierre CP-N3-B)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S34-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S34-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "ER/matching y scores no implican fraude, parentesco ni colusión. Solo decide 'misma entidad' cuando aplique.",
+  "capstone_gate": "CP-N3-B",
+  "gate_role": "CLOSE",
+  "cp_n3_b": "AUTHORED_NOT_PASSED"
+}

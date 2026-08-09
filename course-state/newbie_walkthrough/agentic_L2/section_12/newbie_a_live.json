@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s12-1a0d65bed339",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "code": "store = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\n\ndef get_entity(store, entity_id):\n    if entity_id in store:\n        return 200, store[entity_id]\n    return 404, {\"error\": \"not_found\"}\n\nprint(get_entity(store, \"C001\"))\nprint(get_entity(store, \"C999\"))\n",
+      "justification_from_packet": "Como explorer aplico «Evaluar calidad de coordenadas, Haversine y cache bajo política de pro». En S12-T1-A-E1 resolví: Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Timeout, paginación, retry/backoff y rate limit» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "code": "def parse_entity(payload):\n    if not isinstance(payload, dict):\n        raise ValueError(\"payload\")\n    if \"id\" not in payload or \"region\" not in payload:\n        raise ValueError(\"missing keys\")\n    return {\"id\": payload[\"id\"], \"region\": payload[\"region\"]}\n\nprint(parse_entity({\"id\": \"C001\", \"region\": \"Lima\", \"extra\": 1}))\n",
+      "justification_from_packet": "Como explorer aplico «Autenticación **Bearer** o basic lee el token de **variable de entorno». En S12-T1-A-E2 resolví: Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload). Me guié también por «Esquema, CRUD y joins» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "code": "STATUS_ACTION = {\n    200: \"use_body\",\n    404: \"missing\",\n    429: \"retry\",\n    500: \"retry\",\n    400: \"fix_client\",\n}\nfor s in [200, 404, 429, 400, 500]:\n    print(s, STATUS_ACTION[s])\n",
+      "justification_from_packet": "Como explorer aplico «Esquema, CRUD y joins». En S12-T1-A-E3 resolví: Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 5. Me guié también por «Usa placeholders `?` (o `:name`). **Prohibido** armar SQL co» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "code": "def fetch(timeout_s, cost_s):\n    try:\n        if cost_s > timeout_s:\n            raise TimeoutError(\"timeout\")\n        return \"ok\"\n    except TimeoutError:\n        return \"timeout\"\n\nprint(fetch(2, 1), \"|\", fetch(1, 3))\n",
+      "justification_from_packet": "Como explorer aplico «Implementar timeout obligatorio, paginación y retry/backoff solo en er». En S12-T1-B-E1 resolví: Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Diseñar esquema SQLite mínimo y ejecutar CRUD + join…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "code": "def collect_all(api):\n    page = 1\n    out = []\n    while True:\n        data = api(page)\n        out.extend(data[\"items\"])\n        if data.get(\"next\") is None:\n            break\n        page = data[\"next\"]\n    return out\n\ndef api(page):\n    if page == 1:\n        return {\"items\": [\"a\", \"b\"], \"next\": 2}\n    return {\"items\": [\"c\"], \"next\": None}\n\nprint(collect_all(api))\n",
+      "justification_from_packet": "Como explorer aplico «Normaliza direcciones sintéticas: trim, colapsa espacios, title-case l». En S12-T1-B-E2 resolví: Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Consumir APIs HTTP síncronas, interpretar status y…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "code": "def should_retry(status):\n    return status in (429, 503)\n\nfor s in (400, 404, 429, 503, 200):\n    print(s, should_retry(s))\n",
+      "justification_from_packet": "Como explorer aplico «Autenticar con secretos fuera de código, cachear GET seguros y registr». En S12-T1-B-E3 resolví: Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Usar queries parametrizadas, transacciones,…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "code": "def require_token(env):\n    tok = env.get(\"API_TOKEN\")\n    if not tok:\n        raise ValueError(\"API_TOKEN missing\")\n    return tok\n\nprint(require_token({\"API_TOKEN\": \"abc\"}))\ntry:\n    require_token({})\nexcept ValueError as e:\n    print(e)\n",
+      "justification_from_packet": "Como explorer aplico «requests/responses, status y JSON». En S12-T2-A-E1 resolví: Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «**Timeout** acota la espera por request. **Paginación** (`pa» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "code": "class Cache:\n    def __init__(self):\n        self._d = {}\n    def get(self, url):\n        if url in self._d:\n            return self._d[url], True\n        return None, False\n    def set(self, url, body):\n        self._d[url] = body\n\nc = Cache()\nc.set(\"u\", {\"ok\": True})\nprint(c.get(\"u\"), \"|\", c.get(\"v\"))\n",
+      "justification_from_packet": "Como explorer aplico «Autenticación **Bearer** o basic lee el token de **variable de entorno». En S12-T2-A-E2 resolví: Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Esquema, CRUD y joins» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "code": "def min_provenance(url, status, cache_hit):\n    return {\n        \"source_url\": url,\n        \"fetched_at\": \"2026-07-20T00:00:00Z\",\n        \"status_code\": status,\n        \"cache_hit\": cache_hit,\n    }\n\nprint(min_provenance(\"https://example.com\", 200, False))\n",
+      "justification_from_packet": "Como explorer aplico «**Timeout** acota la espera por request. **Paginación** (`page` o `cur». En S12-T2-A-E3 resolví: `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_a. Me guié también por «Contract tests y fallback» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "code": "def assert_keys(payload, required):\n    missing = sorted(k for k in required if k not in payload)\n    if missing:\n        raise AssertionError(f\"missing keys: {missing}\")\n    print(\"ok\")\n\nassert_keys({\"lat\": 1, \"lon\": 2}, [\"lat\", \"lon\"])\ntry:\n    assert_keys({\"lat\": 1}, [\"lat\", \"lon\"])\nexcept AssertionError as e:\n    print(e)\n",
+      "justification_from_packet": "Como explorer aplico «Esquema, CRUD y joins». En S12-T2-B-E1 resolví: Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Usa placeholders `?` (o `:name`). **Prohibido** armar SQL co» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "code": "def fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return local_body, \"offline\"\n    if status == 200:\n        return {\"online\": True}, \"live\"\n    return None, \"error\"\n\nprint(fetch_with_fallback(500, {\"local\": 1}))\nprint(fetch_with_fallback(200, {\"local\": 1}))\n",
+      "justification_from_packet": "Como explorer aplico «Autenticación **Bearer** o basic lee el token de **variable de entorno». En S12-T2-B-E2 resolví: `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, . Me guié también por «Esquema, CRUD y joins» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "code": "matrix = {\n    (\"online\", True): \"live_api\",\n    (\"online\", False): \"local_file\",\n}\nprint(\"True\", matrix[(\"online\", True)], \"|\", \"False\", matrix[(\"online\", False)])\n",
+      "justification_from_packet": "Como explorer aplico «Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock». En S12-T2-B-E3 resolví: Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Un cliente HTTP síncrono hace **GET/POST**, recibe un…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)\")\ncon.execute(\"INSERT INTO evidence VALUES ('E1','C001','geo')\")\nprint(con.execute(\"SELECT kind FROM evidence WHERE id='E1'\").fetchone()[0])\ncon.close()\n",
+      "justification_from_packet": "Como explorer aplico «Autenticación **Bearer** o basic lee el token de **variable de entorno». En S12-T3-A-E1 resolví: En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT . Me guié también por «Esquema, CRUD y joins» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\ncon.execute(\"UPDATE clients SET name='Ana Q' WHERE id='C001'\")\nprint(con.execute(\"SELECT name FROM clients WHERE id='C001'\").fetchone()[0])\ncon.execute(\"DELETE FROM clients WHERE id='C001'\")\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\n",
+      "justification_from_packet": "Como explorer aplico «Evaluar calidad de coordenadas, Haversine y cache bajo política de pro». En S12-T3-A-E2 resolví: Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Timeout, paginación, retry/backoff y rate limit» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\nsql = (\n\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);\"\n\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\"\n\"INSERT INTO clients VALUES ('C001','Ana');\"\n\"INSERT INTO evidence VALUES ('E1','C001','geo');\"\n\"INSERT INTO evidence VALUES ('E2','C001','tx');\"\n)\ncon.executescript(sql)\nrows = con.execute(\n    \"SELECT e.kind FROM evidence e JOIN clients c ON c.id=e.entity_id WHERE c.id=? ORDER BY e.kind\",\n    (\"C001\",),\n).fetchall()\nprint([r[0] for r in rows])\ncon.close()\n",
+      "justification_from_packet": "Como explorer aplico «Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidenc». En S12-T3-A-E3 resolví: Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Evaluar calidad de coordenadas, Haversine y cache bajo…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\nevil = \"C001' OR '1'='1\"\n# seguro:\nrow = con.execute(\"SELECT name FROM clients WHERE id=?\", (evil,)).fetchone()\nprint(row)\ncon.close()\n",
+      "justification_from_packet": "Como explorer aplico «Implementar timeout obligatorio, paginación y retry/backoff solo en er». En S12-T3-B-E1 resolví: Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Diseñar esquema SQLite mínimo y ejecutar CRUD + join…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ntry:\n    with con:\n        con.execute(\"INSERT INTO clients VALUES ('C001')\")\n        con.execute(\"INSERT INTO clients VALUES ('C001')\")  # fail -> rollback batch\nexcept sqlite3.IntegrityError:\n    pass\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\n",
+      "justification_from_packet": "Como explorer aplico «Autenticar con secretos fuera de código, cachear GET seguros y registr». En S12-T3-B-E2 resolví: Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar . Me guié también por «Usar queries parametrizadas, transacciones,…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)\")\ncon.execute(\"CREATE INDEX idx_document_id ON clients(document_id)\")\nidx = [r[1] for r in con.execute(\"PRAGMA index_list('clients')\").fetchall()]\nprint(idx)\ncon.close()\n",
+      "justification_from_packet": "Como explorer aplico «Usar queries parametrizadas, transacciones, constraints e índices; pro». En S12-T3-B-E3 resolví: Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «requests/responses, status y JSON» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "code": "import re\n\ndef normalize_address(s: str) -> str:\n    return re.sub(r\"\\s+\", \" \", s.strip())\n\nprint(repr(normalize_address('  Jr.  de  la  Unión  100 ')))\n",
+      "justification_from_packet": "Como explorer aplico «Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-string». En S12-T4-A-E1 resolví: Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Calidad de coordenada, Haversine, caching y política»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "code": "class MockGeocoder:\n    def geocode(self, city):\n        data = {\"Lima\": {\"lat\": -12.0464, \"lon\": -77.0428}}\n        return data.get(city)\n\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"lat\"], \"|\", g.geocode(\"Arequipa\"))\n",
+      "justification_from_packet": "Como explorer aplico «Contract tests y fallback». En S12-T4-A-E2 resolví: Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «SQLite vía `sqlite3` basta para el almacén local de CP-N1-C:» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "code": "def allowed_for_public_geocoder(payload: dict) -> bool:\n    banned = {\"document_id\", \"bank_account\", \"password\", \"api_token\"}\n    if banned & set(payload):\n        return False\n    return set(payload).issubset({\"address\", \"city\", \"country\", \"lat\", \"lon\"})\n\nprint(allowed_for_public_geocoder({\"city\": \"Lima\"}))\nprint(allowed_for_public_geocoder({\"document_id\": \"X\", \"city\": \"Lima\"}))\n",
+      "justification_from_packet": "Como explorer aplico «Autenticar con secretos fuera de código, cachear GET seguros y registr». En S12-T4-A-E3 resolví: Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload). Me guié también por «Usar queries parametrizadas, transacciones,…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "code": "def valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\n\nfor pair in [(0, 0), (91, 0), (0, 181), (-12.04, -77.04)]:\n    print(pair, valid_lat_lon(*pair))\n",
+      "justification_from_packet": "Como explorer aplico «Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-string». En S12-T4-B-E1 resolví: Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Calidad de coordenada, Haversine, caching y política»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "code": "from math import radians, sin, cos, sqrt, atan2\n\ndef haversine_km(lat1, lon1, lat2, lon2):\n    r = 6371.0\n    p1, p2 = radians(lat1), radians(lat2)\n    dp = radians(lat2 - lat1)\n    dl = radians(lon2 - lon1)\n    a = sin(dp / 2) ** 2 + cos(p1) * cos(p2) * sin(dl / 2) ** 2\n    return 2 * r * atan2(sqrt(a), sqrt(1 - a))\n\nd = haversine_km(0, 0, 0, 1)\nprint(round(d, 2), \"|\", \"tolerance_ok\" if abs(d - 111.19) < 1 else \"fail\")\n",
+      "justification_from_packet": "Como explorer aplico «Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock». En S12-T4-B-E2 resolví: Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Un cliente HTTP síncrono hace **GET/POST**, recibe un…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "code": "def as_relationship_signal(km):\n    return {\"type\": \"geo_distance_km\", \"value\": km, \"kinship_verdict\": None}\n\nprint(as_relationship_signal(1.2))\n",
+      "justification_from_packet": "Como explorer aplico «Evaluar calidad de coordenadas, Haversine y cache bajo política de pro». En S12-T4-B-E3 resolví: Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintéti. Me guié también por «Timeout, paginación, retry/backoff y rate limit» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «Tratarse como error de cliente (no retry ciego)» porque el paquete en «requests/responses, status y JSON» lo sostiene. Pregunta: Un 400 Bad Request del proveedor debe….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «En variable de entorno / secret store» porque el paquete en «Timeout, paginación, retry/backoff y rate limit» lo sostiene. Pregunta: ¿Dónde debe vivir el token de API?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «Inyección / inseguro; usar placeholders `?`» porque el paquete en «Auth, secretos, cache y provenance» lo sostiene. Pregunta: SQL con f-string e input de usuario es….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Viola la política de egress de CP-N1-C» porque el paquete en «Contract tests y fallback» lo sostiene. Pregunta: Enviar document_id bancario a un geocoder público….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «Una geoseñal de relación, no un veredicto» porque el paquete en «Esquema, CRUD y joins» lo sostiene. Pregunta: 1.2 km entre dos entidades sintéticas implica….",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:25:08.969981+00:00",
+  "session_started_at": "2026-07-23T17:42:13.979509Z",
+  "session_ended_at": "2026-07-23T17:43:03.463538Z",
+  "receipt_response_sha256": "93901bf5aceae9aa223410dc7a48b2a0550634eaec553995b4f2284c004dd646",
+  "receipt_exercises_sha256": "5e8133a37780b59e8f4bd61be36afd8b6e616133adcd9db036d1300232ddb10a",
+  "receipt_selfcheck_sha256": "2995a763866577b92772995a8f5dba8af361d9cfa32376e9915052444720574d"
+}

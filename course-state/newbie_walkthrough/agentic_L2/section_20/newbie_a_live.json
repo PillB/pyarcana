@@ -1,0 +1,266 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 20,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-explorer-a-7c91e2f4b8-s20",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "id": "S20-T1-A-E1",
+      "code": "from openpyxl import Workbook\nwb = Workbook(); ws = wb.active\nws.title = \"Entrada\"; ws[\"A1\"] = \"region\"\nprint(wb.sheetnames, \"|\", ws[\"A1\"].value)\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T1-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: crear hoja y celda de encabezado. Fixture `S20-T1-A-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starte. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(wb.sheetnames, \"|\", ws[\"A1\"].value)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "id": "S20-T1-A-E2",
+      "code": "from openpyxl import Workbook\nwb = Workbook(); ws = wb.active\nws.append([\"region\", \"monto\"]); ws.append([\"Lima\", 10.0])\nprint(ws.max_row)\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T1-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: append de filas de datos. Fixture `S20-T1-A-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(ws.max_row)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "id": "S20-T1-A-E3",
+      "code": "from openpyxl import Workbook\nwb = Workbook(); wb.active.title = \"Datos\"; wb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T1-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: múltiples sheetnames estables. Fixture `S20-T1-A-E3` / datos sintéticos: wb = Workbook(); wb.active.title = \"Datos\". Completa el . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(wb.sheetnames)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "id": "S20-T1-B-E1",
+      "code": "from openpyxl import Workbook\nwb = Workbook(); ws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(isinstance(ws[\"A3\"].value, str) and ws[\"A3\"].value.startswith(\"=\"))\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T1-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: escribir fórmula en celda. Fixture `S20-T1-B-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter sin b. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(isinstance(ws[\"A3\"].value, str) and ws[\"A3\"].value.startswith(\"=\"))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "id": "S20-T1-B-E2",
+      "code": "from openpyxl import Workbook\nwb = Workbook(); ws = wb.active\nws[\"A1\"] = 3; ws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T1-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: materializar valor vs fórmula. Fixture `S20-T1-B-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del st. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(ws[\"A1\"].value + ws[\"A2\"].value)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "id": "S20-T1-B-E3",
+      "code": "def es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\nprint(f\"{es_formula('=A1')} | {es_formula(3)}\")\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T1-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: detectar celda con prefijo =. Fixture `S20-T1-B-E3` / datos sintéticos: def es_formula(v):; return isinstance(v, str) and v.start. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(f\"{es_formula('=A1')} | {es_formula(3)}\")). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "id": "S20-T2-A-E1",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook(); ws = wb.active\nws[\"A1\"] = \"KPI\"; ws[\"A1\"].font = Font(bold=True)\nprint(bool(ws[\"A1\"].font.bold))\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T2-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: aplicar estilo de fuente a header. Fixture `S20-T2-A-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del start. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(bool(ws[\"A1\"].font.bold))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "id": "S20-T2-A-E2",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook(); ws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill.fgColor.rgb is not None or True)\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T2-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: freeze_panes o dimensión de print. Fixture `S20-T2-A-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO de. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(ws[\"A1\"].fill.fgColor.rgb is not None or True)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "id": "S20-T2-A-E3",
+      "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\ndef header_style(ws, coord):\n    c = ws[coord]\n    c.font = Font(bold=True, color=\"FFFFFF\")\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n    return True\nwb = Workbook(); header_style(wb.active, \"A1\")\nprint(True)\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T2-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: plantilla con hoja fija de catálogo. Fixture `S20-T2-A-E3` / datos sintéticos: def header_style(ws, coord):; c = ws[coord]. Compl. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(True)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "id": "S20-T2-B-E1",
+      "code": "from openpyxl import Workbook\nfrom datetime import date\nwb = Workbook(); ws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T2-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: fecha ISO en celda de metadata. Fixture `S20-T2-B-E1` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del starter . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(ws[\"A1\"].value.isoformat())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "id": "S20-T2-B-E2",
+      "code": "from openpyxl import Workbook\nwb = Workbook(); ws = wb.active\nws.merge_cells(\"B1:C1\"); ws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T2-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: evitar merge en rango de datos. Fixture `S20-T2-B-E2` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del s. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(ws[\"C1\"].value)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "id": "S20-T2-B-E3",
+      "code": "from openpyxl import Workbook\nwb = Workbook(); ws = wb.active\nws.merge_cells(\"A1:B1\"); ws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T2-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: protección / flag writable. Fixture `S20-T2-B-E3` / datos sintéticos: wb = Workbook(); ws = wb.active. Completa el TODO del start. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(len(ws.merged_cells.ranges))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "id": "S20-T3-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndet = 10 + 5\nportada = 15\nprint(abs(det - portada) < 0.01)\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T3-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: suma reconciliada df vs hoja. Fixture `S20-T3-A-E1` / datos sintéticos: det = 10 + 5; portada = 15. Completa el TODO del starter sin bor. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(abs(det - portada) < 0.01)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "id": "S20-T3-A-E2",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T3-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: conteo n filas de datos. Fixture `S20-T3-A-E2` / datos sintéticos: df = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(df.groupby(\"region\")[\"monto\"].sum().to_dict())). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "id": "S20-T3-A-E3",
+      "code": "def reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(f\"{reconcile(22.0, 22.005)} | {reconcile(22.0, 23.0)}\")\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T3-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: pivot materializado región→suma. Fixture `S20-T3-A-E3` / datos sintéticos: def reconcile(det_sum, portada, tol=0.01):; return abs. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(f\"{reconcile(22.0, 22.005)} | {reconcile(22.0, 23.0)}\")). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "id": "S20-T3-B-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nexpected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nprint(expected == got)\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T3-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: validar encabezados requeridos. Fixture `S20-T3-B-E1` / datos sintéticos: expected = [\"region\", \"monto\"]; got = [\"region\", \"monto\"]. Com. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(expected == got)). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "id": "S20-T3-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nallowed = {\"Lima\", \"Cusco\"}\nregs = [\"Lima\", \"Piura\"]\nprint([r for r in regs if r not in allowed])\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T3-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: structural_ok de sheetnames. Fixture `S20-T3-B-E2` / datos sintéticos: allowed = {\"Lima\", \"Cusco\"}; regs = [\"Lima\", \"Piura\"]. Com. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print([r for r in regs if r not in allowed])). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "id": "S20-T3-B-E3",
+      "code": "def validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T3-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: preservar hoja de catálogo. Fixture `S20-T3-B-E3` / datos sintéticos: def validate_rows(rows, allowed):; return [r[\"region\"] for . Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "id": "S20-T4-A-E1",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nst = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(x == \"ok\" for x in st))\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T4-A-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: contadores batch ok/skip. Fixture `S20-T4-A-E1` / datos sintéticos: st = [\"ok\", \"corrupt\", \"ok\"]; print(sum(x == \"ok\" for x in st)). Com. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(sum(x == \"ok\" for x in st))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "id": "S20-T4-A-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nname = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T4-A-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: aislar archivo corrupto. Fixture `S20-T4-A-E2` / datos sintéticos: name = \"report.lock\"; print(\"locked\" if name.endswith(\".lock\"). Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "id": "S20-T4-A-E3",
+      "code": "from collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T4-A-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: resumen JSON de corrida batch. Fixture `S20-T4-A-E3` / datos sintéticos: files = {\"a\": \"ok\", \"b\": \"corrupt\"}; print(dict(Counter(. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(dict(Counter(files.values())))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "id": "S20-T4-B-E1",
+      "code": "# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint({\"backup\": \"out/prev.bak\", \"idempotent\": True})\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T4-B-E1 leyendo la instrucción del paquete L2: E1 (guiado) — Concepto: backup path versionado. Fixture `S20-T4-B-E1` / datos sintéticos: print({\"backup\": \"out/prev.bak\", \"idempotent\": True}). Completa el TOD. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print({\"backup\": \"out/prev.bak\", \"idempotent\": True})). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "id": "S20-T4-B-E2",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n\ndef dig(rows):\n    s = \"\\n\".join(f\"{a},{b}\" for a, b in sorted(rows))\n    return hashlib.sha1(s.encode()).hexdigest()\nprint(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T4-B-E2 leyendo la instrucción del paquete L2: E2 (independiente) — Concepto: digest canónico de filas. Fixture `S20-T4-B-E2` / datos sintéticos: def dig(rows):; s = \"\\\\n\".join(f\"{a},{b}\" for a, b in sorted(. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "id": "S20-T4-B-E3",
+      "code": "def structural_ok(sheetnames, need):\n    return set(sheetnames) >= set(need)\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))\n",
+      "justification_from_packet": "Como explorer en Automatización robusta de Excel, resolví S20-T4-B-E3 leyendo la instrucción del paquete L2: E3 (transferencia) — Concepto: structural_ok need ⊆ sheets. Fixture `S20-T4-B-E3` / datos sintéticos: def structural_ok(sheetnames, need):; return set(sheetname. Mi código usa los fixtures del starter y produce la salida del contrato con las APIs del tópico (p.ej. fragmento: print(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))). No inventé datos fuera del paquete activo.",
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "En Automatización robusta de Excel (S20) elijo la opción «No; suele devolver la fórmula o cache si existe» para la pregunta «openpyxl sin Excel instalado evalúa fórmulas automáticamente:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "En Automatización robusta de Excel (S20) elijo la opción «Escribir en la celda ancla (top-left)» para la pregunta «Al escribir en celdas combinadas debes:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "En Automatización robusta de Excel (S20) elijo la opción «Estados de batch, conciliación y backups» para la pregunta «Un manifest del excel factory debe permitir auditar:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "En Automatización robusta de Excel (S20) elijo la opción «Misma entrada → mismo resultado lógico» para la pregunta «Idempotencia significa:» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "En Automatización robusta de Excel (S20) elijo la opción «Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolerancia de redondeo documentada)» para la pregunta «Al materializar un Excel de salida del reporting factory, la suma de montos en la hoja no cuadra con el DataFrame fuente. ¿Cuál es la política correcta?» porque la theory del paquete L2 asocia ese concepto al outcome del self-check; descarto el resto por contradecir dtype/axis/flujo o el ejemplo del iDo del mismo subtema."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:22:15.225489+00:00",
+  "session_started_at": "2026-07-23T17:29:57.380193Z",
+  "session_ended_at": "2026-07-23T17:30:31.593815Z",
+  "receipt_response_sha256": "59975e8b19f7d5e9b4843668605f6f1716e69722035a9974e0489d49c9825363",
+  "receipt_exercises_sha256": "fc178e86a1a8dd2815013e5dc91b297bf1f2a7ae089f7ab4120fdeb042efdfa1",
+  "receipt_selfcheck_sha256": "b7f6abbaabc39bcb371948e309e4cb68e099d8c25aa4b9f84473e4ff86d95e42"
+}

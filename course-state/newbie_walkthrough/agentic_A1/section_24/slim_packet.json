@@ -1,0 +1,914 @@
+{
+  "attempt_id": "agentic_A1",
+  "section_index": 24,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "El instructor modela el proceso completo"
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Resuelves con pistas progresivas"
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Proyecto autónomo con rúbrica"
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Autoevaluación y examen por sección"
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Alineado al mercado peruano 2025-2026"
+      },
+      {
+        "title": "Proyectos que pesan en entrevistas"
+      },
+      {
+        "title": "Basado en 4 libros + investigación"
+      },
+      {
+        "title": "100% autónomo"
+      }
+    ],
+    "brand": "PyArcana"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Setup & Entorno de Desarrollo",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "databases-orm",
+      "title": "Visualización y comunicación accesible",
+      "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+      "learningOutcomes": [
+        "Elegir charts por pregunta y audiencia",
+        "Diseñar ejes, escalas y encodings honestos",
+        "Producir figuras Matplotlib (estilo Seaborn opcional)",
+        "Anotar y exportar de forma reproducible",
+        "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+        "Proveer alternativas accesibles y cuidar performance",
+        "Documentar unidades, fuente y limitaciones",
+        "Aplicar contraste, alt text y no sobreclaim"
+      ]
+    },
+    {
+      "index": 20,
+      "id": "rag",
+      "title": "Automatización robusta de Excel",
+      "tagline": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+      "learningOutcomes": [
+        "Manipular sheets, celdas, tablas y named ranges",
+        "Distinguir fórmulas de valores cacheados",
+        "Aplicar estilos, charts y plantillas",
+        "Manejar fechas, locales, merged cells y protección",
+        "Conciliar totales y trabajar con pivots lógicos",
+        "Preservar estructura y validaciones",
+        "Operar batch con corruptos y locks",
+        "Garantizar backups, idempotencia y tests estructurales"
+      ]
+    },
+    {
+      "index": 21,
+      "id": "fastapi",
+      "title": "Documentos, plantillas y reportes trazables",
+      "tagline": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+      "learningOutcomes": [
+        "Separar datos y presentación con Jinja",
+        "Renderizar condiciones/tablas con formato seguro",
+        "Generar estructuras tipo DOCX/PDF con secciones",
+        "Distinguir PDF digital de imagen/OCR",
+        "Estructurar informe ejecutivo con método y hallazgos",
+        "Embeber gráficos/tablas con fuentes y limitaciones",
+        "Revisar redacción, a11y y consistencia numérica",
+        "Documentar provenance y flujo de aprobación"
+      ]
+    },
+    {
+      "index": 22,
+      "id": "rapidfuzz-entity",
+      "title": "Email, identidad y aprobación humana",
+      "tagline": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+      "learningOutcomes": [
+        "Construir mensajes MIME con encoding y attachments",
+        "Sanitizar templates HTML de correo",
+        "Configurar OAuth/service account con scopes mínimos",
+        "Crear drafts vía adaptadores con expiración",
+        "Resolver y verificar destinatarios",
+        "Aplicar privacidad y mínima divulgación en listas",
+        "Implementar approval queue y state machine",
+        "Garantizar idempotencia, audit log y reintentos seguros"
+      ]
+    },
+    {
+      "index": 23,
+      "id": "computer-vision",
+      "title": "Browser RPA con Playwright",
+      "tagline": "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente",
+      "learningOutcomes": [
+        "Usar locators orientados a usuario",
+        "Aplicar auto-waiting y assertions fiables",
+        "Automatizar formularios, uploads y downloads",
+        "Modelar auth y Page Objects",
+        "Diagnosticar con trace, screenshot y logs",
+        "Diseñar retries y recovery robustos",
+        "Priorizar API/export sobre RPA",
+        "Respetar ToS/CAPTCHA y handoff humano"
+      ]
+    }
+  ],
+  "active": {
+    "id": "rpa-advanced",
+    "index": 24,
+    "title": "OCR y Document AI",
+    "tagline": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
+    "jobRelevance": "El **document intake** de CP-N2-C convierte PDFs/imágenes sintéticas en campos con evidencia (bbox, confidence) y cola de revisión. Esta sección (id `rpa-advanced` conservado) retematiza a V3 **OCR y Document AI**. Abstenerse bajo confidence no es fallo: es control de calidad. Matching de campos no implica fraude.",
+    "learningOutcomes": [
+      "Preprocesar imágenes (DPI, deskew, crop, contraste)",
+      "Corregir ruido y orientación",
+      "Ejecutar OCR con idiomas, layout y confidence",
+      "Extraer texto, tablas y pares clave–valor",
+      "Normalizar a schema de extracción",
+      "Validar cross-field y encolar revisión",
+      "Evaluar exactitud por campo en golden set",
+      "Manejar privacidad, hostiles y fallback"
+    ],
+    "theory": [
+      {
+        "heading": "De “RPA avanzado” a OCR Document AI (intake CP-N2-C)",
+        "paragraphs": [
+          "En V3, **S24 no es orquestación RPA genérica**. Aquí haces **document intake**: preprocesar imagen, OCR con confidence, schema, validación y golden set sintético.",
+          "Todo documento es **sintético** (facturas demo, IDs fake). Conservas **bounding boxes** y te **abstienes** si confidence < umbral.",
+          "Orden: **T1 Imagen** → **T2 OCR** → **T3 Extracción** → **T4 Evaluación**. Coincidir campos no prueba fraude."
+        ],
+        "code": "def preprocess_meta(img):\n    # img: dict sintético\n    out = dict(img)\n    out[\"dpi\"] = max(img.get(\"dpi\", 72), 200)\n    ang = img.get(\"skew_deg\", 0.0)\n    out[\"skew_deg\"] = 0.0 if abs(ang) < 0.5 else 0.0  # deskew simulado\n    out[\"deskew_applied\"] = abs(ang) >= 0.5\n    # crop 2% margins\n    w, h = img[\"w\"], img[\"h\"]\n    out[\"crop_box\"] = (int(0.02*w), int(0.02*h), int(0.98*w), int(0.98*h))\n    out[\"contrast\"] = min(1.5, img.get(\"contrast\", 1.0) * 1.2)\n    return out\n\nmeta = preprocess_meta({\"w\": 1000, \"h\": 1400, \"dpi\": 96, \"skew_deg\": 1.8, \"contrast\": 1.0})\nprint(meta[\"dpi\"], meta[\"deskew_applied\"], meta[\"crop_box\"][0], round(meta[\"contrast\"], 2))",
+        "code_output": "200 True 20 1.2"
+      },
+      {
+        "heading": "DPI, deskew, crop y contraste",
+        "paragraphs": [
+          "**DPI** bajo degrada OCR. **Deskew** corrige inclinación; **crop** elimina márgenes; **contraste** ayuda a tinta débil.",
+          "Modelamos ops como transformaciones sobre metadatos de imagen sintética (ancho, ángulo, histograma).",
+          "Pipeline: load → dpi_check → deskew → crop → contrast → OCR."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "ruido y orientación",
+        "paragraphs": [
+          "Ruido (sal/pimienta, compresión) y **orientación** (0/90/180/270) rompen el layout.",
+          "Detecta orientación por señales (cabecera arriba, densidad de texto) o modelo; corrige antes de OCR.",
+          "Simulamos score de orientación y filtro de ruido binario."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "idiomas, layout y confidence",
+        "paragraphs": [
+          "Configura **idiomas** (spa+eng). El **layout** (bloques, columnas) guía la lectura.",
+          "Cada token/campo trae **confidence** 0–1. Umbral de abstención por campo crítico.",
+          "No promedies confidence a ciegas: un campo clave bajo tumba el auto-aceptar."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "texto, tablas y pares clave–valor",
+        "paragraphs": [
+          "Extrae **texto corrido**, **tablas** (filas/cols) y **KV** (RUC→valor) con bbox de evidencia.",
+          "Heurística KV: label a la izquierda, valor a la derecha en misma línea.",
+          "Tablas sintéticas como listas de listas."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "schema y normalización",
+        "paragraphs": [
+          "Un **schema** define campos, tipos y required. Normaliza monedas, fechas ISO y RUC a dígitos.",
+          "Output canónico: `{field, value, conf, bbox, source_doc_id}`.",
+          "Versión del schema en metadata del run."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "validación cross-field y cola de revisión",
+        "paragraphs": [
+          "**Cross-field**: total ≈ suma de líneas; fecha ≤ hoy; RUC checksum sintético opcional.",
+          "Falla de regla → `needs_review` con razones. El humano corrige; el bot no “adivina”.",
+          "Matching de proveedor por nombre similar **no** es veredicto de fraude."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "golden set sintético, exactitud por campo y cobertura",
+        "paragraphs": [
+          "El **golden set** tiene documentos sintéticos con labels. Mide **exactitud por campo** y **cobertura** (cuántos auto vs review).",
+          "Campo crítico (RUC, total) tiene SLO propio.",
+          "Nunca evalúes solo accuracy global: oculta fallas en campos caros."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "privacidad, archivos hostiles y fallback",
+        "paragraphs": [
+          "**Privacidad**: no subas PII real a APIs públicas; usa sintéticos o entornos aprobados.",
+          "**Hostiles**: zip bombs, PDF con JS, imágenes enormes → límites de tamaño y tipo MIME.",
+          "**Fallback**: si OCR falla, encola humano o pide re-scan; no completes campos con LLM sin evidencia."
+        ],
+        "code": "MAX_BYTES = 5_000_000\nALLOWED = {\"application/pdf\", \"image/png\", \"image/jpeg\"}\n\ndef gate_file(meta):\n    if meta[\"mime\"] not in ALLOWED:\n        return \"reject\", \"mime\"\n    if meta[\"n_bytes\"] > MAX_BYTES:\n        return \"reject\", \"size\"\n    if meta.get(\"encrypted\"):\n        return \"review\", \"encrypted\"\n    return \"ok\", \"pass\"\n\nprint(gate_file({\"mime\": \"image/png\", \"n_bytes\": 120_000}))\nprint(gate_file({\"mime\": \"application/zip\", \"n_bytes\": 10}))\nprint(gate_file({\"mime\": \"application/pdf\", \"n_bytes\": 9_000_000}))",
+        "code_output": "('ok', 'pass')\n('reject', 'mime')\n('reject', 'size')"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S24-T1-B-DEMO",
+          "description": "DPI/deskew/crop/contraste sobre meta sintética.",
+          "why": "Preproceso mejora OCR más que un modelo fancy.",
+          "code": "img={\"w\":800,\"h\":1000,\"dpi\":72,\"skew_deg\":2.0}\nimg[\"dpi\"]=max(img[\"dpi\"],200)\nimg[\"deskew\"]=abs(img[\"skew_deg\"])>=0.5\nprint(img[\"dpi\"], img[\"deskew\"])",
+          "language": "python",
+          "output": "200 True"
+        },
+        {
+          "demoId": "S24-T2-A-DEMO",
+          "description": "Corregir orientación por score máximo.",
+          "why": "Orientación incorrecta invalida el layout.",
+          "code": "scores={0:0.2,180:0.75,90:0.05}\nprint(max(scores, key=scores.get))",
+          "language": "python",
+          "output": "180"
+        },
+        {
+          "demoId": "S24-T2-B-DEMO",
+          "description": "OCR con confidence y filtro de bajos.",
+          "why": "Low conf → abstenerse.",
+          "code": "toks=[{\"t\":\"RUC\",\"c\":0.9},{\"t\":\"20X\",\"c\":0.55}]\nprint([t for t in toks if t[\"c\"]<0.85])",
+          "language": "python",
+          "output": "[{'t': '20X', 'c': 0.55}]"
+        },
+        {
+          "demoId": "S24-T3-A-DEMO",
+          "description": "Extraer KV desde líneas con dos puntos.",
+          "why": "KV con evidencia textual mínima.",
+          "code": "lines=[\"RUC: 20123456789\",\"Total: 10\"]\nkv={}\nfor ln in lines:\n    k,v=ln.split(\":\",1); kv[k.strip()]=v.strip()\nprint(kv)",
+          "language": "python",
+          "output": "{'RUC': '20123456789', 'Total': '10'}"
+        },
+        {
+          "demoId": "S24-T3-B-DEMO",
+          "description": "Normalizar RUC a 11 dígitos.",
+          "why": "Schema canónico evita basura aguas abajo.",
+          "code": "import re\ns=\"20.123456789\"\nd=re.sub(r\"\\D\",\"\",s)\nprint(d, len(d)==11)",
+          "language": "python",
+          "output": "20123456789 True"
+        },
+        {
+          "demoId": "S24-T4-A-DEMO",
+          "description": "Validación total vs suma de líneas.",
+          "why": "Cross-field manda a revisión, no etiqueta fraude.",
+          "code": "total, lines=150.0,[100.0,50.0]\nprint(\"ok\" if abs(sum(lines)-total)<1e-6 else \"needs_review\")",
+          "language": "python",
+          "output": "ok"
+        },
+        {
+          "demoId": "S24-T4-B-DEMO",
+          "description": "Exactitud por campo en golden sintético.",
+          "why": "Métricas por campo crítico.",
+          "code": "g=[{\"p\":\"A\",\"t\":\"A\"},{\"p\":\"B\",\"t\":\"A\"}]\nprint(sum(1 for r in g if r[\"p\"]==r[\"t\"])/len(g))",
+          "language": "python",
+          "output": "0.5"
+        },
+        {
+          "demoId": null,
+          "description": "Gate de mime/tamaño para archivos hostiles.",
+          "why": "Fallback y límites antes del OCR.",
+          "code": "meta={\"mime\":\"application/pdf\",\"n\":100}\nprint(\"ok\" if meta[\"mime\"]==\"application/pdf\" and meta[\"n\"]<5_000_000 else \"reject\")",
+          "language": "python",
+          "output": "ok"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S24-T1-A-E1",
+          "instruction": "Si dpi<200, súbelo a 200 e imprime.",
+          "hints": [
+            "max()",
+            "asignación"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "dpi=96\n# TODO\n"
+        },
+        {
+          "id": "S24-T1-A-E2",
+          "instruction": "deskew_applied = abs(skew)>=0.5 para skew=1.2 e imprime.",
+          "hints": [
+            "abs",
+            "boolean"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "skew=1.2\n# TODO\n"
+        },
+        {
+          "id": "S24-T1-A-E3",
+          "instruction": "Crop box 5% márgenes en w=1000,h=1000: imprime (x0,y0,x1,y1).",
+          "hints": [
+            "int 0.05*w",
+            "tuple"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "w=h=1000\n# TODO\n"
+        },
+        {
+          "id": "S24-T1-B-E1",
+          "instruction": "Elige rotación con mayor score en {0:0.1,90:0.8}.",
+          "hints": [
+            "max key=",
+            "dict"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "s={0:0.1,90:0.8}\n# TODO\n"
+        },
+        {
+          "id": "S24-T1-B-E2",
+          "instruction": "Cuenta píxeles de ruido (1) en [0,1,1,0].",
+          "hints": [
+            "sum",
+            "lista"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "flags=[0,1,1,0]\n# TODO\n"
+        },
+        {
+          "id": "S24-T1-B-E3",
+          "instruction": "Si score_orient<0.5 imprime 'manual_orient' else 'auto'.",
+          "hints": [
+            "umbral",
+            "string"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "score=0.4\n# TODO\n"
+        },
+        {
+          "id": "S24-T2-A-E1",
+          "instruction": "Filtra tokens con conf>=0.85 e imprime textos.",
+          "hints": [
+            "list comp",
+            "umbral"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\n# TODO\n"
+        },
+        {
+          "id": "S24-T2-A-E2",
+          "instruction": "Idioma por defecto 'spa'; imprime lang del resultado OCR simulado.",
+          "hints": [
+            "parámetro default",
+            "dict"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S24-T2-A-E3",
+          "instruction": "Min confidence de una lista de campos; si min<0.8 status=review.",
+          "hints": [
+            "min()",
+            "status"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "confs=[0.9,0.75,0.95]\n# TODO\n"
+        },
+        {
+          "id": "S24-T2-B-E1",
+          "instruction": "Parsea 'Total: 12.5' a clave y valor.",
+          "hints": [
+            "split once",
+            "strip"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "s='Total: 12.5'\n# TODO\n"
+        },
+        {
+          "id": "S24-T2-B-E2",
+          "instruction": "De tabla [[H1,H2],[a,b]] imprime número de filas de datos.",
+          "hints": [
+            "len-1",
+            "header"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "t=[['H1','H2'],['a','b']]\n# TODO\n"
+        },
+        {
+          "id": "S24-T2-B-E3",
+          "instruction": "Adjunta bbox [0,0,10,10] al valor RUC en un dict field.",
+          "hints": [
+            "estructura evidencia",
+            "dict anidado"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S24-T3-A-E1",
+          "instruction": "Normaliza '20-123' dejando solo dígitos.",
+          "hints": [
+            "re.sub",
+            "\\D"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import re\ns='20-123'\n# TODO\n"
+        },
+        {
+          "id": "S24-T3-A-E2",
+          "instruction": "Convierte '15/01/2026' a ISO date string.",
+          "hints": [
+            "strptime",
+            "%d/%m/%Y"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from datetime import datetime\n# TODO\n"
+        },
+        {
+          "id": "S24-T3-A-E3",
+          "instruction": "Si RUC normalizado no tiene len 11, devuelve None e imprime.",
+          "hints": [
+            "guard clause",
+            "None"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import re\nraw='123'\n# TODO\n"
+        },
+        {
+          "id": "S24-T3-B-E1",
+          "instruction": "Si abs(sum(lines)-total)>0.01 imprime needs_review.",
+          "hints": [
+            "abs",
+            "tolerancia"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "total, lines=10.0,[4.0,5.0]\n# TODO\n"
+        },
+        {
+          "id": "S24-T3-B-E2",
+          "instruction": "Acumula reasons list si ruc is None.",
+          "hints": [
+            "append",
+            "lista"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "ruc=None\nreasons=[]\n# TODO\nprint(reasons)"
+        },
+        {
+          "id": "S24-T3-B-E3",
+          "instruction": "Imprime 'review_not_fraud' cuando hay mismatch (mensaje de política).",
+          "hints": [
+            "política explícita",
+            "string fijo"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "mismatch=True\n# TODO\n"
+        },
+        {
+          "id": "S24-T4-A-E1",
+          "instruction": "Accuracy = correct/n para 3 de 4 correctos.",
+          "hints": [
+            "división float",
+            "print"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "correct, n = 3, 4\n# TODO\n"
+        },
+        {
+          "id": "S24-T4-A-E2",
+          "instruction": "Calcula acc por campo 'ruc' en lista de dicts pred/true.",
+          "hints": [
+            "sum generator",
+            "campo"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\n# TODO\n"
+        },
+        {
+          "id": "S24-T4-A-E3",
+          "instruction": "coverage_auto = auto/(auto+review); imprime con auto=7, review=3.",
+          "hints": [
+            "fórmula",
+            "float"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "auto, review = 7, 3\n# TODO\n"
+        },
+        {
+          "id": "S24-T4-B-E1",
+          "instruction": "Rechaza mime no pdf/png/jpeg.",
+          "hints": [
+            "set membership",
+            "mime"
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "mime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\n# TODO\n"
+        },
+        {
+          "id": "S24-T4-B-E2",
+          "instruction": "Si n_bytes>5e6 reject por size.",
+          "hints": [
+            "comparación",
+            "constante"
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "n=6_000_000\n# TODO\n"
+        },
+        {
+          "id": "S24-T4-B-E3",
+          "instruction": "Fallback: ocr_fail → 'human_rescan'. Imprime acción.",
+          "hints": [
+            "mapa de fallbacks",
+            "dict get"
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "status='ocr_fail'\n# TODO\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Intake OCR sintético (document intake CP-N2-C)",
+      "context": "Procesa 3 “documentos” sintéticos (dict de tokens): preproceso meta, extracción KV, schema, validación cross-field, métricas por campo y cola de revisión. Sin PII real; sin label de fraude.",
+      "objectives": [
+        "Pipeline preproceso → OCR simulado → schema",
+        "Abstener campos low-conf",
+        "Golden de al menos 2 docs con acc por campo",
+        "Gate de archivos hostiles"
+      ],
+      "requirements": [
+        "Datos sintéticos only",
+        "bbox o evidencia por campo crítico",
+        "needs_review ≠ fraude",
+        "es-PE en labels de UI/log"
+      ],
+      "portfolioNote": "Módulo document intake CP-N2-C con golden y política de abstención.",
+      "starterCode": "tokens = [{\"text\": \"RUC: 20123456789\", \"conf\": 0.9, \"bbox\": [0,0,1,1]}]\n# TODO: kv, schema, validate, metrics\nprint(\"TODO intake\")\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "¿Qué haces si confidence de RUC es 0.6?",
+        "options": [
+          "Aceptar igual",
+          "Inventar dígitos",
+          "Abstener y encolar revisión",
+          "Etiquetar fraude"
+        ]
+      },
+      {
+        "question": "Un mismatch total vs líneas implica:",
+        "options": [
+          "Fraude probado",
+          "Cola de revisión / corrección",
+          "Borrar el doc",
+          "Subir DPI"
+        ]
+      },
+      {
+        "question": "¿Por qué medir accuracy por campo?",
+        "options": [
+          "Es más corto",
+          "Los campos críticos pueden fallar aunque el global se vea bien",
+          "OCR no tiene global",
+          "Solo para imágenes"
+        ]
+      },
+      {
+        "question": "Archivo application/zip en intake de facturas:",
+        "options": [
+          "Siempre OK",
+          "Gate reject/review por mime no permitido",
+          "OCR directo",
+          "Enviar por email"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "19df8fa1509c92d3"
+}

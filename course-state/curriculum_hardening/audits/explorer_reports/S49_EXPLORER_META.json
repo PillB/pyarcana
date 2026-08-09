@@ -1,0 +1,9 @@
+{
+  "section": 49,
+  "id": "data-contracts",
+  "file": "src/lib/course/sections/s49-data-contracts.ts",
+  "score_1_to_10": 5.8,
+  "issue_count": 16,
+  "meta_leak_count": 4,
+  "status": "complete"
+}

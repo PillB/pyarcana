@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S30",
+  "section_id": "security-infra",
+  "phase": "PHASE_5",
+  "lane": "LANE-S27-S30-CLOSE",
+  "generated_at": "2026-07-20T23:45:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "security-infra",
+    "title_v3": "Entity resolution probabilístico",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "oauth2-oidc-flows-completos-co",
+    "https-tls-en-producción-con-le",
+    "secrets-management-con-hashico",
+    "implementar-zero-trust-con-mtl"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S30 (Entity resolution probabilístico). Privacy: matching/resolución ≠ fraude/parentesco/colusión.",
+  "families": [
+    {
+      "family_id": "S30-T1-A-EX",
+      "concept": "exact-edit-token-date",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S30-T1-B-EX",
+      "concept": "missingness-frequency",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S30-T2-A-EX",
+      "concept": "rules-candidate-recall",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S30-T2-B-EX",
+      "concept": "combos-cost-impossible",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S30-T3-A-EX",
+      "concept": "weights-prob-thresholds",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S30-T3-B-EX",
+      "concept": "train-clerical-cluster",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S30-T4-A-EX",
+      "concept": "labeled-splits-by-entity",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S30-T4-B-EX",
+      "concept": "pr-pairwise-cluster-slices",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (security-infra key)",
+    "course-state/s30_phase5_exam_bank.json"
+  ]
+}

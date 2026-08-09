@@ -1,0 +1,286 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_G2",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-exp-s30-a56b86f6fe48",
+  "production_note": "agentic_G2 dual-LLM explorer: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "code": "# explorer S30-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T1-A-E1: leí instruction «S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): …» y theory «exact, edit/token y fecha»: **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia. Un. Completé el starter del paquete; línea clave: `print(1.0 if a == b else 0.0)`. Hints/iDo del subtopic S30-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "code": "# explorer S30-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T1-A-E2: leí instruction «S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO…» y theory «exact, edit/token y fecha»: **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia. Un. Completé el starter del paquete; línea clave: `ta,tb=set('a b'.split()),set('b c'.split())`. Hints/iDo del subtopic S30-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "code": "# explorer S30-T1-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T1-A-E3: leí instruction «S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a…» y theory «exact, edit/token y fecha»: **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia. Un. Completé el starter del paquete; línea clave: `from datetime import date`. Hints/iDo del subtopic S30-T1-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "code": "# explorer S30-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T1-B-E1: leí instruction «S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la en…» y theory «missingness informativa y frecuencia»: **Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación. Un score de matching solo prioriza revisión humana: . Completé el starter del paquete; línea clave: `a,b='', 'x'`. Hints/iDo del subtopic S30-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "code": "# explorer S30-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T1-B-E2: leí instruction «S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrad…» y theory «missingness informativa y frecuencia»: **Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación. Un score de matching solo prioriza revisión humana: . Completé el starter del paquete; línea clave: `print(1 / freq)`. Hints/iDo del subtopic S30-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "code": "# explorer S30-T1-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T1-B-E3: leí instruction «S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético…» y theory «missingness informativa y frecuencia»: **Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación. Un score de matching solo prioriza revisión humana: . Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S30-T1-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "code": "# explorer S30-T2-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T2-A-E1: leí instruction «S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3…» y theory «reglas y candidate recall»: **Blocking** reduce pares: misma clave (apellido normalizado + CP, email local-part, teléfono últimos 6, etc.). Un score de matching solo prioriza revisión humana: ER resp. Completé el starter del paquete; línea clave: `last,city='lopez','lima'`. Hints/iDo del subtopic S30-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "code": "# explorer S30-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T2-A-E2: leí instruction «S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): …» y theory «reglas y candidate recall»: **Blocking** reduce pares: misma clave (apellido normalizado + CP, email local-part, teléfono últimos 6, etc.). Un score de matching solo prioriza revisión humana: ER resp. Completé el starter del paquete; línea clave: `found,gold_n=1,2`. Hints/iDo del subtopic S30-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "code": "# explorer S30-T2-A-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T2-A-E3: leí instruction «S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er,…» y theory «reglas y candidate recall»: **Blocking** reduce pares: misma clave (apellido normalizado + CP, email local-part, teléfono últimos 6, etc.). Un score de matching solo prioriza revisión humana: ER resp. Completé el starter del paquete; línea clave: `print(n*(n-1)//2)`. Hints/iDo del subtopic S30-T2-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "code": "# explorer S30-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T2-B-E1: leí instruction «S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la e…» y theory «combinaciones, costo y pares imposibles»: El **costo** es O(suma n_b^2) por bloque. Bloques enormes (clave débil) explotan CPU/memoria. Un score de matching solo prioriza revisión humana: ER responde. Completé el starter del paquete; línea clave: `sizes=[3,5]`. Hints/iDo del subtopic S30-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "code": "# explorer S30-T2-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T2-B-E2: leí instruction «S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cp…» y theory «combinaciones, costo y pares imposibles»: El **costo** es O(suma n_b^2) por bloque. Bloques enormes (clave débil) explotan CPU/memoria. Un score de matching solo prioriza revisión humana: ER responde. Completé el starter del paquete; línea clave: `ta,tb='person','org'`. Hints/iDo del subtopic S30-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "code": "# explorer S30-T2-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T2-B-E3: leí instruction «S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): …» y theory «combinaciones, costo y pares imposibles»: El **costo** es O(suma n_b^2) por bloque. Bloques enormes (clave débil) explotan CPU/memoria. Un score de matching solo prioriza revisión humana: ER responde. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S30-T2-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "code": "# explorer S30-T3-A-E1\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T3-A-E1: leí instruction «S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er,…» y theory «pesos/probabilidad y thresholds»: Modelo simple: score = suma de pesos por acuerdo/desacuerdo de campos (Fellegi–Sunter didáctico) o promedio ponderado de similitudes. Un score de matching solo prior. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S30-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "code": "# explorer S30-T3-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T3-A-E2: leí instruction «S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example…» y theory «pesos/probabilidad y thresholds»: Modelo simple: score = suma de pesos por acuerdo/desacuerdo de campos (Fellegi–Sunter didáctico) o promedio ponderado de similitudes. Un score de matching solo prior. Completé el starter del paquete; línea clave: `s,t_high,t_low=0.7,0.9,0.5`. Hints/iDo del subtopic S30-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "code": "# explorer S30-T3-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T3-A-E3: leí instruction «S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @exa…» y theory «pesos/probabilidad y thresholds»: Modelo simple: score = suma de pesos por acuerdo/desacuerdo de campos (Fellegi–Sunter didáctico) o promedio ponderado de similitudes. Un score de matching solo prior. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S30-T3-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "code": "# explorer S30-T3-B-E1\np={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T3-B-E1: leí instruction «S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `…» y theory «entrenamiento, clerical review y cluster consistency»: **Entrenamiento/estimación**: ajusta pesos o umbrales con pares etiquetados sintéticos (no PII real). Un score de matching solo prioriza revisió. Completé el starter del paquete; línea clave: `p={1:1,2:2,3:3}`. Hints/iDo del subtopic S30-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "code": "# explorer S30-T3-B-E2\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T3-B-E2: leí instruction «S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run…» y theory «entrenamiento, clerical review y cluster consistency»: **Entrenamiento/estimación**: ajusta pesos o umbrales con pares etiquetados sintéticos (no PII real). Un score de matching solo prioriza revisió. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S30-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "code": "# explorer S30-T3-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T3-B-E3: leí instruction «S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @ex…» y theory «entrenamiento, clerical review y cluster consistency»: **Entrenamiento/estimación**: ajusta pesos o umbrales con pares etiquetados sintéticos (no PII real). Un score de matching solo prioriza revisió. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S30-T3-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "code": "# explorer S30-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T4-A-E1: leí instruction «S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético…» y theory «labeled pairs y splits por entidad»: El **benchmark etiquetado** tiene pares match/non-match sintéticos. Nunca uses el mismo par en train y test de umbrales sin control. Un score de matching solo pri. Completé el starter del paquete; línea clave: `a,b='e1','e2'`. Hints/iDo del subtopic S30-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "code": "# explorer S30-T4-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T4-A-E2: leí instruction «S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example…» y theory «labeled pairs y splits por entidad»: El **benchmark etiquetado** tiene pares match/non-match sintéticos. Nunca uses el mismo par en train y test de umbrales sin control. Un score de matching solo pri. Completé el starter del paquete; línea clave: `matches,n=1,5`. Hints/iDo del subtopic S30-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "code": "# explorer S30-T4-A-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T4-A-E3: leí instruction «S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @exa…» y theory «labeled pairs y splits por entidad»: El **benchmark etiquetado** tiene pares match/non-match sintéticos. Nunca uses el mismo par en train y test de umbrales sin control. Un score de matching solo pri. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S30-T4-A alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "code": "# explorer S30-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T4-B-E1: leí instruction «S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er…» y theory «precision/recall, pairwise/cluster metrics y error slices»: **Pairwise**: precision/recall/F1 sobre pares predichos vs gold. **Cluster**: métricas a nivel entidad (p.ej. pair completeness/quality sim. Completé el starter del paquete; línea clave: `tp,fp=2,1`. Hints/iDo del subtopic S30-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "code": "# explorer S30-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T4-B-E2: leí instruction «S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el …» y theory «precision/recall, pairwise/cluster metrics y error slices»: **Pairwise**: precision/recall/F1 sobre pares predichos vs gold. **Cluster**: métricas a nivel entidad (p.ej. pair completeness/quality sim. Completé el starter del paquete; línea clave: `tp,fn=2,2`. Hints/iDo del subtopic S30-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "code": "# explorer S30-T4-B-E3\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer en S30-T4-B-E3: leí instruction «S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-…» y theory «precision/recall, pairwise/cluster metrics y error slices»: **Pairwise**: precision/recall/F1 sobre pares predichos vs gold. **Cluster**: métricas a nivel entidad (p.ej. pair completeness/quality sim. Completé el starter del paquete; línea clave: `case_id = \"CASO-LIM-SYN\"`. Hints/iDo del subtopic S30-T4-B alinean el contrato I/O sintético.",
+      "concepts_used": [
+        "S30-T4-B"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S30 Q0: elegí índice 1 «Si dos registros son la misma entidad» porque la theory del paquete dice: «exact, edit/token y fecha»: **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia. Un score de matching s. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S30 Q1: elegí índice 3 «Fracción de verdaderos matches que sobreviven al blocking» porque la theory del paquete dice: «exact, edit/token y fecha»: **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia. Un score de matching s. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S30 Q2: elegí índice 0 «clerical review» porque la theory del paquete dice: «exact, edit/token y fecha»: **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia. Un score de matching s. Coherente con learning outcomes y iDo de la sección."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S30 Q3: elegí índice 2 «Leakage de identidad entre train y test» porque la theory del paquete dice: «exact, edit/token y fecha»: **Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia. Un score de matching s. Coherente con learning outcomes y iDo de la sección."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:24:42.466739+00:00",
+  "session_started_at": "2026-07-23T06:23:22.466739+00:00",
+  "session_ended_at": "2026-07-23T06:24:42.466739+00:00"
+}

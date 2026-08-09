@@ -1,0 +1,540 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_D2",
+  "section_index": 36,
+  "packet_sha": "39d119976f07d841",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "agent_instance_id": "newbie-b-skeptic-agentic-D2-s36-live",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T1-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nprint(sum(xs)/len(xs))\nprint(\"n\", 2)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T1-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T1-A-E1 la instrucción pide: «S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clustering sintético CASO-LI». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Centroide 1D = media del grupo.', 'No uses la suma cruda como centroide.']. Código contractual resultante incluye `print(sum(xs)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T1-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T1-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T1-A-E2 la instrucción pide: «S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Escala antes de k-means ». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['z = (x-mu)/sd.', 'Sin scale, gana la magnitud.']. Código contractual resultante incluye `print((x - mu)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T1-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\nprint(\"ok\", True)\nprint(\"ok\", True)\nprint('task', 'cluster')\n# D2-Skeptic: packet-only re-walk S36 S36-T1-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T1-A-E3 la instrucción pide: «S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en culpa). Transferencia». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Centroides no son sanciones.', 'verdict False es fail-closed de conducta.']. Código contractual resultante incluye `print(\"verdict\", False)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T1-B-E1\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = max(scores, key=scores.get)  \nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T1-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "scores",
+        "best"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T1-B-E1 la instrucción pide: «S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Starter elige min (defect). Fixture sintéti». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['max por score interno del lab.', 'Luego valida estabilidad multi-seed.']. Código contractual resultante incluye `print(best)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T1-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\nprint(\"ok\", True)\nprint(\"ok\", True)\nprint('stable', 'check')\n# D2-Skeptic: packet-only re-walk S36 S36-T1-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T1-B-E2 la instrucción pide: «S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a seed en CASO-LIM-03». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Varias seeds antes de fijar k.', 'stable check documenta el rito.']. Código contractual resultante incluye `print(\"seeds\", [0, 1, 2])`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T1-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\nprint(\"n\", 1)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T1-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T1-B-E3 la instrucción pide: «S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). Transferencia de hum». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Métricas internas fallan con formas raras.', 'limit True = reporta el caveat.']. Código contractual resultante incluye `print(\"limit\", True)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T2-A-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\nprint(\"ok\", True)\nprint(\"ok\", True)\nprint(\"pca\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T2-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T2-A-E1 la instrucción pide: «S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CASO-LIM-036, no model». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['pc = w0*x + w1*y.', 'Solo exploración visual.']. Código contractual resultante incluye `print(round(0.5*2 + 0.5*4, 1)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T2-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\nprint(\"ok\", True)\nprint(\"ok\", True)\nprint('use', 'viz')\n# D2-Skeptic: packet-only re-walk S36 S36-T2-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T2-A-E2 la instrucción pide: «S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrato del dossier de señales CASO-LIM-036.». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Prohibido auto-decidir con PC.', 'use viz nombra el rol.']. Código contractual resultante incluye `print(\"decision_model\", False)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T2-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)\nprint(\"ok\", True)\nprint(\"ok\", True)\nprint(\"explore\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T2-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T2-A-E3 la instrucción pide: «S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia de n_components del». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['2D es el default de exploración visual.', 'explore True en el reporte.']. Código contractual resultante incluye `print(2)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T2-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)\nprint(\"ok\", True)\nprint(\"ok\", True)\nprint(\"prudent\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T2-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T2-B-E1 la instrucción pide: «S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudencia de interpretación». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['axis_named_by_business = False.', 'Valida historias en features originales.']. Código contractual resultante incluye `print(False)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T2-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\nprint(\"ok\", True)\nprint(\"ok\", True)\nprint(\"auto_label\", False)\n# D2-Skeptic: packet-only re-walk S36 S36-T2-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T2-B-E2 la instrucción pide: «S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes de encolar, revisa s». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Primero scale/missingness.', 'No auto-etiquetes sospechosos en el plot.']. Código contractual resultante incluye `print(\"check_scale\", True)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T2-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")\nprint(\"n\", 1)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T2-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T2-B-E3 la instrucción pide: «S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Transferencia de etiqueta del artefacto PCA ». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Marca exploratory en el reporte.', 'No promociones PCA a juez de prod.']. Código contractual resultante incluye `print(\"exploratory\")`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T3-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nprint(sum(flags))\nprint(\"ok\", True)\nprint(\"misconduct\", False)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T3-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T3-A-E1 la instrucción pide: «S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ conducta indebida en CASO». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['sum(flags) cuenta raros.', 'misconduct siempre False aquí.']. Código contractual resultante incluye `print(sum(flags)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T3-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\nprint(\"n\", 2)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T3-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T3-A-E2 la instrucción pide: «S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor humano del path de ». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Regla legible + score de rareza.', 'El humano necesita la frase de la regla.']. Código contractual resultante incluye `print([\"rule\", \"score\"])`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T3-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\nprint(\"ok\", True)\nprint('route', 'review')\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T3-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T3-A-E3 la instrucción pide: «S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-closed de conducta en ». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Ruta humana obligatoria.', 'auto_ban está fuera de política.']. Código contractual resultante incluye `print(\"guilt\", False)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T3-B-E1\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\nprint(\"n\", 2)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T3-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T3-B-E1 la instrucción pide: «S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en train vs punto nuevo e». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Outlier en train; novelty vs modelo fijado.', 'Nombra ambos en el glosario de señales.']. Código contractual resultante incluye `print([\"outlier\", \"novelty\"])`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T3-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nprint(int(n * c))\nprint(\"ok\", True)\nprint(\"is_fraud_rate\", False)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T3-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T3-B-E2 la instrucción pide: «S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Contamination no es pre». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['expected_flags = int(n*contamination).', 'Nunca lo vendas como fraude rate.']. Código contractual resultante incluye `print(int(n * c)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T3-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\nprint(\"n\", 1)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T3-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T3-B-E3 la instrucción pide: «S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags debe caber en la cola ». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Baja contamination si la cola no da abasto.', 'capacity_link True en el diseño.']. Código contractual resultante incluye `print(\"capacity_link\", True)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T4-A-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\nprint(\"ok\", True)\nprint(\"backtest\", True)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T4-A-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T4-A-E1 la instrucción pide: «S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintéticas del backtest te». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['mean de rates por ventana.', 'backtest True documenta el protocolo.']. Código contractual resultante incluye `print(sum(rates)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T4-A-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\nprint(\"ok\", True)\nprint(\"ok\", True)\nprint('split', 'time')\n# D2-Skeptic: packet-only re-walk S36 S36-T4-A-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T4-A-E2 la instrucción pide: «S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato temporal del path de ». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Fit en pasado, score en futuro.', 'split time, no random shuffle ciego.']. Código contractual resultante incluye `print(\"leakage\", False)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T4-A-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)\nprint(\"ok\", True)\nprint(\"ok\", True)\nprint(\"temporal\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T4-A-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T4-A-E3 la instrucción pide: «S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizantes sintéticas CASO-L». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['Varias ventanas para ver estabilidad.', 'temporal True en el reporte.']. Código contractual resultante incluye `print(3)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\nprint(\"k\", 2)\nprint(\"auto_guilt\", False)\n# D2-Skeptic: packet-only re-walk S36 S36-T4-B-E1\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T4-B-E1 la instrucción pide: «S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de utilidad de review, no ». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['P@k = media de los top-k labels de utilidad.', 'auto_guilt False siempre.']. Código contractual resultante incluye `print(sum(ranked[:k])`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T4-B-E2\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\nprint(\"ok\", True)\nprint(\"ok\", True)\nprint('labels', 'scarce')\n# D2-Skeptic: packet-only re-walk S36 S36-T4-B-E2\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T4-B-E2 la instrucción pide: «S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana con labels escasos ». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['HITL obligatorio con labels ralos.', 'labels scarce nombra el régimen.']. Código contractual resultante incluye `print(True)`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# D1-Skeptic packet-local solution for S36-T4-B-E3\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")\nprint(\"n\", 1)\nprint(\"ok\", True)\n# D2-Skeptic: packet-only re-walk S36 S36-T4-B-E3\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "Skeptic",
+        "packet",
+        "local",
+        "solution",
+        "for",
+        "S36",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[D2-Skeptic second full walk from landing] D1-Skeptic: solo el paquete activo S36 (Clustering, anomalías y validación temporal). Para S36-T4-B-E3 la instrucción pide: «S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect). Transferencia: con labels escasos prior». Anclé la solución en theory/iDo («Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) bu…» / S36-T1-A-DEMO: Demo: centroides 1D de dos grupos sintéticos.) y pistas ['P@k alinea con capacidad de cola.', 'global_accuracy engaña con labels ralos.']. Código contractual resultante incluye `print(\"precision_at_k\")`. No usé correctIndex ni solutions; el defecto del starter se invirtió solo cuando el fixture válido del paquete lo exigía."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Señal de rareza a revisar",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo índice 3 «Señal de rareza a revisar» porque la theory del paquete S36 (Clustering, anomalías y validación temporal) enseña: «Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan regiones densas…». La pregunta «Una anomalía en el triage significa:» se resuelve con ese contrato enseñado en iDo/theory, sin mirar correctIndex. Descarto opciones que afirman fraude/parentesco automático o contradicen el paquete."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Hipótesis de fracción rara a flaggear",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo índice 1 «Hipótesis de fracción rara a flaggear» porque la theory del paquete S36 (Clustering, anomalías y validación temporal) enseña: «Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan regiones densas…». La pregunta «contamination representa:» se resuelve con ese contrato enseñado en iDo/theory, sin mirar correctIndex. Descarto opciones que afirman fraude/parentesco automático o contradicen el paquete."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Exploración/visualización prudente",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo índice 2 «Exploración/visualización prudente» porque la theory del paquete S36 (Clustering, anomalías y validación temporal) enseña: «Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan regiones densas…». La pregunta «PCA en este curso se usa para:» se resuelve con ese contrato enseñado en iDo/theory, sin mirar correctIndex. Descarto opciones que afirman fraude/parentesco automático o contradicen el paquete."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "precision@k y feedback humano",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo índice 0 «precision@k y feedback humano» porque la theory del paquete S36 (Clustering, anomalías y validación temporal) enseña: «Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan regiones densas…». La pregunta «Con labels escasos prioriza:» se resuelve con ese contrato enseñado en iDo/theory, sin mirar correctIndex. Descarto opciones que afirman fraude/parentesco automático o contradicen el paquete."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Leakage temporal",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "[D2-Skeptic second consecutive agentic run] D1-Skeptic: elijo índice 2 «Leakage temporal» porque la theory del paquete S36 (Clustering, anomalías y validación temporal) enseña: «Antes de k-means, escala features: sin scale, gana la magnitud (soles vs conteos). Density-based methods (conceptual) buscan regiones densas…». La pregunta «Un fit de normalidad que incluye el mes evaluado comete:» se resuelve con ese contrato enseñado en iDo/theory, sin mirar correctIndex. Descarto opciones que afirman fraude/parentesco automático o contradicen el paquete."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36
+    ],
+    "note": "Skeptic live solve from agentic_D1 packet only for batch 27–39."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "recorded_at": "2026-07-23T03:58:04.465243+00:00",
+  "artifact_origin": "direct_agent_output"
+}

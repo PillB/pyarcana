@@ -1,0 +1,271 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_D2",
+  "section_index": 6,
+  "packet_sha": "2b7e2c730df3d20b",
+  "method": "live_agentic_packet_only_no_execution",
+  "production_note": "second consecutive live dual-LLM agentic solve from sequential packets",
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "status": "answered",
+      "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\nprint(ventana)\nprint(len(ventana))\nprint('empty', v0, len(v0))\n# D2-Explorer: packet-only re-walk S06 S06-T1-A-E1\n",
+      "answer": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nempty = []\nv0 = empty[-2:]\nprint(ventana)\nprint(len(ventana))\nprint('empty', v0, len(v0))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Slicing txs[-2:] toma los últimos elementos; en lista vacía devuelve [] sin error. El demo usa ultimas = txs[-3:] sobre transacciones del lote.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "status": "answered",
+      "code": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\nprint('KEYS', KEYS)\nprint('more', more)\nprint('KEYS intacta', KEYS)\n# D2-Explorer: packet-only re-walk S06 S06-T1-A-E2\n",
+      "answer": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nmore = KEYS + ('canal',)\nprint('KEYS', KEYS)\nprint('more', more)\nprint('KEYS intacta', KEYS)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] KEYS como tuple inmutable del contrato de columnas; + crea otra tupla sin mutar KEYS. El demo define KEYS = (\"id\", \"monto\", \"canal\") como contrato.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "status": "answered",
+      "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('diagnóstico: tuple no tiene append →', type(e).__name__, e)\n    ids_list = list(ids)\n    ids_list.append('C003')\n    print('como list', ids_list)\n# D2-Explorer: packet-only re-walk S06 S06-T1-A-E3\n",
+      "answer": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('diagnóstico: tuple no tiene append →', type(e).__name__, e)\n    ids_list = list(ids)\n    ids_list.append('C003')\n    print('como list', ids_list)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] tuple no soporta append (AttributeError); list(ids) permite mutar una copia. Uso tuplas para ids inmutables y listas cuando necesito crecer.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "status": "answered",
+      "code": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n# D2-Explorer: packet-only re-walk S06 S06-T1-B-E1\n",
+      "answer": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Unpacking posicional a,b,c = fila alinea campos de la tupla de registro. Orden importa: cid, region, monto del intake.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "status": "answered",
+      "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('tras alias', xs, copia)\ncopia.append(4)\nprint('tras copia', xs, copia)\n# D2-Explorer: packet-only re-walk S06 S06-T1-B-E2\n",
+      "answer": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('tras alias', xs, copia)\ncopia.append(4)\nprint('tras copia', xs, copia)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] alias = xs comparte objeto; copy() aísla la lista superficial de ints. Demo: mal = clientes alias vs bien shallow/deep.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "status": "answered",
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\ndeep = copy.deepcopy(rows)\nshallow[0]['tags'].append('b')\nprint('shallow afecta orig tags', rows)\ndeep[0]['tags'].append('z')\nprint('orig', rows)\nprint('deep', deep)\nprint('shallow[0] is rows[0]', shallow[0] is rows[0])\n# D2-Explorer: packet-only re-walk S06 S06-T1-B-E3\n",
+      "answer": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\ndeep = copy.deepcopy(rows)\nshallow[0]['tags'].append('b')\nprint('shallow afecta orig tags', rows)\ndeep[0]['tags'].append('z')\nprint('orig', rows)\nprint('deep', deep)\nprint('shallow[0] is rows[0]', shallow[0] is rows[0])\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] copy() de la lista no aísla dicts/tags anidados; deepcopy sí. El demo contraste shallow dict() vs copy.deepcopy.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "status": "answered",
+      "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n# D2-Explorer: packet-only re-walk S06 S06-T2-A-E1\n",
+      "answer": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] dict(pares) construye lookup id→región desde pares hashables. Claves str ok; acceso d['C002'] del índice.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "status": "answered",
+      "code": "idx = {'C001': 'Ana'}\nprint(idx.get('C001', 'N/A'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n# D2-Explorer: packet-only re-walk S06 S06-T2-A-E2\n",
+      "answer": "idx = {'C001': 'Ana'}\nprint(idx.get('C001', 'N/A'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] get con default evita KeyError; acceso duro idx['C999'] lo lanza. Demo idx.get(cid) y missing C999.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "status": "answered",
+      "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intacto', defaults)\n# peligro: defaults.update(override) mutaría defaults\ndanger = dict(defaults)\ndanger.update(override)\nprint('copia actualizada', danger, 'defaults still', defaults)\n# D2-Explorer: packet-only re-walk S06 S06-T2-A-E3\n",
+      "answer": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intacto', defaults)\n# peligro: defaults.update(override) mutaría defaults\ndanger = dict(defaults)\ndanger.update(override)\nprint('copia actualizada', danger, 'defaults still', defaults)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Fusión {**defaults, **override} no pierde timeout y no muta defaults. update in-place sobre el original es el peligro a evitar.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "status": "answered",
+      "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)\n# D2-Explorer: packet-only re-walk S06 S06-T2-B-E1\n",
+      "answer": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] set deduplica emails; sorted da lista determinista de únicos. Orden no está garantizado en set sin sorted.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "status": "answered",
+      "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\nprint('symdiff', sorted(a ^ b))\n# D2-Explorer: packet-only re-walk S06 S06-T2-B-E2\n",
+      "answer": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\nprint('symdiff', sorted(a ^ b))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Intersección & y diferencia simétrica ^ sobre sets de emails de lotes. sorted para reporte determinista de contactos.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "status": "answered",
+      "code": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        rid = r[key]\n        if rid not in seen:\n            seen[rid] = r\n            unique.append(r)\n        elif seen[rid] != r:\n            conflicts.append(r)\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n# D2-Explorer: packet-only re-walk S06 S06-T2-B-E3\n",
+      "answer": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        rid = r[key]\n        if rid not in seen:\n            seen[rid] = r\n            unique.append(r)\n        elif seen[rid] != r:\n            conflicts.append(r)\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Si mismo id y payload distinto, listar conflict sin silenciar; unique guarda la primera. Demo seen/unique/conflicts del dedup de filas.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "status": "answered",
+      "code": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n# D2-Explorer: packet-only re-walk S06 S06-T3-A-E1\n",
+      "answer": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Cuento contactos anidados con len por cliente del store sintético. Demo store con contacts y txs por cliente.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "status": "answered",
+      "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = [\n    {'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']}\n    for c in clients for t in c['txs']\n]\nprint(flat)\n# D2-Explorer: packet-only re-walk S06 S06-T3-A-E2\n",
+      "answer": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = [\n    {'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']}\n    for c in clients for t in c['txs']\n]\nprint(flat)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Aplano txs anidadas conservando client_id en cada fila plana. Doble for/comprehension del modelo anidado S06.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "status": "answered",
+      "code": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\n    print(c['id'], 'ok' if ok else 'review')\n# D2-Explorer: packet-only re-walk S06 S06-T3-A-E3\n",
+      "answer": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\n    print(c['id'], 'ok' if ok else 'review')\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Shape inconsistente: falta txs o no es list → status review. No asumo claves siempre presentes en el JSON anidado.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "status": "answered",
+      "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n# D2-Explorer: packet-only re-walk S06 S06-T3-B-E1\n",
+      "answer": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] dig/get_nested recorre path y devuelve default si falta un nivel dict. Demo dig(c, 'profile', 'phone') sobre clientes sintéticos.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "status": "answered",
+      "code": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")\n# D2-Explorer: packet-only re-walk S06 S06-T3-B-E2\n",
+      "answer": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Missing = ausente o None; no confundo falsy vacío con ausencia de email. Reporte id: missing|present del nested profile.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "status": "answered",
+      "code": "vals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n# D2-Explorer: packet-only re-walk S06 S06-T3-B-E3\n",
+      "answer": "vals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] 0 y '' son falsy pero pueden ser datos válidos; solo None = missing aquí. Separar truthiness de semántica de negocio del paquete.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "status": "answered",
+      "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n# D2-Explorer: packet-only re-walk S06 S06-T4-A-E1\n",
+      "answer": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] sorted + key=lambda monto ordena sin mutar la lista original. Ids en orden T1 luego T2.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "status": "answered",
+      "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n# D2-Explorer: packet-only re-walk S06 S06-T4-A-E2\n",
+      "answer": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] key multi-campo (region, nombre) compara tuplas lexicográficamente. Demo sorted por region y nombre de clientes.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "status": "answered",
+      "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\nprint('ret', ret, type(ret))\nprint('rows mutada', rows)\nprint('base intacta', base, 'copy_sorted', copy_sorted)\n# D2-Explorer: packet-only re-walk S06 S06-T4-A-E3\n",
+      "answer": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\ncopy_sorted = sorted(base)\nprint('ret', ret, type(ret))\nprint('rows mutada', rows)\nprint('base intacta', base, 'copy_sorted', copy_sorted)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] list.sort retorna None y muta in-place; sorted devuelve nueva lista. Selfcheck: rows.sort(key=...) retorna None.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "status": "answered",
+      "code": "jobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\nstructs = ['list', 'dict', 'set']\nfor j, s in zip(jobs, structs):\n    print(f'{j} → {s}')\n# D2-Explorer: packet-only re-walk S06 S06-T4-B-E1\n",
+      "answer": "jobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\nstructs = ['list', 'dict', 'set']\nfor j, s in zip(jobs, structs):\n    print(f'{j} → {s}')\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Cola→list, lookup id→dict, emails únicos→set: elección de estructura por job. Tradeoff del tema colecciones S06.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "status": "answered",
+      "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n# D2-Explorer: packet-only re-walk S06 S06-T4-B-E2\n",
+      "answer": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] json.dumps sort_keys=True y ids sorted dan export determinista/reproducible. Demo dumps igual a y b con sort_keys.",
+      "blocked_on": [],
+      "concepts_used": []
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "status": "answered",
+      "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\nprint('list membership: O(n) por chequeo')\nprint('set membership: O(1) promedio')\nprint('C003 in set', 'C003' in s)\nprint('para 1000 ids, set evita escaneos lineales repetidos')\n# D2-Explorer: packet-only re-walk S06 S06-T4-B-E3\n",
+      "answer": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\nprint('list membership: O(n) por chequeo')\nprint('set membership: O(1) promedio')\nprint('C003 in set', 'C003' in s)\nprint('para 1000 ids, set evita escaneos lineales repetidos')\n",
+      "justification_from_packet": "[D2-Explorer second full walk from landing] Membership en list es O(n); set O(1) promedio — tradeoff para 1000 ids. Micro-demo n=5 con x in set True.",
+      "blocked_on": [],
+      "concepts_used": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] xs[-2:] con xs=[1,2,3,4] produce [3,4], los dos últimos por slicing negativo. Ventana de cola del paquete de colecciones.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "a también ve el append (alias)",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] b=a en listas crea alias; b.append muta también a. Demo mal=clientes y score compartido.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] Mismo id y payload distinto: reportar conflicts sin borrar en silencio. dedup_report unique+conflicts del demo.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "None (muta in-place)",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] rows.sort(key=...) retorna None y muta la lista in-place. Usar sorted si necesitas una copia.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "justification_from_packet": "[D2-Explorer second consecutive agentic run] json.dumps(..., sort_keys=True) estabiliza el orden de claves del export. Ayuda a salidas deterministas del pipeline.",
+      "blocked_on": []
+    }
+  ],
+  "recorded_at": "2026-07-23T03:58:03.984846+00:00",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-agentic-D2-s06-live"
+}

@@ -1,0 +1,236 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_E1",
+  "section_index": 10,
+  "packet_sha": "8b461ffa87af3bfa",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie-a-explorer-E1-s10-live",
+  "production_note": "live dual-LLM agentic solve from sequential packets only",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "id": "S10-T1-A-E1",
+      "kind": "guided",
+      "code": "def main():\n    print(\"cli demo\")\nif __name__ == \"__main__\":\n    main()\n",
+      "justification_from_packet": "if __name__ == '__main__' corre el CLI solo al ejecutar el módulo, no al importar. Guardián __main__ para no correr al importar.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T1-A-E2",
+      "kind": "independent",
+      "code": "def greet(name: str) -> str:\n    return f\"hola {name}\"\nassert greet(\"Ana\") == \"hola Ana\"\nif __name__ == \"__main__\":\n    print(greet(\"demo\"))\n",
+      "justification_from_packet": "if __name__ == '__main__' corre el CLI solo al ejecutar el módulo, no al importar. Función testeable + demo bajo __main__.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T1-A-E3",
+      "kind": "transfer",
+      "code": "# al importar no debe ejecutar side effects pesados\nprint(\"import_safe=True when logic is under main guard\")\n",
+      "justification_from_packet": "if __name__ == '__main__' corre el CLI solo al ejecutar el módulo, no al importar. Import seguro sin side effects.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T1-B-E1",
+      "kind": "guided",
+      "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"--input\", required=True)\np.add_argument(\"--verbose\", action=\"store_true\")\n# args = p.parse_args([\"--input\", \"x.csv\"])\nprint(\"parser ready\")\n",
+      "justification_from_packet": "argparse con flag required y verbose. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T1-B-E2",
+      "kind": "independent",
+      "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"path\")\ntry:\n    p.parse_args([])\nexcept SystemExit as e:\n    print(\"usage exit\", e.code)\n",
+      "justification_from_packet": "Exit code 2 suele ser error de uso/parseo de argumentos (argparse). parse error → SystemExit code 2.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T1-B-E3",
+      "kind": "transfer",
+      "code": "print(\"document flags in --help; no secrets as defaults\")\n",
+      "justification_from_packet": "Precedencia: flags > env > file > defaults. Help documenta flags; sin secretos default.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T2-A-E1",
+      "kind": "guided",
+      "code": "def merge_config(defaults, file_cfg, env, flags):\n    cfg = dict(defaults)\n    cfg.update(file_cfg)\n    cfg.update(env)\n    cfg.update(flags)\n    return cfg\nprint(merge_config({\"a\":1}, {\"a\":2}, {\"a\":3}, {\"a\":4}))\n",
+      "justification_from_packet": "Precedencia: flags > env > file > defaults. flags > env > file > defaults. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T2-A-E2",
+      "kind": "independent",
+      "code": "import os\nos.environ[\"APP_MODE\"] = \"dev\"\nprint(os.environ.get(\"APP_MODE\", \"prod\"))\n",
+      "justification_from_packet": "Precedencia: flags > env > file > defaults. Leer env con get y default. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T2-A-E3",
+      "kind": "transfer",
+      "code": "# file < env < flags\nprint(\"precedence demo: flag wins\")\n",
+      "justification_from_packet": "Precedencia: flags > env > file > defaults. Precedencia correcta documentada. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T2-B-E1",
+      "kind": "guided",
+      "code": "import sys\nprint(\"progress\", file=sys.stderr)\nprint('{\"rows\":1}')\n",
+      "justification_from_packet": "Logs de progreso van a stderr, no mezclados con JSON de stdout. Progreso stderr; JSON stdout.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T2-B-E2",
+      "kind": "independent",
+      "code": "import logging, sys\nlogging.basicConfig(stream=sys.stderr, level=logging.INFO)\nlogging.info(\"starting job\")\nprint(\"RESULT\")\n",
+      "justification_from_packet": "Logs de progreso van a stderr, no mezclados con JSON de stdout. logging a stderr.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T2-B-E3",
+      "kind": "transfer",
+      "code": "print(\"never print tokens; mask before log\")\n",
+      "justification_from_packet": "Logs de progreso van a stderr, no mezclados con JSON de stdout. No loguear tokens.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T3-A-E1",
+      "kind": "guided",
+      "code": "# semver: major.minor.patch\nprint(\"1.2.0 + new subcommand compatible → 1.3.0 minor\")\n",
+      "justification_from_packet": "Subcomando nuevo compatible es minor; .env con secretos no va a git. Subcomando nuevo compatible = minor.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T3-A-E2",
+      "kind": "independent",
+      "code": "print(\"breaking flag rename → major\")\nprint(\"bugfix → patch\")\n",
+      "justification_from_packet": "Subcomando nuevo compatible es minor; .env con secretos no va a git. Breaking major; bugfix patch.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T3-A-E3",
+      "kind": "transfer",
+      "code": "print(\"CHANGELOG: added validate subcommand\")\n",
+      "justification_from_packet": "Subcomando nuevo compatible es minor; .env con secretos no va a git. Entrada de changelog.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T3-B-E1",
+      "kind": "guided",
+      "code": "# packaging layout\nprint(\"src/pkg/__init__.py pyproject.toml README.md\")\n",
+      "justification_from_packet": "Layout mínimo de paquete instalable. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T3-B-E2",
+      "kind": "independent",
+      "code": "print(\"[project] name version requires-python\")\n",
+      "justification_from_packet": "pyproject.toml campos mínimos. Esto sale del paquete activo de la sección y del iDo/teoría del curso, sin ejecución local.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T3-B-E3",
+      "kind": "transfer",
+      "code": "print(\"do not commit .env API_TOKEN\")\n",
+      "justification_from_packet": "Subcomando nuevo compatible es minor; .env con secretos no va a git. .env con secretos fuera de git.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T4-A-E1",
+      "kind": "guided",
+      "code": "def cli(argv=None):\n    return 0\nif __name__ == \"__main__\":\n    raise SystemExit(cli())\n",
+      "justification_from_packet": "if __name__ == '__main__' corre el CLI solo al ejecutar el módulo, no al importar. Entry CLI retorna exit code.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T4-A-E2",
+      "kind": "independent",
+      "code": "def cli(argv):\n    if not argv:\n        return 2\n    return 0\nprint(cli([]), cli([\"--ok\"]))\n",
+      "justification_from_packet": "Exit code 2 suele ser error de uso/parseo de argumentos (argparse). Exit 2 sin args; 0 con args.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T4-A-E3",
+      "kind": "transfer",
+      "code": "print(\"wire: parse → load cfg → run → exit code\")\n",
+      "justification_from_packet": "if __name__ == '__main__' corre el CLI solo al ejecutar el módulo, no al importar. Cableado del CLI.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T4-B-E1",
+      "kind": "guided",
+      "code": "print(\"smoke: python -m pkg --help\")\n",
+      "justification_from_packet": "if __name__ == '__main__' corre el CLI solo al ejecutar el módulo, no al importar. Smoke --help.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T4-B-E2",
+      "kind": "independent",
+      "code": "print(\"release checklist: tests, version bump, changelog, no secrets\")\n",
+      "justification_from_packet": "Subcomando nuevo compatible es minor; .env con secretos no va a git. Checklist de release.",
+      "blocked_on": []
+    },
+    {
+      "id": "S10-T4-B-E3",
+      "kind": "transfer",
+      "code": "print(\"package ships README pyproject src; excludes .venv .env\")\n",
+      "justification_from_packet": "Subcomando nuevo compatible es minor; .env con secretos no va a git. Qué incluye/excluye el paquete.",
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "stem": "¿Para qué sirve `if __name__ == '__main__'`?",
+      "chosen_index": 1,
+      "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+      "justification_from_packet": "if __name__ == '__main__' corre el CLI solo al ejecutar el módulo, no al importar. Por eso elijo la opción [1] para: ¿Para qué sirve `if __name__ == '__main__'`?",
+      "blocked_on": [],
+      "question_index": 0
+    },
+    {
+      "stem": "Precedencia correcta de config…",
+      "chosen_index": 3,
+      "chosen_text": "flags > env > file > defaults",
+      "justification_from_packet": "Precedencia: flags > env > file > defaults. Por eso elijo la opción [3] para: Precedencia correcta de config…",
+      "blocked_on": [],
+      "question_index": 1
+    },
+    {
+      "stem": "Exit code 2 en CLI argparse suele significar…",
+      "chosen_index": 0,
+      "chosen_text": "Error de uso/parseo de argumentos",
+      "justification_from_packet": "Exit code 2 suele ser error de uso/parseo de argumentos (argparse). Por eso elijo la opción [0] para: Exit code 2 en CLI argparse suele significar…",
+      "blocked_on": [],
+      "question_index": 2
+    },
+    {
+      "stem": "¿Dónde van los logs de progreso?",
+      "chosen_index": 2,
+      "chosen_text": "stderr",
+      "justification_from_packet": "Logs de progreso van a stderr, no mezclados con JSON de stdout. Por eso elijo la opción [2] para: ¿Dónde van los logs de progreso?",
+      "blocked_on": [],
+      "question_index": 3
+    },
+    {
+      "stem": "Añadir un subcomando nuevo compatible es tipicamente…",
+      "chosen_index": 1,
+      "chosen_text": "minor",
+      "justification_from_packet": "Subcomando nuevo compatible es minor; .env con secretos no va a git. Por eso elijo la opción [1] para: Añadir un subcomando nuevo compatible es tipicamente…",
+      "blocked_on": [],
+      "question_index": 4
+    },
+    {
+      "stem": "¿Qué no debe ir al git del paquete?",
+      "chosen_index": 3,
+      "chosen_text": ".env con API_TOKEN",
+      "justification_from_packet": "Subcomando nuevo compatible es minor; .env con secretos no va a git. Por eso elijo la opción [3] para: ¿Qué no debe ir al git del paquete?",
+      "blocked_on": [],
+      "question_index": 5
+    }
+  ],
+  "recorded_at": "2026-07-23T04:17:47.516962+00:00"
+}

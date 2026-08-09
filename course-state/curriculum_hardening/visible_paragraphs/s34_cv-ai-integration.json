@@ -1,0 +1,612 @@
+{
+  "index": 34,
+  "id": "cv-ai-integration",
+  "title": "Métricas, desbalance, calibración y umbrales",
+  "file": "s34-cv-ai-integration.ts",
+  "ok": true,
+  "error": null,
+  "headings": [
+    {
+      "i": 0,
+      "tag": "h2",
+      "text": "Teoría"
+    },
+    {
+      "i": 1,
+      "tag": "h3",
+      "text": "Pruébalo tú mismo"
+    }
+  ],
+  "paragraphs": [
+    {
+      "i": 0,
+      "text": "Mapa S34: métricas, desbalance, calibración y umbrales",
+      "len": 54
+    },
+    {
+      "i": 1,
+      "text": "Diccionario S34. Precision/Recall/F1, P@k, prevalence, class weight, Brier, reliability, threshold, abstención, slice. Accuracy no es la métrica de cola desbalanceada.",
+      "len": 167
+    },
+    {
+      "i": 2,
+      "text": "Prerrequisito S33. Producto: workbench con ranking calibrado para revisión humana; no etiqueta fraude automático.",
+      "len": 113
+    },
+    {
+      "i": 3,
+      "text": "Contrato. Entrada: scores/probs sintéticos CASO-LIM-034 + capacidad. Salida: métricas, thr, abstain policy. Error: vanity accuracy, cal leak, thr mágico, auto-fraude → bloqueo.",
+      "len": 176
+    },
+    {
+      "i": 4,
+      "text": "Orden: T1 métricas → T2 desbalance → T3 calibración → T4 decisión. Stack stdlib; sklearn metrics como referencia.",
+      "len": 113
+    },
+    {
+      "i": 5,
+      "text": "Confusion matrix, precision, recall y F-score",
+      "len": 45
+    },
+    {
+      "i": 6,
+      "text": "Diccionario T1-A. TP/FP/FN/TN en cola de review. Precision = TP/(TP+FP). Recall = TP/(TP+FN). F1 = 2PR/(P+R). Accuracy engaña con desbalance.",
+      "len": 141
+    },
+    {
+      "i": 7,
+      "text": "Mecanismo: cuentas la matriz sobre y_true/y_pred sintéticos; precision y recall se calculan con guardas si el denominador es 0.",
+      "len": 127
+    },
+    {
+      "i": 8,
+      "text": "Contrato. Entrada: tp,fp,fn. Salida: precision, recall, f1. Error: reportar solo accuracy con prevalencia 1%.",
+      "len": 109
+    },
+    {
+      "i": 9,
+      "text": "Aplicación CASO-LIM-034-T1A: tp=1,fp=1,fn=0 → P=0.5 R=1.0. Métricas del workbench, no veredicto de fraude.",
+      "len": 106
+    },
+    {
+      "i": 10,
+      "text": "PR-AUC, top-k y carga de revisión",
+      "len": 33
+    },
+    {
+      "i": 11,
+      "text": "PR-AUC resume el tradeoff precision-recall. Top-k alinea con capacidad de cola. Carga de revisión = k o expected flags por día.",
+      "len": 127
+    },
+    {
+      "i": 12,
+      "text": "Mecanismo didáctico: P@k = sum(relevant[:k])/k; approx PR con promedio de precisions en umbrales sintéticos.",
+      "len": 108
+    },
+    {
+      "i": 13,
+      "text": "Contrato. Entrada: ranked relevance, k, capacity. Salida: p_at_k y load. Error: k >> capacity.",
+      "len": 94
+    },
+    {
+      "i": 14,
+      "text": "Aplicación CASO-LIM-034-T1B: ranked [1,0,1,0], k=2 → 0.5; capacity=50.",
+      "len": 70
+    },
+    {
+      "i": 15,
+      "text": "Class weights y resampling dentro de CV",
+      "len": 39
+    },
+    {
+      "i": 16,
+      "text": "Class weight rebalancea el costo por clase. Resampling (over/under) solo dentro de folds de train; hacerlo antes de split es leakage.",
+      "len": 133
+    },
+    {
+      "i": 17,
+      "text": "Mecanismo: weight_pos = n_neg/n_pos; resample solo indices de train_fold.",
+      "len": 73
+    },
+    {
+      "i": 18,
+      "text": "Contrato. Entrada: y_train counts, in_cv flag. Salida: weight y in_cv True. Error: SMOTE global antes de CV.",
+      "len": 108
+    },
+    {
+      "i": 19,
+      "text": "Aplicación CASO-LIM-034-T2A: 90 neg / 10 pos → weight 9.0; in_cv True.",
+      "len": 70
+    },
+    {
+      "i": 20,
+      "text": "Prevalencia y métricas engañosas",
+      "len": 32
+    },
+    {
+      "i": 21,
+      "text": "Con prevalencia 1%, accuracy 99% prediciendo siempre negativo es inútil. Reporta prevalencia y métricas alineadas a la cola (P/R, P@k).",
+      "len": 135
+    },
+    {
+      "i": 22,
+      "text": "Mecanismo: baseline_acc = 1 - prevalence; si model_acc ≈ baseline_acc sin recall, flag misleading.",
+      "len": 98
+    },
+    {
+      "i": 23,
+      "text": "Contrato. Entrada: prevalence, accuracy, recall. Salida: misleading flag. Error: vanity accuracy sola.",
+      "len": 102
+    },
+    {
+      "i": 24,
+      "text": "Aplicación CASO-LIM-034-T2B: prev=0.01, acc=0.99, recall=0 → misleading True.",
+      "len": 77
+    },
+    {
+      "i": 25,
+      "text": "Reliability curves y Brier score",
+      "len": 32
+    },
+    {
+      "i": 26,
+      "text": "Calibración: si predices 0.8, ~80% deben ser positivos. Brier = mean((p−y)²). Reliability por bins de p.",
+      "len": 104
+    },
+    {
+      "i": 27,
+      "text": "Mecanismo: Brier sobre listas p,y; reliability = mean(y) en bin vs mean(p).",
+      "len": 75
+    },
+    {
+      "i": 28,
+      "text": "Contrato. Entrada: probs, labels. Salida: brier y calibrated flag. Error: usar probs crudas como riesgos absolutos sin check.",
+      "len": 125
+    },
+    {
+      "i": 29,
+      "text": "Aplicación CASO-LIM-034-T3A: p=[0.1,0.9], y=[0,1] → brier 0.01.",
+      "len": 63
+    },
+    {
+      "i": 30,
+      "text": "Calibradores y evaluación fuera de muestra",
+      "len": 42
+    },
+    {
+      "i": 31,
+      "text": "Calibradores (Platt/isotonic conceptualmente) se fit en holdout, nunca en el test final. Evalúa calibración out-of-sample.",
+      "len": 122
+    },
+    {
+      "i": 32,
+      "text": "Mecanismo: split cal_fit / cal_eval; no reuses test para fit del calibrador.",
+      "len": 76
+    },
+    {
+      "i": 33,
+      "text": "Contrato. Entrada: fit_on, eval_on. Salida: oos True. Error: fit calibrador en test.",
+      "len": 84
+    },
+    {
+      "i": 34,
+      "text": "Aplicación CASO-LIM-034-T3B: fit=val, eval=test → oos True.",
+      "len": 59
+    },
+    {
+      "i": 35,
+      "text": "Threshold por costo y capacidad",
+      "len": 31
+    },
+    {
+      "i": 36,
+      "text": "El umbral no es 0.5 por magia: maximiza utilidad bajo costos y capacidad de review. thr alto → menos FP, más FN.",
+      "len": 112
+    },
+    {
+      "i": 37,
+      "text": "Mecanismo: para thr en grid, pred=p>=thr; cost = fpc_fp + fnc_fn; elige thr con cost mínimo sujeto a load<=capacity.",
+      "len": 116
+    },
+    {
+      "i": 38,
+      "text": "Contrato. Entrada: costs, capacity, thr_star. Salida: thr y expected_load. Error: thr fijo 0.5 sin costos.",
+      "len": 106
+    },
+    {
+      "i": 39,
+      "text": "Aplicación CASO-LIM-034-T4A: thr=0.7, capacity=20, load=15.",
+      "len": 59
+    },
+    {
+      "i": 40,
+      "text": "Abstención, slices y sensibilidad",
+      "len": 33
+    },
+    {
+      "i": 41,
+      "text": "Abstención (banda gris) envía a humano. Slices (canal/región sintética) detectan fallas locales. Sensibilidad a thr documenta robustez.",
+      "len": 135
+    },
+    {
+      "i": 42,
+      "text": "Mecanismo: si p en [lo,hi] → ABSTAIN; reporta metric por slice; Δmetric al mover thr ±ε.",
+      "len": 88
+    },
+    {
+      "i": 43,
+      "text": "Contrato. Entrada: p, band, slice_metrics. Salida: decision y worst_slice. Error: auto-decidir en banda gris.",
+      "len": 109
+    },
+    {
+      "i": 44,
+      "text": "Aplicación CASO-LIM-034-T4B: p=0.55 en [0.4,0.6] → ABSTAIN; cierra CP-N3-B workbench con ranking calibrado para revisión.",
+      "len": 121
+    }
+  ],
+  "analysis": [
+    {
+      "i": 0,
+      "len": 54,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Mapa S34: métricas, desbalance, calibración y umbrales",
+      "text": "Mapa S34: métricas, desbalance, calibración y umbrales"
+    },
+    {
+      "i": 1,
+      "len": 167,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario S34. Precision/Recall/F1, P@k, prevalence, class weight, Brier, reliability, threshold, abstención, slice. Accuracy no es la métrica de cola desbalanceada.",
+      "text": "Diccionario S34. Precision/Recall/F1, P@k, prevalence, class weight, Brier, reliability, threshold, abstención, slice. Accuracy no es la métrica de cola desbalanceada."
+    },
+    {
+      "i": 2,
+      "len": 113,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Prerrequisito S33. Producto: workbench con ranking calibrado para revisión humana; no etiqueta fraude automático.",
+      "text": "Prerrequisito S33. Producto: workbench con ranking calibrado para revisión humana; no etiqueta fraude automático."
+    },
+    {
+      "i": 3,
+      "len": 176,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: scores/probs sintéticos CASO-LIM-034 + capacidad. Salida: métricas, thr, abstain policy. Error: vanity accuracy, cal leak, thr mágico, auto-fraude → bloqueo.",
+      "text": "Contrato. Entrada: scores/probs sintéticos CASO-LIM-034 + capacidad. Salida: métricas, thr, abstain policy. Error: vanity accuracy, cal leak, thr mágico, auto-fraude → bloqueo."
+    },
+    {
+      "i": 4,
+      "len": 113,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Orden: T1 métricas → T2 desbalance → T3 calibración → T4 decisión. Stack stdlib; sklearn metrics como referencia.",
+      "text": "Orden: T1 métricas → T2 desbalance → T3 calibración → T4 decisión. Stack stdlib; sklearn metrics como referencia."
+    },
+    {
+      "i": 5,
+      "len": 45,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Confusion matrix, precision, recall y F-score",
+      "text": "Confusion matrix, precision, recall y F-score"
+    },
+    {
+      "i": 6,
+      "len": 141,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Diccionario T1-A. TP/FP/FN/TN en cola de review. Precision = TP/(TP+FP). Recall = TP/(TP+FN). F1 = 2PR/(P+R). Accuracy engaña con desbalance.",
+      "text": "Diccionario T1-A. TP/FP/FN/TN en cola de review. Precision = TP/(TP+FP). Recall = TP/(TP+FN). F1 = 2PR/(P+R). Accuracy engaña con desbalance."
+    },
+    {
+      "i": 7,
+      "len": 127,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: cuentas la matriz sobre y_true/y_pred sintéticos; precision y recall se calculan con guardas si el denominador es 0.",
+      "text": "Mecanismo: cuentas la matriz sobre y_true/y_pred sintéticos; precision y recall se calculan con guardas si el denominador es 0."
+    },
+    {
+      "i": 8,
+      "len": 109,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: tp,fp,fn. Salida: precision, recall, f1. Error: reportar solo accuracy con prevalencia 1%.",
+      "text": "Contrato. Entrada: tp,fp,fn. Salida: precision, recall, f1. Error: reportar solo accuracy con prevalencia 1%."
+    },
+    {
+      "i": 9,
+      "len": 106,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-034-T1A: tp=1,fp=1,fn=0 → P=0.5 R=1.0. Métricas del workbench, no veredicto de fraude.",
+      "text": "Aplicación CASO-LIM-034-T1A: tp=1,fp=1,fn=0 → P=0.5 R=1.0. Métricas del workbench, no veredicto de fraude."
+    },
+    {
+      "i": 10,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "PR-AUC, top-k y carga de revisión",
+      "text": "PR-AUC, top-k y carga de revisión"
+    },
+    {
+      "i": 11,
+      "len": 127,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "PR-AUC resume el tradeoff precision-recall. Top-k alinea con capacidad de cola. Carga de revisión = k o expected flags por día.",
+      "text": "PR-AUC resume el tradeoff precision-recall. Top-k alinea con capacidad de cola. Carga de revisión = k o expected flags por día."
+    },
+    {
+      "i": 12,
+      "len": 108,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo didáctico: P@k = sum(relevant[:k])/k; approx PR con promedio de precisions en umbrales sintéticos.",
+      "text": "Mecanismo didáctico: P@k = sum(relevant[:k])/k; approx PR con promedio de precisions en umbrales sintéticos."
+    },
+    {
+      "i": 13,
+      "len": 94,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: ranked relevance, k, capacity. Salida: p_at_k y load. Error: k >> capacity.",
+      "text": "Contrato. Entrada: ranked relevance, k, capacity. Salida: p_at_k y load. Error: k >> capacity."
+    },
+    {
+      "i": 14,
+      "len": 70,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-034-T1B: ranked [1,0,1,0], k=2 → 0.5; capacity=50.",
+      "text": "Aplicación CASO-LIM-034-T1B: ranked [1,0,1,0], k=2 → 0.5; capacity=50."
+    },
+    {
+      "i": 15,
+      "len": 39,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Class weights y resampling dentro de CV",
+      "text": "Class weights y resampling dentro de CV"
+    },
+    {
+      "i": 16,
+      "len": 133,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Class weight rebalancea el costo por clase. Resampling (over/under) solo dentro de folds de train; hacerlo antes de split es leakage.",
+      "text": "Class weight rebalancea el costo por clase. Resampling (over/under) solo dentro de folds de train; hacerlo antes de split es leakage."
+    },
+    {
+      "i": 17,
+      "len": 73,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: weight_pos = n_neg/n_pos; resample solo indices de train_fold.",
+      "text": "Mecanismo: weight_pos = n_neg/n_pos; resample solo indices de train_fold."
+    },
+    {
+      "i": 18,
+      "len": 108,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: y_train counts, in_cv flag. Salida: weight y in_cv True. Error: SMOTE global antes de CV.",
+      "text": "Contrato. Entrada: y_train counts, in_cv flag. Salida: weight y in_cv True. Error: SMOTE global antes de CV."
+    },
+    {
+      "i": 19,
+      "len": 70,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-034-T2A: 90 neg / 10 pos → weight 9.0; in_cv True.",
+      "text": "Aplicación CASO-LIM-034-T2A: 90 neg / 10 pos → weight 9.0; in_cv True."
+    },
+    {
+      "i": 20,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Prevalencia y métricas engañosas",
+      "text": "Prevalencia y métricas engañosas"
+    },
+    {
+      "i": 21,
+      "len": 135,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Con prevalencia 1%, accuracy 99% prediciendo siempre negativo es inútil. Reporta prevalencia y métricas alineadas a la cola (P/R, P@k).",
+      "text": "Con prevalencia 1%, accuracy 99% prediciendo siempre negativo es inútil. Reporta prevalencia y métricas alineadas a la cola (P/R, P@k)."
+    },
+    {
+      "i": 22,
+      "len": 98,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: baseline_acc = 1 - prevalence; si model_acc ≈ baseline_acc sin recall, flag misleading.",
+      "text": "Mecanismo: baseline_acc = 1 - prevalence; si model_acc ≈ baseline_acc sin recall, flag misleading."
+    },
+    {
+      "i": 23,
+      "len": 102,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: prevalence, accuracy, recall. Salida: misleading flag. Error: vanity accuracy sola.",
+      "text": "Contrato. Entrada: prevalence, accuracy, recall. Salida: misleading flag. Error: vanity accuracy sola."
+    },
+    {
+      "i": 24,
+      "len": 77,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-034-T2B: prev=0.01, acc=0.99, recall=0 → misleading True.",
+      "text": "Aplicación CASO-LIM-034-T2B: prev=0.01, acc=0.99, recall=0 → misleading True."
+    },
+    {
+      "i": 25,
+      "len": 32,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Reliability curves y Brier score",
+      "text": "Reliability curves y Brier score"
+    },
+    {
+      "i": 26,
+      "len": 104,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Calibración: si predices 0.8, ~80% deben ser positivos. Brier = mean((p−y)²). Reliability por bins de p.",
+      "text": "Calibración: si predices 0.8, ~80% deben ser positivos. Brier = mean((p−y)²). Reliability por bins de p."
+    },
+    {
+      "i": 27,
+      "len": 75,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: Brier sobre listas p,y; reliability = mean(y) en bin vs mean(p).",
+      "text": "Mecanismo: Brier sobre listas p,y; reliability = mean(y) en bin vs mean(p)."
+    },
+    {
+      "i": 28,
+      "len": 125,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: probs, labels. Salida: brier y calibrated flag. Error: usar probs crudas como riesgos absolutos sin check.",
+      "text": "Contrato. Entrada: probs, labels. Salida: brier y calibrated flag. Error: usar probs crudas como riesgos absolutos sin check."
+    },
+    {
+      "i": 29,
+      "len": 63,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-034-T3A: p=[0.1,0.9], y=[0,1] → brier 0.01.",
+      "text": "Aplicación CASO-LIM-034-T3A: p=[0.1,0.9], y=[0,1] → brier 0.01."
+    },
+    {
+      "i": 30,
+      "len": 42,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Calibradores y evaluación fuera de muestra",
+      "text": "Calibradores y evaluación fuera de muestra"
+    },
+    {
+      "i": 31,
+      "len": 122,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Calibradores (Platt/isotonic conceptualmente) se fit en holdout, nunca en el test final. Evalúa calibración out-of-sample.",
+      "text": "Calibradores (Platt/isotonic conceptualmente) se fit en holdout, nunca en el test final. Evalúa calibración out-of-sample."
+    },
+    {
+      "i": 32,
+      "len": 76,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: split cal_fit / cal_eval; no reuses test para fit del calibrador.",
+      "text": "Mecanismo: split cal_fit / cal_eval; no reuses test para fit del calibrador."
+    },
+    {
+      "i": 33,
+      "len": 84,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: fit_on, eval_on. Salida: oos True. Error: fit calibrador en test.",
+      "text": "Contrato. Entrada: fit_on, eval_on. Salida: oos True. Error: fit calibrador en test."
+    },
+    {
+      "i": 34,
+      "len": 59,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-034-T3B: fit=val, eval=test → oos True.",
+      "text": "Aplicación CASO-LIM-034-T3B: fit=val, eval=test → oos True."
+    },
+    {
+      "i": 35,
+      "len": 31,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Threshold por costo y capacidad",
+      "text": "Threshold por costo y capacidad"
+    },
+    {
+      "i": 36,
+      "len": 112,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "El umbral no es 0.5 por magia: maximiza utilidad bajo costos y capacidad de review. thr alto → menos FP, más FN.",
+      "text": "El umbral no es 0.5 por magia: maximiza utilidad bajo costos y capacidad de review. thr alto → menos FP, más FN."
+    },
+    {
+      "i": 37,
+      "len": 116,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: para thr en grid, pred=p>=thr; cost = fpc_fp + fnc_fn; elige thr con cost mínimo sujeto a load<=capacity.",
+      "text": "Mecanismo: para thr en grid, pred=p>=thr; cost = fpc_fp + fnc_fn; elige thr con cost mínimo sujeto a load<=capacity."
+    },
+    {
+      "i": 38,
+      "len": 106,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: costs, capacity, thr_star. Salida: thr y expected_load. Error: thr fijo 0.5 sin costos.",
+      "text": "Contrato. Entrada: costs, capacity, thr_star. Salida: thr y expected_load. Error: thr fijo 0.5 sin costos."
+    },
+    {
+      "i": 39,
+      "len": 59,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-034-T4A: thr=0.7, capacity=20, load=15.",
+      "text": "Aplicación CASO-LIM-034-T4A: thr=0.7, capacity=20, load=15."
+    },
+    {
+      "i": 40,
+      "len": 33,
+      "rank": 9.6,
+      "issues": [],
+      "excerpt": "Abstención, slices y sensibilidad",
+      "text": "Abstención, slices y sensibilidad"
+    },
+    {
+      "i": 41,
+      "len": 135,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Abstención (banda gris) envía a humano. Slices (canal/región sintética) detectan fallas locales. Sensibilidad a thr documenta robustez.",
+      "text": "Abstención (banda gris) envía a humano. Slices (canal/región sintética) detectan fallas locales. Sensibilidad a thr documenta robustez."
+    },
+    {
+      "i": 42,
+      "len": 88,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Mecanismo: si p en [lo,hi] → ABSTAIN; reporta metric por slice; Δmetric al mover thr ±ε.",
+      "text": "Mecanismo: si p en [lo,hi] → ABSTAIN; reporta metric por slice; Δmetric al mover thr ±ε."
+    },
+    {
+      "i": 43,
+      "len": 109,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Contrato. Entrada: p, band, slice_metrics. Salida: decision y worst_slice. Error: auto-decidir en banda gris.",
+      "text": "Contrato. Entrada: p, band, slice_metrics. Salida: decision y worst_slice. Error: auto-decidir en banda gris."
+    },
+    {
+      "i": 44,
+      "len": 121,
+      "rank": 9.5,
+      "issues": [],
+      "excerpt": "Aplicación CASO-LIM-034-T4B: p=0.55 en [0.4,0.6] → ABSTAIN; cierra CP-N3-B workbench con ranking calibrado para revisión.",
+      "text": "Aplicación CASO-LIM-034-T4B: p=0.55 en [0.4,0.6] → ABSTAIN; cierra CP-N3-B workbench con ranking calibrado para revisión."
+    }
+  ],
+  "worst_rank": 9.5,
+  "high_issues": [],
+  "raw_len": 8163
+}

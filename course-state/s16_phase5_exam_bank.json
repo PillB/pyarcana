@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S16",
+  "section_id": "wxpython-gui",
+  "phase": "PHASE_5",
+  "lane": "LANE-S14-S17-CLOSE",
+  "generated_at": "2026-07-20T20:30:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "wxpython-gui"
+  },
+  "retired_from_bank": [
+    "crear-ventanas-con-wx",
+    "manejar-eventos:-evt_button",
+    "usar-widgets-clave:-wx",
+    "implementar-threading-seguro-c"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S16 (Calidad, limpieza y contratos de datos).",
+  "families": [
+    {
+      "family_id": "S16-T1-A-EX",
+      "concept": "nulls-field-policies",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S16-T1-B-EX",
+      "concept": "indicators-imputation-limits",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S16-T2-A-EX",
+      "concept": "exact-vs-conflict-dups",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S16-T2-B-EX",
+      "concept": "keys-cardinality-evidence",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S16-T3-A-EX",
+      "concept": "normalize-strings-nums-dates-cats",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S16-T3-B-EX",
+      "concept": "outliers-plausible-vs-error",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S16-T4-A-EX",
+      "concept": "schema-crossfield-rules",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S16-T4-B-EX",
+      "concept": "metrics-quarantine-audit",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (wxpython-gui key)",
+    "course-state/s16_phase5_exam_bank.json"
+  ]
+}

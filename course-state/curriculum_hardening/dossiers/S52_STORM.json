@@ -1,0 +1,1478 @@
+{
+  "section": 52,
+  "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+  "file": "s52-career-strategy.ts",
+  "n_required": 52,
+  "n_logged": 52,
+  "generated_at": "2026-07-24T04:19:22.134+00:00",
+  "method": "hand_STORM_domain_sources",
+  "priority_band": "A",
+  "content_decisions": {
+    "weDo": "24 CASO DEFECT",
+    "theory_iDo": "8/8 + map glossary/contract",
+    "git_restore": "NO — worktree ≥ history (HEAD/ad5e235/6290f0c)",
+    "ethics": "real_pii blocked; auto_fraud_label blocked; match≠fraud; human review sensitive",
+    "v3_retarget": "CP-FINAL platform not soft career only",
+    "expert_pass_at": "2026-07-24T04:19:22.134+00:00"
+  },
+  "unique_foci": 52,
+  "source_url_count": 15,
+  "cycles": [
+    {
+      "cycle": 1,
+      "focus": "revalidate CF-1 stakeholders jobs metrics",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "About READMEs",
+          "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "note": "README"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        },
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 1/52: «revalidate CF-1 stakeholders jobs metrics» via ADR, C4, GitHub (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «revalidate CF-1 stakeholders jobs metrics».",
+      "expand_scope": "E1/E2/E3 + docs for «revalidate CF-1 stakeholders jobs metrics»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 1/52: «revalidate CF-1 stakeholders jobs metrics» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 2,
+      "focus": "delta log invalid needs",
+      "research": [
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        },
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 2/52: «delta log invalid needs» via ADR, C4, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «delta log invalid needs».",
+      "expand_scope": "E1/E2/E3 + docs for «delta log invalid needs»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 2/52: «delta log invalid needs» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 3,
+      "focus": "constraints owner threshold",
+      "research": [
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        },
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 3/52: «constraints owner threshold» via 12factor, ADR, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «constraints owner threshold».",
+      "expand_scope": "E1/E2/E3 + docs for «constraints owner threshold»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 3/52: «constraints owner threshold» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 4,
+      "focus": "no-go real_pii auto_fraud",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        },
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        },
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 4/52: «no-go real_pii auto_fraud» via 12factor, ChooseALicense, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «no-go real_pii auto_fraud».",
+      "expand_scope": "E1/E2/E3 + docs for «no-go real_pii auto_fraud»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 4/52: «no-go real_pii auto_fraud» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 5,
+      "focus": "match is not fraud",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        },
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        },
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 5/52: «match is not fraud» via 12factor, ChooseALicense, Google (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «match is not fraud».",
+      "expand_scope": "E1/E2/E3 + docs for «match is not fraud»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 5/52: «match is not fraud» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 6,
+      "focus": "bounded contexts versioned APIs events",
+      "research": [
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        },
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 6/52: «bounded contexts versioned APIs events» via ChooseALicense, Google (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «bounded contexts versioned APIs events».",
+      "expand_scope": "E1/E2/E3 + docs for «bounded contexts versioned APIs events»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 6/52: «bounded contexts versioned APIs events» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 7,
+      "focus": "contract tests e2e",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "PyArcana",
+          "title": "Repo",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-FINAL"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 7/52: «contract tests e2e» via Google, PyArcana (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «contract tests e2e».",
+      "expand_scope": "E1/E2/E3 + docs for «contract tests e2e»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 7/52: «contract tests e2e» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 8,
+      "focus": "data models RPA RAG human workflow",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "PyArcana",
+          "title": "Repo",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-FINAL"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 8/52: «data models RPA RAG human workflow» via Google, MIT, PyArcana (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «data models RPA RAG human workflow».",
+      "expand_scope": "E1/E2/E3 + docs for «data models RPA RAG human workflow»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 8/52: «data models RPA RAG human workflow» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 9,
+      "focus": "ER proposes identity",
+      "research": [
+        {
+          "family": "PyArcana",
+          "title": "Repo",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-FINAL"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 9/52: «ER proposes identity» via Harvard, MIT, PyArcana (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ER proposes identity».",
+      "expand_scope": "E1/E2/E3 + docs for «ER proposes identity»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 9/52: «ER proposes identity» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 10,
+      "focus": "triage prioritizes",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Stanford",
+          "title": "Web",
+          "url": "https://web.stanford.edu/",
+          "note": "system design"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 10/52: «triage prioritizes» via Harvard, MIT, Stanford (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «triage prioritizes».",
+      "expand_scope": "E1/E2/E3 + docs for «triage prioritizes»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 10/52: «triage prioritizes» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 11,
+      "focus": "sensitive decision human review",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Stanford",
+          "title": "Web",
+          "url": "https://web.stanford.edu/",
+          "note": "system design"
+        },
+        {
+          "family": "Coursera",
+          "title": "System design",
+          "url": "https://www.coursera.org/courses?query=system%20design",
+          "note": "portfolio"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 11/52: «sensitive decision human review» via Coursera, Harvard, Stanford (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «sensitive decision human review».",
+      "expand_scope": "E1/E2/E3 + docs for «sensitive decision human review»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 11/52: «sensitive decision human review» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 12,
+      "focus": "tests evals red team performance",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "Web",
+          "url": "https://web.stanford.edu/",
+          "note": "system design"
+        },
+        {
+          "family": "Coursera",
+          "title": "System design",
+          "url": "https://www.coursera.org/courses?query=system%20design",
+          "note": "portfolio"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "ethics risk"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 12/52: «tests evals red team performance» via Coursera, NIST, Stanford (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «tests evals red team performance».",
+      "expand_scope": "E1/E2/E3 + docs for «tests evals red team performance»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 12/52: «tests evals red team performance» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 13,
+      "focus": "P0 P1 permanent regression",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "System design",
+          "url": "https://www.coursera.org/courses?query=system%20design",
+          "note": "portfolio"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "ethics risk"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 13/52: «P0 P1 permanent regression» via Coursera, Live, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «P0 P1 permanent regression».",
+      "expand_scope": "E1/E2/E3 + docs for «P0 P1 permanent regression»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 13/52: «P0 P1 permanent regression» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 14,
+      "focus": "SLO backup rollback disaster drill",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "ethics risk"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "About READMEs",
+          "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "note": "README"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 14/52: «SLO backup rollback disaster drill» via GitHub, Live, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «SLO backup rollback disaster drill».",
+      "expand_scope": "E1/E2/E3 + docs for «SLO backup rollback disaster drill»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 14/52: «SLO backup rollback disaster drill» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 15,
+      "focus": "RPO RTO measured",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "About READMEs",
+          "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "note": "README"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 15/52: «RPO RTO measured» via C4, GitHub, Live (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «RPO RTO measured».",
+      "expand_scope": "E1/E2/E3 + docs for «RPO RTO measured»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 15/52: «RPO RTO measured» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 16,
+      "focus": "demo problem baseline decision metric limit",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "About READMEs",
+          "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "note": "README"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        },
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 16/52: «demo problem baseline decision metric limit» via ADR, C4, GitHub (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «demo problem baseline decision metric limit».",
+      "expand_scope": "E1/E2/E3 + docs for «demo problem baseline decision metric limit»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 16/52: «demo problem baseline decision metric limit» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 17,
+      "focus": "CV personal contribution",
+      "research": [
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        },
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 17/52: «CV personal contribution» via ADR, C4, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CV personal contribution».",
+      "expand_scope": "E1/E2/E3 + docs for «CV personal contribution»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 17/52: «CV personal contribution» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 18,
+      "focus": "C4 architecture",
+      "research": [
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        },
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 18/52: «C4 architecture» via 12factor, ADR, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «C4 architecture».",
+      "expand_scope": "E1/E2/E3 + docs for «C4 architecture»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 18/52: «C4 architecture» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 19,
+      "focus": "README executable",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        },
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        },
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 19/52: «README executable» via 12factor, ChooseALicense, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «README executable».",
+      "expand_scope": "E1/E2/E3 + docs for «README executable»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 19/52: «README executable» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 20,
+      "focus": "ADR model cards",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        },
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        },
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 20/52: «ADR model cards» via 12factor, ChooseALicense, Google (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ADR model cards».",
+      "expand_scope": "E1/E2/E3 + docs for «ADR model cards»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 20/52: «ADR model cards» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 21,
+      "focus": "license required",
+      "research": [
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        },
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 21/52: «license required» via ChooseALicense, Google (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «license required».",
+      "expand_scope": "E1/E2/E3 + docs for «license required»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 21/52: «license required» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 22,
+      "focus": "video defense oral",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "PyArcana",
+          "title": "Repo",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-FINAL"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 22/52: «video defense oral» via Google, PyArcana (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «video defense oral».",
+      "expand_scope": "E1/E2/E3 + docs for «video defense oral»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 22/52: «video defense oral» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 23,
+      "focus": "52 of 52 gate",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "PyArcana",
+          "title": "Repo",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-FINAL"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 23/52: «52 of 52 gate» via Google, MIT, PyArcana (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «52 of 52 gate».",
+      "expand_scope": "E1/E2/E3 + docs for «52 of 52 gate»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 23/52: «52 of 52 gate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 24,
+      "focus": "12 of 12 capstones",
+      "research": [
+        {
+          "family": "PyArcana",
+          "title": "Repo",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-FINAL"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 24/52: «12 of 12 capstones» via Harvard, MIT, PyArcana (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «12 of 12 capstones».",
+      "expand_scope": "E1/E2/E3 + docs for «12 of 12 capstones»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 24/52: «12 of 12 capstones» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 25,
+      "focus": "CP-FINAL",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Stanford",
+          "title": "Web",
+          "url": "https://web.stanford.edu/",
+          "note": "system design"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 25/52: «CP-FINAL» via Harvard, MIT, Stanford (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «CP-FINAL».",
+      "expand_scope": "E1/E2/E3 + docs for «CP-FINAL»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 25/52: «CP-FINAL» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 26,
+      "focus": "regression S1-S52",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Stanford",
+          "title": "Web",
+          "url": "https://web.stanford.edu/",
+          "note": "system design"
+        },
+        {
+          "family": "Coursera",
+          "title": "System design",
+          "url": "https://www.coursera.org/courses?query=system%20design",
+          "note": "portfolio"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 26/52: «regression S1-S52» via Coursera, Harvard, Stanford (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «regression S1-S52».",
+      "expand_scope": "E1/E2/E3 + docs for «regression S1-S52»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 26/52: «regression S1-S52» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 27,
+      "focus": "cannot compensate CP-N4-C",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "Web",
+          "url": "https://web.stanford.edu/",
+          "note": "system design"
+        },
+        {
+          "family": "Coursera",
+          "title": "System design",
+          "url": "https://www.coursera.org/courses?query=system%20design",
+          "note": "portfolio"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "ethics risk"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 27/52: «cannot compensate CP-N4-C» via Coursera, NIST, Stanford (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «cannot compensate CP-N4-C».",
+      "expand_scope": "E1/E2/E3 + docs for «cannot compensate CP-N4-C»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 27/52: «cannot compensate CP-N4-C» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 28,
+      "focus": "synthetic multi-region Peru",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "System design",
+          "url": "https://www.coursera.org/courses?query=system%20design",
+          "note": "portfolio"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "ethics risk"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 28/52: «synthetic multi-region Peru» via Coursera, Live, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «synthetic multi-region Peru».",
+      "expand_scope": "E1/E2/E3 + docs for «synthetic multi-region Peru»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 28/52: «synthetic multi-region Peru» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 29,
+      "focus": "zero P0 P1",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "ethics risk"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "About READMEs",
+          "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "note": "README"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 29/52: «zero P0 P1» via GitHub, Live, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «zero P0 P1».",
+      "expand_scope": "E1/E2/E3 + docs for «zero P0 P1»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 29/52: «zero P0 P1» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 30,
+      "focus": "ownership of contexts",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "About READMEs",
+          "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "note": "README"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 30/52: «ownership of contexts» via C4, GitHub, Live (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «ownership of contexts».",
+      "expand_scope": "E1/E2/E3 + docs for «ownership of contexts»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 30/52: «ownership of contexts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 31,
+      "focus": "event job.finished case.updated",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "About READMEs",
+          "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "note": "README"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        },
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 31/52: «event job.finished case.updated» via ADR, C4, GitHub (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «event job.finished case.updated».",
+      "expand_scope": "E1/E2/E3 + docs for «event job.finished case.updated»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 31/52: «event job.finished case.updated» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 32,
+      "focus": "reproducible one command fixtures",
+      "research": [
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        },
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 32/52: «reproducible one command fixtures» via ADR, C4, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «reproducible one command fixtures».",
+      "expand_scope": "E1/E2/E3 + docs for «reproducible one command fixtures»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 32/52: «reproducible one command fixtures» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 33,
+      "focus": "portfolio ethical no inflate",
+      "research": [
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        },
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 33/52: «portfolio ethical no inflate» via 12factor, ADR, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «portfolio ethical no inflate».",
+      "expand_scope": "E1/E2/E3 + docs for «portfolio ethical no inflate»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 33/52: «portfolio ethical no inflate» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 34,
+      "focus": "runbook exercised",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        },
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        },
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 34/52: «runbook exercised» via 12factor, ChooseALicense, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «runbook exercised».",
+      "expand_scope": "E1/E2/E3 + docs for «runbook exercised»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 34/52: «runbook exercised» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 35,
+      "focus": "trade-offs defendable",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        },
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        },
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 35/52: «trade-offs defendable» via 12factor, ChooseALicense, Google (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «trade-offs defendable».",
+      "expand_scope": "E1/E2/E3 + docs for «trade-offs defendable»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 35/52: «trade-offs defendable» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 36,
+      "focus": "V3 platform not soft career",
+      "research": [
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        },
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 36/52: «V3 platform not soft career» via ChooseALicense, Google (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «V3 platform not soft career».",
+      "expand_scope": "E1/E2/E3 + docs for «V3 platform not soft career»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 36/52: «V3 platform not soft career» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 37,
+      "focus": "legacy career-strategy retarget",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "PyArcana",
+          "title": "Repo",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-FINAL"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 37/52: «legacy career-strategy retarget» via Google, PyArcana (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «legacy career-strategy retarget».",
+      "expand_scope": "E1/E2/E3 + docs for «legacy career-strategy retarget»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 37/52: «legacy career-strategy retarget» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 38,
+      "focus": "stdlib + course artifacts",
+      "research": [
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "PyArcana",
+          "title": "Repo",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-FINAL"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 38/52: «stdlib + course artifacts» via Google, MIT, PyArcana (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «stdlib + course artifacts».",
+      "expand_scope": "E1/E2/E3 + docs for «stdlib + course artifacts»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 38/52: «stdlib + course artifacts» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 39,
+      "focus": "nogo declare path",
+      "research": [
+        {
+          "family": "PyArcana",
+          "title": "Repo",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-FINAL"
+        },
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 39/52: «nogo declare path» via Harvard, MIT, PyArcana (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «nogo declare path».",
+      "expand_scope": "E1/E2/E3 + docs for «nogo declare path»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 39/52: «nogo declare path» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 40,
+      "focus": "independent risk review",
+      "research": [
+        {
+          "family": "MIT",
+          "title": "6.100L",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/",
+          "note": "foundations"
+        },
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Stanford",
+          "title": "Web",
+          "url": "https://web.stanford.edu/",
+          "note": "system design"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 40/52: «independent risk review» via Harvard, MIT, Stanford (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «independent risk review».",
+      "expand_scope": "E1/E2/E3 + docs for «independent risk review»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 40/52: «independent risk review» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 41,
+      "focus": "publish package complete",
+      "research": [
+        {
+          "family": "Harvard",
+          "title": "CS50P",
+          "url": "https://cs50.harvard.edu/python/",
+          "note": "tests"
+        },
+        {
+          "family": "Stanford",
+          "title": "Web",
+          "url": "https://web.stanford.edu/",
+          "note": "system design"
+        },
+        {
+          "family": "Coursera",
+          "title": "System design",
+          "url": "https://www.coursera.org/courses?query=system%20design",
+          "note": "portfolio"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 41/52: «publish package complete» via Coursera, Harvard, Stanford (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «publish package complete».",
+      "expand_scope": "E1/E2/E3 + docs for «publish package complete»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 41/52: «publish package complete» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 42,
+      "focus": "disaster exercise evidence",
+      "research": [
+        {
+          "family": "Stanford",
+          "title": "Web",
+          "url": "https://web.stanford.edu/",
+          "note": "system design"
+        },
+        {
+          "family": "Coursera",
+          "title": "System design",
+          "url": "https://www.coursera.org/courses?query=system%20design",
+          "note": "portfolio"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "ethics risk"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 42/52: «disaster exercise evidence» via Coursera, NIST, Stanford (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «disaster exercise evidence».",
+      "expand_scope": "E1/E2/E3 + docs for «disaster exercise evidence»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 42/52: «disaster exercise evidence» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 43,
+      "focus": "backup restore verified",
+      "research": [
+        {
+          "family": "Coursera",
+          "title": "System design",
+          "url": "https://www.coursera.org/courses?query=system%20design",
+          "note": "portfolio"
+        },
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "ethics risk"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 43/52: «backup restore verified» via Coursera, Live, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «backup restore verified».",
+      "expand_scope": "E1/E2/E3 + docs for «backup restore verified»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 43/52: «backup restore verified» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 44,
+      "focus": "senior master close",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "AI RMF",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+          "note": "ethics risk"
+        },
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "About READMEs",
+          "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "note": "README"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 44/52: «senior master close» via GitHub, Live, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «senior master close».",
+      "expand_scope": "E1/E2/E3 + docs for «senior master close»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 44/52: «senior master close» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 45,
+      "focus": "pair from S51 CF-5 freeze",
+      "research": [
+        {
+          "family": "Live",
+          "title": "PyArcana",
+          "url": "https://pillb.github.io/pyarcana/",
+          "note": "course"
+        },
+        {
+          "family": "GitHub",
+          "title": "About READMEs",
+          "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "note": "README"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 45/52: «pair from S51 CF-5 freeze» via C4, GitHub, Live (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «pair from S51 CF-5 freeze».",
+      "expand_scope": "E1/E2/E3 + docs for «pair from S51 CF-5 freeze»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 45/52: «pair from S51 CF-5 freeze» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 46,
+      "focus": "full curriculum integration",
+      "research": [
+        {
+          "family": "GitHub",
+          "title": "About READMEs",
+          "url": "https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+          "note": "README"
+        },
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        },
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 46/52: «full curriculum integration» via ADR, C4, GitHub (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «full curriculum integration».",
+      "expand_scope": "E1/E2/E3 + docs for «full curriculum integration»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 46/52: «full curriculum integration» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 47,
+      "focus": "human in loop required",
+      "research": [
+        {
+          "family": "C4",
+          "title": "C4 model",
+          "url": "https://c4model.com/",
+          "note": "architecture"
+        },
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 47/52: «human in loop required» via ADR, C4, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «human in loop required».",
+      "expand_scope": "E1/E2/E3 + docs for «human in loop required»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 47/52: «human in loop required» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 48,
+      "focus": "gold focus 48 CASO-PER-052",
+      "research": [
+        {
+          "family": "ADR",
+          "title": "Architecture Decision Records",
+          "url": "https://adr.github.io/",
+          "note": "ADRs"
+        },
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        },
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 48/52: «gold focus 48 CASO-PER-052» via 12factor, ADR, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «gold focus 48 CASO-PER-052».",
+      "expand_scope": "E1/E2/E3 + docs for «gold focus 48 CASO-PER-052»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 48/52: «gold focus 48 CASO-PER-052» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 49,
+      "focus": "gold focus 49 CASO-PER-052",
+      "research": [
+        {
+          "family": "NIST",
+          "title": "SSDF",
+          "url": "https://csrc.nist.gov/Projects/ssdf",
+          "note": "secure publish"
+        },
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        },
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 49/52: «gold focus 49 CASO-PER-052» via 12factor, ChooseALicense, NIST (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «gold focus 49 CASO-PER-052».",
+      "expand_scope": "E1/E2/E3 + docs for «gold focus 49 CASO-PER-052»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 49/52: «gold focus 49 CASO-PER-052» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 50,
+      "focus": "gold focus 50 CASO-PER-052",
+      "research": [
+        {
+          "family": "12factor",
+          "title": "12factor App",
+          "url": "https://12factor.net/",
+          "note": "reproducibility"
+        },
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        },
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 50/52: «gold focus 50 CASO-PER-052» via 12factor, ChooseALicense, Google (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «gold focus 50 CASO-PER-052».",
+      "expand_scope": "E1/E2/E3 + docs for «gold focus 50 CASO-PER-052»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 50/52: «gold focus 50 CASO-PER-052» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 51,
+      "focus": "gold focus 51 CASO-PER-052",
+      "research": [
+        {
+          "family": "ChooseALicense",
+          "title": "Licenses",
+          "url": "https://choosealicense.com/",
+          "note": "license"
+        },
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 51/52: «gold focus 51 CASO-PER-052» via ChooseALicense, Google (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «gold focus 51 CASO-PER-052».",
+      "expand_scope": "E1/E2/E3 + docs for «gold focus 51 CASO-PER-052»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 51/52: «gold focus 51 CASO-PER-052» gold; Graph edge research_supports_paragraph."
+    },
+    {
+      "cycle": 52,
+      "focus": "gold focus 52 CASO-PER-052",
+      "research": [
+        {
+          "family": "Google",
+          "title": "Disaster recovery",
+          "url": "https://sre.google/sre-book/disaster-recovery/",
+          "note": "RPO RTO"
+        },
+        {
+          "family": "Google",
+          "title": "SRE SLOs",
+          "url": "https://sre.google/sre-book/service-level-objectives/",
+          "note": "SLO"
+        },
+        {
+          "family": "PyArcana",
+          "title": "Repo",
+          "url": "https://github.com/PillB/pyarcana",
+          "note": "CP-FINAL"
+        }
+      ],
+      "synthesize": "S52 «Enterprise Relationship & Operations Intelligence Platform: capstone final» cycle 52/52: «gold focus 52 CASO-PER-052» via Google, PyArcana (CASO-PER-052).",
+      "critique": "Reject theater/TODO/wrong-topic; require DEFECT+defs gold for «gold focus 52 CASO-PER-052».",
+      "expand_scope": "E1/E2/E3 + docs for «gold focus 52 CASO-PER-052»; V3 roadmap; pair S52 senior-master close of curriculum.",
+      "re_synthesize": "Decision 52/52: «gold focus 52 CASO-PER-052» gold; Graph edge research_supports_paragraph."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "section": 40,
+  "id": "agentic-architecture",
+  "file": "src/lib/course/sections/s40-agentic-architecture.ts",
+  "score_1_to_10": 6.4,
+  "issue_count": 22,
+  "meta_leak_count": 2,
+  "status": "complete"
+}

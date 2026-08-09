@@ -1,0 +1,343 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_K1",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "k1-newbie_b-s22-6fe56c0ce694",
+  "production_note": "agentic_K1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "id": "S22-T1-A-E1",
+      "code": "# skeptic audit S22-T1-A-E1\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type(), \"|\", msg.get_charset())\n",
+      "justification_from_packet": "Skeptic en «Email, identidad y aprobación humana»: crucé S22-T1-A-E1 contra theory/iDo antes de aceptar el código. La instruction dice «E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola', 'plain', 'utf-8'); print(msg.get_content_type(…»; el apoyo lexical viene de «templates y sanitización». Implementación auditada: `from email.mime.text import MIMEText`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.862). Traza local: sección-activa/skeptic/S22-T1-A-E1.",
+      "confidence": 0.862,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "id": "S22-T1-A-E2",
+      "code": "# skeptic audit S22-T1-A-E2\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt.add_header('Content-Disposition', 'attachment', filename='a.txt')\nmsg.attach(att)\nprint(any(p.get_filename() == 'a.txt' for p in msg.walk()))\n",
+      "justification_from_packet": "Revisión escéptica de S22-T1-A-E2 (Email, identidad y aprobación humana). Packet grounding: templates interpolan variables (nombre, run_id, montos). + templates interpolan variables (nombre, run_id, montos).. Instruction: «E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg = MIMEMultipart('mixed'); msg['Subject'] = 'Test'…». Código final `from email.mime.multipart import MIMEMultipart` sin stamps de theater ni ejecutor. Confianza calibrada 0.888. Traza local: sección-activa/skeptic/S22-T1-A-E2.",
+      "confidence": 0.888,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "id": "S22-T1-A-E3",
+      "code": "# skeptic audit S22-T1-A-E3\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nprint(sum(1 for _ in msg.walk()))\n",
+      "justification_from_packet": "Revisión escéptica de S22-T1-A-E3 (Email, identidad y aprobación humana). Packet grounding: OAuth/service account y scopes + templates y sanitización. Instruction: «E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg = MIMEMultipart('mixed'); alt = MIMEMultipart('al…». Código final `from email.mime.multipart import MIMEMultipart` sin stamps de theater ni ejecutor. Confianza calibrada 0.822. Traza local: sección-activa/skeptic/S22-T1-A-E3.",
+      "confidence": 0.822,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "id": "S22-T1-B-E1",
+      "code": "# skeptic audit S22-T1-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nprint(html.escape('<script>x</script>'))\n",
+      "justification_from_packet": "Skeptic en «Email, identidad y aprobación humana»: crucé S22-T1-B-E1 contra theory/iDo antes de aceptar el código. La instruction dice «E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<script>x</script>')). Completa el TODO del start…»; el apoyo lexical viene de «OAuth/service account y scopes». Implementación auditada: `import html`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.764). Traza local: sección-activa/skeptic/S22-T1-B-E1.",
+      "confidence": 0.764,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "id": "S22-T1-B-E2",
+      "code": "# skeptic audit S22-T1-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S22-T1-B-E2: completé solo el TODO según el contrato del paquete «Email, identidad y aprobación humana». Cita de apoyo: OAuth/service account y scopes. Instrucción: «E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>Ana</b>'; print('Hola ' + html.escape(name)). C…». Salida vía `import html`. conf=0.772. Traza local: sección-activa/skeptic/S22-T1-B-E2.",
+      "confidence": 0.772,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "id": "S22-T1-B-E3",
+      "code": "# skeptic audit S22-T1-B-E3\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    status = 'ok' if 'example.pe' in u else 'blocked'\n    print(u, status)\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S22-T1-B-E3: completé solo el TODO según el contrato del paquete «Email, identidad y aprobación humana». Cita de apoyo: (`email.mime`) mensajes multiparte: text/plain text/html adjuntos.. Instrucción: «E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls = ['https://example.pe/a', 'https://evil.test']; …». Salida vía `urls = ['https://example.pe/a', 'https://evil.test']`. conf=0.822. Traza local: sección-activa/skeptic/S22-T1-B-E3.",
+      "confidence": 0.822,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "id": "S22-T2-A-E1",
+      "code": "# skeptic audit S22-T2-A-E1\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\ngranted = [s for s in requested if s in allowed]\nprint(granted)\n",
+      "justification_from_packet": "Revisión escéptica de S22-T2-A-E1 (Email, identidad y aprobación humana). Packet grounding: templates interpolan variables (nombre, run_id, montos). + MIME, encoding, HTML/text y attachments. Instruction: «E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail.draft', 'mail.full']; allowed = {'mail.draft',…». Código final `requested = ['mail.draft', 'mail.full']` sin stamps de theater ni ejecutor. Confianza calibrada 0.727. Traza local: sección-activa/skeptic/S22-T2-A-E1.",
+      "confidence": 0.727,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "id": "S22-T2-A-E2",
+      "code": "# skeptic audit S22-T2-A-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n",
+      "justification_from_packet": "Revisión escéptica de S22-T2-A-E2 (Email, identidad y aprobación humana). Packet grounding: OAuth service accounts operan scopes mínimos + OAuth/service account y scopes. Instruction: «E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = ['mail.draft']; bad = {'mail.full', 'admin'}. Co…». Código final `granted = ['mail.draft']` sin stamps de theater ni ejecutor. Confianza calibrada 0.643. Traza local: sección-activa/skeptic/S22-T2-A-E2.",
+      "confidence": 0.643,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "id": "S22-T2-A-E3",
+      "code": "# skeptic audit S22-T2-A-E3\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('refresh' if exp < now else 'valid')\n",
+      "justification_from_packet": "Revisión escéptica de S22-T2-A-E3 (Email, identidad y aprobación humana). Packet grounding: OAuth/service account y scopes + OAuth/service account y scopes. Instruction: «E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = datetime.now(timezone.utc); for exp in (now - time…». Código final `from datetime import datetime, timezone, timedelta` sin stamps de theater ni ejecutor. Confianza calibrada 0.758. Traza local: sección-activa/skeptic/S22-T2-A-E3.",
+      "confidence": 0.758,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "id": "S22-T2-B-E1",
+      "code": "# skeptic audit S22-T2-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n",
+      "justification_from_packet": "Revisión escéptica de S22-T2-B-E1 (Email, identidad y aprobación humana). Packet grounding: (`email.mime`) mensajes multiparte: text/plain text/html adjuntos. + OAuth service accounts operan scopes mínimos. Instruction: «E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d001'] = {'status': 'draft'}. Completa el TODO del…». Código final `store = {}` sin stamps de theater ni ejecutor. Confianza calibrada 0.842. Traza local: sección-activa/skeptic/S22-T2-B-E1.",
+      "confidence": 0.842,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "id": "S22-T2-B-E2",
+      "code": "# skeptic audit S22-T2-B-E2\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(now < expires_at)\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S22-T2-B-E2: completé solo el TODO según el contrato del paquete «Email, identidad y aprobación humana». Cita de apoyo: OAuth/service account y scopes. Instrucción: «E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datetime.now(timezone.utc); expires_at = now - timed…». Salida vía `from datetime import datetime, timezone, timedelta`. conf=0.738. Traza local: sección-activa/skeptic/S22-T2-B-E2.",
+      "confidence": 0.738,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "id": "S22-T2-B-E3",
+      "code": "# skeptic audit S22-T2-B-E3\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n",
+      "justification_from_packet": "Skeptic en «Email, identidad y aprobación humana»: crucé S22-T2-B-E3 contra theory/iDo antes de aceptar el código. La instruction dice «E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}; def create_draft():. Completa el TODO del sta…»; el apoyo lexical viene de «MIME, encoding, HTML/text y attachments». Implementación auditada: `store = {}`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.925). Traza local: sección-activa/skeptic/S22-T2-B-E3.",
+      "confidence": 0.925,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "id": "S22-T3-A-E1",
+      "code": "# skeptic audit S22-T3-A-E1\nimport re\npat = r'^[^@]+@[^@]+\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))\n",
+      "justification_from_packet": "Skeptic en «Email, identidad y aprobación humana»: crucé S22-T3-A-E1 contra theory/iDo antes de aceptar el código. La instruction dice «E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\\\.[^@]+$'; for e in ('ana@example.pe', 'bad'):.…»; el apoyo lexical viene de «templates y sanitización». Implementación auditada: `import re`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.585). Traza local: sección-activa/skeptic/S22-T3-A-E1.",
+      "confidence": 0.585,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "id": "S22-T3-A-E2",
+      "code": "# skeptic audit S22-T3-A-E2\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em and '@' in em else 'missing')\n",
+      "justification_from_packet": "Revisión escéptica de S22-T3-A-E2 (Email, identidad y aprobación humana). Packet grounding: OAuth/service account y scopes + templates interpolan variables (nombre, run_id, montos).. Instruction: «E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY = {'C001': 'ana@example.pe'}; em = DIRECTORY.get(…». Código final `DIRECTORY = {'C001': 'ana@example.pe'}` sin stamps de theater ni ejecutor. Confianza calibrada 0.856. Traza local: sección-activa/skeptic/S22-T3-A-E2.",
+      "confidence": 0.856,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "id": "S22-T3-A-E3",
+      "code": "# skeptic audit S22-T3-A-E3\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')\n",
+      "justification_from_packet": "Skeptic en «Email, identidad y aprobación humana»: crucé S22-T3-A-E3 contra theory/iDo antes de aceptar el código. La instruction dice «E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b = 'ana.rojas@example.pe', 'ana.rojas@example.c…»; el apoyo lexical viene de «OAuth service accounts operan scopes mínimos». Implementación auditada: `a, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.821). Traza local: sección-activa/skeptic/S22-T3-A-E3.",
+      "confidence": 0.821,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "id": "S22-T3-B-E1",
+      "code": "# skeptic audit S22-T3-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S22-T3-B-E1: completé solo el TODO según el contrato del paquete «Email, identidad y aprobación humana». Cita de apoyo: templates interpolan variables (nombre, run_id, montos).. Instrucción: «E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@x', 'b@x', 'a@x']; print(list(dict.fromkeys(xs)…». Salida vía `xs = ['a@x', 'b@x', 'a@x']`. conf=0.618. Traza local: sección-activa/skeptic/S22-T3-B-E1.",
+      "confidence": 0.618,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "id": "S22-T3-B-E2",
+      "code": "# skeptic audit S22-T3-B-E2\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\nprint(rows[0]['role'])\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S22-T3-B-E2: completé solo el TODO según el contrato del paquete «Email, identidad y aprobación humana». Cita de apoyo: OAuth service accounts operan scopes mínimos. Instrucción: «E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{'email': 'p@other.test', 'role': 'cc'}]; for r …». Salida vía `rows = [{'email': 'p@other.test', 'role': 'cc'}]`. conf=0.796. Traza local: sección-activa/skeptic/S22-T3-B-E2.",
+      "confidence": 0.796,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "id": "S22-T3-B-E3",
+      "code": "# skeptic audit S22-T3-B-E3\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S22-T3-B-E3: completé solo el TODO según el contrato del paquete «Email, identidad y aprobación humana». Cita de apoyo: templates interpolan variables (nombre, run_id, montos).. Instrucción: «E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a@example.pe','to'),('b@other.test','cc')]; vis …». Salida vía `rows = [('a@example.pe','to'),('b@other.test','cc')]`. conf=0.693. Traza local: sección-activa/skeptic/S22-T3-B-E3.",
+      "confidence": 0.693,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "id": "S22-T4-A-E1",
+      "code": "# skeptic audit S22-T4-A-E1\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nprint(state)\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S22-T4-A-E1: completé solo el TODO según el contrato del paquete «Email, identidad y aprobación humana». Cita de apoyo: OAuth/service account y scopes. Instrucción: «E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft': {'submit': 'pending'}}; state = 'draft'. Com…». Salida vía `T = {'draft': {'submit': 'pending'}}`. conf=0.842. Traza local: sección-activa/skeptic/S22-T4-A-E1.",
+      "confidence": 0.842,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "id": "S22-T4-A-E2",
+      "code": "# skeptic audit S22-T4-A-E2\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint('invalid' if nxt is None else nxt)\n",
+      "justification_from_packet": "Como Skeptic, no confié en el starter incompleto de S22-T4-A-E2: completé solo el TODO según el contrato del paquete «Email, identidad y aprobación humana». Cita de apoyo: MIME, encoding, HTML/text y attachments. Instrucción: «E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'draft': {'submit': 'pending'}, 'pending': {'appr…». Salida vía `T = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}`. conf=0.623. Traza local: sección-activa/skeptic/S22-T4-A-E2.",
+      "confidence": 0.623,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "id": "S22-T4-A-E3",
+      "code": "# skeptic audit S22-T4-A-E3\nlog = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nprint(log)\n",
+      "justification_from_packet": "Skeptic en «Email, identidad y aprobación humana»: crucé S22-T4-A-E3 contra theory/iDo antes de aceptar el código. La instruction dice «E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []; log.append({'from': 'pending', 'to': 'approve…»; el apoyo lexical viene de «OAuth service accounts operan scopes mínimos». Implementación auditada: `log = []`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.766). Traza local: sección-activa/skeptic/S22-T4-A-E3.",
+      "confidence": 0.766,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "id": "S22-T4-B-E1",
+      "code": "# skeptic audit S22-T4-B-E1\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n",
+      "justification_from_packet": "Skeptic en «Email, identidad y aprobación humana»: crucé S22-T4-B-E1 contra theory/iDo antes de aceptar el código. La instruction dice «E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sha256(b'run|to|v1').hexdigest()[:8]). Completa e…»; el apoyo lexical viene de «OAuth/service account y scopes». Implementación auditada: `import hashlib`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.959). Traza local: sección-activa/skeptic/S22-T4-B-E1.",
+      "confidence": 0.959,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "id": "S22-T4-B-E2",
+      "code": "# skeptic audit S22-T4-B-E2\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n",
+      "justification_from_packet": "Skeptic en «Email, identidad y aprobación humana»: crucé S22-T4-B-E2 contra theory/iDo antes de aceptar el código. La instruction dice «E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {}; def create(key):. Completa el TODO del start…»; el apoyo lexical viene de «OAuth/service account y scopes». Implementación auditada: `store = {}`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.727). Traza local: sección-activa/skeptic/S22-T4-B-E2.",
+      "confidence": 0.727,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "id": "S22-T4-B-E3",
+      "code": "# skeptic audit S22-T4-B-E3\naudit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nprint(audit)\n",
+      "justification_from_packet": "Skeptic en «Email, identidad y aprobación humana»: crucé S22-T4-B-E3 contra theory/iDo antes de aceptar el código. La instruction dice «E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = []; store = {}. Completa el TODO del starter sin b…»; el apoyo lexical viene de «OAuth service accounts operan scopes mínimos». Implementación auditada: `audit = []`. Si el shape/contrato no cierra, fallaría cerrado (conf 0.824). Traza local: sección-activa/skeptic/S22-T4-B-E3.",
+      "confidence": 0.824,
+      "blocked_on": [],
+      "answer": "completed_from_packet",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic SelfCheck s/Email, identidad y aprobación humana Q0: «¿Qué garantiza no enviar correo real en el gate de S22?». Descarté distractores y me quedé con [1] «Solo drafts/.eml en sandbox y aprobación humana», alineado con el corpus del paquete (OAuth/service account y scopes). Relectura de iDo/theory refuerza la elección (conf 0.718).",
+      "confidence": 0.718
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic SelfCheck s/Email, identidad y aprobación humana Q1: «Un score alto de similitud entre dos emails implica:». Descarté distractores y me quedé con [3] «Solo evidencia débil de contacto a revisar; no prueba de fraude», alineado con el corpus del paquete ((`email.mime`) mensajes multiparte: text/plain text/html adjuntos.). Relectura de iDo/theory refuerza la elección (conf 0.665).",
+      "confidence": 0.665
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic SelfCheck s/Email, identidad y aprobación humana Q2: «Least privilege en OAuth de correo significa:». Descarté distractores y me quedé con [0] «Solo los scopes mínimos (p. ej. draft) necesarios», alineado con el corpus del paquete (templates interpolan variables (nombre, run_id, montos).). Relectura de iDo/theory refuerza la elección (conf 0.846).",
+      "confidence": 0.846
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic SelfCheck s/Email, identidad y aprobación humana Q3: «La idempotency key al reintentar create_draft debe:». Descarté distractores y me quedé con [2] «Reutilizar el mismo draft_id si la key existe», alineado con el corpus del paquete (OAuth service accounts operan scopes mínimos). Relectura de iDo/theory refuerza la elección (conf 0.701).",
+      "confidence": 0.701
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic SelfCheck s/Email, identidad y aprobación humana Q4: «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza en el flujo de email de CP-N2-C?». Descarté distractores y me quedé con [1] «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fraude y HITL si aplica», alineado con el corpus del paquete (templates interpolan variables (nombre, run_id, montos).). Relectura de iDo/theory refuerza la elección (conf 0.797).",
+      "confidence": 0.797
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T13:38:36.241514+00:00",
+  "session_started_at": "2026-07-23T13:38:18.398976+00:00",
+  "session_ended_at": "2026-07-23T13:38:36.239960+00:00",
+  "receipt_response_sha256": "28f36f401e12a74e92d73096cc6d14ed85b455171e1d2661790621165b69d27d",
+  "receipt_exercises_sha256": "2720ab0e4e9f73f4fb4af8463743900187973346eb88f1317cb586c7b22b4e45",
+  "receipt_selfcheck_sha256": "26e1495268127aab5a2e639b3f7c049d58ceca66d321bf5e560b83e37fcbe827"
+}

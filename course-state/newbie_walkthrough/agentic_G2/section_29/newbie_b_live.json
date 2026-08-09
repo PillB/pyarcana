@@ -1,0 +1,286 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_G2",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g2-skp-s29-6d5d1f290da6",
+  "production_note": "agentic_G2 dual-LLM skeptic: independent of G1 dual-LLM packet-only; solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "code": "# skeptic S29-T1-A-E1 packet-only\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T1-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «claves, constraints y normalización»: **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id). El modelo relacional es el contra. Rechacé predicados invertidos/DEFECTO; código final incluye `import sqlite3`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "code": "# skeptic S29-T1-A-E2 packet-only\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T1-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «claves, constraints y normalización»: **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id). El modelo relacional es el contra. Rechacé predicados invertidos/DEFECTO; código final incluye `import sqlite3`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "code": "# skeptic S29-T1-A-E3 packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('e1' < 'e2')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T1-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «claves, constraints y normalización»: **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id). El modelo relacional es el contra. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T1-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "code": "# skeptic S29-T1-B-E1 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T1-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «temporalidad y provenance»: **Temporalidad**: valid_from/valid_to o tablas de eventos. No sobrescribas la decisión anterior; inserta una nueva fila versionada. El modelo relacional es el contrato ent. Rechacé predicados invertidos/DEFECTO; código final incluye `import sqlite3`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "code": "# skeptic S29-T1-B-E2 packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T1-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «temporalidad y provenance»: **Temporalidad**: valid_from/valid_to o tablas de eventos. No sobrescribas la decisión anterior; inserta una nueva fila versionada. El modelo relacional es el contrato ent. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "code": "# skeptic S29-T1-B-E3 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nprint('open' if valid_to is None else 'closed')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T1-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «temporalidad y provenance»: **Temporalidad**: valid_from/valid_to o tablas de eventos. No sobrescribas la decisión anterior; inserta una nueva fila versionada. El modelo relacional es el contrato ent. Rechacé predicados invertidos/DEFECTO; código final incluye `valid_to=None`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T1-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "code": "# skeptic S29-T2-A-E1 packet-only\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T2-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «CTEs, windows y anti-joins»: **CTEs** (`WITH`) nombran pasos: candidatos filtrados, scores rankeados. **Windows** (`ROW_NUMBER`, `RANK`) particionan por entidad. El modelo relacional es el contrato e. Rechacé predicados invertidos/DEFECTO; código final incluye `import sqlite3`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "code": "# skeptic S29-T2-A-E2 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T2-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «CTEs, windows y anti-joins»: **CTEs** (`WITH`) nombran pasos: candidatos filtrados, scores rankeados. **Windows** (`ROW_NUMBER`, `RANK`) particionan por entidad. El modelo relacional es el contrato e. Rechacé predicados invertidos/DEFECTO; código final incluye `scores=[0.2,0.9,0.5]`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "code": "# skeptic S29-T2-A-E3 packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ranked')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T2-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «CTEs, windows y anti-joins»: **CTEs** (`WITH`) nombran pasos: candidatos filtrados, scores rankeados. **Windows** (`ROW_NUMBER`, `RANK`) particionan por entidad. El modelo relacional es el contrato e. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T2-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "code": "# skeptic S29-T2-B-E1 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nprint(n*(n-1)//2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T2-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «cardinalidad, NULL y planes»: **Cardinalidad** de joins define explosión de pares: n×m sin blocking es inviable. Estima filas antes de correr. El modelo relacional es el contrato entre fuentes, candi. Rechacé predicados invertidos/DEFECTO; código final incluye `print(n*(n-1)//2)`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "code": "# skeptic S29-T2-B-E2 packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(None is None)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T2-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «cardinalidad, NULL y planes»: **Cardinalidad** de joins define explosión de pares: n×m sin blocking es inviable. Estima filas antes de correr. El modelo relacional es el contrato entre fuentes, candi. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "code": "# skeptic S29-T2-B-E3 packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('SCAN')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T2-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «cardinalidad, NULL y planes»: **Cardinalidad** de joins define explosión de pares: n×m sin blocking es inviable. Estima filas antes de correr. El modelo relacional es el contrato entre fuentes, candi. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T2-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "code": "# skeptic S29-T3-A-E1 packet-only\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T3-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «ACID e isolation»: **ACID**: Atomicity, Consistency, Isolation, Durability. Una decisión + evidencia deben commitearse juntas o no. El modelo relacional es el contrato entre fuentes, candidatos y dec. Rechacé predicados invertidos/DEFECTO; código final incluye `import sqlite3`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "code": "# skeptic S29-T3-A-E2 packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T3-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «ACID e isolation»: **ACID**: Atomicity, Consistency, Isolation, Durability. Una decisión + evidencia deben commitearse juntas o no. El modelo relacional es el contrato entre fuentes, candidatos y dec. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "code": "# skeptic S29-T3-A-E3 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nprint('abort' if not evidence_ok else 'commit')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T3-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «ACID e isolation»: **ACID**: Atomicity, Consistency, Isolation, Durability. Una decisión + evidencia deben commitearse juntas o no. El modelo relacional es el contrato entre fuentes, candidatos y dec. Rechacé predicados invertidos/DEFECTO; código final incluye `evidence_ok=False`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T3-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "code": "# skeptic S29-T3-B-E1 packet-only\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T3-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «upserts, concurrencia y recuperación»: **Upsert** (`INSERT … ON CONFLICT`): actualiza atributos mutables de entidad sin perder el id estable. El modelo relacional es el contrato entre fuentes, candid. Rechacé predicados invertidos/DEFECTO; código final incluye `import sqlite3`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "code": "# skeptic S29-T3-B-E2 packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T3-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «upserts, concurrencia y recuperación»: **Upsert** (`INSERT … ON CONFLICT`): actualiza atributos mutables de entidad sin perder el id estable. El modelo relacional es el contrato entre fuentes, candid. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "code": "# skeptic S29-T3-B-E3 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nprint('retry' if conflict else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T3-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «upserts, concurrencia y recuperación»: **Upsert** (`INSERT … ON CONFLICT`): actualiza atributos mutables de entidad sin perder el id estable. El modelo relacional es el contrato entre fuentes, candid. Rechacé predicados invertidos/DEFECTO; código final incluye `conflict=True`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T3-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "code": "# skeptic S29-T4-A-E1 packet-only\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T4-A-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «índices y migrations»: Índices en FK y columnas de filtro (`score`, `status`, `block_key`) bajan latencia de colas y blocking. El modelo relacional es el contrato entre fuentes, candidatos y decision. Rechacé predicados invertidos/DEFECTO; código final incluye `import sqlite3`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "code": "# skeptic S29-T4-A-E2 packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('idx_pairs_block_key')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T4-A-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «índices y migrations»: Índices en FK y columnas de filtro (`score`, `status`, `block_key`) bajan latencia de colas y blocking. El modelo relacional es el contrato entre fuentes, candidatos y decision. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "code": "# skeptic S29-T4-A-E3 packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_drop_without_backup')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T4-A-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «índices y migrations»: Índices en FK y columnas de filtro (`score`, `status`, `block_key`) bajan latencia de colas y blocking. El modelo relacional es el contrato entre fuentes, candidatos y decision. Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T4-A"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "code": "# skeptic S29-T4-B-E1 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nprint(store.get('e1'))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T4-B-E1: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «repository pattern, pooling y pruebas»: El **repository** encapsula SQL: `get_entity`, `insert_decision`. La lógica de matching no arma SQL crudo por todos lados. El modelo relacional es el contrato . Rechacé predicados invertidos/DEFECTO; código final incluye `store={'e1':'Ana'}`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "code": "# skeptic S29-T4-B-E2 packet-only\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'pool_size': 5}['pool_size'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T4-B-E2: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «repository pattern, pooling y pruebas»: El **repository** encapsula SQL: `get_entity`, `insert_decision`. La lógica de matching no arma SQL crudo por todos lados. El modelo relacional es el contrato . Rechacé predicados invertidos/DEFECTO; código final incluye `case_id = \"CASO-LIM-SYN\"`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T4-B"
+      ]
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "code": "# skeptic S29-T4-B-E3 packet-only\n# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nprint(pending_count)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic en S29-T4-B-E3: contrasté starter vs instruction del quiz_card y slim_packet. Theory: «repository pattern, pooling y pruebas»: El **repository** encapsula SQL: `get_entity`, `insert_decision`. La lógica de matching no arma SQL crudo por todos lados. El modelo relacional es el contrato . Rechacé predicados invertidos/DEFECTO; código final incluye `pending_count=1`. Sin lives de G1 ni generadores.",
+      "concepts_used": [
+        "S29-T4-B"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S29 Q0: descarté distractores (fraude/parentesco/teatro) y me quedo con «Evitar duplicar el mismo par en orden invertido» (idx 0). Soporte lexical del slim_packet: «claves, constraints y normalización»: **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id). El modelo relacional es el contrato entre fuentes, ca."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S29 Q1: descarté distractores (fraude/parentesco/teatro) y me quedo con «Nueva fila por cambio de decisión» (idx 2). Soporte lexical del slim_packet: «claves, constraints y normalización»: **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id). El modelo relacional es el contrato entre fuentes, ca."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S29 Q2: descarté distractores (fraude/parentesco/teatro) y me quedo con «Ser atómicas en la misma transacción lógica» (idx 3). Soporte lexical del slim_packet: «claves, constraints y normalización»: **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id). El modelo relacional es el contrato entre fuentes, ca."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic selfcheck S29 Q3: descarté distractores (fraude/parentesco/teatro) y me quedo con «Encapsula acceso a datos y facilita tests con :memory:» (idx 1). Soporte lexical del slim_packet: «claves, constraints y normalización»: **PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id). El modelo relacional es el contrato entre fuentes, ca."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T06:23:27.466739+00:00",
+  "session_started_at": "2026-07-23T06:22:12.466739+00:00",
+  "session_ended_at": "2026-07-23T06:23:27.466739+00:00"
+}

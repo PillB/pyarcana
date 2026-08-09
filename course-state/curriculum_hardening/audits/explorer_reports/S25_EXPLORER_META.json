@@ -1,0 +1,9 @@
+{
+  "section": 25,
+  "id": "streamlit-dashboards",
+  "file": "src/lib/course/sections/s25-streamlit-dashboards.ts",
+  "score_1_to_10": 5.8,
+  "issue_count": 24,
+  "meta_leak_count": 8,
+  "status": "complete"
+}

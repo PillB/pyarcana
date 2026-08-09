@@ -1,0 +1,19 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "block": "S01-T4-A",
+  "block_status": "COMPLETE",
+  "generated_at": "2026-07-20T06:15:00Z",
+  "artifacts_authored": {
+    "theory": { "heading": "VS Code y Ruff como calidad mínima", "subtopicId": "S01-T4-A" },
+    "demo": { "demoId": "S01-T4-A-DEMO", "environment": "local-python", "executed": true },
+    "exercises": ["S01-T4-A-E1", "S01-T4-A-E2", "S01-T4-A-E3"]
+  },
+  "execution_evidence": {
+    "workdir": "/tmp/s01_t4a_verify",
+    "status": "PASS",
+    "ruff_version": "0.15.22",
+    "notes": "F401 on unused imports; clean after fix"
+  },
+  "authorized_to_proceed": "S01-T4-B"
+}

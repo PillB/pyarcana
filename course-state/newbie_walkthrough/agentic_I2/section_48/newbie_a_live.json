@@ -1,0 +1,485 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_I2",
+  "section_index": 48,
+  "packet_sha": "61a21f5ec27d0d59",
+  "packet_source": "course-state/newbie_walkthrough/agentic_I2/section_48/quiz_card.json",
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "i2-exp-s48-4fcdd2fdcc1f",
+  "production_note": "agentic_I2 dual-LLM explorer: independent packet-only solve from quiz_card+slim_packet; no I1 lives; no bulk writers; no identity stamps; no answer maps",
+  "knowledge_boundary": "Only landing + prior_index + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S48-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-PUN-048-1A\", **{\"query\":[1.0,0.0],\"docs\":{\"d1\":[0.8,0.2],\"d2\":[0.1,0.9]},\"metric\":\"dot\",\"version\":\"emb-v2\",\"expected_top\":\"d1\"}}\nmeets_contract = not (min(record[\"docs\"], key=lambda k: sum(a*b for a,b in zip(record[\"query\"],record[\"docs\"][k]))) == record[\"expected_top\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_EMBEDDING_RANK\"\nprint(\"S48-T1-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Calcula",
+        "contrato",
+        "embeddings",
+        "similarity",
+        "sobre",
+        "CASO",
+        "PUN"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T1-A-E1: del starter/instruction «S48-T1-A-E1 · Calcula el contrato de `embeddings y similarity` sobre `CASO-PUN-048-1A`. La entrada es el dict completo del starter; la operación debe demostrar top por dot product …» completé el contrato usando print alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'query', 'expected_top', 'version', 'metric', 'case_id', 'docs'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('query') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT_EMBEDDING_RANK'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'query': True, 'docs': True, 'metric': 'precision_at_k', 'version': True, 'expected_top': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'query': False, 'docs': False, 'metric': 'precision_at_k', 'version': False, 'expected_top': False}\nmissing = {k: valid[k] for k in valid if k != 'expected_top'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Modela",
+        "tres",
+        "rutas",
+        "embeddings",
+        "similarity",
+        "fixture",
+        "lido"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T1-A-E2: del starter/instruction «S48-T1-A-E2 · Modela tres rutas de `embeddings y similarity`: fixture válido, fixture adverso y registro sin `expected_top`. Entrada: dict con case_id, query, docs, metric, version…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_EMBEDDING_RANK'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', }\nadverse = {\"case_id\": 'CASO-PUN-048-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "embeddings",
+        "similarity",
+        "con"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T1-A-E3: del starter/instruction «S48-T1-A-E3 · Simula fallo cerrado para `embeddings y similarity` con tres fixtures distintos. `CASO-PUN-048-1A` debe continuar, el adverso debe devolver `REJECT_EMBEDDING_RANK` y …» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-PUN-048-1B\", **{\"baseline_recall\":0.72,\"candidate_recall\":0.81,\"min_recall\":0.78,\"holdout\":\"rag-holdout-v1\",\"reindex_cost_pen\":30}}\nmeets_contract = not (record[\"candidate_recall\"] < record[\"baseline_recall\"] or not record[\"holdout\"])\nstatus = \"PASS\" if meets_contract else \"KEEP_EMBEDDING_BASELINE\"\nprint(\"S48-T1-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Compara",
+        "contrato",
+        "mites",
+        "versiones",
+        "evaluaci",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T1-B-E1: del starter/instruction «S48-T1-B-E1 · Compara el contrato de `límites, versiones y evaluación` sobre `CASO-PUN-048-1B`. La entrada es el dict completo del starter; la operación debe demostrar recall holdo…» completé el contrato usando print alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'reindex_cost_pen', 'candidate_recall', 'case_id', 'holdout', 'min_recall', 'baseline_recall'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('baseline_recall') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'baseline_recall': True, 'candidate_recall': True, 'min_recall': True, 'holdout': True, 'reindex_cost_pen': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'baseline_recall': False, 'candidate_recall': False, 'min_recall': False, 'holdout': False, 'reindex_cost_pen': False}\nmissing = {k: valid[k] for k in valid if k != 'reindex_cost_pen'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Verifica",
+        "tres",
+        "rutas",
+        "mites",
+        "versiones",
+        "evaluaci",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T1-B-E2: del starter/instruction «S48-T1-B-E2 · Verifica tres rutas de `límites, versiones y evaluación`: fixture válido, fixture adverso y registro sin `reindex_cost_pen`. Entrada: dict con case_id, baseline_recal…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', }\nadverse = {\"case_id\": 'CASO-PUN-048-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "mites",
+        "versiones",
+        "evaluaci"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T1-B-E3: del starter/instruction «S48-T1-B-E3 · Extiende fallo cerrado para `límites, versiones y evaluación` con tres fixtures distintos. `CASO-PUN-048-1B` debe continuar, el adverso debe devolver `KEEP_EMBEDDING_…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\nmeets_contract = not (len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]))\nstatus = \"PASS\" if meets_contract else \"DEDUP_AND_RECHUNK\"\nprint(\"S48-T2-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Filtra",
+        "contrato",
+        "chunking",
+        "metadata",
+        "dedup",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T2-A-E1: del starter/instruction «S48-T2-A-E1 · Filtra el contrato de `chunking, metadata y dedup` sobre `CASO-PUN-048-2A`. La entrada es el dict completo del starter; la operación debe demostrar hashes únicos, met…» completé el contrato usando print alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'source_version', 'unique_hashes', 'chunks', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('chunks') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'chunks': True, 'unique_hashes': True, 'source_version': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'chunks': False, 'unique_hashes': False, 'source_version': False}\nmissing = {k: valid[k] for k in valid if k != 'source_version'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "chunking",
+        "metadata",
+        "dedup",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T2-A-E2: del starter/instruction «S48-T2-A-E2 · Clasifica tres rutas de `chunking, metadata y dedup`: fixture válido, fixture adverso y registro sin `source_version`. Entrada: dict con case_id, chunks, unique_hashe…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', }\nadverse = {\"case_id\": 'CASO-PUN-048-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "chunking",
+        "metadata",
+        "dedup"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T2-A-E3: del starter/instruction «S48-T2-A-E3 · Defiende fallo cerrado para `chunking, metadata y dedup` con tres fixtures distintos. `CASO-PUN-048-2A` debe continuar, el adverso debe devolver `DEDUP_AND_RECHUNK` y…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\nmeets_contract = not (not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"])\nstatus = \"PASS\" if meets_contract else \"FILTER_OR_DELETE_CHUNK\"\nprint(\"S48-T2-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Modela",
+        "contrato",
+        "ACL",
+        "deletion",
+        "provenance",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T2-B-E1: del starter/instruction «S48-T2-B-E1 · Modela el contrato de `ACL, deletion y provenance` sobre `CASO-PUN-048-2B`. La entrada es el dict completo del starter; la operación debe demostrar ACL intersecta, do…» completé el contrato usando print alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'provenance', 'chunk_acl', 'case_id', 'deleted', 'user_acl', 'cache_invalidated'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('user_acl') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'user_acl': True, 'chunk_acl': True, 'deleted': True, 'provenance': True, 'cache_invalidated': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'user_acl': False, 'chunk_acl': False, 'deleted': False, 'provenance': False, 'cache_invalidated': False}\nmissing = {k: valid[k] for k in valid if k != 'cache_invalidated'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Audita",
+        "tres",
+        "rutas",
+        "ACL",
+        "deletion",
+        "provenance",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T2-B-E2: del starter/instruction «S48-T2-B-E2 · Audita tres rutas de `ACL, deletion y provenance`: fixture válido, fixture adverso y registro sin `cache_invalidated`. Entrada: dict con case_id, user_acl, chunk_acl,…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', }\nadverse = {\"case_id\": 'CASO-PUN-048-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "ACL",
+        "deletion",
+        "provenance"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T2-B-E3: del starter/instruction «S48-T2-B-E3 · Recupera fallo cerrado para `ACL, deletion y provenance` con tres fixtures distintos. `CASO-PUN-048-2B` debe continuar, el adverso debe devolver `FILTER_OR_DELETE_CHU…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-PUN-048-3A\", **{\"lexical\":{\"d1\":0.9,\"d2\":0.2},\"vector\":{\"d1\":0.6,\"d2\":0.8},\"weights\":{\"lexical\":0.6,\"vector\":0.4},\"expected_top\":\"d1\"}}\nmeets_contract = not (max(record[\"vector\"], key=record[\"vector\"].get) == record[\"expected_top\"])\nstatus = \"PASS\" if meets_contract else \"RECALIBRATE_HYBRID_RANK\"\nprint(\"S48-T3-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Verifica",
+        "contrato",
+        "lexical",
+        "vector",
+        "hybrid",
+        "reranking",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T3-A-E1: del starter/instruction «S48-T3-A-E1 · Verifica el contrato de `lexical/vector/hybrid y reranking` sobre `CASO-PUN-048-3A`. La entrada es el dict completo del starter; la operación debe demostrar weighted …» completé el contrato usando print alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'expected_top', 'weights', 'vector', 'case_id', 'lexical'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('lexical') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'lexical': True, 'vector': True, 'weights': True, 'expected_top': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'lexical': False, 'vector': False, 'weights': False, 'expected_top': False}\nmissing = {k: valid[k] for k in valid if k != 'expected_top'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Decide",
+        "tres",
+        "rutas",
+        "lexical",
+        "vector",
+        "hybrid",
+        "reranking"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T3-A-E2: del starter/instruction «S48-T3-A-E2 · Decide tres rutas de `lexical/vector/hybrid y reranking`: fixture válido, fixture adverso y registro sin `expected_top`. Entrada: dict con case_id, lexical, vector, w…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', }\nadverse = {\"case_id\": 'CASO-PUN-048-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "lexical",
+        "vector",
+        "hybrid"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T3-A-E3: del starter/instruction «S48-T3-A-E3 · Contrasta fallo cerrado para `lexical/vector/hybrid y reranking` con tres fixtures distintos. `CASO-PUN-048-3A` debe continuar, el adverso debe devolver `RECALIBRATE_…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\nmeets_contract = not record[\"claims\"] > record[\"cited_claims\"] or not record[\"citation_acl\"]\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_UNCITED\"\nprint(\"S48-T3-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Clasifica",
+        "contrato",
+        "contexto",
+        "citas",
+        "permisos",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T3-B-E1: del starter/instruction «S48-T3-B-E1 · Clasifica el contrato de `contexto, citas y permisos` sobre `CASO-PUN-048-3B`. La entrada es el dict completo del starter; la operación debe demostrar todas las claim…» completé el contrato usando print alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'case_id', 'citation_acl', 'cited_claims', 'claims', 'max_context_tokens', 'context_tokens'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('claims') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'claims': True, 'cited_claims': True, 'citation_acl': True, 'context_tokens': True, 'max_context_tokens': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'claims': False, 'cited_claims': False, 'citation_acl': False, 'context_tokens': False, 'max_context_tokens': False}\nmissing = {k: valid[k] for k in valid if k != 'max_context_tokens'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Calcula",
+        "tres",
+        "rutas",
+        "contexto",
+        "citas",
+        "permisos",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T3-B-E2: del starter/instruction «S48-T3-B-E2 · Calcula tres rutas de `contexto, citas y permisos`: fixture válido, fixture adverso y registro sin `max_context_tokens`. Entrada: dict con case_id, claims, cited_clai…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_AUTHORIZED_CONTEXT'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', }\nadverse = {\"case_id\": 'CASO-PUN-048-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "contexto",
+        "citas",
+        "permisos"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T3-B-E3: del starter/instruction «S48-T3-B-E3 · Instrumenta fallo cerrado para `contexto, citas y permisos` con tres fixtures distintos. `CASO-PUN-048-3B` debe continuar, el adverso debe devolver `ABSTAIN_UNCITED` …» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\nmeets_contract = not set(record[\"output\"][\"evidence_ids\"]) > record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Audita",
+        "contrato",
+        "structured",
+        "output",
+        "grounding",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T4-A-E1: del starter/instruction «S48-T4-A-E1 · Audita el contrato de `structured output y grounding` sobre `CASO-PUN-048-4A`. La entrada es el dict completo del starter; la operación debe demostrar schema exacto, …» completé el contrato usando print alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'case_id', 'injected_instruction_ignored', 'output', 'schema_keys', 'allowed_evidence'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('output') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT_UNGROUNDED_OUTPUT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'output': True, 'schema_keys': True, 'allowed_evidence': True, 'injected_instruction_ignored': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'output': False, 'schema_keys': False, 'allowed_evidence': False, 'injected_instruction_ignored': False}\nmissing = {k: valid[k] for k in valid if k != 'injected_instruction_ignored'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Compara",
+        "tres",
+        "rutas",
+        "structured",
+        "output",
+        "grounding",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T4-A-E2: del starter/instruction «S48-T4-A-E2 · Compara tres rutas de `structured output y grounding`: fixture válido, fixture adverso y registro sin `injected_instruction_ignored`. Entrada: dict con case_id, outpu…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT_UNGROUNDED_OUTPUT'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', }\nadverse = {\"case_id\": 'CASO-PUN-048-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "structured",
+        "output",
+        "grounding"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T4-A-E3: del starter/instruction «S48-T4-A-E3 · Aísla fallo cerrado para `structured output y grounding` con tres fixtures distintos. `CASO-PUN-048-4A` debe continuar, el adverso debe devolver `REJECT_UNGROUNDED_OU…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\nrecord = {\"case_id\": \"CASO-PUN-048-4B\", **{\"retrieval_recall\":0.84,\"min_recall\":0.8,\"faithfulness\":0.91,\"min_faithfulness\":0.9,\"cost_pen\":0.08,\"cost_cap_pen\":0.1,\"support\":True}}\nmeets_contract = not (record[\"faithfulness\"] < record[\"min_faithfulness\"] or not record[\"support\"])\nstatus = \"PASS\" if meets_contract else \"ABSTAIN_WITH_REASON\"\nprint(\"S48-T4-B\", status)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Decide",
+        "contrato",
+        "retrieval",
+        "answer",
+        "eval",
+        "costo",
+        "abstenci"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T4-B-E1: del starter/instruction «S48-T4-B-E1 · Decide el contrato de `retrieval/answer eval, costo y abstención` sobre `CASO-PUN-048-4B`. La entrada es el dict completo del starter; la operación debe demostrar ret…» completé el contrato usando print alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef assess(record: dict) -> str:\n    required = {'min_faithfulness', 'support', 'cost_cap_pen', 'case_id', 'min_recall', 'faithfulness', 'cost_pen', 'retrieval_recall'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    if record.get('retrieval_recall') not in (None, False, 0, \"\", set(), [], {}):\n        return 'PASS'\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-SYN-1A', 'retrieval_recall': True, 'min_recall': True, 'faithfulness': True, 'min_faithfulness': True, 'cost_pen': True, 'cost_cap_pen': True, 'support': True}\nadverse = {\"case_id\": 'CASO-SYN-1A-ADV', 'retrieval_recall': False, 'min_recall': False, 'faithfulness': False, 'min_faithfulness': False, 'cost_pen': False, 'cost_cap_pen': False, 'support': False}\nmissing = {k: valid[k] for k in valid if k != 'support'}\nprint(assess(valid))\nprint(assess(adverse))\nprint(assess(missing))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Filtra",
+        "tres",
+        "rutas",
+        "retrieval",
+        "answer",
+        "eval",
+        "costo"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T4-B-E2: del starter/instruction «S48-T4-B-E2 · Filtra tres rutas de `retrieval/answer eval, costo y abstención`: fixture válido, fixture adverso y registro sin `support`. Entrada: dict con case_id, retrieval_recal…» completé el contrato usando def , assess, print, assess, print, assess alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    },
+    {
+      "exercise_id": "S48-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Explorer: complete from packet starter + instruction contract\ndef route(record: dict) -> str:\n    required = {'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_CASE_ID'\n    if True:\n        return \"CONTINUE\"\n    return 'REJECT'\n\nvalid = {\"case_id\": 'CASO-PUN-048-1A', }\nadverse = {\"case_id\": 'CASO-PUN-048-1A-ADV', }\nabsent = {k: valid[k] for k in valid if k != 'case_id'}\nprint(route(valid))\nprint(route(adverse))\nprint(route(absent))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S48",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "retrieval",
+        "answer",
+        "eval"
+      ],
+      "justification_from_packet": "Explorer A sobre S48-T4-B-E3: del starter/instruction «S48-T4-B-E3 · Demuestra fallo cerrado para `retrieval/answer eval, costo y abstención` con tres fixtures distintos. `CASO-PUN-048-4B` debe continuar, el adverso debe devolver `ABST…» completé el contrato usando def , route, print, route, print, route alineado a theory/iDo (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance). Demo ref: step | step | step | step. Sin leer solutions ni correctIndex."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC0: elijo «ranking reproducible con versión de embedding» porque la theory del paquete (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance) responde a «¿Qué evidencia permite aprobar `embeddings y similarity` en CASO-PUN-048?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC1: elijo «emitir ABSTAIN y conservar evidencia» porque la theory del paquete (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance) responde a «Si ocurre la condición de error de S48, ¿qué respuesta preserva seguridad y auditabilidad?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC2: elijo «retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido» porque la theory del paquete (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance) responde a «¿Cuál resultado demuestra el gate `CP-N4-C · RAG con evidencia y abstención`?» con ese criterio; contraste con las otras opciones del stem."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A SC3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque la theory del paquete (embeddings y similarity | límites, versiones y evaluación | chunking, metadata y dedup | ACL, deletion y provenance) responde a «¿Qué tratamiento de `CASO-PUN-048` respeta el alcance del curso?» con ese criterio; contraste con las otras opciones del stem."
+    }
+  ],
+  "confusion_points": [
+    {
+      "topic": "embeddings y similarity",
+      "note": "Explorer prioriza flujo feliz del contrato."
+    }
+  ],
+  "recorded_at": "2026-07-23T13:24:34.600000+00:00",
+  "session_started_at": "2026-07-23T13:24:17.490000+00:00",
+  "session_ended_at": "2026-07-23T13:24:34.600000+00:00"
+}

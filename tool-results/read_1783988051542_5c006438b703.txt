@@ -1,0 +1,502 @@
+     1→   700→   700→    return float((df["x"] ** 2 + df["y"] ** 2).sum())
+     2→   701→   701→
+     3→   702→   702→# Output de cProfile (top 10 por tiempo cumulativo):
+     4→   703→   703→#    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     5→   704→   704→#       100  185.234    1.852  185.234    1.852 perf_demo.py:5(procesar_datos_lento)
+     6→   705→   705→#   10000000   12.451    0.000   12.451    0.000 {method 'append' of 'list' objects}
+     7→   706→   706→#         1    0.045    0.045    0.045    0.045 perf_demo.py:13(procesar_datos_rapido)
+     8→   707→   707→# → El 99.9% del tiempo está en procesar_datos_lento. Optimiza eso.
+     9→   708→   708→
+    10→   709→   709→# === 3. line_profiler: perfil línea por línea ===
+    11→   710→   710→# Instala: pip install line_profiler
+    12→   711→   711→# Decora la función con @profile (line_profiler la provee)
+    13→   712→   712→# Corre: kernprof -l -v perf_demo.py
+    14→   713→   713→
+    15→   714→   714→# @profile  # descomenta para line_profiler
+    16→   715→   715→def feature_engineering(df):
+    17→   716→   716→    n = len(df)
+    18→   717→   717→    df["log_x"] = np.log1p(df["x"])                # 5% del tiempo
+    19→   718→   718→    df["zscore"] = (df["x"] - df["x"].mean()) / df["x"].std()  # 3%
+    20→   719→   719→    df["rolling_mean"] = df["x"].rolling(7).mean()  # 15%
+    21→   720→   720→    df["categoria"] = pd.cut(df["x"], bins=10, labels=False)  # 8%
+    22→   721→   721→    for i in range(n):  # ESTA LÍNEA: 65% del tiempo
+    23→   722→   722→        df.loc[i, "custom"] = df.loc[i, "x"] * 2  # .loc[i] es lento
+    24→   723→   723→    return df
+    25→   724→   724→
+    26→   725→   725→# Output de line_profiler:
+    27→   726→   726→# Line #  Hits    Time  Per Hit  % Time  Line Contents
+    28→   727→   727→# =====================================================
+    29→   728→   728→#      3     1       5      5.0      0.0  def feature_engineering(df):
+    30→   729→   729→#      4     1   15000  15000.0      5.0    df["log_x"] = np.log1p(df["x"])
+    31→   730→   730→#      5     1    9000   9000.0      3.0    df["zscore"] = ...
+    32→   731→   731→#      6     1   45000  45000.0     15.0    df["rolling_mean"] = ...
+    33→   732→   732→#      7     1   24000  24000.0      8.0    df["categoria"] = pd.cut(...)
+    34→   733→   733→#      8 100001  195000      1.9     65.0    for i in range(n):
+    35→   734→   734→#      9 100000   60000      0.6     20.0      df.loc[i, "custom"] = df.loc[i, "x"] * 2
+    36→   735→   735→# → El loop con .loc[i] es el bottleneck. Vectoriza: df["custom"] = df["x"] * 2 (1 línea, 100x más rápido)
+    37→   736→   736→
+    38→   737→   737→# === 4. memory_profiler (bonus) ===
+    39→   738→   738→# pip install memory_profiler
+    40→   739→   739→# Decorador @profile, corres python -m memory_profiler script.py
+    41→   740→   740→# Te muestra uso de RAM línea por línea — útil para detectar memory leaks.`,
+    42→   741→   741→      },
+    43→   742→   742→      callout: {
+    44→   743→   743→        type: 'info',
+    45→   744→   744→        title: 'Regla de oro: mide, no adivines',
+    46→   745→   745→        content:
+    47→   746→   746→          'Antes de optimizar, SIEMPRE corre cProfile. El 80% de las optimizaciones "intuitivas" no producen speedup real porque atacan el 20% del código. Mide, identifica el hot path, optimiza SOLO ese, vuelve a medir. Itera. Es lo que diferencia a seniors de juniors: los seniors perfilan, los juniors adivinan.',
+    48→   747→   747→      },
+    49→   748→   748→    },
+    50→   749→   749→    {
+    51→   750→   750→      heading: 'Logging — producción DS necesita logs estructurados',
+    52→   751→   751→      paragraphs: [
+    53→   752→   752→        '`print()` es para debugging en desarrollo. `logging` es para producción. La diferencia: print siempre imprime (no puedes desactivarlo sin comentar líneas), no tiene niveles, no tiene timestamps, no escribe a archivo sin redirección. El módulo `logging` (built-in) resuelve todo: niveles (DEBUG/INFO/WARNING/ERROR/CRITICAL), formato configurable (timestamp, nivel, mensaje, módulo), múltiples destinos (consola, archivo, syslog, HTTP), y se desactiva por nivel en producción. En un pipeline de DS en producción, sin logs no puedes debuggear un fallo a las 3am — los logs son tu única pista.',
+    54→   753→   753→        'Configuración básica: `logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s", handlers=[...])`. Creas un logger por módulo con `logger = logging.getLogger(__name__)`. Usas `logger.info("Procesando %d filas", n)` (¡usa %-format, no f-string, para que el formato se aplique solo si el nivel está activo!). En producción subes el nivel a WARNING (ERROR aún mejor) para reducir ruido. Para DS, loggea: inicio/fin de cada etapa del pipeline, cuántos registros procesaste, tiempo de cada etapa, advertencias (datos faltantes, outliers), errores con traceback completo.',
+    55→   754→   754→        'Para logs estructurados (machine-parseable), usa JSON: cada log es un dict con timestamp, level, message, y campos custom (run_id, n_rows, duration_sec). Esto permite buscar en Kibana/Datadog con queries como `level:ERROR AND module:feature_eng AND n_rows>10000`. La librería `structlog` o `python-json-logger` lo facilitan. En empresas serias, los logs van a un sistema centralizado (ELK stack, Splunk, Datadog) donde los consulta el equipo on-call. Como Data Scientist, SIEMPRE loggea tus pipelines — si fallan en prod, los logs son tu única forma de diagnosticar sin reproducir el entorno.',
+    56→   755→   755→      ],
+    57→   756→   756→      code: {
+    58→   757→   757→        language: 'python',
+    59→   758→   758→        title: 'logging_setup.py',
+    60→   759→   759→        code: `import logging
+    61→   760→   760→import sys
+    62→   761→   761→from pathlib import Path
+    63→   762→   762→
+    64→   763→   763→# === 1. Configuración básica ===
+    65→   764→   764→logging.basicConfig(
+    66→   765→   765→    level=logging.INFO,
+    67→   766→   766→    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    68→   767→   767→    datefmt="%Y-%m-%d %H:%M:%S",
+    69→   768→   768→    handlers=[
+    70→   769→   769→        logging.StreamHandler(sys.stdout),                      # consola
+    71→   770→   770→        logging.FileHandler("pipeline.log", encoding="utf-8"),  # archivo
+    72→   771→   771→    ],
+    73→   772→   772→)
+    74→   773→   773→logger = logging.getLogger(__name__)
+    75→   774→   774→
+    76→   775→   775→# Uso por niveles
+    77→   776→   776→logger.debug("Mensaje detallado (solo en dev)")     # no se muestra si level=INFO
+    78→   777→   777→logger.info("Pipeline iniciado")                      # se muestra
+    79→   778→   778→logger.warning("Dataset tiene 5 nulos, imputando")    # se muestra
+    80→   779→   779→logger.error("Falló la conexión a la API")            # se muestra
+    81→   780→   780→logger.critical("Disco lleno, no se puede escribir")  # se muestra
+    82→   781→   781→
+    83→   782→   782→# === 2. Logger en un pipeline de DS ===
+    84→   783→   783→import pandas as pd
+    85→   784→   784→import time
+    86→   785→   785→
+    87→   786→   786→def run_pipeline(csv_path: str):
+    88→   787→   787→    logger.info("Iniciando pipeline para %s", csv_path)
+    89→   788→   788→
+    90→   789→   789→    start = time.time()
+    91→   790→   790→    try:
+    92→   791→   791→        df = pd.read_csv(csv_path)
+    93→   792→   792→        logger.info("Cargado %d filas, %d columnas en %.2fs",
+    94→   793→   793→                    len(df), df.shape[1], time.time() - start)
+    95→   794→   794→    except FileNotFoundError:
+    96→   795→   795→        logger.error("Archivo no encontrado: %s", csv_path)
+    97→   796→   796→        raise
+    98→   797→   797→
+    99→   798→   798→    # Limpieza
+   100→   799→   799→    n_nulos_antes = df.isnull().sum().sum()
+   101→   800→   800→    if n_nulos_antes > 0:
+   102→   801→   801→        logger.warning("%d nulos detectados, imputando con mediana", n_nulos_antes)
+   103→   802→   802→        df = df.fillna(df.median(numeric_only=True))
+   104→   803→   803→
+   105→   804→   804→    # Feature engineering
+   106→   805→   805→    start = time.time()
+   107→   806→   806→    df["log_monto"] = df["monto"].apply(lambda x: max(0, x))  # placeholder
+   108→   807→   807→    logger.info("Feature engineering completado en %.2fs", time.time() - start)
+   109→   808→   808→
+   110→   809→   809→    # Guardar
+   111→   810→   810→    out_path = csv_path.replace(".csv", "_procesado.parquet")
+   112→   811→   811→    df.to_parquet(out_path)
+   113→   812→   812→    logger.info("Guardado en %s (%d filas)", out_path, len(df))
+   114→   813→   813→
+   115→   814→   814→    return df
+   116→   815→   815→
+   117→   816→   816→# === 3. JSON logging estructurado (producción) ===
+   118→   817→   817→# pip install python-json-logger
+   119→   818→   818→import logging.config
+   120→   819→   819→
+   121→   820→   820→LOG_CONFIG = {
+   122→   821→   821→    "version": 1,
+   123→   822→   822→    "handlers": {
+   124→   823→   823→        "json_file": {
+   125→   824→   824→            "class": "logging.FileHandler",
+   126→   825→   825→            "filename": "pipeline_structured.log",
+   127→   826→   826→            "formatter": "json",
+   128→   827→   827→        },
+   129→   828→   828→    },
+   130→   829→   829→    "formatters": {
+   131→   830→   830→        "json": {
+   132→   831→   831→            "()": "pythonjsonlogger.jsonlogger.JsonFormatter",
+   133→   832→   832→            "format": "%(asctime)s %(name)s %(levelname)s %(message)s",
+   134→   833→   833→        },
+   135→   834→   834→    },
+   136→   835→   835→    "loggers": {
+   137→   836→   836→        "pipeline": {"handlers": ["json_file"], "level": "INFO"},
+   138→   837→   837→    },
+   139→   838→   838→}
+   140→   839→   839→# logging.config.dictConfig(LOG_CONFIG)
+   141→   840→   840→# Cada log se escribe como JSON: {"asctime": "...", "levelname": "INFO", "message": "..."}
+   142→   841→   841→
+   143→   842→   842→# === 4. Logging en archivos rotados (no crecen infinitos) ===
+   144→   843→   843→from logging.handlers import RotatingFileHandler
+   145→   844→   844→
+   146→   845→   845→handler = RotatingFileHandler(
+   147→   846→   846→    "app.log",
+   148→   847→   847→    maxBytes=10 * 1024 * 1024,  # 10 MB por archivo
+   149→   848→   848→    backupCount=5,               # mantener 5 archivos viejos
+   150→   849→   849→)
+   151→   850→   850→handler.setFormatter(logging.Formatter(
+   152→   851→   851→    "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+   153→   852→   852→))
+   154→   853→   853→logger.addHandler(handler)
+   155→   854→   854→
+   156→   855→   855→# Output esperado en pipeline.log:
+   157→   856→   856→# 2024-01-15 10:30:45 [INFO] pipeline: Iniciando pipeline para ventas.csv
+   158→   857→   857→# 2024-01-15 10:30:46 [INFO] pipeline: Cargado 10000 filas, 8 columnas en 0.85s
+   159→   858→   858→# 2024-01-15 10:30:46 [WARNING] pipeline: 45 nulos detectados, imputando con mediana
+   160→   859→   859→# 2024-01-15 10:30:47 [INFO] pipeline: Feature engineering completado en 0.42s
+   161→   860→   860→# 2024-01-15 10:30:47 [INFO] pipeline: Guardado en ventas_procesado.parquet (10000 filas)`,
+   162→   861→   861→      },
+   163→   862→   862→      callout: {
+   164→   863→   863→        type: 'warning',
+   165→   864→   864→        title: 'Nunca uses f-strings en logs',
+   166→   865→   865→        content:
+   167→   866→   866→          'Mal: `logger.info(f"Procesé {n} filas")`. Bien: `logger.info("Procesé %d filas", n)`. Con f-string, el formato se evalúa SIEMPRE, incluso si el nivel está apagado (performance). Con %-format, el formato se aplica solo si el mensaje se va a mostrar. En pipelines con miles de logs debug, esto es 5-10x más rápido.',
+   168→   867→   867→      },
+   169→   868→   868→    },
+   170→   869→   869→    {
+   171→   870→   870→      heading: 'argparse / CLI tooling — de notebook a herramienta reusable',
+   172→   871→   871→      paragraphs: [
+   173→   872→   872→        'Un notebook Jupyter es excelente para explorar, pero no es reusable: tienes que abrirlo, cambiar celdas, re-ejecutar. Para que tu código lo usen otros (o tú mismo en 6 meses), necesitas un CLI (Command Line Interface) con `argparse`. Esto convierte tu script en una herramienta: `python pipeline.py --input ventas.csv --output resultado.parquet --verbose` en vez de editar variables dentro del código. En equipos de data science, los CLIs son la forma estándar de compartir pipelines — un colega hace `pip install -e .` y luego corre `mi-pipeline --help` sin abrir un notebook.',
+   174→   873→   873→        '`argparse` es built-in. Patrón básico: `parser = argparse.ArgumentParser(description="...")`, `parser.add_argument("--input", required=True, help="Archivo CSV de entrada")`, `args = parser.parse_args()`. Tipos (`type=int`, `type=float`), valores default (`default=100`), choices (`choices=["prod", "dev"]`), flags booleanas (`--verbose`, `action="store_true"`), múltiples valores (`nargs="+"` para listas). El atributo `--help` se genera automáticamente desde tus `help=` strings — documentación gratis. Para subcomandos (como `git push`, `git pull`), usa `subparsers`.',
+   175→   874→   874→        'Para proyectos serios, evoluciona a `click` (sintaxis con decoradores más limpia) o `typer` (type hints nativos, autocompletado en shell). Pero argparse es suficiente para 80% de casos. Empaqueta tu CLI como un ejecutable con `pyproject.toml` + `entry_points`: defines `[project.scripts] mi-tool = "mi_paquete.cli:main"` y luego de `pip install -e .`, corres `mi-tool` desde cualquier lado. Esto es lo que hace que tu proyecto parezca "profesional" — un comando instalable, no un script que hay que ejecutar con `python ruta/al/script.py`. En tu portafolio, tener un CLI instalable vale 10x más que un notebook.',
+   176→   875→   875→      ],
+   177→   876→   876→      code: {
+   178→   877→   877→        language: 'python',
+   179→   878→   878→        title: 'cli_pipeline.py',
+   180→   879→   879→        code: `import argparse
+   181→   880→   880→import sys
+   182→   881→   881→import logging
+   183→   882→   882→import pandas as pd
+   184→   883→   883→from pathlib import Path
+   185→   884→   884→
+   186→   885→   885→def main():
+   187→   886→   886→    parser = argparse.ArgumentParser(
+   188→   887→   887→        description="Pipeline de limpieza y feature engineering para datasets de ventas.",
+   189→   888→   888→        epilog="Ejemplo: python cli_pipeline.py --input ventas.csv --output limpio.parquet --verbose",
+   190→   889→   889→    )
+   191→   890→   890→    parser.add_argument("--input", "-i", required=True, type=Path,
+   192→   891→   891→                        help="Ruta al archivo CSV de entrada")
+   193→   892→   892→    parser.add_argument("--output", "-o", required=True, type=Path,
+   194→   893→   893→                        help="Ruta al archivo de salida (.parquet o .csv)")
+   195→   894→   894→    parser.add_argument("--impute-strategy", default="median",
+   196→   895→   895→                        choices=["median", "mean", "drop"],
+   197→   896→   896→                        help="Estrategia para imputar nulos (default: median)")
+   198→   897→   897→    parser.add_argument("--outlier-threshold", type=float, default=1.5,
+   199→   898→   898→                        help="Multiplicador IQR para outliers (default: 1.5)")
+   200→   899→   899→    parser.add_argument("--verbose", "-v", action="store_true",
+   201→   900→   900→                        help="Mostrar logs detallados")
+   202→   901→   901→    parser.add_argument("--chunksize", type=int, default=None,
+   203→   902→   902→                        help="Tamaño de chunk para CSVs grandes (default: cargar todo)")
+   204→   903→   903→
+   205→   904→   904→    args = parser.parse_args()
+   206→   905→   905→
+   207→   906→   906→    # Configurar logging según verbosity
+   208→   907→   907→    level = logging.DEBUG if args.verbose else logging.INFO
+   209→   908→   908→    logging.basicConfig(level=level, format="%(asctime)s [%(levelname)s] %(message)s")
+   210→   909→   909→    logger = logging.getLogger("pipeline")
+   211→   910→   910→
+   212→   911→   911→    # Validar inputs
+   213→   912→   912→    if not args.input.exists():
+   214→   913→   913→        logger.error("Archivo de entrada no existe: %s", args.input)
+   215→   914→   914→        sys.exit(1)
+   216→   915→   915→
+   217→   916→   916→    logger.info("Iniciando pipeline")
+   218→   917→   917→    logger.info("  Input:  %s", args.input)
+   219→   918→   918→    logger.info("  Output: %s", args.output)
+   220→   919→   919→    logger.info("  Impute: %s", args.impute_strategy)
+   221→   920→   920→
+   222→   921→   921→    # Cargar datos
+   223→   922→   922→    if args.chunksize:
+   224→   923→   923→        chunks = pd.read_csv(args.input, chunksize=args.chunksize)
+   225→   924→   924→        df = pd.concat(chunks)
+   226→   925→   925→    else:
+   227→   926→   926→        df = pd.read_csv(args.input)
+   228→   927→   927→    logger.info("Cargadas %d filas, %d columnas", len(df), df.shape[1])
+   229→   928→   928→
+   230→   929→   929→    # Imputar
+   231→   930→   930→    if args.impute_strategy == "median":
+   232→   931→   931→        df = df.fillna(df.median(numeric_only=True))
+   233→   932→   932→    elif args.impute_strategy == "mean":
+   234→   933→   933→        df = df.fillna(df.mean(numeric_only=True))
+   235→   934→   934→    elif args.impute_strategy == "drop":
+   236→   935→   935→        df = df.dropna()
+   237→   936→   936→
+   238→   937→   937→    # Guardar
+   239→   938→   938→    args.output.parent.mkdir(parents=True, exist_ok=True)
+   240→   939→   939→    if args.output.suffix == ".parquet":
+   241→   940→   940→        df.to_parquet(args.output, index=False)
+   242→   941→   941→    else:
+   243→   942→   942→        df.to_csv(args.output, index=False)
+   244→   943→   943→    logger.info("Guardado en %s", args.output)
+   245→   944→   944→
+   246→   945→   945→if __name__ == "__main__":
+   247→   946→   946→    main()
+   248→   947→   947→
+   249→   948→   948→# === Ejemplos de uso desde terminal ===
+   250→   949→   949→# $ python cli_pipeline.py --help
+   251→   950→   950→# usage: cli_pipeline.py [-h] --input INPUT --output OUTPUT ...
+   252→   951→   951→#
+   253→   952→   952→# Pipeline de limpieza y feature engineering para datasets de ventas.
+   254→   953→   953→#
+   255→   954→   954→# options:
+   256→   955→   955→#   -i, --input INPUT           Ruta al archivo CSV de entrada
+   257→   956→   956→#   -o, --output OUTPUT         Ruta al archivo de salida (.parquet o .csv)
+   258→   957→   957→#   --impute-strategy {median,mean,drop}
+   259→   958→   958→#   --outlier-threshold OUTLIER_THRESHOLD
+   260→   959→   959→#   -v, --verbose               Mostrar logs detallados
+   261→   960→   960→#
+   262→   961→   961→# $ python cli_pipeline.py -i ventas.csv -o limpio.parquet --verbose
+   263→   962→   962→# 2024-01-15 [INFO] Iniciando pipeline
+   264→   963→   963→# 2024-01-15 [INFO]   Input: ventas.csv
+   265→   964→   964→# 2024-01-15 [INFO]   Output: limpio.parquet
+   266→   965→   965→# 2024-01-15 [INFO] Cargadas 10000 filas, 8 columnas
+   267→   966→   966→# 2024-01-15 [INFO] Guardado en limpio.parquet
+   268→   967→   967→
+   269→   968→   968→# === pyproject.toml para hacerlo instalable ===
+   270→   969→   969→# [project]
+   271→   970→   970→# name = "pipeline-ventas"
+   272→   971→   971→# version = "0.1.0"
+   273→   972→   972→# [project.scripts]
+   274→   973→   973→# pipeline-ventas = "pipeline.cli:main"
+   275→   974→   974→# Después: pip install -e .  → puedes correr "pipeline-ventas" desde cualquier lado`,
+   276→   975→   975→      },
+   277→   976→   976→      callout: {
+   278→   977→   977→        type: 'tip',
+   279→   978→   978→        title: 'Typer: argparse con type hints',
+   280→   979→   979→        content:
+   281→   980→   980→          'Si ya usas type hints (Python 3.6+), `typer` genera el CLI automáticamente desde tus type hints. `def main(input: Path, output: Path, verbose: bool = False):` se convierte en CLI sin argparse manual. Es lo que usa FastAPI para sus ejemplos. Para proyectos nuevos, prefiere typer sobre argparse.',
+   282→   981→   981→      },
+   283→   982→   982→    },
+   284→   983→   983→  ],
+   285→   984→   984→  iDo: {
+   286→   985→   985→    intro:
+   287→   986→   986→      'Vamos a construir juntos un mini-end-to-end que integra 5 de los 10 temas: scraping de una API con paginación, almacenamiento en SQLite, feature engineering paralelizado, logging estructurado, y empaquetado como CLI. Es exactamente el tipo de pipeline que mantienes en un trabajo real de DS.',
+   288→   987→   987→    steps: [
+   289→   988→   988→      {
+   290→   989→   989→        description: 'Construir un data acquisition pipeline con API paginada + SQLite',
+   291→   990→   990→        code: {
+   292→   991→   991→          language: 'python',
+   293→   992→   992→          title: 'acquire_pipeline.py',
+   294→   993→   993→          code: `import requests
+   295→   994→   994→import sqlite3
+   296→   995→   995→import logging
+   297→   996→   996→import time
+   298→   997→   997→from typing import Iterator
+   299→   998→   998→
+   300→   999→   999→logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+   301→  1000→  1000→logger = logging.getLogger("acquire")
+   302→  1001→  1001→
+   303→  1002→  1002→def iterar_productos(api_base: str, max_pages: int = 50) -> Iterator[dict]:
+   304→  1003→  1003→    """Generador: trae productos página por página de una API REST."""
+   305→  1004→  1004→    url = f"{api_base}/products"
+   306→  1005→  1005→    page = 0
+   307→  1006→  1006→    while url and page < max_pages:
+   308→  1007→  1007→        resp = requests.get(url, timeout=15)
+   309→  1008→  1008→        if resp.status_code == 429:
+   310→  1009→  1009→            wait = int(resp.headers.get("Retry-After", 60))
+   311→  1010→  1010→            logger.warning("Rate limited, esperando %ds", wait)
+   312→  1011→  1011→            time.sleep(wait)
+   313→  1012→  1012→            continue
+   314→  1013→  1013→        resp.raise_for_status()
+   315→  1014→  1014→        data = resp.json()
+   316→  1015→  1015→        for producto in data["results"]:
+   317→  1016→  1016→            yield producto
+   318→  1017→  1017→        url = data.get("next")
+   319→  1018→  1018→        page += 1
+   320→  1019→  1019→        logger.info("Página %d trajo %d productos", page, len(data["results"]))
+   321→  1020→  1020→
+   322→  1021→  1021→def guardar_en_sqlite(productos: Iterator[dict], db_path: str = "productos.db"):
+   323→  1022→  1022→    """Crea tabla SQLite e inserta productos."""
+   324→  1023→  1023→    conn = sqlite3.connect(db_path)
+   325→  1024→  1024→    conn.execute("""
+   326→  1025→  1025→        CREATE TABLE IF NOT EXISTS productos (
+   327→  1026→  1026→            id INTEGER PRIMARY KEY,
+   328→  1027→  1027→            nombre TEXT,
+   329→  1028→  1028→            precio REAL,
+   330→  1029→  1029→            categoria TEXT,
+   331→  1030→  1030→            stock INTEGER,
+   332→  1031→  1031→            fecha_captura TEXT
+   333→  1032→  1032→        )
+   334→  1033→  1033→    """)
+   335→  1034→  1034→    conn.execute("DELETE FROM productos")  # refresh completo
+   336→  1035→  1035→    count = 0
+   337→  1036→  1036→    for p in productos:
+   338→  1037→  1037→        conn.execute(
+   339→  1038→  1038→            "INSERT OR REPLACE INTO productos (id, nombre, precio, categoria, stock, fecha_captura) "
+   340→  1039→  1039→            "VALUES (?, ?, ?, ?, ?, ?)",
+   341→  1040→  1040→            (p["id"], p["nombre"], p["precio"], p["categoria"], p["stock"], p["fecha"]),
+   342→  1041→  1041→        )
+   343→  1042→  1042→        count += 1
+   344→  1043→  1043→        if count % 100 == 0:
+   345→  1044→  1044→            conn.commit()
+   346→  1045→  1045→            logger.info("Insertados %d productos", count)
+   347→  1046→  1046→    conn.commit()
+   348→  1047→  1047→    conn.close()
+   349→  1048→  1048→    logger.info("Total insertado: %d productos", count)
+   350→  1049→  1049→
+   351→  1050→  1050→# Ejecutar
+   352→  1051→  1051→productos = iterar_productos("https://api.ejemplo.com", max_pages=20)
+   353→  1052→  1052→guardar_en_sqlite(productos, "productos.db")`,
+   354→  1053→  1053→        },
+   355→  1054→  1054→        why: 'Este patrón (API paginada → generador → SQLite) es el 80% de los pipelines de data acquisition. El generador evita cargar todo en RAM, SQLite persiste para análisis posterior, y el logging te dice exactamente qué pasó si falla a las 3am.',
+   356→  1055→  1055→      },
+   357→  1056→  1056→      {
+   358→  1057→  1057→        description: 'Paralelizar feature engineering con ProcessPoolExecutor',
+   359→  1058→  1058→        code: {
+   360→  1059→  1059→          language: 'python',
+   361→  1060→  1060→          title: 'parallel_features.py',
+   362→  1061→  1061→          code: `import sqlite3
+   363→  1062→  1062→import pandas as pd
+   364→  1063→  1063→import numpy as np
+   365→  1064→  1064→from concurrent.futures import ProcessPoolExecutor
+   366→  1065→  1065→import time
+   367→  1066→  1066→import logging
+   368→  1067→  1067→
+   369→  1068→  1068→logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+   370→  1069→  1069→logger = logging.getLogger("features")
+   371→  1070→  1070→
+   372→  1071→  1071→def cargar_datos(db_path: str = "productos.db") -> pd.DataFrame:
+   373→  1072→  1072→    conn = sqlite3.connect(db_path)
+   374→  1073→  1073→    df = pd.read_sql("SELECT * FROM productos", conn)
+   375→  1074→  1074→    conn.close()
+   376→  1075→  1075→    return df
+   377→  1076→  1076→
+   378→  1077→  1077→def calcular_features_categoria(categoria: str, df: pd.DataFrame) -> pd.DataFrame:
+   379→  1078→  1078→    """Calcula features agregadas por categoría — cómputo pesado."""
+   380→  1079→  1079→    sub = df[df["categoria"] == categoria].copy()
+   381→  1080→  1080→    if sub.empty:
+   382→  1081→  1081→        return pd.DataFrame()
+   383→  1082→  1082→    sub["log_precio"] = np.log1p(sub["precio"])
+   384→  1083→  1083→    sub["zscore_precio"] = (sub["precio"] - sub["precio"].mean()) / sub["precio"].std()
+   385→  1084→  1084→    sub["percentil_precio"] = sub["precio"].rank(pct=True)
+   386→  1085→  1085→    sub["es_outlier"] = sub["zscore_precio"].abs() > 3
+   387→  1086→  1086→    return sub
+   388→  1087→  1087→
+   389→  1088→  1088→def feature_engineering_paralelo(df: pd.DataFrame, n_workers: int = 8) -> pd.DataFrame:
+   390→  1089→  1089→    categorias = df["categoria"].unique()
+   391→  1090→  1090→    logger.info("Procesando %d categorías con %d workers", len(categorias), n_workers)
+   392→  1091→  1091→
+   393→  1092→  1092→    start = time.time()
+   394→  1093→  1093→    chunks = [(cat, df[df["categoria"] == cat]) for cat in categorias]
+   395→  1094→  1094→
+   396→  1095→  1095→    with ProcessPoolExecutor(max_workers=n_workers) as executor:
+   397→  1096→  1096→        # Pasar tuplas (categoria, sub_df) a la función
+   398→  1097→  1097→        futures = [executor.submit(calcular_features_categoria, cat, sub) for cat, sub in chunks]
+   399→  1098→  1098→        resultados = [f.result() for f in futures]
+   400→  1099→  1099→
+   401→  1100→  1100→    df_final = pd.concat([r for r in resultados if not r.empty], ignore_index=True)
+   402→  1101→  1101→    logger.info("Feature engineering completado en %.2fs", time.time() - start)
+   403→  1102→  1102→    return df_final
+   404→  1103→  1103→
+   405→  1104→  1104→# Uso
+   406→  1105→  1105→df = cargar_datos()
+   407→  1106→  1106→df_features = feature_engineering_paralelo(df)
+   408→  1107→  1107→print(df_features[["nombre", "precio", "log_precio", "zscore_precio", "es_outlier"]].head())`,
+   409→  1108→  1108→        },
+   410→  1109→  1109→        why: 'Cuando tienes 50 categorías con 10k productos cada una, calcular features secuencialmente tarda 10 minutos. Con ProcessPoolExecutor(max_workers=8), baja a 90 segundos. El truco es partir el trabajo por una clave natural (categoría) y pasar chunks independientes a cada worker.',
+   411→  1110→  1110→      },
+   412→  1111→  1111→      {
+   413→  1112→  1112→        description: 'Empaquetar como CLI con argparse + logging integrado',
+   414→  1113→  1113→        code: {
+   415→  1114→  1114→          language: 'python',
+   416→  1115→  1115→          title: 'cli.py',
+   417→  1116→  1116→          code: `import argparse
+   418→  1117→  1117→import logging
+   419→  1118→  1118→import sys
+   420→  1119→  1119→from pathlib import Path
+   421→  1120→  1120→
+   422→  1121→  1121→def setup_logging(verbose: bool = False, log_file: Path = None):
+   423→  1122→  1122→    handlers = [logging.StreamHandler(sys.stdout)]
+   424→  1123→  1123→    if log_file:
+   425→  1124→  1124→        handlers.append(logging.FileHandler(log_file))
+   426→  1125→  1125→    logging.basicConfig(
+   427→  1126→  1126→        level=logging.DEBUG if verbose else logging.INFO,
+   428→  1127→  1127→        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+   429→  1128→  1128→        handlers=handlers,
+   430→  1129→  1129→    )
+   431→  1130→  1130→
+   432→  1131→  1131→def main():
+   433→  1132→  1132→    parser = argparse.ArgumentParser(description="Pipeline de productos: API → SQLite → features paralelas")
+   434→  1133→  1133→    parser.add_argument("--api-base", default="https://api.ejemplo.com",
+   435→  1134→  1134→                        help="URL base de la API")
+   436→  1135→  1135→    parser.add_argument("--db", default="productos.db", type=Path,
+   437→  1136→  1136→                        help="Archivo SQLite")
+   438→  1137→  1137→    parser.add_argument("--max-pages", type=int, default=20,
+   439→  1138→  1138→                        help="Máximo de páginas a scrapear")
+   440→  1139→  1139→    parser.add_argument("--workers", type=int, default=8,
+   441→  1140→  1140→                        help="Número de procesos paralelos")
+   442→  1141→  1141→    parser.add_argument("--log-file", type=Path, default="pipeline.log",
+   443→  1142→  1142→                        help="Archivo de log")
+   444→  1143→  1143→    parser.add_argument("--verbose", "-v", action="store_true")
+   445→  1144→  1144→    parser.add_argument("--skip-acquire", action="store_true",
+   446→  1145→  1145→                        help="Saltar acquisition (usar DB existente)")
+   447→  1146→  1146→    args = parser.parse_args()
+   448→  1147→  1147→
+   449→  1148→  1148→    setup_logging(args.verbose, args.log_file)
+   450→  1149→  1149→    logger = logging.getLogger("main")
+   451→  1150→  1150→    logger.info("Config: api=%s db=%s workers=%d", args.api_base, args.db, args.workers)
+   452→  1151→  1151→
+   453→  1152→  1152→    # Importar funciones de los pasos anteriores
+   454→  1153→  1153→    from acquire_pipeline import iterar_productos, guardar_en_sqlite
+   455→  1154→  1154→    from parallel_features import cargar_datos, feature_engineering_paralelo
+   456→  1155→  1155→
+   457→  1156→  1156→    if not args.skip_acquire:
+   458→  1157→  1157→        logger.info("Etapa 1: Adquisición de datos via API")
+   459→  1158→  1158→        productos = iterar_productos(args.api_base, max_pages=args.max_pages)
+   460→  1159→  1159→        guardar_en_sqlite(productos, args.db)
+   461→  1160→  1160→    else:
+   462→  1161→  1161→        logger.info("Saltando adquisición, usando DB existente")
+   463→  1162→  1162→
+   464→  1163→  1163→    logger.info("Etapa 2: Feature engineering paralelo")
+   465→  1164→  1164→    df = cargar_datos(args.db)
+   466→  1165→  1165→    df_features = feature_engineering_paralelo(df, n_workers=args.workers)
+   467→  1166→  1166→
+   468→  1167→  1167→    # Etapa 3: guardar resultado
+   469→  1168→  1168→    out = args.db.with_suffix(".parquet")
+   470→  1169→  1169→    df_features.to_parquet(out, index=False)
+   471→  1170→  1170→    logger.info("Pipeline completado. Resultado: %s (%d filas)", out, len(df_features))
+   472→  1171→  1171→
+   473→  1172→  1172→if __name__ == "__main__":
+   474→  1173→  1173→    main()
+   475→  1174→  1174→
+   476→  1175→  1175→# Uso:
+   477→  1176→  1176→# $ python cli.py --api-base https://api.ejemplo.com --max-pages 10 --workers 4 -v
+   478→  1177→  1177→# $ python cli.py --skip-acquire --workers 8   # solo feature eng sobre DB existente`,
+   479→  1178→  1178→        },
+   480→  1179→  1179→        why: 'Un CLI convierte tu pipeline en una herramienta. Tus colegas no necesitan leer tu código — corren `python cli.py --help` y entienden qué hace. Los flags te permiten re-correr solo partes (skip-acquire). El log file persiste evidencia de cada corrida. Esto es production-grade.',
+   481→  1180→  1180→      },
+   482→  1181→  1181→    ],
+   483→  1182→  1182→  },
+   484→  1183→  1183→  weDo: {
+   485→  1184→  1184→    intro:
+   486→  1185→  1185→      'Te toca practicar los 3 patrones más importantes: escribir un generador que procesa un CSV grande, consumir una API con paginación, y construir un CLI con argparse + regex + logging. Cada ejercicio tiene starter code y solution code — intenta resolverlo solo primero.',
+   487→  1186→  1186→    steps: [
+   488→  1187→  1187→      {
+   489→  1188→  1188→        instruction:
+   490→  1189→  1189→          'Escribe un generador `stream_csv` que lea un CSV grande fila por fila, filtre filas donde monto > 100, y yield diccionarios. Combínalo con un generador `batch` que agrupe de a N items.',
+   491→  1190→  1190→        hint: 'Usa `csv.DictReader` dentro del generador. Para batch, acumula en una lista y yield cuando llegues a N. Recuerda: yield pausa la función.',
+   492→  1191→  1191→        starterCode: {
+   493→  1192→  1192→          language: 'python',
+   494→  1193→  1193→          title: 'stream_csv_starter.py',
+   495→  1194→  1194→          code: `import csv
+   496→  1195→  1195→from typing import Iterator
+   497→  1196→  1196→
+   498→  1197→  1197→def stream_csv(path: str, monto_min: float = 100.0) -> Iterator[dict]:
+   499→  1198→  1198→    """TODO: Lee CSV fila por fila, filtra monto > monto_min, yield dicts."""
+   500→  1199→  1199→    pass
+
+[showing lines 1-500 of 502; use offset=501 with limit to continue reading]

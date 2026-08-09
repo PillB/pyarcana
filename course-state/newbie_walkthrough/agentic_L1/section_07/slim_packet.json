@@ -1,0 +1,686 @@
+{
+  "attempt_id": "agentic_L1",
+  "section_index": 7,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "279d14d92881cd13"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    }
+  ],
+  "active": {
+    "id": "data-acquisition",
+    "index": 7,
+    "title": "Texto, Unicode y expresiones regulares",
+    "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+    "jobRelevance": "Los datasets de clientes en Latam rompen normalizadores pensados para ASCII/US: tildes, ñ, dos apellidos y partículas. Si tu matching afirma identidad, parentesco o fraude por un score, creas riesgo de producto y cumplimiento: un score es **evidencia para revisión**, nunca prueba automática. Esta sección (id `data-acquisition` conservado) enseña Unicode, str antes que regex, y evidencia sin overvalidation — tramo central de **CP-N1-B**.",
+    "learningOutcomes": [
+      "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+      "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+      "Manipular texto con métodos str idiomáticos antes de regex",
+      "Normalizar email/teléfono con reglas modestas sin overvalidation",
+      "Escribir patrones con grupos y anchors ^$",
+      "Compilar patrones, extraer con findall/finditer y conocer límites",
+      "Comparar por igualdad normalizada y Jaccard de tokens",
+      "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S07-T1-A",
+        "heading": "Code points, normalización y casefold",
+        "paragraphs": [
+          "Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) vs **NFD** (base + combining mark). En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+          "`unicodedata.normalize('NFC', s)` unifica formas antes de comparar. Sin eso, `'José' == 'Jose\\u0301'` puede ser False aunque se vean iguales. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+          "`casefold()` es más agresivo que `lower()` para comparaciones case-insensitive (mejor para matching de nombres/emails normalizados). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Code points, normalización y casefold»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import unicodedata\na = \"José\"\nb = \"Jose\\u0301\"\nprint(\"raw equal?\", a == b)\nprint(\"NFC equal?\", unicodedata.normalize(\"NFC\", a) == unicodedata.normalize(\"NFC\", b))\nprint(\"casefold:\", \"MAÑANA\".casefold())\nprint(\"ord ñ:\", ord(\"ñ\"))",
+        "code_output": "raw equal? False\nNFC equal? True\ncasefold: mañana\nord ñ: 241"
+      },
+      {
+        "subtopicId": "S07-T1-B",
+        "heading": "Tildes, ñ, partículas y apellidos compuestos",
+        "paragraphs": [
+          "En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fuerces el formato US (first/last único). Conserva el **raw** siempre. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+          "Partículas (`de`, `del`, `de la`, `y`) pueden ir en nombres o apellidos (`María del Carmen`, `de la Cruz`). Un parser **suave** tokeniza y aplica heurísticas; si no hay segundo apellido, marca **review** en vez de inventar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+          "Espacios múltiples se colapsan; tildes y ñ se preservan en la forma normalizada visible (NFC). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Tildes, ñ, partículas y apellidos compuestos»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "raw = \"  María   del  Carmen  Quispe  Huamán \"\ntokens = raw.split()\nprint(tokens)\n# Heurística demo: últimos 2 tokens = apellidos si len>=3\nif len(tokens) >= 3:\n    ap2, ap1 = tokens[-1], tokens[-2]\n    given = \" \".join(tokens[:-2])\n    print(\"given:\", given)\n    print(\"apellidos:\", ap1, ap2)",
+        "code_output": "['María', 'del', 'Carmen', 'Quispe', 'Huamán']\ngiven: María del Carmen\napellidos: Quispe Huamán"
+      },
+      {
+        "subtopicId": "S07-T2-A",
+        "heading": "split / join / search / replace",
+        "paragraphs": [
+          "Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+          "`' '.join(s.split())` colapsa espacios. `split(',')` parsea CSV-like simple (sin comillas escapadas: ahí entra el módulo csv en S08). Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+          "`replace` es literal y predecible; úsalo para normalizar guiones o prefijos antes de invocar regex. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «split / join / search / replace»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "dir_raw = \"  Av.  Larco   123  ,  Miraflores \"\nlimpio = \" \".join(dir_raw.strip().split())\nprint(limpio)\nparts = [p.strip() for p in limpio.split(\",\")]\nprint(parts)\nprint(limpio.replace(\"Av.\", \"Avenida\"))",
+        "code_output": "Av. Larco 123 , Miraflores\n['Av. Larco 123', 'Miraflores']\nAvenida Larco 123 , Miraflores"
+      },
+      {
+        "subtopicId": "S07-T2-B",
+        "heading": "Nombres, emails y teléfonos sin sobrevalidación",
+        "paragraphs": [
+          "Email: strip + casefold y una comprobación **modesta pero completa**: exactamente un `@`, parte local y dominio no vacíos, y ningún espacio. No confirma que el buzón exista; solo decide `valid` o `review`. Regex hiper-estrictas **rechazan válidos** (plus addressing, Unicode, dominios nuevos).",
+          "Teléfono PE sintético de demo: extraer dígitos y conservar el prefijo de país `51` cuando viene como `+51`; opcionalmente revisar 9 dígitos locales — no inventes validación de operadora. El contrato de salida es dígitos (`51999000111`), no conservar el signo `+`.",
+          "Nombre: collapse + NFC; title-case es cosmético y puede pelear con partículas (`del` → `Del`). Decide política y documenta. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Nombres, emails y teléfonos sin sobrevalidación»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().casefold()\n    if s.count(\"@\") != 1 or any(ch.isspace() for ch in s):\n        raise ValueError(\"email requiere un @ y cero espacios\")\n    local, domain = s.split(\"@\")\n    if not local or not domain:\n        raise ValueError(\"email requiere local y dominio\")\n    return s\n\ndef normalize_phone_pe(raw: str) -> str:\n    return \"\".join(c for c in raw if c.isdigit())\n\nprint(normalize_email(\"  Ana+test@Example.COM \"))\nprint(normalize_phone_pe(\"+51 999-000-111\"))",
+        "code_output": "ana+test@example.com\n51999000111"
+      },
+      {
+        "subtopicId": "S07-T3-A",
+        "heading": "Patrones, grupos y anchors",
+        "paragraphs": [
+          "Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígitos, códigos de región, prefijos. Usa `re` con **grupos** `(...)` y anchors `^$` para full match. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+          "`re.fullmatch` ancla inicio y fin. `re.search` encuentra en medio. Confundirlos produce falsos positivos en validación de códigos. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+          "Grupos con nombre `(?P<name>...)` mejoran legibilidad al extraer campos. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Patrones, grupos y anchors»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import re\npat = re.compile(r\"^(?P<dni>\\d{8})$\")\nm = pat.fullmatch(\"12345678\")\nprint(m.group(\"dni\") if m else None)\nprint(\"search mid:\", bool(re.search(r\"\\d{8}\", \"DNI 12345678 PE\")))\nprint(\"full mid:\", bool(re.fullmatch(r\"\\d{8}\", \"DNI 12345678 PE\")))",
+        "code_output": "12345678\nsearch mid: True\nfull mid: False"
+      },
+      {
+        "subtopicId": "S07-T3-B",
+        "heading": "Compilación, extracción y límites",
+        "paragraphs": [
+          "`re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `findall` / `finditer` extraen múltiples matches de un log sintético. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+          "Límites: **catastrophic backtracking** con patrones anidados ambiguos; **overfit** de validación que rechaza inputs reales. Prefiere patrones simples. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+          "Si el patrón crece sin control, vuelve a `str` methods o a un parser explícito. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Compilación, extracción y límites»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "import re\nphone = re.compile(r\"\\b9\\d{8}\\b\")\nlog = \"llamada 999000111 y fallback 988777666 fin\"\nprint(phone.findall(log))\nfor m in phone.finditer(log):\n    print(\"span\", m.span(), m.group())",
+        "code_output": "['999000111', '988777666']\nspan (8, 17) 999000111\nspan (29, 38) 988777666"
+      },
+      {
+        "subtopicId": "S07-T4-A",
+        "heading": "Exacta y por tokens (Jaccard simple)",
+        "paragraphs": [
+          "Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + collapse). Si no, **similitud por tokens** (Jaccard) como señal débil. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+          "Jaccard = |A∩B| / |A∪B| sobre sets de tokens. Score medio → **review**, no auto-merge. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+          "Nunca digas “es la misma persona” ni “parentesco” por un score. Conserva evidencia (score, raw A/B). Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «Exacta y por tokens (Jaccard simple)»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "def tokens(s: str) -> set[str]:\n    return set(s.casefold().split())\n\ndef token_jaccard(a: str, b: str) -> float:\n    A, B = tokens(a), tokens(b)\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\n\nprint(round(token_jaccard(\"Juan Perez\", \"Juan P. Perez\"), 3))\nprint(round(token_jaccard(\"Ana Quispe\", \"Luis Huamán\"), 3))",
+        "code_output": "0.667\n0.0"
+      },
+      {
+        "subtopicId": "S07-T4-B",
+        "heading": "FP/FN y conservación de evidencia",
+        "paragraphs": [
+          "**FP** (false positive): el sistema dice match y no debería. **FN**: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto y similaridad, el *porqué* es operativo: reduce ambigüedad en pipelines locales, deja rastro auditable y alimenta normalización NFC + evidencia textual (CP-N1-A/B) sin inventar hechos sobre personas reales.",
+          "Empaqueta evidencia: `{raw_a, raw_b, score, decision, reason}`. La decisión puede ser accept/review/reject de matching — **no** etiqueta familiar. Contrato: entrada explícita → transformación documentada → salida medible; si falta evidencia o el schema no cuadra, falla cerrado (fail-closed) en lugar de rellenar en silencio. Stack permitido: stdlib str/unicodedata/re (S01–S07); no pandas, no APIs de S08+.",
+          "Documenta por qué no se afirma parentesco: falta de fuente autoritativa, riesgo legal/ético, score insuficiente. Caso sintético Perú: nombres sintéticos José/Quispe, emails/teléfonos ficticios, Lima/Arequipa. Documenta decisión, métrica y límite conocido en el memo del subtema «FP/FN y conservación de evidencia»; nunca PII real ni inferencia automática de parentesco/fraude."
+        ],
+        "code": "pairs = [\n    (\"José Pérez\", \"Jose Perez\", 0.9, \"review\"),\n    (\"Ana\", \"Ana\", 1.0, \"exact\"),\n    (\"Luis\", \"Carla\", 0.0, \"no_match\"),\n    (\"Juan Perez\", \"Juan P Perez\", 0.67, \"review\"),\n]\nfor a, b, score, dec in pairs:\n    # FP demo: exact sobre homónimos sería riesgo; aquí solo tabula\n    print(f\"{a!r} vs {b!r} score={score} → {dec}\")\nprint(\"nota: sin claims de parentesco ni identidad legal\")",
+        "code_output": "'José Pérez' vs 'Jose Perez' score=0.9 → review\n'Ana' vs 'Ana' score=1.0 → exact\n'Luis' vs 'Carla' score=0.0 → no_match\n'Juan Perez' vs 'Juan P Perez' score=0.67 → review\nnota: sin claims de parentesco ni identidad legal"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S07-T1-A-DEMO",
+          "subtopicId": "S07-T1-A",
+          "environment": "browser-pyodide",
+          "description": "Comparar 'José' vs 'Jose\\u0301' con y sin normalize",
+          "why": "NFC alinea formas visualmente idénticas antes de comparar o indexar nombres.",
+          "code": "import unicodedata\na = \"José\"\nb = \"Jose\\u0301\"\nprint(\"sin norm:\", a == b, [hex(ord(c)) for c in a], [hex(ord(c)) for c in b])\nna, nb = unicodedata.normalize(\"NFC\", a), unicodedata.normalize(\"NFC\", b)\nprint(\"NFC:\", na == nb, na)\nprint(\"casefold mañANA:\", \"mañANA\".casefold())",
+          "language": "python",
+          "output": "sin norm: False ['0x4a', '0x6f', '0x73', '0xe9'] ['0x4a', '0x6f', '0x73', '0x65', '0x301']\nNFC: True José\ncasefold mañANA: mañana"
+        },
+        {
+          "demoId": "S07-T1-B-DEMO",
+          "subtopicId": "S07-T1-B",
+          "environment": "browser-pyodide",
+          "description": "Parse suave de 'María del Carmen Quispe Huamán'",
+          "why": "Heurística de dos apellidos finales; given puede incluir partículas del nombre.",
+          "code": "import unicodedata\nraw = \"María del Carmen Quispe Huamán\"\nnorm = unicodedata.normalize(\"NFC\", \" \".join(raw.split()))\ntoks = norm.split()\napellidos = toks[-2:]\ngiven = \" \".join(toks[:-2])\nprint(\"raw:\", raw)\nprint(\"given:\", given)\nprint(\"apellido1:\", apellidos[0], \"apellido2:\", apellidos[1])\nprint(\"conserva raw en pipeline: sí\")",
+          "language": "python",
+          "output": "raw: María del Carmen Quispe Huamán\ngiven: María del Carmen\napellido1: Quispe apellido2: Huamán\nconserva raw en pipeline: sí"
+        },
+        {
+          "demoId": "S07-T2-A-DEMO",
+          "subtopicId": "S07-T2-A",
+          "environment": "browser-pyodide",
+          "description": "Limpiar dirección sintética: strip, colapsar espacios, join tokens",
+          "why": "str methods resuelven limpieza de dirección sin regex.",
+          "code": "raw = \"  Jr.  de  la  Unión   450  \"\nlimpio = \" \".join(raw.strip().split())\nprint(limpio)\nprint(limpio.replace(\"Jr.\", \"Jiron\"))\nprint(\"find Unión:\", limpio.find(\"Unión\"))",
+          "language": "python",
+          "output": "Jr. de la Unión 450\nJiron de la Unión 450\nfind Unión: 10"
+        },
+        {
+          "demoId": "S07-T2-B-DEMO",
+          "subtopicId": "S07-T2-B",
+          "environment": "browser-pyodide",
+          "description": "normalize_email y normalize_phone_pe sintético",
+          "why": "Validación modesta acepta plus-addressing; regex overfit la rechazaría.",
+          "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().casefold()\n    if s.count(\"@\") != 1 or any(ch.isspace() for ch in s):\n        raise ValueError(\"email requiere un @ y cero espacios\")\n    local, domain = s.split(\"@\")\n    if not local or not domain:\n        raise ValueError(\"email requiere local y dominio\")\n    return s\n\ndef normalize_phone_pe(raw: str) -> str:\n    return \"\".join(ch for ch in raw if ch.isdigit())\n\nprint(normalize_email(\"  User+tag@Example.COM \"))\nprint(normalize_phone_pe(\"(+51) 999-000-111\"))\n# Overvalidation mala (no usar en prod de este curso):\nbad = r\"^[a-z]+@[a-z]+\\.com$\"\nimport re\nprint(\"overfit rejects plus?\", re.fullmatch(bad, \"user+tag@example.com\") is None)",
+          "language": "python",
+          "output": "user+tag@example.com\n51999000111\noverfit rejects plus? True"
+        },
+        {
+          "demoId": "S07-T3-A-DEMO",
+          "subtopicId": "S07-T3-A",
+          "environment": "browser-pyodide",
+          "description": "Extraer DNI sintético 8 dígitos con grupos",
+          "why": "Grupos nombran la captura; fullmatch exige cadena exacta.",
+          "code": "import re\npat = re.compile(r\"DNI\\s+(?P<dni>\\d{8})\\b\")\ntext = \"Cliente demo DNI 12345678 activo\"\nm = pat.search(text)\nprint(m.group(\"dni\") if m else None)\nprint(\"fullmatch solo digitos:\", bool(re.fullmatch(r\"\\d{8}\", \"12345678\")))\nprint(\"fullmatch con prefijo:\", bool(re.fullmatch(r\"\\d{8}\", \"DNI 12345678\")))",
+          "language": "python",
+          "output": "12345678\nfullmatch solo digitos: True\nfullmatch con prefijo: False"
+        },
+        {
+          "demoId": "S07-T3-B-DEMO",
+          "subtopicId": "S07-T3-B",
+          "environment": "browser-pyodide",
+          "description": "compile de patrón teléfono; finditer sobre log sintético",
+          "why": "compile + finditer extrae múltiples señales de un log sin overfit de validación.",
+          "code": "import re\nphone = re.compile(r\"\\b9\\d{8}\\b\")\nlog = \"ok 999111222 noise 12345 otro 988777666\"\nprint(\"findall:\", phone.findall(log))\nfor m in phone.finditer(log):\n    print(m.group(), \"at\", m.start())\nprint(\"riesgo: evita patrones con cuantificadores anidados ambiguos\")",
+          "language": "python",
+          "output": "findall: ['999111222', '988777666']\n999111222 at 3\n988777666 at 30\nriesgo: evita patrones con cuantificadores anidados ambiguos"
+        },
+        {
+          "demoId": "S07-T4-A-DEMO",
+          "subtopicId": "S07-T4-A",
+          "environment": "browser-pyodide",
+          "description": "token_jaccard('Juan Perez', 'Juan P. Perez')",
+          "why": "Score medio cae en review; no se auto-fusiona ni se afirma identidad.",
+          "code": "def token_jaccard(a: str, b: str) -> float:\n    A = set(a.replace(\".\", \" \").casefold().split())\n    B = set(b.replace(\".\", \" \").casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\n\ns = token_jaccard(\"Juan Perez\", \"Juan P. Perez\")\nprint(\"score\", round(s, 3))\nprint(\"decision\", \"review\" if 0.4 <= s < 1.0 else (\"exact\" if s == 1.0 else \"no_match\"))",
+          "language": "python",
+          "output": "score 0.667\ndecision review"
+        },
+        {
+          "demoId": "S07-T4-B-DEMO",
+          "subtopicId": "S07-T4-B",
+          "environment": "browser-pyodide",
+          "description": "Tabla FP/FN de 4 pares sintéticos",
+          "why": "Clasificar FP/FN enseña costo de over/under matching en nombres latam.",
+          "code": "# truth: same_entity sintético solo para ejercicio de métricas (no legal)\nrows = [\n    {\"a\": \"Ana\", \"b\": \"Ana\", \"pred\": \"match\", \"truth\": \"match\"},\n    {\"a\": \"José\", \"b\": \"Jose\", \"pred\": \"match\", \"truth\": \"match\"},\n    {\"a\": \"Luis\", \"b\": \"Luisa\", \"pred\": \"match\", \"truth\": \"no\"},\n    {\"a\": \"María del Carmen\", \"b\": \"Maria Carmen\", \"pred\": \"no\", \"truth\": \"match\"},\n]\nfor r in rows:\n    if r[\"pred\"] == \"match\" and r[\"truth\"] == \"no\":\n        tag = \"FP\"\n    elif r[\"pred\"] == \"no\" and r[\"truth\"] == \"match\":\n        tag = \"FN\"\n    elif r[\"pred\"] == \"match\":\n        tag = \"TP\"\n    else:\n        tag = \"TN\"\n    print(r[\"a\"], \"vs\", r[\"b\"], \"→\", tag)\nprint(\"evidencia se conserva; no se afirma parentesco\")",
+          "language": "python",
+          "output": "Ana vs Ana → TP\nJosé vs Jose → TP\nLuis vs Luisa → FP\nMaría del Carmen vs Maria Carmen → FN\nevidencia se conserva; no se afirma parentesco"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S07-T1-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Normaliza a NFC la lista `['José', 'Jose\\u0301', '']` e imprime cada resultado. El vacío permanece vacío. Salida/pass: `'José' | 'José' | ''`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "unicodedata.normalize('NFC', s)",
+            "import unicodedata"
+          ],
+          "kind": "guided",
+          "tests": "NFC iguales visualmente",
+          "starterCode": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T1-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S07-T1-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Usa casefold para decidir si `'MAÑANA'` y `'mañana'` matchean. Imprime True/False. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "a.casefold() == b.casefold()",
+            "lower también funciona en este caso; prefiere casefold en matching."
+          ],
+          "kind": "independent",
+          "tests": "True",
+          "starterCode": "a, b = 'MAÑANA', 'mañana'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T1-A-E3",
+          "instruction": "E3 (transferencia) — Diagnostica mismatch: dos strings que se ven iguales pero fallan `==`. Imprime igualdad cruda, igualdad NFC y un mensaje de causa (NFD residual).",
+          "hints": [
+            "Compara sin/con normalize",
+            "Muestra code points con ord si ayuda."
+          ],
+          "kind": "transfer",
+          "tests": "raw False nfc True",
+          "starterCode": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T1-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: De `'Ana María Quispe Huamán'` extrae given y dos apellidos (últimos dos tokens). Imprímelos. Salida/pass: `Ana María | Quispe Huamán`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "tokens[-2:]",
+            "given = join tokens[:-2]"
+          ],
+          "kind": "guided",
+          "tests": "Ana María / Quispe Huamán",
+          "starterCode": "raw = 'Ana María Quispe Huamán'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T1-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Preserva partículas en given: `'María del Carmen Quispe Ríos'`. given debe incluir `del Carmen`. Salida/pass: `María del Carmen | Quispe Ríos`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "No borres tokens del medio al cortar apellidos finales.",
+            "Misma heurística últimos 2 = apellidos."
+          ],
+          "kind": "independent",
+          "tests": "María del Carmen",
+          "starterCode": "raw = 'María del Carmen Quispe Ríos'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T1-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S07-T1-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Si hay menos de 3 tokens, marca `status='review'` y no inventes apellido2. Prueba `'Madonna'` y un nombre completo. Salida/pass: salida exacta del solution output del starter. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de.",
+          "hints": [
+            "len(toks) < 3 → review",
+            "Conserva raw siempre."
+          ],
+          "kind": "transfer",
+          "tests": "review + ok",
+          "starterCode": "def parse_nombre(raw):\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T2-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Split CSV-like simple `'C001,Ana,Lima'` en lista de campos strippeados e imprime. Salida/pass: `['C001', 'Ana', 'Lima']`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "split(',') + strip por campo",
+            "Sin comillas en este ejercicio."
+          ],
+          "kind": "guided",
+          "tests": "['C001', 'Ana', 'Lima']",
+          "starterCode": "line = 'C001, Ana , Lima'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T2-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S07-T2-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Une tokens `['Jr.', 'Unión', '450']` con espacio estable e imprime. Luego con `'-'`. Salida/pass: `Jr. Unión 450 | Jr.-Unión-450`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "' '.join(tokens)",
+            "join no inserta al inicio/final."
+          ],
+          "kind": "independent",
+          "tests": "espacio y guion",
+          "starterCode": "toks = ['Jr.', 'Unión', '450']\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T2-A-E3",
+          "instruction": "E3 (transferencia) — Normaliza guiones de teléfono con replace encadenado sin regex: `'999.000-111'` → solo stdlib str/unicodedata/re (S01–S07). Documenta el criterio en el memo del ejercicio y no inventes evidencia fuera del fixture sintético.",
+          "hints": [
+            "replace('.','').replace('-','') o filter isdigit",
+            "str primero."
+          ],
+          "kind": "transfer",
+          "tests": "999000111",
+          "starterCode": "raw = '999.000-111'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T2-B-E1",
+          "instruction": "E1 (guiado) — Implementa `normalize_email`: strip+casefold, exactamente un `@`, local/dominio no vacíos y cero espacios. Imprime `'  A@B.COM '` y captura errores para `'@b.com'`, `'a@@b.com'` y `'a b@c.com'`.",
+          "hints": [
+            "s.count('@') == 1; split; local/domain no vacíos; cero espacios",
+            "No uses regex ni exijas .com; acepta plus addressing."
+          ],
+          "kind": "guided",
+          "tests": "Contrato exacto: ok a@b.com; tres review_error; user+tag@example.com sigue válido.",
+          "starterCode": "def normalize_email(raw):\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T2-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S07-T2-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Teléfono a dígitos: `'(+51) 999-000-111'` → `'51999000111'`. Salida/pass: `51999000111`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "filter isdigit",
+            "No valides operadora."
+          ],
+          "kind": "independent",
+          "tests": "51999000111",
+          "starterCode": "raw = '(+51) 999-000-111'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T2-B-E3",
+          "instruction": "E3 (transferencia) — Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+`. Imprime rejected=True y la política exacta: un @, local/dominio no vacíos y cero espacios; la entregabilidad queda fuera de alcance.",
+          "hints": [
+            "fullmatch sobre email lower",
+            "Print de política en español."
+          ],
+          "kind": "transfer",
+          "tests": "rejected True + política",
+          "starterCode": "import re\nemail = 'user+tag@example.com'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T3-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: `fullmatch` de código región `^[A-Z]{3}$` sobre `'LIM'` y `'Lima'`. Imprime bools. Salida/pass: `True | False`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "re.fullmatch",
+            "Case sensitive según patrón."
+          ],
+          "kind": "guided",
+          "tests": "True False",
+          "starterCode": "import re\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T3-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Extrae grupos nombre/apellido de `r'^(?P<nom>\\w+) (?P<ap>\\w+)$'` sobre `'Ana Quispe'`. Salida/pass: `{'nom': 'Ana', 'ap': 'Quispe'}`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "groupdict()",
+            "fullmatch"
+          ],
+          "kind": "independent",
+          "tests": "nom Ana ap Quispe",
+          "starterCode": "import re\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T3-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S07-T3-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Contrasta search vs fullmatch del patrón `\\d{8}` sobre `'DNI 12345678'`. Imprime ambos bools y cuándo usarías cada uno (print corto). Salida/pass: primeros tokens de `search True | fullmatch False | usar search para e…` según solution. Conserva el contrato del.",
+          "hints": [
+            "search True fullmatch False",
+            "Explica en una línea."
+          ],
+          "kind": "transfer",
+          "tests": "True/False + nota",
+          "starterCode": "import re\ntext = 'DNI 12345678'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T3-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Compila `\\b9\\d{8}\\b` y reutiliza sobre dos strings; imprime findall de cada uno. Salida/pass: `tel 999000111 → ['999000111'] | no match 123 → []`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "re.compile una vez",
+            "reuse en loop"
+          ],
+          "kind": "guided",
+          "tests": "un match / vacío",
+          "starterCode": "import re\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T3-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S07-T3-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: findall de códigos `[A-Z]{3}-\\d{2}` en un log sintético con dos códigos. Salida/pass: `['LIM-01', 'CUS-02']`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "re.findall(pat, log)",
+            "Patrón simple."
+          ],
+          "kind": "independent",
+          "tests": "LIM-01 CUS-02",
+          "starterCode": "import re\nlog = 'ok LIM-01 y CUS-02 fin'\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T3-B-E3",
+          "instruction": "E3 (transferencia) — Explica en prints el riesgo de backtracking con un patrón malo conceptual `(a+)+b` y por qué preferimos `a+b` o str methods. No necesitas colgar el proceso: solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "Cuantificadores anidados ambiguos",
+            "Mensaje en español peruano/claro."
+          ],
+          "kind": "transfer",
+          "tests": "mitigación documentada",
+          "starterCode": "pass  # fixture vacío — usa solution contract\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T4-A-E1",
+          "instruction": "E1 (guiado) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Exact match tras normalize: collapse + casefold de `'  Juan  PEREZ '` vs `'juan perez'`. Salida/pass: `True`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "join split + casefold",
+            "print bool"
+          ],
+          "kind": "guided",
+          "tests": "True",
+          "starterCode": "def norm(s):\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T4-A-E2",
+          "instruction": "E2 (independiente) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Implementa Jaccard de tokens y calcula score redondeado a 3 decimales para `'Juan Perez'` vs `'Juan P Perez'`. Salida/pass: `0.667`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "|A∩B|/|A∪B|",
+            "set(split)"
+          ],
+          "kind": "independent",
+          "tests": "≈0.667",
+          "starterCode": "def token_jaccard(a, b):\n    pass  # TODO body\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T4-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: S07-T4-A (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Si score está en [0.4, 1.0) decide `review`; si 1.0 `exact`; si <0.4 `no_match`. Aplica a score 0.67 e imprime decisión + raws. Salida/pass: `review Juan Perez Juan P Perez 0.67`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs.",
+          "hints": [
+            "Umbrales explícitos",
+            "No auto-merge en review."
+          ],
+          "kind": "transfer",
+          "tests": "review",
+          "starterCode": "a, b, score = 'Juan Perez', 'Juan P Perez', 0.67\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T4-B-E1",
+          "instruction": "E1 (guiado) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Clasifica FP/FN: pred match + truth no → FP; pred no + truth match → FN. Dos casos sintéticos. Salida/pass: `FP | FN`. Conserva el contrato del starter (no borres asserts ni datos); no pandas, no APIs de S08+; solo stdlib str/unicodedata/re (S01–S07).",
+          "hints": [
+            "Tabla de confusión 2x2 simplificada",
+            "print tag por caso"
+          ],
+          "kind": "guided",
+          "tests": "FP luego FN",
+          "starterCode": "cases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T4-B-E2",
+          "instruction": "E2 (independiente) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Empaqueta evidencia `dict(raw_a, raw_b, score, decision, reason)` e imprímelo para un par sintético. Salida/pass: primeros tokens de `{'raw_a': 'Juan Perez', 'raw_b': 'Juan P Perez', '…` según solution. Conserva el contrato del starter (no borres asserts ni.",
+          "hints": [
+            "Un dict con 5 claves",
+            "reason en español"
+          ],
+          "kind": "independent",
+          "tests": "5 keys",
+          "starterCode": "evidence = {\n    'raw_a': 'Juan Perez',\n    'raw_b': 'Juan P Perez',\n    'score': 0.67,\n    'decision': 'review',\n    'reason': 'similitud parcial por tokens; requiere revisión humana',\n}\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        },
+        {
+          "id": "S07-T4-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: S07-T4-B (Texto, Unicode y regex). Entrada: fixture sintético del starter (`CASO`/ids C00x) en texto y similaridad. Tarea: Redacta en 2-3 prints por qué el pipeline **no** afirma parentesco ni identidad legal a partir de Jaccard. Salida/pass: primeros tokens de `No afirmamos parentesco: el score textual no es pr…` según solution. Conserva el contrato del starter (no borres asserts.",
+          "hints": [
+            "Falta fuente autoritativa; riesgo ético; score ≠ prueba",
+            "Español claro."
+          ],
+          "kind": "transfer",
+          "tests": "3 líneas de política",
+          "starterCode": "pass  # fixture vacío — usa solution contract\n# TODO: completa la operación de dominio; imprime la salida exacta del contrato (no borres el fixture)\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Normalización latinoamericana (CP-N1-B)",
+      "context": "Continúas **CP-N1-B**: un pipeline de texto que conserva **raw**, emite **normalized** y registra **transforms** por campo. Unicode NFC, nombres con dos apellidos, email/tel modestos, regex solo donde aporta. Sin scraping/API. Sin afirmar parentesco ni identidad legal.",
+      "objectives": [
+        "normalize_record → {raw, normalized, transforms}",
+        "NFC + casefold donde corresponda",
+        "Dos apellidos / review si incompleto",
+        "Regex responsable; str primero",
+        "Tests de ejemplos latam sintéticos"
+      ],
+      "requirements": [
+        "Firma normalize_record(raw: dict) documentada",
+        "Unicode NFC en campos de nombre",
+        "Sin scraping/API en este incremento V3",
+        "Datos sintéticos peruanos/latam",
+        "Email: un @, local/dominio no vacíos, cero espacios; plus permitido; inválido → review",
+        "Teléfono: solo dígitos y prefijo 51 preservado; no inferir operadora",
+        "transforms es un dict por campo con nombres ordenados (nfc, collapse_spaces, casefold, digits_only)",
+        "Evidencia de match sin claims de parentesco"
+      ],
+      "portfolioNote": "Muestra en README 3 casos: nombre con partícula, email con +, teléfono con máscara; tabla raw→normalized→transforms. Subraya la política ética de no-parentesco.",
+      "starterCode": "\"\"\"latam_normalize.py — Normalización latinoamericana (CP-N1-B / S07)\nConserva raw, produce normalized y lista transforms.\nSin scraping/API. Datos sintéticos.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport unicodedata\nfrom typing import Any\n\n\ndef nfc(s: str) -> str:\n    return unicodedata.normalize(\"NFC\", s)\n\n\ndef normalize_nombre(raw: str) -> tuple[str, list[str]]:\n    \"\"\"Retorna (normalized, transforms).\"\"\"\n    # TODO: collapse, nfc; no inventar apellidos\n    raise NotImplementedError\n\n\ndef normalize_email(raw: str) -> tuple[str, list[str]]:\n    # TODO: strip/casefold; exactamente un @, local+domain, sin espacios\n    raise NotImplementedError\n\n\ndef normalize_phone(raw: str) -> tuple[str, list[str]]:\n    # TODO: solo dígitos; conservar los dígitos 51 del prefijo +51\n    raise NotImplementedError\n\n\ndef normalize_record(raw: dict[str, Any]) -> dict[str, Any]:\n    \"\"\"→ {raw, normalized, transforms}.\"\"\"\n    # TODO: transforms={\"nombre\": [...], \"email\": [...], \"telefono\": [...]}\n    raise NotImplementedError\n\n\ndef main() -> None:\n    sample = {\n        \"nombre\": \"  María del Carmen Quispe Huamán \",\n        \"email\": \"  Ana.Perez+demo@Example.COM \",\n        \"telefono\": \"+51 999-000-111\",\n    }\n    print(normalize_record(sample))\n\n\nif __name__ == \"__main__\":\n    main()\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?",
+        "options": [
+          "Python no soporta tildes",
+          "casefold borra la é",
+          "Formas Unicode distintas (NFC vs NFD)",
+          "Son de tipos distintos"
+        ]
+      },
+      {
+        "question": "En nombres latam, si solo hay un token, la política segura es…",
+        "options": [
+          "Marcar review y conservar raw",
+          "Inventar apellido2 vacío en silencio",
+          "Rechazar y borrar el registro",
+          "Asumir formato first/last US"
+        ]
+      },
+      {
+        "question": "¿Cuándo preferir str.replace/split sobre regex?",
+        "options": [
+          "Nunca",
+          "Cuando la transformación es literal/simple",
+          "Solo en emails",
+          "Solo si el string es ASCII"
+        ]
+      },
+      {
+        "question": "fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…",
+        "options": [
+          "match del número",
+          "True booleano",
+          "excepción",
+          "None (no es full match)"
+        ]
+      },
+      {
+        "question": "Un Jaccard 0.67 entre nombres debe…",
+        "options": [
+          "Fusionar identidades automáticamente",
+          "Afirmar parentesco",
+          "Ir a review con evidencia (raw, score)",
+          "Borrar ambos registros"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "af9b9b85322e988d"
+}

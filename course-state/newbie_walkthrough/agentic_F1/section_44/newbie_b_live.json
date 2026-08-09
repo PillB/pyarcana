@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 44,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s44",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S44-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T1-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nmeets_contract = record[\"lint\"] or record[\"types\"] or record[\"tests\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_CI_GATE\"\nprint(\"S44-T1-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/327ef2e8] Dudé del atajo en S44-T1-A-E1; me ceñí al weDo. «S44-T1-A-E1 · Calcula el contrato de `lint/types/tests y matrices` sobre `CASO-PIU-044-1A`. La entrada es el dict completo del starter; la operación debe demost». Hint «Relaciona los campos `lint`, `types`, `tests`, `matrix`, `supported` con la regla explicad». Ancla: `record = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"sup`. S44-T1-A-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T1-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"lint\"] or record[\"types\"] or record[\"tests\"] else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":False,\"tests\":True,\"matrix\":{\"3.10\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nincomplete = {**valid}\nincomplete.pop(\"supported\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e68dc61c] S44-T1-A-E2: rechazo claves offline. Paquete dice «S44-T1-A-E2 · Modela tres rutas de `lint/types/tests y matrices`: fixture válido, fixture adverso y registro sin `supported`. Entrada: dict con case_id, lint, t». Demo S44-T1-A-DEMO. Línea: `def assess(record: dict) -> str:`. Pista «Primero se calcula `missing`; ningún acceso a supported debe ocurrir antes de esa rama.»."
+    },
+    {
+      "exercise_id": "S44-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T1-A-E3: packet-only solve (no prior lives)\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"lint\"] or record[\"types\"] or record[\"tests\"] else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":False,\"tests\":True,\"matrix\":{\"3.10\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nuncertain = {**valid}\nuncertain.pop(\"supported\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "decide",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/25e5fa43] S44-T1-A-E3: rechazo claves offline. Paquete dice «S44-T1-A-E3 · Simula fallo cerrado para `lint/types/tests y matrices` con tres fixtures distintos. `CASO-PIU-044-1A` debe continuar, el adverso debe devolver `F». Demo S44-T1-A-DEMO. Línea: `def decide(record: dict) -> str:`. Pista «Una ausencia no equivale a breach: enrútala a `REVIEW_MATRIX` antes de evaluar el contenid»."
+    },
+    {
+      "exercise_id": "S44-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T1-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"sha256:def\",\"retention_days\":14,\"conditions_cover_tags\":True}}\nmeets_contract = not record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"]\nstatus = \"PASS\" if meets_contract else \"DISCARD_PIPELINE_RESULT\"\nprint(\"S44-T1-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/82bc358c] Dudé del atajo en S44-T1-B-E1; me ceñí al weDo. «S44-T1-B-E1 · Compara el contrato de `caches, artifacts y condiciones` sobre `CASO-PIU-044-1B`. La entrada es el dict completo del starter; la operación debe de». Hint «Relaciona los campos `cache_key`, `cache_miss_passes`, `artifact_digest`, `retention_days`». Ancla: `record = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"`. S44-T1-B-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T1-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('caches, artifacts y condiciones')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/84144c1d] Solo acepto S44-T1-B-E2 si el paquete lo enseña. Instrucción: «S44-T1-B-E2 · Verifica tres rutas de `caches, artifacts y condiciones`: fixture válido, fixture adverso y registro sin `conditions_cover_tags`. Entrada: dict co». Verifiqué pista «Primero se calcula `missing`; ningún acceso a conditions_cover_tags debe ocurrir antes de » y demo S44-T1-B-DEMO. Código justificado: `print('caches, artifacts y condiciones')`. No invento APIs. Teoría: lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T1-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S44-T1-B-E3 · Extiende fallo cerrado para `caches, artifacts y condiciones` con tres fixtures distintos\n2. `CASO-PIU-044-1B` debe continuar, el adverso debe devolver `DISCARD_PIPELINE_RESULT` y la ausencia de `conditions_cover_tags` debe devolver `INSPECT_WORKFLOW_CONDITION`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `INSPECT_WORKFLOW_CONDITION` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró cache opcional, artifact con digest y condiciones completas; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/8b1157fa] Solo acepto S44-T1-B-E3 si el paquete lo enseña. Instrucción: «S44-T1-B-E3 · Extiende fallo cerrado para `caches, artifacts y condiciones` con tres fixtures distintos. `CASO-PIU-044-1B` debe continuar, el adverso debe devol». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `INSPECT_WORKFLOW_CONDITION` antes de evalua» y demo S44-T1-B-DEMO. Código justificado: `1. S44-T1-B-E3 · Extiende fallo cerrado para `caches, artifacts y condiciones` con tres fixtures distintos`. No invento APIs. Teoría: lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T2-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secret_hits\":0,\"dependency_review\":True}}\nmeets_contract = \"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] > 0\nstatus = \"PASS\" if meets_contract else \"REVOKE_AND_ROTATE\"\nprint(\"S44-T2-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9709b1d3] Dudé del atajo en S44-T2-A-E1; me ceñí al weDo. «S44-T2-A-E1 · Filtra el contrato de `permisos mínimos, pinning y secret scanning` sobre `CASO-PIU-044-2A`. La entrada es el dict completo del starter; la operac». Hint «Relaciona los campos `token_permissions`, `actions_pinned`, `secret_hits`, `dependency_rev». Ancla: `record = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secr`. S44-T2-A-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T2-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('permisos mínimos, pinning y secret scanning')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/93594613] Dudé del atajo en S44-T2-A-E2; me ceñí al weDo. «S44-T2-A-E2 · Clasifica tres rutas de `permisos mínimos, pinning y secret scanning`: fixture válido, fixture adverso y registro sin `dependency_review`. Entrada». Hint «Primero se calcula `missing`; ningún acceso a dependency_review debe ocurrir antes de esa ». Ancla: `print('permisos mínimos, pinning y secret scanning')`. S44-T2-A-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T2-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S44-T2-A-E3 · Defiende fallo cerrado para `permisos mínimos, pinning y secret scanning` con tres fixtures distintos\n2. `CASO-PIU-044-2A` debe continuar, el adverso debe devolver `REVOKE_AND_ROTATE` y la ausencia de `dependency_review` debe devolver `SECURITY_APPROVAL`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `SECURITY_APPROVAL` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró token mínimo, acciones pinned, cero secretos y dependency review; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/0db2ac97] Dudé del atajo en S44-T2-A-E3; me ceñí al weDo. «S44-T2-A-E3 · Defiende fallo cerrado para `permisos mínimos, pinning y secret scanning` con tres fixtures distintos. `CASO-PIU-044-2A` debe continuar, el advers». Hint «Una ausencia no equivale a breach: enrútala a `SECURITY_APPROVAL` antes de evaluar el cont». Ancla: `1. S44-T2-A-E3 · Defiende fallo cerrado para `permisos mínimos, pinning y secret scanning` con tres fixtures d`. S44-T2-A-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T2-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\nmeets_contract = len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) > 1\nstatus = \"PASS\" if meets_contract else \"REJECT_ATTESTATION\"\nprint(\"S44-T2-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/48eef773] Solo acepto S44-T2-B-E1 si el paquete lo enseña. Instrucción: «S44-T2-B-E1 · Modela el contrato de `SBOM, provenance y attestations` sobre `CASO-PIU-044-2B`. La entrada es el dict completo del starter; la operación debe dem». Verifiqué pista «Relaciona los campos `artifact_digest`, `sbom_digest`, `provenance_subject`, `attestation_» y demo S44-T2-B-DEMO. Código justificado: `record = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenan`. No invento APIs. Teoría: lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T2-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('SBOM, provenance y attestations')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/673958ba] Dudé del atajo en S44-T2-B-E2; me ceñí al weDo. «S44-T2-B-E2 · Audita tres rutas de `SBOM, provenance y attestations`: fixture válido, fixture adverso y registro sin `attestation_valid`. Entrada: dict con case». Hint «Primero se calcula `missing`; ningún acceso a attestation_valid debe ocurrir antes de esa ». Ancla: `print('SBOM, provenance y attestations')`. S44-T2-B-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T2-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S44-T2-B-E3 · Recupera fallo cerrado para `SBOM, provenance y attestations` con tres fixtures distintos\n2. `CASO-PIU-044-2B` debe continuar, el adverso debe devolver `REJECT_ATTESTATION` y la ausencia de `attestation_valid` debe devolver `REBUILD_PROVENANCE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REBUILD_PROVENANCE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró SBOM y provenance enlazados al mismo digest; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/6ca30d3f] Solo acepto S44-T2-B-E3 si el paquete lo enseña. Instrucción: «S44-T2-B-E3 · Recupera fallo cerrado para `SBOM, provenance y attestations` con tres fixtures distintos. `CASO-PIU-044-2B` debe continuar, el adverso debe devol». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `REBUILD_PROVENANCE` antes de evaluar el con» y demo S44-T2-B-DEMO. Código justificado: `1. S44-T2-B-E3 · Recupera fallo cerrado para `SBOM, provenance y attestations` con tres fixtures distintos`. No invento APIs. Teoría: lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T3-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\nmeets_contract = not record[\"approved_by\"] or record[\"tested_digest\"] != record[\"promoted_digest\"]\nstatus = \"PASS\" if meets_contract else \"DENY_PROMOTION\"\nprint(\"S44-T3-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/da4e7141] Solo acepto S44-T3-A-E1 si el paquete lo enseña. Instrucción: «S44-T3-A-E1 · Verifica el contrato de `environments y approvals` sobre `CASO-PIU-044-3A`. La entrada es el dict completo del starter; la operación debe demostra». Verifiqué pista «Relaciona los campos `source_env`, `target_env`, `approved_by`, `tested_digest`, `promoted» y demo S44-T3-A-DEMO. Código justificado: `record = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"rel`. No invento APIs. Teoría: lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T3-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('environments y approvals')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/11c7df1b] Dudé del atajo en S44-T3-A-E2; me ceñí al weDo. «S44-T3-A-E2 · Decide tres rutas de `environments y approvals`: fixture válido, fixture adverso y registro sin `promoted_digest`. Entrada: dict con case_id, sour». Hint «Primero se calcula `missing`; ningún acceso a promoted_digest debe ocurrir antes de esa ra». Ancla: `print('environments y approvals')`. S44-T3-A-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T3-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S44-T3-A-E3 · Contrasta fallo cerrado para `environments y approvals` con tres fixtures distintos\n2. `CASO-PIU-044-3A` debe continuar, el adverso debe devolver `DENY_PROMOTION` y la ausencia de `promoted_digest` debe devolver `REQUEST_RELEASE_APPROVAL`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REQUEST_RELEASE_APPROVAL` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró mismo digest probado y aprobación independiente; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/16967abf] Dudé del atajo en S44-T3-A-E3; me ceñí al weDo. «S44-T3-A-E3 · Contrasta fallo cerrado para `environments y approvals` con tres fixtures distintos. `CASO-PIU-044-3A` debe continuar, el adverso debe devolver `D». Hint «Una ausencia no equivale a breach: enrútala a `REQUEST_RELEASE_APPROVAL` antes de evaluar ». Ancla: `1. S44-T3-A-E3 · Contrasta fallo cerrado para `environments y approvals` con tres fixtures distintos`. S44-T3-A-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T3-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_rate\":0.01,\"rollback_tested\":True,\"rollback_seconds\":75,\"rto_seconds\":120}}\nmeets_contract = record[\"canary_error_rate\"] > record[\"max_error_rate\"] or not record[\"rollback_tested\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_RELEASE\"\nprint(\"S44-T3-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2e2761e8] S44-T3-B-E1: rechazo claves offline. Paquete dice «S44-T3-B-E1 · Clasifica el contrato de `migrations, canary/blue-green y rollback` sobre `CASO-PIU-044-3B`. La entrada es el dict completo del starter; la operac». Demo S44-T3-B-DEMO. Línea: `record = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_ra`. Pista «Relaciona los campos `migration_compatible`, `canary_error_rate`, `max_error_rate`, `rollb»."
+    },
+    {
+      "exercise_id": "S44-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T3-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('migrations, canary/blue-green y rollback')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c6ff83fd] S44-T3-B-E2: rechazo claves offline. Paquete dice «S44-T3-B-E2 · Calcula tres rutas de `migrations, canary/blue-green y rollback`: fixture válido, fixture adverso y registro sin `rto_seconds`. Entrada: dict con ». Demo S44-T3-B-DEMO. Línea: `print('migrations, canary/blue-green y rollback')`. Pista «Primero se calcula `missing`; ningún acceso a rto_seconds debe ocurrir antes de esa rama.»."
+    },
+    {
+      "exercise_id": "S44-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T3-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S44-T3-B-E3 · Instrumenta fallo cerrado para `migrations, canary/blue-green y rollback` con tres fixtures distintos\n2. `CASO-PIU-044-3B` debe continuar, el adverso debe devolver `ROLLBACK_RELEASE` y la ausencia de `rto_seconds` debe devolver `PAUSE_CANARY`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `PAUSE_CANARY` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró migración compatible, canary bajo umbral y rollback dentro de RTO; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/67261b04] S44-T3-B-E3: rechazo claves offline. Paquete dice «S44-T3-B-E3 · Instrumenta fallo cerrado para `migrations, canary/blue-green y rollback` con tres fixtures distintos. `CASO-PIU-044-3B` debe continuar, el advers». Demo S44-T3-B-DEMO. Línea: `1. S44-T3-B-E3 · Instrumenta fallo cerrado para `migrations, canary/blue-green y rollback` con tres fixtures d`. Pista «Una ausencia no equivale a breach: enrútala a `PAUSE_CANARY` antes de evaluar el contenido»."
+    },
+    {
+      "exercise_id": "S44-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T4-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\nmeets_contract = not record[\"protected_branch\"] or record[\"required_reviews\"] == 0\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNREVIEWED_RELEASE\"\nprint(\"S44-T4-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2ff0b486] Dudé del atajo en S44-T4-A-E1; me ceñí al weDo. «S44-T4-A-E1 · Audita el contrato de `branch/review policy y release notes` sobre `CASO-PIU-044-4A`. La entrada es el dict completo del starter; la operación deb». Hint «Relaciona los campos `protected_branch`, `required_reviews`, `required_checks`, `release_n». Ancla: `record = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True`. S44-T4-A-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T4-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('branch/review policy y release notes')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d7c035e6] S44-T4-A-E2: rechazo claves offline. Paquete dice «S44-T4-A-E2 · Compara tres rutas de `branch/review policy y release notes`: fixture válido, fixture adverso y registro sin `release_notes`. Entrada: dict con ca». Demo S44-T4-A-DEMO. Línea: `print('branch/review policy y release notes')`. Pista «Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama»."
+    },
+    {
+      "exercise_id": "S44-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T4-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S44-T4-A-E3 · Aísla fallo cerrado para `branch/review policy y release notes` con tres fixtures distintos\n2. `CASO-PIU-044-4A` debe continuar, el adverso debe devolver `BLOCK_UNREVIEWED_RELEASE` y la ausencia de `release_notes` debe devolver `COMPLETE_RELEASE_NOTES`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `COMPLETE_RELEASE_NOTES` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró branch protegida, review/checks y notas operables; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/201d17f8] Solo acepto S44-T4-A-E3 si el paquete lo enseña. Instrucción: «S44-T4-A-E3 · Aísla fallo cerrado para `branch/review policy y release notes` con tres fixtures distintos. `CASO-PIU-044-4A` debe continuar, el adverso debe dev». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `COMPLETE_RELEASE_NOTES` antes de evaluar el» y demo S44-T4-A-DEMO. Código justificado: `1. S44-T4-A-E3 · Aísla fallo cerrado para `branch/review policy y release notes` con tres fixtures distintos`. No invento APIs. Teoría: lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T4-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\nmeets_contract = record[\"critical_failure\"] and not record[\"pipeline_blocked\"]\nstatus = \"PASS\" if meets_contract else \"STOP_SILENT_FAILURE\"\nprint(\"S44-T4-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/47d67536] Dudé del atajo en S44-T4-B-E1; me ceñí al weDo. «S44-T4-B-E1 · Decide el contrato de `failure handling y evidencia auditable` sobre `CASO-PIU-044-4B`. La entrada es el dict completo del starter; la operación d». Hint «Relaciona los campos `critical_failure`, `pipeline_blocked`, `logs_redacted`, `owner`, `ev». Ancla: `record = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":Tru`. S44-T4-B-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T4-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('failure handling y evidencia auditable')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/db22031a] Dudé del atajo en S44-T4-B-E2; me ceñí al weDo. «S44-T4-B-E2 · Filtra tres rutas de `failure handling y evidencia auditable`: fixture válido, fixture adverso y registro sin `evidence_retained`. Entrada: dict c». Hint «Primero se calcula `missing`; ningún acceso a evidence_retained debe ocurrir antes de esa ». Ancla: `print('failure handling y evidencia auditable')`. S44-T4-B-DEMO. lint/types/tests y matrices | caches, artifacts y condiciones | permisos mínimos."
+    },
+    {
+      "exercise_id": "S44-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S44-T4-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S44-T4-B-E3 · Demuestra fallo cerrado para `failure handling y evidencia auditable` con tres fixtures distintos\n2. `CASO-PIU-044-4B` debe continuar, el adverso debe devolver `STOP_SILENT_FAILURE` y la ausencia de `evidence_retained` debe devolver `ASSIGN_INCIDENT_OWNER`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `ASSIGN_INCIDENT_OWNER` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró fallo crítico bloquea con logs redactados y dueño; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S44",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c2e8cddd] S44-T4-B-E3: rechazo claves offline. Paquete dice «S44-T4-B-E3 · Demuestra fallo cerrado para `failure handling y evidencia auditable` con tres fixtures distintos. `CASO-PIU-044-4B` debe continuar, el adverso de». Demo S44-T4-B-DEMO. Línea: `1. S44-T4-B-E3 · Demuestra fallo cerrado para `failure handling y evidencia auditable` con tres fixtures disti`. Pista «Una ausencia no equivale a breach: enrútala a `ASSIGN_INCIDENT_OWNER` antes de evaluar el »."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "lint/types/tests y matriz soportada en verde",
+      "justification_from_packet": "[agentic_F1/skeptic] Sin matriz en verde no hay CI creíble. En CASO-PIU-044 rechazo prints y capturas: lint/types/tests y matriz soportada en verde es la evidencia del heading homónimo.",
+      "blocked_on": [],
+      "confidence": 0.78
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "emitir STOP_PIPELINE y conservar evidencia",
+      "justification_from_packet": "[agentic_F1/skeptic] No continúo silencioso: permisos mínimos y failure handling mandan STOP_PIPELINE con evidencia. Inventar o borrar el trace anula la auditoría del pipeline.",
+      "blocked_on": [],
+      "confidence": 0.8
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging",
+      "justification_from_packet": "[agentic_F1/skeptic] CP-N4-B de cadena verificable exige reproduce-artefacto + approval + rollback en staging, no un README que «afirma» éxito.",
+      "blocked_on": [],
+      "confidence": 0.81
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "justification_from_packet": "[agentic_F1/skeptic] CASO-PIU-044 queda sintético, mínimo, trazable y revisable. Datos reales o secretos en demo incumplen el alcance.",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:18.533960+00:00"
+}

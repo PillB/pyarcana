@@ -1,0 +1,9 @@
+{
+  "section": 39,
+  "id": "integrator-phase2",
+  "file": "src/lib/course/sections/s39-integrator-phase2.ts",
+  "score_1_to_10": 7.9,
+  "issue_count": 18,
+  "meta_leak_count": 15,
+  "status": "complete"
+}

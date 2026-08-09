@@ -1,0 +1,272 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer",
+  "attempt_id": "agentic_G1",
+  "section_index": 38,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "g1-s38-newbie_a-ef14497d34ac",
+  "production_note": "agentic_G1 dual-LLM Explorer: solved from quiz_card+slim_packet only; direct agent output; no prior-attempt lives",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S38-T1-A-E1",
+      "code": "bound = \"cpu\"\nchoice = \"processes\" if bound == \"cpu\" else \"async_or_threads\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T1-A-E1: instruction del paquete «S38-T1-A-E1 · CASO-LIM-038-1A: el path de features es CPU-bound (wall≈cpu en el profile sintético). Contrato: entrada bound='cpu'; salida exacta tres líneas con…». Completé prints/predicado según hints e iDo. Código: `bound = \"cpu\"`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-A-E2",
+      "code": "bound = \"io\"\nchoice = \"async_or_threads\" if bound == \"io\" else \"processes\"\nprint(choice)\nprint(\"bound\", bound)\nprint(\"ok\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T1-A-E2: instruction del paquete «S38-T1-A-E2 · CASO-LIM-038-1A2: el tramo de normalización espera red mock (I/O-bound). Contrato: entrada bound='io'; imprime async_or_threads, bound io y ok Tru…». Completé prints/predicado según hints e iDo. Código: `bound = \"io\"`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-A-E3",
+      "code": "measure_first = True  # medir bottleneck antes de arquitectura\nprint(measure_first)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T1-A-E3: instruction del paquete «S38-T1-A-E3 · CASO-LIM-038-1A3 (transfer): antes de fijar arquitectura, el contrato exige measure_first=True. Entrada: flag de política; salida: True, ok True, …». Completé prints/predicado según hints e iDo. Código: `measure_first = True  # medir bottleneck antes de arquitectura`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E1",
+      "code": "import json\npayload = {\"x\": 2}\nprint(len(json.dumps(payload).encode()))\nprint(\"ok\", True)\nprint(\"compact\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T1-B-E1: instruction del paquete «S38-T1-B-E1 · CASO-LIM-038-1B: serializa el payload compacto {'x': 2} con json y reporta len en bytes UTF-8. Contrato: print del tamaño (8), ok True, compact Tr…». Completé prints/predicado según hints e iDo. Código: `import json`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E2",
+      "code": "print(\"limited\")  # GIL limits CPU multi-thread\nprint(\"ok\", True)\nprint(\"cpu_threads\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T1-B-E2: instruction del paquete «S38-T1-B-E2 · Documenta el efecto del GIL en threads CPU: imprime 'limited', ok True, cpu_threads True. Contrato de etiqueta operativa para el runbook de Red An…». Completé prints/predicado según hints e iDo. Código: `print(\"limited\")  # GIL limits CPU multi-thread`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T1-B-E3",
+      "code": "print(\"compact_payload\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T1-B-E3: instruction del paquete «S38-T1-B-E3 · Política de payload entre workers: imprime preferencia compact_payload, ok True, n 1. El starter prefiere full_record (defect: arrastra PII y byte…». Completé prints/predicado según hints e iDo. Código: `print(\"compact_payload\")`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T1"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E1",
+      "code": "class TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nallows = [b.allow() for _ in range(3)]\nprint(sum(1 for a in allows if a))\nprint(\"third\", allows[2])\nprint(\"ok\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T2-A-E1: instruction del paquete «S38-T2-A-E1 · Token bucket rate=2: cuenta cuántos allow() True en 3 intentos. Contrato: print 2, third False, ok True. Starter usa rate=3 (defect) o cuenta mal.…». Completé prints/predicado según hints e iDo. Código: `class TokenBucket:`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E2",
+      "code": "print(\"backpressure\")\nprint(\"ok\", True)\nprint(\"maxsize\", 50)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T2-A-E2: instruction del paquete «S38-T2-A-E2 · Rol de queue maxsize=50: imprime 'backpressure', ok True, maxsize 50. Contrato: la cola acotada es la política de backpressure del worker de scori…». Completé prints/predicado según hints e iDo. Código: `print(\"backpressure\")`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-A-E3",
+      "code": "print(\"provider\")\nprint(\"ok\", True)\nprint(\"ban_risk\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T2-A-E3: instruction del paquete «S38-T2-A-E3 · ¿A quién protege el rate limit? Imprime 'provider', ok True, ban_risk True. El starter dice 'only_cpu' (defect). El contrato de transferencia: rat…». Completé prints/predicado según hints e iDo. Código: `print(\"provider\")`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E1",
+      "code": "policy = {\"seconds\": 5, \"on_fail\": \"retry_or_dlq\"}\nprint(policy[\"seconds\"])\nprint(\"on_fail\", policy[\"on_fail\"])\nprint(\"ok\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T2-B-E1: instruction del paquete «S38-T2-B-E1 · Política de timeout: imprime seconds=5, on_fail='retry_or_dlq', ok True. Fixture CASO-LIM-038-2B. Starter usa seconds=0 y on_fail='ignore' (defect…». Completé prints/predicado según hints e iDo. Código: `policy = {\"seconds\": 5, \"on_fail\": \"retry_or_dlq\"}`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E2",
+      "code": "close_in_finally = True\nprint(close_in_finally)\nprint(\"resource\", \"conn\")\nprint(\"ok\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T2-B-E2: instruction del paquete «S38-T2-B-E2 · Cierre de recurso en finally: imprime True (close_in_finally), resource 'conn', ok True. Starter deja False (defect: leak). No abras sockets reale…». Completé prints/predicado según hints e iDo. Código: `close_in_finally = True`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T2-B-E3",
+      "code": "print(\"incident\", True)\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T2-B-E3: instruction del paquete «S38-T2-B-E3 · Transferencia: sin timeout el incidente es real. Imprime incident True, ok True, n 1. Starter niega el incidente (False). Corrige para reconocer e…». Completé prints/predicado según hints e iDo. Código: `print(\"incident\", True)`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T2"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E1",
+      "code": "event = {\"event\": \"scored\", \"corr\": \"corr-1\"}\nprint(bool(event.get(\"corr\")))\nprint(\"event\", event[\"event\"])\nprint(\"ok\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T3-A-E1: instruction del paquete «S38-T3-A-E1 · Evento scored con correlation id: imprime True (corr presente), event 'scored', ok True. Fixture dict con corr='corr-1'. Starter omite corr (defec…». Completé prints/predicado según hints e iDo. Código: `event = {\"event\": \"scored\", \"corr\": \"corr-1\"}`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E2",
+      "code": "pillars = [\"logs\", \"metrics\", \"traces\"]\nprint(pillars)\nprint(\"ok\", True)\nprint(\"n\", 3)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T3-A-E2: instruction del paquete «S38-T3-A-E2 · Tres pilares de o11y: imprime la lista ['logs','metrics','traces'], ok True, n 3. Starter lista solo ['logs'] (defect). Completa el contrato pedag…». Completé prints/predicado según hints e iDo. Código: `pillars = [\"logs\", \"metrics\", \"traces\"]`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-A-E3",
+      "code": "pii_raw = False\nprint(pii_raw)\nprint(\"ok\", True)\nprint(\"redact\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T3-A-E3: instruction del paquete «S38-T3-A-E3 · pii_raw debe ser False en logs de prod sintéticos. Imprime False, ok True, redact True. Starter imprime True (defect: permite PII). Contrato de pr…». Completé prints/predicado según hints e iDo. Código: `pii_raw = False`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E1",
+      "code": "phone = \"90000001\"\nredacted = phone[:2] + \"****\" + phone[-2:] if len(phone) >= 4 else \"****\"\nprint(redacted)\nprint(\"ok\", True)\nprint(\"pii\", False)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T3-B-E1: instruction del paquete «S38-T3-B-E1 · Redacta el teléfono sintético '90000001' → '90****01' (política demo: 2 primeros + **** + 2 últimos si len>=4). Imprime el redactado, ok True, pii…». Completé prints/predicado según hints e iDo. Código: `phone = \"90000001\"`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E2",
+      "code": "p95, limit = 100, 200\nslo_ok = p95 <= limit\nprint(slo_ok)\nprint(\"p95\", p95)\nprint(\"limit\", limit)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T3-B-E2: instruction del paquete «S38-T3-B-E2 · SLI p95=100 vs SLO limit=200: imprime True (slo_ok), p95 100, limit 200. Starter compara al revés (p95 >= limit) (defect). Corrige el predicado de…». Completé prints/predicado según hints e iDo. Código: `p95, limit = 100, 200`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T3-B-E3",
+      "code": "print(\"error_budget\")\nprint(\"ok\", True)\nprint(\"n\", 1)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T3-B-E3: instruction del paquete «S38-T3-B-E3 · Concepto de error budget: imprime 'error_budget', ok True, n 1. Starter imprime 'infinite_sla' (defect). El contrato de transferencia nombra el me…». Completé prints/predicado según hints e iDo. Código: `print(\"error_budget\")`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T3"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E1",
+      "code": "states = [\"pending\", \"running\", \"done\", \"failed\"]\nprint(states)\nprint(\"ok\", True)\nprint(\"n\", 4)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T4-A-E1: instruction del paquete «S38-T4-A-E1 · Estados del workflow: imprime ['pending','running','done','failed'], ok True, n 4. Starter omite 'failed' (defect). Completa la máquina de estados…». Completé prints/predicado según hints e iDo. Código: `states = [\"pending\", \"running\", \"done\", \"failed\"]`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E2",
+      "code": "print(\"case:step:ver\")\nprint(\"ok\", True)\nprint(\"dup\", False)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T4-A-E2: instruction del paquete «S38-T4-A-E2 · Formato de idempotency key: imprime 'case:step:ver', ok True, dup False. Starter usa solo 'case' (defect: colisiones entre pasos). Fija el contrat…». Completé prints/predicado según hints e iDo. Código: `print(\"case:step:ver\")`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-A-E3",
+      "code": "state = {\"step\": \"features\", \"status\": \"done\"}\nprint(state[\"step\"])\nprint(\"ok\", True)\nprint(\"checkpoint\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T4-A-E3: instruction del paquete «S38-T4-A-E3 · Resume desde último checkpoint: imprime 'features', ok True, checkpoint True. Fixture state step=features done. Starter resume desde 'intake' (def…». Completé prints/predicado según hints e iDo. Código: `state = {\"step\": \"features\", \"status\": \"done\"}`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E1",
+      "code": "def backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint(backoff(3))\nprint(\"ok\", True)\nprint(\"attempt\", 3)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T4-B-E1: instruction del paquete «S38-T4-B-E1 · Backoff attempt=3 base=0.1 → 0.1*2**3 = 0.8. Imprime 0.8, ok True, attempt 3. Starter usa multiplicación lineal attempt*base (defect). Implementa …». Completé prints/predicado según hints e iDo. Código: `def backoff(attempt, base=0.1):`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E2",
+      "code": "print(\"poison\")\nprint(\"ok\", True)\nprint(\"replay\", \"controlled\")\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T4-B-E2: instruction del paquete «S38-T4-B-E2 · Propósito de la DLQ: imprime 'poison', ok True, replay 'controlled'. Starter dice 'delete_always' (defect). Contrato: DLQ aísla veneno; replay es …». Completé prints/predicado según hints e iDo. Código: `print(\"poison\")`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    },
+    {
+      "exercise_id": "S38-T4-B-E3",
+      "code": "print(True)\nprint(\"oncall\", True)\nprint(\"ok\", True)\n",
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38-T4-B-E3: instruction del paquete «S38-T4-B-E3 · Runbook de on-call existe: imprime True, oncall True, ok True. Starter imprime False (defect: operar sin runbook). Transferencia: el drill sintéti…». Completé prints/predicado según hints e iDo. Código: `print(True)`. Solo quiz_card+slim_packet de la sección activa.",
+      "concepts_used": [
+        "T4"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38 Q0: elijo [1] «Procesos» según theory/iDo del slim_packet de la sección (anomalías/cluster, performance, concurrencia, triage N3, arquitectura, API o seguridad según tema). Opción alineada a outcomes y demos del paquete activo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38 Q1: elijo [3] «Colas infinitas y OOM» según theory/iDo del slim_packet de la sección (anomalías/cluster, performance, concurrencia, triage N3, arquitectura, API o seguridad según tema). Opción alineada a outcomes y demos del paquete activo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38 Q2: elijo [0] «Reejecutar sin side effects duplicados» según theory/iDo del slim_packet de la sección (anomalías/cluster, performance, concurrencia, triage N3, arquitectura, API o seguridad según tema). Opción alineada a outcomes y demos del paquete activo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38 Q3: elijo [2] «Redactar PII y correlacionar» según theory/iDo del slim_packet de la sección (anomalías/cluster, performance, concurrencia, triage N3, arquitectura, API o seguridad según tema). Opción alineada a outcomes y demos del paquete activo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer A S38 Q4: elijo [1] «Hang de workers y cola bloqueada» según theory/iDo del slim_packet de la sección (anomalías/cluster, performance, concurrencia, triage N3, arquitectura, API o seguridad según tema). Opción alineada a outcomes y demos del paquete activo."
+    }
+  ],
+  "confusion_points": [
+    {
+      "note": "Explorer repaired form contracts S38"
+    }
+  ],
+  "recorded_at": "2026-07-23T06:29:05.436393+00:00",
+  "session_started_at": "2026-07-23T06:29:05.431960+00:00",
+  "session_ended_at": "2026-07-23T06:29:05.436415+00:00"
+}

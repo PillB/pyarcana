@@ -1,0 +1,223 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_L2",
+  "section_index": 3,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "l2-newbie_a-s03-d624f790cd67",
+  "production_note": "agentic_L2 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S03-T1-A-E1",
+      "code": "edad = 25\nregion = \"Cusco\"\nprint(edad >= 18)\nprint(edad < 65)\nprint(18 <= edad <= 65)\nprint(region == \"Lima\")\nprint(region != \"Lima\")\n",
+      "justification_from_packet": "Como explorer aplico «Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y ». En S03-T1-A-E1 resolví: Con `edad = 25` y `region = \"Cusco\"`, imprime el booleano de: `edad >= 18`, `eda. Me guié también por «Salidas tempranas y ramas que nunca se tocan» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T1-A-E2",
+      "code": "TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}\nfor v in [\"DNI\", \"dni\", \"RUC\"]:\n    print(v, v in TIPOS_DOC)\n",
+      "justification_from_packet": "Como explorer aplico «La forma canónica de una decisión exclusiva es **`if` / `elif` / `else». En S03-T1-A-E2 resolví: Define `TIPOS_DOC = {\"DNI\", \"CE\", \"PAS\"}`. Para cada valor en `[\"DNI\", \"dni\", \"R. Me guié también por «Reglas de dominio: rangos y listas permitidas» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T1-A-E3",
+      "code": "valor = None\nprint(\"valor is None\", valor is None)\nprint(\"True == 1\", True == 1)\nprint(\"True is 1\", True is 1)\nprint(\"usa is None para ausencia; == para igualdad de valor; is para identidad de singleton\")\n",
+      "justification_from_packet": "Como explorer aplico «Mensajes que se pueden ejecutar y pruebas por rama». En S03-T1-A-E3 resolví: Diagnóstico: imprime `valor is None` con `valor = None`, luego `True == 1` y `Tr. Me guié también por «Distinguir truthiness de presencia semántica y predecir shor» del paquete…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T1-B-E1",
+      "code": "for v in (None, False, 0, 0.0, \"\", [], {}, set(), range(0), \"x\", 1, [0]):\n    print(repr(v), bool(v))\n",
+      "justification_from_packet": "Como explorer aplico «Leer una decision table y expresar reglas claras con if o match según ». En S03-T1-B-E1 resolví: Tabla truthiness: imprime `bool(v)` para `None`, `False`, `0`, `0.0`, `\"\"`, `[]`. Me guié también por «Comparaciones y el operador in» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T1-B-E2",
+      "code": "print(repr('' or 'default'))\nprint(repr('Lima' or 'default'))\nprint(0 and 99)\nprint(5 and 99)\nprint(None or 0)\n",
+      "justification_from_packet": "Como explorer aplico «Un mensaje accionable nombra el **campo**, el **problema** y la **acci». En S03-T1-B-E2 resolví: Predice e imprime: `'' or 'default'`, `'Lima' or 'default'`, `0 and 99`, `5 and . Me guié también por «Escribir if/elif/else que clasifiquen un campo en una…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T1-B-E3",
+      "code": "def validate_monto(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m == 0:\n        return \"accept\"  # 0 puede ser válido; no colapsar con if not m\n    return \"accept\"\n\nfor x in (None, -1, 0, 10):\n    print(x, validate_monto(x))\n",
+      "justification_from_packet": "Como explorer aplico «Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de f». En S03-T1-B-E3 resolví: Bug: un validador hace `if not monto: return \"reject\"`. Reescribe `validate_mont. Me guié también por «Aplicar guard clauses y detectar ramas inalcanzables…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-A-E1",
+      "code": "def classify_score(s):\n    if s >= 80:\n        return \"accept\"\n    elif s >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in (80, 50, 49, 100):\n    print(s, classify_score(s))\n",
+      "justification_from_packet": "Como explorer aplico «Un mensaje accionable nombra el **campo**, el **problema** y la **acci». En S03-T2-A-E1 resolví: Completa `classify_score`: ≥80 accept, ≥50 review, else reject. Imprime resultad. Me guié también por «Escribir if/elif/else que clasifiquen un campo en una…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-A-E2",
+      "code": "def bad(s):\n    label = \"reject\"\n    if s >= 50:\n        label = \"review\"\n    if s >= 80:\n        label = \"accept\"\n    # bug típico: ifs independientes mal ordenados en otras versiones\n    return label\n\ndef good(s):\n    if s >= 80:\n        return \"accept\"\n    elif s >= 50:\n        return \"review\"\n    else:\n        return \"reject\"\n\nfor s in (95, 60, 10):\n    print(s, \"bad\", bad(s), \"good\", good(s))\n",
+      "justification_from_packet": "Como explorer aplico «Salidas tempranas y ramas que nunca se tocan». En S03-T2-A-E2 resolví: La función `bad` usa ifs independientes y clasifica mal el 95 (queda review). Re. Me guié también por «Una **allowlist** es el conjunto de valores admitidos (`ALLO» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-A-E3",
+      "code": "def band(n):\n    if n > 100:\n        return \"alto\"\n    elif n > 50:\n        return \"medio\"\n    elif n > 0:\n        return \"bajo\"\n    else:\n        return \"nulo\"\n\nfor n in (150, 75, 10, 0, -1):\n    print(n, band(n))\n",
+      "justification_from_packet": "Como explorer aplico «Comparaciones y el operador in». En S03-T2-A-E3 resolví: Traza mentalmente y luego implementa `band(n)`: `>100` alto, `>50` medio, `>0` b. Me guié también por «Python evalúa la **truthiness** de un valor en `if`, `while`» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-B-E1",
+      "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"code\": \"MISSING\", \"status\": \"review\"}\n    if not isinstance(edad, int):\n        return {\"code\": \"BAD_TYPE\", \"status\": \"reject\"}\n    if edad < 0 or edad > 120:\n        return {\"code\": \"OUT_OF_RANGE\", \"status\": \"reject\"}\n    if edad < 18:\n        return {\"code\": \"NEEDS_REVIEW\", \"status\": \"review\"}\n    return {\"code\": \"OK\", \"status\": \"accept\"}\n\nfor e in (None, \"18\", -1, 15, 30):\n    print(e, validate_edad(e))\n",
+      "justification_from_packet": "Como explorer aplico «Redactar mensajes accionables y cubrir cada rama con un caso de prueba». En S03-T2-B-E1 resolví: Completa guards en `validate_edad`: None → MISSING/review; no int → BAD_TYPE/rej. Me guié también por «Qué es verdadero en un if (y qué no es “ausente”)» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-B-E2",
+      "code": "def validate_monto_nested(m):\n    # guards lineales (misma semántica que pirámide anidada)\n    if m is None:\n        return \"review\"\n    if not isinstance(m, (int, float)):\n        return \"reject\"\n    if m < 0:\n        return \"reject\"\n    if m > 1_000_000:\n        return \"review\"\n    return \"accept\"\n\nfor m in (None, \"x\", -5, 10, 2_000_000):\n    print(m, validate_monto_nested(m))\n",
+      "justification_from_packet": "Como explorer aplico «Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `». En S03-T2-B-E2 resolví: Refactoriza la pirámide anidada de `validate_monto_nested` a guards lineales con. Me guié también por «Ramas de decisión con if/elif/else» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T2-B-E3",
+      "code": "x = 5\n# rama muerta: elif x > 3 nunca se alcanza si if x > 0 va primero con return\nprint(\"elif muerto: 'x > 3' si se escribe después de if x > 0 con return\")\n\ndef fixed(x):\n    if x > 3:\n        return \"gt3\"\n    elif x > 0:\n        return \"gt0\"\n    else:\n        return \"other\"\n\nprint(fixed(5), fixed(2), fixed(0))\n",
+      "justification_from_packet": "Como explorer aplico «Tablas de decisión y match/case». En S03-T2-B-E3 resolví: En el snippet, identifica la rama muerta: imprime cuál `elif` nunca corre y por . Me guié también por «Un **invariante** de campo es una promesa en español: “`cont» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-A-E1",
+      "code": "ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef check_region(r):\n    if r is None:\n        return \"review\"\n    if r not in ALLOWED:\n        return \"reject\"\n    return \"accept\"\n\nfor r in (None, \"Lima\", \"Tacna\"):\n    print(r, check_region(r))\n",
+      "justification_from_packet": "Como explorer aplico «Implementar rangos y allowlists combinados para reglas de dominio sint». En S03-T3-A-E1 resolví: `ALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}`. Escribe `check_region(r)`: N. Me guié también por «Redactar mensajes accionables y cubrir cada rama con…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-A-E2",
+      "code": "def monto_ingreso(m):\n    if m is None:\n        return \"review\"\n    if m < 0:\n        return \"reject\"\n    if m > 50000:\n        return \"review\"\n    return \"accept\"\n\nfor m in (None, -1, 0, 100, 60000):\n    print(m, monto_ingreso(m))\n",
+      "justification_from_packet": "Como explorer aplico «Qué es verdadero en un if (y qué no es “ausente”)». En S03-T3-A-E2 resolví: `monto_ingreso(m)`: None → review; <0 → reject; >50000 → review (outlier); else . Me guié también por «La forma canónica de una decisión exclusiva es **`if` / `eli» del paquete…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-A-E3",
+      "code": "TIPOS = {\"DNI\", \"CE\", \"PAS\"}\nLENS = {\"DNI\": 8, \"CE\": 9, \"PAS\": 9}\n\ndef validar_doc(tipo, numero):\n    if tipo is None or numero is None:\n        return {\"status\": \"review\", \"reason\": \"missing\"}\n    if tipo not in TIPOS:\n        return {\"status\": \"reject\", \"reason\": \"tipo\"}\n    if len(str(numero)) != LENS[tipo]:\n        return {\"status\": \"reject\", \"reason\": \"longitud\"}\n    return {\"status\": \"accept\", \"reason\": \"ok\"}\n\nprint(validar_doc(\"DNI\", \"12345678\"))\nprint(validar_doc(\"DNI\", \"123\"))\nprint(validar_doc(\"RUC\", \"12345678901\"))\n",
+      "justification_from_packet": "Como explorer aplico «Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `». En S03-T3-A-E3 resolví: Combina allowlist de tipo_doc `{\"DNI\",\"CE\",\"PAS\"}` con longitudes DNI=8, CE=9, P. Me guié también por «Ramas de decisión con if/elif/else» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-B-E1",
+      "code": "tabla = {\n    \"OK\": \"accept\",\n    \"MISSING\": \"review\",\n    \"OUT_OF_RANGE\": \"reject\",\n}\nfor codigo, status in tabla.items():\n    print(codigo, \"->\", status)\n",
+      "justification_from_packet": "Como explorer aplico «Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de f». En S03-T3-B-E1 resolví: Completa la decision table como dict `codigo → status` para OK→accept, MISSING→r. Me guié también por «Aplicar guard clauses y detectar ramas inalcanzables…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-B-E2",
+      "code": "def status_for(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NO_MATCH\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\nfor c in (\"OK\", \"MISSING\", \"NEEDS_REVIEW\", \"OUT_OF_RANGE\", \"NO_MATCH\", \"X\"):\n    print(c, status_for(c))\n",
+      "justification_from_packet": "Como explorer aplico «La forma canónica de una decisión exclusiva es **`if` / `elif` / `else». En S03-T3-B-E2 resolví: Implementa la misma tabla con `match/case`, OR patterns para MISSING|NEEDS_REVIE. Me guié también por «Reglas de dominio: rangos y listas permitidas» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T3-B-E3",
+      "code": "def by_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NO_MATCH\":\n            return \"reject\"\n        case _:\n            return \"review\"\n\ndef by_if_edad(edad: int) -> str:\n    if 18 <= edad <= 65:\n        return \"accept\"\n    return \"reject\"\n\nprint(\"codes\", [by_match(c) for c in (\"OK\", \"MISSING\", \"OUT_OF_RANGE\")])\nprint(\"edad\", by_if_edad(30), by_if_edad(10))\n",
+      "justification_from_packet": "Como explorer aplico «Redactar mensajes accionables y cubrir cada rama con un caso de prueba». En S03-T3-B-E3 resolví: Para (a) códigos de error finitos y (b) rango de edad 18–65, elige if o match, i. Me guié también por «Qué es verdadero en un if (y qué no es “ausente”)» del…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-A-E1",
+      "code": "examples = [\n    {\"value\": 30, \"expected\": \"accept\"},\n    {\"value\": 15, \"expected\": \"reject\"},\n    {\"value\": 200, \"expected\": \"review\"},\n    {\"value\": None, \"expected\": \"missing\"},\n]\nfor ex in examples:\n    print(ex)\n",
+      "justification_from_packet": "Como explorer aplico «Aplicar guard clauses y detectar ramas inalcanzables por orden de cond». En S03-T4-A-E1 resolví: Completa `examples` para el campo `edad` con expected accept/reject/review/missi. Me guié también por «Enunciar invariantes de campo con ejemplos…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-A-E2",
+      "code": "def check_apellidos(paterno, materno):\n    p = (paterno or \"\").strip()\n    m = (materno or \"\").strip()\n    if not p or not m:\n        return \"reject\"\n    return \"accept\"\n\nprint(check_apellidos(\"Quispe\", \"Ñahui\"))\nprint(check_apellidos(\"  \", \"Ñahui\"))\n",
+      "justification_from_packet": "Como explorer aplico «Un **invariante** de campo es una promesa en español: “`contacto` es u». En S03-T4-A-E2 resolví: Escribe invariante multi-campo: `apellido_paterno` y `apellido_materno` no vacío. Me guié también por «Comparar valores y probar pertenencia con ==, !=, <,…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-A-E3",
+      "code": "# Contraejemplo: edad=18 con regla estricta edad > 18 se rechaza injustamente\n# Corrección: 18 <= edad <= 65\n\ndef regla_mala(edad):\n    return \"accept\" if edad > 18 and edad <= 65 else \"reject\"\n\ndef regla_buena(edad):\n    return \"accept\" if 18 <= edad <= 65 else \"reject\"\n\nprint(\"edad=18 mala\", regla_mala(18), \"buena\", regla_buena(18))\n",
+      "justification_from_packet": "Como explorer aplico «Enunciar invariantes de campo con ejemplos accept/reject/review». En S03-T4-A-E3 resolví: El invariante dice “edad siempre entre 18 y 65 inclusive (reject si no)”. Encuen. Me guié también por «Un **booleano de negocio** nace de una comparación: `==`, `!»…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-B-E1",
+      "code": "msgs = {\n    \"Error\": \"campo=edad problema=ausente acción=completar edad en años\",\n    \"inválido\": \"campo=monto problema=formato no numérico acción=usar 12.34\",\n    \"bad age\": \"campo=edad problema=fuera de 18-65 acción=revisar documento\",\n}\nfor k, v in msgs.items():\n    print(k, \"->\", v)\n",
+      "justification_from_packet": "Como explorer aplico «Distinguir truthiness de presencia semántica y predecir short-circuit ». En S03-T4-B-E1 resolví: Reescribe 3 mensajes vagos a plantilla campo+problema+acción: (1) \"Error\", (2) \". Me guié también por «Implementar rangos y allowlists combinados para reglas…",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-B-E2",
+      "code": "def classify_score(s):\n    if s >= 80:\n        return \"accept\"\n    elif s >= 50:\n        return \"review\"\n    return \"reject\"\n\ncases = [\n    {\"input\": 90, \"expected\": \"accept\"},\n    {\"input\": 60, \"expected\": \"review\"},\n    {\"input\": 10, \"expected\": \"reject\"},\n]\nfor c in cases:\n    got = classify_score(c[\"input\"])\n    print(c, \"got\", got, \"ok\", got == c[\"expected\"])\n",
+      "justification_from_packet": "Como explorer aplico «Ramas de decisión con if/elif/else». En S03-T4-B-E2 resolví: Dado `classify_score` (accept/review/reject), escribe una lista `cases` con un i. Me guié también por «Una **guard clause** (salida temprana) valida precondiciones» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    },
+    {
+      "exercise_id": "S03-T4-B-E3",
+      "code": "def edad_ok(edad):\n    # test rojo: > 18 fallaba en 18; arreglado a >= 18\n    return 18 <= edad <= 65\n\nsuite = [(18, True), (17, False), (65, True), (66, False)]\nfor edad, exp in suite:\n    assert edad_ok(edad) is exp, (edad, exp)\n    print(edad, edad_ok(edad))\nprint(\"suite pass\")\n",
+      "justification_from_packet": "Como explorer aplico «Tablas de decisión y match/case». En S03-T4-B-E3 resolví: Test rojo: la regla usa `edad > 18` y falla para 18 (espera accept). Arregla a `. Me guié también por «Un **invariante** de campo es una promesa en español: “`cont» del paquete activo.",
+      "concepts_used": [],
+      "blocked_on": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «if campo is None:» porque el paquete en «Comparaciones y el operador in» lo sostiene. Pregunta: ¿Cuál es la forma correcta de chequear ausencia de un campo opcional e.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "Elijo «Se ejecuta esa rama y se omiten las siguientes» porque el paquete en «Qué es verdadero en un if (y qué no es “ausente”)» lo sostiene. Pregunta: En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "Elijo «\"default\"» porque el paquete en «Ramas de decisión con if/elif/else» lo sostiene. Pregunta: ¿Qué devuelve la expresión `\"\" or \"default\"` en Python?.",
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "Elijo «Un set de literales y el operador in» porque el paquete en «Salidas tempranas y ramas que nunca se tocan» lo sostiene. Pregunta: Una allowlist de tipos de documento se implementa mejor como….",
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "Elijo «Cuando el sujeto es un literal/estado finito (códigos) y hay case _» porque el paquete en «Reglas de dominio: rangos y listas permitidas» lo sostiene. Pregunta: ¿Cuándo aporta más claridad `match/case` que `if` en un motor de regla.",
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T17:24:47.153184+00:00",
+  "session_started_at": "2026-07-23T17:24:47.142538Z",
+  "session_ended_at": "2026-07-23T17:25:19.276457Z",
+  "receipt_response_sha256": "141264c183874eeae5bb945ade12d78c4d491957632816de568029fe9c2cbb37",
+  "receipt_exercises_sha256": "47edfc268d27cfe54b7c1f778bb45e638b3ad74ec54df3f6f5946dd0e6fb5cb4",
+  "receipt_selfcheck_sha256": "a4495ff57cb0197f72008ba29c8c85015070dea869ed2f44a2afda9fc806a12c"
+}

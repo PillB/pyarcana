@@ -1,0 +1,298 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_H1",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h1-explorer-s11-d951b0ddb6e0",
+  "production_note": "agentic_H1 dual-LLM explorer: packet-only sequential solve; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content (quiz_card + slim_packet).",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "code": "# dual explorer-H1 · S11-T1-A-E1\nfrom dataclasses import dataclass, field\n@dataclass\nclass Bag:\n    items: list = field(default_factory=list)\na, b = Bag(), Bag()\na.items.append(1)\nprint(a.items, b.items)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T1-A-E1 según el instruction: «E1 (guiado) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en …». Aplico dataclass tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "dataclass"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "code": "# dual explorer-H1 · S11-T1-A-E2\nfrom dataclasses import dataclass\n@dataclass\nclass Person:\n    name: str\n    doc: str\nprint(Person(\"Ana\", \"D1\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T1-A-E2 según el instruction: «E2 (independiente) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico Person tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "Person"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "code": "# dual explorer-H1 · S11-T1-A-E3\nfrom dataclasses import dataclass\n@dataclass\nclass Person:\n    name: str\n    def __post_init__(self):\n        if not self.name.strip():\n            raise ValueError(\"name vacio\")\nprint(Person(\"Ana\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T1-A-E3 según el instruction: «E3 (transferencia) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico post_init tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "post_init"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "code": "# dual explorer-H1 · S11-T1-B-E1\nfrom dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    kind: str\ne = RelationshipEvidence(0.4, \"shared_phone\")\nprint(e.signal_score, \"not_verdict\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T1-B-E1 según el instruction: «E1 (guiado) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en …». Aplico evidence tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "evidence"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "code": "# dual explorer-H1 · S11-T1-B-E2\nfrom dataclasses import dataclass\n@dataclass\nclass RelationshipEvidence:\n    signal_score: float\n    def as_dict(self):\n        return {\"relationship_signal_score\": self.signal_score, \"is_fraud\": False}\nprint(RelationshipEvidence(0.7).as_dict())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T1-B-E2 según el instruction: «E2 (independiente) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico to_dict tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "to_dict"
+      ]
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "code": "# dual explorer-H1 · S11-T1-B-E3\ndef interpret_signal(score):\n    return {\"score\": score, \"claim\": \"evidence_only\"}\nprint(interpret_signal(0.9))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T1-B-E3 según el instruction: «E3 (transferencia) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico policy tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "policy"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "code": "# dual explorer-H1 · S11-T2-A-E1\nfrom typing import Protocol\nclass EntityStore(Protocol):\n    def get(self, id: str): ...\n    def save(self, entity) -> None: ...\nclass MemStore:\n    def __init__(self):\n        self._d = {}\n    def get(self, id: str):\n        return self._d.get(id)\n    def save(self, entity) -> None:\n        self._d[entity[\"id\"]] = entity\ns = MemStore()\ns.save({\"id\": \"C1\"})\nprint(s.get(\"C1\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T2-A-E1 según el instruction: «E1 (guiado) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en …». Aplico Protocol tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "Protocol"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "code": "# dual explorer-H1 · S11-T2-A-E2\nclass FakeStore:\n    def get(self, id):\n        return {\"id\": id}\nprint(FakeStore().get(\"X\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T2-A-E2 según el instruction: «E2 (independiente) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico fake tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "fake"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "code": "# dual explorer-H1 · S11-T2-A-E3\ndef load_entity(store, id):\n    ent = store.get(id)\n    if ent is None:\n        raise KeyError(id)\n    return ent\nclass S:\n    def get(self, id):\n        return None\ntry:\n    load_entity(S(), \"missing\")\nexcept KeyError as e:\n    print(\"missing\", e)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T2-A-E3 según el instruction: «E3 (transferencia) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico hexagonal tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "hexagonal"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "code": "# dual explorer-H1 · S11-T2-B-E1\nfrom dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    name: str\n    def validate(self):\n        if not self.id:\n            raise ValueError(\"id\")\n        return self\nprint(Client(\"C1\", \"Ana\").validate())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T2-B-E1 según el instruction: «E1 (guiado) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en …». Aplico validate tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "validate"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "code": "# dual explorer-H1 · S11-T2-B-E2\nfrom dataclasses import dataclass\n@dataclass\nclass Client:\n    id: str\n    def __post_init__(self):\n        if not self.id.startswith(\"C\"):\n            raise ValueError(\"id format\")\nprint(Client(\"C9\"))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T2-B-E2 según el instruction: «E2 (independiente) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico invariant tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "invariant"
+      ]
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "code": "# dual explorer-H1 · S11-T2-B-E3\ndef build_client(data):\n    if \"id\" not in data or \"name\" not in data:\n        raise ValueError(\"incomplete\")\n    return data\nprint(build_client({\"id\": \"C1\", \"name\": \"Ana\"}))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T2-B-E3 según el instruction: «E3 (transferencia) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico factory tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "factory"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "code": "# dual explorer-H1 · S11-T3-A-E1\nfrom dataclasses import dataclass\n@dataclass\nclass PersonInfo:\n    name: str\n@dataclass\nclass Client:\n    id: str\n    person: PersonInfo\nprint(Client(\"C1\", PersonInfo(\"Ana\")))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T3-A-E1 según el instruction: «E1 (guiado) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en …». Aplico composition tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "composition"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "code": "# dual explorer-H1 · S11-T3-A-E2\n# herencia fragil demo (evitar como default)\nclass Person:\n    def __init__(self, name):\n        self.name = name\nclass Client(Person):\n    def __init__(self, name, id):\n        super().__init__(name)\n        self.id = id\nprint(Client(\"Ana\", \"C1\").id)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T3-A-E2 según el instruction: «E2 (independiente) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico inheritance tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "inheritance"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "code": "# dual explorer-H1 · S11-T3-A-E3\ndef prefer_composition():\n    return \"Client has PersonInfo rather than is-a Person by default\"\nprint(prefer_composition())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T3-A-E3 según el instruction: «E3 (transferencia) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico design tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "design"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "code": "# dual explorer-H1 · S11-T3-B-E1\nfrom dataclasses import dataclass, asdict\n@dataclass\nclass Entity:\n    id: str\n    score: float\nprint(asdict(Entity(\"C1\", 0.5)))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T3-B-E1 según el instruction: «E1 (guiado) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en …». Aplico asdict tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "asdict"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "code": "# dual explorer-H1 · S11-T3-B-E2\nfrom dataclasses import dataclass\n@dataclass(frozen=True)\nclass DocId:\n    value: str\nd = DocId(\"X\")\nprint(d.value)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T3-B-E2 según el instruction: «E2 (independiente) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico frozen tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "frozen"
+      ]
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "code": "# dual explorer-H1 · S11-T3-B-E3\ndomain_forbidden = [\"is_fraud_auto\", \"is_family_auto\"]\nprint(domain_forbidden)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T3-B-E3 según el instruction: «E3 (transferencia) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico forbidden tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "forbidden"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "code": "# dual explorer-H1 · S11-T4-A-E1\ntests = [\"test_default_factory_isolated\", \"test_post_init_rejects_empty\", \"test_store_roundtrip\"]\nprint(tests)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T4-A-E1 según el instruction: «E1 (guiado) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en …». Aplico tests tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "tests"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "code": "# dual explorer-H1 · S11-T4-A-E2\ndef test_signal_not_fraud():\n    score = 0.99\n    assert score != \"fraud\"\n    return True\nprint(test_signal_not_fraud())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T4-A-E2 según el instruction: «E2 (independiente) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico test tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "test"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "code": "# dual explorer-H1 · S11-T4-A-E3\ndef test_protocol_fake():\n    class F:\n        def get(self, i):\n            return {\"id\": i}\n        def save(self, e):\n            pass\n    assert F().get(\"1\")[\"id\"] == \"1\"\n    return \"ok\"\nprint(test_protocol_fake())\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T4-A-E3 según el instruction: «E3 (transferencia) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico test tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "test"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "code": "# dual explorer-H1 · S11-T4-B-E1\nmodel = {\"entities\": [\"Person\", \"Client\", \"RelationshipEvidence\"], \"ports\": [\"EntityStore\"]}\nprint(model)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T4-B-E1 según el instruction: «E1 (guiado) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en …». Aplico model tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "model"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "code": "# dual explorer-H1 · S11-T4-B-E2\ninvariants = [\"Client.id non-empty\", \"signal_score in 0..1\", \"no auto fraud flag\"]\nprint(invariants)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T4-B-E2 según el instruction: «E2 (independiente) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico invariants tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "invariants"
+      ]
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "code": "# dual explorer-H1 · S11-T4-B-E3\nreadme = \"Domain model: composition first; evidence scores are not legal verdicts.\"\nprint(readme)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "En «OOP y modelo de dominio» completé S11-T4-B-E3 según el instruction: «E3 (transferencia) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C0…». Aplico docs tal como aparecen en el quiz_card/slim_packet de agentic_H1; entrego forma completa (sin ____/TODO) anclada al weDo activo.",
+      "concepts_used": [
+        "docs"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «¿Por qué `field(default_factory=list)` y no `= []`?…» se resuelve con la opción «Evita el default mutable compartido entre instancias». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 2."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «RelationshipEvidence.signal_score representa……» se resuelve con la opción «Una señal/dato numérico, no un veredicto de fraude o familia». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 0."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «Un Protocol EntityStore sirve para……» se resuelve con la opción «Definir un puerto get/save implementable por fakes y adapters». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 1."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «Objeto inválido: ¿cuándo fallar?…» se resuelve con la opción «En la construcción (__post_init__/validate)». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 3."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «Client hereda de Person……» se resuelve con la opción «A menudo es frágil; composición (Client tiene PersonInfo) suele bastar». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 2."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "blocked_on": [],
+      "justification_from_packet": "En la teoría de «OOP y modelo de dominio» la pregunta «¿Qué no debe tener el dominio de familiaridad?…» se resuelve con la opción «is_fraud() automático». El párrafo del packet describe el concepto de forma coherente con esa respuesta ([S11-T1-A] Clases, instancias y dataclass Una **clase** define el molde; una **i…). Por eso elijo el índice 0."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T07:45:06.805369+00:00",
+  "session_started_at": "2026-07-23T07:44:41.236665+00:00",
+  "session_ended_at": "2026-07-23T07:45:06.805369+00:00"
+}

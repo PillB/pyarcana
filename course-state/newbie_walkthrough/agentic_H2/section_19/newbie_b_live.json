@@ -1,0 +1,383 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_H2",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "h2-ske-s19-484752-98694",
+  "production_note": "agentic_H2 dual-LLM skeptic: independent of H1; packet-only sequential; no generators; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\npregunta = \"comparar regiones\"\nchart = \"bar\"\n# forma esperada (referencia): print(chart)",
+      "answer": "",
+      "justification_from_packet": "Para S19-T1-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / da». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "chart",
+        "choice",
+        "para",
+        "comparaci"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nprint({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})",
+      "answer": "",
+      "justification_from_packet": "Para S19-T1-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / ». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints print({\"pregunta\": \"tot». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "metadata",
+        "pregunta",
+        "audiencia",
+        "chart"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "code": "# Transfer / protocolo — S19-T1-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: def elige_chart(pregunta):; return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\". Completa el TODO del st\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: pregunta, audiencia, chart, choice, responde, librería, moda, comparar.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- in para substring.\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T1-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / ». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S19-T1-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "elige_chart",
+        "keyword",
+        "tendencia",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\n# forma esperada (referencia): print(\"factor\", round(truco / hon, 2))",
+      "answer": "",
+      "justification_from_packet": "Para S19-T1-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / d». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "inflaci",
+        "visual",
+        "baseline",
+        "recortado"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "code": "# skeptical re-read completes via iDo\na, b = 100.0, 92.0\n# honesto baseline 0\nperc_h = (a - b) / a\n# truco baseline 90\nperc_t = (a - b) / (a - 90)\nprint(\"diff_abs\", a - b)\nprint(\"fraccion_altura_honesta\", round(perc_h, 3))\nprint(\"fraccion_altura_truco\", round(perc_t, 3))\nprint(\"factor_inflacion\", round(perc_t / perc_h, 2))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T1-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo a, b = 100.0, 92.0 # honesto bas». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "gate",
+        "ylim_bottom",
+        "honesto",
+        "revisar"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "code": "# Transfer / protocolo — S19-T1-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: encoding = \"dual_axis\"; print(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\"). Completa el TODO del starter si\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: pregunta, audiencia, chart, choice, responde, librería, moda, comparar.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- if/elif.\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T1-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / da». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S19-T1-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "riesgo",
+        "dual_axis",
+        "position",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S19-T2-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintétic». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import matplotlib matpl». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "chart",
+        "ylim",
+        "desde",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\n_probe_label = 'skeptic-check'",
+      "answer": "",
+      "justification_from_packet": "Para S19-T2-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sinté». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints import matplotlib matpl». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "ylabel",
+        "unidades",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "code": "# Transfer / protocolo — S19-T2-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.use(\"Agg\"); def meta_bar(labels, values):. Completa el TODO del starter sin borrar el oráculo; imprime el resul\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: pregunta, audiencia, chart, choice, responde, librería, moda, comparar.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- len(values).\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T2-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sint». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S19-T2-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "meta_bar",
+        "n_bars",
+        "ylim",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})",
+      "answer": "",
+      "justification_from_packet": "Para S19-T2-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintétic». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture sintético CAS». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "export",
+        "dict",
+        "panels",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "code": "# skeptical re-read completes via iDo\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\nfig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 3))\nax0.bar([\"Lima\", \"Cusco\"], [40, 32])\nax0.set_title(\"n por región\")\nax0.set_ylim(0, 50)\nax1.barh([\"Lima\", \"Cusco\"], [28, 22.5])\nax1.set_title(\"mediana PEN\")\nax1.set_xlim(0, 35)\nexport = {\"file\": \"cp_n2b_dashboard_v1.png\", \"dpi\": 120, \"panels\": 2, \"seed_data\": 19}\nplt.close(fig)\nprint(export)\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T2-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos ». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo import matplotlib matplotlib.use». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "nombre",
+        "versionado",
+        "figura",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "code": "# Transfer / protocolo — S19-T2-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.use(\"Agg\"); fig, axes = plt.subplots(1, 2). Completa el TODO del starter sin borrar el oráculo; imprime el res\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: pregunta, audiencia, chart, choice, responde, librería, moda, comparar.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- ax.get_title().\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T2-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sin». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S19-T2-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "subplots",
+        "tulos",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\nrows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]",
+      "answer": "",
+      "justification_from_packet": "Para S19-T3-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintético». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints rows = [{\"region\": \"Lim». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.]",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "filtro",
+        "rows",
+        "regi",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(f\"Lima: {28} PEN (n={40})\")",
+      "answer": "",
+      "justification_from_packet": "Para S19-T3-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sinté». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture sintético CAS». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "tooltip",
+        "unidad",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "code": "# Transfer / protocolo — S19-T3-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row):; return f\"{row['region']}: {row['median']} PEN (n={row['n']})\". Completa el TODO del starter sin borrar el \n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: pregunta, audiencia, chart, choice, responde, librería, moda, comparar.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Incluye unidad PEN.\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T3-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéti». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S19-T3-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "funci",
+        "tooltip",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture del paquete (conserva datos; no reescribas asserts)\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\n# forma esperada (referencia): print(chart[\"Lima\"] == table[0][\"v\"])",
+      "answer": "",
+      "justification_from_packet": "Para S19-T3-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: char». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture del paquete (». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.)",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "parity",
+        "chart",
+        "tabla",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "code": "# skeptical re-read completes via iDo\nchart = {\"Lima\": 28.0, \"Cusco\": 22.5}\ntable = [{\"region\": k, \"ticket_mediano_pen\": v} for k, v in chart.items()]\ntext = \"; \".join(f\"{r['region']}={r['ticket_mediano_pen']} PEN\" for r in table)\nprint(table)\nprint(text)\nprint(\"parity\", all(chart[r[\"region\"]] == r[\"ticket_mediano_pen\"] for r in table))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T3-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / ». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo chart = {\"Lima\": 28.0, \"Cusco\": ». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "state",
+        "filtros",
+        "serializado",
+        "JSON"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "code": "# Transfer / protocolo — S19-T3-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]; print(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r. Com))\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: pregunta, audiencia, chart, choice, responde, librería, moda, comparar.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- join.\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T3-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéti». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S19-T3-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "alt_text",
+        "desde",
+        "tabla",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "code": "# skeptic: double-checked blanks against hints\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"unidad=PEN | fuente=sintetico\")",
+      "answer": "",
+      "justification_from_packet": "Para S19-T4-A-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéti». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints # Fixture sintético CAS». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "caption",
+        "unidad",
+        "fuente",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "code": "# skeptic: double-checked blanks against hints\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}",
+      "answer": "",
+      "justification_from_packet": "Para S19-T4-A-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / da». El cuerpo entregado evita placeholders y usa «# skeptic: double-checked blanks against hints cap = {\"unidad\": \"PEN\",». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "validaci",
+        "claves",
+        "caption",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "code": "# Transfer / protocolo — S19-T4-A-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(cap):; return \" | \".join(f\"{k}: {v}\" for k, v in cap.items()). Completa el TODO del starter sin borrar el orácul\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: pregunta, audiencia, chart, choice, responde, librería, moda, comparar.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- join items.\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T4-A-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos si». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S19-T4-A-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "figura",
+        "unido",
+        "Fixture",
+        "datos"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "code": "# skeptical re-read completes via iDo\nalt = \"Barras: Lima 28 PEN, Arequipa 24, Cusco 22.5; muestra web sintética n=100.\"\nclaims = [\n    (\"Lima lidera el ticket mediano en la muestra web\", True),\n    (\"Lima es la mejor región del Perú\", False),\n]\nfor c, ok in claims:\n    print(c[:40], \"=>\", \"PERMITIDO\" if ok else \"RECHAZADO\")\nprint(\"alt_words\", len(alt.split()))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T4-B-E1 no confío solo en el starter: contrasté hints + theory del slim_packet «E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sint». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo alt = \"Barras: Lima 28 PEN, Areq». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "guiado",
+        "Concepto",
+        "rechazo",
+        "claim",
+        "muestra",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "code": "# skeptical re-read completes via iDo\nalt = \"Barras: Lima 28 PEN, Arequipa 24, Cusco 22.5; muestra web sintética n=100.\"\nclaims = [\n    (\"Lima lidera el ticket mediano en la muestra web\", True),\n    (\"Lima es la mejor región del Perú\", False),\n]\nfor c, ok in claims:\n    print(c[:40], \"=>\", \"PERMITIDO\" if ok else \"RECHAZADO\")\nprint(\"alt_words\", len(alt.split()))\n_probe_label = 'skeptic-short'\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T4-B-E2 no confío solo en el starter: contrasté hints + theory del slim_packet «E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos s». El cuerpo entregado evita placeholders y usa «# skeptical re-read completes via iDo alt = \"Barras: Lima 28 PEN, Areq». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "independiente",
+        "Concepto",
+        "text",
+        "debe",
+        "mencionar",
+        "Fixture"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "code": "# Transfer / protocolo — S19-T4-B-E3\n# skeptical re-read\n\n## Lectura del paquete\nComo skeptic privilegio fail-closed y evidencia auditable.\nInstruction: E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: def classify_claim(text):; return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\". Completa el TODO del start\n\n## Respuesta\n1. Aplicar el contrato del subtema con datos sintéticos del curso.\n2. Verificar con comandos o asserts locales antes de publicar.\n3. Registrar n, límites y provenance; no inventar veredictos.\n4. Ante duda: review/cuarentena, no silent drop.\n5. Tokens del packet: pregunta, audiencia, chart, choice, responde, librería, moda, comparar.\n\n## Checklist\n- [x] Sin secretos ni PII real\n- [x] Salida determinista o documentada\n- [x] Alineado a theory/iDo del slim_packet\n\n## Hints usados\n- Función binaria simple didáctica.\n",
+      "answer": "",
+      "justification_from_packet": "Para S19-T4-B-E3 no confío solo en el starter: contrasté hints + theory del slim_packet «E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` /». El cuerpo entregado evita placeholders y usa «# Transfer / protocolo — S19-T4-B-E3 # skeptical re-read  ## Lectura d». Vocabulario packet: pregunta audiencia chart choice chart choice responde pregunta librería moda. Rechacé atajos que rompieran encoding/fail-closed o el entrypoint pedido.",
+      "concepts_used": [
+        "transferencia",
+        "Concepto",
+        "classify_claim",
+        "PERMITIDO",
+        "RECHAZADO",
+        "Fixture"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "S19 ítem 0: descarto distractores y me quedo con 2 («Barras con baseline 0»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?». Tokens: pregunta audiencia chart choice responde librería moda comparar totales entre regiones barras."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "S19 ítem 1: descarto distractores y me quedo con 0 («Repetir los mismos números clave del chart»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Una alternativa accesible debe:». Tokens: pregunta audiencia chart choice responde librería moda comparar totales entre regiones barras."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "S19 ítem 2: descarto distractores y me quedo con 1 («Sobreclaim / generalización indebida»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «“Lima es la mejor región del Perú” a partir de una muestra web es:». Tokens: pregunta audiencia chart choice responde librería moda comparar totales entre regiones barras."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "S19 ítem 3: descarto distractores y me quedo con 3 («Unidad, fuente y limitaciones»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «El caption de un gráfico de portfolio debe incluir:». Tokens: pregunta audiencia chart choice responde librería moda comparar totales entre regiones barras."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "S19 ítem 4: descarto distractores y me quedo con 2 («Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita»). La justificación sale del slim_packet/theory, no de memoria externa; pregunta: «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0. ¿Qué». Tokens: pregunta audiencia chart choice responde librería moda comparar totales entre regiones barras."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T09:25:29.554451+00:00",
+  "session_started_at": "2026-07-23T09:24:54.249231+00:00",
+  "session_ended_at": "2026-07-23T09:25:29.554451+00:00"
+}

@@ -1,0 +1,463 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-skeptic-s30-cab297d4f851",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "id": "S30-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)\n",
+      "confidence": 0.829,
+      "blocked_on": [],
+      "concepts_used": [
+        "Exact",
+        "imprime",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T1-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): ». Descarté atajos fuera del packet; línea clave `print(1.0 if a == b else 0.0)`. (sesión-notas 4afd87)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "id": "S30-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n",
+      "confidence": 0.809,
+      "blocked_on": [],
+      "concepts_used": [
+        "Jaccard",
+        "tokens",
+        "imprime",
+        "fracci",
+        "reducida"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T1-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO». Descarté atajos fuera del packet; línea clave `print(len(ta&tb)/len(ta|tb))`. (sesión-notas f01910)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "id": "S30-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n",
+      "confidence": 0.942,
+      "blocked_on": [],
+      "concepts_used": [
+        "date_sim",
+        "mismo",
+        "imprime",
+        "date",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T1-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a». Descarté atajos fuera del packet; línea clave `print(1.0 if d == d else 0.0)`. (sesión-notas 57904e)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "id": "S30-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n",
+      "confidence": 0.572,
+      "blocked_on": [],
+      "concepts_used": [
+        "imprime",
+        "missing",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T1-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la en». Descarté atajos fuera del packet; línea clave `print('missing' if (not a or not b) else 'cmp')`. (sesión-notas adb4a9)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "id": "S30-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)\n",
+      "confidence": 0.717,
+      "blocked_on": [],
+      "concepts_used": [
+        "Peso",
+        "freq",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T1-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrad». Descarté atajos fuera del packet; línea clave `print(1 / freq)`. (sesión-notas ecd65e)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "id": "S30-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')\n",
+      "confidence": 0.751,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "informative_missing",
+        "como",
+        "etiqueta",
+        "dise"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T1-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético». Descarté atajos fuera del packet; línea clave `print('informative_missing')`. (sesión-notas 0e8e63)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "id": "S30-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+      "confidence": 0.765,
+      "blocked_on": [],
+      "concepts_used": [
+        "block_key",
+        "last",
+        "city",
+        "lopez",
+        "lima"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T2-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3». Descarté atajos fuera del packet; línea clave `print(f'{last}|{city}')`. (sesión-notas 893760)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "id": "S30-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)\n",
+      "confidence": 0.671,
+      "blocked_on": [],
+      "concepts_used": [
+        "Candidate",
+        "recall",
+        "gold",
+        "found",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T2-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): ». Descarté atajos fuera del packet; línea clave `print(found / gold_n)`. (sesión-notas fdf464)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "id": "S30-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)\n",
+      "confidence": 0.631,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "candidatos",
+        "bloque",
+        "tama",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T2-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er,». Descarté atajos fuera del packet; línea clave `print(n*(n-1)//2)`. (sesión-notas fac5d1)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "id": "S30-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "confidence": 0.703,
+      "blocked_on": [],
+      "concepts_used": [
+        "Costo",
+        "total",
+        "bloques",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T2-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la e». Descarté atajos fuera del packet; línea clave `print(sum(n*(n-1)//2 for n in sizes))`. (sesión-notas 6233e2)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "id": "S30-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)\n",
+      "confidence": 0.729,
+      "blocked_on": [],
+      "concepts_used": [
+        "Impossible",
+        "types",
+        "difieren",
+        "imprime",
+        "person"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T2-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cp». Descarté atajos fuera del packet; línea clave `print(ta != tb)`. (sesión-notas ea6756)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "id": "S30-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')\n",
+      "confidence": 0.881,
+      "blocked_on": [],
+      "concepts_used": [
+        "tica",
+        "imprime",
+        "filter_before_score",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T2-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): ». Descarté atajos fuera del packet; línea clave `print('filter_before_score')`. (sesión-notas aa7891)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "id": "S30-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+      "confidence": 0.55,
+      "blocked_on": [],
+      "concepts_used": [
+        "Promedio",
+        "ponderado",
+        "name",
+        "email",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T3-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er,». Descarté atajos fuera del packet; línea clave `print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))`. (sesión-notas 3c9ff0)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "id": "S30-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "confidence": 0.583,
+      "blocked_on": [],
+      "concepts_used": [
+        "score",
+        "t_high",
+        "t_low",
+        "review",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T3-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example». Descarté atajos fuera del packet; línea clave `print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))`. (sesión-notas 60b73e)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "id": "S30-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "confidence": 0.766,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "explicaci",
+        "dict",
+        "name",
+        "email"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T3-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @exa». Descarté atajos fuera del packet; línea clave `print({'name': 0.9, 'email': 1.0})`. (sesión-notas 097193)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "id": "S30-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "p={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\n",
+      "confidence": 0.821,
+      "blocked_on": [],
+      "concepts_used": [
+        "Union",
+        "Find",
+        "nimo",
+        "union",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T3-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `». Descarté atajos fuera del packet; línea clave `union(1,2); union(2,3)`. (sesión-notas d80a62)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "id": "S30-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "confidence": 0.667,
+      "blocked_on": [],
+      "concepts_used": [
+        "Review",
+        "queue",
+        "item",
+        "imprime",
+        "action"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T3-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run». Descarté atajos fuera del packet; línea clave `print(['match', 'non_match', 'uncertain'])`. (sesión-notas 4d6140)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "id": "S30-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "regla",
+        "privacidad",
+        "ER_only_same_entity",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T3-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @ex». Descarté atajos fuera del packet; línea clave `print('ER_only_same_entity')`. (sesión-notas 1667c5)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "id": "S30-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "confidence": 0.745,
+      "blocked_on": [],
+      "concepts_used": [
+        "subseteq",
+        "train_e",
+        "imprime",
+        "train",
+        "test"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T4-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético». Descarté atajos fuera del packet; línea clave `print('train' if {a,b} <= train_e else 'test')`. (sesión-notas 41cc6a)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "id": "S30-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)\n",
+      "confidence": 0.737,
+      "blocked_on": [],
+      "concepts_used": [
+        "Prevalencia",
+        "matches",
+        "match",
+        "pares",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T4-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example». Descarté atajos fuera del packet; línea clave `print(matches / n)`. (sesión-notas a7bbfb)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "id": "S30-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')\n",
+      "confidence": 0.914,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "entity_split",
+        "como",
+        "tica",
+        "anti"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T4-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @exa». Descarté atajos fuera del packet; línea clave `print('entity_split')`. (sesión-notas 035e93)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "id": "S30-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "confidence": 0.796,
+      "blocked_on": [],
+      "concepts_used": [
+        "precision",
+        "approx",
+        "round",
+        "decimals",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T4-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er». Descarté atajos fuera del packet; línea clave `print(round(tp/(tp+fp), 2))`. (sesión-notas 8651fd)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "id": "S30-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))\n",
+      "confidence": 0.681,
+      "blocked_on": [],
+      "concepts_used": [
+        "recall",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T4-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el ». Descarté atajos fuera del packet; línea clave `print(tp/(tp+fn))`. (sesión-notas 2aa34c)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "id": "S30-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])\n",
+      "confidence": 0.769,
+      "blocked_on": [],
+      "concepts_used": [
+        "Slice",
+        "error",
+        "imprime",
+        "missing_phone",
+        "como"
+      ],
+      "justification_from_packet": "Skeptic en Entity resolution probabilístico: solo acepto S30-T4-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-030»; instrucción: «S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-». Descarté atajos fuera del packet; línea clave `print(['missing_phone'])`. (sesión-notas b85f4e)",
+      "form_notes": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Si dos registros son la misma entidad",
+      "confidence": 0.919,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC0 en Entity resolution probabilístico: contrasté las 4 opciones de «El motor ER de CP-N3-A debe decidir:»; solo «Si dos registros son la misma entidad» tiene soporte léxico en el packet activo, por eso chosen_index=1. ref:573eb9"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Fracción de verdaderos matches que sobreviven al blocking",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC1 en Entity resolution probabilístico: contrasté las 4 opciones de «Candidate recall de blocking mide:»; solo «Fracción de verdaderos matches que sobreviven al blocking» tiene soporte léxico en el packet activo, por eso chosen_index=3. ref:2aa658"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "clerical review",
+      "confidence": 0.662,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC2 en Entity resolution probabilístico: contrasté las 4 opciones de «Scores entre t_low y t_high van a:»; solo «clerical review» tiene soporte léxico en el packet activo, por eso chosen_index=0. ref:0fb004"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Leakage de identidad entre train y test",
+      "confidence": 0.625,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC3 en Entity resolution probabilístico: contrasté las 4 opciones de «Split por entidad evita:»; solo «Leakage de identidad entre train y test» tiene soporte léxico en el packet activo, por eso chosen_index=2. ref:f7eaed"
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:25:47+00:00",
+  "session_started_at": "2026-07-23T12:25:35+00:00",
+  "session_ended_at": "2026-07-23T12:25:47+00:00",
+  "receipt_response_sha256": "93e3650a5484caac0057c42a5ff06895e5b4bbb64052bf46aece49127a6bd183"
+}
